@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>Project Stat Reports</title>
+		<link REL='stylesheet' TYPE='text/css' HREF='../css/ReportList.css' />
+		<script TYPE="text/javascript" LANGUAGE="javascript">
+		<!--
+
+		function updateXmlDataSource(fileName) {
+			top.updateDataSource(fileName);
+		}
+
+		//-->
+		</script>
+	</head>
+	<body>
+		Select data file to view:<input id="srcFilePath" type="file" style="width:80%" onchange="updateXmlDataSource(srcFilePath.value)"></input>
+		<h1>Reports</h1>
+		<hr />
+		<p><a HREF="Report_RawDataSortCount.htm" TARGET="ContentFrame">Raw Element Count (Sort 
+				by Count)</a></p>
+		<p><a HREF="Report_RawDataSortClass.htm" TARGET="ContentFrame">Raw Element Count (Sort 
+				by Class)</a></p>
+		<hr />
+		<p><a HREF="Report_SymbolRefsSortCount.htm" TARGET="ContentFrame">Symbol References 
+				(Sort by Count)</a></p>
+		<p><a HREF="Report_SymbolRefsSortName.htm" TARGET="ContentFrame">Symbol References 
+				(Sort by Name)</a></p>
+		<p><a HREF="Report_SymbolRefsSortType.htm" TARGET="ContentFrame">Symbol References 
+				(Sort by Type)</a></p>
+		<hr />
+	</body>
+</html>

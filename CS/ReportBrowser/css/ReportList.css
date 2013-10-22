@@ -1,0 +1,14 @@
+
+
+a:link      { color: Darkgreen; }
+a:active    { color: Darkgreen; }
+a:visited   { color: Darkgreen; }
+
+
+BODY
+{
+    font-family:Arial, helvetica, sans-serif; font-size:12pt;
+    background-color:linen;
+}
+
+
