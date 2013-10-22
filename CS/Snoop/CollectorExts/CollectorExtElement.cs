@@ -88,13 +88,13 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.String("Unique ID", elem.UniqueId));
          data.Add(new Snoop.Data.Object("Category", elem.Category));
          data.Add(new Snoop.Data.ElementId("Object type", elem.GetTypeId(), elem.Document));
-         data.Add(new Snoop.Data.Object("Element Id", elem.LevelId));
+         data.Add(new Snoop.Data.Object("Level", elem.LevelId));
          data.Add(new Snoop.Data.Object("Document", elem.Document));
          data.Add(new Snoop.Data.Object("Location", elem.Location));
 
          try
          {
-            data.Add(new Snoop.Data.Enumerable("Materials", elem.GetMaterialIds(false)));
+            data.Add(new Snoop.Data.Enumerable("Materials", elem.GetMaterialIds(false), elem.Document));
          }
          catch (Exception ex)
          {
@@ -119,6 +119,8 @@ namespace RevitLookup.Snoop.CollectorExts
 
          data.Add(new Snoop.Data.Bool("Pinned", elem.Pinned));
          data.Add(new Snoop.Data.ElementGeometry("Geometry", elem, m_app.Application));
+
+         data.Add(new Snoop.Data.Object("Analytical model", elem.GetAnalyticalModel()));
 
          // try to access the extensible storage of this element.
          foreach (Schema schema in Schema.ListSchemas())
@@ -238,12 +240,19 @@ namespace RevitLookup.Snoop.CollectorExts
             Stream(data, fabricArea);
             return;
          }
-//TFEND
-         FamilyBase famBase = elem as FamilyBase;
-         if (famBase != null)
+
+         MultiReferenceAnnotation mra = elem as MultiReferenceAnnotation;
+         if (mra != null)
          {
-            Stream(data, famBase);
+            Stream(data, mra);
             return;
+         }
+//TFEND
+         Family family = elem as Family;
+         if (family != null)
+         {
+             Stream(data, family);
+             return;
          }
 
          GenericForm genForm = elem as GenericForm;
@@ -540,6 +549,13 @@ namespace RevitLookup.Snoop.CollectorExts
             Stream(data, wireMatType);
             return;
          }
+
+         AnalyticalLink link = elem as AnalyticalLink;
+         if (link != null)
+         {
+            Stream(data, link);
+            return;
+         }
       }
 
       private void Stream(ArrayList data, Area area)
@@ -601,13 +617,6 @@ namespace RevitLookup.Snoop.CollectorExts
          if (contFooting != null)
          {
             Stream(data, contFooting);
-            return;
-         }
-
-         Floor floor = hostObj as Floor;
-         if (floor != null)
-         {
-            Stream(data, floor);
             return;
          }
 
@@ -691,6 +700,13 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ClassSeparator(typeof(CeilingAndFloor)));
 
          // Nothing at this level yet!
+
+         Floor floor = ceilFloor as Floor;
+         if (floor != null)
+         {
+            Stream(data, floor);
+            return;
+         }
       }
 
       private void Stream(ArrayList data, ContFooting contFooting)
@@ -964,26 +980,20 @@ namespace RevitLookup.Snoop.CollectorExts
          // TBD: how to display Profiles and other functions?
       }
 
-
-      private void Stream(ArrayList data, FamilyBase famBase)
-      {
-         data.Add(new Snoop.Data.ClassSeparator(typeof(FamilyBase)));
-
-         data.Add(new Snoop.Data.Object("Family category", famBase.FamilyCategory));
-
-         Family fam = famBase as Family;
-         if (fam != null)
-         {
-            Stream(data, fam);
-            return;
-         }
-      }
-
       private void Stream(ArrayList data, Family fam)
       {
          data.Add(new Snoop.Data.ClassSeparator(typeof(Family)));
 
-         data.Add(new Snoop.Data.Enumerable("Symbols", fam.Symbols));
+         Category category = fam.FamilyCategory;
+         data.Add(new Snoop.Data.Object("Family category", category));
+
+         List<FamilySymbol> symbols = new List<FamilySymbol>();
+         foreach (FamilySymbol s in fam.Symbols)
+         {
+             symbols.Add(s);
+         }
+
+         data.Add(new Snoop.Data.Enumerable("Symbols", symbols));
 
          data.Add(new Snoop.Data.Bool("Is InPlace", fam.IsInPlace));
          data.Add(new Snoop.Data.Bool("Is CurtainPanelFamily", fam.IsCurtainPanelFamily));
@@ -1012,21 +1022,6 @@ namespace RevitLookup.Snoop.CollectorExts
          // data.Add(new Snoop.Data.Enumerable("Loaded symbols", fam.LoadedSymbols));			
       }
 
-      // not sure if this makes sense anymore
-      //private void
-      //Stream(ArrayList data, Instance inst)
-      //{
-      //    data.Add(new Snoop.Data.ClassSeparator(typeof(Instance)));
-
-      //    // Nothing at this level yet!
-
-      //    Fa insInst = inst as InsertableObject;
-      //    if (insInst != null) {
-      //        Stream(data, insInst);
-      //        return;
-      //    }
-      //}
-
       private void Stream(ArrayList data, Instance insInst)
       {
          data.Add(new Snoop.Data.ClassSeparator(typeof(Instance)));
@@ -1047,6 +1042,11 @@ namespace RevitLookup.Snoop.CollectorExts
 
          data.Add(new Snoop.Data.Object("Host", famInst.Host));
          data.Add(new Snoop.Data.Object("Symbol", famInst.Symbol));
+
+         //data.Add(new Snoop.Data.OriginalInstanceGeometry("Original Geometry", famInst, m_app.Application));
+
+         data.Add(new Snoop.Data.Object("Total Transform", famInst.GetTotalTransform()));
+         data.Add(new Snoop.Data.Object("Transform", famInst.GetTransform()));
 
          try
          {
@@ -1093,7 +1093,7 @@ namespace RevitLookup.Snoop.CollectorExts
             data.Add(new Snoop.Data.Exception("To room", ex));
          }
 
-         data.Add(new Snoop.Data.Enumerable("Material", famInst.GetMaterialIds(false)));
+         data.Add(new Snoop.Data.Enumerable("Material", famInst.GetMaterialIds(false), famInst.Document));
          try
          {
             data.Add(new Snoop.Data.Object("Space", famInst.Space));
@@ -1127,7 +1127,9 @@ namespace RevitLookup.Snoop.CollectorExts
             data.Add(new Snoop.Data.Exception("Structural usage", ex));
          }
 
-         data.Add(new Snoop.Data.Object("Analytical model", famInst.GetAnalyticalModel()));
+         data.Add(new Snoop.Data.String("StructuralMaterialType", famInst.StructuralMaterialType.ToString()));
+         data.Add(new Snoop.Data.ElementId("StructuralMaterialId", famInst.StructuralMaterialId, famInst.Document));
+
          data.Add(new Snoop.Data.Object("MEP model", famInst.MEPModel));
 
          data.Add(new Snoop.Data.Bool("Can flip facing", famInst.CanFlipFacing));
@@ -1324,6 +1326,22 @@ namespace RevitLookup.Snoop.CollectorExts
       {
          data.Add(new Snoop.Data.ClassSeparator(typeof(Autodesk.Revit.DB.Material)));
 
+         {
+            ElementId aspectId = mat.StructuralAssetId;
+            PropertySetElement aspect = null;
+            try
+            {
+               aspect = mat.Document.GetElement(aspectId) as PropertySetElement;
+            }
+            catch (System.Exception)
+            {
+               aspect = null;
+            }
+
+            data.Add(new Snoop.Data.Object("Structural Asset", aspect != null ? aspect.GetStructuralAsset() : null));
+            data.Add(new Snoop.Data.ElementId("Structural aspect", aspectId, mat.Document));
+         }
+         
          data.Add(new Snoop.Data.Object("Color", mat.Color));
          data.Add(new Snoop.Data.ElementId("Cut pattern", mat.CutPatternId, mat.Document));
          data.Add(new Snoop.Data.Object("Cut pattern color", mat.CutPatternColor));
@@ -1525,9 +1543,10 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ClassSeparator(typeof(FabricArea)));
 
          data.Add(new Snoop.Data.Double("Cover Offset", fabricArea.CoverOffset));
-         //data.Add(new Snoop.Data.Int("HostFaceTag", fabricArea.HostFaceTag));
+         data.Add(new Snoop.Data.Xyz("Direction", fabricArea.Direction));
          data.Add(new Snoop.Data.String("Lap Splice Position", fabricArea.LapSplicePosition.ToString()));
          data.Add(new Snoop.Data.String("Fabric Location", fabricArea.FabricLocation.ToString()));
+         data.Add(new Snoop.Data.String("Fabric Area Type", fabricArea.FabricAreaType.ToString()));
          data.Add(new Snoop.Data.Double("Major lap splice length", fabricArea.MajorLapSpliceLength));
          data.Add(new Snoop.Data.Double("Minor lap splice length", fabricArea.MinorLapSpliceLength));
          data.Add(new Snoop.Data.String("Major Sheet Alignment", fabricArea.MajorSheetAlignment.ToString()));
@@ -1537,6 +1556,18 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ElementId("Tag View", fabricArea.TagViewId, m_app.ActiveUIDocument.Document));
          data.Add(new Snoop.Data.ElementId("Host", fabricArea.HostId, m_app.ActiveUIDocument.Document));
       }
+
+      private void Stream(ArrayList data, FabricSheet fabricSheet)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(FabricSheet)));
+
+         data.Add(new Snoop.Data.Double("Cut Overall Length", fabricSheet.CutOverallLength));
+         data.Add(new Snoop.Data.Double("Cut Overall Width", fabricSheet.CutOverallWidth));
+         data.Add(new Snoop.Data.Double("Cut Sheet Mass", fabricSheet.CutSheetMass));
+         data.Add(new Snoop.Data.ElementId("Fabric Area Owner", fabricSheet.FabricAreaOwnerId, m_app.ActiveUIDocument.Document));
+         data.Add(new Snoop.Data.ElementId("Sheet Type", fabricSheet.GetTypeId(), m_app.ActiveUIDocument.Document));
+      }
+      
 //TFEND
 
       private void Stream(ArrayList data, Room room)
@@ -2451,7 +2482,23 @@ namespace RevitLookup.Snoop.CollectorExts
 
          data.Add(new Snoop.Data.String("Tag orientation", tag.TagOrientation.ToString()));
          data.Add(new Snoop.Data.Xyz("Tag head position", tag.TagHeadPosition));
-         data.Add(new Snoop.Data.String("Tag text", tag.TagText));
+         data.Add(new Snoop.Data.ElementId("TaggedLocalElementId", tag.TaggedLocalElementId, tag.Document));
+         try
+         {
+            if (tag.TagText != null) data.Add(new Snoop.Data.String("Tag text", tag.TagText));
+         }
+         catch (Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Tag text", ex));
+         }
+      }
+
+      private void Stream(ArrayList data, MultiReferenceAnnotation mra)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(MultiReferenceAnnotation)));
+
+         data.Add(new Snoop.Data.ElementId("TagId", mra.TagId, mra.Document));
+         data.Add(new Snoop.Data.ElementId("DimensionId", mra.DimensionId, mra.Document));
       }
 
       private void Stream(ArrayList data, SketchBase sketchBase)
@@ -2859,6 +2906,16 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.Enumerable("Ground conductor sizes", wireMatType.GroundConductorSizes));
          data.Add(new Snoop.Data.Bool("Is in use", wireMatType.IsInUse));
          data.Add(new Snoop.Data.Enumerable("Temperature ratings", wireMatType.TemperatureRatings));
+      }
+
+      private void Stream(ArrayList data, AnalyticalLink link)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(AnalyticalLink)));
+
+         data.Add(new Snoop.Data.Xyz("Start", link.Start));
+         data.Add(new Snoop.Data.Xyz("End", link.End));
+         data.Add(new Snoop.Data.ElementId("Start Hub", link.StartHubId, link.Document));
+         data.Add(new Snoop.Data.ElementId("End Hub", link.EndHubId, link.Document));
       }
    }
 }
