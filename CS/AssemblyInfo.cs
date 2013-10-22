@@ -1,6 +1,6 @@
-
+#region Header
 //
-// Copyright 2003-2010 by Autodesk, Inc. 
+// Copyright 2003-2013 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -20,26 +20,23 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+#endregion // Header
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-//
-// General Information about an assembly is controlled through the following 
+
+// General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-//
-[assembly: AssemblyTitle("")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-
-
-// Company, Product and Copyright info can now be found in Source\Version.cs
-
-
-//
-// Version information can now be found in Source\Version.cs
-
+[assembly: AssemblyTitle( "ReviLookup External Application Add-In" )]
+[assembly: AssemblyDescription( "Interactive Revit BIM database exploration tool to view and navigate element properties and relationships." )]
+[assembly: AssemblyConfiguration( "" )]
+[assembly: AssemblyCompany( "Autodesk Inc." )]
+[assembly: AssemblyProduct( "ReviLookup External Application Add-In" )]
+[assembly: AssemblyCopyright( "Copyright 2003-2013 © Autodesk Inc." )]
+[assembly: AssemblyTrademark( "" )]
+[assembly: AssemblyCulture( "" )]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
@@ -69,3 +66,16 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
+
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Build and Revision Numbers
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion( "2014.0.0.2" )]
+[assembly: AssemblyFileVersion( "2014.0.0.2" )]
