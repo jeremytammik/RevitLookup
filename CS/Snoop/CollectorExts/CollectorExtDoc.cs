@@ -211,7 +211,25 @@ namespace RevitLookup.Snoop.CollectorExts
 
             if (doc.GetWorksharingCentralModelPath() != null)
             {
-                data.Add(new Snoop.Data.String("Worksharing central model path", ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath())));
+                ModelPath mp = doc.GetWorksharingCentralModelPath();
+                string userVisiblePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(mp);
+                data.Add(new Snoop.Data.String("Worksharing central model path", userVisiblePath));
+                if ((mp.ServerPath))
+                {
+                    try
+                    {
+                        // this is a bit weird, the ModelPath is in an abstract format, we must re-make as a ServerPath
+                        string prefix = "RSN://" + mp.CentralServerPath;
+                        string serverRelativePath = userVisiblePath.Substring(prefix.Length);
+                        ServerPath serverPath = new ServerPath(mp.CentralServerPath, serverRelativePath);
+                        Guid g = doc.Application.GetWorksharingCentralGUID(serverPath);
+                        data.Add(new Snoop.Data.String("Central Model Guid", (g != null) ? g.ToString() : "null"));
+                    }
+                    catch (Exception ex)
+                    {
+                        data.Add(new Snoop.Data.Exception("Central Model Guid", ex));
+                    }
+                }
             }
             else
             {

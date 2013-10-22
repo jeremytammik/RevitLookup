@@ -112,13 +112,33 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.Object("Object factory", app.ObjectFactory));
          data.Add(new Snoop.Data.Enumerable("Library Paths", app.GetLibraryPaths()));
          data.Add(new Snoop.Data.String("Shared Parameter File", app.SharedParametersFilename));
+         data.Add(new Snoop.Data.String("Family Template Path", app.FamilyTemplatePath));
          data.Add(new Snoop.Data.String("Product", app.Product.ToString()));
          data.Add(new Snoop.Data.String("Recording journal filename", app.RecordingJournalFilename));
          data.Add(new Snoop.Data.String("Version build", app.VersionBuild));
          data.Add(new Snoop.Data.String("Version name", app.VersionName));
          data.Add(new Snoop.Data.String("Version number", app.VersionNumber));
 
+         data.Add(new Snoop.Data.String("Current Accelerator", app.CurrentRevitServerAccelerator));
+         data.Add(new Snoop.Data.String("User Name", app.Username));
+
+         data.Add(new Snoop.Data.Double("Vertex Tolerance", app.VertexTolerance));
          data.Add(new Snoop.Data.Object("Schema", Schema.ListSchemas()));
+
+         data.Add(new Snoop.Data.Bool("IsArchitectureEnabled", app.IsArchitectureEnabled));
+         data.Add(new Snoop.Data.Bool("IsElectricalAnalysisEnabled", app.IsElectricalAnalysisEnabled));
+         data.Add(new Snoop.Data.Bool("IsElectricalEnabled", app.IsElectricalEnabled));
+         data.Add(new Snoop.Data.Bool("IsEnergyAnalysisEnabled", app.IsEnergyAnalysisEnabled));
+         data.Add(new Snoop.Data.Bool("IsMassingEnabled", app.IsMassingEnabled));
+         data.Add(new Snoop.Data.Bool("IsMechanicalAnalysisEnabled", app.IsMechanicalAnalysisEnabled));
+         data.Add(new Snoop.Data.Bool("IsMechanicalEnabled", app.IsMechanicalEnabled));
+         data.Add(new Snoop.Data.Bool("IsPipingAnalysisEnabled", app.IsPipingAnalysisEnabled));
+         data.Add(new Snoop.Data.Bool("IsPipingEnabled", app.IsPipingEnabled));
+         data.Add(new Snoop.Data.Bool("IsStructuralAnalysisEnabled", app.IsStructuralAnalysisEnabled));
+         data.Add(new Snoop.Data.Bool("IsStructureEnabled", app.IsStructureEnabled));
+         data.Add(new Snoop.Data.Bool("IsSystemsEnabled", app.IsSystemsEnabled));
+         
+
       }
 
       // no more app options? MM
