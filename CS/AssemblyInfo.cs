@@ -34,7 +34,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "ReviLookup External Application Add-In" )]
-[assembly: AssemblyCopyright( "Copyright 2003-2013 © Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright 2003-2013 ï¿½ Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -77,5 +77,5 @@ using System.Runtime.CompilerServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion( "2014.0.0.2" )]
-[assembly: AssemblyFileVersion( "2014.0.0.2" )]
+[assembly: AssemblyVersion( "2014.0.0.3" )]
+[assembly: AssemblyFileVersion( "2014.0.0.3" )]
