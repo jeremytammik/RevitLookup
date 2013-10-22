@@ -212,12 +212,16 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(GeometryObject)));
 
-            Curve crv = geomObj as Curve;
-            if (crv != null)
-            {
-                Stream(data, crv);
-                return;
-            }
+         data.Add(new Snoop.Data.Bool("IsElementGeometry", geomObj.IsElementGeometry));
+
+         data.Add(new Snoop.Data.String("Type", geomObj.GetType().Name));
+
+         Curve crv = geomObj as Curve;
+         if (crv != null)
+         {
+            Stream(data, crv);
+            return;
+         }
 
             Edge edg = geomObj as Edge;
             if (edg != null)
@@ -421,14 +425,41 @@ namespace RevitLookup.Snoop.CollectorExts
                 data.Add(new Snoop.Data.String("End point reference", "N/A"));
             }
 
-            try
-            {
-                data.Add(new Snoop.Data.Object("Reference", crv.Reference));
-            }
-            catch (System.Exception ex)
-            {
-                data.Add(new Snoop.Data.Exception("Reference", ex));
-            }
+         try
+         {
+            data.Add(new Snoop.Data.Object("Reference", crv.Reference));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Reference", ex));
+         }
+
+         try
+         {
+            data.Add(new Snoop.Data.Object("Derivative at Start", crv.ComputeDerivatives(0.0, normalized: true)));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Derivative at Start", ex));
+         }
+
+         try
+         {
+            data.Add(new Snoop.Data.Object("Derivative at Center", crv.ComputeDerivatives(0.5, normalized: true)));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Derivative at Center", ex));
+         }
+
+         try
+         {
+            data.Add(new Snoop.Data.Object("Derivative at End", crv.ComputeDerivatives(1.0, normalized: true)));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Derivative at End", ex));
+         }
 
             try
             {
@@ -494,8 +525,9 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(Line)));
 
-            // Nothing at this level yet!
-        }
+         data.Add(new Snoop.Data.Xyz("Origin", line.Origin));
+         data.Add(new Snoop.Data.Xyz("Direction", line.Direction));
+      }
 
         private void
         Stream(ArrayList data, Arc arc)
@@ -548,14 +580,45 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(Edge)));
 
-            try
+         // Curve Type
+         {
+            string curveType = "None";
+            if (edge.AsCurve() != null)
             {
-                data.Add(new Snoop.Data.Object("Start point reference", edge.GetEndPointReference(0)));
+               Curve crv = edge.AsCurve();
+               if (crv is Arc)
+                  curveType = "Arc";
+               else if (crv is CylindricalHelix)
+                  curveType = "CylindricalHelix";
+               else if (crv is Ellipse)
+                  curveType = "Ellipse";
+               else if (crv is HermiteSpline)
+                  curveType = "HermiteSpline";
+               else if (crv is Line)
+                  curveType = "Line";
+               else if (crv is NurbSpline)
+                  curveType = "NurbSpline";
             }
-            catch (System.Exception ex)
-            {
-                data.Add(new Snoop.Data.Exception("Start point reference", ex));
-            }
+            data.Add(new Snoop.Data.String("Curve Type", curveType));
+         }
+
+         try
+         {
+            data.Add(new Snoop.Data.Object("Curve", edge.AsCurve()));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Curve", ex));
+         }
+
+         try
+         {
+            data.Add(new Snoop.Data.Object("Start point reference", edge.get_EndPointReference(0)));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Start point reference", ex));
+         }
 
             try
             {
@@ -778,19 +841,40 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(Transform)));
 
-            data.Add(new Snoop.Data.Xyz("Origin", trf.Origin));
-            data.Add(new Snoop.Data.Xyz("X axis", trf.BasisX));
-            data.Add(new Snoop.Data.Xyz("Y axis", trf.BasisY));
-            data.Add(new Snoop.Data.Xyz("Z axis", trf.BasisZ));
-            data.Add(new Snoop.Data.Double("Determinant", trf.Determinant));
+         data.Add(new Snoop.Data.Xyz("Origin", trf.Origin));
+         data.Add(new Snoop.Data.Xyz("X axis", trf.BasisX));
+         data.Add(new Snoop.Data.Xyz("Y axis", trf.BasisY));
+         data.Add(new Snoop.Data.Xyz("Z axis", trf.BasisZ));
+         data.Add(new Snoop.Data.Double("Determinant", trf.Determinant));
+         try
+         {
             data.Add(new Snoop.Data.Bool("Has reflection", trf.HasReflection));
-            data.Add(new Snoop.Data.Object("Identity", Transform.Identity));
-            data.Add(new Snoop.Data.Object("Inverse", trf.Inverse));
-            data.Add(new Snoop.Data.Bool("Is conformal", trf.IsConformal));
-            data.Add(new Snoop.Data.Bool("Is identity", trf.IsIdentity));
-            data.Add(new Snoop.Data.Bool("Is translation", trf.IsTranslation));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Has reflection", ex));         	
+         }
+         try
+         {
+            data.Add(new Snoop.Data.Object("Inverse", trf.Inverse));            
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Inverse", ex));
+         }
+         data.Add(new Snoop.Data.Bool("Is conformal", trf.IsConformal));
+         data.Add(new Snoop.Data.Bool("Is identity", trf.IsIdentity));
+         data.Add(new Snoop.Data.Bool("Is translation", trf.IsTranslation));
+         try
+         {
             data.Add(new Snoop.Data.Double("Scale", trf.Scale));
-        }
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Scale", ex));
+         }
+         data.Add(new Snoop.Data.Object("Identity", Transform.Identity));
+      }
 
         private void
         Stream(ArrayList data, BoundingBoxUV bndBox)
@@ -867,9 +951,31 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(Reference)));
 
-            // no data at this level
+         Element elem = null;
+         try
+         {
+            elem = m_activeDoc.GetElement(reference);
+            data.Add(new Snoop.Data.Object("Element", elem));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Element", ex));
+         }
 
-        }
+         try
+         {
+            if (elem != null)
+               data.Add(new Snoop.Data.Object("GeometryObject", elem.GetGeometryObjectFromReference(reference)));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("GeometryObject", ex));
+         }
+
+         data.Add(new Snoop.Data.Object("ElementReferenceType", reference.ElementReferenceType));
+
+         // no data at this level
+      }
 
         private void
         Stream(ArrayList data, IntersectionResult intrResult)
