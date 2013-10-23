@@ -164,7 +164,8 @@ namespace RevitLookup.Snoop.CollectorExts
             data.Add(new Snoop.Data.String("Title", doc.Title));
             data.Add(new Snoop.Data.String("Pathname", doc.PathName));
             data.Add(new Snoop.Data.Object("Settings", doc.Settings));
-            data.Add(new Snoop.Data.BindingMap("Parameter bindings", doc.ParameterBindings));
+            if (!doc.IsFamilyDocument) 
+              data.Add(new Snoop.Data.BindingMap("Parameter bindings", doc.ParameterBindings));
             data.Add(new Snoop.Data.Enumerable("Phases", doc.Phases));
             data.Add(new Snoop.Data.Bool("Reactions are up to date", doc.ReactionsAreUpToDate));
             data.Add(new Snoop.Data.Object("Active View", doc.ActiveView));
