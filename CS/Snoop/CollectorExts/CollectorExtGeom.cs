@@ -953,41 +953,38 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(Reference)));
             if (m_activeDoc == null)
-              m_activeDoc = ActiveDoc.Doc;
+              m_activeDoc = ActiveDoc.Doc;  
+            try
+            {
+              data.Add(new Snoop.Data.ElementId("Element", reference.ElementId, m_activeDoc));
+            }
+            catch (System.Exception ex)
+            {
+              data.Add(new Snoop.Data.Exception("Element", ex));
+            }
 
-            data.Add(new Snoop.Data.ElementId("ElementId", reference.ElementId, m_activeDoc));
+            
             data.Add(new Snoop.Data.Object("ElementReferenceType", reference.ElementReferenceType));
-            if (reference.GlobalPoint != null)
+            try
+            {
               data.Add(new Snoop.Data.Xyz("GlobalPoint", reference.GlobalPoint));
-            data.Add(new Snoop.Data.ElementId("LinkedElementId", reference.LinkedElementId, null));
-            if (reference.UVPoint != null)
+            }
+            catch (System.Exception ex) 
+            {
+              data.Add(new Snoop.Data.Exception("GlobalPoint", ex));
+            }            
+              
+            data.Add(new Snoop.Data.ElementId("LinkedElementId", reference.LinkedElementId, m_activeDoc));
+            try
+            {
               data.Add(new Snoop.Data.Uv("UVPoint", reference.UVPoint));
-
-         Element elem = null;
-         try
-         {
-            elem = m_activeDoc.GetElement(reference);
-            data.Add(new Snoop.Data.Object("Element", elem));
-         }
-         catch (System.Exception ex)
-         {
-            data.Add(new Snoop.Data.Exception("Element", ex));
-         }
-
-         try
-         {
-            if (elem != null)
-               data.Add(new Snoop.Data.Object("GeometryObject", elem.GetGeometryObjectFromReference(reference)));
-         }
-         catch (System.Exception ex)
-         {
-            data.Add(new Snoop.Data.Exception("GeometryObject", ex));
-         }
-
-         //data.Add(new Snoop.Data.Object("ElementReferenceType", reference.ElementReferenceType));
-
-         // no data at this level
-      }
+            }
+            catch (System.Exception ex)
+            {
+              data.Add(new Snoop.Data.Exception("UVPoint", ex));
+            }
+          // no data at this level
+        }
 
         private void
         Stream(ArrayList data, IntersectionResult intrResult)
