@@ -615,7 +615,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
          try
          {
-            data.Add(new Snoop.Data.Object("Start point reference", edge.get_EndPointReference(0)));
+           data.Add(new Snoop.Data.Object("Start point reference", edge.GetEndPointReference(0)));
          }
          catch (System.Exception ex)
          {
@@ -952,6 +952,16 @@ namespace RevitLookup.Snoop.CollectorExts
         Stream(ArrayList data, Reference reference)
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(Reference)));
+            if (m_activeDoc == null)
+              m_activeDoc = ActiveDoc.Doc;
+
+            data.Add(new Snoop.Data.ElementId("ElementId", reference.ElementId, m_activeDoc));
+            data.Add(new Snoop.Data.Object("ElementReferenceType", reference.ElementReferenceType));
+            if (reference.GlobalPoint != null)
+              data.Add(new Snoop.Data.Xyz("GlobalPoint", reference.GlobalPoint));
+            data.Add(new Snoop.Data.ElementId("LinkedElementId", reference.LinkedElementId, null));
+            if (reference.UVPoint != null)
+              data.Add(new Snoop.Data.Uv("UVPoint", reference.UVPoint));
 
          Element elem = null;
          try
@@ -974,7 +984,7 @@ namespace RevitLookup.Snoop.CollectorExts
             data.Add(new Snoop.Data.Exception("GeometryObject", ex));
          }
 
-         data.Add(new Snoop.Data.Object("ElementReferenceType", reference.ElementReferenceType));
+         //data.Add(new Snoop.Data.Object("ElementReferenceType", reference.ElementReferenceType));
 
          // no data at this level
       }
