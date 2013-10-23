@@ -112,6 +112,46 @@ namespace RevitLookup.Snoop.CollectorExts
             catch (System.Exception) {
                 data.Add(new Snoop.Data.String("Display unit type", "N/A"));
             }
+            try
+            {   // this only works for certain types of Parameters
+              data.Add(new Snoop.Data.Object("Element", param.Element));
+            }
+            catch (System.Exception ex)
+            {
+              data.Add(new Snoop.Data.Exception("Element", ex));
+            }
+            try
+            {   // this only works for certain types of Parameters
+              data.Add(new Snoop.Data.String("GUID", param.GUID.ToString()));
+            }
+            catch (System.Exception ex)
+            {
+              data.Add(new Snoop.Data.Exception("GUID", ex));
+            }
+            try
+            {   // this only works for certain types of Parameters
+              data.Add(new Snoop.Data.Bool("HasValue", param.HasValue));
+            }
+            catch (System.Exception ex)
+            {
+              data.Add(new Snoop.Data.Exception("HasValue", ex));
+            }
+            try
+            {   // this only works for certain types of Parameters
+              data.Add(new Snoop.Data.ElementId("ID", param.Id,ActiveDoc.Doc));
+            }
+            catch (System.Exception ex)
+            {
+              data.Add(new Snoop.Data.Exception("ID", ex));
+            }
+            try
+            {   // this only works for certain types of Parameters
+              data.Add(new Snoop.Data.Bool("IsShared", param.IsShared));
+            }
+            catch (System.Exception ex)
+            {
+              data.Add(new Snoop.Data.Exception("IsShared", ex));
+            }
 
             data.Add(new Snoop.Data.String("Storage type", param.StorageType.ToString()));
 
