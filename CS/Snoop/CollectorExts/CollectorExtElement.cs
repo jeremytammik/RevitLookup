@@ -64,13 +64,15 @@ namespace RevitLookup.Snoop.CollectorExts
          }
 
          // if its not even an Element, bail early
-         Element elem = e.ObjToSnoop as Element;
-         if (elem == null)
-            return;
+         Element elem = e.ObjToSnoop as Element;         
+         if (elem != null)
+           Stream(snoopCollector.Data(), elem);          
+         else
+           return;
 
          // branch to all Element derived classes that we deal with
-         Stream(snoopCollector.Data(), elem);
-      }
+         
+      }      
 
       private void Stream(ArrayList data, Element elem)
       {
@@ -2039,7 +2041,7 @@ namespace RevitLookup.Snoop.CollectorExts
          if (dim.Value != null)
             data.Add(new Snoop.Data.Double("Value", dim.Value.Value));
          data.Add(new Snoop.Data.String("Value string", dim.ValueString));
-         data.Add(new Snoop.Data.Enumerable("References", dim.References));
+         data.Add(new Snoop.Data.Enumerable("References", dim.References,ActiveDoc.Doc));
          data.Add(new Snoop.Data.Object("View", dim.View));
 
          // TBD: Name overridden but doesn't appear to have correct keywords

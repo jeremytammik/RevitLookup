@@ -951,8 +951,7 @@ namespace RevitLookup.Snoop.CollectorExts
         private void
         Stream(ArrayList data, Reference reference)
         {
-            data.Add(new Snoop.Data.ClassSeparator(typeof(Reference)));
-            if (m_activeDoc == null)
+            data.Add(new Snoop.Data.ClassSeparator(typeof(Reference)));              
               m_activeDoc = ActiveDoc.Doc;  
             try
             {
