@@ -102,6 +102,47 @@ namespace RevitLookup
       }
    }
 
+
+   /// <summary>
+   /// SnoopDB command:  Browse the current view...
+   /// </summary>
+
+   [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+   [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+   public class CmdSnoopActiveView : IExternalCommand
+   {
+       public Autodesk.Revit.UI.Result Execute(Autodesk.Revit.UI.ExternalCommandData cmdData, ref string msg, ElementSet elems)
+       {
+           Autodesk.Revit.UI.Result result;
+
+           try
+           {
+               Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;	// TBD: see note in CollectorExt.cs
+
+               // iterate over the collection and put them in an ArrayList so we can pass on
+               // to our Form
+               Autodesk.Revit.DB.Document doc = cmdData.Application.ActiveUIDocument.Document;
+               if (doc.ActiveView == null)
+               {
+                   TaskDialog.Show("RevitLookup", "The document must have an active view!");
+                   return Result.Cancelled;
+               }
+          
+               Snoop.Forms.Objects form = new Snoop.Forms.Objects(doc.ActiveView);
+               form.ShowDialog();
+
+               result = Autodesk.Revit.UI.Result.Succeeded;
+           }
+           catch (System.Exception e)
+           {
+               msg = e.Message;
+               result = Autodesk.Revit.UI.Result.Failed;
+           }
+
+           return result;
+       }
+   }
+
    /// <summary>
    /// Snoop ModScope command:  Browse all Elements in the current selection set
    ///                          In case nothing is selected: browse visible elements
