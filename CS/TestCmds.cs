@@ -88,6 +88,7 @@ namespace RevitLookup
 
             System.Diagnostics.Trace.WriteLine(founds.Count.ToString());
             Snoop.Forms.Objects form = new Snoop.Forms.Objects(objs);
+            ActiveDoc.UIApp = cmdData.Application;
             form.ShowDialog();
 
             result = Autodesk.Revit.UI.Result.Succeeded;
@@ -180,6 +181,7 @@ namespace RevitLookup
                }
 
                Snoop.Forms.Objects form = new Snoop.Forms.Objects(ss);
+               ActiveDoc.UIApp = cmdData.Application;
                form.ShowDialog();
 
                result = Autodesk.Revit.UI.Result.Succeeded;
@@ -212,8 +214,8 @@ namespace RevitLookup
 
             Snoop.Forms.Objects form = new Snoop.Forms.Objects(cmdData.Application.Application);
             form.ShowDialog();
-
-            result = Autodesk.Revit.UI.Result.Succeeded;
+            ActiveDoc.UIApp = cmdData.Application; 
+           result = Autodesk.Revit.UI.Result.Succeeded;
          }
          catch (System.Exception e)
          {

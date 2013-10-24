@@ -44,7 +44,10 @@ namespace RevitLookup.Snoop.Data
         public override string
         StrValue()
         {
-			return string.Format("({0}, {1}, {2})", m_val.X, m_val.Y, m_val.Z);
+          if (m_val != null)
+            return string.Format("({0}, {1}, {2})", m_val.X, m_val.Y, m_val.Z);
+          else
+            return "< null >";
         }
 	}
 }
