@@ -214,16 +214,19 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(GeometryObject)));
 
-         data.Add(new Snoop.Data.Bool("IsElementGeometry", geomObj.IsElementGeometry));
+            data.Add(new Snoop.Data.Bool("IsElementGeometry", geomObj.IsElementGeometry));
 
-         data.Add(new Snoop.Data.String("Type", geomObj.GetType().Name));
+            data.Add(new Snoop.Data.String("Visibility", geomObj.Visibility.ToString()));
+            data.Add(new Snoop.Data.ElementId("GraphicStyleId", geomObj.GraphicsStyleId, m_activeDoc));
 
-         Curve crv = geomObj as Curve;
-         if (crv != null)
-         {
-            Stream(data, crv);
-            return;
-         }
+            data.Add(new Snoop.Data.String("Type", geomObj.GetType().Name));
+
+            Curve crv = geomObj as Curve;
+            if (crv != null)
+            {
+                Stream(data, crv);
+                return;
+            }
 
             Edge edg = geomObj as Edge;
             if (edg != null)
@@ -952,7 +955,7 @@ namespace RevitLookup.Snoop.CollectorExts
         Stream(ArrayList data, Reference reference)
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(Reference)));              
-              m_activeDoc = ActiveDoc.Doc;  
+             
             try
             {
               data.Add(new Snoop.Data.ElementId("Element", reference.ElementId, m_activeDoc));

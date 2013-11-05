@@ -138,7 +138,7 @@ namespace RevitLookup.Snoop.CollectorExts
             }
             try
             {   // this only works for certain types of Parameters
-              data.Add(new Snoop.Data.ElementId("ID", param.Id,ActiveDoc.Doc));
+              data.Add(new Snoop.Data.ElementId("ID", param.Id,m_activeDoc));
             }
             catch (System.Exception ex)
             {

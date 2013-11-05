@@ -2041,7 +2041,7 @@ namespace RevitLookup.Snoop.CollectorExts
          if (dim.Value != null)
             data.Add(new Snoop.Data.Double("Value", dim.Value.Value));
          data.Add(new Snoop.Data.String("Value string", dim.ValueString));
-         data.Add(new Snoop.Data.Enumerable("References", dim.References,ActiveDoc.Doc));
+         data.Add(new Snoop.Data.Enumerable("References", dim.References,m_activeDoc));
          data.Add(new Snoop.Data.Object("View", dim.View));
 
          // TBD: Name overridden but doesn't appear to have correct keywords

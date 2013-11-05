@@ -71,6 +71,7 @@ namespace RevitLookup
          try
          {
             Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;	// TBD: see note in CollectorExt.cs
+            Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document; 
 
             // iterate over the collection and put them in an ArrayList so we can pass on
             // to our Form
@@ -119,6 +120,7 @@ namespace RevitLookup
            try
            {
                Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;	// TBD: see note in CollectorExt.cs
+               Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document; 
 
                // iterate over the collection and put them in an ArrayList so we can pass on
                // to our Form
@@ -159,7 +161,8 @@ namespace RevitLookup
 
            try
            {
-               Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;   // TBD: see note in CollectorExt.cs
+               Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+               Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;   // TBD: see note in CollectorExt.cs
 
                UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
                Autodesk.Revit.DB.View view = revitDoc.Document.ActiveView;
@@ -210,7 +213,8 @@ namespace RevitLookup
 
          try
          {
-            Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;	// TBD: see note in CollectorExt.cs
+             Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+             Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;	// TBD: see note in CollectorExt.cs
 
             Snoop.Forms.Objects form = new Snoop.Forms.Objects(cmdData.Application.Application);
             form.ShowDialog();
@@ -243,7 +247,9 @@ namespace RevitLookup
       public Autodesk.Revit.UI.Result Execute(Autodesk.Revit.UI.ExternalCommandData cmdData, ref string msg, ElementSet elems)
       {
          m_app = cmdData.Application;
-         Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;	// TBD: see note in CollectorExt.cs   
+
+         Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+         Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;	// TBD: see note in CollectorExt.cs   
          Autodesk.Revit.UI.Result result;
 
          try
