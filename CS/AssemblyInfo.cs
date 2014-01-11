@@ -29,12 +29,12 @@ using System.Runtime.CompilerServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "ReviLookup External Application Add-In" )]
+[assembly: AssemblyTitle( "RevitLookup External Application Add-In" )]
 [assembly: AssemblyDescription( "Interactive Revit BIM database exploration tool to view and navigate element properties and relationships." )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
-[assembly: AssemblyProduct( "ReviLookup External Application Add-In" )]
-[assembly: AssemblyCopyright( "Copyright 2003-2013 (C) Autodesk Inc." )]
+[assembly: AssemblyProduct( "RevitLookup External Application Add-In" )]
+[assembly: AssemblyCopyright( "Copyright 2003-2014 (C) Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -78,5 +78,6 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 // 2013-10-24 - 2014.0.0.5 - merged pull request from Prasadgalle
-[assembly: AssemblyVersion( "2014.0.0.5" )]
-[assembly: AssemblyFileVersion( "2014.0.0.5" )]
+// 2014-01-11 - 2014.0.0.6 - joespiff adjusted the Anchor property of the "Built-in Enums Map..." button on the Parameters form so that it behaves well when stretching the form
+[assembly: AssemblyVersion( "2014.0.0.6" )]
+[assembly: AssemblyFileVersion( "2014.0.0.6" )]
