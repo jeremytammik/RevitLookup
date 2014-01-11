@@ -292,6 +292,7 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_bnParamEnumsMap
             // 
+      this.m_bnParamEnumsMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.m_bnParamEnumsMap.Location = new System.Drawing.Point(153, 459);
             this.m_bnParamEnumsMap.Name = "m_bnParamEnumsMap";
             this.m_bnParamEnumsMap.Size = new System.Drawing.Size(130, 23);
