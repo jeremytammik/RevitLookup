@@ -954,27 +954,39 @@ namespace RevitLookup.Snoop.CollectorExts
         private void
         Stream(ArrayList data, Reference reference)
         {
-            data.Add(new Snoop.Data.ClassSeparator(typeof(Reference)));              
-             
-            try
-            {
-              data.Add(new Snoop.Data.ElementId("Element", reference.ElementId, m_activeDoc));
-            }
-            catch (System.Exception ex)
-            {
-              data.Add(new Snoop.Data.Exception("Element", ex));
-            }
+            data.Add(new Snoop.Data.ClassSeparator(typeof(Reference)));
 
-            
-            data.Add(new Snoop.Data.Object("ElementReferenceType", reference.ElementReferenceType));
-            try
-            {
-              data.Add(new Snoop.Data.Xyz("GlobalPoint", reference.GlobalPoint));
-            }
-            catch (System.Exception ex) 
-            {
-              data.Add(new Snoop.Data.Exception("GlobalPoint", ex));
-            }            
+         Element elem = null;
+         try
+         {
+            elem = m_activeDoc.GetElement(reference);
+            data.Add(new Snoop.Data.Object("Element", elem));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("Element", ex));
+         }
+
+         try
+         {
+            if (elem != null)
+               data.Add(new Snoop.Data.Object("GeometryObject", elem.GetGeometryObjectFromReference(reference)));
+         }
+         catch (System.Exception ex)
+         {
+            data.Add(new Snoop.Data.Exception("GeometryObject", ex));
+         }
+
+         data.Add(new Snoop.Data.Object("ElementReferenceType", reference.ElementReferenceType));
+
+        try
+        {
+          data.Add(new Snoop.Data.Xyz("GlobalPoint", reference.GlobalPoint));
+        }
+        catch (System.Exception ex) 
+        {
+          data.Add(new Snoop.Data.Exception("GlobalPoint", ex));
+        }            
               
             data.Add(new Snoop.Data.ElementId("LinkedElementId", reference.LinkedElementId, m_activeDoc));
             try
