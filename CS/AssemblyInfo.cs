@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2013 by Autodesk, Inc. 
+// Copyright 2003-2014 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -79,5 +79,6 @@ using System.Runtime.CompilerServices;
 // [assembly: AssemblyVersion("1.0.*")]
 // 2013-10-24 - 2014.0.0.5 - merged pull request from Prasadgalle
 // 2014-01-11 - 2014.0.0.6 - joespiff adjusted the Anchor property of the "Built-in Enums Map..." button on the Parameters form so that it behaves well when stretching the form
-[assembly: AssemblyVersion( "2014.0.0.6" )]
-[assembly: AssemblyFileVersion( "2014.0.0.6" )]
+// 2014-01-27 - 2014.0.0.7 - merged pull request from FlorianSchmid of SOFiSTiK: extended (added) snooping of geometry, FormatOptions and RevitLinkInstances plus some fixes of compiler errors/warnings
+[assembly: AssemblyVersion( "2014.0.0.7" )]
+[assembly: AssemblyFileVersion( "2014.0.0.7" )]
