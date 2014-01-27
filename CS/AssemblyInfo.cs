@@ -25,7 +25,6 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
@@ -79,6 +78,6 @@ using System.Runtime.CompilerServices;
 // [assembly: AssemblyVersion("1.0.*")]
 // 2013-10-24 - 2014.0.0.5 - merged pull request from Prasadgalle
 // 2014-01-11 - 2014.0.0.6 - joespiff adjusted the Anchor property of the "Built-in Enums Map..." button on the Parameters form so that it behaves well when stretching the form
-// 2014-01-27 - 2014.0.0.7 - merged pull request from FlorianSchmid of SOFiSTiK: extended (added) snooping of geometry, FormatOptions and RevitLinkInstances plus some fixes of compiler errors/warnings
+// 2014-01-27 - 2014.0.0.7 - merged pull request from FlorianSchmid of SOFiSTiK: extended (added) snooping of geometry, FormatOptions and RevitLinkInstances plus some fixes of compiler errors/warnings; bumped copyright year from 2013 to 2014
 [assembly: AssemblyVersion( "2014.0.0.7" )]
 [assembly: AssemblyFileVersion( "2014.0.0.7" )]
