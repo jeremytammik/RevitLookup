@@ -1,21 +1,21 @@
 #region Header
 //
-// Copyright 2003-2014 by Autodesk, Inc. 
+// Copyright 2003-2014 by Autodesk, Inc.
 //
 // Permission to use, copy, modify, and distribute this software in
-// object code form for any purpose and without fee is hereby granted, 
-// provided that the above copyright notice appears in all copies and 
+// object code form for any purpose and without fee is hereby granted,
+// provided that the above copyright notice appears in all copies and
 // that both that copyright notice and the limited warranty and
-// restricted rights notice below appear in all supporting 
+// restricted rights notice below appear in all supporting
 // documentation.
 //
-// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS. 
+// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
 // AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC. 
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 //
-// Use, duplication, or disclosure by the U.S. Government is subject to 
+// Use, duplication, or disclosure by the U.S. Government is subject to
 // restrictions set forth in FAR 52.227-19 (Commercial Computer
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
@@ -71,7 +71,7 @@ namespace RevitLookup
          try
          {
             Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;	// TBD: see note in CollectorExt.cs
-            Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document; 
+            Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;
 
             // iterate over the collection and put them in an ArrayList so we can pass on
             // to our Form
@@ -84,11 +84,12 @@ namespace RevitLookup
             ArrayList objs = new ArrayList();
             foreach (Element element in founds)
             {
-               objs.Add(element);               
+               objs.Add(element);
             }
 
             System.Diagnostics.Trace.WriteLine(founds.Count.ToString());
             Snoop.Forms.Objects form = new Snoop.Forms.Objects(objs);
+            ActiveDoc.UIApp = cmdData.Application;
             form.ShowDialog();
 
             result = Autodesk.Revit.UI.Result.Succeeded;
@@ -119,7 +120,7 @@ namespace RevitLookup
            try
            {
                Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;	// TBD: see note in CollectorExt.cs
-               Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document; 
+               Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;
 
                // iterate over the collection and put them in an ArrayList so we can pass on
                // to our Form
@@ -129,7 +130,7 @@ namespace RevitLookup
                    TaskDialog.Show("RevitLookup", "The document must have an active view!");
                    return Result.Cancelled;
                }
-          
+
                Snoop.Forms.Objects form = new Snoop.Forms.Objects(doc.ActiveView);
                form.ShowDialog();
 
@@ -183,6 +184,7 @@ namespace RevitLookup
                }
 
                Snoop.Forms.Objects form = new Snoop.Forms.Objects(ss);
+               ActiveDoc.UIApp = cmdData.Application;
                form.ShowDialog();
 
                result = Autodesk.Revit.UI.Result.Succeeded;
@@ -216,7 +218,7 @@ namespace RevitLookup
 
             Snoop.Forms.Objects form = new Snoop.Forms.Objects(cmdData.Application.Application);
             form.ShowDialog();
-
+            ActiveDoc.UIApp = cmdData.Application;
            result = Autodesk.Revit.UI.Result.Succeeded;
          }
          catch (System.Exception e)
@@ -230,7 +232,7 @@ namespace RevitLookup
    }
 
    /// <summary>
-   /// TestShell command:  The TestShell is a framework for adding small tests.  Each test is 
+   /// TestShell command:  The TestShell is a framework for adding small tests.  Each test is
    /// plugged into the TestShell UI so that you don't have to write a new external command for
    /// each test and occupy additional menu items.  Create a Test by adding new RevitLookupTestFuncs objects.
    /// </summary>
@@ -247,12 +249,12 @@ namespace RevitLookup
          m_app = cmdData.Application;
 
          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
-         Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;	// TBD: see note in CollectorExt.cs   
+         Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;	// TBD: see note in CollectorExt.cs
          Autodesk.Revit.UI.Result result;
 
          try
          {
-            // Since we dont have an "App" as such, there is no 
+            // Since we dont have an "App" as such, there is no
             // app-wide data - so just create tests for the duration
             // of the cmd and then destroy them
             CreateAndAddTests();
@@ -290,7 +292,7 @@ namespace RevitLookup
       }
 
       /// <summary>
-      /// 
+      ///
       /// </summary>
       private void CreateAndAddTests()
       {
@@ -311,7 +313,7 @@ namespace RevitLookup
       }
 
       /// <summary>
-      /// 
+      ///
       /// </summary>
       private void
       RemoveAndFreeTestFuncs()
@@ -379,4 +381,3 @@ namespace RevitLookup
    }
 
 }
-
