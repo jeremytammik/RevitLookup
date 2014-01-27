@@ -991,9 +991,9 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.Object("Family category", category));
 
          List<FamilySymbol> symbols = new List<FamilySymbol>();
-         foreach (FamilySymbol s in fam.Symbols)
+         foreach (ElementId id in fam.GetFamilySymbolIds())
          {
-             symbols.Add(s);
+             symbols.Add(fam.Document.GetElement(id) as FamilySymbol);
          }
 
          data.Add(new Snoop.Data.Enumerable("Symbols", symbols));
@@ -1029,12 +1029,20 @@ namespace RevitLookup.Snoop.CollectorExts
       {
          data.Add(new Snoop.Data.ClassSeparator(typeof(Instance)));
 
-         // Nothing at this level yet!
+         data.Add(new Snoop.Data.Object("Total Transform", insInst.GetTotalTransform()));
+         data.Add(new Snoop.Data.Object("Transform", insInst.GetTransform()));
 
          FamilyInstance famInst = insInst as FamilyInstance;
          if (famInst != null)
          {
             Stream(data, famInst);
+            return;
+         }
+
+         RevitLinkInstance linkInst = insInst as RevitLinkInstance;
+         if (linkInst != null)
+         {
+            Stream(data, linkInst);
             return;
          }
       }
@@ -1046,10 +1054,7 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.Object("Host", famInst.Host));
          data.Add(new Snoop.Data.Object("Symbol", famInst.Symbol));
 
-         //data.Add(new Snoop.Data.OriginalInstanceGeometry("Original Geometry", famInst, m_app.Application));
-
-         data.Add(new Snoop.Data.Object("Total Transform", famInst.GetTotalTransform()));
-         data.Add(new Snoop.Data.Object("Transform", famInst.GetTransform()));
+         data.Add(new Snoop.Data.OriginalInstanceGeometry("Original Geometry", famInst, m_app.Application));
 
          try
          {
@@ -1166,6 +1171,13 @@ namespace RevitLookup.Snoop.CollectorExts
             Stream(data, mullion);
             return;
          }
+      }
+
+      private void Stream(ArrayList data, RevitLinkInstance linkInst)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RevitLinkInstance)));
+
+         data.Add(new Snoop.Data.Object("Link Document", linkInst.GetLinkDocument()));
       }
 
       private void Stream(ArrayList data, LoadBase loadbase)
@@ -1606,7 +1618,7 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ClassSeparator(typeof(AreaReinforcement)));
 
          data.Add(new Snoop.Data.Object("Area reinforcement type", areaReinf.AreaReinforcementType));
-         data.Add(new Snoop.Data.Enumerable("Curves", areaReinf.GetCurveElementIds(), areaReinf.Document));
+         data.Add(new Snoop.Data.Enumerable("Curves", areaReinf.GetBoundaryCurveIds(), areaReinf.Document));
          data.Add(new Snoop.Data.Xyz("Direction", areaReinf.Direction));
 
          data.Add(new Snoop.Data.CategorySeparator("Bar Descriptions"));

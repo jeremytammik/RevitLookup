@@ -93,7 +93,7 @@ namespace RevitLookup.Test
       public void
       LinearArray()
       {
-         if (!m_revitApp.ActiveUIDocument.Selection.Elements.IsEmpty)
+         if (m_revitApp.ActiveUIDocument.Selection.GetElementIds().Count > 0)
          {
             Autodesk.Revit.DB.LinearArray.Create(
                m_revitApp.ActiveUIDocument.Document,
@@ -106,7 +106,7 @@ namespace RevitLookup.Test
       public void
       RadialArray()
       {
-         if (!m_revitApp.ActiveUIDocument.Selection.Elements.IsEmpty)
+         if (m_revitApp.ActiveUIDocument.Selection.GetElementIds().Count > 0)
          {
             Autodesk.Revit.DB.View view = m_revitApp.ActiveUIDocument.Document.ActiveView;
             XYZ axisDir = null;
@@ -133,7 +133,7 @@ namespace RevitLookup.Test
       public void
       ArrayWithoutAssociate()
       {
-         if (!m_revitApp.ActiveUIDocument.Selection.Elements.IsEmpty)
+         if (m_revitApp.ActiveUIDocument.Selection.GetElementIds().Count > 0)
          {
             Autodesk.Revit.DB.LinearArray.ArrayElementsWithoutAssociation(
                m_revitApp.ActiveUIDocument.Document,

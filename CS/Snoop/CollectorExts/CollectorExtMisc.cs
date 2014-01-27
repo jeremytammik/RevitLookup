@@ -606,8 +606,18 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ClassSeparator(typeof(FormatOptions)));
 
          data.Add(new Snoop.Data.String("Name", opt.GetName()));
-         data.Add(new Snoop.Data.String("Units", opt.DisplayUnits.ToString()));
-         data.Add(new Snoop.Data.Double("Rounding", opt.Accuracy));
+ 		 data.Add(new Snoop.Data.Bool("Use default", opt.UseDefault));
+         if (!opt.UseDefault)
+         {
+            data.Add(new Snoop.Data.String("Units", opt.DisplayUnits.ToString()));
+            data.Add(new Snoop.Data.String("Unit symbol", opt.UnitSymbol.ToString()));
+            data.Add(new Snoop.Data.Double("Rounding", opt.Accuracy));
+            data.Add(new Snoop.Data.Bool("Suppress trailing zeros", opt.SuppressTrailingZeros));
+            data.Add(new Snoop.Data.Bool("Suppress leading zeros", opt.SuppressLeadingZeros));
+            data.Add(new Snoop.Data.Bool("Suppress spaces", opt.SuppressSpaces));
+            data.Add(new Snoop.Data.Bool("Use plus prefix", opt.UsePlusPrefix));
+            data.Add(new Snoop.Data.Bool("Use digit grouping", opt.UseDigitGrouping));
+         }
       }
 
       private void

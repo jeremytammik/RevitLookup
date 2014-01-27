@@ -56,7 +56,7 @@ namespace RevitLookup.Test {
         public void
         GraphicsStreamElementXform()
         {
-            if (m_revitApp.ActiveUIDocument.Selection.Elements.Size == 0) {
+            if (m_revitApp.ActiveUIDocument.Selection.GetElementIds().Count == 0) {
                 MessageBox.Show("Please select elements and re-run test.", "No Elements Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -73,16 +73,18 @@ namespace RevitLookup.Test {
             Transform xform = new Transform(Transform.Identity);
             xform.Origin = new XYZ(50.0, 50.0, 0.0);
             grStream.PushXform(xform);
-
-            foreach (Element elem in m_revitApp.ActiveUIDocument.Selection.Elements) {
-                grStream.Stream(elem);
+            var selElementIds = m_revitApp.ActiveUIDocument.Selection.GetElementIds();
+           
+            Document dbDoc = m_revitApp.ActiveUIDocument.Document;
+            foreach (ElementId elemId in selElementIds) {
+                grStream.Stream(dbDoc.GetElement(elemId));
             }
         }
 
         public void
         CurtainSystemToWireframe()
         {
-            if (m_revitApp.ActiveUIDocument.Selection.Elements.Size == 0)
+           if (m_revitApp.ActiveUIDocument.Selection.GetElementIds().Count == 0)
             {
                 MessageBox.Show("Please select elements and re-run test.", "No Elements Selected", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -100,8 +102,11 @@ namespace RevitLookup.Test {
             Transform xform = new Transform(Transform.Identity);
             xform.Origin = new XYZ(50.0, 50.0, 0.0);
             grStream.PushXform(xform);
-
-            foreach (Element elem in m_revitApp.ActiveUIDocument.Selection.Elements) {
+            Document dbDoc = m_revitApp.ActiveUIDocument.Document;
+            var selElementIds = m_revitApp.ActiveUIDocument.Selection.GetElementIds();
+            foreach (ElementId elemId in selElementIds)
+            {
+               Element elem = dbDoc.GetElement(elemId);
                 if (elem is Wall) {
                     Wall wall = elem as Wall;
 

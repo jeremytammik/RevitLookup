@@ -44,8 +44,16 @@ namespace RevitLookup.Snoop.Data
 		ElementId(string label, Autodesk.Revit.DB.ElementId val, Document doc)
 		:   base(label)
 		{
-		    m_val = val;
-			m_elem = doc.GetElement(val);	// TBD: strange signature!
+		   m_val = val;
+         try
+         {
+            if (val != Autodesk.Revit.DB.ElementId.InvalidElementId)
+               m_elem = doc.GetElement(val);	// TBD: strange signature!
+         }
+         catch (System.Exception)
+         {
+            m_elem = null;
+         }
 		}
 		
         public override string

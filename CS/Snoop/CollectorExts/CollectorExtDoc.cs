@@ -70,7 +70,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
 			Selection sel = e.ObjToSnoop as Selection;
 			if (sel != null) {
-				Stream(snoopCollector.Data(), sel);
+				Stream(snoopCollector.Data(), sel, doc);
 				return;
 			}
 
@@ -276,11 +276,16 @@ namespace RevitLookup.Snoop.CollectorExts
         }
 
 		private void
-		Stream(ArrayList data, Selection sel)
+		Stream(ArrayList data, Selection sel, Document doc)
 		{
 		    data.Add(new Snoop.Data.ClassSeparator(typeof(Selection)));
-
-            data.Add(new Snoop.Data.ElementSet("Elements", sel.Elements));
+          ElementSet elemSet = new ElementSet();
+          var elemIds = sel.GetElementIds();
+          foreach (ElementId id in elemIds)
+          {
+             elemSet.Insert(doc.GetElement(id));
+          }
+          data.Add(new Snoop.Data.ElementSet("Elements", elemSet));
         }
 
 		private void

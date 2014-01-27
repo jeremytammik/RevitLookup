@@ -82,4 +82,60 @@ namespace RevitLookup.Snoop.Data
 			}
         }
 	}
+
+
+
+   // SOFiSTiK FS
+   public class OriginalInstanceGeometry : Data
+   {
+      protected FamilyInstance m_val;
+      protected Autodesk.Revit.ApplicationServices.Application m_app;
+      protected bool m_hasGeometry;
+
+      public
+      OriginalInstanceGeometry(string label, FamilyInstance val, Autodesk.Revit.ApplicationServices.Application app)
+         : base(label)
+      {
+         m_val = val;
+         m_app = app;
+
+         m_hasGeometry = false;
+
+         if (m_val != null && m_app != null)
+         {
+            Autodesk.Revit.DB.Options geomOp = m_app.Create.NewGeometryOptions();
+            geomOp.DetailLevel = ViewDetailLevel.Undefined;
+            if (m_val.GetOriginalGeometry(geomOp) != null)
+               m_hasGeometry = true;
+         }
+      }
+
+      public override string
+      StrValue()
+      {
+         return "<Geometry.Element>";
+      }
+
+      public override bool
+      HasDrillDown
+      {
+         get
+         {
+            if (m_hasGeometry)
+               return true;
+            else
+               return false;
+         }
+      }
+
+      public override void
+      DrillDown()
+      {
+         if (m_hasGeometry)
+         {
+            Snoop.Forms.OriginalGeometry form = new Snoop.Forms.OriginalGeometry(m_val, m_app);
+            form.ShowDialog();
+         }
+      }
+   }
 }
