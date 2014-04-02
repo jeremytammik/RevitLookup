@@ -26,35 +26,37 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Utils {
+namespace RevitLookup.Utils
+{
+  class FamilyUtil
+  {
+    public static FamilySymbol
+    GetFamilySymbol( Autodesk.Revit.DB.Family fam, string famSymName )
+    {
+      // jeremy migrated from Revit 2014 to 2015:
+      //FamilySymbolSetIterator famSymSetIter = fam.Symbols.ForwardIterator(); // 'Autodesk.Revit.DB.Family.Symbols' is obsolete: 'This property is obsolete in Revit 2015.  Use Family.GetFamilySymbolIds() instead.'
+      //while( famSymSetIter.MoveNext() )
+      //{
+      //  FamilySymbol famSymTemp = famSymSetIter.Current as FamilySymbol;
 
-    class FamilyUtil {
+      Document doc = fam.Document;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="fam"></param>
-        /// <param name="famSymName"></param>
-        /// <returns></returns>
-        public static FamilySymbol
-        GetFamilySymbol (Autodesk.Revit.DB.Family fam, string famSymName)
+      foreach( ElementId id in fam.GetFamilySymbolIds() )
+      {
+        FamilySymbol famSymTemp = doc.GetElement( id )
+          as FamilySymbol;
+
+        if( famSymTemp != null )
         {
-            FamilySymbolSetIterator famSymSetIter = fam.Symbols.ForwardIterator();
-            while (famSymSetIter.MoveNext())
-            {
-                FamilySymbol famSymTemp = famSymSetIter.Current as FamilySymbol;
-                if (famSymTemp != null)
-                {
-                    if (famSymTemp.Name == famSymName)
-                    {
-                        return famSymTemp;
-                    }
-                }
-            }
-            return null;
+          if( famSymTemp.Name == famSymName )
+          {
+            return famSymTemp;
+          }
         }
+      }
+      return null;
     }
+  }
 }

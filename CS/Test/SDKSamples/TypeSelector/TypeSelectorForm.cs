@@ -149,7 +149,6 @@ namespace RevitLookup.Test.SDKSamples.TypeSelector
     /// manually.
     /// </summary>
     /// <param name="curObj">The Element that was selected in the Tree</param>
-
     protected void
     GetAvailableSymbols( System.Object curObj )
     {
@@ -165,9 +164,15 @@ namespace RevitLookup.Test.SDKSamples.TypeSelector
         FamilyInstance component = (FamilyInstance) element;
         m_curSymbolId = component.Symbol.Id.IntegerValue;
 
-        foreach( FamilySymbol familySymbol in component.Symbol.Family.Symbols )
+        // jeremy migrated from Revit 2014 to 2015:
+        // 'Autodesk.Revit.DB.Family.Symbols' is obsolete: 'This property is obsolete in Revit 2015.  Use Family.GetFamilySymbolIds() instead.'	C:\a\vs\RevitLookup\CS\Test\ExIm\Importer.cs	248	41	RevitLookup
+        //foreach( FamilySymbol familySymbol in component.Symbol.Family.Symbols )
+
+        Document doc = element.Document;
+
+        foreach( ElementId id in component.Symbol.Family.GetFamilySymbolIds() )
         {
-          m_symbolSet.Add( familySymbol );
+          m_symbolSet.Add( doc.GetElement( id ) );
         }
       }
       else if( element is Wall )

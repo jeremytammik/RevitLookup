@@ -1618,7 +1618,9 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ClassSeparator( typeof( AreaReinforcement ) ) );
 
       data.Add( new Snoop.Data.Object( "Area reinforcement type", areaReinf.AreaReinforcementType ) );
-      data.Add( new Snoop.Data.Enumerable( "Curves", areaReinf.GetCurveElementIds(), areaReinf.Document ) );
+      // jeremy migrated from Revit 2014 to 2015:
+      //data.Add( new Snoop.Data.Enumerable( "Curves", areaReinf.GetCurveElementIds(), areaReinf.Document ) ); // 2014
+      data.Add( new Snoop.Data.Enumerable( "Curves", areaReinf.GetBoundaryCurveIds(), areaReinf.Document ) ); // 2015
       data.Add( new Snoop.Data.Xyz( "Direction", areaReinf.Direction ) );
 
       data.Add( new Snoop.Data.CategorySeparator( "Bar Descriptions" ) );
