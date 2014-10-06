@@ -45,9 +45,10 @@ namespace RevitLookup.Test.SDKSamples.AnalyticalSupportData
       DataTable m_elementInformation = null;  // store all required information
 
       public
-      Info(ElementSet selectedElements)
+      //Info( ElementSet selectedElements ) // 2015, jeremy
+      Info( Document doc, ICollection<ElementId> selectedElementIds ) // 2016, jeremy
       {
-         m_elementInformation = StoreInformationInDataTable(selectedElements);
+         m_elementInformation = StoreInformationInDataTable(doc,selectedElementIds);
       }
 
       /// <summary>
@@ -70,7 +71,8 @@ namespace RevitLookup.Test.SDKSamples.AnalyticalSupportData
       /// a data table which store all the required information
       /// </returns>
 
-      private DataTable StoreInformationInDataTable(ElementSet selectedElements)
+      //private DataTable StoreInformationInDataTable(ElementSet selectedElements) // 2015, jeremy
+      private DataTable StoreInformationInDataTable(Document doc, ICollection<ElementId> selectedElementIds) // 2016, jeremy
       {
          DataTable informationTable = CreateDataTable();
          informationTable.BeginLoadData();
@@ -81,8 +83,10 @@ namespace RevitLookup.Test.SDKSamples.AnalyticalSupportData
          List<AnalyticalModelSupport> analyticalModelSupports = new List<AnalyticalModelSupport>();
          //bool getInformationflag;
 
-         foreach (Element element in selectedElements)
+         foreach (ElementId id in selectedElementIds)
          {
+           Element element = doc.GetElement( id );
+
             typeName = string.Empty;
             //getInformationflag = false;
 

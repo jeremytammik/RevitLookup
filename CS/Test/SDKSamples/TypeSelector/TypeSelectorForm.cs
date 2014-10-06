@@ -48,8 +48,8 @@ namespace RevitLookup.Test.SDKSamples.TypeSelector
     protected List<Element> m_symbolSet;
     protected int m_curSymbolId = 0;
 
-    public
-      TypeSelectorForm( Autodesk.Revit.UI.UIApplication revitApp, ElementSet elemSet )
+    //public TypeSelectorForm( Autodesk.Revit.UI.UIApplication revitApp, ElementSet elemSet ) // 2015, jeremy
+    public TypeSelectorForm( Autodesk.Revit.UI.UIApplication revitApp, ICollection<ElementId> elemSet ) // 2016, jeremy
     {
       m_app = revitApp;
       m_symbolSet = new List<Element>();

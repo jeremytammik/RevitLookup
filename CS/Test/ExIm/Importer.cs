@@ -80,9 +80,13 @@ namespace RevitLookup.ExIm
     /// <param name="category"></param>
     public void Import( Category category )
     {
-      ElementSet elemSet = Utils.Selection.FilterToCategory( (BuiltInCategory) category.Id.IntegerValue, false, m_activeDoc );
-      foreach( Element elem in elemSet )
+      //ElementSet elemSet = Utils.Selection.FilterToCategory( (BuiltInCategory) category.Id.IntegerValue, false, m_activeDoc );
+
+      ICollection<ElementId> ids = Utils.Selection.FilterToCategory( (BuiltInCategory) category.Id.IntegerValue, false, m_activeDoc );
+
+      foreach( ElementId id in ids )
       {
+        Element elem = m_activeDoc.GetElement( id );
         Update( elem );
       }
       m_errorLogger.SaveErrorLog();
@@ -97,9 +101,11 @@ namespace RevitLookup.ExIm
       if( bcat.ShowDialog() == DialogResult.OK )
       {
         Category category = bcat.Category;
-        ElementSet elemSet = Utils.Selection.FilterToCategory( (BuiltInCategory) category.Id.IntegerValue, false, m_activeDoc );
-        foreach( Element elem in elemSet )
+        //ElementSet elemSet = Utils.Selection.FilterToCategory( (BuiltInCategory) category.Id.IntegerValue, false, m_activeDoc );
+        ICollection<ElementId> ids = Utils.Selection.FilterToCategory( (BuiltInCategory) category.Id.IntegerValue, false, m_activeDoc );
+        foreach( ElementId id in ids )
         {
+          Element elem = m_activeDoc.GetElement( id );
           Update( elem );
         }
         m_errorLogger.SaveErrorLog();

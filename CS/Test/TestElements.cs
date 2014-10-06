@@ -84,19 +84,36 @@ namespace RevitLookup.Test
     public void
     WindowSill_18()
     {
-      // first filter out to only Window elements
-      Revit.ElementSet windowSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.Elements,
-                                              Revit.BuiltInCategory.OST_Windows, false, m_revitApp.ActiveUIDocument.Document );
+      // 2015, jeremy:
 
-      if( windowSet.IsEmpty )
+      //// first filter out to only Window elements
+      //Revit.ElementSet windowSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.Elements, Revit.BuiltInCategory.OST_Windows, false, m_revitApp.ActiveUIDocument.Document );
+
+      //if( windowSet.IsEmpty )
+      //{
+      //  MessageBox.Show( "No Window elements are currently selected" );
+      //  return;
+      //}
+
+      //// go through each window and set the Sill parameter
+      //foreach( Revit.Element elem in windowSet )
+
+      // First filter out to only Window elements
+
+      Autodesk.Revit.DB.Document doc = m_revitApp.ActiveUIDocument.Document;
+
+      ICollection<ElementId> windowSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.GetElementIds(), Revit.BuiltInCategory.OST_Windows, false, doc );
+
+      if( 0 == windowSet.Count )
       {
         MessageBox.Show( "No Window elements are currently selected" );
         return;
       }
 
       // go through each window and set the Sill parameter
-      foreach( Revit.Element elem in windowSet )
+      foreach(ElementId id  in windowSet )
       {
+        Revit.Element elem = doc.GetElement( id );
         double sillHt = Utils.Convert.InchesToFeet( 18.0 );   // Revit wants things in Feet and Fractional Inches
 
         Revit.Parameter param = elem.get_Parameter( BuiltInParameter.INSTANCE_SILL_HEIGHT_PARAM );
@@ -107,19 +124,32 @@ namespace RevitLookup.Test
     public void
     WindowCenterVertical()
     {
-      // first filter out to only Window elements
-      Revit.ElementSet windowSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.Elements,
-                                              Revit.BuiltInCategory.OST_Windows, false, m_revitApp.ActiveUIDocument.Document );
+      //// first filter out to only Window elements
+      //Revit.ElementSet windowSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.Elements, Revit.BuiltInCategory.OST_Windows, false, m_revitApp.ActiveUIDocument.Document );
 
-      if( windowSet.IsEmpty )
+      //if( windowSet.IsEmpty )
+      //{
+      //  MessageBox.Show( "No Window elements are currently selected" );
+      //  return;
+      //}
+
+      //// go through each window and set the Sill parameter
+      //foreach( Revit.Element elem in windowSet )
+
+      Autodesk.Revit.DB.Document doc = m_revitApp.ActiveUIDocument.Document;
+
+      ICollection<ElementId> windowSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.GetElementIds(), Revit.BuiltInCategory.OST_Windows, false, doc );
+
+      if( 0 == windowSet.Count )
       {
         MessageBox.Show( "No Window elements are currently selected" );
         return;
       }
 
       // go through each window and set the Sill parameter
-      foreach( Revit.Element elem in windowSet )
+      foreach( ElementId id in windowSet )
       {
+        Revit.Element elem = doc.GetElement( id );
         try
         {
           FamilyInstance window = (FamilyInstance) elem;
@@ -139,7 +169,6 @@ namespace RevitLookup.Test
         }
       }
     }
-
 
     private double
     GetWallHeight( HostObject hostObj )
@@ -507,28 +536,42 @@ namespace RevitLookup.Test
     public void
     SimpleFloor()
     {
-      Autodesk.Revit.Creation.Document doc = m_revitApp.ActiveUIDocument.Document.Create;
+      Autodesk.Revit.DB.Document dbdoc = m_revitApp.ActiveUIDocument.Document;
+      Autodesk.Revit.Creation.Document doc = dbdoc.Create;
       Autodesk.Revit.Creation.Application applic = m_revitApp.Application.Create;
 
-      // first filter out to only Wall elements
-      Revit.ElementSet wallSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.Elements,
-                                              Revit.BuiltInCategory.OST_Walls, false, m_revitApp.ActiveUIDocument.Document );
+      //// first filter out to only Wall elements
+      //Revit.ElementSet wallSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.Elements,
+      //                                        Revit.BuiltInCategory.OST_Walls, false, m_revitApp.ActiveUIDocument.Document );
 
-      if( wallSet.IsEmpty )
+      //if( wallSet.IsEmpty )
+      //{
+      //  MessageBox.Show( "No wall elements are currently selected" );
+      //  return;
+      //}
+
+
+      // First filter out to only Wall elements
+      ICollection<ElementId> wallSet 
+        = Utils.Selection.FilterToCategory(
+          m_revitApp.ActiveUIDocument.Selection.GetElementIds(),
+          Revit.BuiltInCategory.OST_Walls, false, dbdoc );
+
+      if( 0 == wallSet.Count )
       {
         MessageBox.Show( "No wall elements are currently selected" );
         return;
       }
-
+      
       // Get the wall profile needed for the floor
       CurveArray profile = applic.NewCurveArray();
 
-      foreach( Wall w in wallSet )
+      foreach( ElementId id in wallSet )
       {
+        Wall w = dbdoc.GetElement( id ) as Wall;
         Revit.LocationCurve curve = w.Location as Revit.LocationCurve;
         profile.Append( curve.Curve );
       }
-
 
       // Obtain the required floor type
       FloorType floorType = null;
@@ -881,20 +924,32 @@ namespace RevitLookup.Test
     {
       FamilySymbol doubleDoorSymbol = null;
 
-      Autodesk.Revit.Creation.Document doc = m_revitApp.ActiveUIDocument.Document.Create;
       Revit.Document docu = m_revitApp.ActiveUIDocument.Document;
+      Autodesk.Revit.Creation.Document doc = docu.Create;
       Autodesk.Revit.UI.Selection.Selection sel = m_revitApp.ActiveUIDocument.Selection;
       Autodesk.Revit.Creation.Application applic = m_revitApp.Application.Create;
 
-      // first filter out to only Door elements
-      Revit.ElementSet doorSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.Elements,
-                                              Revit.BuiltInCategory.OST_Doors, false, m_revitApp.ActiveUIDocument.Document );
+      // First filter out to only Door elements
 
-      if( doorSet.IsEmpty )
-      {
-        MessageBox.Show( "No door element is currently selected" );
-        return;
-      }
+      //Revit.ElementSet doorSet = Utils.Selection.FilterToCategory( m_revitApp.ActiveUIDocument.Selection.Elements,
+      //                                        Revit.BuiltInCategory.OST_Doors, false, m_revitApp.ActiveUIDocument.Document );
+
+      //if( doorSet.IsEmpty )
+      //{
+      //  MessageBox.Show( "No door element is currently selected" );
+      //  return;
+      //}
+
+      //ICollection<ElementId> doorSet 
+      //  = Utils.Selection.FilterToCategory( 
+      //    m_revitApp.ActiveUIDocument.Selection.GetElementIds(),
+      //    Revit.BuiltInCategory.OST_Doors, false, docu );
+
+      //if( 0 == doorSet.Count )
+      //{
+      //  MessageBox.Show( "No door element is currently selected" );
+      //  return;
+      //}
 
       // Load the concerned door family        
       FilteredElementCollector fec = new FilteredElementCollector( docu );
@@ -924,23 +979,32 @@ namespace RevitLookup.Test
 
       if( doubleDoorSymbol == null )
       {
-        success = m_revitApp.ActiveUIDocument.Document.LoadFamily( fileName, out doubleDoorFamily );
+        success = docu.LoadFamily( fileName, out doubleDoorFamily );
         doubleDoorSymbol = Utils.FamilyUtil.GetFamilySymbol( doubleDoorFamily, "72\" x 78\"" );
       }
 
       if( doubleDoorSymbol == null )
       {
         MessageBox.Show( "Please load Double-Glass 1 into project" );
-        Utils.UserInput.LoadFamily( null, m_revitApp.ActiveUIDocument.Document );
+        Utils.UserInput.LoadFamily( null, docu );
       }
 
       // Perform the swap.
-      Revit.ElementSet elemSet = sel.Elements;
-      System.Collections.IEnumerator iters = elemSet.GetEnumerator();
 
-      while( iters.MoveNext() )
+      //Revit.ElementSet elemSet = sel.Elements; // 2015, jeremy: 'Autodesk.Revit.UI.Selection.Selection.Elements' is obsolete: 'This property is deprecated in Revit 2015. Use GetElementIds() and SetElementIds instead.'
+      //System.Collections.IEnumerator iters = elemSet.GetEnumerator();
+
+      //while( iters.MoveNext() )
+      //{
+      //  FamilyInstance famInst = (FamilyInstance) iters.Current;
+      //  famInst.Symbol = doubleDoorSymbol;
+      //}
+
+      ICollection<ElementId> elemSet = sel.GetElementIds(); // 2016, jeremy
+
+      foreach(ElementId id in elemSet )
       {
-        FamilyInstance famInst = (FamilyInstance) iters.Current;
+        FamilyInstance famInst = docu.GetElement( id ) as FamilyInstance;
         famInst.Symbol = doubleDoorSymbol;
       }
     }
@@ -1029,10 +1093,20 @@ namespace RevitLookup.Test
     public void
     Flip()
     {
-      Revit.ElementSet elemSet = m_revitApp.ActiveUIDocument.Selection.Elements;
-      if( elemSet.IsEmpty )
+      //Revit.ElementSet elemSet = m_revitApp.ActiveUIDocument.Selection.Elements; // 2015, jeremy: 'Autodesk.Revit.UI.Selection.Selection.Elements' is obsolete: 'This property is deprecated in Revit 2015. Use GetElementIds() and SetElementIds instead.'
+      //if( elemSet.IsEmpty )
+      //{
+      //  MessageBox.Show( "Please select element(s) to flip" );
+      //  return;
+      //}
+
+      Autodesk.Revit.DB.Document doc = m_revitApp.ActiveUIDocument.Document;
+
+      ICollection<ElementId> elemSet = m_revitApp.ActiveUIDocument.Selection.GetElementIds(); // 2016, jeremy
+
+      if( 0 == elemSet.Count )
       {
-        MessageBox.Show( "Please select element(s) to flip" );
+        MessageBox.Show( "Please select elements to flip" );
         return;
       }
 
@@ -1043,11 +1117,14 @@ namespace RevitLookup.Test
       Revit.LocationPoint locPt;
       bool success;
 
-      Revit.ElementSetIterator elemSetIter = elemSet.ForwardIterator();
-      while( elemSetIter.MoveNext() )
+      //Revit.ElementSetIterator elemSetIter = elemSet.ForwardIterator();
+      //while( elemSetIter.MoveNext() )
+
+      foreach( ElementId id in elemSet )
       {
         success = false;
-        Revit.Element elem = elemSetIter.Current as Revit.Element;
+        //Revit.Element elem = elemSetIter.Current as Revit.Element;
+        Revit.Element elem = doc.GetElement( id );
         Revit.Location location = elem.Location;
 
         // for elements like walls
@@ -1080,9 +1157,19 @@ namespace RevitLookup.Test
     public void
     Mirror()
     {
-      Revit.ElementSet elemSet = m_revitApp.ActiveUIDocument.Selection.Elements;
+      //Revit.ElementSet elemSet = m_revitApp.ActiveUIDocument.Selection.Elements; // 2015, jeremy: 'Autodesk.Revit.UI.Selection.Selection.Elements' is obsolete: 'This property is deprecated in Revit 2015. Use GetElementIds() and SetElementIds instead.'
 
-      if( elemSet.IsEmpty )
+      //if( elemSet.IsEmpty )
+      //{
+      //  MessageBox.Show( "Please select elements to be mirrored" );
+      //  return;
+      //}
+
+      Autodesk.Revit.DB.Document doc = m_revitApp.ActiveUIDocument.Document;
+
+      ICollection<ElementId> elemSet = m_revitApp.ActiveUIDocument.Selection.GetElementIds(); // 2016, jeremy
+
+      if( 0 == elemSet.Count )
       {
         MessageBox.Show( "Please select elements to be mirrored" );
         return;
@@ -1094,13 +1181,18 @@ namespace RevitLookup.Test
 
       HostObject hostObj;
       Revit.LocationCurve locationCurve = null;
-      Revit.ElementSetIterator elemSetIter = elemSet.ForwardIterator();
+      
+      //Revit.ElementSetIterator elemSetIter = elemSet.ForwardIterator();
+      //while( elemSetIter.MoveNext() )
 
-      /// first pass will create only host elements, because without them
-      /// any hosted elements cannot be created 
-      while( elemSetIter.MoveNext() )
+      // first pass will create only host elements, because without them
+      // any hosted elements cannot be created 
+
+      foreach( ElementId id in elemSet )
       {
-        Revit.Element elem = elemSetIter.Current as Revit.Element;
+        //Revit.Element elem = elemSetIter.Current as Revit.Element;
+
+        Revit.Element elem = doc.GetElement( id );
 
         /// there are only 4 host objects, of which only wall 
         /// and floor can be created for now
@@ -1162,16 +1254,20 @@ namespace RevitLookup.Test
         }
       }
 
-      elemSetIter.Reset();
+      //elemSetIter.Reset();
 
 
       Revit.LocationPoint locationPoint = null;
 
-      /// second pass will put in the family instances. If it is hosted on an element
-      /// extract that info from the map and use it
-      while( elemSetIter.MoveNext() )
+      // second pass will put in the family instances. If it is hosted on an element
+      // extract that info from the map and use it
+      //while( elemSetIter.MoveNext() )
+
+      foreach( ElementId id in elemSet )
       {
-        Revit.Element elem = elemSetIter.Current as Revit.Element;
+        //Revit.Element elem = elemSetIter.Current as Revit.Element;
+
+        Revit.Element elem = doc.GetElement( id );
 
         hostObj = elem as HostObject;
         if( hostObj == null )
@@ -1701,16 +1797,22 @@ namespace RevitLookup.Test
     SimpleTag()
     {
       Revit.Document docu = m_revitApp.ActiveUIDocument.Document;
-      Autodesk.Revit.UI.Selection.SelElementSet elemSet = m_revitApp.ActiveUIDocument.Selection.Elements;
+
+      //Autodesk.Revit.UI.Selection.SelElementSet elemSet = m_revitApp.ActiveUIDocument.Selection.Elements; // 2015, jeremy: 'Autodesk.Revit.UI.Selection.SelElementSet' is obsolete: 'This class is deprecated in Revit 2015. Use Selection.SetElementIds() and Selection.GetElementIds() instead.'
+      ICollection<ElementId> ids = m_revitApp.ActiveUIDocument.Selection.GetElementIds();  // 2016, jeremy
 
       Autodesk.Revit.DB.View view = m_revitApp.ActiveUIDocument.Document.ActiveView;
 
       XYZ tagLocation = new XYZ();
 
-      Revit.ElementSetIterator elemIter = elemSet.ForwardIterator();
-      while( elemIter.MoveNext() )
+      //Revit.ElementSetIterator elemIter = elemSet.ForwardIterator();
+      //while( elemIter.MoveNext() )
+
+      foreach(ElementId id in ids )
       {
-        Revit.Element elem = elemIter.Current as Revit.Element;
+        //Revit.Element elem = elemIter.Current as Revit.Element;
+        Revit.Element elem = docu.GetElement( id );
+
         Revit.Location location = elem.Location;
 
         // for elements like walls

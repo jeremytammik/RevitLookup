@@ -29,39 +29,39 @@ using Autodesk.Revit.ApplicationServices;
 
 namespace RevitLookup.Test
 {
-   /// <summary>
-   /// Summary description for RevitLookupTestFuncs.
-   /// </summary>
-   public abstract class RevitLookupTestFuncs
-   {
-      // TBD: public for now
-      public ArrayList m_testFuncs = new ArrayList();
-      private static ArrayList m_testFrameworkFuncs = new ArrayList();
+  /// <summary>
+  /// Summary description for RevitLookupTestFuncs.
+  /// </summary>
+  public abstract class RevitLookupTestFuncs
+  {
+    // TBD: public for now
+    public ArrayList m_testFuncs = new ArrayList();
+    private static ArrayList m_testFrameworkFuncs = new ArrayList();
 
-      protected static Autodesk.Revit.UI.UIApplication m_revitApp;
+    protected static Autodesk.Revit.UI.UIApplication m_revitApp;
 
-      // other modules can extend the tests available to the Test Framework UI
-      // by adding groups of TestFuncs here.  Allocate them in your app's constructor
-      // and register them with this class.  In your app's destructor, remove them
-      // from here and delete them.
-      public static void AddTestFuncsToFramework(RevitLookupTestFuncs testFuncs)
-      {
-         m_testFrameworkFuncs.Add(testFuncs);
-      }
+    // other modules can extend the tests available to the Test Framework UI
+    // by adding groups of TestFuncs here.  Allocate them in your app's constructor
+    // and register them with this class.  In your app's destructor, remove them
+    // from here and delete them.
+    public static void AddTestFuncsToFramework( RevitLookupTestFuncs testFuncs )
+    {
+      m_testFrameworkFuncs.Add( testFuncs );
+    }
 
-      public static void RemoveTestFuncsFromFramework(RevitLookupTestFuncs testFuncs)
-      {
-         m_testFrameworkFuncs.Remove(testFuncs);
-      }
+    public static void RemoveTestFuncsFromFramework( RevitLookupTestFuncs testFuncs )
+    {
+      m_testFrameworkFuncs.Remove( testFuncs );
+    }
 
-      public RevitLookupTestFuncs(Autodesk.Revit.UI.UIApplication app)
-      {
-         m_revitApp = app;
-      }
+    public RevitLookupTestFuncs( Autodesk.Revit.UI.UIApplication app )
+    {
+      m_revitApp = app;
+    }
 
-      public static ArrayList RegisteredTestFuncs()
-      {
-         return m_testFrameworkFuncs;
-      }
-   }
+    public static ArrayList RegisteredTestFuncs()
+    {
+      return m_testFrameworkFuncs;
+    }
+  }
 }

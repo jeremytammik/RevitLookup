@@ -491,7 +491,9 @@ namespace RevitLookup.Utils
     /// <returns></returns>
     private static Revit.Element CloneElement( Autodesk.Revit.UI.UIApplication app, ViewDrafting viewDrafting )
     {
-      ViewDrafting viewDraftingClone = app.ActiveUIDocument.Document.Create.NewViewDrafting();
+      //ViewDrafting viewDraftingClone = app.ActiveUIDocument.Document.Create.NewViewDrafting(); // 2015, jeremy: 'Autodesk.Revit.Creation.Document.NewViewDrafting()' is obsolete: 'This method is obsolete in Revit 2015.  Use ViewDrafting.Create() instead.'
+      ViewDrafting viewDraftingClone = ViewDrafting.Create( app.ActiveUIDocument.Document, viewDrafting.GetTypeId()); // 2016, jeremy
+
       Utils.ParamUtil.SetParameters( viewDraftingClone.Parameters, viewDrafting.Parameters );
       return viewDraftingClone;
     }

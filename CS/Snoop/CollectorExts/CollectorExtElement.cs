@@ -996,7 +996,8 @@ namespace RevitLookup.Snoop.CollectorExts
       //  symbols.Add( fam.Document.GetElement( id ) as FamilySymbol );
       //}
 
-      data.Add( new Snoop.Data.Enumerable( "Symbols", fam.Symbols ) );
+      //data.Add( new Snoop.Data.Enumerable( "Symbols", fam.Symbols ) ); // 2015, jeremy: 'Autodesk.Revit.DB.Family.Symbols' is obsolete: 'This property is obsolete in Revit 2015.  Use Family.GetFamilySymbolIds() instead.'
+      data.Add( new Snoop.Data.Enumerable( "Symbols", fam.GetFamilySymbolIds() ) ); // 2016, jeremy
 
       data.Add( new Snoop.Data.Bool( "Is InPlace", fam.IsInPlace ) );
       data.Add( new Snoop.Data.Bool( "Is CurtainPanelFamily", fam.IsCurtainPanelFamily ) );

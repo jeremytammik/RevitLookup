@@ -71,7 +71,11 @@ namespace RevitLookup.Test.SDKSamples.FireRating {
                 // get or create the parameter
             Definition sharedParameterDefinition = sharedParameterGroup.Definitions.get_Item(m_fireRatingParamName);    // "Fire Rating"
             if (sharedParameterDefinition == null) {
-                sharedParameterDefinition = sharedParameterGroup.Definitions.Create(m_fireRatingParamName, ParameterType.Integer, true);
+              //sharedParameterDefinition = sharedParameterGroup.Definitions.Create( m_fireRatingParamName, ParameterType.Integer, true ); // 2015, jeremy: 'Autodesk.Revit.DB.Definitions.Create(string, Autodesk.Revit.DB.ParameterType, bool)' is obsolete: 'This method is deprecated in Revit 2015. Use Create(Autodesk.Revit.DB.ExternalDefinitonCreationOptions) instead'
+              ExternalDefinitonCreationOptions opt = new ExternalDefinitonCreationOptions( m_fireRatingParamName, ParameterType.Integer );
+              opt.Visible = true;
+              sharedParameterDefinition = sharedParameterGroup.Definitions.Create( opt ); // 2016, jeremy
+
             }
 
             // create a category set with the Door category in it

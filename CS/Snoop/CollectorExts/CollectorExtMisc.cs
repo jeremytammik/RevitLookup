@@ -605,7 +605,9 @@ namespace RevitLookup.Snoop.CollectorExts
       {
          data.Add(new Snoop.Data.ClassSeparator(typeof(FormatOptions)));
 
-         data.Add(new Snoop.Data.String("Name", opt.GetName()));
+         //data.Add( new Snoop.Data.String( "Name", opt.GetName() ) ); // 2015, jeremy: 'Autodesk.Revit.DB.FormatOptions.GetName()' is obsolete: 'This method is deprecated in Revit 2015.  Use UnitUtils.GetTypeCatalogString(DisplayUnitType) instead.'
+         data.Add( new Snoop.Data.String( "Name", UnitUtils.GetTypeCatalogString(opt.DisplayUnits) ) ); // 2016
+
  		 data.Add(new Snoop.Data.Bool("Use default", opt.UseDefault));
          if (!opt.UseDefault)
          {
