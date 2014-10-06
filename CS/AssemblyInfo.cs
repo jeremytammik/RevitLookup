@@ -82,7 +82,7 @@ using System.Runtime.CompilerServices;
 // 2014-01-28 - 2014.0.1.0 - double checked that this version corresponds with florian's
 // 2014-04-02 - 2015.0.0.0 - initial migration to Revit 2015 Meridian prerelease PR10
 // 2014-04-17 - 2015.0.0.1 - recompiled for Revit 2015 UR1
-// 2014-10-06 - 2015.0.0.2 - removed all obsolete Revit API usage warnings
+// 2014-10-06 - 2015.0.0.2 - removed obsolete Revit API usage to compile with zero errors and zero warnings
 //
 [assembly: AssemblyVersion( "2015.0.0.2" )]
 [assembly: AssemblyFileVersion( "2015.0.0.2" )]
