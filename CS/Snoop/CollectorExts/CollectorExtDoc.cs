@@ -241,7 +241,15 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.String( "Worksharing central model path", "" ) );
       }
-      data.Add( new Snoop.Data.Object( "Print manager", doc.PrintManager ) );
+
+      try
+      {
+        data.Add(new Snoop.Data.Object("Print manager", doc.PrintManager));
+      }
+      catch (Exception ex)
+      {
+        data.Add(new Snoop.Data.Exception("Print manager", ex));
+      }
 
       //data.Add(new Snoop.Data.Enumerable("Print settings", doc.PrintSettings));  //TBD: Behaves badly, need to investigate.                
 
