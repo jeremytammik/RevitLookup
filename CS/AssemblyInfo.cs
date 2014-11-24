@@ -83,6 +83,8 @@ using System.Runtime.CompilerServices;
 // 2014-04-02 - 2015.0.0.0 - initial migration to Revit 2015 Meridian prerelease PR10
 // 2014-04-17 - 2015.0.0.1 - recompiled for Revit 2015 UR1
 // 2014-10-06 - 2015.0.0.2 - removed obsolete Revit API usage to compile with zero errors and zero warnings
+// 2014-11-24 - 2015.0.0.3 - merged fix by Tom Pesman @tompesman to catch exception thrown by doc.PrintManager
+// 2014-11-24 - 2015.0.0.4 - encapsulate transaction in using statement
 //
-[assembly: AssemblyVersion( "2015.0.0.2" )]
-[assembly: AssemblyFileVersion( "2015.0.0.2" )]
+[assembly: AssemblyVersion( "2015.0.0.4" )]
+[assembly: AssemblyFileVersion( "2015.0.0.4" )]
