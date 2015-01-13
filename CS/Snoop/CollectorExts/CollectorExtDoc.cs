@@ -339,6 +339,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Material", cat.Material ) );
       data.Add( new Snoop.Data.Object( "Parent", cat.Parent ) );
       data.Add( new Snoop.Data.CategoryNameMap( "Sub categories", cat.SubCategories ) );
+      data.Add(new Snoop.Data.String("Category Type", cat.CategoryType.ToString()));
     }
 
     private void Stream( ArrayList data, FamilyManager mgr )
