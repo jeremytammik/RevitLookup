@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2014 by Autodesk, Inc.
+// Copyright 2003-2015 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -33,7 +33,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "RevitLookup External Application Add-In" )]
-[assembly: AssemblyCopyright( "Copyright 2003-2014 (C) Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright 2003-2015 (C) Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -85,6 +85,7 @@ using System.Runtime.CompilerServices;
 // 2014-10-06 - 2015.0.0.2 - removed obsolete Revit API usage to compile with zero errors and zero warnings
 // 2014-11-24 - 2015.0.0.3 - merged fix by Tom Pesman @tompesman to catch exception thrown by doc.PrintManager
 // 2014-11-24 - 2015.0.0.4 - encapsulate transaction in using statement
+// 2015-01-29 - 2015.0.0.5 - incremented copyright message year from 2014 to 2015
 //
-[assembly: AssemblyVersion( "2015.0.0.4" )]
-[assembly: AssemblyFileVersion( "2015.0.0.4" )]
+[assembly: AssemblyVersion( "2015.0.0.5" )]
+[assembly: AssemblyFileVersion( "2015.0.0.5" )]
