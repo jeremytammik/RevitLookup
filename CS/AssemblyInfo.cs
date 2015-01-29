@@ -85,7 +85,8 @@ using System.Runtime.CompilerServices;
 // 2014-10-06 - 2015.0.0.2 - removed obsolete Revit API usage to compile with zero errors and zero warnings
 // 2014-11-24 - 2015.0.0.3 - merged fix by Tom Pesman @tompesman to catch exception thrown by doc.PrintManager
 // 2014-11-24 - 2015.0.0.4 - encapsulate transaction in using statement
-// 2015-01-29 - 2015.0.0.5 - incremented copyright message year from 2014 to 2015
+// 2015-01-13 - 2015.0.0.5 - added CategoryType to the CategoryCollector
+// 2015-01-29 - 2015.0.0.6 - incremented copyright message year from 2014 to 2015
 //
-[assembly: AssemblyVersion( "2015.0.0.5" )]
-[assembly: AssemblyFileVersion( "2015.0.0.5" )]
+[assembly: AssemblyVersion( "2015.0.0.6" )]
+[assembly: AssemblyFileVersion( "2015.0.0.6" )]
