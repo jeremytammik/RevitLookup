@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Collections;
 
-using Autodesk.Revit;
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.Utils

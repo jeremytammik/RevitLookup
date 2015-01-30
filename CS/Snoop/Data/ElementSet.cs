@@ -25,7 +25,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Autodesk.Revit;
 
 namespace RevitLookup.Snoop.Data
 {

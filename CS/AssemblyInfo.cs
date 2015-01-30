@@ -87,6 +87,7 @@ using System.Runtime.CompilerServices;
 // 2014-11-24 - 2015.0.0.4 - encapsulate transaction in using statement
 // 2015-01-13 - 2015.0.0.5 - added CategoryType to the CategoryCollector
 // 2015-01-29 - 2015.0.0.6 - incremented copyright message year from 2014 to 2015
+// 2015-01-30 - 2015.0.0.7 - removed all statements 'using' the empty root namespace Autodesk.Revit
 //
-[assembly: AssemblyVersion( "2015.0.0.6" )]
-[assembly: AssemblyFileVersion( "2015.0.0.6" )]
+[assembly: AssemblyVersion( "2015.0.0.7" )]
+[assembly: AssemblyFileVersion( "2015.0.0.7" )]

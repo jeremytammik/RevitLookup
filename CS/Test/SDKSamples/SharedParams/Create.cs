@@ -29,7 +29,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
-using Autodesk.Revit;
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.Test.SDKSamples.SharedParams

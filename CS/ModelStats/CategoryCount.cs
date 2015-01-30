@@ -25,7 +25,6 @@
 using System;
 using System.Collections;
 
-using Autodesk.Revit;
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.ModelStats
