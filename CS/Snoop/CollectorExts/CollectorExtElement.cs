@@ -902,7 +902,7 @@ namespace RevitLookup.Snoop.CollectorExts
 	  }
 	  catch (Exception ex)
 	  {
-		  data.Add(new Snoop.Data.Exception("Level offset", ex));
+		  data.Add(new Snoop.Data.Exception("MEP system", ex));
 	  }
       data.Add( new Snoop.Data.Object( "Reference level", mepCur.ReferenceLevel ) );
 
