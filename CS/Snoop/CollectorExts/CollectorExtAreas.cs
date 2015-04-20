@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 using Autodesk.Revit.DB;
@@ -59,6 +60,13 @@ namespace RevitLookup.Snoop.CollectorExts
                 return;
             }
 
+            List<BoundarySegment> boundSegArray = e.ObjToSnoop as List<BoundarySegment>;
+            if( boundSegArray != null )
+            {
+              Stream( snoopCollector.Data(), boundSegArray );
+              return;
+            }
+
         }        
 
         private void
@@ -70,6 +78,18 @@ namespace RevitLookup.Snoop.CollectorExts
             data.Add(new Snoop.Data.Object("Element", boundSeg.ElementId));            
         }
 
+        private void
+        Stream( ArrayList data, List<BoundarySegment> boundSegArray )
+        {
+          data.Add( new Snoop.Data.ClassSeparator( typeof( List<BoundarySegment> ) ) );
+
+          IEnumerator iter = boundSegArray.GetEnumerator();
+          int i = 0;
+          while( iter.MoveNext() )
+          {
+            data.Add( new Snoop.Data.Object( string.Format( "Boundary segment {0:d}", i++ ), iter.Current ) );
+          }
+        }
 
     }
 }

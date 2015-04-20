@@ -129,7 +129,7 @@ FindSymbolNode( ElementType sym )
     {
       WallFoundation contFoot = elem as WallFoundation;
       if( contFoot != null )
-        return contFoot.FootingType;
+        return contFoot.GetFoundationType();
 
       FamilyInstance famInst = elem as FamilyInstance;
       if( famInst != null )
