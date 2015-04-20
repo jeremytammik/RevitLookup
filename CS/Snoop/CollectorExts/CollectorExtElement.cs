@@ -662,6 +662,13 @@ namespace RevitLookup.Snoop.CollectorExts
         return;
       }
 
+      WallFoundation contFooting = hostObj as WallFoundation;
+      if( contFooting != null )
+      {
+        Stream( data, contFooting );
+        return;
+      }
+
       CurtainGridLine gridLine = hostObj as CurtainGridLine;
       if( gridLine != null )
       {
