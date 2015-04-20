@@ -299,7 +299,14 @@ namespace RevitLookup.Snoop.CollectorExts
 
          data.Add(new Snoop.Data.Object("Compound Structure", hostAtt.GetCompoundStructure()));
 
-         CurtainSystemType curSysType = hostAtt as CurtainSystemType;
+         WallFoundationType contFootingType = hostAtt as WallFoundationType;
+         if( contFootingType != null )
+         {
+           Stream( data, contFootingType );
+           return;
+         }
+
+        CurtainSystemType curSysType = hostAtt as CurtainSystemType;
          if (curSysType != null)
          {
             Stream(data, curSysType);
@@ -335,6 +342,13 @@ namespace RevitLookup.Snoop.CollectorExts
          }
       }
 
+      private void
+      Stream( ArrayList data, WallFoundationType contFootingType )
+      {
+        data.Add( new Snoop.Data.ClassSeparator( typeof( WallFoundationType ) ) );
+
+        // No data at this level yet!
+      }
 
       private void
       Stream(ArrayList data, CurtainSystemType curSysType)
