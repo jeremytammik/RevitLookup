@@ -758,6 +758,14 @@ namespace RevitLookup.Snoop.CollectorExts
       }
     }
 
+    private void Stream( ArrayList data, WallFoundation contFooting )
+    {
+      data.Add( new Snoop.Data.ClassSeparator( typeof( WallFoundation ) ) );
+
+      data.Add( new Snoop.Data.Object( "Analytical model", contFooting.GetAnalyticalModel() ) );
+      data.Add( new Snoop.Data.Object( "Footing type", contFooting.GetFoundationType() ) );
+    }
+
     private void Stream( ArrayList data, Floor floor )
     {
       data.Add( new Snoop.Data.ClassSeparator( typeof( Floor ) ) );
