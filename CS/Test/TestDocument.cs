@@ -201,7 +201,7 @@ namespace RevitLookup.Test
                         {
                            // once you get to the Boundary Segment which represent one of the sides of the room boundary, draw a Model Curve to 
                            // represent the outline.
-                           ModelCurve modCurve = m_revitApp.ActiveUIDocument.Document.Create.NewModelCurve(boundSeg.Curve, sketchPlane);
+                           ModelCurve modCurve = m_revitApp.ActiveUIDocument.Document.Create.NewModelCurve(boundSeg.GetCurve(), sketchPlane);
                         }
                      }
                   }
@@ -261,10 +261,7 @@ namespace RevitLookup.Test
                   XYZ offset = new XYZ(5.0, 0, 0);
 
                   /// align text middle and center
-                  TextAlignFlags align = TextAlignFlags.TEF_ALIGN_MIDDLE ^ TextAlignFlags.TEF_ALIGN_CENTER;
-                  TextNote txtNote = m_revitApp.ActiveUIDocument.Document.Create.NewTextNote(view, offset + locationPoint.Point, GeomUtils.kXAxis,
-                                          view.ViewDirection, .25,
-                                          align, roundedArea.ToString());
+                  TextNote txtNote = TextNote.Create(m_revitApp.ActiveUIDocument.Document,view.Id, offset + locationPoint.Point, roundedArea.ToString(),new TextNoteOptions());
                }
             }
          }

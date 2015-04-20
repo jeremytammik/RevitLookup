@@ -109,7 +109,6 @@ namespace RevitLookup.Snoop.CollectorExts
 
          data.Add(new Snoop.Data.Object("Cities", app.Cities));
          data.Add(new Snoop.Data.Enumerable("Documents", app.Documents));
-         data.Add(new Snoop.Data.Bool("Is quiescent", app.IsQuiescent));
          data.Add(new Snoop.Data.String("Language", app.Language.ToString()));
          data.Add(new Snoop.Data.Object("Object factory", app.ObjectFactory));
          data.Add(new Snoop.Data.Enumerable("Library Paths", app.GetLibraryPaths()));
@@ -165,8 +164,6 @@ namespace RevitLookup.Snoop.CollectorExts
 
          data.Add(new Snoop.Data.Enumerable("Cities", contrApp.Cities));
          data.Add(new Snoop.Data.Object("Create", contrApp.Create));
-         data.Add(new Snoop.Data.Bool("Is quiescent", contrApp.IsQuiescent));
-         // no more in 2011: data.Add(new Snoop.Data.Object("Options", contrApp));
          data.Add(new Snoop.Data.Enumerable("Library Paths", contrApp.GetLibraryPaths()));
          data.Add(new Snoop.Data.String("Shared Parameter File", contrApp.SharedParametersFilename));
          data.Add(new Snoop.Data.String("Product", contrApp.Product.ToString()));

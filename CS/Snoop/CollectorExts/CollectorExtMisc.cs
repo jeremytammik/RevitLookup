@@ -234,7 +234,7 @@ namespace RevitLookup.Snoop.CollectorExts
             return;
          }
 
-         Autodesk.Revit.DB.Architecture.BoundarySegment boundSeg = e.ObjToSnoop as Autodesk.Revit.DB.Architecture.BoundarySegment;
+         Autodesk.Revit.DB.BoundarySegment boundSeg = e.ObjToSnoop as Autodesk.Revit.DB.BoundarySegment;
          if (boundSeg != null)
          {
             Stream(snoopCollector.Data(), boundSeg);
@@ -993,13 +993,11 @@ namespace RevitLookup.Snoop.CollectorExts
       //}
 
       private void
-      Stream(ArrayList data, Autodesk.Revit.DB.Architecture.BoundarySegment boundSeg)
+      Stream(ArrayList data, Autodesk.Revit.DB.BoundarySegment boundSeg)
       {
-         data.Add(new Snoop.Data.ClassSeparator(typeof(Autodesk.Revit.DB.Architecture.BoundarySegment)));
+         data.Add(new Snoop.Data.ClassSeparator(typeof(Autodesk.Revit.DB.BoundarySegment)));
 
-         data.Add(new Snoop.Data.Object("Curve", boundSeg.Curve));
-         data.Add(new Snoop.Data.Object("Document", boundSeg.Document));
-         data.Add(new Snoop.Data.Object("Element", boundSeg.Element));
+         data.Add(new Snoop.Data.Object("Curve", boundSeg.GetCurve()));
       }
 
       //TF

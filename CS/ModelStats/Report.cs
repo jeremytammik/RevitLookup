@@ -122,9 +122,6 @@ namespace RevitLookup.ModelStats
 		private ElementType
 		GetSymbolRef(Element elem)
 		{
-		    ContFooting contFoot = elem as ContFooting;
-		    if (contFoot != null)
-		        return contFoot.FootingType;
 		        
             FamilyInstance famInst = elem as FamilyInstance;
 		    if (famInst != null)

@@ -356,13 +356,13 @@ namespace RevitLookup.Utils
       Line line = grid.Curve as Line;
       if( line != null )
       {
-        gridClone = app.ActiveUIDocument.Document.Create.NewGrid( line );
+          gridClone = Grid.Create(app.ActiveUIDocument.Document, line);
       }
 
       Arc arc = grid.Curve as Arc;
       if( arc != null )
       {
-        gridClone = app.ActiveUIDocument.Document.Create.NewGrid( arc );
+        gridClone = Grid.Create(app.ActiveUIDocument.Document, arc );
       }
       //Utils.ParamUtil.SetParameters(gridClone.Parameters, grid.Parameters);
       return gridClone;
@@ -390,7 +390,7 @@ namespace RevitLookup.Utils
     /// <returns></returns>
     private static Revit.Element CloneElement( Autodesk.Revit.UI.UIApplication app, Level level )
     {
-      Level levelClone = app.ActiveUIDocument.Document.Create.NewLevel( level.Elevation );
+      Level levelClone = Level.Create(app.ActiveUIDocument.Document, level.Elevation );
       Utils.ParamUtil.SetParameters( levelClone.Parameters, level.Parameters );
       return levelClone;
     }

@@ -526,7 +526,7 @@ namespace RevitLookup.Test
 
       // Just for kicks we will place it at a newly created level, but on checking the 
       // properties of the wall we can note that it still exists on Level 1.
-      Wall.Create( m_revitApp.ActiveUIDocument.Document, line, doc.NewLevel( 0.0 ).Id, true );
+      Wall.Create( m_revitApp.ActiveUIDocument.Document, line, Level.Create(m_revitApp.ActiveUIDocument.Document, 0.0 ).Id, true );
     }
 
 
@@ -610,7 +610,7 @@ namespace RevitLookup.Test
       // Create the floor instance
       try
       {
-        Floor f = doc.NewFloor( profile, floorType, doc.NewLevel( 0.0 ), structural );
+        Floor f = doc.NewFloor( profile, floorType, Level.Create(dbdoc, 0.0 ), structural );
       }
       catch( Exception e )
       {
@@ -1318,13 +1318,13 @@ namespace RevitLookup.Test
             Line line = curve as Line;
             if( line != null )
             {
-              m_revitApp.ActiveUIDocument.Document.Create.NewGrid( line );
+                Grid.Create(m_revitApp.ActiveUIDocument.Document, line);
             }
 
             Arc arc = curve as Arc;
             if( arc != null )
             {
-              m_revitApp.ActiveUIDocument.Document.Create.NewGrid( arc );
+              Grid.Create(m_revitApp.ActiveUIDocument.Document, arc );
             }
             continue;
           }
@@ -1421,11 +1421,11 @@ namespace RevitLookup.Test
 
       FamilyItemFactory famFact = doc.FamilyCreate;
 
-      AnnotationSymbolTypeSet annoSymTypeSet = new FilteredElementCollector( doc ).OfClass( typeof( AnnotationSymbol ) ).Cast<AnnotationSymbol>() as AnnotationSymbolTypeSet;
+      List<AnnotationSymbolType> annoSymTypeSet = new FilteredElementCollector(doc).OfClass(typeof(AnnotationSymbol)).Cast<AnnotationSymbol>() as List<AnnotationSymbolType>;
       // TBD: why is the size only 2
-      Int32 size = annoSymTypeSet.Size;
+      Int32 size = annoSymTypeSet.Count;
 
-      AnnotationSymbolTypeSetIterator annoSymTypeSetIter = annoSymTypeSet.ForwardIterator();
+      IEnumerator<AnnotationSymbolType> annoSymTypeSetIter = annoSymTypeSet.GetEnumerator();
 
       AnnotationSymbolType annoSymType = null;
 
@@ -1607,8 +1607,8 @@ namespace RevitLookup.Test
       curveArray.Append( Line.CreateBound( location3, location4 ) );
       curveArray.Append( Line.CreateBound( location4, location1 ) );
 
-      FloorTypeSet floorTypeSet = new FilteredElementCollector( m_revitApp.ActiveUIDocument.Document ).OfClass( typeof( FloorType ) ).Cast<FloorType>() as FloorTypeSet;
-      FloorTypeSetIterator floorTypeSetIter = floorTypeSet.ForwardIterator();
+      List<FloorType> floorTypeSet = new FilteredElementCollector(m_revitApp.ActiveUIDocument.Document).OfClass(typeof(FloorType)).Cast<FloorType>() as List<FloorType>;
+      IEnumerator<FloorType> floorTypeSetIter = floorTypeSet.GetEnumerator();
       FloorType floorType = null;
 
       while( floorTypeSetIter.MoveNext() )
@@ -1650,10 +1650,7 @@ namespace RevitLookup.Test
       Wall.Create( m_revitApp.ActiveUIDocument.Document, line, view.GenLevel.Id, true );
 
       /// align text middle and center
-      TextAlignFlags align = TextAlignFlags.TEF_ALIGN_MIDDLE ^ TextAlignFlags.TEF_ALIGN_CENTER;
-      TextNote txtNote = m_revitApp.ActiveUIDocument.Document.Create.NewTextNote( view, GeomUtils.kOrigin, GeomUtils.kXAxis,
-                                                                      view.ViewDirection, .25,
-                                                                      align, "Simple wall" );
+      TextNote txtNote = TextNote.Create(m_revitApp.ActiveUIDocument.Document, view.Id, GeomUtils.kOrigin, "Simple wall", new TextNoteOptions());
       /// add a straight leader
       txtNote.AddLeader( TextNoteLeaderTypes.TNLT_STRAIGHT_R );
     }
@@ -1710,7 +1707,7 @@ namespace RevitLookup.Test
     public void
     FloorViewPlan()
     {
-      Autodesk.Revit.Creation.Document doc = m_revitApp.ActiveUIDocument.Document.Create;
+      Autodesk.Revit.DB.Document doc = m_revitApp.ActiveUIDocument.Document;
 
       // Just appending a random number for uniqueness. An exception will be thrown if the view name is not unique.
       Random rnd = new Random();
@@ -1718,7 +1715,7 @@ namespace RevitLookup.Test
 
       FilteredElementCollector collector = new FilteredElementCollector( m_revitApp.ActiveUIDocument.Document );
       ViewFamilyType viewFamType = collector.OfClass( typeof( ViewFamilyType ) ).Cast<ViewFamilyType>().Where( c => c.ViewFamily == ViewFamily.FloorPlan ).FirstOrDefault();
-      ViewPlan createdPlan = ViewPlan.Create( m_revitApp.ActiveUIDocument.Document, viewFamType.Id, doc.NewLevel( 10.0 ).Id );
+      ViewPlan createdPlan = ViewPlan.Create( m_revitApp.ActiveUIDocument.Document, viewFamType.Id, (Level.Create(doc,10.0)).Id );
       createdPlan.ViewName = viewName;
     }
 

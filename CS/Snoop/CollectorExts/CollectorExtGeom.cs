@@ -740,7 +740,7 @@ namespace RevitLookup.Snoop.CollectorExts
             data.Add(new Snoop.Data.ClassSeparator(typeof(PlanarFace)));
 
             data.Add(new Snoop.Data.Xyz("Origin", face.Origin));
-            data.Add(new Snoop.Data.Xyz("Normal", face.Normal));
+            data.Add(new Snoop.Data.Xyz("Normal", face.ComputeNormal(UV.Zero)));
         }
 
         private void

@@ -59,11 +59,6 @@ namespace RevitLookup.Snoop.CollectorExts
                 return;
             }
 
-            BoundarySegmentArray boundSegArray = e.ObjToSnoop as BoundarySegmentArray;
-            if (boundSegArray != null) {
-                Stream(snoopCollector.Data(), boundSegArray);
-                return;
-            }
         }        
 
         private void
@@ -71,21 +66,10 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(BoundarySegment)));
 
-            data.Add(new Snoop.Data.Object("Curve", boundSeg.Curve));
-            data.Add(new Snoop.Data.Object("Document", boundSeg.Document));
-            data.Add(new Snoop.Data.Object("Element", boundSeg.Element));            
+            data.Add(new Snoop.Data.Object("Curve", boundSeg.GetCurve()));
+            data.Add(new Snoop.Data.Object("Element", boundSeg.ElementId));            
         }
 
-        private void
-        Stream(ArrayList data, BoundarySegmentArray boundSegArray)
-        {
-            data.Add(new Snoop.Data.ClassSeparator(typeof(BoundarySegmentArray)));
 
-            IEnumerator iter = boundSegArray.GetEnumerator();
-            int i = 0;
-            while (iter.MoveNext()) {
-                data.Add(new Snoop.Data.Object(string.Format("Boundary segment {0:d}", i++), iter.Current));
-            }
-        }
     }
 }
