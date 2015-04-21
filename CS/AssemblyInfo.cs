@@ -28,11 +28,11 @@ using System.Runtime.CompilerServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "RevitLookup External Application Add-In" )]
-[assembly: AssemblyDescription( "Interactive Revit BIM database exploration tool to view and navigate element properties and relationships." )]
+[assembly: AssemblyTitle( "RevitLookup" )]
+[assembly: AssemblyDescription( "Revit add-in interactive BIM database exploration tool to view and navigate element properties and relationships." )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
-[assembly: AssemblyProduct( "RevitLookup External Application Add-In" )]
+[assembly: AssemblyProduct( "RevitLookup" )]
 [assembly: AssemblyCopyright( "Copyright 2003-2015 (C) Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
