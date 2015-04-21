@@ -253,7 +253,7 @@ namespace RevitLookup.Snoop.CollectorExts
       //data.Add(new Snoop.Data.Enumerable("Print settings", doc.PrintSettings));  //TBD: Behaves badly, need to investigate.                
 
       data.Add( new Snoop.Data.Enumerable( "Beam system types", collectorOfClass<BeamSystemType>( doc ) ) );
-      data.Add( new Snoop.Data.Enumerable( "Continuous footing types", collectorOfClass<ContFootingType>( doc ) ) );
+      data.Add( new Snoop.Data.Enumerable( "Continuous footing types", collectorOfClass<WallFoundationType>( doc ) ) );
       data.Add( new Snoop.Data.Enumerable( "Curtain system types", collectorOfClass<CurtainSystemType>( doc ) ) );
       data.Add( new Snoop.Data.Enumerable( "Dimension types", collectorOfClass<DimensionType>( doc ) ) );
       data.Add( new Snoop.Data.Enumerable( "Electrical equipment types", collectorOfCategoryForFamilySymbol( doc, BuiltInCategory.OST_ElectricalEquipment ) ) );

@@ -89,6 +89,8 @@ using System.Runtime.CompilerServices;
 // 2015-01-29 - 2015.0.0.6 - incremented copyright message year from 2014 to 2015
 // 2015-01-30 - 2015.0.0.7 - removed all statements 'using' the empty root namespace Autodesk.Revit
 // 2015-04-19 - 2015.0.0.8 - integrated pull request #6 by yzraeu, additinal try catch for Level Offset and MEP System
+// 2015-04-20 - 2016.0.0.3 - initial migration to Revit 2016 by @ElaineJieyanZheng
+// 2015-04-20 - 2016.0.0.4 - integrated changes from previous Revit 2016 version into elaine's one
 //
-[assembly: AssemblyVersion( "2015.0.0.8" )]
-[assembly: AssemblyFileVersion( "2015.0.0.8" )]
+[assembly: AssemblyVersion( "2016.0.0.4" )]
+[assembly: AssemblyFileVersion( "2016.0.0.4" )]

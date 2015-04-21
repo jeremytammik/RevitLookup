@@ -142,7 +142,7 @@ namespace RevitLookup.Test.SDKSamples.LevelProperties
         /// <param name="levelElevation">Pass a Level's Elevation</param>
         public void CreateLevel (String levelName, double levelElevation)
         {
-            Level newLevel = m_app.ActiveUIDocument.Document.Create.NewLevel(levelElevation);
+            Level newLevel = Level.Create(m_app.ActiveUIDocument.Document,levelElevation);
 
             newLevel.Name = levelName;
         }

@@ -40,7 +40,7 @@ namespace RevitLookup.Test.SDKSamples.CreateSheet {
         private ViewSet         m_allViews = new ViewSet();
         private ViewSet         m_selectedViews = new ViewSet();
         private FamilySymbol    m_titleBlock = null;
-        private FamilySymbolSet m_allTitleBlocks = new FamilySymbolSet();
+        private List<FamilySymbol> m_allTitleBlocks = new List<FamilySymbol>();
         private ArrayList       m_titleBlockNames = new ArrayList();
         private string          m_sheetName = null;
         private double          m_rows = 0;
@@ -150,8 +150,8 @@ namespace RevitLookup.Test.SDKSamples.CreateSheet {
         private void
         GetTitleBlocks(Document doc)
         {
-            m_allTitleBlocks = new FilteredElementCollector(doc).OfClass(typeof(FamilySymbol)).OfCategory(BuiltInCategory.OST_TitleBlocks).Cast<FamilySymbol>() as FamilySymbolSet;
-            if (0 == m_allTitleBlocks.Size) {
+            m_allTitleBlocks = new FilteredElementCollector(doc).OfClass(typeof(FamilySymbol)).OfCategory(BuiltInCategory.OST_TitleBlocks).Cast<FamilySymbol>() as List<FamilySymbol>;
+            if (0 == m_allTitleBlocks.Count) {
                 throw new Exception("There is no title block to generate sheet.");
             }
 

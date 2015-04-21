@@ -24,9 +24,10 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
-using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.DB;
 
 using RevitLookup.Snoop.Collectors;
 
@@ -59,10 +60,11 @@ namespace RevitLookup.Snoop.CollectorExts
                 return;
             }
 
-            BoundarySegmentArray segArray = e.ObjToSnoop as BoundarySegmentArray;    // NOTE: this is needed because BoundarySegmentArrayArray will display enumerable Snoop items
-            if (segArray != null) {
-                Stream(snoopCollector.Data(), segArray);
-                return;
+            List<BoundarySegment> segArray = e.ObjToSnoop as List<BoundarySegment>;    // NOTE: this is needed because BoundarySegmentArrayArray will display enumerable Snoop items
+            if( segArray != null )
+            {
+              Stream( snoopCollector.Data(), segArray );
+              return;
             }
         }
 
@@ -71,21 +73,21 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.ClassSeparator(typeof(BoundarySegment)));
 
-            data.Add(new Snoop.Data.Object("Curve", seg.Curve));
-            data.Add(new Snoop.Data.Object("Document", seg.Document));
-            data.Add(new Snoop.Data.Object("Element", seg.Element));
+            data.Add(new Snoop.Data.Object("Curve", seg.GetCurve()));
+            data.Add(new Snoop.Data.Object("ElementId", seg.ElementId));
         }
 
         private void
-        Stream(ArrayList data, BoundarySegmentArray segArray)
+        Stream( ArrayList data, List<BoundarySegment> segArray )
         {
-            data.Add(new Snoop.Data.ClassSeparator(typeof(BoundarySegmentArray)));
+          data.Add( new Snoop.Data.ClassSeparator( typeof( List<BoundarySegment> ) ) );
 
-            IEnumerator iter = segArray.GetEnumerator();
-            int i = 0;
-            while (iter.MoveNext()) {
-                data.Add(new Snoop.Data.Object(string.Format("Boundary segment {0:d}", i++), iter.Current));
-            }
+          IEnumerator iter = segArray.GetEnumerator();
+          int i = 0;
+          while( iter.MoveNext() )
+          {
+            data.Add( new Snoop.Data.Object( string.Format( "Boundary segment {0:d}", i++ ), iter.Current ) );
+          }
         }
     }
 }
