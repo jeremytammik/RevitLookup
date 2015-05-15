@@ -93,6 +93,7 @@ using System.Runtime.CompilerServices;
 // 2015-04-20 - 2016.0.0.4 - integrated changes from previous Revit 2016 version into elaine's one
 // 2015-04-21 - 2016.0.0.5 - initial migration to Revit 2016 - first public release
 // 2015-04-21 - 2016.0.0.6 - set Copy Local false on Revit API assemblies
+// 2015-05-15 - 2016.0.0.7 - updated Revit API assembly paths for final release of Revit 2016
 //
-[assembly: AssemblyVersion( "2016.0.0.6" )]
-[assembly: AssemblyFileVersion( "2016.0.0.6" )]
+[assembly: AssemblyVersion( "2016.0.0.7" )]
+[assembly: AssemblyFileVersion( "2016.0.0.7" )]
