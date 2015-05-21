@@ -202,7 +202,17 @@ namespace RevitLookup.Snoop.CollectorExts
 		{
 		    data.Add(new Snoop.Data.ClassSeparator(typeof(InternalDefinition)));
 
-            data.Add(new Snoop.Data.String("Built in param", internalDef.BuiltInParameter.ToString()));				
+            var values = (BuiltInParameter[])Enum.GetValues(typeof (BuiltInParameter));
+		    string[] allNames = Enum.GetNames(typeof (BuiltInParameter));
+		    var names = new System.Collections.Generic.List<string>();
+		    for (int i = 0; i < values.Length; i++)
+		    {
+		        BuiltInParameter value = values[i];
+		        if ((int) value != (int) internalDef.BuiltInParameter) continue;
+                names.Add(allNames[i]);
+		    }
+
+		    data.Add(new Snoop.Data.String("Built in param", string.Join(", ", names)));				
         }
 
 		private void
