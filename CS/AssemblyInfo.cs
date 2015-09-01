@@ -96,6 +96,7 @@ using System.Runtime.CompilerServices;
 // 2015-04-23 - 2016.0.0.7 - updated post-build event target path to Revit 2016 add-ins folder
 // 2015-05-15 - 2016.0.0.8 - updated Revit API assembly paths for final release of Revit 2016
 // 2015-05-21 - 2016.0.0.9 - display all the display names of the BuiltInParameter enumeration value
+// 2015-09-01 - 2016.0.0.10 - handle null floor.GetAnalyticalModel returned in RAC and RME 
 //
-[assembly: AssemblyVersion( "2016.0.0.9" )]
-[assembly: AssemblyFileVersion( "2016.0.0.9" )]
+[assembly: AssemblyVersion( "2016.0.0.10" )]
+[assembly: AssemblyFileVersion( "2016.0.0.10" )]
