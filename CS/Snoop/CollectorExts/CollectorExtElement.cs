@@ -36,23 +36,17 @@ using Autodesk.Revit.DB.Analysis;
 using Autodesk.Revit.DB.ExtensibleStorage;
 
 using RevitLookup.Snoop.Collectors;
-
-using ArGe = Autodesk.Revit.DB;
 using System.Collections.Generic;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
-  /// <summary>
-  /// Provide Snoop.Data for any classes related to an Element.
-  /// </summary>
+    /// <summary>
+    /// Provide Snoop.Data for any classes related to an Element.
+    /// </summary>
 
-  public class CollectorExtElement : CollectorExt
+    public class CollectorExtElement : CollectorExt
   {
-    public CollectorExtElement()
-    {
-    }
-
-    protected override void CollectEvent( object sender, CollectorEventArgs e )
+        protected override void CollectEvent( object sender, CollectorEventArgs e )
     {
       // cast the sender object to the SnoopCollector we are expecting
       Collector snoopCollector = sender as Collector;
@@ -770,13 +764,15 @@ namespace RevitLookup.Snoop.CollectorExts
     {
       data.Add( new Snoop.Data.ClassSeparator( typeof( Floor ) ) );
 
+      AnalyticalModel analyticalModel = floor.GetAnalyticalModel();
+
       data.Add( new Snoop.Data.Object( "Floor type", floor.FloorType ) );
-      data.Add( new Snoop.Data.Object( "Analytical model", floor.GetAnalyticalModel() ) );
-      data.Add( new Snoop.Data.String( "Structural usage", floor.GetAnalyticalModel().GetAnalyzeAs().ToString() ) );
+      data.Add( new Snoop.Data.Object( "Analytical model", analyticalModel ) );
+      data.Add( new Snoop.Data.String( "Structural usage", analyticalModel != null ? analyticalModel.GetAnalyzeAs().ToString(): null ) );
       data.Add( new Snoop.Data.Enumerable( "Span direction symbols", floor.GetSpanDirectionSymbolIds(), floor.Document ) );
 
       // Works only for Revit Structure
-      if( floor.GetAnalyticalModel() != null )
+      if( analyticalModel != null )
       {
         data.Add( new Snoop.Data.Angle( "Span direction angle", floor.SpanDirectionAngle ) );
       }
