@@ -97,6 +97,7 @@ using System.Runtime.CompilerServices;
 // 2015-05-15 - 2016.0.0.8 - updated Revit API assembly paths for final release of Revit 2016
 // 2015-05-21 - 2016.0.0.9 - display all the display names of the BuiltInParameter enumeration value
 // 2015-09-01 - 2016.0.0.10 - handle null floor.GetAnalyticalModel returned in RAC and RME 
+// 2015-09-15 - 2016.0.0.11 - implemented support for Element bounding box
 //
-[assembly: AssemblyVersion( "2016.0.0.10" )]
-[assembly: AssemblyFileVersion( "2016.0.0.10" )]
+[assembly: AssemblyVersion( "2016.0.0.11" )]
+[assembly: AssemblyFileVersion( "2016.0.0.11" )]

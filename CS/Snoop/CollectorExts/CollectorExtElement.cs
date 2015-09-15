@@ -89,6 +89,12 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Document", elem.Document ) );
       data.Add( new Snoop.Data.Object( "Location", elem.Location ) );
 
+      BoundingBoxXYZ bb = elem.get_BoundingBox( null );
+      if( null != bb )
+      {
+        data.Add( new Snoop.Data.Object( "Bounding box", bb ) );
+      }
+
       try
       {
         data.Add( new Snoop.Data.Enumerable( "Materials", elem.GetMaterialIds( false ), elem.Document ) );
