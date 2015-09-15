@@ -537,7 +537,6 @@ namespace RevitLookup.Snoop.CollectorExts
         return;
       }
 
-
       TemperatureRatingType tempRatingType = elem as TemperatureRatingType;
       if( tempRatingType != null )
       {
