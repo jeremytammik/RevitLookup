@@ -18,8 +18,8 @@ If you are interested in an earlier release of Revit, pleae grab the most appror
 
 ## Author
 
-Implemented by the Revit API developement team at Autodesk, and maintained by
-Jeremy Tammik,
+Implemented by the Revit API developement team at Autodesk.
+Maintained by Jeremy Tammik,
 [The Building Coder](http://thebuildingcoder.typepad.com) and
 [The 3D Web Coder](http://the3dwebcoder.typepad.com),
 [ADN](http://www.autodesk.com/adn)
