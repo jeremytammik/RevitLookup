@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2015 by Autodesk, Inc. 
+// Copyright 2003-2016 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -33,7 +33,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "RevitLookup" )]
-[assembly: AssemblyCopyright( "Copyright 2003-2015 (C) Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright 2003-2016 (C) Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -98,6 +98,8 @@ using System.Runtime.CompilerServices;
 // 2015-05-21 - 2016.0.0.9 - display all the display names of the BuiltInParameter enumeration value
 // 2015-09-01 - 2016.0.0.10 - handle null floor.GetAnalyticalModel returned in RAC and RME 
 // 2015-09-15 - 2016.0.0.11 - implemented support for Element bounding box
+// 2015-10-22 - 2016.0.0.12 - readme cleanup
+// 2016-04-04 - 2016.0.0.13 - incremented copyright year from 2015 to 2016
 //
-[assembly: AssemblyVersion( "2016.0.0.11" )]
-[assembly: AssemblyFileVersion( "2016.0.0.11" )]
+[assembly: AssemblyVersion( "2016.0.0.12" )]
+[assembly: AssemblyFileVersion( "2016.0.0.12" )]
