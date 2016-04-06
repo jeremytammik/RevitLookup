@@ -76,6 +76,27 @@ namespace RevitLookup.Snoop.CollectorExts
             Stream(snoopCollector.Data(), rebarShapeDef);
             return;
          }
+
+         RebarShapeSegment segment = e.ObjToSnoop as RebarShapeSegment;
+         if (segment != null)
+         {
+            Stream(snoopCollector.Data(), segment);
+            return;
+         }
+
+         RebarShapeConstraint segmentConstraint = e.ObjToSnoop as RebarShapeConstraint;
+         if (segmentConstraint != null)
+         {
+            Stream(snoopCollector.Data(), segmentConstraint);
+            return;
+         }
+
+         RebarShapeMultiplanarDefinition multiPlanarDef = e.ObjToSnoop as RebarShapeMultiplanarDefinition;
+         if (multiPlanarDef != null)
+         {
+            Stream(snoopCollector.Data(), multiPlanarDef);
+            return;
+         }
       }
 
 
@@ -300,13 +321,13 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.Object("Compound Structure", hostAtt.GetCompoundStructure()));
 
          WallFoundationType contFootingType = hostAtt as WallFoundationType;
-         if( contFootingType != null )
+         if (contFootingType != null)
          {
-           Stream( data, contFootingType );
-           return;
+            Stream(data, contFootingType);
+            return;
          }
 
-        CurtainSystemType curSysType = hostAtt as CurtainSystemType;
+         CurtainSystemType curSysType = hostAtt as CurtainSystemType;
          if (curSysType != null)
          {
             Stream(data, curSysType);
@@ -343,11 +364,11 @@ namespace RevitLookup.Snoop.CollectorExts
       }
 
       private void
-      Stream( ArrayList data, WallFoundationType contFootingType )
+      Stream(ArrayList data, WallFoundationType contFootingType)
       {
-        data.Add( new Snoop.Data.ClassSeparator( typeof( WallFoundationType ) ) );
+         data.Add(new Snoop.Data.ClassSeparator(typeof(WallFoundationType)));
 
-        // No data at this level yet!
+         // No data at this level yet!
       }
 
       private void
@@ -658,6 +679,9 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShape)));
 
          data.Add(new Snoop.Data.Object("GetRebarShapeDefinition()", rebarShape.GetRebarShapeDefinition()));
+         if (rebarShape.GetMultiplanarDefinition() != null)
+            data.Add(new Snoop.Data.Object("GetMultiplanarDefinition()", rebarShape.GetMultiplanarDefinition()));
+
          data.Add(new Snoop.Data.String("Rebar style", rebarShape.RebarStyle.ToString()));
          data.Add(new Snoop.Data.Bool("Simple arc", rebarShape.SimpleArc));      // TBD: should be "IsSimpleArc"?
          data.Add(new Snoop.Data.Bool("Simple line", rebarShape.SimpleLine));    // TBD: should be "IsSimpleLine?"
@@ -815,8 +839,6 @@ namespace RevitLookup.Snoop.CollectorExts
       Stream(ArrayList data, PipeType pipeType)
       {
          data.Add(new Snoop.Data.ClassSeparator(typeof(PipeType)));
-
-         data.Add(new Snoop.Data.Object("Class", pipeType.Class));
       }
 
       private void
@@ -946,6 +968,11 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeDefinition)));
 
          data.Add(new Snoop.Data.Bool("Complete", rebarShapeDef.Complete));    // TBD: should be "IsComplete?"
+         data.Add(new Snoop.Data.Bool("IsPlanar", rebarShapeDef.IsPlanar));
+
+         // Get Parameters
+         data.Add(new Snoop.Data.CategorySeparator("RebarShape Definition Segments"));
+         data.Add(new Snoop.Data.Enumerable("Parameters", rebarShapeDef.GetParameters()));
 
          RebarShapeDefinitionByArc rebarShapeDefByArc = rebarShapeDef as RebarShapeDefinitionByArc;
          if (rebarShapeDefByArc != null)
@@ -976,6 +1003,147 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeDefinitionBySegments)));
 
          data.Add(new Snoop.Data.Int("Number of segments", rebarShapeDefBySegs.NumberOfSegments));
+
+         // Get segments
+         data.Add(new Snoop.Data.CategorySeparator("Segments"));
+         for (int i=0; i< rebarShapeDefBySegs.NumberOfSegments; i++)
+         {
+            data.Add(new Snoop.Data.Object("Segment " + i.ToString(), rebarShapeDefBySegs.GetSegment(i))); 
+         }
+
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeSegment segment)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeSegment)));
+         data.Add(new Snoop.Data.Enumerable("Constraints", segment.GetConstraints()));
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeConstraint constraint)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeConstraint)));
+         data.Add(new Snoop.Data.ElementId("Parameter ID ", constraint.GetParamId(), m_activeDoc));
+
+
+         RebarShapeConstraintSegmentLength rsc00 = constraint as RebarShapeConstraintSegmentLength;
+         if (rsc00 != null)
+         {
+            Stream(data, rsc00);
+            return;
+         }
+
+         RebarShapeConstraintFixedSegmentDir rsc01 = constraint as RebarShapeConstraintFixedSegmentDir;
+         if (rsc01 != null)
+         {
+            Stream(data, rsc01);
+            return;
+         }
+
+         RebarShapeConstraintProjectedSegmentLength rsc02 = constraint as RebarShapeConstraintProjectedSegmentLength;
+         if (rsc02 != null)
+         {
+            Stream(data, rsc02);
+            return;
+         }
+
+         RebarShapeConstraintCircumference rsc03 = constraint as RebarShapeConstraintCircumference;
+         if (rsc03 != null)
+         {
+            Stream(data, rsc03);
+            return;
+         }
+
+         RebarShapeConstraintRadius rsc04 = constraint as RebarShapeConstraintRadius;
+         if (rsc04 != null)
+         {
+            Stream(data, rsc04);
+            return;
+         }
+
+         RebarShapeConstraintArcLength rsc05 = constraint as RebarShapeConstraintArcLength;
+         if (rsc05 != null)
+         {
+            Stream(data, rsc05);
+            return;
+         }
+
+         RebarShapeConstraint180DegreeBendRadius rsc06 = constraint as RebarShapeConstraint180DegreeBendRadius;
+         if (rsc06 != null)
+         {
+            Stream(data, rsc06);
+            return;
+         }
+
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeConstraintFixedSegmentDir constraint)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeConstraintFixedSegmentDir)));
+         data.Add(new Snoop.Data.Uv("Direction", constraint.Direction));
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeConstraintSegmentLength constraint)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeConstraintSegmentLength)));
+
+         data.Add(new Snoop.Data.String("SegmentEndReferenceType[0]", constraint.GetSegmentEndReferenceType(0).ToString()));
+         data.Add(new Snoop.Data.String("SegmentEndReferenceType[1]", constraint.GetSegmentEndReferenceType(1).ToString()));
+
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeConstraintProjectedSegmentLength constraint)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeConstraintProjectedSegmentLength)));
+         data.Add(new Snoop.Data.Uv("Direction", constraint.Direction));
+         data.Add(new Snoop.Data.Int("TripleProductSign", constraint.TripleProductSign));
+         data.Add(new Snoop.Data.String("SegmentEndReferenceType[0]", constraint.GetSegmentEndReferenceType(0).ToString()));
+         data.Add(new Snoop.Data.String("SegmentEndReferenceType[1]", constraint.GetSegmentEndReferenceType(1).ToString()));
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeConstraintCircumference constraint)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeConstraintCircumference)));
+         data.Add(new Snoop.Data.String("ArcReferenceType", constraint.ArcReferenceType.ToString()));
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeConstraintRadius constraint)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeConstraintRadius)));
+         data.Add(new Snoop.Data.String("ArcReferenceType", constraint.ArcReferenceType.ToString()));
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeConstraintArcLength constraint)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeConstraintArcLength)));
+
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeConstraint180DegreeBendRadius constraint)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeConstraint180DegreeBendRadius)));
+         data.Add(new Snoop.Data.String("ArcReferenceType", constraint.ArcReferenceType.ToString()));
+      }
+
+      private void
+Stream(ArrayList data, RebarShapeMultiplanarDefinition rebarShapeDef)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarShapeMultiplanarDefinition)));
+         data.Add(new Snoop.Data.Bool("IsDuplicateShapePresent", rebarShapeDef.IsDuplicateShapePresent));
+         data.Add(new Snoop.Data.Bool("IsStartConnectorPresent", rebarShapeDef.IsStartConnectorPresent));
+         data.Add(new Snoop.Data.Bool("IsEndConnectorPresent", rebarShapeDef.IsEndConnectorPresent));
+         data.Add(new Snoop.Data.Double("OutOfPlaneBendDiameter", rebarShapeDef.OutOfPlaneBendDiameter));
+
+         data.Add(new Snoop.Data.ElementId("DepthParamId", rebarShapeDef.DepthParamId, m_activeDoc)); 
+
       }
 
    }

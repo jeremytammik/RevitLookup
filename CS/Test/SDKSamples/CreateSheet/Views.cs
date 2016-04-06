@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2016 by Autodesk, Inc. 
+// Copyright 2003-2014 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -29,6 +29,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Linq;
 
+using Autodesk.Revit;
 using Autodesk.Revit.DB;
 
 
@@ -40,7 +41,8 @@ namespace RevitLookup.Test.SDKSamples.CreateSheet {
         private ViewSet         m_allViews = new ViewSet();
         private ViewSet         m_selectedViews = new ViewSet();
         private FamilySymbol    m_titleBlock = null;
-        private List<FamilySymbol> m_allTitleBlocks = new List<FamilySymbol>();
+        private HashSet<FamilySymbol> m_allTitleBlocks = new HashSet<FamilySymbol>();
+
         private ArrayList       m_titleBlockNames = new ArrayList();
         private string          m_sheetName = null;
         private double          m_rows = 0;
@@ -150,8 +152,10 @@ namespace RevitLookup.Test.SDKSamples.CreateSheet {
         private void
         GetTitleBlocks(Document doc)
         {
-            m_allTitleBlocks = new FilteredElementCollector(doc).OfClass(typeof(FamilySymbol)).OfCategory(BuiltInCategory.OST_TitleBlocks).Cast<FamilySymbol>() as List<FamilySymbol>;
-            if (0 == m_allTitleBlocks.Count) {
+           var tmp = new FilteredElementCollector(doc).OfClass(typeof(FamilySymbol)).OfCategory(BuiltInCategory.OST_TitleBlocks).Cast<FamilySymbol>();
+           m_allTitleBlocks = new HashSet<FamilySymbol>(tmp);
+            if (0 == m_allTitleBlocks.Count()) 
+            {
                 throw new Exception("There is no title block to generate sheet.");
             }
 

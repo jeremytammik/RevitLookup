@@ -1472,7 +1472,7 @@ namespace RevitLookup.Test
       XYZ normal = GeomUtils.kZAxis;
       XYZ origin = GeomUtils.kOrigin;
 
-      Plane plane = m_revitApp.Application.Create.NewPlane( normal, origin );
+      Plane plane = Plane.CreateByNormalAndOrigin( normal, origin );
 
       SketchPlane sketchPlane = SketchPlane.Create( m_revitApp.ActiveUIDocument.Document, plane );
       BeamSystem.Create( m_revitApp.ActiveUIDocument.Document, profile, sketchPlane, new XYZ( 1.0, 1.0, 0.0 ), false );
@@ -1516,7 +1516,7 @@ namespace RevitLookup.Test
       XYZ normal = GeomUtils.kZAxis;
       XYZ origin = GeomUtils.kOrigin;
 
-      Plane plane = m_revitApp.Application.Create.NewPlane( normal, origin );
+      Plane plane = Plane.CreateByNormalAndOrigin( normal, origin );
       SketchPlane sketchPlane = SketchPlane.Create( m_revitApp.ActiveUIDocument.Document, plane );
 
       m_revitApp.ActiveUIDocument.Document.Create.NewDetailCurveArray( m_revitApp.ActiveUIDocument.Document.ActiveView,

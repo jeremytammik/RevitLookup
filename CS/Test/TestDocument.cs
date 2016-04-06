@@ -261,7 +261,8 @@ namespace RevitLookup.Test
                   XYZ offset = new XYZ(5.0, 0, 0);
 
                   /// align text middle and center
-                  TextNote txtNote = TextNote.Create(m_revitApp.ActiveUIDocument.Document,view.Id, offset + locationPoint.Point, roundedArea.ToString(),new TextNoteOptions());
+                  TextNoteOptions op = new TextNoteOptions();
+                  TextNote txtNote = TextNote.Create(m_revitApp.ActiveUIDocument.Document, view.Id, offset + locationPoint.Point, .25, roundedArea.ToString(), op);
                }
             }
          }

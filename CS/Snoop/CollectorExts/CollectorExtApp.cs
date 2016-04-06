@@ -110,7 +110,6 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.Object("Cities", app.Cities));
          data.Add(new Snoop.Data.Enumerable("Documents", app.Documents));
          data.Add(new Snoop.Data.String("Language", app.Language.ToString()));
-         data.Add(new Snoop.Data.Object("Object factory", app.ObjectFactory));
          data.Add(new Snoop.Data.Enumerable("Library Paths", app.GetLibraryPaths()));
          data.Add(new Snoop.Data.String("Shared Parameter File", app.SharedParametersFilename));
          data.Add(new Snoop.Data.String("Family Template Path", app.FamilyTemplatePath));

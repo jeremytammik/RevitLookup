@@ -205,7 +205,7 @@ namespace RevitLookup.Utils {
         public static SketchPlane
         GetWorldPlane(Autodesk.Revit.UI.UIApplication app)
         {
-            Plane plane = app.Application.Create.NewPlane(GeomUtils.kZAxis, GeomUtils.kOrigin);
+            Plane plane = Plane.CreateByNormalAndOrigin(GeomUtils.kZAxis, GeomUtils.kOrigin);
             SketchPlane sketchPlane = SketchPlane.Create(app.ActiveUIDocument.Document, plane);
 
             return sketchPlane;

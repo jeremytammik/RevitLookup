@@ -221,7 +221,7 @@ namespace RevitLookup.Test {
             if (m_sketchPlane == null) {
                 XYZ zAxis = GeomUtils.kZAxis;
                 XYZ origin = GeomUtils.kOrigin;
-                Plane plane = m_app.Application.Create.NewPlane(zAxis, origin);
+                Plane plane = Plane.CreateByNormalAndOrigin(zAxis, origin);
 
                 m_sketchPlane = SketchPlane.Create(m_app.ActiveUIDocument.Document, plane);
             }
