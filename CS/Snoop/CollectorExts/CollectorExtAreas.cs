@@ -75,7 +75,7 @@ namespace RevitLookup.Snoop.CollectorExts
             data.Add(new Snoop.Data.ClassSeparator(typeof(BoundarySegment)));
 
             data.Add(new Snoop.Data.Object("Curve", boundSeg.GetCurve()));
-            data.Add(new Snoop.Data.Object("Element", boundSeg.ElementId));            
+            data.Add(new Snoop.Data.Object("ElementId", boundSeg.ElementId));            
         }
 
         private void

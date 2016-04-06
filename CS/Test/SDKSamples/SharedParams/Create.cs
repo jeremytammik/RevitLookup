@@ -77,6 +77,7 @@ namespace RevitLookup.Test.SDKSamples.SharedParams
          {
            //sharedParameterDefinition = sharedParameterGroup.Definitions.Create( m_paramName, ParameterType.Text, true ); // 2015, jeremy: 'Autodesk.Revit.DB.Definitions.Create(string, Autodesk.Revit.DB.ParameterType, bool)' is obsolete: 'This method is deprecated in Revit 2015. Use Create(Autodesk.Revit.DB.ExternalDefinitonCreationOptions) instead'
            ExternalDefinitionCreationOptions opt = new ExternalDefinitionCreationOptions( m_paramName, ParameterType.Text );
+           opt.UserModifiable = true;
            opt.Visible = true;
            sharedParameterDefinition = sharedParameterGroup.Definitions.Create( opt ); // 2016, jeremy
 

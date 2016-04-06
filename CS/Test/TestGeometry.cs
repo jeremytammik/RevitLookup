@@ -57,7 +57,7 @@ namespace RevitLookup.Test {
             XYZ zAxis = GeomUtils.kZAxis;
             XYZ origin = GeomUtils.kOrigin;
             Line line;
-            Plane plane = m_revitApp.Application.Create.NewPlane(zAxis, origin);
+            Plane plane = Plane.CreateByNormalAndOrigin(zAxis, origin);
             SketchPlane sketchPlane = SketchPlane.Create(m_revitApp.ActiveUIDocument.Document, plane);
             CurveArray curveArray = new CurveArray();
 

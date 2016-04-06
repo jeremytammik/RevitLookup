@@ -322,11 +322,25 @@ namespace RevitLookup.Snoop.CollectorExts
          RebarConstraint rbc = e.ObjToSnoop as RebarConstraint;
          if (rbc != null)
          {
-             Stream(snoopCollector.Data(), rbc);
+            Stream(snoopCollector.Data(), rbc);
              return;
          }
 
+         RebarContainerItem rbcontItem = e.ObjToSnoop as RebarContainerItem;
+         if (rbcontItem != null)
+         {
+            Stream(snoopCollector.Data(), rbcontItem);
+            return;
+         }
+
          //TFEND
+
+         RebarBendData bendData = e.ObjToSnoop as RebarBendData;
+         if (bendData != null)
+         {
+            Stream(snoopCollector.Data(), bendData);
+            return;
+         }
 
          if (Utils.IsSupportedType(e.ObjToSnoop) && e.ObjToSnoop != null)
             Utils.StreamWithReflection(snoopCollector.Data(), e.ObjToSnoop.GetType(), e.ObjToSnoop);
@@ -612,7 +626,7 @@ namespace RevitLookup.Snoop.CollectorExts
          {
             data.Add(new Snoop.Data.String("Units", opt.DisplayUnits.ToString()));
             data.Add(new Snoop.Data.String("Unit symbol", opt.UnitSymbol.ToString()));
-            data.Add(new Snoop.Data.Double("Rounding", opt.Accuracy));
+            data.Add(new Snoop.Data.Double("Accuracy", opt.Accuracy));
             data.Add(new Snoop.Data.Bool("Suppress trailing zeros", opt.SuppressTrailingZeros));
             data.Add(new Snoop.Data.Bool("Suppress leading zeros", opt.SuppressLeadingZeros));
             data.Add(new Snoop.Data.Bool("Suppress spaces", opt.SuppressSpaces));
@@ -998,6 +1012,7 @@ namespace RevitLookup.Snoop.CollectorExts
          data.Add(new Snoop.Data.ClassSeparator(typeof(Autodesk.Revit.DB.BoundarySegment)));
 
          data.Add(new Snoop.Data.Object("Curve", boundSeg.GetCurve()));
+         data.Add(new Snoop.Data.Object("Element", boundSeg.ElementId));
       }
 
       //TF
@@ -1009,6 +1024,7 @@ namespace RevitLookup.Snoop.CollectorExts
           data.Add(new Snoop.Data.Enumerable("ConstrainedHandles", rbcm.GetAllConstrainedHandles()));
           foreach (RebarConstrainedHandle ch in rbcm.GetAllConstrainedHandles())
           {
+              data.Add(new Snoop.Data.CategorySeparator(ch.GetHandleType().ToString()));
               data.Add(new Snoop.Data.Object("Current Constraint on Handle", rbcm.GetCurrentConstraintOnHandle(ch)));
               data.Add(new Snoop.Data.Object("User Preferred Constraint on Handle", rbcm.GetPreferredConstraintOnHandle(ch)));
               data.Add(new Snoop.Data.Enumerable("ConstraintCandidatesFor Handle", rbcm.GetConstraintCandidatesForHandle(ch)));
@@ -1031,18 +1047,24 @@ namespace RevitLookup.Snoop.CollectorExts
       Stream(ArrayList data, RebarConstraint rbc)
       {
           data.Add(new Snoop.Data.ClassSeparator(typeof(RebarConstraint)));
-
           data.Add(new Snoop.Data.Bool("IsValid", rbc.IsValid()));
+          if (!rbc.IsValid())
+             return;
           data.Add(new Snoop.Data.String("ConstraintType", rbc.GetConstraintType().ToString()));
-          if (rbc.GetConstraintType() == RebarConstraintType.FixedDistanceToHostFace)
+          data.Add(new Snoop.Data.Object("TargetElement", rbc.GetTargetElement()));
+
+          RebarConstraintType type = rbc.GetConstraintType();
+
+          if (type == RebarConstraintType.FixedDistanceToHostFace)
           {
               data.Add(new Snoop.Data.Double("Distance to Target Host Face", rbc.GetDistanceToTargetHostFace()));
           }
-          if (rbc.GetConstraintType() != RebarConstraintType.ToOtherRebar)
+          if (type != RebarConstraintType.ToOtherRebar)
           {
               data.Add(new Snoop.Data.String("Target Host Face Type", rbc.GetRebarConstraintTargetHostFaceType().ToString()));
+              data.Add(new Snoop.Data.Object("Target Host Face Reference", rbc.GetTargetHostFaceReference()));
           }
-          if (rbc.GetConstraintType() == RebarConstraintType.ToOtherRebar)
+          if (type == RebarConstraintType.ToOtherRebar)
           {
               data.Add(new Snoop.Data.String("Rebar Constraint Type", rbc.GetTargetRebarConstraintType().ToString()));
               if (rbc.GetTargetRebarConstraintType() == TargetRebarConstraintType.BarBend)
@@ -1051,7 +1073,68 @@ namespace RevitLookup.Snoop.CollectorExts
               }
           }
       }
+
+      private void
+      Stream(ArrayList data, RebarContainerItem rbci)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarContainerItem)));
+
+         data.Add(new Snoop.Data.ElementId("RebarContainerItem shape", rbci.RebarShapeId, m_app.ActiveUIDocument.Document));
+ //        data.Add(new Snoop.Data.Object("Distribution path", rbci.GetDistributionPath()));
+ //        data.Add(new Snoop.Data.Enumerable("GetCenterlineCurves(false, false, false)", rbci.GetCenterlineCurves(false, false, false)));
+         data.Add(new Snoop.Data.String("LayoutRule", rbci.LayoutRule.ToString()));
+         if (rbci.LayoutRule != RebarLayoutRule.Single)
+         {
+            data.Add(new Snoop.Data.Double("Distribution path length", rbci.ArrayLength));
+            data.Add(new Snoop.Data.Int("Quantity", rbci.Quantity));
+            data.Add(new Snoop.Data.Int("NumberOfBarPositions", rbci.NumberOfBarPositions));
+            data.Add(new Snoop.Data.Double("MaxSpacing", rbci.MaxSpacing));
+            data.Add(new Snoop.Data.Bool("BarsOnNormalSide", rbci.BarsOnNormalSide));
+         }
+
+//         data.Add(new Snoop.Data.String("ScheduleMark", rbci.ScheduleMark));
+         data.Add(new Snoop.Data.Double("Volume", rbci.Volume));
+         data.Add(new Snoop.Data.Double("TotalLength", rbci.TotalLength));
+//         data.Add(new Snoop.Data.Object("Normal", rbci.Normal));
+
+          // Bending data
+         data.Add(new Snoop.Data.Object("Bending Data", rbci.GetBendData()));
+
+         // Hook information
+         addHookInformation2rebarContainerItem(ref data, rbci, 0);
+         addHookInformation2rebarContainerItem(ref data, rbci, 1);
+      }
+
+      private void addHookInformation2rebarContainerItem(ref ArrayList data, RebarContainerItem rebar, int end)
+      {
+         if (end != 0 && end != 1)
+            return;
+
+         ElementId hookId = rebar.GetHookTypeId(end);
+         if (hookId != null && hookId != ElementId.InvalidElementId)
+         {
+            data.Add(new Snoop.Data.CategorySeparator("HookType at end: " + end.ToString()));
+            data.Add(new Snoop.Data.ElementId("Hook Type", hookId, m_app.ActiveUIDocument.Document));
+            data.Add(new Snoop.Data.String("HookOrientation", rebar.GetHookOrientation(end).ToString()));
+         }
+
+      }
        
       //TFEND   
+
+      private void Stream(ArrayList data, RebarBendData rbcm)
+      {
+         data.Add(new Snoop.Data.ClassSeparator(typeof(RebarBendData)));
+
+         data.Add(new Snoop.Data.Double("BarDiameter", rbcm.BarDiameter));
+         data.Add(new Snoop.Data.Double("BendRadius", rbcm.BendRadius));
+         data.Add(new Snoop.Data.Int("HookAngle0", rbcm.HookAngle0));
+         data.Add(new Snoop.Data.Int("HookAngle1", rbcm.HookAngle1));
+         data.Add(new Snoop.Data.Double("HookBendRadius", rbcm.HookBendRadius));
+         data.Add(new Snoop.Data.Double("HookLength0", rbcm.HookLength0));
+         data.Add(new Snoop.Data.Double("HookLength1", rbcm.HookLength1));
+         data.Add(new Snoop.Data.String("HookOrient0", rbcm.HookOrient0.ToString()));
+         data.Add(new Snoop.Data.String("HookOrient1", rbcm.HookOrient1.ToString()));
+      }
    }
 }
