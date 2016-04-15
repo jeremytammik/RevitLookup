@@ -100,6 +100,7 @@ using System.Runtime.CompilerServices;
 // 2015-09-15 - 2016.0.0.11 - implemented support for Element bounding box
 // 2015-10-22 - 2016.0.0.12 - readme cleanup
 // 2016-04-04 - 2016.0.0.13 - incremented copyright year from 2015 to 2016
+// 2016-04-15 - 2017.0.0.0 - migration to Revit 2017 by manuel of sofistik
 //
-[assembly: AssemblyVersion( "2016.0.0.12" )]
-[assembly: AssemblyFileVersion( "2016.0.0.12" )]
+[assembly: AssemblyVersion( "2017.0.0.0" )]
+[assembly: AssemblyFileVersion( "2017.0.0.0" )]

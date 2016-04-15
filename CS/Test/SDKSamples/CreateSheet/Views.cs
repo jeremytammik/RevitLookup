@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2014 by Autodesk, Inc. 
+// Copyright 2003-2016 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -25,11 +25,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Text;
+//using System.Text;
 using System.Windows.Forms;
 using System.Linq;
 
-using Autodesk.Revit;
+//using Autodesk.Revit;
 using Autodesk.Revit.DB;
 
 
