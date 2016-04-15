@@ -50,9 +50,9 @@ namespace RevitLookup.Graphics {
         private void SetSketchPlane()
         {
             if (HasXform)
-                m_plane = m_app.Application.Create.NewPlane(CurrentXform.BasisZ, CurrentXform.Origin);
+                m_plane = Plane.CreateByNormalAndOrigin(CurrentXform.BasisZ, CurrentXform.Origin);
             else
-               m_plane = m_app.Application.Create.NewPlane(XYZ.BasisZ, XYZ.Zero);      // standard World plane
+               m_plane = Plane.CreateByNormalAndOrigin(XYZ.BasisZ, XYZ.Zero);      // standard World plane
      
         }
 

@@ -243,12 +243,27 @@ namespace RevitLookup.Snoop.CollectorExts
         return;
       }
 
+      FabricSheet fabricSheet = elem as FabricSheet;
+      if (fabricSheet != null)
+      {
+         Stream(data, fabricSheet);
+         return;
+      }
+
       MultiReferenceAnnotation mra = elem as MultiReferenceAnnotation;
       if( mra != null )
       {
         Stream( data, mra );
         return;
       }
+
+      RebarContainer rebarCont = elem as RebarContainer;
+      if (rebarCont != null)
+      {
+         Stream(data, rebarCont);
+         return;
+      }
+
       //TFEND
       Family family = elem as Family;
       if( family != null )
@@ -642,7 +657,6 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "View", spaceTag.View ) );
     }
 
-
     private void Stream( ArrayList data, HostObject hostObj )
     {
       data.Add( new Snoop.Data.ClassSeparator( typeof( HostObject ) ) );
@@ -761,8 +775,13 @@ namespace RevitLookup.Snoop.CollectorExts
     {
       data.Add( new Snoop.Data.ClassSeparator( typeof( WallFoundation ) ) );
 
+      data.Add(new Snoop.Data.Object("Name", contFooting.Name));
       data.Add( new Snoop.Data.Object( "Analytical model", contFooting.GetAnalyticalModel() ) );
-      data.Add( new Snoop.Data.Object( "Footing type", contFooting.GetFoundationType() ) );
+      data.Add( new Snoop.Data.Object( "Footing type", contFooting.GetTypeId() ) );
+      data.Add(new Snoop.Data.Object("Location", contFooting.Location));
+      data.Add(new Snoop.Data.Object("WallId", contFooting.WallId));
+
+
     }
 
     private void Stream( ArrayList data, Floor floor )
@@ -1049,6 +1068,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
       data.Add( new Snoop.Data.Bool( "Is InPlace", fam.IsInPlace ) );
       data.Add( new Snoop.Data.Bool( "Is CurtainPanelFamily", fam.IsCurtainPanelFamily ) );
+      data.Add(new Snoop.Data.String("FamilyPlacementType", fam.FamilyPlacementType.ToString()));
 
       if( fam.IsInPlace == false )
       {
@@ -1274,22 +1294,20 @@ namespace RevitLookup.Snoop.CollectorExts
 
       data.Add( new Snoop.Data.CategorySeparator( "Loops" ) );
       data.Add( new Snoop.Data.Int( "Number of loops", areaload.GetLoops().Count ) );
-      for( int i = 0; i < areaload.GetLoops().Count; i++ )
+      int i=0, j=0;
+      foreach (var loop in areaload.GetLoops())
       {
-        CurveLoop curveloop = areaload.GetLoops()[i] as CurveLoop;
-        CurveLoopIterator iter = curveloop.GetCurveLoopIterator();
-        iter.Reset();
-        int j = 0;
-        while( iter.MoveNext() )
-        {
-          data.Add( new Snoop.Data.Object( string.Format( "Loop [{0:d}], Curve [{1:d}]", i, j ), ( iter.Current as Curve ) ) );
-          j++;
-        }
+         foreach (var curve in loop)
+         {
+            data.Add(new Snoop.Data.Object(string.Format("Loop [{0:d}], Curve [{1:d}]", i, j), curve));
+            j++;
+         }
+         i++;
       }
 
       data.Add( new Snoop.Data.CategorySeparator( "Reference Points" ) );
       data.Add( new Snoop.Data.Int( "Number of reference points", areaload.NumRefPoints ) );
-      for( int i = 0; i < areaload.NumRefPoints; i++ )
+      for( i = 0; i < areaload.NumRefPoints; i++ )
       {
         data.Add( new Snoop.Data.Xyz( string.Format( "Reference PT [{0:d}]", i ), areaload.GetRefPoint( i ) ) );
       }
@@ -1324,6 +1342,9 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ClassSeparator( typeof( LoadCase ) ) );
 
       // Nothing at this level yet!
+      data.Add(new Snoop.Data.ElementId("NatureId", loadcase.NatureId, loadcase.Document));
+      data.Add(new Snoop.Data.ElementId("SubcategoryId", loadcase.SubcategoryId, loadcase.Document));
+      data.Add(new Snoop.Data.Int("Number", loadcase.Number));
     }
 
     private void Stream( ArrayList data, LoadCombination loadcombo )
@@ -1331,17 +1352,21 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ClassSeparator( typeof( LoadCombination ) ) );
 
       data.Add( new Snoop.Data.String( "Name", loadcombo.Name ) );
-      data.Add( new Snoop.Data.String( "Combination type", loadcombo.Type.ToString() ) );
-      data.Add( new Snoop.Data.String( "Combination state", loadcombo.State.ToString() ) );
+      data.Add( new Snoop.Data.Object( "Combination type", loadcombo.Type ) );
+      data.Add( new Snoop.Data.Object( "Combination state", loadcombo.State ) );
 
       data.Add( new Snoop.Data.CategorySeparator( "Components" ) );
       data.Add( new Snoop.Data.Int( "Number of components", loadcombo.GetComponents().Count ) );
-
-      for( int i = 0; i < loadcombo.GetComponents().Count; i++ )
+      
+      foreach( var component in loadcombo.GetComponents())
       {
-        data.Add( new Snoop.Data.String( string.Format( "Combination case name [{0:d}]", i ), loadcombo.Document.GetElement( loadcombo.GetCaseAndCombinationIds()[i] ).Name ) );
-        data.Add( new Snoop.Data.String( string.Format( "Combination nature name [{0:d}]", i ), loadcombo.Document.GetElement( loadcombo.GetCaseAndCombinationIds()[i] ).Name ) );
-        data.Add( new Snoop.Data.Double( string.Format( "Factor [{0:d}]", i ), loadcombo.GetComponents()[i].Factor ) );
+         LoadCase cs = loadcombo.Document.GetElement(component.LoadCaseOrCombinationId) as LoadCase;
+         if(cs!=null)
+         {
+            data.Add(new Snoop.Data.String("Combination case name", cs.Name));
+            data.Add(new Snoop.Data.ElementId("Combination nature name", cs.NatureId, loadcombo.Document));
+         }
+        data.Add( new Snoop.Data.Double("Factor", component.Factor));
       }
 
       data.Add( new Snoop.Data.CategorySeparator( "Usages" ) );
@@ -1601,7 +1626,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ElementId( "Rebar shape", rebar.RebarShapeId, rebar.Document ) );
       data.Add( new Snoop.Data.ElementId( "Host", rebar.GetHostId(), rebar.Document ) );
       data.Add( new Snoop.Data.Object( "Distribution path", rebar.GetDistributionPath() ) );
-      data.Add( new Snoop.Data.Enumerable( "GetCenterlineCurves(false, false, false)", rebar.GetCenterlineCurves( false, false, false ) ) );
+      data.Add( new Snoop.Data.Enumerable( "GetCenterlineCurves(false, false, false)", rebar.GetCenterlineCurves( false, false, false, MultiplanarOption.IncludeOnlyPlanarCurves, 0) ) );
       data.Add( new Snoop.Data.String( "LayoutRule", rebar.LayoutRule.ToString() ) );
       if( rebar.LayoutRule != RebarLayoutRule.Single )
       {
@@ -1609,11 +1634,39 @@ namespace RevitLookup.Snoop.CollectorExts
         data.Add( new Snoop.Data.Int( "Quantity", rebar.Quantity ) );
         data.Add( new Snoop.Data.Int( "NumberOfBarPositions", rebar.NumberOfBarPositions ) );
         data.Add( new Snoop.Data.Double( "MaxSpacing", rebar.MaxSpacing ) );
+        data.Add(new Snoop.Data.Bool("BarsOnNormalSide", rebar.BarsOnNormalSide));
       }
+
+      data.Add(new Snoop.Data.String("ScheduleMark", rebar.ScheduleMark));
+      data.Add(new Snoop.Data.Double("Volume", rebar.Volume));
+      data.Add(new Snoop.Data.Double("TotalLength", rebar.TotalLength));
+      data.Add(new Snoop.Data.Object("Normal", rebar.Normal));
 
       //TF
       data.Add( new Snoop.Data.Object( "ConstraintsManager", rebar.GetRebarConstraintsManager() ) );
       //TFEND
+
+      // Bending data
+      data.Add(new Snoop.Data.Object("Bending Data", rebar.GetBendData()));
+
+      // Hook information
+      addHookInformation2Rebar(data, rebar, 0);
+      addHookInformation2Rebar(data, rebar, 1);
+    }
+
+    private void addHookInformation2Rebar(ArrayList data, Rebar rebar, int end)
+    {
+      if(end!=0 && end!=1)
+         return;
+
+      ElementId hookId = rebar.GetHookTypeId(end);
+      if (hookId != null && hookId!= ElementId.InvalidElementId)
+      {
+         data.Add(new Snoop.Data.CategorySeparator("HookType at end: " + end.ToString()));
+         data.Add(new Snoop.Data.ElementId("Hook Type", hookId, rebar.Document));
+         data.Add(new Snoop.Data.String("HookOrientation", rebar.GetHookOrientation(end).ToString()));
+      }
+
     }
 
     //TF
@@ -1645,11 +1698,26 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Double( "Cut Sheet Mass", fabricSheet.CutSheetMass ) );
       data.Add( new Snoop.Data.ElementId( "Fabric Area Owner", fabricSheet.FabricAreaOwnerId, m_app.ActiveUIDocument.Document ) );
       data.Add( new Snoop.Data.ElementId( "Sheet Type", fabricSheet.GetTypeId(), m_app.ActiveUIDocument.Document ) );
+      data.Add( new Snoop.Data.Object( "Sheet Location", fabricSheet.GetSheetLocation()) );
+      data.Add(new Snoop.Data.String("Bend Direction", fabricSheet.BentFabricBendDirection.ToString()));
+      data.Add(new Snoop.Data.String("Bend Wires Orientation", fabricSheet.BentFabricStraightWiresLocation.ToString()));
+      data.Add(new Snoop.Data.Double("Bent Longitudinal Cut", fabricSheet.BentFabricLongitudinalCutLength));
+      data.Add(new Snoop.Data.Object("Bending Center Line", fabricSheet.GetBendProfileWithFillets()));
+      data.Add(new Snoop.Data.Object("Bending PolyLine", fabricSheet.GetBendProfile()));
     }
 
-    //TFEND
+    private void Stream(ArrayList data, RebarContainer rebarCont)
+    {
+       data.Add(new Snoop.Data.ClassSeparator(typeof(RebarContainer)));
+       data.Add(new Snoop.Data.String("Schedule Mark", rebarCont.ScheduleMark));
+       data.Add(new Snoop.Data.ElementId("Host", rebarCont.GetHostId(), m_app.ActiveUIDocument.Document));
+       data.Add(new Snoop.Data.Int("Number of Items", rebarCont.ItemsCount));
+       data.Add( new Snoop.Data.Object( "Reinforcement Rounding Manager", rebarCont.GetReinforcementRoundingManager() ) );
 
-    private void Stream( ArrayList data, Room room )
+      }
+      //TFEND
+
+      private void Stream( ArrayList data, Room room )
     {
       data.Add( new Snoop.Data.ClassSeparator( typeof( Room ) ) );
 
@@ -2928,9 +2996,9 @@ namespace RevitLookup.Snoop.CollectorExts
 
       data.Add( new Snoop.Data.Object( "Base equipment connector", mechSys.BaseEquipmentConnector ) );
       data.Add( new Snoop.Data.Enumerable( "Duct network", mechSys.DuctNetwork ) );
-      data.Add( new Snoop.Data.Double( "Flow", mechSys.Flow ) );
+      data.Add( new Snoop.Data.Double( "Flow", mechSys.GetFlow() ) );
       data.Add( new Snoop.Data.Bool( "Is well connected", mechSys.IsWellConnected ) );
-      data.Add( new Snoop.Data.Double( "Static pressure", mechSys.StaticPressure ) );
+      data.Add( new Snoop.Data.Double( "Static pressure", mechSys.GetStaticPressure() ) );
       data.Add( new Snoop.Data.String( "System type", mechSys.SystemType.ToString() ) );
     }
 
@@ -2939,12 +3007,12 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ClassSeparator( typeof( PipingSystem ) ) );
 
       data.Add( new Snoop.Data.Object( "Base equipment connector", pipingSys.BaseEquipmentConnector ) );
-      data.Add( new Snoop.Data.Double( "Flow", pipingSys.Flow ) );
+      data.Add( new Snoop.Data.Double( "Flow", pipingSys.GetFlow()) );
       data.Add( new Snoop.Data.Bool( "Is well connected", pipingSys.IsWellConnected ) );
       data.Add( new Snoop.Data.ElementSet( "Piping network", pipingSys.PipingNetwork ) );
       try
       {
-        data.Add( new Snoop.Data.Double( "Static pressure", pipingSys.StaticPressure ) );
+        data.Add( new Snoop.Data.Double( "Static pressure", pipingSys.GetStaticPressure()) );
       }
       catch( Exception ex )
       {
@@ -3093,59 +3161,6 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Bool( "Include Shading Surfaces", eaDetailModel.IncludeShadingSurfaces ) );
       data.Add( new Snoop.Data.Bool( "Simplify Curtain Systems", eaDetailModel.SimplifyCurtainSystems ) );
       data.Add( new Snoop.Data.Object( "Tier", eaDetailModel.Tier ) );
-    }
-
-    private void Stream( ArrayList data, RebarContainer rebarContainer )
-    {
-      data.Add( new Snoop.Data.ClassSeparator( typeof( RebarContainer ) ) );
-
-      data.Add( new Snoop.Data.ElementId( "", rebarContainer.GetHostId(), rebarContainer.Document ) );
-      data.Add( new Snoop.Data.Object( "Reinforcement Rounding Manager", rebarContainer.GetReinforcementRoundingManager() ) );
-      data.Add( new Snoop.Data.Int( "Items Count", rebarContainer.ItemsCount ) );
-      IEnumerator<RebarContainerItem> iter = rebarContainer.GetEnumerator();
-      iter.Reset();
-      while( iter.MoveNext() )
-      {
-        RebarContainerItem item = iter.Current as RebarContainerItem;
-        if( item == null )
-          return;
-        String objectName = "Rebar Container Item [" + item.ItemIndex.ToString() + "]";
-        try
-        {
-          data.Add( new Snoop.Data.Object( objectName, item ) );
-        }
-        catch( System.Exception ex )
-        {
-          data.Add( new Snoop.Data.Exception( objectName, ex ) );
-        }
-      }
-      data.Add( new Snoop.Data.String( "Schedule Mark", rebarContainer.ScheduleMark ) );
-    }
-
-    private void Stream( ArrayList data, RebarContainerItem rebarContainerItem )
-    {
-      data.Add( new Snoop.Data.ClassSeparator( typeof( RebarContainerItem ) ) );
-
-      data.Add( new Snoop.Data.Double( "Array Length", rebarContainerItem.ArrayLength ) );
-      data.Add( new Snoop.Data.Bool( "Bars On Normal Side", rebarContainerItem.BarsOnNormalSide ) );
-      data.Add( new Snoop.Data.Int( "Base Finishing Turns", rebarContainerItem.BaseFinishingTurns ) );
-      data.Add( new Snoop.Data.Object( "Bend Data", rebarContainerItem.GetBendData() ) );
-      data.Add( new Snoop.Data.Object( "Distribution Path", rebarContainerItem.GetDistributionPath() ) );
-      data.Add( new Snoop.Data.Object( "Hook Orientation [0]", rebarContainerItem.GetHookOrientation( 0 ) ) );
-      data.Add( new Snoop.Data.Object( "Hook Orientation [1]", rebarContainerItem.GetHookOrientation( 1 ) ) );
-      data.Add( new Snoop.Data.Double( "Height", rebarContainerItem.Height ) );
-      data.Add( new Snoop.Data.Bool( "Include First Bar", rebarContainerItem.IncludeFirstBar ) );
-      data.Add( new Snoop.Data.Bool( "Include Last Bar", rebarContainerItem.IncludeLastBar ) );
-      data.Add( new Snoop.Data.Object( "Layout Rule", rebarContainerItem.LayoutRule ) );
-      data.Add( new Snoop.Data.Double( "Max Spacing", rebarContainerItem.MaxSpacing ) );
-      data.Add( new Snoop.Data.Double( "Multiplanar Depth", rebarContainerItem.MultiplanarDepth ) );
-      data.Add( new Snoop.Data.Xyz( "Normal", rebarContainerItem.Normal ) );
-      data.Add( new Snoop.Data.Int( "Number Of Bar Positions", rebarContainerItem.NumberOfBarPositions ) );
-      data.Add( new Snoop.Data.Double( "Pitch", rebarContainerItem.Pitch ) );
-      data.Add( new Snoop.Data.Int( "Quantity", rebarContainerItem.Quantity ) );
-      data.Add( new Snoop.Data.Int( "Top Finishing Turns", rebarContainerItem.TopFinishingTurns ) );
-      data.Add( new Snoop.Data.Double( "Total Length", rebarContainerItem.TotalLength ) );
-      data.Add( new Snoop.Data.Double( "Volume", rebarContainerItem.Volume ) );
     }
 
     private void Stream( ArrayList data, FabricationPart fabPart )
