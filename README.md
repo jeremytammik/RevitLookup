@@ -2,7 +2,7 @@
 
 Interactive Revit BIM database exploration tool to view and navigate element properties and relationships.
 
-Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information: http://thebuildingcoder.typepad.com
+Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information.
 
 
 
