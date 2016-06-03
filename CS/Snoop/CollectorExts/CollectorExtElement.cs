@@ -2925,7 +2925,11 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Base equipment", mepSys.BaseEquipment ) );
       data.Add( new Snoop.Data.Object( "Base equipment connector", mepSys.BaseEquipmentConnector ) );
       data.Add( new Snoop.Data.Object( "Connector manager", mepSys.ConnectorManager ) );
-      data.Add( new Snoop.Data.Enumerable( "Elements", mepSys.Elements ) );
+      
+      if ( !((BuiltInCategory)(mepSys.Category.Id.IntegerValue) == BuiltInCategory.OST_ElectricalInternalCircuits))
+      {
+		    data.Add( new Snoop.Data.Enumerable( "Elements", mepSys.Elements ) );
+      }
 
       ElectricalSystem elecSys = mepSys as ElectricalSystem;
       if( elecSys != null )
