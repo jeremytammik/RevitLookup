@@ -51,7 +51,7 @@ namespace RevitLookup.Snoop.CollectorExts
       // Cast the sender object to the SnoopCollector we are expecting
 
       Collector snoopCollector = sender as Collector;
-      if ( snoopCollector == null )
+      if( snoopCollector == null )
       {
         Debug.Assert( false ); // why did someone else send us the message?
         return;
@@ -60,7 +60,7 @@ namespace RevitLookup.Snoop.CollectorExts
       // If its not even an Element, bail early
 
       Element elem = e.ObjToSnoop as Element;
-      if ( elem != null )
+      if( elem != null )
         Stream( snoopCollector.Data(), elem );
       else
         return;
@@ -76,7 +76,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.String( "Name", elem.Name ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Name", ex ) );
       }
@@ -90,7 +90,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Location", elem.Location ) );
 
       BoundingBoxXYZ bb = elem.get_BoundingBox( null );
-      if ( null != bb )
+      if( null != bb )
       {
         data.Add( new Snoop.Data.Object( "Bounding box", bb ) );
       }
@@ -99,7 +99,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Enumerable( "Materials", elem.GetMaterialIds( false ), elem.Document ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Materials", ex ) );
       }
@@ -115,7 +115,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.ElementSet( "Similar object types", elem.GetValidTypes(), elem.Document ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Similar object types", ex ) );
       }
@@ -127,17 +127,17 @@ namespace RevitLookup.Snoop.CollectorExts
 
       // Try to access the extensible storage of this element.
 
-      foreach ( Schema schema in Schema.ListSchemas() )
+      foreach( Schema schema in Schema.ListSchemas() )
       {
         String objectName = "Entity with Schema [" + schema.SchemaName + "]";
         try
         {
           Entity entity = elem.GetEntity( schema );
-          if ( !entity.IsValid() )
+          if( !entity.IsValid() )
             continue;
           data.Add( new Snoop.Data.Object( objectName, entity ) );
         }
-        catch ( System.Exception ex )
+        catch( System.Exception ex )
         {
           data.Add( new Snoop.Data.Exception( objectName, ex ) );
         }
@@ -146,119 +146,119 @@ namespace RevitLookup.Snoop.CollectorExts
       // See if it is a type we are responsible for
 
       Area area = elem as Area;
-      if ( area != null )
+      if( area != null )
       {
         Stream( data, area );
         return;
       }
 
       AreaReinforcement areaReinforcement = elem as AreaReinforcement;
-      if ( areaReinforcement != null )
+      if( areaReinforcement != null )
       {
         Stream( data, areaReinforcement );
         return;
       }
 
       AreaReinforcementCurve areaReinforcementCurve = elem as AreaReinforcementCurve;
-      if ( areaReinforcementCurve != null )
+      if( areaReinforcementCurve != null )
       {
         Stream( data, areaReinforcementCurve );
         return;
       }
 
       AreaTag areaTag = elem as AreaTag;
-      if ( areaTag != null )
+      if( areaTag != null )
       {
         Stream( data, areaTag );
         return;
       }
 
       BaseArray baseArray = elem as BaseArray;
-      if ( baseArray != null )
+      if( baseArray != null )
       {
         Stream( data, baseArray );
         return;
       }
 
       BasePoint basePoint = elem as BasePoint;
-      if ( basePoint != null )
+      if( basePoint != null )
       {
         Stream( data, basePoint );
         return;
       }
 
       BeamSystem beamSys = elem as BeamSystem;
-      if ( beamSys != null )
+      if( beamSys != null )
       {
         Stream( data, beamSys );
         return;
       }
 
       BoundaryConditions bndCnd = elem as BoundaryConditions;
-      if ( bndCnd != null )
+      if( bndCnd != null )
       {
         Stream( data, bndCnd );
         return;
       }
 
       CombinableElement combElem = elem as CombinableElement;
-      if ( combElem != null )
+      if( combElem != null )
       {
         Stream( data, combElem );
         return;
       }
 
       Control ctrl = elem as Control;
-      if ( ctrl != null )
+      if( ctrl != null )
       {
         Stream( data, ctrl );
         return;
       }
 
       CurveElement curElem = elem as CurveElement;
-      if ( curElem != null )
+      if( curElem != null )
       {
         Stream( data, curElem );
         return;
       }
 
       DesignOption designOpt = elem as DesignOption;
-      if ( designOpt != null )
+      if( designOpt != null )
       {
         Stream( data, designOpt );
         return;
       }
 
       Dimension dim = elem as Dimension;
-      if ( dim != null )
+      if( dim != null )
       {
         Stream( data, dim );
         return;
       }
       //TF
       FabricArea fabricArea = elem as FabricArea;
-      if ( fabricArea != null )
+      if( fabricArea != null )
       {
         Stream( data, fabricArea );
         return;
       }
 
       FabricSheet fabricSheet = elem as FabricSheet;
-      if ( fabricSheet != null )
+      if( fabricSheet != null )
       {
         Stream( data, fabricSheet );
         return;
       }
 
       MultiReferenceAnnotation mra = elem as MultiReferenceAnnotation;
-      if ( mra != null )
+      if( mra != null )
       {
         Stream( data, mra );
         return;
       }
 
       RebarContainer rebarCont = elem as RebarContainer;
-      if ( rebarCont != null )
+      if( rebarCont != null )
       {
         Stream( data, rebarCont );
         return;
@@ -266,364 +266,364 @@ namespace RevitLookup.Snoop.CollectorExts
 
       //TFEND
       Family family = elem as Family;
-      if ( family != null )
+      if( family != null )
       {
         Stream( data, family );
         return;
       }
 
       GenericForm genForm = elem as GenericForm;
-      if ( genForm != null )
+      if( genForm != null )
       {
         Stream( data, genForm );
         return;
       }
 
       Grid grid = elem as Grid;
-      if ( grid != null )
+      if( grid != null )
       {
         Stream( data, grid );
         return;
       }
 
       Group group = elem as Group;
-      if ( group != null )
+      if( group != null )
       {
         Stream( data, group );
         return;
       }
 
       HostObject host = elem as HostObject;
-      if ( host != null )
+      if( host != null )
       {
         Stream( data, host );
         return;
       }
 
       IndependentTag indepTag = elem as IndependentTag;
-      if ( indepTag != null )
+      if( indepTag != null )
       {
         Stream( data, indepTag );
         return;
       }
 
       Instance inst = elem as Instance;
-      if ( inst != null )
+      if( inst != null )
       {
         Stream( data, inst );
         return;
       }
 
       Level level = elem as Level;
-      if ( level != null )
+      if( level != null )
       {
         Stream( data, level );
         return;
       }
 
       LoadBase loadBase = elem as LoadBase;
-      if ( loadBase != null )
+      if( loadBase != null )
       {
         Stream( data, loadBase );
         return;
       }
 
       LoadCase loadCase = elem as LoadCase;
-      if ( loadCase != null )
+      if( loadCase != null )
       {
         Stream( data, loadCase );
         return;
       }
 
       LoadCombination loadCombo = elem as LoadCombination;
-      if ( loadCombo != null )
+      if( loadCombo != null )
       {
         Stream( data, loadCombo );
         return;
       }
 
       LoadNature loadNature = elem as LoadNature;
-      if ( loadNature != null )
+      if( loadNature != null )
       {
         Stream( data, loadNature );
         return;
       }
 
       LoadUsage loadUsage = elem as LoadUsage;
-      if ( loadUsage != null )
+      if( loadUsage != null )
       {
         Stream( data, loadUsage );
         return;
       }
 
       Autodesk.Revit.DB.Material mat = elem as Autodesk.Revit.DB.Material;
-      if ( mat != null )
+      if( mat != null )
       {
         Stream( data, mat );
         return;
       }
 
       Opening opn = elem as Opening;
-      if ( opn != null )
+      if( opn != null )
       {
         Stream( data, opn );
         return;
       }
 
       PathReinforcement pathReinf = elem as PathReinforcement;
-      if ( pathReinf != null )
+      if( pathReinf != null )
       {
         Stream( data, pathReinf );
         return;
       }
 
       Phase phase = elem as Phase;
-      if ( phase != null )
+      if( phase != null )
       {
         Stream( data, phase );
         return;
       }
 
       PrintSetting printSetting = elem as PrintSetting;
-      if ( printSetting != null )
+      if( printSetting != null )
       {
         Stream( data, printSetting );
         return;
       }
 
       ProjectInfo projInfo = elem as ProjectInfo;
-      if ( projInfo != null )
+      if( projInfo != null )
       {
         Stream( data, projInfo );
         return;
       }
 
       Rebar rebar = elem as Rebar;
-      if ( rebar != null )
+      if( rebar != null )
       {
         Stream( data, rebar );
         return;
       }
 
       ReferencePlane refPlane = elem as ReferencePlane;
-      if ( refPlane != null )
+      if( refPlane != null )
       {
         Stream( data, refPlane );
         return;
       }
 
       ReferencePoint refPoint = elem as ReferencePoint;
-      if ( refPoint != null )
+      if( refPoint != null )
       {
         Stream( data, refPoint );
         return;
       }
 
       Room room = elem as Room;
-      if ( room != null )
+      if( room != null )
       {
         Stream( data, room );
         return;
       }
 
       RoomTag roomTag = elem as RoomTag;
-      if ( roomTag != null )
+      if( roomTag != null )
       {
         Stream( data, roomTag );
         return;
       }
 
       SketchBase sketchBase = elem as SketchBase;
-      if ( sketchBase != null )
+      if( sketchBase != null )
       {
         Stream( data, sketchBase );
         return;
       }
 
       SketchPlane sketchPlane = elem as SketchPlane;
-      if ( sketchPlane != null )
+      if( sketchPlane != null )
       {
         Stream( data, sketchPlane );
         return;
       }
 
       Space space = elem as Space;
-      if ( space != null )
+      if( space != null )
       {
         Stream( data, space );
         return;
       }
 
       SpaceTag spaceTag = elem as SpaceTag;
-      if ( spaceTag != null )
+      if( spaceTag != null )
       {
         Stream( data, spaceTag );
         return;
       }
 
       TextElement textElem = elem as TextElement;
-      if ( textElem != null )
+      if( textElem != null )
       {
         Stream( data, textElem );
         return;
       }
 
       Truss truss = elem as Truss;
-      if ( truss != null )
+      if( truss != null )
       {
         Stream( data, truss );
         return;
       }
 
       View view = elem as View;
-      if ( view != null )
+      if( view != null )
       {
         Stream( data, view );
         return;
       }
 
       ViewSheetSet viewSheetSet = elem as ViewSheetSet;
-      if ( viewSheetSet != null )
+      if( viewSheetSet != null )
       {
         Stream( data, viewSheetSet );
         return;
       }
 
       Zone zone = elem as Zone;
-      if ( zone != null )
+      if( zone != null )
       {
         Stream( data, zone );
         return;
       }
 
       GraphicsStyle graphStyle = elem as GraphicsStyle;
-      if ( graphStyle != null )
+      if( graphStyle != null )
       {
         Stream( data, graphStyle );
         return;
       }
 
       ImportInstance impInst = elem as ImportInstance;
-      if ( impInst != null )
+      if( impInst != null )
       {
         Stream( data, impInst );
         return;
       }
 
       ModelText modelTxt = elem as ModelText;
-      if ( modelTxt != null )
+      if( modelTxt != null )
       {
         Stream( data, modelTxt );
         return;
       }
 
       PropertyLine propLine = elem as PropertyLine;
-      if ( propLine != null )
+      if( propLine != null )
       {
         Stream( data, propLine );
         return;
       }
 
       AreaScheme areaScheme = elem as AreaScheme;
-      if ( areaScheme != null )
+      if( areaScheme != null )
       {
         Stream( data, areaScheme );
         return;
       }
 
       ConnectorElement connElem = elem as ConnectorElement;
-      if ( connElem != null )
+      if( connElem != null )
       {
         Stream( data, connElem );
         return;
       }
 
       MEPSystem mepSys = elem as MEPSystem;
-      if ( mepSys != null )
+      if( mepSys != null )
       {
         Stream( data, mepSys );
         return;
       }
 
       InsulationType insType = elem as InsulationType;
-      if ( insType != null )
+      if( insType != null )
       {
         Stream( data, insType );
         return;
       }
 
       TemperatureRatingType tempRatingType = elem as TemperatureRatingType;
-      if ( tempRatingType != null )
+      if( tempRatingType != null )
       {
         Stream( data, tempRatingType );
         return;
       }
 
       WireMaterialType wireMatType = elem as WireMaterialType;
-      if ( wireMatType != null )
+      if( wireMatType != null )
       {
         Stream( data, wireMatType );
         return;
       }
 
       AnalyticalLink link = elem as AnalyticalLink;
-      if ( link != null )
+      if( link != null )
       {
         Stream( data, link );
         return;
       }
 
       ParameterElement paramElem = elem as ParameterElement;
-      if ( paramElem != null )
+      if( paramElem != null )
       {
         Stream( data, paramElem );
         return;
       }
 
       ViewNavigationToolSettings viewToolSettings = elem as ViewNavigationToolSettings;
-      if ( viewToolSettings != null )
+      if( viewToolSettings != null )
       {
         Stream( data, viewToolSettings );
         return;
       }
 
       EnergyAnalysisOpening eaOpeing = elem as EnergyAnalysisOpening;
-      if ( eaOpeing != null )
+      if( eaOpeing != null )
       {
         Stream( data, eaOpeing );
         return;
       }
 
       EnergyAnalysisSpace eaSpace = elem as EnergyAnalysisSpace;
-      if ( eaSpace != null )
+      if( eaSpace != null )
       {
         Stream( data, eaSpace );
         return;
       }
 
       EnergyAnalysisSurface eaSurface = elem as EnergyAnalysisSurface;
-      if ( eaSurface != null )
+      if( eaSurface != null )
       {
         Stream( data, eaSurface );
         return;
       }
 
       EnergyAnalysisDetailModel eaDetailModel = elem as EnergyAnalysisDetailModel;
-      if ( eaDetailModel != null )
+      if( eaDetailModel != null )
       {
         Stream( data, eaDetailModel );
         return;
       }
 
       RebarContainer rebarContainer = elem as RebarContainer;
-      if ( rebarContainer != null )
+      if( rebarContainer != null )
       {
         Stream( data, rebarContainer );
         return;
       }
 
       FabricationPart fabPart = elem as FabricationPart;
-      if ( fabPart != null )
+      if( fabPart != null )
       {
         Stream( data, fabPart );
         return;
@@ -662,63 +662,63 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ClassSeparator( typeof( HostObject ) ) );
 
       Wall wall = hostObj as Wall;
-      if ( wall != null )
+      if( wall != null )
       {
         Stream( data, wall );
         return;
       }
 
       CeilingAndFloor ceilFloor = hostObj as CeilingAndFloor;
-      if ( ceilFloor != null )
+      if( ceilFloor != null )
       {
         Stream( data, ceilFloor );
         return;
       }
 
       WallFoundation contFooting = hostObj as WallFoundation;
-      if ( contFooting != null )
+      if( contFooting != null )
       {
         Stream( data, contFooting );
         return;
       }
 
       CurtainGridLine gridLine = hostObj as CurtainGridLine;
-      if ( gridLine != null )
+      if( gridLine != null )
       {
         Stream( data, gridLine );
         return;
       }
 
       CurtainSystemBase curtainSysBase = hostObj as CurtainSystemBase;
-      if ( curtainSysBase != null )
+      if( curtainSysBase != null )
       {
         Stream( data, curtainSysBase );
         return;
       }
 
       HostedSweep hostedSweep = hostObj as HostedSweep;
-      if ( hostedSweep != null )
+      if( hostedSweep != null )
       {
         Stream( data, hostedSweep );
         return;
       }
 
       RoofBase roofBase = hostObj as RoofBase;
-      if ( roofBase != null )
+      if( roofBase != null )
       {
         Stream( data, roofBase );
         return;
       }
 
       MEPCurve mepCur = hostObj as MEPCurve;
-      if ( mepCur != null )
+      if( mepCur != null )
       {
         Stream( data, mepCur );
         return;
       }
 
       Wire wire = hostObj as Wire;
-      if ( wire != null )
+      if( wire != null )
       {
         Stream( data, wire );
         return;
@@ -744,7 +744,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Xyz( "Orientation", wall.Orientation ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Orientation", ex ) );
       }
@@ -764,7 +764,7 @@ namespace RevitLookup.Snoop.CollectorExts
       // Nothing at this level yet!
 
       Floor floor = ceilFloor as Floor;
-      if ( floor != null )
+      if( floor != null )
       {
         Stream( data, floor );
         return;
@@ -797,7 +797,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
       // Works only for Revit Structure
 
-      if ( analyticalModel != null )
+      if( analyticalModel != null )
       {
         data.Add( new Snoop.Data.Angle( "Span direction angle", floor.SpanDirectionAngle ) );
       }
@@ -822,7 +822,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ClassSeparator( typeof( CurtainSystemBase ) ) );
 
       CurtainSystem curtainSys = curtainSysBase as CurtainSystem;
-      if ( curtainSys != null )
+      if( curtainSys != null )
       {
         Stream( data, curtainSys );
         return;
@@ -849,21 +849,21 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Double( "Length", hostedSweep.Length ) );
 
       Fascia fascia = hostedSweep as Fascia;
-      if ( fascia != null )
+      if( fascia != null )
       {
         Stream( data, fascia );
         return;
       }
 
       Gutter gutter = hostedSweep as Gutter;
-      if ( gutter != null )
+      if( gutter != null )
       {
         Stream( data, gutter );
         return;
       }
 
       SlabEdge slabEdge = hostedSweep as SlabEdge;
-      if ( slabEdge != null )
+      if( slabEdge != null )
       {
         Stream( data, slabEdge );
         return;
@@ -901,7 +901,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Fascia depth", roofBase.FasciaDepth ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Fascia depth", ex ) );
       }
@@ -910,14 +910,14 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Slab shape editor", roofBase.SlabShapeEditor ) );
 
       FootPrintRoof footPrintRoof = roofBase as FootPrintRoof;
-      if ( footPrintRoof != null )
+      if( footPrintRoof != null )
       {
         Stream( data, footPrintRoof );
         return;
       }
 
       ExtrusionRoof extrRoof = roofBase as ExtrusionRoof;
-      if ( extrRoof != null )
+      if( extrRoof != null )
       {
         Stream( data, extrRoof );
         return;
@@ -934,7 +934,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Diameter", mepCur.Diameter ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Diameter", ex ) );
       }
@@ -943,7 +943,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Height", mepCur.Height ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Height", ex ) );
       }
@@ -952,7 +952,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Width", mepCur.Width ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Width", ex ) );
       }
@@ -961,28 +961,28 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Reference level", mepCur.ReferenceLevel ) );
 
       Duct duct = mepCur as Duct;
-      if ( duct != null )
+      if( duct != null )
       {
         Stream( data, duct );
         return;
       }
 
       FlexDuct flexDuct = mepCur as FlexDuct;
-      if ( flexDuct != null )
+      if( flexDuct != null )
       {
         Stream( data, flexDuct );
         return;
       }
 
       Pipe pipe = mepCur as Pipe;
-      if ( pipe != null )
+      if( pipe != null )
       {
         Stream( data, pipe );
         return;
       }
 
       FlexPipe flexPipe = mepCur as FlexPipe;
-      if ( flexPipe != null )
+      if( flexPipe != null )
       {
         Stream( data, flexPipe );
         return;
@@ -1070,20 +1070,20 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Bool( "Is CurtainPanelFamily", fam.IsCurtainPanelFamily ) );
       data.Add( new Snoop.Data.String( "FamilyPlacementType", fam.FamilyPlacementType.ToString() ) );
 
-      if ( fam.IsInPlace == false )
+      if( fam.IsInPlace == false )
       {
         try
         {
           data.Add( new Snoop.Data.Object( "Family Document", fam.Document.EditFamily( fam ) ) );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           data.Add( new Snoop.Data.Exception( "FamilyDocument", new Exception( ex.Message, ex ) ) );
         }
 
       }
 
-      if ( fam.IsCurtainPanelFamily )
+      if( fam.IsCurtainPanelFamily )
       {
         data.Add( new Snoop.Data.Double( "Curtain Panel Horiz Spacing", fam.CurtainPanelHorizontalSpacing ) );
         data.Add( new Snoop.Data.Double( "Curtain Panel Vert Spacing", fam.CurtainPanelVerticalSpacing ) );
@@ -1102,14 +1102,14 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Transform", insInst.GetTransform() ) );
 
       FamilyInstance famInst = insInst as FamilyInstance;
-      if ( famInst != null )
+      if( famInst != null )
       {
         Stream( data, famInst );
         return;
       }
 
       RevitLinkInstance linkInst = insInst as RevitLinkInstance;
-      if ( linkInst != null )
+      if( linkInst != null )
       {
         Stream( data, linkInst );
         return;
@@ -1129,7 +1129,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Enumerable( "Sub components", famInst.GetSubComponentIds(), famInst.Document ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Sub components", ex ) );
       }
@@ -1138,7 +1138,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Object( "Super component", famInst.SuperComponent ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Super component", ex ) );
       }
@@ -1147,7 +1147,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Object( "Room", famInst.Room ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Room", ex ) );
       }
@@ -1156,7 +1156,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Object( "From room", famInst.FromRoom ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "From room", ex ) );
       }
@@ -1165,7 +1165,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Object( "To room", famInst.ToRoom ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "To room", ex ) );
       }
@@ -1175,19 +1175,19 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Object( "Space", famInst.Space ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Space", ex ) );
       }
       FilteredElementCollector filter = new FilteredElementCollector( famInst.Document );
       IList<Element> phases = filter.OfClass( typeof( Phase ) ).ToElements();
-      foreach ( Element e in phases )
+      foreach( Element e in phases )
       {
         try
         {
           data.Add( new Snoop.Data.Object( "get_Space(" + e.Name + ")", famInst.get_Space( e as Phase ) ) );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
           data.Add( new Snoop.Data.Exception( "get_Space(" + e.Name + ")", ex ) );
         }
@@ -1199,7 +1199,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.String( "Structural usage", famInst.StructuralUsage.ToString() ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Structural usage", ex ) );
       }
@@ -1221,21 +1221,21 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Enumerable( "Copings", famInst.GetCopingIds(), famInst.Document ) );
 
       AnnotationSymbol annoSym = famInst as AnnotationSymbol;
-      if ( annoSym != null )
+      if( annoSym != null )
       {
         Stream( data, annoSym );
         return;
       }
 
       Panel panel = famInst as Panel;
-      if ( panel != null )
+      if( panel != null )
       {
         Stream( data, panel );
         return;
       }
 
       Mullion mullion = famInst as Mullion;
-      if ( mullion != null )
+      if( mullion != null )
       {
         Stream( data, mullion );
         return;
@@ -1262,21 +1262,21 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.String( "Load nature name", loadbase.LoadNatureName ) );
 
       AreaLoad areaload = loadbase as AreaLoad;
-      if ( areaload != null )
+      if( areaload != null )
       {
         Stream( data, areaload );
         return;
       }
 
       LineLoad lineload = loadbase as LineLoad;
-      if ( lineload != null )
+      if( lineload != null )
       {
         Stream( data, lineload );
         return;
       }
 
       PointLoad pointload = loadbase as PointLoad;
-      if ( pointload != null )
+      if( pointload != null )
       {
         Stream( data, pointload );
         return;
@@ -1295,9 +1295,9 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.CategorySeparator( "Loops" ) );
       data.Add( new Snoop.Data.Int( "Number of loops", areaload.GetLoops().Count ) );
       int i = 0, j = 0;
-      foreach ( var loop in areaload.GetLoops() )
+      foreach( var loop in areaload.GetLoops() )
       {
-        foreach ( var curve in loop )
+        foreach( var curve in loop )
         {
           data.Add( new Snoop.Data.Object( string.Format( "Loop [{0:d}], Curve [{1:d}]", i, j ), curve ) );
           j++;
@@ -1307,7 +1307,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
       data.Add( new Snoop.Data.CategorySeparator( "Reference Points" ) );
       data.Add( new Snoop.Data.Int( "Number of reference points", areaload.NumRefPoints ) );
-      for ( i = 0; i < areaload.NumRefPoints; i++ )
+      for( i = 0; i < areaload.NumRefPoints; i++ )
       {
         data.Add( new Snoop.Data.Xyz( string.Format( "Reference PT [{0:d}]", i ), areaload.GetRefPoint( i ) ) );
       }
@@ -1358,10 +1358,10 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.CategorySeparator( "Components" ) );
       data.Add( new Snoop.Data.Int( "Number of components", loadcombo.GetComponents().Count ) );
 
-      foreach ( var component in loadcombo.GetComponents() )
+      foreach( var component in loadcombo.GetComponents() )
       {
         LoadCase cs = loadcombo.Document.GetElement( component.LoadCaseOrCombinationId ) as LoadCase;
-        if ( cs != null )
+        if( cs != null )
         {
           data.Add( new Snoop.Data.String( "Combination case name", cs.Name ) );
           data.Add( new Snoop.Data.ElementId( "Combination nature name", cs.NatureId, loadcombo.Document ) );
@@ -1372,7 +1372,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.CategorySeparator( "Usages" ) );
       data.Add( new Snoop.Data.Int( "Number of usages", loadcombo.GetUsageIds().Count ) );
 
-      for ( int i = 0; i < loadcombo.GetUsageIds().Count; i++ )
+      for( int i = 0; i < loadcombo.GetUsageIds().Count; i++ )
       {
         data.Add( new Snoop.Data.String( string.Format( "Usage name [{0:d}]", i ), loadcombo.Document.GetElement( loadcombo.GetUsageIds()[i] ).Name ) );
       }
@@ -1438,7 +1438,7 @@ namespace RevitLookup.Snoop.CollectorExts
         {
           aspect = mat.Document.GetElement( aspectId ) as PropertySetElement;
         }
-        catch ( System.Exception )
+        catch( System.Exception )
         {
           aspect = null;
         }
@@ -1456,13 +1456,13 @@ namespace RevitLookup.Snoop.CollectorExts
       try
       {
         AppearanceAssetElement aae = m_app.ActiveUIDocument.Document.GetElement( mat.AppearanceAssetId ) as AppearanceAssetElement;
-        if ( null != aae )
+        if( null != aae )
         {
           data.Add( new Snoop.Data.Object( "Render appearance", aae.GetRenderingAsset() ) );
         }
 
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Render appearance", ex ) );
       }
@@ -1628,7 +1628,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Distribution path", rebar.GetDistributionPath() ) );
       data.Add( new Snoop.Data.Enumerable( "GetCenterlineCurves(false, false, false)", rebar.GetCenterlineCurves( false, false, false, MultiplanarOption.IncludeOnlyPlanarCurves, 0 ) ) );
       data.Add( new Snoop.Data.String( "LayoutRule", rebar.LayoutRule.ToString() ) );
-      if ( rebar.LayoutRule != RebarLayoutRule.Single )
+      if( rebar.LayoutRule != RebarLayoutRule.Single )
       {
         data.Add( new Snoop.Data.Double( "Distribution path length", rebar.ArrayLength ) );
         data.Add( new Snoop.Data.Int( "Quantity", rebar.Quantity ) );
@@ -1656,11 +1656,11 @@ namespace RevitLookup.Snoop.CollectorExts
 
     private void addHookInformation2Rebar( ArrayList data, Rebar rebar, int end )
     {
-      if ( end != 0 && end != 1 )
+      if( end != 0 && end != 1 )
         return;
 
       ElementId hookId = rebar.GetHookTypeId( end );
-      if ( hookId != null && hookId != ElementId.InvalidElementId )
+      if( hookId != null && hookId != ElementId.InvalidElementId )
       {
         data.Add( new Snoop.Data.CategorySeparator( "HookType at end: " + end.ToString() ) );
         data.Add( new Snoop.Data.ElementId( "Hook Type", hookId, rebar.Document ) );
@@ -1758,7 +1758,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.CategorySeparator( "Bar Descriptions" ) );
       System.Collections.Generic.IList<ElementId> rebarIds = areaReinf.GetRebarInSystemIds();
       data.Add( new Snoop.Data.Int( "Number of RebarInSystem", rebarIds.Count ) );
-      for ( int i = 0; i < rebarIds.Count; i++ )
+      for( int i = 0; i < rebarIds.Count; i++ )
       {
         data.Add( new Snoop.Data.Object( string.Format( "RebarInSystem [{0:d}]", i ), areaReinf.Document.GetElement( rebarIds[i] ) ) );
       }
@@ -1803,35 +1803,35 @@ namespace RevitLookup.Snoop.CollectorExts
       */
 
       View3D view3d = view as View3D;
-      if ( view3d != null )
+      if( view3d != null )
       {
         Stream( data, view3d );
         return;
       }
 
       ViewDrafting viewDrafting = view as ViewDrafting;
-      if ( viewDrafting != null )
+      if( viewDrafting != null )
       {
         Stream( data, viewDrafting );
         return;
       }
 
       ViewPlan viewPlan = view as ViewPlan;
-      if ( viewPlan != null )
+      if( viewPlan != null )
       {
         Stream( data, viewPlan );
         return;
       }
 
       ViewSection viewSection = view as ViewSection;
-      if ( viewSection != null )
+      if( viewSection != null )
       {
         Stream( data, viewSection );
         return;
       }
 
       ViewSheet viewSheet = view as ViewSheet;
-      if ( viewSheet != null )
+      if( viewSheet != null )
       {
         Stream( data, viewSheet );
         return;
@@ -1906,7 +1906,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
       data.Add( new Snoop.Data.CategorySeparator( "Curves" ) );
       data.Add( new Snoop.Data.Int( "Number of curves", bndCnd.GetLoops().Count ) );
-      for ( int i = 0; i < bndCnd.GetLoops().Count; i++ )
+      for( int i = 0; i < bndCnd.GetLoops().Count; i++ )
       {
         data.Add( new Snoop.Data.Object( string.Format( "Curve [{0:d}]", i ), bndCnd.GetLoops()[i] ) );
       }
@@ -1919,14 +1919,14 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Enumerable( "Combinations", combElem.Combinations ) );
 
       GenericForm genForm = combElem as GenericForm;
-      if ( genForm != null )
+      if( genForm != null )
       {
         Stream( data, genForm );
         return;
       }
 
       GeomCombination geomComb = combElem as GeomCombination;
-      if ( geomComb != null )
+      if( geomComb != null )
       {
         Stream( data, geomComb );
         return;
@@ -1959,28 +1959,28 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Sketch plane", curElem.SketchPlane ) );
 
       CurveByPoints curPts = curElem as CurveByPoints;
-      if ( curPts != null )
+      if( curPts != null )
       {
         Stream( data, curPts );
         return;
       }
 
       DetailCurve detCurve = curElem as DetailCurve;
-      if ( detCurve != null )
+      if( detCurve != null )
       {
         Stream( data, detCurve );
         return;
       }
 
       ModelCurve modelCurve = curElem as ModelCurve;
-      if ( modelCurve != null )
+      if( modelCurve != null )
       {
         Stream( data, modelCurve );
         return;
       }
 
       SymbolicCurve symCurve = curElem as SymbolicCurve;
-      if ( symCurve != null )
+      if( symCurve != null )
       {
         Stream( data, symCurve );
         return;
@@ -2009,28 +2009,28 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Enumerable( "Line styles", detCurve.GetLineStyleIds(), m_app.ActiveUIDocument.Document ) );
 
       DetailArc detArc = detCurve as DetailArc;
-      if ( detArc != null )
+      if( detArc != null )
       {
         Stream( data, detArc );
         return;
       }
 
       DetailEllipse detEllipse = detCurve as DetailEllipse;
-      if ( detEllipse != null )
+      if( detEllipse != null )
       {
         Stream( data, detEllipse );
         return;
       }
 
       DetailLine detLine = detCurve as DetailLine;
-      if ( detLine != null )
+      if( detLine != null )
       {
         Stream( data, detLine );
         return;
       }
 
       DetailNurbSpline detSpline = detCurve as DetailNurbSpline;
-      if ( detSpline != null )
+      if( detSpline != null )
       {
         Stream( data, detSpline );
         return;
@@ -2075,35 +2075,35 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Enumerable( "Line styles", modelCurve.GetLineStyleIds(), m_app.ActiveUIDocument.Document ) );
 
       ModelArc modelArc = modelCurve as ModelArc;
-      if ( modelArc != null )
+      if( modelArc != null )
       {
         Stream( data, modelArc );
         return;
       }
 
       ModelEllipse modelEllipse = modelCurve as ModelEllipse;
-      if ( modelEllipse != null )
+      if( modelEllipse != null )
       {
         Stream( data, modelEllipse );
         return;
       }
 
       ModelHermiteSpline modelHSpline = modelCurve as ModelHermiteSpline;
-      if ( modelHSpline != null )
+      if( modelHSpline != null )
       {
         Stream( data, modelHSpline );
         return;
       }
 
       ModelNurbSpline modelNSpline = modelCurve as ModelNurbSpline;
-      if ( modelNSpline != null )
+      if( modelNSpline != null )
       {
         Stream( data, modelNSpline );
         return;
       }
 
       ModelLine modelLine = modelCurve as ModelLine;
-      if ( modelLine != null )
+      if( modelLine != null )
       {
         Stream( data, modelLine );
         return;
@@ -2171,18 +2171,18 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Bool( "Is locked", dim.IsLocked ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Is locked", ex ) );
       }
 
-      if ( dim.Document.IsFamilyDocument )
+      if( dim.Document.IsFamilyDocument )
       {
         try
         {
           data.Add( new Snoop.Data.Object( "Label", dim.FamilyLabel ) );
         }
-        catch ( System.Exception ex )
+        catch( System.Exception ex )
         {
           data.Add( new Snoop.Data.Exception( "Label", ex ) );
         }
@@ -2194,7 +2194,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.String( "Suffix", dim.Suffix ) );
       data.Add( new Snoop.Data.Enumerable( "Segments", dim.Segments ) );
       data.Add( new Snoop.Data.Xyz( "Text Position", dim.TextPosition ) );
-      if ( dim.Value != null )
+      if( dim.Value != null )
         data.Add( new Snoop.Data.Double( "Value", dim.Value.Value ) );
       data.Add( new Snoop.Data.String( "Value Override", dim.ValueOverride ) );
       data.Add( new Snoop.Data.String( "Value string", dim.ValueString ) );
@@ -2204,7 +2204,7 @@ namespace RevitLookup.Snoop.CollectorExts
       // TBD: Name overridden but doesn't appear to have correct keywords
 
       SpotDimension spotDim = dim as SpotDimension;
-      if ( spotDim != null )
+      if( spotDim != null )
       {
         Stream( data, spotDim );
         return;
@@ -2239,7 +2239,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.CategorySeparator( "Bar Descriptions" ) );
       System.Collections.Generic.IList<ElementId> rebarIds = pathReinf.GetRebarInSystemIds();
       data.Add( new Snoop.Data.Int( "Number of RebarInSystem", rebarIds.Count ) );
-      for ( int i = 0; i < rebarIds.Count; i++ )
+      for( int i = 0; i < rebarIds.Count; i++ )
       {
         data.Add( new Snoop.Data.Object( string.Format( "RebarInSystem [{0:d}]", i ), pathReinf.Document.GetElement( rebarIds[i] ) ) );
       }
@@ -2301,7 +2301,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Area per person", space.AreaperPerson ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Area per person", ex ) );
       }
@@ -2314,7 +2314,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Calculated cooling load", space.CalculatedCoolingLoad ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Calculated cooling load", ex ) );
       }
@@ -2322,7 +2322,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Calculated heating load", space.CalculatedHeatingLoad ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Calculated heating load", ex ) );
       }
@@ -2330,7 +2330,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Calculated supply airflow", space.CalculatedSupplyAirflow ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Calculated supply airflow", ex ) );
       }
@@ -2346,7 +2346,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Design lighting load", space.DesignLightingLoad ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Design lighting load", ex ) );
       }
@@ -2354,7 +2354,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Design power load", space.DesignPowerLoad ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Design power load", ex ) );
       }
@@ -2369,7 +2369,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Latent heat gain per person", space.LatentHeatGainperPerson ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Latent heat gain per person", ex ) );
       }
@@ -2377,7 +2377,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Sensible heat gain per person", space.SensibleHeatGainperPerson ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Sensible heat gain per person", ex ) );
       }
@@ -2391,7 +2391,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Number of people", space.NumberofPeople ) );  // TBD: wrong came-case
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Number of people", ex ) );
       }
@@ -2458,14 +2458,14 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Enumerable( "Copy members", baseArray.GetCopiedMemberIds(), baseArray.Document ) );
 
       LinearArray linearArray = baseArray as LinearArray;
-      if ( linearArray != null )
+      if( linearArray != null )
       {
         Stream( data, linearArray );
         return;
       }
 
       RadialArray radialArray = baseArray as RadialArray;
-      if ( radialArray != null )
+      if( radialArray != null )
       {
         Stream( data, radialArray );
         return;
@@ -2507,42 +2507,42 @@ namespace RevitLookup.Snoop.CollectorExts
       catch { }
 
       Blend blend = genForm as Blend;
-      if ( blend != null )
+      if( blend != null )
       {
         Stream( data, blend );
         return;
       }
 
       Extrusion ext = genForm as Extrusion;
-      if ( ext != null )
+      if( ext != null )
       {
         Stream( data, ext );
         return;
       }
 
       Revolution rev = genForm as Revolution;
-      if ( rev != null )
+      if( rev != null )
       {
         Stream( data, rev );
         return;
       }
 
       Sweep sweep = genForm as Sweep;
-      if ( sweep != null )
+      if( sweep != null )
       {
         Stream( data, sweep );
         return;
       }
 
       Form form = genForm as Form;
-      if ( form != null )
+      if( form != null )
       {
         Stream( data, form );
         return;
       }
 
       SweptBlend sweptBlend = genForm as SweptBlend;
-      if ( sweptBlend != null )
+      if( sweptBlend != null )
       {
         Stream( data, sweptBlend );
         return;
@@ -2622,7 +2622,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Xyz( "Leader elbow", tag.LeaderElbow ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Leader elbow", ex ) );
       }
@@ -2631,7 +2631,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Xyz( "Leader end", tag.LeaderEnd ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Leader end", ex ) );
       }
@@ -2641,9 +2641,9 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ElementId( "TaggedLocalElementId", tag.TaggedLocalElementId, tag.Document ) );
       try
       {
-        if ( tag.TagText != null ) data.Add( new Snoop.Data.String( "Tag text", tag.TagText ) );
+        if( tag.TagText != null ) data.Add( new Snoop.Data.String( "Tag text", tag.TagText ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Tag text", ex ) );
       }
@@ -2662,14 +2662,14 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.ClassSeparator( typeof( SketchBase ) ) );
 
       Path3d path3d = sketchBase as Path3d;
-      if ( path3d != null )
+      if( path3d != null )
       {
         Stream( data, path3d );
         return;
       }
 
       Sketch sketch = sketchBase as Sketch;
-      if ( sketch != null )
+      if( sketch != null )
       {
         Stream( data, sketch );
         return;
@@ -2702,7 +2702,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Enumerable( "All curve loops", path3d.AllCurveLoops ) );
       data.Add( new Snoop.Data.Int( "Number of curve loops", path3d.NumCurveLoops ) );
       data.Add( new Snoop.Data.CategorySeparator( "Curve loops" ) );
-      for ( int i = 0; i < path3d.NumCurveLoops; i++ )
+      for( int i = 0; i < path3d.NumCurveLoops; i++ )
       {
         data.Add( new Snoop.Data.Object( string.Format( "Curve loop [{0:d}]", i ), path3d.get_CurveLoop( i ) ) );
       }
@@ -2724,7 +2724,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.String( "Text", textElem.Text ) );
 
       TextNote textNote = textElem as TextNote;
-      if ( textNote != null )
+      if( textNote != null )
       {
         Stream( data, textNote );
         return;
@@ -2768,7 +2768,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Gross volume", zone.GrossVolume ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Gross volume", ex ) );
       }
@@ -2778,7 +2778,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Calculated cooling load", zone.CalculatedCoolingLoad ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Calculated cooling load", ex ) );
       }
@@ -2786,7 +2786,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Calculated heating load", zone.CalculatedHeatingLoad ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Calculated heating load", ex ) );
       }
@@ -2794,7 +2794,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Calculated supply airflow", zone.CalculatedSupplyAirflow ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Calculated supply airflow", ex ) );
       }
@@ -2802,7 +2802,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Cooling air temperature", zone.CoolingAirTemperature ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Cooling air temperature", ex ) );
       }
@@ -2810,7 +2810,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Cooling set point", zone.CoolingSetPoint ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Cooling set point", ex ) );
       }
@@ -2818,7 +2818,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Dehumidification point", zone.DehumidificationSetPoint ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Dehumidification point", ex ) );
       }
@@ -2826,7 +2826,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Heating air temperature", zone.HeatingAirTemperature ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Heating air temperature", ex ) );
       }
@@ -2834,7 +2834,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Heating set point", zone.HeatingSetPoint ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Heating set point", ex ) );
       }
@@ -2844,7 +2844,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Outdoor air per area", zone.OutDoorAirPerArea ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Outdoor air per area", ex ) );
       }
@@ -2852,7 +2852,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Outdoor air per person", zone.OutDoorAirPerPerson ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Outdoor air per person", ex ) );
       }
@@ -2860,7 +2860,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Outdoor air rate per air changes per hour", zone.OutdoorAirRatePerAirChangesPerHour ) );
       }
-      catch ( System.Exception ex )
+      catch( System.Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Outdoor air rate per air changes per hour", ex ) );
       }
@@ -2893,7 +2893,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.String( "Horizontal alignment", modelTxt.HorizontalAlignment.ToString() ) );
       data.Add( new Snoop.Data.Object( "Location", modelTxt.Location ) );
       data.Add( new Snoop.Data.Object( "Model text type", modelTxt.ModelTextType ) );
-      if ( modelTxt.Document.IsFamilyDocument )
+      if( modelTxt.Document.IsFamilyDocument )
       {
         data.Add( new Snoop.Data.Object( "Sub category", modelTxt.Subcategory ) );
       }
@@ -2926,29 +2926,29 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Base equipment connector", mepSys.BaseEquipmentConnector ) );
       data.Add( new Snoop.Data.Object( "Connector manager", mepSys.ConnectorManager ) );
 
-      if ( (BuiltInCategory) ( mepSys.Category.Id.IntegerValue ) 
+      if( (BuiltInCategory) ( mepSys.Category.Id.IntegerValue )
         != BuiltInCategory.OST_ElectricalInternalCircuits )
       {
-        data.Add( new Snoop.Data.Enumerable( "Elements", 
+        data.Add( new Snoop.Data.Enumerable( "Elements",
           mepSys.Elements ) );
       }
 
       ElectricalSystem elecSys = mepSys as ElectricalSystem;
-      if ( elecSys != null )
+      if( elecSys != null )
       {
         Stream( data, elecSys );
         return;
       }
 
       MechanicalSystem mechSys = mepSys as MechanicalSystem;
-      if ( mechSys != null )
+      if( mechSys != null )
       {
         Stream( data, mechSys );
         return;
       }
 
       PipingSystem pipingSys = mepSys as PipingSystem;
-      if ( pipingSys != null )
+      if( pipingSys != null )
       {
         Stream( data, pipingSys );
         return;
@@ -3020,7 +3020,7 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Double( "Static pressure", pipingSys.GetStaticPressure() ) );
       }
-      catch ( Exception ex )
+      catch( Exception ex )
       {
         data.Add( new Snoop.Data.Exception( "Static Pressure", ex ) );
       }
@@ -3087,7 +3087,7 @@ namespace RevitLookup.Snoop.CollectorExts
       data.Add( new Snoop.Data.Object( "Definition", paramElem.GetDefinition() ) );
 
       SharedParameterElement sharedParamElem = paramElem as SharedParameterElement;
-      if ( sharedParamElem != null )
+      if( sharedParamElem != null )
       {
         Stream( data, sharedParamElem );
         return;
