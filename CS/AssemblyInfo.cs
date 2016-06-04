@@ -101,6 +101,10 @@ using System.Runtime.CompilerServices;
 // 2015-10-22 - 2016.0.0.12 - readme cleanup
 // 2016-04-04 - 2016.0.0.13 - incremented copyright year from 2015 to 2016
 // 2016-04-15 - 2017.0.0.0 - migration to Revit 2017 by manuel of sofistik
+// 2016-04-15 - 2017.0.0.1 - microscopic cleanup
+// 2016-04-19 - 2017.0.0.2 - ready for publication
+// 2016-06-04 - 2017.0.0.3 - before merging pull request #13 by awmcc90 to skip mepSys.Elements
+// 2016-06-04 - 2017.0.0.4 - merged pull request #13 by awmcc90 to skip mepSys.Elements for OST_ElectricalInternalCircuits category
 //
-[assembly: AssemblyVersion( "2017.0.0.0" )]
-[assembly: AssemblyFileVersion( "2017.0.0.0" )]
+[assembly: AssemblyVersion( "2017.0.0.4" )]
+[assembly: AssemblyFileVersion( "2017.0.0.4" )]
