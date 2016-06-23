@@ -956,9 +956,31 @@ namespace RevitLookup.Snoop.CollectorExts
       {
         data.Add( new Snoop.Data.Exception( "Width", ex ) );
       }
-      data.Add( new Snoop.Data.Double( "Level offset", mepCur.LevelOffset ) );
-      data.Add( new Snoop.Data.Object( "MEP system", mepCur.MEPSystem ) );
-      data.Add( new Snoop.Data.Object( "Reference level", mepCur.ReferenceLevel ) );
+
+        try
+        {
+            data.Add(new Snoop.Data.Double("Level offset", mepCur.LevelOffset));
+        }
+        catch (Exception ex)
+        {
+            data.Add(new Snoop.Data.Exception("Level offset", ex));
+        }
+        try
+        {
+            data.Add(new Snoop.Data.Object("MEP system", mepCur.MEPSystem));
+        }
+        catch (Exception ex)
+        {
+            data.Add(new Snoop.Data.Exception("MEP system", ex));
+        }
+        try
+        {
+            data.Add(new Snoop.Data.Object("Reference level", mepCur.ReferenceLevel));
+        }
+        catch (Exception ex)
+        {
+            data.Add(new Snoop.Data.Exception("Reference level", ex));
+        }
 
       Duct duct = mepCur as Duct;
       if( duct != null )
