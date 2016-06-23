@@ -961,7 +961,7 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.Double("Level offset", mepCur.LevelOffset));
         }
-        catch (Exception ex)
+        catch (Autodesk.Revit.Exceptions.InvalidOperationException ex)
         {
             data.Add(new Snoop.Data.Exception("Level offset", ex));
         }
@@ -969,7 +969,7 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.Object("MEP system", mepCur.MEPSystem));
         }
-        catch (Exception ex)
+        catch (Autodesk.Revit.Exceptions.InvalidOperationException ex)
         {
             data.Add(new Snoop.Data.Exception("MEP system", ex));
         }
@@ -977,7 +977,7 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             data.Add(new Snoop.Data.Object("Reference level", mepCur.ReferenceLevel));
         }
-        catch (Exception ex)
+        catch (Autodesk.Revit.Exceptions.InvalidOperationException ex)
         {
             data.Add(new Snoop.Data.Exception("Reference level", ex));
         }
