@@ -105,6 +105,7 @@ using System.Runtime.CompilerServices;
 // 2016-04-19 - 2017.0.0.2 - ready for publication
 // 2016-06-04 - 2017.0.0.3 - before merging pull request #13 by awmcc90 to skip mepSys.Elements
 // 2016-06-04 - 2017.0.0.4 - merged pull request #13 by awmcc90 to skip mepSys.Elements for OST_ElectricalInternalCircuits category
+// 2016-06-23 - 2017.0.0.5 - merged pull request #14 by Shayneham to handle exceptions snooping flex pipe and duct lacking levels etc.
 //
-[assembly: AssemblyVersion( "2017.0.0.4" )]
-[assembly: AssemblyFileVersion( "2017.0.0.4" )]
+[assembly: AssemblyVersion( "2017.0.0.5" )]
+[assembly: AssemblyFileVersion( "2017.0.0.5" )]
