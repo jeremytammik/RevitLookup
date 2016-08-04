@@ -534,7 +534,8 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\2017"		 +    <PostBuildEvent>
+ -copy "$(ProjectDir)bin\Debug\RevitLookup.dll" "$(AppData)\Autodesk\REVIT\Addins\2017"
     </PostBuildEvent>
   </PropertyGroup>
 </Project>
