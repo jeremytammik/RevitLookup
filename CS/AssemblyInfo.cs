@@ -106,6 +106,7 @@ using System.Runtime.CompilerServices;
 // 2016-06-04 - 2017.0.0.3 - before merging pull request #13 by awmcc90 to skip mepSys.Elements
 // 2016-06-04 - 2017.0.0.4 - merged pull request #13 by awmcc90 to skip mepSys.Elements for OST_ElectricalInternalCircuits category
 // 2016-06-23 - 2017.0.0.5 - merged pull request #14 by Shayneham to handle exceptions snooping flex pipe and duct lacking levels etc.
+// 2016-08-05 - 2017.0.0.6 - merged pull request #16 by @arif-hanif to add post build event to project file to copy addin manifest and dll to addins folder
 //
-[assembly: AssemblyVersion( "2017.0.0.5" )]
-[assembly: AssemblyFileVersion( "2017.0.0.5" )]
+[assembly: AssemblyVersion( "2017.0.0.6" )]
+[assembly: AssemblyFileVersion( "2017.0.0.6" )]
