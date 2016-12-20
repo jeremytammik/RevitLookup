@@ -120,12 +120,24 @@
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
+    <Reference Include="RevitAPI, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
+    <Reference Include="RevitAPIIFC, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPIIFC.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIMacros, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPIMacros.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUIMacros, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPIUIMacros.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System">
@@ -529,6 +541,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
