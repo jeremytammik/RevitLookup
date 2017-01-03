@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2016 by Autodesk, Inc. 
+// Copyright 2003-2017 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -33,7 +33,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "RevitLookup" )]
-[assembly: AssemblyCopyright( "Copyright 2003-2016 (C) Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright 2003-2017 (C) Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -109,6 +109,7 @@ using System.Runtime.CompilerServices;
 // 2016-08-05 - 2017.0.0.6 - merged pull request #16 by @arif-hanif to add post build event to project file to copy addin manifest and dll to addins folder
 // 2016-12-20 - 2017.0.0.7 - merged pull request #18 by @Andrey-Bushman to use NuGet Revit API package
 // 2016-12-20 - 2017.0.0.8 - added version number to Hello World message box
+// 2017-01-03 - 2017.0.0.9 - incremented copyright year
 //
-[assembly: AssemblyVersion( "2017.0.0.8" )]
-[assembly: AssemblyFileVersion( "2017.0.0.8" )]
+[assembly: AssemblyVersion( "2017.0.0.9" )]
+[assembly: AssemblyFileVersion( "2017.0.0.9" )]
