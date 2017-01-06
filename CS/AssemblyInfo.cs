@@ -110,6 +110,7 @@ using System.Runtime.CompilerServices;
 // 2016-12-20 - 2017.0.0.7 - merged pull request #18 by @Andrey-Bushman to use NuGet Revit API package
 // 2016-12-20 - 2017.0.0.8 - added version number to Hello World message box
 // 2017-01-03 - 2017.0.0.9 - incremented copyright year
+// 2017-01-06 - 2017.0.0.10 - merged pull from luftbanana supporting close-with-ESC to all forms by assigning the cancel button
 //
-[assembly: AssemblyVersion( "2017.0.0.9" )]
-[assembly: AssemblyFileVersion( "2017.0.0.9" )]
+[assembly: AssemblyVersion( "2017.0.0.10" )]
+[assembly: AssemblyFileVersion( "2017.0.0.10" )]
