@@ -2209,15 +2209,28 @@ namespace RevitLookup.Snoop.CollectorExts
           data.Add( new Snoop.Data.Exception( "Label", ex ) );
         }
       }
+
+      SpotDimension spotDim = dim as SpotDimension;
+
       data.Add( new Snoop.Data.Int( "Number of segments", dim.NumberOfSegments ) );
-      data.Add( new Snoop.Data.Xyz( "Leader End Position", dim.LeaderEndPosition ) );
+      if( null == spotDim )
+      {
+        // issue #19: 2017.0 crash on spot elevation
+        data.Add( new Snoop.Data.Xyz( "Leader End Position", dim.LeaderEndPosition ) );
+      }
       data.Add( new Snoop.Data.Xyz( "Origin", dim.Origin ) );
       data.Add( new Snoop.Data.String( "Prefix", dim.Prefix ) );
       data.Add( new Snoop.Data.String( "Suffix", dim.Suffix ) );
       data.Add( new Snoop.Data.Enumerable( "Segments", dim.Segments ) );
-      data.Add( new Snoop.Data.Xyz( "Text Position", dim.TextPosition ) );
+      if( null == spotDim )
+      {
+        // issue #19: 2017.0 crash on spot elevation
+        data.Add( new Snoop.Data.Xyz( "Text Position", dim.TextPosition ) );
+      }
       if( dim.Value != null )
+      {
         data.Add( new Snoop.Data.Double( "Value", dim.Value.Value ) );
+      }
       data.Add( new Snoop.Data.String( "Value Override", dim.ValueOverride ) );
       data.Add( new Snoop.Data.String( "Value string", dim.ValueString ) );
       data.Add( new Snoop.Data.Enumerable( "References", dim.References, m_activeDoc ) );
@@ -2225,7 +2238,6 @@ namespace RevitLookup.Snoop.CollectorExts
 
       // TBD: Name overridden but doesn't appear to have correct keywords
 
-      SpotDimension spotDim = dim as SpotDimension;
       if( spotDim != null )
       {
         Stream( data, spotDim );
