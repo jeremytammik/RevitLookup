@@ -125,6 +125,7 @@ namespace RevitLookup.Test.SDKSamples.AnalyticalSupportData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.m_bnOK;
             this.ClientSize = new System.Drawing.Size(677, 393);
             this.Controls.Add(this.m_dataGrid);
             this.Controls.Add(this.m_bnOK);

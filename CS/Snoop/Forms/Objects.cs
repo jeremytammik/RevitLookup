@@ -323,6 +323,7 @@ namespace RevitLookup.Snoop.Forms
       // Objects
       // 
       this.AutoScaleBaseSize = new System.Drawing.Size( 5, 13 );
+      this.CancelButton = this.m_bnOK;
       this.ClientSize = new System.Drawing.Size( 800, 492 );
       this.Controls.Add( this.toolStrip1 );
       this.Controls.Add( this.m_lvData );

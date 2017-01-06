@@ -83,6 +83,7 @@ namespace RevitLookup.Test.SDKSamples.TypeSelector {
             this.AcceptButton = this.m_bnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.m_bnOK;
             this.ClientSize = new System.Drawing.Size(642, 425);
             this.Controls.Add(this.m_txtSymbols);
             this.Controls.Add(this.m_txtElements);
