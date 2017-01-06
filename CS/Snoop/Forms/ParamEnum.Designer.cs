@@ -157,6 +157,7 @@ namespace RevitLookup.Snoop.Forms {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.m_bnOk;
             this.ClientSize = new System.Drawing.Size(613, 483);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.m_bnOk);

@@ -78,6 +78,7 @@ namespace RevitLookup.Test.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.m_btnOk;
             this.ClientSize = new System.Drawing.Size(302, 310);
             this.Controls.Add(this.m_levlv);
             this.Controls.Add(this.m_btnOk);
