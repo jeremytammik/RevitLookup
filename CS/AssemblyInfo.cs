@@ -113,6 +113,7 @@ using System.Runtime.CompilerServices;
 // 2017-01-06 - 2017.0.0.10 - merged pull #20 from @luftbanana supporting close-with-ESC to all forms by assigning the cancel button
 // 2017-01-06 - 2017.0.0.11 - fixed issue #19 raised by LeeJaeYoung spot dimension position and text position error
 // 2017-02-02 - 2017.0.0.12 - merged pull #21 from @eibre adding UnitType property on the parameter Definition class
+// 2017-02-02 - 2017.0.0.13 - whitespace
 //
-[assembly: AssemblyVersion( "2017.0.0.12" )]
-[assembly: AssemblyFileVersion( "2017.0.0.12" )]
+[assembly: AssemblyVersion( "2017.0.0.13" )]
+[assembly: AssemblyFileVersion( "2017.0.0.13" )]

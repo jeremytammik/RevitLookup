@@ -23,71 +23,74 @@
 #endregion // Header
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-
 using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 
 namespace RevitLookup
 {
 
-   [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
-   [Autodesk.Revit.Attributes.Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
-   public class App : IExternalApplication
-   {
-      static Autodesk.Revit.DB.AddInId m_appId = new Autodesk.Revit.DB.AddInId(new Guid("356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8"));
-      // get the absolute path of this assembly
-      static string ExecutingAssemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-      private AppDocEvents m_appDocEvents;
+  [Transaction( TransactionMode.Manual )]
+  [Regeneration( RegenerationOption.Manual )]
+  public class App : IExternalApplication
+  {
+    static AddInId m_appId = new AddInId( new Guid( 
+      "356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8" ) );
 
-      public Autodesk.Revit.UI.Result OnStartup(UIControlledApplication application)
-      {
+    // get the absolute path of this assembly
+    static string ExecutingAssemblyPath = System.Reflection.Assembly
+      .GetExecutingAssembly().Location;
 
-         // Call this method explicitly in App.cs when Revit starts up because 
-         // in .Net 4, the static variables will not be initialized until use them,
-         Snoop.Collectors.CollectorObj.InitializeCollectors();
-         AddMenu(application);
-         AddAppDocEvents(application.ControlledApplication);
+    private AppDocEvents m_appDocEvents;
 
-         return Autodesk.Revit.UI.Result.Succeeded;
-      }
+    public Result OnStartup( 
+      UIControlledApplication application )
+    {
 
-      public Autodesk.Revit.UI.Result OnShutdown(UIControlledApplication application)
-      {
-         RemoveAppDocEvents();
+      // Call this method explicitly in App.cs when Revit starts up because,
+      // in .NET 4, the static variables will not be initialized until use them.
+      Snoop.Collectors.CollectorObj.InitializeCollectors();
+      AddMenu( application );
+      AddAppDocEvents( application.ControlledApplication );
 
-         return Autodesk.Revit.UI.Result.Succeeded;
-      }
+      return Result.Succeeded;
+    }
 
-      private void AddMenu(UIControlledApplication app)
-      {
-         Autodesk.Revit.UI.RibbonPanel rvtRibbonPanel = app.CreateRibbonPanel("Revit Lookup");
-         PulldownButtonData data = new PulldownButtonData("Options", "Revit Lookup");
+    public Result OnShutdown( 
+      UIControlledApplication application )
+    {
+      RemoveAppDocEvents();
 
-         RibbonItem item = rvtRibbonPanel.AddItem(data);
-         PulldownButton optionsBtn = item as PulldownButton;
+      return Result.Succeeded;
+    }
 
-         optionsBtn.AddPushButton(new PushButtonData("HelloWorld", "Hello World...", ExecutingAssemblyPath, "RevitLookup.HelloWorld"));
-         optionsBtn.AddPushButton(new PushButtonData("Snoop Db..", "Snoop DB...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopDb"));
-         optionsBtn.AddPushButton(new PushButtonData("Snoop Current Selection...", "Snoop Current Selection...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScope"));
-         optionsBtn.AddPushButton(new PushButtonData("Snoop Active View...", "Snoop Active View...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopActiveView"));
-         optionsBtn.AddPushButton(new PushButtonData("Snoop Application...", "Snoop Application...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopApp"));
-         optionsBtn.AddPushButton(new PushButtonData("Test Framework...", "Test Framework...", ExecutingAssemblyPath, "RevitLookup.CmdTestShell"));
-         optionsBtn.AddPushButton(new PushButtonData("Events...", "Events...", ExecutingAssemblyPath, "RevitLookup.CmdEvents"));
-      }
+    private void AddMenu( UIControlledApplication app )
+    {
+      RibbonPanel rvtRibbonPanel = app.CreateRibbonPanel( "Revit Lookup" );
+      PulldownButtonData data = new PulldownButtonData( "Options", "Revit Lookup" );
 
-      private void AddAppDocEvents(Autodesk.Revit.ApplicationServices.ControlledApplication app)
-      {
-         m_appDocEvents = new AppDocEvents(app);
-         m_appDocEvents.EnableEvents();
-      }
+      RibbonItem item = rvtRibbonPanel.AddItem( data );
+      PulldownButton optionsBtn = item as PulldownButton;
 
-      private void RemoveAppDocEvents()
-      {
-         m_appDocEvents.DisableEvents();
-      }
-   }
+      optionsBtn.AddPushButton( new PushButtonData( "HelloWorld", "Hello World...", ExecutingAssemblyPath, "RevitLookup.HelloWorld" ) );
+      optionsBtn.AddPushButton( new PushButtonData( "Snoop Db..", "Snoop DB...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopDb" ) );
+      optionsBtn.AddPushButton( new PushButtonData( "Snoop Current Selection...", "Snoop Current Selection...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScope" ) );
+      optionsBtn.AddPushButton( new PushButtonData( "Snoop Active View...", "Snoop Active View...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopActiveView" ) );
+      optionsBtn.AddPushButton( new PushButtonData( "Snoop Application...", "Snoop Application...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopApp" ) );
+      optionsBtn.AddPushButton( new PushButtonData( "Test Framework...", "Test Framework...", ExecutingAssemblyPath, "RevitLookup.CmdTestShell" ) );
+      optionsBtn.AddPushButton( new PushButtonData( "Events...", "Events...", ExecutingAssemblyPath, "RevitLookup.CmdEvents" ) );
+    }
+
+    private void AddAppDocEvents( ControlledApplication app )
+    {
+      m_appDocEvents = new AppDocEvents( app );
+      m_appDocEvents.EnableEvents();
+    }
+
+    private void RemoveAppDocEvents()
+    {
+      m_appDocEvents.DisableEvents();
+    }
+  }
 }
