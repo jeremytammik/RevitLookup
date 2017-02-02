@@ -174,6 +174,7 @@ namespace RevitLookup.Snoop.CollectorExts
             data.Add(new Snoop.Data.String("Name", paramDef.Name));
             data.Add(new Snoop.Data.String("Parameter type", paramDef.ParameterType.ToString()));
             data.Add(new Snoop.Data.String("Parameter group", paramDef.ParameterGroup.ToString()));
+	    data.Add(new Snoop.Data.String("Unit type", paramDef.UnitType.ToString()));
 
 			ExternalDefinition extDef = paramDef as ExternalDefinition;
 			if (extDef != null) {
