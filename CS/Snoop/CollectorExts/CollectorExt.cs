@@ -52,7 +52,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 m_activeDoc = m_app.ActiveUIDocument.Document;
             }
 		}
-		
+
         protected abstract void
         CollectEvent(object sender, Snoop.Collectors.CollectorEventArgs e);
 

@@ -27,32 +27,16 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.Collections;
-using System.Reflection;
-using System.Text.RegularExpressions;
-
-using Autodesk.Revit.DB;
-using System.Collections.Generic;
 
 namespace RevitLookup.Snoop
 {
-   /// <summary>
-   /// Utility functions to use in the Snoop dialog mechanism.
-   /// </summary>
+
    public class Utils
    {
       public Utils()
       {
-      }
 
-      /// <summary>
-      /// Given a ListView to display the data in, clear it out and add all the
-      /// data that has been collected.  For things that have a DrillDown, change
-      /// the font to Bold so the user knows they can select it.  For things that
-      /// are a Separator, change the background color.
-      /// </summary>
-      /// <param name="lvCur">The ListView UI control to draw into</param>
-      /// <param name="snoopCollector">The collected data about an object</param>
+      }
 
       public static void
       Display(ListView lvCur, Snoop.Collectors.Collector snoopCollector)
@@ -107,12 +91,6 @@ namespace RevitLookup.Snoop
          lvCur.EndUpdate();
       }
 
-      /// <summary>
-      /// A Snoop.Data item was selected in the ListView. Call its DrillDown() function to 
-      /// get more detailed info about it.
-      /// </summary>
-      /// <param name="lvCur">The ListView control in question</param>
-
       public static void
       DataItemSelected(ListView lvCur)
       {
@@ -124,11 +102,6 @@ namespace RevitLookup.Snoop
             tmpSnoopData.DrillDown();
          }
       }
-
-      /// <summary>
-      /// Given an Object, allow the user to browse its properties based on Reflection only.
-      /// </summary>
-      /// <param name="obj">Object to browse</param>
 
       public static void
       BrowseReflection(Object obj)
@@ -143,14 +116,6 @@ namespace RevitLookup.Snoop
          pgForm.Text = string.Format("Object Data (System.Type = {0})", obj.GetType().FullName);
          pgForm.ShowDialog();
       }
-
-      /// <summary>
-      /// Format a type string to represent a given object.  If it is an Element, we try to get some
-      /// extra information that may be useful, such as the Name and the ElementId.  If it isn't an Element
-      /// then just print out
-      /// </summary>
-      /// <param name="obj">Object to label</param>
-      /// <returns>The formatted type string</returns>
 
       public static string
         ObjToTypeStr(System.Object obj)
@@ -167,13 +132,6 @@ namespace RevitLookup.Snoop
 
          return string.Format("< {0} >", obj.GetType().Name);
       }
-
-      /// <summary>
-      /// Same as above, but this is used when we are already grouping the objects by Type in 
-      /// a TreeCtrl.  Including the Type name would be redundant.
-      /// </summary>
-      /// <param name="obj">Object to label</param>
-      /// <returns>The formatted type string</returns>
 
       public static string
         ObjToLabelStr(System.Object obj)
@@ -200,12 +158,6 @@ namespace RevitLookup.Snoop
          return string.Format("< {0} >", obj.GetType().Name);
       }
 
-
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="node"></param>
-      /// <param name="lv"></param>
       public static void
       CopyToClipboard(ListView lv)
       {
@@ -262,10 +214,6 @@ namespace RevitLookup.Snoop
          }
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="lvItem"></param>
       public static void
       CopyToClipboard(ListViewItem lvItem, Boolean multipleItems)
       {
@@ -287,17 +235,6 @@ namespace RevitLookup.Snoop
 
       }
 
-
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="node"></param>
-      /// <param name="lv"></param>
-      /// <param name="e"></param>
-      /// <param name="maxFieldWidth"></param>
-      /// <param name="maxValueWidth"></param>
-      /// <param name="currentItem"></param>
-      /// <returns></returns>
       public static Int32
       Print(String title, ListView lv, System.Drawing.Printing.PrintPageEventArgs e, Int32 maxFieldWidth, Int32 maxValueWidth, Int32 currentItem)
       {
@@ -385,11 +322,6 @@ namespace RevitLookup.Snoop
          return currentItem;
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="ha"></param>
-      /// <returns></returns>
       public static StringAlignment
       HorizontalAlignmentToStringAligment(HorizontalAlignment ha)
       {
@@ -406,12 +338,6 @@ namespace RevitLookup.Snoop
          }
       }
 
-
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="lv"></param>
-      /// <returns></returns>
       public static Int32[]
       GetMaximumColumnWidths(ListView lv)
       {
@@ -448,11 +374,6 @@ namespace RevitLookup.Snoop
          return widthArray;
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="node"></param>
-      /// <returns></returns>
       public static TreeNode
       GetRootNode(TreeNode node)
       {
@@ -463,11 +384,6 @@ namespace RevitLookup.Snoop
          return GetRootNode(node.Parent);
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="node"></param>
-      /// <returns></returns>
       public static String
       GetPrintDocumentName(TreeNode node)
       {
@@ -481,13 +397,6 @@ namespace RevitLookup.Snoop
          return String.Empty;
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="doc"></param>
-      /// <param name="tv"></param>
-      /// <param name="lv"></param>
-      /// <param name="widthArray"></param>
       public static void
       UpdatePrintSettings(PrintDocument doc, TreeView tv, ListView lv, ref Int32[] widthArray)
       {
@@ -499,26 +408,12 @@ namespace RevitLookup.Snoop
          widthArray = Utils.GetMaximumColumnWidths(lv);
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="doc"></param>
-      /// <param name="tv"></param>
-      /// <param name="lv"></param>
-      /// <param name="widthArray"></param>
       public static void
       UpdatePrintSettings(ListView lv, ref Int32[] widthArray)
       {
          widthArray = Utils.GetMaximumColumnWidths(lv);
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="dlg"></param>
-      /// <param name="doc"></param>
-      /// <param name="tv"></param>
-      /// <param name="lv"></param>
       public static void
       PrintMenuItemClick(PrintDialog dlg, TreeView tv)
       {
@@ -534,25 +429,12 @@ namespace RevitLookup.Snoop
          }
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="dlg"></param>
-      /// <param name="doc"></param>
-      /// <param name="tv"></param>
-      /// <param name="lv"></param>
       public static void
       PrintMenuItemClick(PrintDialog dlg)
       {
          dlg.Document.Print();
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="dlg"></param>
-      /// <param name="doc"></param>
-      /// <param name="tv"></param>
       public static void
       PrintPreviewMenuItemClick(PrintPreviewDialog dlg, TreeView tv)
       {
@@ -565,171 +447,10 @@ namespace RevitLookup.Snoop
          dlg.ShowDialog(tv.Parent);
       }
 
-      /// <summary>
-      /// 
-      /// </summary>
-      /// <param name="dlg"></param>
-      /// <param name="doc"></param>
-      /// <param name="tv"></param>
       public static void
       PrintPreviewMenuItemClick(PrintPreviewDialog dlg, ListView lv)
       {
          dlg.ShowDialog(lv.Parent);
-      }
-
-      /// <summary>
-      /// Check if the object type is KeyValuePair.
-      /// </summary>
-      /// <param name="o"></param>
-      /// <returns></returns>
-      public static bool IsKeyValuePair(object o)
-      {
-         Type type = o.GetType();
-         if (type.IsGenericType)
-         {
-            return type.GetGenericTypeDefinition() != null ? type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>) : false;
-         }
-         return false;
-      }
-
-      /// <summary>
-      /// Check if the given instance is the basic types we supported.
-      /// </summary>
-      /// <param name="value"></param>
-      /// <returns></returns>
-      public static bool IsSupportedType(Object value)
-      {
-         if ((value is XYZ) || (value is Boolean) || (value is Double) ||
-            (value is String) || (value is IEnumerable) || (value is Enum) ||
-            (value is int) || (value is UV) || (IsKeyValuePair(value)))
-            return true;
-         else
-            return false;
-      }
-
-      /// <summary>
-      /// Stream the property with reflection.
-      /// </summary>
-      /// <param name="data"></param>
-      /// <param name="instance"></param>
-      public static void 
-      StreamWithReflection(ArrayList data, Type type, Object instance)
-      {
-         if (data == null || type == null || instance == null)
-            return;
-
-         // solve the basic types directly.
-         if (IsSupportedType(instance))
-         {
-            AppendThePropertyObject(data, type.Name, instance);
-            return;
-         }
-
-         data.Add(new Snoop.Data.ClassSeparator(type));
-
-         // is there a get property requires a transaction to modify the model.
-         PropertyInfo[] connectorTypeProps = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
-         foreach (PropertyInfo pi in connectorTypeProps)
-         {
-            MethodInfo methodInfo = pi.GetGetMethod();
-            if (pi.CanRead && pi.GetIndexParameters().Length == 0
-               && methodInfo.DeclaringType == type)
-            {
-               String propertyName = pi.Name;
-               var r = new Regex(@"(?<=[A-Z])(?=[A-Z][a-z])|(?<=[^A-Z])(?=[A-Z])|(?<=[A-Za-z])(?=[^A-Za-z])"
-                  , RegexOptions.IgnorePatternWhitespace);
-               propertyName = r.Replace(propertyName, " ");
-               try
-               {
-                  Object value = pi.GetValue(instance, null);
-                  Utils.AppendThePropertyObject(data, propertyName, value);
-               }
-               catch (System.Reflection.TargetInvocationException tix)
-               {
-                  data.Add(new Snoop.Data.Exception(propertyName, tix.InnerException));
-               }
-               catch (System.Exception ex)
-               {
-                  data.Add(new Snoop.Data.Exception(propertyName, ex));
-               }
-            }
-         }
-
-         MethodInfo[] methodInfos = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
-         foreach (MethodInfo methodInfo in methodInfos)
-         {
-            if ( !methodInfo.IsSpecialName // is a property or operator override.
-               && methodInfo.GetParameters().Length == 0 // skip the methods with arguments.
-               && methodInfo.DeclaringType == type // skip the methods declare in base classes.
-               && methodInfo.ReturnType != typeof(void) // skip the methods without return type.
-
-               )
-            {
-               String propertyName = methodInfo.Name;
-               var r = new Regex(@"(?<=[A-Z])(?=[A-Z][a-z])|(?<=[^A-Z])(?=[A-Z])|(?<=[A-Za-z])(?=[^A-Za-z])"
-                  , RegexOptions.IgnorePatternWhitespace);
-               propertyName = r.Replace(propertyName, " ");
-
-               // only the get methods are allowed here.
-               if(!propertyName.StartsWith("Get"))
-                  continue;
-               try
-               {
-                  Object value = methodInfo.Invoke(instance, null);
-                  Utils.AppendThePropertyObject(data, propertyName, value);
-               }
-               catch (System.Reflection.TargetInvocationException tix)
-               {
-                  data.Add(new Snoop.Data.Exception(propertyName, tix.InnerException));
-               }
-               catch (System.Exception ex)
-               {
-                  data.Add(new Snoop.Data.Exception(propertyName, ex));
-               }
-            }
-         }
-      }
-
-
-      public static void
-      AppendThePropertyObject(ArrayList data, String propertyName, Object value)
-      {
-         if(value == null)
-            data.Add(new Snoop.Data.Object(propertyName, null));
-         else if (value is XYZ)
-            data.Add(new Snoop.Data.Xyz(propertyName, value as XYZ));
-         else if (value is Boolean)
-            data.Add(new Snoop.Data.Bool(propertyName, (Boolean)value));
-         //else if (value is ElementId)
-         //   data.Add(new Snoop.Data.ElementId(propertyName, value as ElementId, null));
-         else if (value is Double)
-            data.Add(new Snoop.Data.Double(propertyName, (Double)value));
-         else if (value is String)
-            data.Add(new Snoop.Data.String(propertyName, value as String));
-         else if (value is IEnumerable)
-            data.Add(new Snoop.Data.Enumerable(propertyName, value as IEnumerable));
-         else if (value is Enum)
-            data.Add(new Snoop.Data.String(propertyName, value.ToString()));
-         else if (value is int)
-            data.Add(new Snoop.Data.Int(propertyName, (int)value));
-         else if (value is UV)
-            data.Add(new Snoop.Data.Uv(propertyName, value as UV));
-         else if (IsKeyValuePair(value))
-         {
-            Type type = value.GetType();
-            PropertyInfo propInfo = type.GetProperty("Key");
-            Object propValue = propInfo.GetValue(value, null);
-            AppendThePropertyObject(data, propInfo.Name, propValue);
-
-            propInfo = type.GetProperty("Value");
-            propValue = propInfo.GetValue(value, null);
-            AppendThePropertyObject(data, propInfo.Name, propValue);
-         }
-         else
-         {
-            if(propertyName.ToLower().CompareTo(value.GetType().FullName.ToLower()) != 0)
-               data.Add(new Snoop.Data.Object(propertyName, value));
-         }
       }
 
    }

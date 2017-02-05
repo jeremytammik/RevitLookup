@@ -39,19 +39,6 @@ namespace RevitLookup.Snoop.Collectors
       // but there is no static global initialization for the whole module.  So, I'm faking it here
       // by having a static on this class. (jma - 04/14/05)
       public static CollectorExts.CollectorExtElement m_colExtElement;
-      public static CollectorExts.CollectorExtSymbol m_colExtSymbol;
-      public static CollectorExts.CollectorExtDoc m_colExtDoc;
-      public static CollectorExts.CollectorExtParams m_colExtParams;
-      public static CollectorExts.CollectorExtApp m_colExtApp;
-      public static CollectorExts.CollectorExtGeom m_colExtGeom;
-      public static CollectorExts.CollectorExtStructural m_colExtStruct;
-      public static CollectorExts.CollectorExtMisc m_colExtMisc;
-      public static CollectorExts.CollectorExtSite m_colExtSite;
-      public static CollectorExts.CollectorExtMEP m_colExtMEP;
-      public static CollectorExts.CollectorExtEditor m_colExtEditor;
-      public static CollectorExts.CollectorExtAreas m_colExtAreas;
-      public static CollectorExts.CollectorExtRooms m_colExtRooms;
-      public static CollectorExts.CollectorExtCreation m_colExtCreation;
 
       public static bool IsInitialized = false;
 
@@ -70,19 +57,7 @@ namespace RevitLookup.Snoop.Collectors
          if (!IsInitialized)
          {
             m_colExtElement = new CollectorExts.CollectorExtElement();
-            m_colExtSymbol = new CollectorExts.CollectorExtSymbol();
-            m_colExtDoc = new CollectorExts.CollectorExtDoc();
-            m_colExtParams = new CollectorExts.CollectorExtParams();
-            m_colExtApp = new CollectorExts.CollectorExtApp();
-            m_colExtGeom = new CollectorExts.CollectorExtGeom();
-            m_colExtStruct = new CollectorExts.CollectorExtStructural();
-            m_colExtMisc = new CollectorExts.CollectorExtMisc();
-            m_colExtSite = new CollectorExts.CollectorExtSite();
-            m_colExtMEP = new CollectorExts.CollectorExtMEP();
-            m_colExtEditor = new CollectorExts.CollectorExtEditor();
-            m_colExtAreas = new CollectorExts.CollectorExtAreas();
-            m_colExtRooms = new CollectorExts.CollectorExtRooms();
-            m_colExtCreation = new CollectorExts.CollectorExtCreation();
+
             IsInitialized = true;
             System.Diagnostics.Trace.WriteLine("Initialized");
          }
@@ -104,24 +79,7 @@ namespace RevitLookup.Snoop.Collectors
          if (obj == null)
             return;
 
-         APIObject tmpObj = obj as APIObject;
-         if (tmpObj != null)
-            Stream(tmpObj);
-
-         // now that we've collected all the data that we know about,
-         // fire an event to any registered Snoop Collector Extensions so
-         // they can add their data
          FireEvent_CollectExt(obj);
-      }
-
-      private void
-      Stream(APIObject obj)
-      {
-         m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(APIObject)));
-
-         m_dataObjs.Add(new Snoop.Data.Bool("Is read-only", obj.IsReadOnly));
-
-         // derived classes will get picked up by CollectorExts
       }
 
    }
