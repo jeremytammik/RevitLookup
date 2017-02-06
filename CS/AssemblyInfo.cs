@@ -114,6 +114,7 @@ using System.Runtime.CompilerServices;
 // 2017-01-06 - 2017.0.0.11 - fixed issue #19 raised by LeeJaeYoung spot dimension position and text position error
 // 2017-02-02 - 2017.0.0.12 - merged pull #21 from @eibre adding UnitType property on the parameter Definition class
 // 2017-02-02 - 2017.0.0.13 - whitespace
+// 2017-02-06 - 2017.0.0.14 - merged pull request #22 from awmcc90 drastic changes implementing object inspection via reflection and cross-version compatibility
 //
-[assembly: AssemblyVersion( "2017.0.0.13" )]
-[assembly: AssemblyFileVersion( "2017.0.0.13" )]
+[assembly: AssemblyVersion( "2017.0.0.14" )]
+[assembly: AssemblyFileVersion( "2017.0.0.14" )]
