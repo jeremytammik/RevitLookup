@@ -120,24 +120,12 @@
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="RevitAPI, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPI.dll</HintPath>
+    <Reference Include="RevitAPI">
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIIFC, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPIIFC.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIMacros, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPIMacros.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUI, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="RevitAPIUIMacros, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\Revit-2017x64.Base.2.0.0\lib\net452\RevitAPIUIMacros.dll</HintPath>
+    <Reference Include="RevitAPIUI">
+      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System">
@@ -169,24 +157,17 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ColumnSorter.cs" />
     <Compile Include="EventTrack\Events\DocEvents.cs" />
     <Compile Include="Graphics\GraphicsStream.cs" />
     <Compile Include="Graphics\GraphicsStreamDwg.cs" />
-    <Compile Include="Graphics\GraphicsStreamRevit.cs" />
     <Compile Include="HostApp.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Snoop\CollectorExts\CollectorExtAreas.cs" />
-    <Compile Include="Snoop\CollectorExts\CollectorExtCreation.cs" />
-    <Compile Include="Snoop\CollectorExts\CollectorExtEditor.cs" />
-    <Compile Include="Snoop\CollectorExts\CollectorExtMEP.cs" />
-    <Compile Include="Snoop\CollectorExts\CollectorExtRooms.cs" />
-    <Compile Include="Snoop\CollectorExts\CollectorExtSite.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Snoop\Data\MemberSeparator.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,18 +177,6 @@
     <Compile Include="Snoop\Forms\ParamEnumSnoop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Test\EStorageSchemaDefinitions\EStorageBundle1.cs" />
-    <Compile Include="Test\EStorageSchemaDefinitions\EStorageBundle2.cs" />
-    <Compile Include="Test\ExIm\BrowseCategory.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\ExIm\BrowseCategory.Designer.cs">
-      <DependentUpon>BrowseCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\ExIm\Importer.cs" />
-    <Compile Include="Test\ExIm\ImportErrorLogger.cs" />
-    <Compile Include="Test\ExIm\XmlMapBuilder.cs" />
-    <Compile Include="Test\ExIm\XmlSchemaBuilder.cs" />
     <Compile Include="GeomUtils.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -236,26 +205,7 @@
     <Compile Include="Snoop\CollectorExts\CollectorExt.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Snoop\CollectorExts\CollectorExtApp.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Snoop\CollectorExts\CollectorExtDoc.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Snoop\CollectorExts\CollectorExtElement.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Snoop\CollectorExts\CollectorExtGeom.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Snoop\CollectorExts\CollectorExtMisc.cs" />
-    <Compile Include="Snoop\CollectorExts\CollectorExtParams.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Snoop\CollectorExts\CollectorExtStructural.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Snoop\CollectorExts\CollectorExtSymbol.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Snoop\Collectors\Collector.cs">
@@ -348,86 +298,7 @@
     <Compile Include="Snoop\Utils.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestCmds.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Test\Forms\Elements.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\Forms\Elements.Designer.cs">
-      <DependentUpon>Elements.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\Forms\Levels.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\Forms\Levels.designer.cs">
-      <DependentUpon>Levels.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\SDKSamples\AnalyticalSupportData\Info.cs" />
-    <Compile Include="Test\SDKSamples\AnalyticalSupportData\InfoForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\SDKSamples\AnalyticalSupportData\InfoForm.designer.cs">
-      <DependentUpon>InfoForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\SDKSamples\CreateSheet\AllViewsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\SDKSamples\CreateSheet\AllViewsForm.designer.cs">
-      <DependentUpon>AllViewsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\SDKSamples\CreateSheet\Views.cs" />
-    <Compile Include="Test\SDKSamples\ExportToExcel\Exporter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Test\SDKSamples\FireRating\ImporterExporter.cs" />
-    <Compile Include="Test\SDKSamples\FireRating\SharedParam.cs" />
-    <Compile Include="Test\SDKSamples\LevelProperties\LevelsCommand.cs" />
-    <Compile Include="Test\SDKSamples\LevelProperties\LevelsDataSource.cs" />
-    <Compile Include="Test\SDKSamples\LevelProperties\LevelsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\SDKSamples\LevelProperties\LevelsForm.designer.cs">
-      <DependentUpon>LevelsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\SDKSamples\SDKTestFuncs.cs" />
-    <Compile Include="Test\SDKSamples\SharedParams\Create.cs" />
-    <Compile Include="Test\SDKSamples\StructuralSample\StructSample.cs" />
-    <Compile Include="Test\SDKSamples\TypeSelector\TypeSelectorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\SDKSamples\TypeSelector\TypeSelectorForm.Designer.cs">
-      <DependentUpon>TypeSelectorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test\TestApplication.cs" />
-    <Compile Include="Test\TestDocument.cs" />
-    <Compile Include="Test\TestElements.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Test\TestEStorage.cs" />
-    <Compile Include="Test\TestFramework\RvtMgdDbgTestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test\TestFramework\RvtMgdDbgTestFuncInfo.cs" />
-    <Compile Include="Test\TestFramework\RvtMgdDbgTestFuncs.cs" />
-    <Compile Include="Test\TestGraphicsStream.cs" />
-    <Compile Include="Test\TestUi.cs" />
-    <Compile Include="Test\TestGeometry.cs" />
-    <Compile Include="Test\TestImportExport.cs" />
-    <Compile Include="Test\Tower.cs" />
-    <Compile Include="Utils\ColumnSorter.cs" />
-    <Compile Include="Utils\Convert.cs" />
-    <Compile Include="Utils\Dwg.cs" />
-    <Compile Include="Utils\Elements.cs" />
-    <Compile Include="Utils\FamilyUtil.cs" />
-    <Compile Include="Utils\Geometry.cs" />
-    <Compile Include="Utils\ParamUtil.cs" />
-    <Compile Include="Utils\Selection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\StrElementIdPair.cs" />
-    <Compile Include="Utils\UserInput.cs" />
-    <Compile Include="Utils\View.cs" />
+    <Compile Include="TestCmds.cs" />
     <Compile Include="Xml\Forms\Dom.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -442,10 +313,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Snoop\Forms\ParamEnumSnoop.resx">
       <DependentUpon>ParamEnumSnoop.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\ExIm\BrowseCategory.resx">
-      <DependentUpon>BrowseCategory.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="EventTrack\Forms\EventsForm.resx">
@@ -466,34 +333,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Snoop\Forms\Parameters.resx">
       <DependentUpon>Parameters.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\Forms\Elements.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Elements.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\Forms\Levels.resx">
-      <DependentUpon>Levels.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\SDKSamples\AnalyticalSupportData\InfoForm.resx">
-      <DependentUpon>InfoForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\SDKSamples\CreateSheet\AllViewsForm.resx">
-      <DependentUpon>AllViewsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\SDKSamples\LevelProperties\LevelsForm.resx">
-      <DependentUpon>LevelsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\SDKSamples\TypeSelector\TypeSelectorForm.resx">
-      <DependentUpon>TypeSelectorForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Test\TestFramework\RvtMgdDbgTestForm.resx">
-      <DependentUpon>RvtMgdDbgTestForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Xml\Forms\Dom.resx">
