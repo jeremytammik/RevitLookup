@@ -138,10 +138,17 @@ namespace RevitLookup.Snoop.CollectorExts
 
                 AddDataFromTypeInfo(pi, propertyType, propertyValue, elem, data);
             }
-            catch (Exception ex)
+            catch (TargetException ex)
             {
-                // Probably is that this specific element doesn't have the property - ignore
-                //data.Add(new Snoop.Data.Exception(pi.Name, ex));
+                data.Add(new Snoop.Data.Exception(pi.Name, ex));
+            }
+            catch (TargetInvocationException ex)
+            {
+                data.Add(new Snoop.Data.Exception(pi.Name, ex));
+            }
+            catch (TargetParameterCountException ex)
+            {
+                data.Add(new Snoop.Data.Exception(pi.Name, ex));
             }
         }
 
@@ -154,10 +161,17 @@ namespace RevitLookup.Snoop.CollectorExts
                 var returnValue = mi.Invoke(elem, new object[0]);
                 AddDataFromTypeInfo(mi, methodType, returnValue, elem, data);
             }
-            catch (Exception ex)
+            catch (TargetException ex)
             {
-                //Probably is that this specific element doesn't have the method - ignore
-                //data.Add(new Snoop.Data.Exception(mi.Name, ex));
+                data.Add(new Snoop.Data.Exception(mi.Name, ex));
+            }
+            catch (TargetInvocationException ex)
+            {
+                data.Add(new Snoop.Data.Exception(mi.Name, ex));
+            }
+            catch (TargetParameterCountException ex)
+            {
+                data.Add(new Snoop.Data.Exception(mi.Name, ex));
             }
         }
 
