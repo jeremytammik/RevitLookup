@@ -41,4 +41,17 @@ namespace RevitLookup.Snoop.Data
 
         }
     }
+
+    public class MemberSeparatorWithOffset : MemberSeparator
+    {
+        public MemberSeparatorWithOffset(string val)
+            : base(val)
+        {
+        }
+
+        override public string StrValue()
+        {
+            return string.Format("  --- {0} ---", name);
+        }
+    }
 }

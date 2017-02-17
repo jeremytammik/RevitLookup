@@ -83,7 +83,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 List<string> currentTypeProperties = new List<string>();
                 List<string> currentTypeMethods = new List<string>();
 
-                if (properties.Length > 0) data.Add(new Snoop.Data.MemberSeparator("PROPERTIES"));
+                if (properties.Length > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Properties"));
 
                 foreach (PropertyInfo pi in properties)
                 {
@@ -95,7 +95,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
                 seenProperties.AddRange(currentTypeProperties);
 
-                if (methods.Length > 0) data.Add(new Snoop.Data.MemberSeparator("METHODS"));
+                if (methods.Length > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Methods"));
 
                 foreach (MethodInfo mi in methods)
                 {
