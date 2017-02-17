@@ -251,13 +251,19 @@ namespace RevitLookup.Snoop.CollectorExts
 
         private PropertyInfo[] GetElementProperties(Type type)
         {
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.GetMethod != null).ToArray();
+            return type
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                .Where(x => x.GetMethod != null)
+                .ToArray();
         }
 
         private MethodInfo[] GetElementMethods(Type type)
         {
-            MethodInfo[] mInfo = type.GetMethods().Where(x => x.GetParameters().Count() == 0
-            && x.ReturnType != typeof(void))
+            MethodInfo[] mInfo = type
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                .Where(x => !x.GetParameters().Any()
+                       && x.ReturnType != typeof(void)
+                       && !x.IsSpecialName)
             .ToArray();
 
             return mInfo;
