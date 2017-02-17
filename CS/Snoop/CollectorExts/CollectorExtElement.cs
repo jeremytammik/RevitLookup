@@ -150,9 +150,9 @@ namespace RevitLookup.Snoop.CollectorExts
             {
                 data.Add(new Snoop.Data.Exception(pi.Name, ex));
             }
-        }
+    }
 
-        private void AddMethodToData(MethodInfo mi, ArrayList data, object elem)
+    private void AddMethodToData(MethodInfo mi, ArrayList data, object elem)
         {
             Type methodType = mi.ReturnType;
 
