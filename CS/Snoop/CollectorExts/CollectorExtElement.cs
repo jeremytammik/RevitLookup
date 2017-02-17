@@ -193,7 +193,7 @@ namespace RevitLookup.Snoop.CollectorExts
                     double? val = returnValue as double?;
                     data.Add(new Snoop.Data.Double(info.Name, val.Value));
                 }
-                else if (expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement))
+                else if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element)
                 {
                     data.Add(new Snoop.Data.ElementGeometry(info.Name, elem as Element, m_app.Application));
                 }
