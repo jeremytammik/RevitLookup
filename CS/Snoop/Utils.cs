@@ -61,7 +61,7 @@ namespace RevitLookup.Snoop
                if (tmpSnoopData is Snoop.Data.ClassSeparator)
                   lvItem.BackColor = System.Drawing.Color.LightBlue;
                else
-                  lvItem.BackColor = System.Drawing.Color.Khaki;
+                  lvItem.BackColor = System.Drawing.Color.WhiteSmoke;
 
                lvItem.Tag = tmpSnoopData;
                lvCur.Items.Add(lvItem);

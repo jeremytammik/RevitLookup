@@ -83,7 +83,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 List<string> currentTypeProperties = new List<string>();
                 List<string> currentTypeMethods = new List<string>();
 
-                if (properties.Length > 0) data.Add(new Snoop.Data.MemberSeparator("PROPERTIES"));
+                if (properties.Length > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Properties"));
 
                 foreach (PropertyInfo pi in properties)
                 {
@@ -95,7 +95,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
                 seenProperties.AddRange(currentTypeProperties);
 
-                if (methods.Length > 0) data.Add(new Snoop.Data.MemberSeparator("METHODS"));
+                if (methods.Length > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Methods"));
 
                 foreach (MethodInfo mi in methods)
                 {
@@ -193,7 +193,7 @@ namespace RevitLookup.Snoop.CollectorExts
                     double? val = returnValue as double?;
                     data.Add(new Snoop.Data.Double(info.Name, val.Value));
                 }
-                else if (expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement))
+                else if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element)
                 {
                     data.Add(new Snoop.Data.ElementGeometry(info.Name, elem as Element, m_app.Application));
                 }
@@ -238,6 +238,10 @@ namespace RevitLookup.Snoop.CollectorExts
                 {
                     data.Add(new Snoop.Data.Xyz(info.Name, returnValue as XYZ));
                 }
+                else if (expectedType.IsEnum)
+                {
+                    data.Add(new Snoop.Data.String(info.Name, returnValue.ToString()));
+                }
                 else
                 {
                     data.Add(new Snoop.Data.Object(info.Name, returnValue as object));
@@ -251,13 +255,21 @@ namespace RevitLookup.Snoop.CollectorExts
 
         private PropertyInfo[] GetElementProperties(Type type)
         {
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(x => x.GetMethod != null).ToArray();
+            return type
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                .Where(x => x.GetMethod != null)
+                .OrderBy(x=>x.Name)
+                .ToArray();
         }
 
         private MethodInfo[] GetElementMethods(Type type)
         {
-            MethodInfo[] mInfo = type.GetMethods().Where(x => x.GetParameters().Count() == 0
-            && x.ReturnType != typeof(void))
+            MethodInfo[] mInfo = type
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                .Where(x => !x.GetParameters().Any()
+                       && x.ReturnType != typeof(void)
+                       && !x.IsSpecialName)
+                .OrderBy(x => x.Name)
             .ToArray();
 
             return mInfo;
