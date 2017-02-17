@@ -258,6 +258,7 @@ namespace RevitLookup.Snoop.CollectorExts
             return type
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
                 .Where(x => x.GetMethod != null)
+                .OrderBy(x=>x.Name)
                 .ToArray();
         }
 
@@ -268,6 +269,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 .Where(x => !x.GetParameters().Any()
                        && x.ReturnType != typeof(void)
                        && !x.IsSpecialName)
+                .OrderBy(x => x.Name)
             .ToArray();
 
             return mInfo;
