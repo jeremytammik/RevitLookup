@@ -238,6 +238,10 @@ namespace RevitLookup.Snoop.CollectorExts
                 {
                     data.Add(new Snoop.Data.Xyz(info.Name, returnValue as XYZ));
                 }
+                else if (expectedType.IsEnum)
+                {
+                    data.Add(new Snoop.Data.String(info.Name, returnValue.ToString()));
+                }
                 else
                 {
                     data.Add(new Snoop.Data.Object(info.Name, returnValue as object));
