@@ -74,6 +74,10 @@ namespace RevitLookup.Snoop.CollectorExts
                 else if (expectedType.IsEnum)
                 {
                     data.Add(new Snoop.Data.String(info.Name, returnValue.ToString()));
+                } else if (expectedType == typeof (Guid))
+                {
+                    var guidValue = (Guid) returnValue;
+                    data.Add(new Snoop.Data.String(info.Name, guidValue.ToString()));
                 }
                 else
                 {
