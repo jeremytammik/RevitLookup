@@ -27,7 +27,10 @@ using System.Linq;
 using System.Collections;
 using System.Diagnostics;
 using RevitLookup.Snoop.Collectors;
-
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.ExtensibleStorage;
+using RevitLookup.Snoop.Data;
+using String = System.String;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
@@ -74,6 +77,34 @@ namespace RevitLookup.Snoop.CollectorExts
 
                 foreach (var elementStream in streams)
                     elementStream.Stream(type);
+            }
+
+            StreamElementExtensibleStorages(data, elem as Element);
+        }
+
+        private void StreamElementExtensibleStorages(ArrayList data, Element elem)
+        {
+            var schemas = Schema.ListSchemas();
+
+            if (elem == null || !schemas.Any())
+                return;
+
+            data.Add(new Snoop.Data.ExtensibleStorageSeparator());
+
+            foreach (var schema in schemas)
+            {
+                String objectName = "Entity with Schema [" + schema.SchemaName + "]";
+                try
+                {
+                    Entity entity = elem.GetEntity(schema);
+                    if (!entity.IsValid())
+                        continue;
+                    data.Add(new Snoop.Data.Object(objectName, entity));
+                }
+                catch (System.Exception ex)
+                {
+                    data.Add(new Snoop.Data.Exception(objectName, ex));
+                }
             }
         }
     }
