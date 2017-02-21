@@ -24,13 +24,8 @@
 
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-
-using Autodesk.Revit.DB;
-
 using RevitLookup.Snoop.Collectors;
 
 
@@ -66,213 +61,16 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             var thisElementTypes = types.Where(x => elem.GetType().IsSubclassOf(x) || elem.GetType() == x || x.IsAssignableFrom(elem.GetType())).ToList();
 
-            SpatialElementBoundaryOptions ops = new SpatialElementBoundaryOptions();
-            ops.StoreFreeBoundaryFaces = true;
-            ops.SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center;
-
-            List<string> seenProperties = new List<string>();
-            List<string> seenMethods = new List<string>();
-
-            foreach (Type t in thisElementTypes)
-            {
-                var properties = GetElementProperties(t);
-                var methods = GetElementMethods(t);
-
-                data.Add(new Snoop.Data.ClassSeparator(t));
-
-                List<string> currentTypeProperties = new List<string>();
-                List<string> currentTypeMethods = new List<string>();
-
-                if (properties.Length > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Properties"));
-
-                foreach (PropertyInfo pi in properties)
+            var streams = new IElementStream[]
                 {
-                    if (seenProperties.Contains(pi.Name)) continue;
+                    new ElementPropertiesStream(m_app, data, elem),
+                    new ElementMethodsStream(m_app, data, elem),
+                    new SpatialElementStream(data, elem)
+                };
 
-                    currentTypeProperties.Add(pi.Name);
-                    AddPropertyToData(pi, data, elem);
-                }
-
-                seenProperties.AddRange(currentTypeProperties);
-
-                if (methods.Length > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Methods"));
-
-                foreach (MethodInfo mi in methods)
-                {
-                    if (seenMethods.Contains(mi.Name)) continue;
-
-                    currentTypeMethods.Add(mi.Name);
-                    AddMethodToData(mi, data, elem);
-                }
-
-                seenMethods.AddRange(currentTypeMethods);
-
-                if (t.Name == "Space" || t.Name == "SpatialElement" || t.Name == "Room")
-                    data.Add(new Snoop.Data.Object("GetBoundarySegments", (elem as SpatialElement).GetBoundarySegments(ops)));
-            }
-        }
-
-        private void AddPropertyToData(PropertyInfo pi, ArrayList data, object elem)
-        {
-            Type propertyType = pi.PropertyType;
-
-            try
-            {
-                object propertyValue;
-                if (pi.Name == "Geometry")
-                {
-                    propertyValue = pi.GetValue(elem, new object[1] { new Options() });
-                }
-                else if (pi.Name == "BoundingBox")
-                {
-                    propertyValue = pi.GetValue(elem, new object[1] { m_app.ActiveUIDocument.ActiveView });
-                }
-                else if (pi.Name == "Parameter")
-                {
-                    return;
-                }
-                else
-                {
-                    propertyValue = pi.GetValue(elem); 
-                }
-
-                AddDataFromTypeInfo(pi, propertyType, propertyValue, elem, data);
-            }
-            catch (TargetException ex)
-            {
-                data.Add(new Snoop.Data.Exception(pi.Name, ex));
-            }
-            catch (TargetInvocationException ex)
-            {
-                data.Add(new Snoop.Data.Exception(pi.Name, ex));
-            }
-            catch (TargetParameterCountException ex)
-            {
-                data.Add(new Snoop.Data.Exception(pi.Name, ex));
-            }
-    }
-
-    private void AddMethodToData(MethodInfo mi, ArrayList data, object elem)
-        {
-            Type methodType = mi.ReturnType;
-
-            try
-            {
-                var returnValue = mi.Invoke(elem, new object[0]);
-                AddDataFromTypeInfo(mi, methodType, returnValue, elem, data);
-            }
-            catch (TargetException ex)
-            {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
-            }
-            catch (TargetInvocationException ex)
-            {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
-            }
-            catch (TargetParameterCountException ex)
-            {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
-            }
-        }
-
-        private void AddDataFromTypeInfo(MemberInfo info, Type expectedType, object returnValue, object elem, ArrayList data)
-        {
-            try
-            {
-                if (expectedType == typeof(bool))
-                {
-                    bool? val = returnValue as bool?;
-                    data.Add(new Snoop.Data.Bool(info.Name, val.Value));
-                }
-                else if (expectedType == typeof(CategoryNameMap))
-                {
-                    data.Add(new Snoop.Data.CategoryNameMap(info.Name, returnValue as CategoryNameMap));
-                }
-                else if (expectedType == typeof(Double))
-                {
-                    double? val = returnValue as double?;
-                    data.Add(new Snoop.Data.Double(info.Name, val.Value));
-                }
-                else if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element)
-                {
-                    data.Add(new Snoop.Data.ElementGeometry(info.Name, elem as Element, m_app.Application));
-                }
-                else if (expectedType == typeof(ElementId))
-                {
-                    if (info.Name == "Id")
-                        data.Add(new Snoop.Data.String(info.Name, (returnValue as ElementId).IntegerValue.ToString()));
-                    else
-                        data.Add(new Snoop.Data.ElementId(info.Name, returnValue as ElementId, m_app.ActiveUIDocument.Document));
-                }
-                else if (expectedType == typeof(ElementSet))
-                {
-                    data.Add(new Snoop.Data.ElementSet(info.Name, returnValue as ElementSet));
-                }
-                else if (expectedType == typeof(IEnumerable))
-                {
-                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable));
-                }
-                else if (expectedType == typeof(int))
-                {
-                    int? val = returnValue as int?;
-                    data.Add(new Snoop.Data.Int(info.Name, val.Value));
-                }
-                else if (expectedType == typeof(int))
-                {
-                    int? val = returnValue as int?;
-                    data.Add(new Snoop.Data.Int(info.Name, val.Value));
-                }
-                else if (expectedType == typeof(ParameterSet))
-                {
-                    data.Add(new Snoop.Data.ParameterSet(info.Name, elem as Element, returnValue as ParameterSet));
-                }
-                else if (expectedType == typeof(string))
-                {
-                    data.Add(new Snoop.Data.String(info.Name, returnValue as string));
-                }
-                else if (expectedType == typeof(UV))
-                {
-                    data.Add(new Snoop.Data.Uv(info.Name, returnValue as UV));
-                }
-                else if (expectedType == typeof(XYZ))
-                {
-                    data.Add(new Snoop.Data.Xyz(info.Name, returnValue as XYZ));
-                }
-                else if (expectedType.IsEnum)
-                {
-                    data.Add(new Snoop.Data.String(info.Name, returnValue.ToString()));
-                }
-                else
-                {
-                    data.Add(new Snoop.Data.Object(info.Name, returnValue as object));
-                }
-            }
-            catch (Exception ex)
-            {
-                data.Add(new Snoop.Data.Exception(info.Name, ex));
-            }
-        }
-
-        private PropertyInfo[] GetElementProperties(Type type)
-        {
-            return type
-                .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .Where(x => x.GetMethod != null)
-                .OrderBy(x=>x.Name)
-                .ToArray();
-        }
-
-        private MethodInfo[] GetElementMethods(Type type)
-        {
-            MethodInfo[] mInfo = type
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .Where(x => !x.GetParameters().Any()
-                       && x.ReturnType != typeof(void)
-                       && !x.IsSpecialName)
-                .OrderBy(x => x.Name)
-            .ToArray();
-
-            return mInfo;
+            foreach (Type type in thisElementTypes)
+                foreach (var elementStream in streams)
+                    elementStream.Stream(type);
         }
     }
 }
