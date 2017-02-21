@@ -167,6 +167,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Snoop\CollectorExts\DataTypeInfoHelper.cs" />
+    <Compile Include="Snoop\CollectorExts\ElementMethodsStream.cs" />
+    <Compile Include="Snoop\CollectorExts\ElementPropertiesStream.cs" />
+    <Compile Include="Snoop\CollectorExts\ExtensibleStorageEntityContentStream.cs" />
+    <Compile Include="Snoop\CollectorExts\IElementStream.cs" />
+    <Compile Include="Snoop\CollectorExts\SpatialElementStream.cs" />
+    <Compile Include="Snoop\Data\ExtensibleStorageSeparator.cs" />
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">
       <SubType>Form</SubType>
