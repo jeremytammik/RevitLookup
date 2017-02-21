@@ -26,8 +26,6 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             var properties = GetElementProperties(type);
 
-            data.Add(new Snoop.Data.ClassSeparator(type));
-
             var currentTypeProperties = new List<string>();
 
             if (properties.Length > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Properties"));

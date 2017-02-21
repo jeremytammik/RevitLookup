@@ -69,8 +69,12 @@ namespace RevitLookup.Snoop.CollectorExts
                 };
 
             foreach (Type type in thisElementTypes)
+            {
+                data.Add(new Snoop.Data.ClassSeparator(type));
+
                 foreach (var elementStream in streams)
                     elementStream.Stream(type);
+            }
         }
     }
 }
