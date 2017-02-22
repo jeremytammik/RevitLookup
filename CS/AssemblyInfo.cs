@@ -117,6 +117,7 @@ using System.Runtime.CompilerServices;
 // 2017-02-06 - 2017.0.0.14 - merged pull request #22 from awmcc90 drastic changes implementing object inspection via reflection and cross-version compatibility
 // 2017-02-06 - 2017.0.0.15 - merged pull request #23 from awmcc90 to catch specific reflection invocation exceptions, not all
 // 2017-02-17 - 2017.0.0.16 - merged pull request #25 from chekalin-v: fix old bugs, significant improvements to the new reflection approach
+// 2017-02-21 - 2017.0.0.17 - merged pull request #26 from Alexander Ignatovich to restore ability to see extensible storage content
 //
-[assembly: AssemblyVersion( "2017.0.0.16" )]
-[assembly: AssemblyFileVersion( "2017.0.0.16" )]
+[assembly: AssemblyVersion( "2017.0.0.17" )]
+[assembly: AssemblyFileVersion( "2017.0.0.17" )]
