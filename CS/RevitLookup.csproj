@@ -173,6 +173,7 @@
     <Compile Include="Snoop\CollectorExts\ExtensibleStorageEntityContentStream.cs" />
     <Compile Include="Snoop\CollectorExts\IElementStream.cs" />
     <Compile Include="Snoop\CollectorExts\SpatialElementStream.cs" />
+    <Compile Include="Snoop\Data\EmptyValue.cs" />
     <Compile Include="Snoop\Data\ExtensibleStorageSeparator.cs" />
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">

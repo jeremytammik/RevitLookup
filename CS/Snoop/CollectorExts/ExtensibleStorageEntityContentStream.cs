@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autodesk.Revit.DB.ExtensibleStorage;
-using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.CollectorExts

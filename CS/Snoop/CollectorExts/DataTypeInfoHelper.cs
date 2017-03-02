@@ -21,10 +21,17 @@ namespace RevitLookup.Snoop.CollectorExts
                 {
                     data.Add(new Snoop.Data.CategoryNameMap(info.Name, returnValue as CategoryNameMap));
                 }
-                else if (expectedType == typeof(Double))
+                else if (expectedType == typeof(double))
                 {
-                    double? val = returnValue as double?;
-                    data.Add(new Snoop.Data.Double(info.Name, val.Value));
+                    data.Add(new Snoop.Data.Double(info.Name, (double)returnValue));
+                }
+                else if (expectedType == typeof(double?))
+                {
+                    var value = (double?) returnValue;
+                    if (value.HasValue)
+                        data.Add(new Snoop.Data.Double(info.Name, value.Value));
+                    else
+                        data.Add(new Snoop.Data.EmptyValue(info.Name));
                 }
                 else if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element)
                 {
@@ -40,15 +47,6 @@ namespace RevitLookup.Snoop.CollectorExts
                 else if (expectedType == typeof(ElementSet))
                 {
                     data.Add(new Snoop.Data.ElementSet(info.Name, returnValue as ElementSet));
-                }
-                else if (expectedType == typeof(IEnumerable))
-                {
-                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable));
-                }
-                else if (expectedType == typeof(int))
-                {
-                    int? val = returnValue as int?;
-                    data.Add(new Snoop.Data.Int(info.Name, val.Value));
                 }
                 else if (expectedType == typeof(int))
                 {
@@ -70,6 +68,10 @@ namespace RevitLookup.Snoop.CollectorExts
                 else if (expectedType == typeof(XYZ))
                 {
                     data.Add(new Snoop.Data.Xyz(info.Name, returnValue as XYZ));
+                }
+                else if (typeof(IEnumerable).IsAssignableFrom(expectedType))
+                {
+                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable));
                 }
                 else if (expectedType.IsEnum)
                 {
