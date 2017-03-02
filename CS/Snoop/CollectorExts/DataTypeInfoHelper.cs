@@ -21,10 +21,17 @@ namespace RevitLookup.Snoop.CollectorExts
                 {
                     data.Add(new Snoop.Data.CategoryNameMap(info.Name, returnValue as CategoryNameMap));
                 }
-                else if (expectedType == typeof(Double))
+                else if (expectedType == typeof(double))
                 {
-                    double? val = returnValue as double?;
-                    data.Add(new Snoop.Data.Double(info.Name, val.Value));
+                    data.Add(new Snoop.Data.Double(info.Name, (double)returnValue));
+                }
+                else if (expectedType == typeof(double?))
+                {
+                    var value = (double?) returnValue;
+                    if (value.HasValue)
+                        data.Add(new Snoop.Data.Double(info.Name, value.Value));
+                    else
+                        data.Add(new Snoop.Data.EmptyValue(info.Name));
                 }
                 else if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element)
                 {
