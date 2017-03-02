@@ -57,11 +57,6 @@ namespace RevitLookup.Snoop.CollectorExts
                     int? val = returnValue as int?;
                     data.Add(new Snoop.Data.Int(info.Name, val.Value));
                 }
-                else if (expectedType == typeof(int))
-                {
-                    int? val = returnValue as int?;
-                    data.Add(new Snoop.Data.Int(info.Name, val.Value));
-                }
                 else if (expectedType == typeof(ParameterSet))
                 {
                     data.Add(new Snoop.Data.ParameterSet(info.Name, elem as Element, returnValue as ParameterSet));
