@@ -48,10 +48,6 @@ namespace RevitLookup.Snoop.CollectorExts
                 {
                     data.Add(new Snoop.Data.ElementSet(info.Name, returnValue as ElementSet));
                 }
-                else if (expectedType == typeof(IEnumerable))
-                {
-                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable));
-                }
                 else if (expectedType == typeof(int))
                 {
                     int? val = returnValue as int?;
@@ -72,6 +68,10 @@ namespace RevitLookup.Snoop.CollectorExts
                 else if (expectedType == typeof(XYZ))
                 {
                     data.Add(new Snoop.Data.Xyz(info.Name, returnValue as XYZ));
+                }
+                else if (typeof(IEnumerable).IsAssignableFrom(expectedType))
+                {
+                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable));
                 }
                 else if (expectedType.IsEnum)
                 {
