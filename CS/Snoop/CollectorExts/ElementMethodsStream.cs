@@ -13,7 +13,7 @@ namespace RevitLookup.Snoop.CollectorExts
         private readonly ArrayList data;
         private readonly object elem;
         private readonly List<string> seenMethods = new List<string>();
-
+        
         public ElementMethodsStream(UIApplication application, ArrayList data, object elem)
         {
             this.application = application;
@@ -23,9 +23,11 @@ namespace RevitLookup.Snoop.CollectorExts
 
         public void Stream(Type type)
         {
-            var methods = GetElementMethods(type);
+            var methods = GetElementMethods(type)
+                .Where(x => IsValidMethod(type, x))
+                .ToList();
 
-            if (methods.Length > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Methods"));
+            if (methods.Count > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Methods"));
 
             var currentTypeMethods = new List<string>();
 
@@ -51,6 +53,18 @@ namespace RevitLookup.Snoop.CollectorExts
                 .ToArray();
 
             return mInfo;
+        }
+
+        private bool IsValidMethod(Type type, MethodInfo methodInfo)
+        {
+            var forbiddenMethods = new[]
+                {
+                    "Autodesk.Revit.DB.Document.Close"
+                };
+
+            var name = string.Format("{0}.{1}", type.FullName, methodInfo.Name);
+
+            return !forbiddenMethods.Contains(name);
         }
 
         private void AddMethodToData(MethodInfo mi)

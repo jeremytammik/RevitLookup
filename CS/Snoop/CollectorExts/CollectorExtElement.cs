@@ -26,6 +26,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Diagnostics;
+using System.IO;
 using RevitLookup.Snoop.Collectors;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
@@ -40,10 +41,19 @@ namespace RevitLookup.Snoop.CollectorExts
 
     public class CollectorExtElement : CollectorExt
     {
-        Type[] types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                        where domainAssembly.GetName().Name.ToLower().Contains("revit")
-                        from assemblyType in domainAssembly.GetTypes()
-                        select assemblyType).ToArray();
+        readonly Type[] types;
+
+        public CollectorExtElement()
+        {
+            var baseDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+
+            types = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => !x.IsDynamic)
+                .Where(x => Path.GetDirectoryName(x.Location) == baseDirectory)
+                .Where(x => x.GetName().Name.ToLower().Contains("revit"))
+                .SelectMany(x => x.GetTypes())
+                .ToArray();
+        }
 
         protected override void CollectEvent(object sender, CollectorEventArgs e)
         {
