@@ -26,6 +26,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Diagnostics;
+using System.IO;
 using RevitLookup.Snoop.Collectors;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
@@ -44,7 +45,11 @@ namespace RevitLookup.Snoop.CollectorExts
 
         public CollectorExtElement()
         {
+            var baseDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+
             types = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => !x.IsDynamic)
+                .Where(x => Path.GetDirectoryName(x.Location) == baseDirectory)
                 .Where(x => x.GetName().Name.ToLower().Contains("revit"))
                 .SelectMany(x => x.GetTypes())
                 .ToArray();
@@ -67,7 +72,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
         private void Stream(ArrayList data, object elem)
         {
-            var thisElementTypes = types.Where(x => elem.GetType().IsSubclassOf(x) || elem.GetType() == x || x.IsInstanceOfType(elem)).ToList();
+            var thisElementTypes = types.Where(x => elem.GetType().IsSubclassOf(x) || elem.GetType() == x || x.IsAssignableFrom(elem.GetType())).ToList();
 
             var streams = new IElementStream[]
                 {
