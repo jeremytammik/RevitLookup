@@ -49,7 +49,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
             types = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(x => !x.IsDynamic)
-                .Where(x => Path.GetDirectoryName(x.Location) == baseDirectory)
+                .Where(x => { try { var assmLocation = Path.GetDirectoryName(x.Location); return assmLocation == baseDirectory; } catch (System.Exception) { return false; } })
                 .Where(x => x.GetName().Name.ToLower().Contains("revit"))
                 .SelectMany(x => x.GetTypes())
                 .ToArray();
