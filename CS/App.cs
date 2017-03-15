@@ -23,6 +23,10 @@
 #endregion // Header
 
 using System;
+using System.IO;
+using System.Reflection;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -73,6 +77,10 @@ namespace RevitLookup
       RibbonItem item = rvtRibbonPanel.AddItem( data );
       PulldownButton optionsBtn = item as PulldownButton;
 
+      // Add Icons to main RevitLookup Menu
+      optionsBtn.Image = GetEmbeddedImage("RevitLookup.Resources.RLookup-16.png");
+      optionsBtn.LargeImage = GetEmbeddedImage("RevitLookup.Resources.RLookup-32.png");
+
       optionsBtn.AddPushButton( new PushButtonData( "HelloWorld", "Hello World...", ExecutingAssemblyPath, "RevitLookup.HelloWorld" ) );
       optionsBtn.AddPushButton( new PushButtonData( "Snoop Db..", "Snoop DB...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopDb" ) );
       optionsBtn.AddPushButton( new PushButtonData( "Snoop Current Selection...", "Snoop Current Selection...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScope" ) );
@@ -90,6 +98,20 @@ namespace RevitLookup
     private void RemoveAppDocEvents()
     {
       m_appDocEvents.DisableEvents();
+    }
+
+    static BitmapSource GetEmbeddedImage(string name)
+    {
+      try
+      {
+        Assembly a = Assembly.GetExecutingAssembly();
+        Stream s = a.GetManifestResourceStream(name);
+        return BitmapFrame.Create(s);
+      }
+      catch
+      {
+        return null;
+      }
     }
   }
 }

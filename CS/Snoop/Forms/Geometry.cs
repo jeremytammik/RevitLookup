@@ -123,14 +123,33 @@ namespace RevitLookup.Snoop.Forms
                 }
             }
         }
+
+    private void InitializeComponent()
+    {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Geometry));
+      this.SuspendLayout();
+      // 
+      // m_tvObjs
+      // 
+      this.m_tvObjs.LineColor = System.Drawing.Color.Black;
+      // 
+      // Geometry
+      // 
+      this.ClientSize = new System.Drawing.Size(800, 478);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+      this.Name = "Geometry";
+      this.ResumeLayout(false);
+      this.PerformLayout();
+
     }
+  }
 
 
 
 
-    //SOFiSTiK FS
+  //SOFiSTiK FS
 
-    public class OriginalGeometry : RevitLookup.Snoop.Forms.ObjTreeBase
+  public class OriginalGeometry : RevitLookup.Snoop.Forms.ObjTreeBase
     {
         protected Element m_elem = null;
         protected Autodesk.Revit.ApplicationServices.Application m_app = null;

@@ -121,12 +121,10 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -315,6 +313,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Snoop\Forms\BindingMap.resx">
+      <DependentUpon>BindingMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Snoop\Forms\Categories.resx">
+      <DependentUpon>Categories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Snoop\Forms\Geometry.resx">
+      <DependentUpon>Geometry.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Snoop\Forms\ParamEnum.resx">
       <DependentUpon>ParamEnum.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -349,6 +356,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\RLookup-32.png" />
+    <EmbeddedResource Include="Resources\RLookup-16.png" />
     <Content Include="res\COPY.ico" />
     <Content Include="res\ImageTreeClass.bmp" />
     <Content Include="res\ImageTreeTest.bmp" />

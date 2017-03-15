@@ -69,5 +69,23 @@ namespace RevitLookup.Snoop.Forms
             }
         }
 
-	}
+    private void InitializeComponent()
+    {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Categories));
+      this.SuspendLayout();
+      // 
+      // m_tvObjs
+      // 
+      this.m_tvObjs.LineColor = System.Drawing.Color.Black;
+      // 
+      // Categories
+      // 
+      this.ClientSize = new System.Drawing.Size(800, 478);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+      this.Name = "Categories";
+      this.ResumeLayout(false);
+      this.PerformLayout();
+
+    }
+  }
 }
