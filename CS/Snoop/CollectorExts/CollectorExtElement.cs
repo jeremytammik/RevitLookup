@@ -40,10 +40,15 @@ namespace RevitLookup.Snoop.CollectorExts
 
     public class CollectorExtElement : CollectorExt
     {
-        Type[] types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                        where domainAssembly.GetName().Name.ToLower().Contains("revit")
-                        from assemblyType in domainAssembly.GetTypes()
-                        select assemblyType).ToArray();
+        readonly Type[] types;
+
+        public CollectorExtElement()
+        {
+            types = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(x => x.GetName().Name.ToLower().Contains("revit"))
+                .SelectMany(x => x.GetTypes())
+                .ToArray();
+        }
 
         protected override void CollectEvent(object sender, CollectorEventArgs e)
         {
@@ -62,7 +67,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
         private void Stream(ArrayList data, object elem)
         {
-            var thisElementTypes = types.Where(x => elem.GetType().IsSubclassOf(x) || elem.GetType() == x || x.IsAssignableFrom(elem.GetType())).ToList();
+            var thisElementTypes = types.Where(x => elem.GetType().IsSubclassOf(x) || elem.GetType() == x || x.IsInstanceOfType(elem)).ToList();
 
             var streams = new IElementStream[]
                 {
