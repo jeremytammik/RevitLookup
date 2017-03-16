@@ -63,9 +63,9 @@ namespace RevitLookup.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap COPY {
+        internal static System.Drawing.Bitmap Copy {
             get {
-                object obj = ResourceManager.GetObject("COPY", resourceCulture);
+                object obj = ResourceManager.GetObject("Copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

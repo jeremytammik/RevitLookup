@@ -112,30 +112,30 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="m_cntxMenuObjId.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="m_cntxMenuObjId.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="listViewContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="listViewContextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>160, 17</value>
   </metadata>
-  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>338, 17</value>
   </metadata>
-  <metadata name="m_printDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="m_printDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>437, 17</value>
   </metadata>
-  <metadata name="m_printDocument.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="m_printDocument.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>718, 17</value>
   </metadata>
-  <metadata name="m_printPreviewDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="m_printPreviewDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>558, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="m_printPreviewDialog.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAYAICAQAAAAAADoAgAAZgAAABAQEAAAAAAAKAEAAE4DAAAgIAAAAQAIAKgIAAB2BAAAEBAAAAEA
@@ -307,6 +307,30 @@
         wP/AwMD/wMDA/8DAwP/AwMD/wMDA/8DAwP/AwMD/wMDA/8DAwP/AwMD/AAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAAgAEAALQF
         wf+0BQAAgAUAAIAFAACAAQAAgAHB/4ABAACAAQAAgAEAALwBAAC8AQAAvAHB/4ABbP///5H/
+</value>
+  </data>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAAAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAAAAAAAAAAAAAAAAAAAAA
+        AAD///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af//
+        /wH///8B////AUtGOy9GPzKBSEM3A////wH///8B////Af///wGKWT8/yKFZid/HiiP///8B7NOXKfHX
+        hH3uzIBn////Af///wFLRDlTQzoq/0U9L6f///8B////Af///wH///8Bm2lPlap4OP/StmlV////Ada5
+        bc3aq07/4rF4W////wH///8B////AUlEOV1DOir/RT0uo////wH///8B////AX9aTJeGWTD/tp9sUbij
+        cIO0fTP/1JhWmf///wH///8B////Af///wH///8BSUU5XUdANP9WVVSVVFRUN1tZVMtqX1P5dmRQ/2he
+        Uf1jVUP/qmcy6/fnzg////8B////Af///wH///8B////Af///wFWVVRPU1VZ+WpgVffOiT7/14Y0/9KH
+        Nv+/dTD/sXQ7/19ZU/99dGlb////Af///wH///8B////Af///wH///8BUVNULWhfVfXUhjX/038t/9WC
+        L//YhjD/2Ikz/86CMf/AfTn/XlpW81ZWVg////8B////Af///wH///8B////AVdUULfGhkL/1IAu/9mW
+        SP/ryZz/2K57/8J4Nf/LfDH/y38y/6t7SfFPU1dp////Af///wH///8B////Af///wFZVFHv1Yk4/9B8
+        LP/ZuJP//vXn//715//ZwKT/s2gr/8F2Mv/Ihj/rTlNXnf///wH///8B////Af///wEyMjIFWlRP8dWH
+        Nv/Mey//zKyN//715//+9ef/4863/6VeKv+wajL/y4Y75U5TV6f///8B////Af///wH///8B////AVtW
+        U9fRiTr/zXww/6R0T//fy7f/2saw/6BwT/+VViz/qWQx/8WHQ9lOU1eL////Af///wH///8B////Af//
+        /wFUVVVtm3RO79ODMf+aWi//cUQu/3RFLv+OVC7/pmQx/8+CMv9xZFblT1FTN////wH///8B////Af//
+        /wH///8B////AVFTVMW6g0ft04Y0/8d8NP/LfzT/0YAx/9eEMP+YdU/XTlFXnf///wH///8B////Af//
+        /wH///8B////Af///wFAQEARS01PsX1pVee8gkTlx4dC6baDTNdqYVfnT1NWiU1NTQP///8B////Af//
+        /wH///8B////Af///wH///8B////Af///wFTVVcxTVFXhU1RV6dPVFl5TU5QIf///wH///8B////Af//
+        /wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af///wH///8B////Af//
+        /wH///8BAAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA//8AAP//AAD//wAA
+        //8AAP//AAD//w==
 </value>
   </data>
 </root>
