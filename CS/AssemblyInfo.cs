@@ -120,6 +120,7 @@ using System.Runtime.CompilerServices;
 // 2017-02-21 - 2017.0.0.17 - merged pull request #26 from Alexander Ignatovich to restore ability to see extensible storage content
 // 2017-03-02 - 2017.0.0.18 - merged pull request #27 from @CADBIMDeveloper to display category BuiltInCategory, nullable double properties and empty lists
 // 2017-03-15 - 2017.0.0.19 - merged pull request #29 from @CADBIMDeveloper fixing bugs initialising type and opening background documents
+// 2017-03-16 - 2017.0.0.20 - merged pull request #30 from @eirannejad adding icon and exception handling
 //
-[assembly: AssemblyVersion( "2017.0.0.19" )]
-[assembly: AssemblyFileVersion( "2017.0.0.19" )]
+[assembly: AssemblyVersion( "2017.0.0.20" )]
+[assembly: AssemblyFileVersion( "2017.0.0.20" )]
