@@ -121,6 +121,7 @@ using System.Runtime.CompilerServices;
 // 2017-03-02 - 2017.0.0.18 - merged pull request #27 from @CADBIMDeveloper to display category BuiltInCategory, nullable double properties and empty lists
 // 2017-03-15 - 2017.0.0.19 - merged pull request #29 from @CADBIMDeveloper fixing bugs initialising type and opening background documents
 // 2017-03-16 - 2017.0.0.20 - merged pull request #30 from @eirannejad adding icon and exception handling
+// 2017-03-17 - 2017.0.0.21 - merged pull request #31 from @CADBIMDeveloper removing try-catch handler
 //
-[assembly: AssemblyVersion( "2017.0.0.20" )]
-[assembly: AssemblyFileVersion( "2017.0.0.20" )]
+[assembly: AssemblyVersion( "2017.0.0.21" )]
+[assembly: AssemblyFileVersion( "2017.0.0.21" )]
