@@ -123,6 +123,7 @@ using System.Runtime.CompilerServices;
 // 2017-03-16 - 2017.0.0.20 - merged pull request #30 from @eirannejad adding icon and exception handling
 // 2017-03-17 - 2017.0.0.21 - merged pull request #31 from @CADBIMDeveloper removing try-catch handler
 // 2017-03-17 - 2017.0.0.22 - added 'new' keyword to avoid warning and override inherited methods
+// 2017-03-27 - 2017.0.0.23 - dummy modification to trigger build for https://lookupbuilds.com cf. https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111
 //
-[assembly: AssemblyVersion( "2017.0.0.22" )]
-[assembly: AssemblyFileVersion( "2017.0.0.22" )]
+[assembly: AssemblyVersion( "2017.0.0.23" )]
+[assembly: AssemblyFileVersion( "2017.0.0.23" )]
