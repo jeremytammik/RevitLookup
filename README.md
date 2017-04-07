@@ -1,5 +1,7 @@
 # RevitLookup
 
+[![Build Status](https://s3-eu-west-1.amazonaws.com/lookup-builds/extra/build_status.svg)](https://lookupbuilds.com)
+
 Interactive Revit BIM database exploration tool to view and navigate element properties and relationships.
 
 Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information.
