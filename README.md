@@ -29,6 +29,10 @@ For more information, please refer to
 the [Revit API discussion forum](http://forums.autodesk.com/t5/revit-api-forum/bd-p/160) thread
 on [CI for RevitLookup](https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111).
 
+Peter also added the build status badge at the top of this page.
+
+Thank you very much, Peter!
+
 
 ## Author
 
@@ -40,7 +44,10 @@ Maintained by Jeremy Tammik,
 [Forge](http://forge.autodesk.com) [Platform](https://developer.autodesk.com) Development,
 [ADN](http://www.autodesk.com/adn)
 [Open](http://www.autodesk.com/adnopen),
-[Autodesk Inc.](http://www.autodesk.com)
+[Autodesk Inc.](http://www.autodesk.com),
+with invaluable contributions from teh entire Revit add-in developer community.
+
+Thank you, guys!
 
 
 ## License
