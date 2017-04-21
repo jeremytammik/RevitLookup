@@ -120,11 +120,15 @@
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
+    <Reference Include="RevitAPI, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2018\RevitAPI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
+    <Reference Include="RevitAPIUI, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2018\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -405,8 +409,8 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\2017"
-copy "$(ProjectDir)bin\Debug\RevitLookup.dll" "$(AppData)\Autodesk\REVIT\Addins\2017"
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\2018"
+copy "$(ProjectDir)bin\Debug\RevitLookup.dll" "$(AppData)\Autodesk\REVIT\Addins\2018"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
