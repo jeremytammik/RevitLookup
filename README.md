@@ -34,6 +34,17 @@ Peter also added the build status badge at the top of this page.
 Thank you very much, Peter!
 
 
+## Installation
+
+You install RevitLookup just like any other Revit add-in,
+by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder](http://help.autodesk.com/view/RVT/2018/ENU/?guid=GUID-4FFDB03E-6936-417C-9772-8FC258A261F7).
+
+If you specify the full DLL pathname in the add-in manifest, it can also be located elsewhere.
+
+For more information on installing Revit add-ins in general, please refer to
+the [Revit API getting started material](http://thebuildingcoder.typepad.com/blog/about-the-author.html#2).
+
+
 ## Author
 
 Implemented by Jim Awe and the Revit API developement team at Autodesk.
