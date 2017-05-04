@@ -9,10 +9,11 @@ Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for mo
 
 ## Versions
 
-The most up-to-date version provided here is for Revit 2017.
+The most up-to-date version provided here is for Revit 2018.
 
 If you are interested in an earlier release of Revit, please grab the latest appropriate one from the
 [release list](https://github.com/jeremytammik/RevitLookup/releases), e.g.,
+[2017.0.0.24](https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.24) for Revit 2017,
 [2016.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2016.0.0.13) for Revit 2016,
 [2015.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2015.0.0.8) for Revit 2015, etc.
 
