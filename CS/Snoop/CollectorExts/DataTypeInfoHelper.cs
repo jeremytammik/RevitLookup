@@ -33,6 +33,12 @@ namespace RevitLookup.Snoop.CollectorExts
                     else
                         data.Add(new Snoop.Data.EmptyValue(info.Name));
                 }
+                else if (expectedType == typeof(byte))
+                {
+                    var value = (byte) returnValue;
+
+                    data.Add(new Snoop.Data.Int(info.Name, value));
+                }
                 else if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element)
                 {
                     data.Add(new Snoop.Data.ElementGeometry(info.Name, elem as Element, application.Application));
