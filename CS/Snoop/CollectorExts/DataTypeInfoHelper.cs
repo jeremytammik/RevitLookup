@@ -71,7 +71,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 }
                 else if (typeof(IEnumerable).IsAssignableFrom(expectedType))
                 {
-                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable));
+                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable, application.ActiveUIDocument.Document));
                 }
                 else if (expectedType.IsEnum)
                 {

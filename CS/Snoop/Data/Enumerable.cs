@@ -69,11 +69,10 @@ namespace RevitLookup.Snoop.Data
                 IEnumerator iter = m_val.GetEnumerator();
                 while (iter.MoveNext())
                 {
-                    if (iter.Current is Autodesk.Revit.DB.ElementId)    // it's more useful for user to view element rather than element id.
-                    {
-                        Autodesk.Revit.DB.ElementId elemId = iter.Current as Autodesk.Revit.DB.ElementId;
-                        m_objs.Add(doc.GetElement(elemId));
-                    }
+                    var elementId = iter.Current as Autodesk.Revit.DB.ElementId;
+
+                    if (elementId != null && doc != null)
+                        m_objs.Add(doc.GetElement(elementId)); // it's more useful for user to view element rather than element id.
                     else
                         m_objs.Add(iter.Current);
                 }
