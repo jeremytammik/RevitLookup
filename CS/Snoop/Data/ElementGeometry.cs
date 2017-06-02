@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Linq;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
 
@@ -48,12 +49,8 @@ namespace RevitLookup.Snoop.Data
 
             m_hasGeometry = false;
 
-            if (m_val != null && m_app != null) {
-			    Autodesk.Revit.DB.Options geomOp = m_app.Create.NewGeometryOptions();
-                geomOp.DetailLevel = ViewDetailLevel.Undefined;
-                if (m_val.get_Geometry(geomOp) != null)
-                    m_hasGeometry = true;
-            }
+		    if (m_val != null && m_app != null)
+		        m_hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
 		}
 		
         public override string
@@ -66,10 +63,7 @@ namespace RevitLookup.Snoop.Data
         HasDrillDown
         {
             get {
-                if (m_hasGeometry)
-                    return true;
-                else
-                    return false;
+                return m_hasGeometry;
             }
         }
         
@@ -81,6 +75,34 @@ namespace RevitLookup.Snoop.Data
 				form.ShowDialog();
 			}
         }
+
+	    private bool HasModelGeometry()
+	    {
+	        return Enum
+	            .GetValues(typeof (ViewDetailLevel))
+	            .Cast<ViewDetailLevel>()
+	            .Select(x => new Options
+	                {
+	                    DetailLevel = x
+	                })
+	            .Any(x => m_val.get_Geometry(x) != null);
+	    }
+
+	    private bool HasViewSpecificGeometry()
+	    {
+	        var view = m_val.Document.ActiveView;
+
+	        if (view == null)
+	            return false;
+
+	        var options = new Options
+	            {
+	                View = view,
+	                IncludeNonVisibleObjects = true
+	            };
+
+	        return m_val.get_Geometry(options) != null;
+	    }
 	}
 
 
