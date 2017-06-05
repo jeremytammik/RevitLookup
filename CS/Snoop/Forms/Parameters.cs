@@ -336,9 +336,11 @@ namespace RevitLookup.Snoop.Forms
 
                 // initialize the tree control
 			foreach (Parameter tmpObj in paramSet) {
-				TreeNode tmpNode = new TreeNode(tmpObj.Definition.Name);
-                tmpNode.Tag = tmpObj;
-                m_tvObjs.Nodes.Add(tmpNode);
+			    TreeNode tmpNode = new TreeNode(Utils.GetParameterObjectLabel(tmpObj))
+			        {
+			            Tag = tmpObj
+			        };
+			    m_tvObjs.Nodes.Add(tmpNode);
             }
         }
 
@@ -479,7 +481,7 @@ namespace RevitLookup.Snoop.Forms
                 if (tmpParam != null)
                 {
                     labelStrs.Add(str);
-                    valueStrs.Add(tmpParam.Definition.Name);
+                    valueStrs.Add(Utils.GetParameterObjectLabel(tmpParam));
                 }
             }
 

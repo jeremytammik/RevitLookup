@@ -33,6 +33,12 @@ namespace RevitLookup.Snoop.CollectorExts
                     else
                         data.Add(new Snoop.Data.EmptyValue(info.Name));
                 }
+                else if (expectedType == typeof(byte))
+                {
+                    var value = (byte) returnValue;
+
+                    data.Add(new Snoop.Data.Int(info.Name, value));
+                }
                 else if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element)
                 {
                     data.Add(new Snoop.Data.ElementGeometry(info.Name, elem as Element, application.Application));
@@ -71,7 +77,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 }
                 else if (typeof(IEnumerable).IsAssignableFrom(expectedType))
                 {
-                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable));
+                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable, application.ActiveUIDocument.Document));
                 }
                 else if (expectedType.IsEnum)
                 {

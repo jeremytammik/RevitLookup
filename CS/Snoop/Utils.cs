@@ -27,6 +27,8 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Printing;
+using System.Reflection;
+using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop
 {
@@ -126,14 +128,41 @@ namespace RevitLookup.Snoop
          Autodesk.Revit.DB.Element elem = obj as Autodesk.Revit.DB.Element;
          if (elem != null)
          {
-            string nameStr = (elem.Name == string.Empty) ? "???" : elem.Name;		// use "???" if no name is set
+            var nameStr = (elem.Name == string.Empty) ? "???" : elem.Name;		// use "???" if no name is set
             return string.Format("< {0}  {1}  {2,4} >", obj.GetType().Name, nameStr, elem.Id.IntegerValue.ToString());
          }
-
-         return string.Format("< {0} >", obj.GetType().Name);
+         
+         return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? string.Format("< {0} >", obj.GetType().Name);
       }
 
-      public static string
+       private static string GetNamedObjectLabel(object obj)
+       {
+           var nameProperty = obj
+               .GetType()
+               .GetProperty("Name", BindingFlags.Instance);
+
+           if (nameProperty != null)
+           {
+               var propertyValue = nameProperty.GetValue(obj) as string;
+
+               return string.Format("< {0}  {1} >", obj.GetType().Name,
+                   string.IsNullOrEmpty(propertyValue) ? "???" : propertyValue);
+           }
+
+           return null;
+       }
+
+       public static string GetParameterObjectLabel(object obj)
+       {
+           var parameter = obj as Parameter;
+
+           if (parameter == null)
+               return null;
+
+           return parameter.Definition.Name;
+       }
+
+       public static string
         ObjToLabelStr(System.Object obj)
       {
          if (obj == null)
@@ -155,7 +184,7 @@ namespace RevitLookup.Snoop
                return string.Format("< {0}  {1} >", null, ex.Message);
             }
          }
-         return string.Format("< {0} >", obj.GetType().Name);
+         return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? string.Format("< {0} >", obj.GetType().Name);
       }
 
       public static void
