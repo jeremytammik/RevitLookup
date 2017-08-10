@@ -46,6 +46,22 @@ For more information on installing Revit add-ins in general, please refer to
 the [Revit API getting started material](http://thebuildingcoder.typepad.com/blog/about-the-author.html#2).
 
 
+##<a name="caveat"></a>Caveat &ndash; RevitLookup Cannot Snoop Everything
+
+The need for this clarification is highlighted by 
+the [issue #35 &ndash; RevitLookup doesn't snoop all members](https://github.com/jeremytammik/RevitLookup/issues/35):
+
+**Question:** I tried snooping a selected Structual Rebar element in the active view and found not all of the Rebar class members showed up in the Snoop Objects window. One of many members that weren't there: `Rebar.GetFullGeometryForView` method.
+
+Is this the expected behaviour? I was thinking I could get all object members just with  RevitLookup and without the Revit API help file `RevitAPI.chm`.
+
+**Answer:** RevitLookup cannot report **all** properties and methods on **all** elements.
+
+For instance, in the case of GetFullGeometryForView, a view input argument is required. How is RevitLookup supposed to be able to guess what view you are interested in?
+
+For methods requiring dynamic input that cannot be automatically determined, you will have to [make use of more intimate interactive database exploration tools, e.g. RevitPythonShell](http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html).
+
+
 ## Author
 
 Implemented by Jim Awe and the Revit API developement team at Autodesk.
