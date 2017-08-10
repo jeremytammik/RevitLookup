@@ -46,7 +46,8 @@ For more information on installing Revit add-ins in general, please refer to
 the [Revit API getting started material](http://thebuildingcoder.typepad.com/blog/about-the-author.html#2).
 
 
-##<a name="caveat"></a>Caveat &ndash; RevitLookup Cannot Snoop Everything
+<a name="caveat"></a>
+## Caveat &ndash; RevitLookup Cannot Snoop Everything
 
 The need for this clarification is highlighted by 
 the [issue #35 &ndash; RevitLookup doesn't snoop all members](https://github.com/jeremytammik/RevitLookup/issues/35):
