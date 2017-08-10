@@ -49,7 +49,7 @@ the [Revit API getting started material](http://thebuildingcoder.typepad.com/blo
 <a name="caveat"></a>
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
 
-The need for this clarification is highlighted by 
+This clarification was prompted by 
 the [issue #35 &ndash; RevitLookup doesn't snoop all members](https://github.com/jeremytammik/RevitLookup/issues/35):
 
 **Question:** I tried snooping a selected Structual Rebar element in the active view and found not all of the Rebar class members showed up in the Snoop Objects window. One of many members that weren't there: `Rebar.GetFullGeometryForView` method.
