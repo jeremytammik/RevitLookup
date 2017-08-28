@@ -127,6 +127,7 @@ using System.Runtime.CompilerServices;
 // 2017-04-07 - 2017.0.0.24 - merged pull request #33 by @peterhirn added build status badge
 // 2017-04-21 - 2018.0.0.0 - flat migration to Revit 2018
 // 2017-06-05 - 2018.0.0.1 - merged pull request #34 from @CADBIMDeveloper: annotative family instance geometry, element enumerations instead of ids, parameter names and byte property values
+// 2017-08-28 - 2018.0.0.2 - merged pull request #36 from @Andrey-Bushman: switch target platform to.Net 4.6 and replace Revit 2017 NuGet package by Revit 2018.1 Nuget package.
 //
-[assembly: AssemblyVersion( "2018.0.0.1" )]
-[assembly: AssemblyFileVersion( "2018.0.0.1" )]
+[assembly: AssemblyVersion( "2018.0.0.2" )]
+[assembly: AssemblyFileVersion( "2018.0.0.2" )]
