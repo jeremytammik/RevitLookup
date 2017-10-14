@@ -1,5 +1,9 @@
 # RevitLookup
 
+![Revit API](https://img.shields.io/badge/Revit%20API-2018-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Windows-lightgray.svg)
+![.NET](https://img.shields.io/badge/.NET-4.5.2-blue.svg)
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://opensource.org/licenses/MIT)
 [![Build Status](https://s3-eu-west-1.amazonaws.com/lookup-builds/extra/build_status.svg)](https://lookupbuilds.com)
 
 Interactive Revit BIM database exploration tool to view and navigate element properties and relationships.
