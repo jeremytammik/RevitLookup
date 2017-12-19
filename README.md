@@ -49,6 +49,12 @@ If you specify the full DLL pathname in the add-in manifest, it can also be loca
 For more information on installing Revit add-ins in general, please refer to
 the [Revit API getting started material](http://thebuildingcoder.typepad.com/blog/about-the-author.html#2).
 
+Harry Mattison of [Boost your BIM](https://boostyourbim.wordpress.com) very kindly provides
+a ready-built [RevitLookup 2018 installer](https://boostyourbim.wordpress.com/2017/04/28/revit-lookup-2018-install):
+
+> If you don’t want to deal with source code and just want to use the tool, here
+is [Revit Lookup 2018.msi](https://drive.google.com/open?id=0BwszsfY3OsZHbGNrSkFEOHhRX0E),
+an installer for the compiled and signed DLL ready, courtesy of Boost Your BIM.
 
 <a name="caveat"></a>
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
