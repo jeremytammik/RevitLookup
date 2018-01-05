@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2017 by Autodesk, Inc. 
+// Copyright 2003-2018 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -100,7 +100,7 @@ using System.Runtime.CompilerServices;
 // 2015-09-15 - 2016.0.0.11 - implemented support for Element bounding box
 // 2015-10-22 - 2016.0.0.12 - readme cleanup
 // 2016-04-04 - 2016.0.0.13 - incremented copyright year from 2015 to 2016
-// 2016-04-15 - 2017.0.0.0 - migration to Revit 2017 by manuel of sofistik
+// 2016-04-15 - 2017.0.0.0 - migration to Revit 2017 Manuel of Sofistik
 // 2016-04-15 - 2017.0.0.1 - microscopic cleanup
 // 2016-04-19 - 2017.0.0.2 - ready for publication
 // 2016-06-04 - 2017.0.0.3 - before merging pull request #13 by awmcc90 to skip mepSys.Elements
@@ -129,6 +129,7 @@ using System.Runtime.CompilerServices;
 // 2017-06-05 - 2018.0.0.1 - merged pull request #34 from @CADBIMDeveloper: annotative family instance geometry, element enumerations instead of ids, parameter names and byte property values
 // 2017-08-28 - 2018.0.0.3 - merged pull request #36 from @Andrey-Bushman: switch target platform to.Net 4.6 and replace Revit 2017 NuGet package by Revit 2018.1 Nuget package
 // 2018-01-05 - 2018.0.0.5 - readme enhancements: badges, installer and updated link to MSI installer
+// 2018-01-05 - 2018.0.0.6 - incremented copyright year to 2018
 //
-[assembly: AssemblyVersion( "2018.0.0.5" )]
-[assembly: AssemblyFileVersion( "2018.0.0.5" )]
+[assembly: AssemblyVersion( "2018.0.0.6" )]
+[assembly: AssemblyFileVersion( "2018.0.0.6" )]
