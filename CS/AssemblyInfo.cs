@@ -130,6 +130,7 @@ using System.Runtime.CompilerServices;
 // 2017-08-28 - 2018.0.0.3 - merged pull request #36 from @Andrey-Bushman: switch target platform to.Net 4.6 and replace Revit 2017 NuGet package by Revit 2018.1 Nuget package
 // 2018-01-05 - 2018.0.0.5 - readme enhancements: badges, installer and updated link to MSI installer
 // 2018-01-05 - 2018.0.0.6 - incremented copyright year to 2018
+// 2018-03-02 - 2018.0.0.7 - merged pull request #40 from @Modis Pekshev: Add ConvertToStableRepresentation method for References
 //
-[assembly: AssemblyVersion( "2018.0.0.6" )]
-[assembly: AssemblyFileVersion( "2018.0.0.6" )]
+[assembly: AssemblyVersion( "2018.0.0.7" )]
+[assembly: AssemblyFileVersion( "2018.0.0.7" )]

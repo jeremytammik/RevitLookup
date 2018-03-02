@@ -47,6 +47,7 @@ namespace RevitLookup.Snoop.CollectorExts
         private MethodInfo[] GetElementMethods(Type type)
         {
             List<MethodInfo> mInfo = new List<MethodInfo>();
+
             if(type.Name == "Reference")
                 mInfo.Add(type.GetMethod("ConvertToStableRepresentation"));
 
