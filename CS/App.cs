@@ -35,83 +35,84 @@ using Autodesk.Revit.UI;
 namespace RevitLookup
 {
 
-  [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
-  public class App : IExternalApplication
-  {
-    static AddInId m_appId = new AddInId( new Guid( 
-      "356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8" ) );
-
-    // get the absolute path of this assembly
-    static string ExecutingAssemblyPath = System.Reflection.Assembly
-      .GetExecutingAssembly().Location;
-
-    private AppDocEvents m_appDocEvents;
-
-    public Result OnStartup( 
-      UIControlledApplication application )
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    public class App : IExternalApplication
     {
+        static AddInId m_appId = new AddInId(new Guid(
+          "356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8"));
 
-      // Call this method explicitly in App.cs when Revit starts up because,
-      // in .NET 4, the static variables will not be initialized until use them.
-      Snoop.Collectors.CollectorObj.InitializeCollectors();
-      AddMenu( application );
-      AddAppDocEvents( application.ControlledApplication );
+        // get the absolute path of this assembly
+        static string ExecutingAssemblyPath = System.Reflection.Assembly
+          .GetExecutingAssembly().Location;
 
-      return Result.Succeeded;
+        private AppDocEvents m_appDocEvents;
+
+        public Result OnStartup(
+          UIControlledApplication application)
+        {
+
+            // Call this method explicitly in App.cs when Revit starts up because,
+            // in .NET 4, the static variables will not be initialized until use them.
+            Snoop.Collectors.CollectorObj.InitializeCollectors();
+            AddMenu(application);
+            AddAppDocEvents(application.ControlledApplication);
+
+            return Result.Succeeded;
+        }
+
+        public Result OnShutdown(
+          UIControlledApplication application)
+        {
+            RemoveAppDocEvents();
+
+            return Result.Succeeded;
+        }
+
+        private void AddMenu(UIControlledApplication app)
+        {
+            RibbonPanel rvtRibbonPanel = app.CreateRibbonPanel("Revit Lookup");
+            PulldownButtonData data = new PulldownButtonData("Options", "Revit Lookup");
+
+            RibbonItem item = rvtRibbonPanel.AddItem(data);
+            PulldownButton optionsBtn = item as PulldownButton;
+
+            // Add Icons to main RevitLookup Menu
+            optionsBtn.Image = GetEmbeddedImage("RevitLookup.Resources.RLookup-16.png");
+            optionsBtn.LargeImage = GetEmbeddedImage("RevitLookup.Resources.RLookup-32.png");
+
+            optionsBtn.AddPushButton(new PushButtonData("HelloWorld", "Hello World...", ExecutingAssemblyPath, "RevitLookup.HelloWorld"));
+            optionsBtn.AddPushButton(new PushButtonData("Snoop Db..", "Snoop DB...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopDb"));
+            optionsBtn.AddPushButton(new PushButtonData("Snoop Current Selection...", "Snoop Current Selection...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScope"));
+            optionsBtn.AddPushButton(new PushButtonData("Snoop Active View...", "Snoop Active View...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopActiveView"));
+            optionsBtn.AddPushButton(new PushButtonData("Snoop Application...", "Snoop Application...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopApp"));
+            optionsBtn.AddPushButton(new PushButtonData("Search and Snoop...", "Search and Snoop...", ExecutingAssemblyPath, "RevitLookup.CmdSearchBy"));
+            optionsBtn.AddPushButton(new PushButtonData("Test Framework...", "Test Framework...", ExecutingAssemblyPath, "RevitLookup.CmdTestShell"));
+        }
+
+        private void AddAppDocEvents(ControlledApplication app)
+        {
+            m_appDocEvents = new AppDocEvents(app);
+            m_appDocEvents.EnableEvents();
+        }
+
+        private void RemoveAppDocEvents()
+        {
+            m_appDocEvents.DisableEvents();
+        }
+
+        static BitmapSource GetEmbeddedImage(string name)
+        {
+            try
+            {
+                Assembly a = Assembly.GetExecutingAssembly();
+                Stream s = a.GetManifestResourceStream(name);
+                return BitmapFrame.Create(s);
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
-
-    public Result OnShutdown( 
-      UIControlledApplication application )
-    {
-      RemoveAppDocEvents();
-
-      return Result.Succeeded;
-    }
-
-    private void AddMenu( UIControlledApplication app )
-    {
-      RibbonPanel rvtRibbonPanel = app.CreateRibbonPanel( "Revit Lookup" );
-      PulldownButtonData data = new PulldownButtonData( "Options", "Revit Lookup" );
-
-      RibbonItem item = rvtRibbonPanel.AddItem( data );
-      PulldownButton optionsBtn = item as PulldownButton;
-
-      // Add Icons to main RevitLookup Menu
-      optionsBtn.Image = GetEmbeddedImage("RevitLookup.Resources.RLookup-16.png");
-      optionsBtn.LargeImage = GetEmbeddedImage("RevitLookup.Resources.RLookup-32.png");
-
-      optionsBtn.AddPushButton( new PushButtonData( "HelloWorld", "Hello World...", ExecutingAssemblyPath, "RevitLookup.HelloWorld" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Db..", "Snoop DB...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopDb" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Current Selection...", "Snoop Current Selection...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScope" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Active View...", "Snoop Active View...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopActiveView" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Application...", "Snoop Application...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopApp" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Test Framework...", "Test Framework...", ExecutingAssemblyPath, "RevitLookup.CmdTestShell" ) );
-    }
-
-    private void AddAppDocEvents( ControlledApplication app )
-    {
-      m_appDocEvents = new AppDocEvents( app );
-      m_appDocEvents.EnableEvents();
-    }
-
-    private void RemoveAppDocEvents()
-    {
-      m_appDocEvents.DisableEvents();
-    }
-
-    static BitmapSource GetEmbeddedImage(string name)
-    {
-      try
-      {
-        Assembly a = Assembly.GetExecutingAssembly();
-        Stream s = a.GetManifestResourceStream(name);
-        return BitmapFrame.Create(s);
-      }
-      catch
-      {
-        return null;
-      }
-    }
-  }
 }
