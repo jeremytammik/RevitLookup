@@ -24,7 +24,7 @@ namespace RevitLookup.Snoop.Forms
                 MessageBox.Show(@"You did not enter a value to search for", @"Attention!", MessageBoxButtons.OK,
                     MessageBoxIcon.Stop);
             }
-            switch (m_cbSearchByVariant.SelectedItem)
+            switch (m_cbSearchByVariant.SelectedItem as string)
             {
                 case "ElementId": // by ElementId
                     SearcAndSnoopByElementId();
@@ -37,7 +37,8 @@ namespace RevitLookup.Snoop.Forms
 
         private void SearcAndSnoopByElementId()
         {
-            if (int.TryParse(m_tbSearchValue.Text, out var id))
+      int id;
+            if (int.TryParse(m_tbSearchValue.Text, out id))
             {
                 FilteredElementCollector elemTypeCtor = (new FilteredElementCollector(_doc)).WhereElementIsElementType();
                 FilteredElementCollector notElemTypeCtor = (new FilteredElementCollector(_doc)).WhereElementIsNotElementType();
