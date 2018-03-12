@@ -31,6 +31,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
 using System.Reflection;
+using RevitLookup.Snoop.Forms;
 
 // Each command is implemented as a class that provides the IExternalCommand Interface
 //
@@ -258,6 +259,40 @@ namespace RevitLookup
             try
             {
                 MessageBox.Show("Called back into RevitLookup by picking toolbar or menu item");
+                result = Result.Succeeded;
+            }
+            catch (System.Exception e)
+            {
+                msg = e.Message;
+                result = Result.Failed;
+            }
+
+            return result;
+        }
+    }
+
+    /// <summary>
+    /// Search by and Snoop command: Browse elements found by the condition
+    /// </summary>
+
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    public class CmdSearchBy : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
+        {
+            Result result;
+
+            try
+            {
+                Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+                UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
+                Document dbdoc = revitDoc.Document;
+                Snoop.CollectorExts.CollectorExt.m_activeDoc = dbdoc; // TBD: see note in CollectorExt.cs
+                
+                SearchBy searchByWin = new SearchBy(dbdoc);
+                ActiveDoc.UIApp = cmdData.Application;
+                searchByWin.ShowDialog();
                 result = Result.Succeeded;
             }
             catch (System.Exception e)
