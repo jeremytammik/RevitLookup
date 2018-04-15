@@ -132,6 +132,7 @@ using System.Runtime.CompilerServices;
 // 2018-01-05 - 2018.0.0.6 - incremented copyright year to 2018
 // 2018-03-02 - 2018.0.0.7 - merged pull request #41 from @Modis Pekshev: Add ConvertToStableRepresentation method for References
 // 2018-03-12 - 2018.0.0.8 - merged pull request #42 from @Modis Pekshev: Add "Search by and snoop" command
+// 2018-04-15 - 2019.0.0.0 - flat migration to Revit 2019
 //
-[assembly: AssemblyVersion( "2018.0.0.8" )]
-[assembly: AssemblyFileVersion( "2018.0.0.8" )]
+[assembly: AssemblyVersion( "2019.0.0.0" )]
+[assembly: AssemblyFileVersion( "2019.0.0.0" )]
