@@ -133,6 +133,7 @@ using System.Runtime.CompilerServices;
 // 2018-03-02 - 2018.0.0.7 - merged pull request #41 from @Modis Pekshev: Add ConvertToStableRepresentation method for References
 // 2018-03-12 - 2018.0.0.8 - merged pull request #42 from @Modis Pekshev: Add "Search by and snoop" command
 // 2018-04-15 - 2019.0.0.0 - flat migration to Revit 2019
+// 2018-05-29 - 2019.0.0.1 - merged pull request #43 from Levente Koncz @palver123 to use $(ProgramW6432) in csproj to locate Revit API assembly DLLs
 //
-[assembly: AssemblyVersion( "2019.0.0.0" )]
-[assembly: AssemblyFileVersion( "2019.0.0.0" )]
+[assembly: AssemblyVersion( "2019.0.0.1" )]
+[assembly: AssemblyFileVersion( "2019.0.0.1" )]
