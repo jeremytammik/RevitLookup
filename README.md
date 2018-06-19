@@ -43,11 +43,9 @@ Thank you very much, Peter!
 ## Installation
 
 You install RevitLookup just like any other Revit add-in,
-
 <!----
 by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder](http://help.autodesk.com/view/RVT/2018/ENU/?guid=GUID-4FFDB03E-6936-417C-9772-8FC258A261F7).
 ---->
-
 by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder](http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Add_In_Integration_Add_in_Registration_html).
 
 
