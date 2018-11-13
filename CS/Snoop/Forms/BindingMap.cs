@@ -98,20 +98,21 @@ namespace RevitLookup.Snoop.Forms
 
     new private void InitializeComponent()
     {
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager( typeof( BindingMap ) );
-      this.SuspendLayout();
-      // 
-      // m_tvObjs
-      // 
-      this.m_tvObjs.LineColor = System.Drawing.Color.Black;
-      // 
-      // BindingMap
-      // 
-      this.ClientSize = new System.Drawing.Size( 800, 478 );
-      this.Icon = ( (System.Drawing.Icon) ( resources.GetObject( "$this.Icon" ) ) );
-      this.Name = "BindingMap";
-      this.ResumeLayout( false );
-      this.PerformLayout();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BindingMap));
+			this.SuspendLayout();
+			// 
+			// m_tvObjs
+			// 
+			this.m_tvObjs.LineColor = System.Drawing.Color.Black;
+			// 
+			// BindingMap
+			// 
+			this.ClientSize = new System.Drawing.Size(800, 478);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Name = "BindingMap";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
     }
   }
