@@ -134,6 +134,7 @@ using System.Runtime.CompilerServices;
 // 2018-03-12 - 2018.0.0.8 - merged pull request #42 from @Modis Pekshev: Add "Search by and snoop" command
 // 2018-04-15 - 2019.0.0.0 - flat migration to Revit 2019
 // 2018-05-29 - 2019.0.0.2 - merged pull request #43 from Levente Koncz @palver123 to use ProgramW6432 variable in csproj to locate Revit API assembly DLLs
+// 2018-12-13 - 2019.0.0.4 - merged issue #45 and pull request #46 from @TheKidMSX to center parent for forms
 //
-[assembly: AssemblyVersion( "2019.0.0.2" )]
-[assembly: AssemblyFileVersion( "2019.0.0.2" )]
+[assembly: AssemblyVersion( "2019.0.0.4" )]
+[assembly: AssemblyFileVersion( "2019.0.0.4" )]
