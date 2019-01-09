@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2018 by Autodesk, Inc. 
+// Copyright 2003-2019 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -33,7 +33,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "RevitLookup" )]
-[assembly: AssemblyCopyright( "Copyright 2003-2018 (C) Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright (C) 2003-2019 by Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -135,6 +135,7 @@ using System.Runtime.CompilerServices;
 // 2018-04-15 - 2019.0.0.0 - flat migration to Revit 2019
 // 2018-05-29 - 2019.0.0.2 - merged pull request #43 from Levente Koncz @palver123 to use ProgramW6432 variable in csproj to locate Revit API assembly DLLs
 // 2018-12-13 - 2019.0.0.4 - merged issue #45 and pull request #46 from @TheKidMSX to center parent for forms
+// 2019-01-09 - 2019.0.0.5 - incremented copyright year to 2019
 //
-[assembly: AssemblyVersion( "2019.0.0.4" )]
-[assembly: AssemblyFileVersion( "2019.0.0.4" )]
+[assembly: AssemblyVersion( "2019.0.0.5" )]
+[assembly: AssemblyFileVersion( "2019.0.0.5" )]
