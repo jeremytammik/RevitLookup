@@ -136,6 +136,7 @@ using System.Runtime.CompilerServices;
 // 2018-05-29 - 2019.0.0.2 - merged pull request #43 from Levente Koncz @palver123 to use ProgramW6432 variable in csproj to locate Revit API assembly DLLs
 // 2018-12-13 - 2019.0.0.4 - merged issue #45 and pull request #46 from @TheKidMSX to center parent for forms
 // 2019-01-09 - 2019.0.0.5 - incremented copyright year to 2019
+// 2019-01-17 - 2019.0.0.6 - added new commands by Håvard Leding: pick surface, edge, linked element
 //
-[assembly: AssemblyVersion( "2019.0.0.5" )]
-[assembly: AssemblyFileVersion( "2019.0.0.5" )]
+[assembly: AssemblyVersion( "2019.0.0.6" )]
+[assembly: AssemblyFileVersion( "2019.0.0.6" )]
