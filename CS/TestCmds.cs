@@ -22,7 +22,6 @@
 //
 #endregion // Header
 
-using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Collections;
@@ -34,7 +33,6 @@ using System.Reflection;
 using RevitLookup.Snoop.Forms;
 
 // Each command is implemented as a class that provides the IExternalCommand Interface
-//
 
 namespace RevitLookup
 {
@@ -42,7 +40,6 @@ namespace RevitLookup
   /// The classic bare-bones test.  Just brings up an Alert box to show that the connection to the external module is working.
   /// </summary>
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class HelloWorld : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -61,7 +58,6 @@ namespace RevitLookup
   /// </summary>
 
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class CmdSnoopDb : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -150,7 +146,6 @@ namespace RevitLookup
   }
 
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class CmdSnoopModScopePickEdge : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -195,7 +190,6 @@ namespace RevitLookup
   }
 
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class CmdSnoopModScopeLinkedElement : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -247,9 +241,7 @@ namespace RevitLookup
   /// <summary>
   /// SnoopDB command:  Browse the current view...
   /// </summary>
-
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class CmdSnoopActiveView : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -289,9 +281,7 @@ namespace RevitLookup
   /// Snoop ModScope command:  Browse all Elements in the current selection set
   ///                          In case nothing is selected: browse visible elements
   /// </summary>
-
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class CmdSnoopModScope : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -354,9 +344,7 @@ namespace RevitLookup
   /// <summary>
   /// Snoop App command:  Browse all objects that are part of the Application object
   /// </summary>
-
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class CmdSnoopApp : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -386,9 +374,7 @@ namespace RevitLookup
   /// <summary>
   /// Snoop ModScope command:  Browse all Elements in the current selection set
   /// </summary>
-
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class CmdSampleMenuItemCallback : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -415,7 +401,6 @@ namespace RevitLookup
   /// elements found by the condition
   /// </summary>
   [Transaction( TransactionMode.Manual )]
-  [Regeneration( RegenerationOption.Manual )]
   public class CmdSearchBy : IExternalCommand
   {
     public Result Execute(
