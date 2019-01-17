@@ -100,7 +100,7 @@ namespace RevitLookup
     }
   }
 
-
+  [Transaction( TransactionMode.Manual )]
   public class CmdSnoopModScopePickSurface : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
@@ -235,8 +235,6 @@ namespace RevitLookup
       return result;
     }
   }
-
-
 
   /// <summary>
   /// SnoopDB command:  Browse the current view...
