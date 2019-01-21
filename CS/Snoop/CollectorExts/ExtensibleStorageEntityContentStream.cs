@@ -77,9 +77,9 @@ namespace RevitLookup.Snoop.CollectorExts
                     return generic.MakeGenericType(field.ValueType);
 
                 case ContainerType.Map:
-                    var generiñMap = typeof (IDictionary<,>);
+                    var genericMap = typeof (IDictionary<,>);
 
-                    return generiñMap.MakeGenericType(field.KeyType, field.ValueType);
+                    return genericMap.MakeGenericType(field.KeyType, field.ValueType);
 
                 default:
                     throw new NotSupportedException();
