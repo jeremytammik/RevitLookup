@@ -22,16 +22,17 @@
 //
 #endregion // Header
 
-using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.Attributes;
-using System.Reflection;
+
 using RevitLookup.Snoop.Forms;
-using System.Linq;
 
 // Each command is implemented as a class that provides the IExternalCommand Interface
 
@@ -238,12 +239,16 @@ namespace RevitLookup
   }
 
   /// <summary>
-  /// Snoop dependent elements using Element.GetDependentElements
+  /// Snoop dependent elements using 
+  /// Element.GetDependentElements
   /// </summary>
   [Transaction( TransactionMode.Manual )]
   public class CmdSnoopModScopeDependents : IExternalCommand
   {
-    public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
+    public Result Execute(
+      ExternalCommandData cmdData,
+      ref string msg,
+      ElementSet elems )
     {
       Result result = Result.Failed;
 
@@ -254,11 +259,11 @@ namespace RevitLookup
         ICollection<ElementId> idPickfirst = uidoc.Selection.GetElementIds();
         Document doc = uidoc.Document;
 
-        ICollection<Element> elemSet = new List<Element>( 
+        ICollection<Element> elemSet = new List<Element>(
           idPickfirst.Select<ElementId, Element>(
             id => doc.GetElement( id ) ) );
 
-        ICollection<ElementId> ids = elemSet.SelectMany( 
+        ICollection<ElementId> ids = elemSet.SelectMany(
           t => t.GetDependentElements( null ) ).ToList();
 
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( doc, ids );
