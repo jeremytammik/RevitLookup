@@ -27,8 +27,8 @@ namespace RevitLookup.Snoop.CollectorExts
         return;
 
       if( !entity.ReadAccessGranted() )
-        data.Add( new Snoop.Data.Exception( 
-          "<Extensible storage Fields>", new Exception( 
+        data.Add( new Snoop.Data.Exception(
+          "<Extensible storage Fields>", new Exception(
             "Doesn't have access to read extensible storage data" ) ) );
 
       var fields = entity.Schema.ListFields();
@@ -133,8 +133,8 @@ namespace RevitLookup.Snoop.CollectorExts
     {
       var parameters = methodInfo.GetParameters();
 
-      if( field.ContainerType == ContainerType.Simple 
-        && ( field.ValueType == typeof( XYZ ) 
+      if( field.ContainerType == ContainerType.Simple
+        && ( field.ValueType == typeof( XYZ )
           || field.ValueType == typeof( double ) ) )
         return parameters.Length == 2
           && parameters.First().ParameterType == typeof( Field )
