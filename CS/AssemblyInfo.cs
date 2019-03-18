@@ -137,6 +137,7 @@ using System.Reflection;
 // 2019-01-09 - 2019.0.0.5 - incremented copyright year to 2019
 // 2019-01-17 - 2019.0.0.6 - added new commands by Håvard Leding: pick surface, edge, linked element
 // 2019-01-21 - 2019.0.0.7 - fixed typo in variable name reported by @yk35 in pull request #47
+// 2019-03-18 - 2019.0.0.8 - cleanup before adding CmdSnoopModScopeDependents
 //
-[assembly: AssemblyVersion( "2019.0.0.7" )]
-[assembly: AssemblyFileVersion( "2019.0.0.7" )]
+[assembly: AssemblyVersion( "2019.0.0.8" )]
+[assembly: AssemblyFileVersion( "2019.0.0.8" )]
