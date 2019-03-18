@@ -31,6 +31,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.Attributes;
 using System.Reflection;
 using RevitLookup.Snoop.Forms;
+using System.Linq;
 
 // Each command is implemented as a class that provides the IExternalCommand Interface
 
@@ -232,6 +233,44 @@ namespace RevitLookup
         result = Result.Failed;
       }
 
+      return result;
+    }
+  }
+
+  /// <summary>
+  /// Snoop dependent elements using Element.GetDependentElements
+  /// </summary>
+  [Transaction( TransactionMode.Manual )]
+  public class CmdSnoopModScopeDependents : IExternalCommand
+  {
+    public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
+    {
+      Result result = Result.Failed;
+
+      try
+      {
+        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+        UIDocument uidoc = cmdData.Application.ActiveUIDocument;
+        ICollection<ElementId> idPickfirst = uidoc.Selection.GetElementIds();
+        Document doc = uidoc.Document;
+
+        ICollection<Element> elemSet = new List<Element>( 
+          idPickfirst.Select<ElementId, Element>(
+            id => doc.GetElement( id ) ) );
+
+        ICollection<ElementId> ids = elemSet.SelectMany( 
+          t => t.GetDependentElements( null ) ).ToList();
+
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects( doc, ids );
+        ActiveDoc.UIApp = cmdData.Application;
+        form.ShowDialog();
+
+        result = Result.Succeeded;
+      }
+      catch( System.Exception e )
+      {
+        msg = e.Message;
+      }
       return result;
     }
   }
