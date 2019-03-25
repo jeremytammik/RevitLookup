@@ -139,7 +139,7 @@ namespace RevitLookup.Snoop
        {
            var nameProperty = obj
                .GetType()
-               .GetProperty("Name", BindingFlags.Instance);
+               .GetProperty("Name", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
            if (nameProperty != null)
            {
