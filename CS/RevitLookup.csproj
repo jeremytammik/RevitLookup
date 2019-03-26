@@ -190,8 +190,10 @@
     <Compile Include="Snoop\CollectorExts\IElementStream.cs" />
     <Compile Include="Snoop\CollectorExts\SpatialElementStream.cs" />
     <Compile Include="Snoop\Data\AssetProperty.cs" />
+    <Compile Include="Snoop\Data\Color.cs" />
     <Compile Include="Snoop\Data\DoubleArray.cs" />
     <Compile Include="Snoop\Data\EmptyValue.cs" />
+    <Compile Include="Snoop\Data\EnumerableAsString.cs" />
     <Compile Include="Snoop\Data\ExtensibleStorageSeparator.cs" />
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">
