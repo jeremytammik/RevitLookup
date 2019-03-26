@@ -63,6 +63,10 @@ namespace RevitLookup.Snoop.CollectorExts
                 {
                     data.Add(new Snoop.Data.Color(info.Name, returnValue as Autodesk.Revit.DB.Color));
                 }                               
+                else if (expectedType == typeof(Autodesk.Revit.DB.DoubleArray))
+                {
+                    data.Add(new Snoop.Data.DoubleArray(info.Name, returnValue as Autodesk.Revit.DB.DoubleArray));
+                }
                 else if (expectedType == typeof(int))
                 {
                     int? val = returnValue as int?;
