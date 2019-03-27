@@ -11,7 +11,7 @@ Interactive Revit BIM database exploration tool to view and navigate element pro
 Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information.
 
 
-## Versions
+## <a name="versions"></a> Versions
 
 The most up-to-date version provided here is for Revit 2018.
 
@@ -24,7 +24,7 @@ If you are interested in an earlier release of Revit, please grab the latest app
 - [2015.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2015.0.0.8) for Revit 2015
 
 
-## Builds
+## <a name="builds"></a> Builds
 
 Peter Hirn of [Build Informed GmbH](https://www.buildinformed.com) very kindly set up a
 public [CI](https://en.wikipedia.org/wiki/Continuous_integration) for RevitLookup
@@ -62,6 +62,15 @@ a ready-built [RevitLookup 2018 installer](https://boostyourbim.wordpress.com/20
 > If you don’t want to deal with source code and just want to use the tool, here
 is [Revit Lookup 2018.msi](https://drive.google.com/open?id=182W00Mk5Hj1FMHAo-xVnoFYlJ_s2Swrw),
 an installer for the compiled and signed DLL ready, courtesy of Boost Your BIM.
+
+Harry's installer was cleaned up
+by [@VBScab](https://github.com/VBScab) and submitted to this repository
+in [issue #51 &ndash; the MSI in the project is flawed](https://github.com/jeremytammik/RevitLookup/issues/51).
+Here is the [cleaned-up RevitLookup 2018.0.0.0 installer](installer/revit_lookup_2018.msi).
+
+However, note that other, more recent builds exist for Revit 2018.
+As explained above, they can be downloaded sans installer
+from [lookupbuilds.com](https://lookupbuilds.com).
 
 <a name="caveat"></a>
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
