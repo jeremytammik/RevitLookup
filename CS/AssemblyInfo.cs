@@ -141,6 +141,7 @@ using System.Reflection;
 // 2019-03-18 - 2019.0.0.9 - added CmdSnoopModScopeDependents
 // 2019-03-25 - 2019.0.0.10 - integrated pull requests #48 and #49 by Victor Chekalin to snoop rendering AssetProperty via Material-AppearanceAssetId-GetRenderingAssset
 // 2019-03-26 - 2019.0.0.11 - integrated pull request #50 by Victor Chekalin to handle DoubleArray4d values
+// 2019-03-27 - 2019.0.0.12 - added MSI installer for 2018.0.0.0 submitted by @VBScab in issue #51
 //
-[assembly: AssemblyVersion( "2019.0.0.11" )]
-[assembly: AssemblyFileVersion( "2019.0.0.11" )]
+[assembly: AssemblyVersion( "2019.0.0.12" )]
+[assembly: AssemblyFileVersion( "2019.0.0.12" )]
