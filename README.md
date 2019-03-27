@@ -67,8 +67,7 @@ Harry's installer was cleaned up
 by [@VBScab](https://github.com/VBScab) and submitted to this repository
 in [issue #51 &ndash; the MSI in the project is flawed](https://github.com/jeremytammik/RevitLookup/issues/51).
 Here is the [cleaned-up RevitLookup 2018.0.0.0 installer](installer/revit_lookup_2018.0.0.0.msi).
-
-However, note that other, more recent builds exist for Revit 2018.
+However, please note that other, more recent builds exist for Revit 2018.
 As explained above, they can be downloaded sans installer
 from [lookupbuilds.com](https://lookupbuilds.com).
 
