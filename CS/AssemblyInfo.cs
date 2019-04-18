@@ -142,6 +142,8 @@ using System.Reflection;
 // 2019-03-25 - 2019.0.0.10 - integrated pull requests #48 and #49 by Victor Chekalin to snoop rendering AssetProperty via Material-AppearanceAssetId-GetRenderingAssset
 // 2019-03-26 - 2019.0.0.11 - integrated pull request #50 by Victor Chekalin to handle DoubleArray4d values
 // 2019-03-27 - 2019.0.0.12 - added MSI installer for 2018.0.0.0 submitted by @VBScab in issue #51
+// 2019-04-18 - 2019.0.0.13 - added MSI installer for Revit 2017-2020 by Harry Mattison
+// 2019-04-18 - 2020.0.0.0 - flat migration to Revit 2020
 //
-[assembly: AssemblyVersion( "2019.0.0.12" )]
-[assembly: AssemblyFileVersion( "2019.0.0.12" )]
+[assembly: AssemblyVersion( "2020.0.0.0" )]
+[assembly: AssemblyFileVersion( "2020.0.0.0" )]
