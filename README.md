@@ -75,6 +75,9 @@ Harry shared a new installer in his post
 on [RevitLookup for Revit 2020](https://boostyourbim.wordpress.com/2019/04/16/revit-lookup-for-revit-2020),
 which I also added to the [installer folder](installer)
 in  [RevitLookup2017-2020.msi](installer/RevitLookup2017-2020.msi).
+Says he:
+
+> I’ve added some conditional compilation and multiple configurations so that the single solution can be used to build against any version of Revit 2017-2020.
 
 <a name="caveat"></a>
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
