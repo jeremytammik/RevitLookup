@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2017 by Autodesk, Inc. 
+// Copyright 2003-2019 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -139,7 +139,7 @@ namespace RevitLookup.Snoop
        {
            var nameProperty = obj
                .GetType()
-               .GetProperty("Name", BindingFlags.Instance);
+               .GetProperty("Name", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
            if (nameProperty != null)
            {

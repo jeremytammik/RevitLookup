@@ -32,7 +32,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -117,14 +117,32 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdWindows">
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2020\AdWindows.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPI.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIIFC">
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIIFC.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIMacros">
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIMacros.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit 2017\RevitAPIUI.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUIMacros">
+      <HintPath>..\..\..\..\Program Files\Autodesk\Revit 2020\RevitAPIUIMacros.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -171,7 +189,11 @@
     <Compile Include="Snoop\CollectorExts\ExtensibleStorageEntityContentStream.cs" />
     <Compile Include="Snoop\CollectorExts\IElementStream.cs" />
     <Compile Include="Snoop\CollectorExts\SpatialElementStream.cs" />
+    <Compile Include="Snoop\Data\AssetProperty.cs" />
+    <Compile Include="Snoop\Data\Color.cs" />
+    <Compile Include="Snoop\Data\DoubleArray.cs" />
     <Compile Include="Snoop\Data\EmptyValue.cs" />
+    <Compile Include="Snoop\Data\EnumerableAsString.cs" />
     <Compile Include="Snoop\Data\ExtensibleStorageSeparator.cs" />
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">
@@ -301,6 +323,12 @@
     <Compile Include="Snoop\Forms\Parameters.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Snoop\Forms\SearchBy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Snoop\Forms\SearchBy.Designer.cs">
+      <DependentUpon>SearchBy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Snoop\Utils.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -350,6 +378,9 @@
       <DependentUpon>Parameters.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Snoop\Forms\SearchBy.resx">
+      <DependentUpon>SearchBy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Xml\Forms\Dom.resx">
       <DependentUpon>Dom.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -398,15 +429,13 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\2017"
-copy "$(ProjectDir)bin\Debug\RevitLookup.dll" "$(AppData)\Autodesk\REVIT\Addins\2017"
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\2020"
+
+copy "$(ProjectDir)bin\Debug\RevitLookup.dll" "$(AppData)\Autodesk\REVIT\Addins\2020"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

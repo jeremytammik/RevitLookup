@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2017 by Autodesk, Inc. 
+// Copyright 2003-2019 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -39,53 +39,55 @@ namespace RevitLookup.Snoop.Forms
 	public class Categories : RevitLookup.Snoop.Forms.ObjTreeBase
 	{
 		public
-		Categories(CategoryNameMap map)
+		Categories( CategoryNameMap map )
 		{
-            this.Text = "Snoop Categories";
-            
-            m_tvObjs.BeginUpdate();
-            AddObjectsToTree(map, m_tvObjs.Nodes);
-            m_tvObjs.EndUpdate();
-   		}
+			this.Text = "Snoop Categories";
 
-        protected void
-        AddObjectsToTree(CategoryNameMap map, TreeNodeCollection curNodes)
-        {
-            m_tvObjs.Sorted = true;
+			m_tvObjs.BeginUpdate();
+			AddObjectsToTree( map, m_tvObjs.Nodes );
+			m_tvObjs.EndUpdate();
+		}
 
-			if (map.IsEmpty)
-				return;		// nothing to add
+		protected void
+		AddObjectsToTree( CategoryNameMap map, TreeNodeCollection curNodes )
+		{
+			m_tvObjs.Sorted = true;
 
-                // iterate over the map and add items to the tree
+			if( map.IsEmpty )
+				return;   // nothing to add
+
+			// iterate over the map and add items to the tree
 			CategoryNameMapIterator iter = map.ForwardIterator();
-			while (iter.MoveNext()) {
-				TreeNode tmpNode = new TreeNode(iter.Key);
-                tmpNode.Tag = iter.Current;
-                curNodes.Add(tmpNode);
+			while( iter.MoveNext() )
+			{
+				TreeNode tmpNode = new TreeNode( iter.Key );
+				tmpNode.Tag = iter.Current;
+				curNodes.Add( tmpNode );
 
-					// recursively add sub-nodes (if any)
-				Category curCat = (Category)iter.Current;
-				AddObjectsToTree(curCat.SubCategories, tmpNode.Nodes);
-            }
-        }
+				// recursively add sub-nodes (if any)
+				Category curCat = (Category) iter.Current;
+				AddObjectsToTree( curCat.SubCategories, tmpNode.Nodes );
+			}
+		}
 
-    private void InitializeComponent()
-    {
-      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Categories));
-      this.SuspendLayout();
-      // 
-      // m_tvObjs
-      // 
-      this.m_tvObjs.LineColor = System.Drawing.Color.Black;
-      // 
-      // Categories
-      // 
-      this.ClientSize = new System.Drawing.Size(800, 478);
-      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-      this.Name = "Categories";
-      this.ResumeLayout(false);
-      this.PerformLayout();
+		new private void InitializeComponent()
+		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Categories));
+			this.SuspendLayout();
+			// 
+			// m_tvObjs
+			// 
+			this.m_tvObjs.LineColor = System.Drawing.Color.Black;
+			// 
+			// Categories
+			// 
+			this.ClientSize = new System.Drawing.Size(800, 478);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Name = "Categories";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
-    }
-  }
+		}
+	}
 }

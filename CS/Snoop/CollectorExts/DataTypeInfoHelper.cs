@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Visual;
 using Autodesk.Revit.UI;
 
 namespace RevitLookup.Snoop.CollectorExts
@@ -54,6 +55,18 @@ namespace RevitLookup.Snoop.CollectorExts
                 {
                     data.Add(new Snoop.Data.ElementSet(info.Name, returnValue as ElementSet));
                 }
+                else if (expectedType == typeof(AssetProperty))
+                {
+                    data.Add(new Snoop.Data.AssetProperty(info.Name, elem as AssetProperties, returnValue as AssetProperty));
+                }
+                else if (expectedType == typeof(Autodesk.Revit.DB.Color))
+                {
+                    data.Add(new Snoop.Data.Color(info.Name, returnValue as Autodesk.Revit.DB.Color));
+                }                               
+                else if (expectedType == typeof(Autodesk.Revit.DB.DoubleArray))
+                {
+                    data.Add(new Snoop.Data.DoubleArray(info.Name, returnValue as Autodesk.Revit.DB.DoubleArray));
+                }
                 else if (expectedType == typeof(int))
                 {
                     int? val = returnValue as int?;
@@ -75,10 +88,20 @@ namespace RevitLookup.Snoop.CollectorExts
                 {
                     data.Add(new Snoop.Data.Xyz(info.Name, returnValue as XYZ));
                 }
+                else if ((typeof(IEnumerable).IsAssignableFrom(expectedType) 
+                         && expectedType.IsGenericType 
+                         && (expectedType.GenericTypeArguments[0] == typeof(double) 
+                             || expectedType.GenericTypeArguments[0] == typeof(int)))
+
+                         || expectedType == typeof(Autodesk.Revit.DB.DoubleArray))
+                {
+                    data.Add(new Snoop.Data.EnumerableAsString(info.Name, returnValue as IEnumerable));
+                }
                 else if (typeof(IEnumerable).IsAssignableFrom(expectedType))
                 {
                     data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable, application.ActiveUIDocument.Document));
                 }
+                
                 else if (expectedType.IsEnum)
                 {
                     data.Add(new Snoop.Data.String(info.Name, returnValue.ToString()));

@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2017 by Autodesk, Inc. 
+// Copyright 2003-2019 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -23,7 +23,6 @@
 #endregion // Header
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -33,7 +32,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "RevitLookup" )]
-[assembly: AssemblyCopyright( "Copyright 2003-2017 (C) Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright (C) 2003-2019 by Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -100,7 +99,7 @@ using System.Runtime.CompilerServices;
 // 2015-09-15 - 2016.0.0.11 - implemented support for Element bounding box
 // 2015-10-22 - 2016.0.0.12 - readme cleanup
 // 2016-04-04 - 2016.0.0.13 - incremented copyright year from 2015 to 2016
-// 2016-04-15 - 2017.0.0.0 - migration to Revit 2017 by manuel of sofistik
+// 2016-04-15 - 2017.0.0.0 - migration to Revit 2017 Manuel of Sofistik
 // 2016-04-15 - 2017.0.0.1 - microscopic cleanup
 // 2016-04-19 - 2017.0.0.2 - ready for publication
 // 2016-06-04 - 2017.0.0.3 - before merging pull request #13 by awmcc90 to skip mepSys.Elements
@@ -120,6 +119,31 @@ using System.Runtime.CompilerServices;
 // 2017-02-21 - 2017.0.0.17 - merged pull request #26 from Alexander Ignatovich to restore ability to see extensible storage content
 // 2017-03-02 - 2017.0.0.18 - merged pull request #27 from @CADBIMDeveloper to display category BuiltInCategory, nullable double properties and empty lists
 // 2017-03-15 - 2017.0.0.19 - merged pull request #29 from @CADBIMDeveloper fixing bugs initialising type and opening background documents
+// 2017-03-16 - 2017.0.0.20 - merged pull request #30 from @eirannejad adding icon and exception handling
+// 2017-03-17 - 2017.0.0.21 - merged pull request #31 from @CADBIMDeveloper removing try-catch handler
+// 2017-03-17 - 2017.0.0.22 - added 'new' keyword to avoid warning and override inherited methods
+// 2017-03-27 - 2017.0.0.23 - dummy modification to trigger build for https://lookupbuilds.com cf. https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111
+// 2017-04-07 - 2017.0.0.24 - merged pull request #33 by @peterhirn added build status badge
+// 2017-04-21 - 2018.0.0.0 - flat migration to Revit 2018
+// 2017-06-05 - 2018.0.0.1 - merged pull request #34 from @CADBIMDeveloper: annotative family instance geometry, element enumerations instead of ids, parameter names and byte property values
+// 2017-08-28 - 2018.0.0.3 - merged pull request #36 from @Andrey-Bushman: switch target platform to.Net 4.6 and replace Revit 2017 NuGet package by Revit 2018.1 Nuget package
+// 2018-01-05 - 2018.0.0.5 - readme enhancements: badges, installer and updated link to MSI installer
+// 2018-01-05 - 2018.0.0.6 - incremented copyright year to 2018
+// 2018-03-02 - 2018.0.0.7 - merged pull request #41 from @Modis Pekshev: Add ConvertToStableRepresentation method for References
+// 2018-03-12 - 2018.0.0.8 - merged pull request #42 from @Modis Pekshev: Add "Search by and snoop" command
+// 2018-04-15 - 2019.0.0.0 - flat migration to Revit 2019
+// 2018-05-29 - 2019.0.0.2 - merged pull request #43 from Levente Koncz @palver123 to use ProgramW6432 variable in csproj to locate Revit API assembly DLLs
+// 2018-12-13 - 2019.0.0.4 - merged issue #45 and pull request #46 from @TheKidMSX to center parent for forms
+// 2019-01-09 - 2019.0.0.5 - incremented copyright year to 2019
+// 2019-01-17 - 2019.0.0.6 - added new commands by Håvard Leding: pick surface, edge, linked element
+// 2019-01-21 - 2019.0.0.7 - fixed typo in variable name reported by @yk35 in pull request #47
+// 2019-03-18 - 2019.0.0.8 - cleanup before adding CmdSnoopModScopeDependents
+// 2019-03-18 - 2019.0.0.9 - added CmdSnoopModScopeDependents
+// 2019-03-25 - 2019.0.0.10 - integrated pull requests #48 and #49 by Victor Chekalin to snoop rendering AssetProperty via Material-AppearanceAssetId-GetRenderingAssset
+// 2019-03-26 - 2019.0.0.11 - integrated pull request #50 by Victor Chekalin to handle DoubleArray4d values
+// 2019-03-27 - 2019.0.0.12 - added MSI installer for 2018.0.0.0 submitted by @VBScab in issue #51
+// 2019-04-18 - 2019.0.0.13 - added MSI installer for Revit 2017-2020 by Harry Mattison
+// 2019-04-18 - 2020.0.0.0 - flat migration to Revit 2020
 //
-[assembly: AssemblyVersion( "2017.0.0.19" )]
-[assembly: AssemblyFileVersion( "2017.0.0.19" )]
+[assembly: AssemblyVersion( "2020.0.0.0" )]
+[assembly: AssemblyFileVersion( "2020.0.0.0" )]
