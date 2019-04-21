@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
 namespace RevitLookup.Snoop.CollectorExts
@@ -46,8 +47,11 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             List<MethodInfo> mInfo = new List<MethodInfo>();
 
-            if(type.Name == "Reference")
-                mInfo.Add(type.GetMethod("ConvertToStableRepresentation"));
+            if (type.Name == nameof(Reference))
+                mInfo.Add(type.GetMethod(nameof(Reference.ConvertToStableRepresentation)));
+
+            if (type.Name == nameof(Element))
+                mInfo.Add(type.GetMethod(nameof(Element.GetDependentElements)));
 
             mInfo.AddRange(type
                 .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
@@ -78,14 +82,12 @@ namespace RevitLookup.Snoop.CollectorExts
             try
             {
                 object returnValue;
-                if (mi.Name == "ConvertToStableRepresentation")
-                {
+                if (mi.Name == nameof(Reference.ConvertToStableRepresentation))
                     returnValue = mi.Invoke(elem, new object[] {application.ActiveUIDocument.Document});
-                }
+                else if (mi.Name == nameof(Element.GetDependentElements))
+                    returnValue = mi.Invoke(elem, new object[] {null});
                 else
-                {
                     returnValue = mi.Invoke(elem, new object[0]);
-                }
                 DataTypeInfoHelper.AddDataFromTypeInfo(application, mi, methodType, returnValue, elem, data);
                 
             }
