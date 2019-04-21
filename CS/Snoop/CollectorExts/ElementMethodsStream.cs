@@ -14,19 +14,30 @@ namespace RevitLookup.Snoop.CollectorExts
         private readonly ArrayList data;
         private readonly object elem;
         private readonly List<string> seenMethods = new List<string>();
-        
+        private readonly IEnumerable<string> specialMethods;
+        private readonly IEnumerable<string> forbiddenMethods;
+
         public ElementMethodsStream(UIApplication application, ArrayList data, object elem)
         {
             this.application = application;
             this.data = data;
             this.elem = elem;
+
+            specialMethods = new[]
+                {
+                    $"{typeof(Reference).FullName}.{nameof(Reference.ConvertToStableRepresentation)}",
+                    $"{typeof(Element).FullName}.{nameof(Element.GetDependentElements)}"
+                };
+
+            forbiddenMethods = new[]
+                {
+                    $"{typeof(Document).FullName}.{nameof(Document.Close)}"
+                };
         }
 
         public void Stream(Type type)
         {
-            var methods = GetElementMethods(type)
-                .Where(x => IsValidMethod(type, x))
-                .ToList();
+            var methods = GetElementMethods(type).ToList();
 
             if (methods.Count > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Methods"));
 
@@ -45,34 +56,21 @@ namespace RevitLookup.Snoop.CollectorExts
 
         private MethodInfo[] GetElementMethods(Type type)
         {
-            List<MethodInfo> mInfo = new List<MethodInfo>();
-
-            if (type.Name == nameof(Reference))
-                mInfo.Add(type.GetMethod(nameof(Reference.ConvertToStableRepresentation)));
-
-            if (type.Name == nameof(Element))
-                mInfo.Add(type.GetMethod(nameof(Element.GetDependentElements)));
-
-            mInfo.AddRange(type
+            return type
                 .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .Where(x => !x.GetParameters().Any()
-                            && x.ReturnType != typeof(void)
-                            && !x.IsSpecialName)
-                .OrderBy(x => x.Name));
-
-            return mInfo.ToArray();
+                .Where(IsValidMethod)
+                .OrderBy(x => x.Name)
+                .ToArray();
         }
 
-        private bool IsValidMethod(Type type, MethodInfo methodInfo)
+        private bool IsValidMethod(MethodInfo methodInfo)
         {
-            var forbiddenMethods = new[]
-                {
-                    "Autodesk.Revit.DB.Document.Close"
-                };
+            var name = $"{methodInfo.DeclaringType?.FullName}.{methodInfo.Name}";
 
-            var name = string.Format("{0}.{1}", type.FullName, methodInfo.Name);
-
-            return !forbiddenMethods.Contains(name);
+            if (methodInfo.IsSpecialName || forbiddenMethods.Contains(name))
+                return false;
+            
+            return specialMethods.Contains(name) || (!methodInfo.GetParameters().Any() && methodInfo.ReturnType != typeof(void));
         }
 
         private void AddMethodToData(MethodInfo mi)
