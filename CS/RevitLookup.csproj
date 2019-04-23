@@ -183,6 +183,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Snoop\CollectorExts\DataFactory.cs" />
     <Compile Include="Snoop\CollectorExts\DataTypeInfoHelper.cs" />
     <Compile Include="Snoop\CollectorExts\ElementMethodsStream.cs" />
     <Compile Include="Snoop\CollectorExts\ElementPropertiesStream.cs" />
