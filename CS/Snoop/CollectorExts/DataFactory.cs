@@ -2,6 +2,7 @@
 using System.Reflection;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Data;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
@@ -23,19 +24,22 @@ namespace RevitLookup.Snoop.CollectorExts
             if (methodInfo.IsSpecialName || declaringType == null)
                 return null;
 
-            if (methodInfo.Name == nameof(Element.GetDependentElements))
+            if (declaringType == typeof(Element) && methodInfo.Name == nameof(Element.GetDependentElements))
             {
                 var element = (Element) elem;
 
                 return DataTypeInfoHelper.CreateFrom(application, methodInfo, element.GetDependentElements(null), element);
             }
 
-            if (methodInfo.Name == nameof(Reference.ConvertToStableRepresentation))
+            if (declaringType == typeof(Reference) && methodInfo.Name == nameof(Reference.ConvertToStableRepresentation))
             {
                 var reference = (Reference)elem;
 
                 return DataTypeInfoHelper.CreateFrom(application, methodInfo, reference.ConvertToStableRepresentation(application.ActiveUIDocument.Document), reference);
             }
+
+            if (declaringType == typeof (View) && methodInfo.Name == nameof(View.GetFilterOverrides))
+                return new ViewFilterOverrideGraphicSettings(methodInfo.Name, (View) elem);
 
             if (declaringType == typeof (Document) && methodInfo.Name == nameof(Document.Close))
                 return null;
