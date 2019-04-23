@@ -91,32 +91,44 @@ namespace RevitLookup.Snoop.CollectorExts
             }
             
             StreamElementExtensibleStorages(data, elem as Element);
+
+            StreamSimpleType(data, elem);
         }
 
-        private void StreamElementExtensibleStorages(ArrayList data, Element elem)
+        private static void StreamElementExtensibleStorages(ArrayList data, Element elem)
         {
             var schemas = Schema.ListSchemas();
 
             if (elem == null || !schemas.Any())
                 return;
 
-            data.Add(new Snoop.Data.ExtensibleStorageSeparator());
+            data.Add(new ExtensibleStorageSeparator());
 
             foreach (var schema in schemas)
             {
-                String objectName = "Entity with Schema [" + schema.SchemaName + "]";
+                var objectName = "Entity with Schema [" + schema.SchemaName + "]";
                 try
                 {
-                    Entity entity = elem.GetEntity(schema);
+                    var entity = elem.GetEntity(schema);
+
                     if (!entity.IsValid())
                         continue;
-                    data.Add(new Snoop.Data.Object(objectName, entity));
+
+                    data.Add(new Data.Object(objectName, entity));
                 }
                 catch (System.Exception ex)
                 {
-                    data.Add(new Snoop.Data.Exception(objectName, ex));
+                    data.Add(new Data.Exception(objectName, ex));
                 }
             }
+        }
+
+        private void StreamSimpleType(ArrayList data, object elem)
+        {
+            var elemType = elem.GetType();
+
+            if (elemType.IsEnum || elemType.IsPrimitive || elemType.IsValueType)
+                data.Add(new Data.String($"{elemType.Name} value", elem.ToString()));
         }
     }
 }

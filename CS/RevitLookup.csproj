@@ -199,6 +199,7 @@
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
     <Compile Include="Snoop\Data\SnoopableObjectWrapper.cs" />
     <Compile Include="Snoop\Data\ViewFilterOverrideGraphicSettings.cs" />
+    <Compile Include="Snoop\Data\ViewFiltersVisibilitySettings.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">
       <SubType>Form</SubType>
     </Compile>
