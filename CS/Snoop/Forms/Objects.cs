@@ -32,6 +32,8 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Data;
+using ElementId = Autodesk.Revit.DB.ElementId;
 
 namespace RevitLookup.Snoop.Forms
 {
@@ -76,14 +78,14 @@ namespace RevitLookup.Snoop.Forms
       {
           InitializeComponent();
 
-          CommonInit(new[] {new Tuple<string, object>(Utils.ObjToLabelStr(obj), obj)});
+          CommonInit(new[] {SnoopableObjectWrapper.Create(obj) });
       }
 
       public Objects(ArrayList objs)
       {
           InitializeComponent();
 
-          CommonInit(objs.Cast<object>().Select(x => new Tuple<string, object>(Utils.ObjToLabelStr(x), x)));
+          CommonInit(objs.Cast<object>().Select(SnoopableObjectWrapper.Create));
       }
 
       public Objects(Document doc, ICollection<ElementId> ids)
@@ -92,12 +94,19 @@ namespace RevitLookup.Snoop.Forms
             
           var elements = ids
               .Select(doc.GetElement)
-              .Select(x => new Tuple<string, object>(Utils.ObjToLabelStr(x), x));
+              .Select(SnoopableObjectWrapper.Create);
 
           CommonInit(elements);
       }
 
-      protected void CommonInit( IEnumerable<Tuple<string, object>>  objs )
+      public Objects(IEnumerable<SnoopableObjectWrapper> objs)
+      {
+          InitializeComponent();
+
+          CommonInit(objs);
+      }
+
+      protected void CommonInit( IEnumerable<SnoopableObjectWrapper> objs )
     {
       m_tvObjs.BeginUpdate();
 
@@ -339,27 +348,27 @@ namespace RevitLookup.Snoop.Forms
     }
     #endregion
 
-      protected void AddObjectsToTree(IEnumerable<Tuple<string, object>> objs)
+      protected void AddObjectsToTree(IEnumerable<SnoopableObjectWrapper> snoopableObjects)
       {
           m_tvObjs.Sorted = true;
 
           // initialize the tree control
-          foreach (var tmpObj in objs)
+          foreach (var snoopableObject in snoopableObjects)
           {
               // hook this up to the correct spot in the tree based on the object's type
-              TreeNode parentNode = GetExistingNodeForType(tmpObj.Item2.GetType());
+              TreeNode parentNode = GetExistingNodeForType(snoopableObject.GetUnderlyingType());
               if (parentNode == null)
               {
-                  parentNode = new TreeNode(tmpObj.Item2.GetType().Name);
+                  parentNode = new TreeNode(snoopableObject.GetUnderlyingType().Name);
                   m_tvObjs.Nodes.Add(parentNode);
 
                   // record that we've seen this one
                   m_treeTypeNodes.Add(parentNode);
-                  m_types.Add(tmpObj.Item2.GetType());
+                  m_types.Add(snoopableObject.GetUnderlyingType());
               }
 
               // add the new node for this element
-              var tmpNode = new TreeNode(tmpObj.Item1) {Tag = tmpObj.Item2};
+              var tmpNode = new TreeNode(snoopableObject.Title) {Tag = snoopableObject.Object};
               parentNode.Nodes.Add(tmpNode);
           }
       }
