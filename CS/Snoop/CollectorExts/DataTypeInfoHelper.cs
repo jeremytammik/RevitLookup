@@ -9,6 +9,11 @@ namespace RevitLookup.Snoop.CollectorExts
 {
     public static class DataTypeInfoHelper
     {
+        public static Data.Data CreateFrom(UIApplication application, MethodInfo info, object returnValue, object elem)
+        {
+            return CreateFrom(application, info, info.ReturnType, returnValue, elem);
+        }
+
         public static Data.Data CreateFrom(UIApplication application, MemberInfo info, Type expectedType, object returnValue, object elem)
         {
             try

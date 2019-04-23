@@ -39,7 +39,7 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             var methods = GetElementMethods(type).ToList();
 
-            if (methods.Count > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Methods"));
+            if (methods.Count > 0) data.Add(new Data.MemberSeparatorWithOffset("Methods"));
 
             var currentTypeMethods = new List<string>();
 
@@ -73,34 +73,40 @@ namespace RevitLookup.Snoop.CollectorExts
             return specialMethods.Contains(name) || (!methodInfo.GetParameters().Any() && methodInfo.ReturnType != typeof(void));
         }
 
-        private void AddMethodToData(MethodInfo mi)
+        private void AddMethodToData(MethodInfo methodInfo)
         {
-            Type methodType = mi.ReturnType;
-
             try
             {
-                object returnValue;
-                if (mi.Name == nameof(Reference.ConvertToStableRepresentation))
-                    returnValue = mi.Invoke(elem, new object[] {application.ActiveUIDocument.Document});
-                else if (mi.Name == nameof(Element.GetDependentElements))
-                    returnValue = mi.Invoke(elem, new object[] {null});
-                else
-                    returnValue = mi.Invoke(elem, new object[0]);
-                DataTypeInfoHelper.AddDataFromTypeInfo(application, mi, methodType, returnValue, elem, data);
-                
+                data.Add(CreateFrom(methodInfo));
             }
             catch (TargetException ex)
             {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
+                data.Add(new Data.Exception(methodInfo.Name, ex));
             }
             catch (TargetInvocationException ex)
             {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
+                data.Add(new Data.Exception(methodInfo.Name, ex));
             }
             catch (TargetParameterCountException ex)
             {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
+                data.Add(new Data.Exception(methodInfo.Name, ex));
             }
+        }
+
+        private Data.Data CreateFrom(MethodInfo methodInfo)
+        {
+            object returnValue;
+
+            if (methodInfo.Name == nameof(Reference.ConvertToStableRepresentation))
+                returnValue = methodInfo.Invoke(elem, new object[] { application.ActiveUIDocument.Document });
+
+            else if (methodInfo.Name == nameof(Element.GetDependentElements))
+                returnValue = methodInfo.Invoke(elem, new object[] { null });
+
+            else
+                returnValue = methodInfo.Invoke(elem, new object[0]);
+
+            return DataTypeInfoHelper.CreateFrom(application, methodInfo, returnValue, elem);
         }
     }
 }
