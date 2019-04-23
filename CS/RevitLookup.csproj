@@ -197,6 +197,7 @@
     <Compile Include="Snoop\Data\EnumerableAsString.cs" />
     <Compile Include="Snoop\Data\ExtensibleStorageSeparator.cs" />
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
+    <Compile Include="Snoop\Data\ElementPhaseStatuses.cs" />
     <Compile Include="Snoop\Data\SnoopableObjectWrapper.cs" />
     <Compile Include="Snoop\Data\ViewFilterOverrideGraphicSettings.cs" />
     <Compile Include="Snoop\Data\ViewFiltersVisibilitySettings.cs" />
