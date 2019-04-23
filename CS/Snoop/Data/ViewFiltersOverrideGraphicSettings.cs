@@ -3,11 +3,11 @@ using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.Data
 {
-    public class ViewFilterOverrideGraphicSettings : Data
+    public class ViewFiltersOverrideGraphicSettings : Data
     {
         private readonly View view;
 
-        public ViewFilterOverrideGraphicSettings(string label, View view) : base(label)
+        public ViewFiltersOverrideGraphicSettings(string label, View view) : base(label)
         {
             this.view = view;
         }

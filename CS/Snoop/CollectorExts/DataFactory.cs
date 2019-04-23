@@ -42,7 +42,7 @@ namespace RevitLookup.Snoop.CollectorExts
             }
 
             if (declaringType == typeof (View) && methodInfo.Name == nameof(View.GetFilterOverrides))
-               return new ViewFilterOverrideGraphicSettings(methodInfo.Name, (View) elem);
+               return new ViewFiltersOverrideGraphicSettings(methodInfo.Name, (View) elem);
 
             if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetFilterVisibility))
                 return new ViewFiltersVisibilitySettings(methodInfo.Name, (View) elem);
