@@ -66,45 +66,38 @@ namespace RevitLookup.Snoop.Forms
     private ToolStripButton toolStripButton3;
     private Int32 m_currentPrintItem = 0;
 
-    protected
-    Objects()
-    {
-      // this constructor is for derived classes to call
-      InitializeComponent();
-    }
+      protected Objects()
+      {
+          // this constructor is for derived classes to call
+          InitializeComponent();
+      }
 
-    public
-    Objects( System.Object obj )
-    {
-      InitializeComponent();
+      public Objects(object obj)
+      {
+          InitializeComponent();
 
-      // get in array form so we can call normal processing code.
-      ArrayList objs = new ArrayList();
-      objs.Add( obj );
-      CommonInit( objs );
-    }
+          CommonInit(new[] {new Tuple<string, object>(Utils.ObjToLabelStr(obj), obj)});
+      }
 
-    public
-    Objects( ArrayList objs )
-    {
-      InitializeComponent();
-      CommonInit( objs );
-    }
+      public Objects(ArrayList objs)
+      {
+          InitializeComponent();
 
-    public
-    Objects( Document doc, ICollection<ElementId> ids )
-    {
-      InitializeComponent();
+          CommonInit(objs.Cast<object>().Select(x => new Tuple<string, object>(Utils.ObjToLabelStr(x), x)));
+      }
 
-      ICollection<Element> elemSet
-        = new List<Element>( ids.Select<ElementId, Element>(
-          id => doc.GetElement( id ) ) );
+      public Objects(Document doc, ICollection<ElementId> ids)
+      {
+          InitializeComponent();
+            
+          var elements = ids
+              .Select(doc.GetElement)
+              .Select(x => new Tuple<string, object>(Utils.ObjToLabelStr(x), x));
 
-      CommonInit( elemSet );
-    }
+          CommonInit(elements);
+      }
 
-    protected void
-    CommonInit( IEnumerable objs )
+      protected void CommonInit( IEnumerable<Tuple<string, object>>  objs )
     {
       m_tvObjs.BeginUpdate();
 
@@ -346,34 +339,32 @@ namespace RevitLookup.Snoop.Forms
     }
     #endregion
 
-    protected void
-    AddObjectsToTree( IEnumerable objs )
-    {
-      m_tvObjs.Sorted = true;
-
-      // initialize the tree control
-      foreach( Object tmpObj in objs )
+      protected void AddObjectsToTree(IEnumerable<Tuple<string, object>> objs)
       {
-        // hook this up to the correct spot in the tree based on the object's type
-        TreeNode parentNode = GetExistingNodeForType( tmpObj.GetType() );
-        if( parentNode == null )
-        {
-          parentNode = new TreeNode( tmpObj.GetType().Name );
-          m_tvObjs.Nodes.Add( parentNode );
+          m_tvObjs.Sorted = true;
 
-          // record that we've seen this one
-          m_treeTypeNodes.Add( parentNode );
-          m_types.Add( tmpObj.GetType() );
-        }
+          // initialize the tree control
+          foreach (var tmpObj in objs)
+          {
+              // hook this up to the correct spot in the tree based on the object's type
+              TreeNode parentNode = GetExistingNodeForType(tmpObj.Item2.GetType());
+              if (parentNode == null)
+              {
+                  parentNode = new TreeNode(tmpObj.Item2.GetType().Name);
+                  m_tvObjs.Nodes.Add(parentNode);
 
-        // add the new node for this element
-        TreeNode tmpNode = new TreeNode( Snoop.Utils.ObjToLabelStr( tmpObj ) );
-        tmpNode.Tag = tmpObj;
-        parentNode.Nodes.Add( tmpNode );
+                  // record that we've seen this one
+                  m_treeTypeNodes.Add(parentNode);
+                  m_types.Add(tmpObj.Item2.GetType());
+              }
+
+              // add the new node for this element
+              var tmpNode = new TreeNode(tmpObj.Item1) {Tag = tmpObj.Item2};
+              parentNode.Nodes.Add(tmpNode);
+          }
       }
-    }
 
-    /// <summary>
+      /// <summary>
     /// If we've already seen this type before, return the existing TreeNode object
     /// </summary>
     /// <param name="objType">System.Type we're looking to find</param>
