@@ -9,97 +9,60 @@ namespace RevitLookup.Snoop.CollectorExts
 {
     public class ElementMethodsStream : IElementStream
     {
-        private readonly UIApplication application;
         private readonly ArrayList data;
-        private readonly object elem;
         private readonly List<string> seenMethods = new List<string>();
-        
+        private readonly DataFactory methodDataFactory;
+
         public ElementMethodsStream(UIApplication application, ArrayList data, object elem)
         {
-            this.application = application;
             this.data = data;
-            this.elem = elem;
+
+            methodDataFactory = new DataFactory(application, elem);
         }
 
         public void Stream(Type type)
         {
-            var methods = GetElementMethods(type)
-                .Where(x => IsValidMethod(type, x))
+            var methods = type
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
+                .OrderBy(x => x.Name)
                 .ToList();
 
-            if (methods.Count > 0) data.Add(new Snoop.Data.MemberSeparatorWithOffset("Methods"));
+            if (methods.Count > 0) data.Add(new Data.MemberSeparatorWithOffset("Methods"));
 
             var currentTypeMethods = new List<string>();
 
-            foreach (MethodInfo mi in methods)
+            foreach (var methodInfo in methods)
             {
-                if (seenMethods.Contains(mi.Name)) continue;
+                if (seenMethods.Contains(methodInfo.Name)) continue;
 
-                currentTypeMethods.Add(mi.Name);
-                AddMethodToData(mi);
+                currentTypeMethods.Add(methodInfo.Name);
+
+                var methodData = GetMethodData(methodInfo);
+
+                if (methodData != null)
+                    data.Add(methodData);
             }
 
             seenMethods.AddRange(currentTypeMethods);
         }
 
-        private MethodInfo[] GetElementMethods(Type type)
+        private Data.Data GetMethodData(MethodInfo methodInfo)
         {
-            List<MethodInfo> mInfo = new List<MethodInfo>();
-
-            if(type.Name == "Reference")
-                mInfo.Add(type.GetMethod("ConvertToStableRepresentation"));
-
-            mInfo.AddRange(type
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .Where(x => !x.GetParameters().Any()
-                            && x.ReturnType != typeof(void)
-                            && !x.IsSpecialName)
-                .OrderBy(x => x.Name));
-
-            return mInfo.ToArray();
-        }
-
-        private bool IsValidMethod(Type type, MethodInfo methodInfo)
-        {
-            var forbiddenMethods = new[]
-                {
-                    "Autodesk.Revit.DB.Document.Close"
-                };
-
-            var name = string.Format("{0}.{1}", type.FullName, methodInfo.Name);
-
-            return !forbiddenMethods.Contains(name);
-        }
-
-        private void AddMethodToData(MethodInfo mi)
-        {
-            Type methodType = mi.ReturnType;
-
             try
             {
-                object returnValue;
-                if (mi.Name == "ConvertToStableRepresentation")
-                {
-                    returnValue = mi.Invoke(elem, new object[] {application.ActiveUIDocument.Document});
-                }
-                else
-                {
-                    returnValue = mi.Invoke(elem, new object[0]);
-                }
-                DataTypeInfoHelper.AddDataFromTypeInfo(application, mi, methodType, returnValue, elem, data);
-                
+                return methodDataFactory.Create(methodInfo);
             }
             catch (TargetException ex)
             {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
+                return new Data.Exception(methodInfo.Name, ex);
             }
             catch (TargetInvocationException ex)
             {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
+                return new Data.Exception(methodInfo.Name, ex);
             }
             catch (TargetParameterCountException ex)
             {
-                data.Add(new Snoop.Data.Exception(mi.Name, ex));
+                return new Data.Exception(methodInfo.Name, ex);
             }
         }
     }

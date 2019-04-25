@@ -11,7 +11,9 @@
 
         public override string StrValue()
         {
-            return string.Format("R: {0}; G: {1}; B: {2}", m_color.Red, m_color.Green, m_color.Blue);
+            return m_color.IsValid
+                ? $"R: {m_color.Red}; G: {m_color.Green}; B: {m_color.Blue}"
+                : "-- invalid color value --";
         }
     }
 }

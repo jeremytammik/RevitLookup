@@ -9,116 +9,112 @@ namespace RevitLookup.Snoop.CollectorExts
 {
     public static class DataTypeInfoHelper
     {
-        public static void AddDataFromTypeInfo(UIApplication application, MemberInfo info, Type expectedType, object returnValue, object elem, ArrayList data)
+        public static Data.Data CreateFrom(UIApplication application, MethodInfo info, object returnValue, object elem)
+        {
+            return CreateFrom(application, info, info.ReturnType, returnValue, elem);
+        }
+
+        public static Data.Data CreateFrom(UIApplication application, MemberInfo info, Type expectedType, object returnValue, object elem)
         {
             try
             {
                 if (expectedType == typeof(bool))
                 {
-                    bool? val = returnValue as bool?;
-                    data.Add(new Snoop.Data.Bool(info.Name, val.Value));
+                    var val = returnValue as bool?;
+
+                    return new Data.Bool(info.Name, val.GetValueOrDefault());
                 }
-                else if (expectedType == typeof(CategoryNameMap))
-                {
-                    data.Add(new Snoop.Data.CategoryNameMap(info.Name, returnValue as CategoryNameMap));
-                }
-                else if (expectedType == typeof(double))
-                {
-                    data.Add(new Snoop.Data.Double(info.Name, (double)returnValue));
-                }
-                else if (expectedType == typeof(double?))
+                if (expectedType == typeof (CategoryNameMap))
+                    return new Data.CategoryNameMap(info.Name, returnValue as CategoryNameMap);
+
+                if (expectedType == typeof (double))
+                    return new Data.Double(info.Name, (double) returnValue);
+
+                if (expectedType == typeof (double?))
                 {
                     var value = (double?) returnValue;
+
                     if (value.HasValue)
-                        data.Add(new Snoop.Data.Double(info.Name, value.Value));
-                    else
-                        data.Add(new Snoop.Data.EmptyValue(info.Name));
-                }
-                else if (expectedType == typeof(byte))
-                {
-                    var value = (byte) returnValue;
+                        return new Data.Double(info.Name, value.Value);
 
-                    data.Add(new Snoop.Data.Int(info.Name, value));
+                    return new Data.EmptyValue(info.Name);
                 }
-                else if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element)
-                {
-                    data.Add(new Snoop.Data.ElementGeometry(info.Name, elem as Element, application.Application));
-                }
-                else if (expectedType == typeof(ElementId))
-                {
-                    if (info.Name == "Id")
-                        data.Add(new Snoop.Data.String(info.Name, (returnValue as ElementId).IntegerValue.ToString()));
-                    else
-                        data.Add(new Snoop.Data.ElementId(info.Name, returnValue as ElementId, application.ActiveUIDocument.Document));
-                }
-                else if (expectedType == typeof(ElementSet))
-                {
-                    data.Add(new Snoop.Data.ElementSet(info.Name, returnValue as ElementSet));
-                }
-                else if (expectedType == typeof(AssetProperty))
-                {
-                    data.Add(new Snoop.Data.AssetProperty(info.Name, elem as AssetProperties, returnValue as AssetProperty));
-                }
-                else if (expectedType == typeof(Autodesk.Revit.DB.Color))
-                {
-                    data.Add(new Snoop.Data.Color(info.Name, returnValue as Autodesk.Revit.DB.Color));
-                }                               
-                else if (expectedType == typeof(Autodesk.Revit.DB.DoubleArray))
-                {
-                    data.Add(new Snoop.Data.DoubleArray(info.Name, returnValue as Autodesk.Revit.DB.DoubleArray));
-                }
-                else if (expectedType == typeof(int))
-                {
-                    int? val = returnValue as int?;
-                    data.Add(new Snoop.Data.Int(info.Name, val.Value));
-                }
-                else if (expectedType == typeof(ParameterSet))
-                {
-                    data.Add(new Snoop.Data.ParameterSet(info.Name, elem as Element, returnValue as ParameterSet));
-                }
-                else if (expectedType == typeof(string))
-                {
-                    data.Add(new Snoop.Data.String(info.Name, returnValue as string));
-                }
-                else if (expectedType == typeof(UV))
-                {
-                    data.Add(new Snoop.Data.Uv(info.Name, returnValue as UV));
-                }
-                else if (expectedType == typeof(XYZ))
-                {
-                    data.Add(new Snoop.Data.Xyz(info.Name, returnValue as XYZ));
-                }
-                else if ((typeof(IEnumerable).IsAssignableFrom(expectedType) 
-                         && expectedType.IsGenericType 
-                         && (expectedType.GenericTypeArguments[0] == typeof(double) 
-                             || expectedType.GenericTypeArguments[0] == typeof(int)))
 
-                         || expectedType == typeof(Autodesk.Revit.DB.DoubleArray))
+                if (expectedType == typeof (byte))
+                    return new Data.Int(info.Name, (byte) returnValue);
+
+                if ((expectedType == typeof (GeometryObject) || expectedType == typeof (GeometryElement)) && elem is Element)
+                    return new Data.ElementGeometry(info.Name, elem as Element, application.Application);
+
+                if (expectedType == typeof (ElementId))
                 {
-                    data.Add(new Snoop.Data.EnumerableAsString(info.Name, returnValue as IEnumerable));
+                    if (info.Name == nameof(Element.Id))
+                        return new Data.String(info.Name, (returnValue as ElementId)?.IntegerValue.ToString());
+
+                    return new Data.ElementId(info.Name, returnValue as ElementId, application.ActiveUIDocument.Document);
                 }
-                else if (typeof(IEnumerable).IsAssignableFrom(expectedType))
+
+                if (expectedType == typeof (ElementSet))
+                    return new Data.ElementSet(info.Name, returnValue as ElementSet);
+
+                if (expectedType == typeof (AssetProperty))
+                    return new Data.AssetProperty(info.Name, elem as AssetProperties, returnValue as AssetProperty);
+
+                if (expectedType == typeof (Color))
+                    return new Data.Color(info.Name, returnValue as Color);
+
+                if (expectedType == typeof (DoubleArray))
+                    return new Data.DoubleArray(info.Name, returnValue as DoubleArray);
+
+                if (expectedType == typeof (int))
                 {
-                    data.Add(new Snoop.Data.Enumerable(info.Name, returnValue as IEnumerable, application.ActiveUIDocument.Document));
+                    var val = returnValue as int?;
+
+                    return new Data.Int(info.Name, val.GetValueOrDefault());
                 }
-                
-                else if (expectedType.IsEnum)
-                {
-                    data.Add(new Snoop.Data.String(info.Name, returnValue.ToString()));
-                } else if (expectedType == typeof (Guid))
+
+                if (expectedType == typeof (ParameterSet))
+                    return new Data.ParameterSet(info.Name, elem as Element, returnValue as ParameterSet);
+
+                if (expectedType == typeof (string))
+                    return new Data.String(info.Name, returnValue as string);
+
+                if (expectedType == typeof (UV))
+                    return new Data.Uv(info.Name, returnValue as UV);
+
+                if (expectedType == typeof (XYZ))
+                    return new Data.Xyz(info.Name, returnValue as XYZ);
+
+                if ((typeof (IEnumerable).IsAssignableFrom(expectedType)
+                     && expectedType.IsGenericType
+                     && (expectedType.GenericTypeArguments[0] == typeof (double)
+                         || expectedType.GenericTypeArguments[0] == typeof (int))) || expectedType == typeof (DoubleArray))
+                    return new Data.EnumerableAsString(info.Name, returnValue as IEnumerable);
+
+                if (typeof (IEnumerable).IsAssignableFrom(expectedType))
+                    return new Data.Enumerable(info.Name, returnValue as IEnumerable, application.ActiveUIDocument.Document);
+
+                if (expectedType.IsEnum)
+                    return new Data.String(info.Name, returnValue.ToString());
+
+                if (expectedType == typeof (Guid))
                 {
                     var guidValue = (Guid) returnValue;
-                    data.Add(new Snoop.Data.String(info.Name, guidValue.ToString()));
+
+                    return new Data.String(info.Name, guidValue.ToString());
                 }
-                else
-                {
-                    data.Add(new Snoop.Data.Object(info.Name, returnValue as object));
-                }
+
+                return new Data.Object(info.Name, returnValue);
             }
             catch (Exception ex)
             {
-                data.Add(new Snoop.Data.Exception(info.Name, ex));
+                return new Data.Exception(info.Name, ex);
             }
+        }
+
+        public static void AddDataFromTypeInfo(UIApplication application, MemberInfo info, Type expectedType, object returnValue, object elem, ArrayList data)
+        {
+            data.Add(CreateFrom(application, info, expectedType, returnValue, elem));
         }
     }
 }

@@ -183,6 +183,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Snoop\CollectorExts\DataFactory.cs" />
     <Compile Include="Snoop\CollectorExts\DataTypeInfoHelper.cs" />
     <Compile Include="Snoop\CollectorExts\ElementMethodsStream.cs" />
     <Compile Include="Snoop\CollectorExts\ElementPropertiesStream.cs" />
@@ -196,6 +197,10 @@
     <Compile Include="Snoop\Data\EnumerableAsString.cs" />
     <Compile Include="Snoop\Data\ExtensibleStorageSeparator.cs" />
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
+    <Compile Include="Snoop\Data\ElementPhaseStatuses.cs" />
+    <Compile Include="Snoop\Data\SnoopableObjectWrapper.cs" />
+    <Compile Include="Snoop\Data\ViewFiltersOverrideGraphicSettings.cs" />
+    <Compile Include="Snoop\Data\ViewFiltersVisibilitySettings.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">
       <SubType>Form</SubType>
     </Compile>
