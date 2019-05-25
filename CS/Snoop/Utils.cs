@@ -119,22 +119,6 @@ namespace RevitLookup.Snoop
          pgForm.ShowDialog();
       }
 
-      public static string
-        ObjToTypeStr(System.Object obj)
-      {
-         if (obj == null)
-            return "< null >";
-
-         Autodesk.Revit.DB.Element elem = obj as Autodesk.Revit.DB.Element;
-         if (elem != null)
-         {
-            var nameStr = (elem.Name == string.Empty) ? "???" : elem.Name;		// use "???" if no name is set
-            return string.Format("< {0}  {1}  {2,4} >", obj.GetType().Name, nameStr, elem.Id.IntegerValue.ToString());
-         }
-         
-         return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? string.Format("< {0} >", obj.GetType().Name);
-      }
-
        private static string GetNamedObjectLabel(object obj)
        {
            var nameProperty = obj
@@ -156,38 +140,36 @@ namespace RevitLookup.Snoop
        {
            var parameter = obj as Parameter;
 
-           if (parameter == null)
-               return null;
-
-           return parameter.Definition.Name;
+           return parameter?.Definition.Name;
        }
 
-       public static string
-        ObjToLabelStr(System.Object obj)
-      {
-         if (obj == null)
-            return "< null >";
+       public static string ObjToLabelStr(object obj)
+       {
+           if (obj == null)
+               return "< null >";
 
-         Autodesk.Revit.DB.Element elem = obj as Autodesk.Revit.DB.Element;
-         if (elem != null)
-         {
-            // TBD: Exceptions are thrown in certain cases when accessing the Name property. 
-            // Eg. for the RoomTag object. So we will catch the exception and display the exception message
-            // arj - 1/23/07
-            try
-            {
-               string nameStr = (elem.Name == string.Empty) ? "???" : elem.Name;		// use "???" if no name is set
-               return string.Format("< {0}  {1} >", nameStr, elem.Id.IntegerValue.ToString());
-            }
-            catch (System.InvalidOperationException ex)
-            {
-               return string.Format("< {0}  {1} >", null, ex.Message);
-            }
-         }
-         return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? string.Format("< {0} >", obj.GetType().Name);
-      }
+           var elem = obj as Element;
 
-      public static void
+           if (elem != null)
+           {
+               // TBD: Exceptions are thrown in certain cases when accessing the Name property. 
+               // Eg. for the RoomTag object. So we will catch the exception and display the exception message
+               // arj - 1/23/07
+               try
+               {
+                   var nameStr = (elem.Name == string.Empty) ? "???" : elem.Name; // use "???" if no name is set
+                   return $"< {nameStr}  {elem.Id.IntegerValue} >";
+               }
+               catch (InvalidOperationException ex)
+               {
+                   return $"< {null}  {ex.Message} >";
+               }
+           }
+
+           return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? $"< {obj.GetType().Name} >";
+       }
+
+       public static void
       CopyToClipboard(ListView lv)
       {
          if (lv.Items.Count == 0)
