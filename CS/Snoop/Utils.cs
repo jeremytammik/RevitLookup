@@ -143,6 +143,13 @@ namespace RevitLookup.Snoop
            return parameter?.Definition.Name;
        }
 
+       private static string GetFamilyParameterObjectLabel(object obj)
+       {
+           var familyParameter = obj as FamilyParameter;
+
+           return familyParameter?.Definition.Name;
+       }
+
        public static string ObjToLabelStr(object obj)
        {
            if (obj == null)
@@ -166,7 +173,7 @@ namespace RevitLookup.Snoop
                }
            }
 
-           return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? $"< {obj.GetType().Name} >";
+           return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? GetFamilyParameterObjectLabel(obj) ?? $"< {obj.GetType().Name} >";
        }
 
        public static void
