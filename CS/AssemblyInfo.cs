@@ -144,6 +144,7 @@ using System.Reflection;
 // 2019-03-27 - 2019.0.0.12 - added MSI installer for 2018.0.0.0 submitted by @VBScab in issue #51
 // 2019-04-18 - 2019.0.0.13 - added MSI installer for Revit 2017-2020 by Harry Mattison
 // 2019-04-18 - 2020.0.0.0 - flat migration to Revit 2020
+// 2019-04-26 - 2020.0.0.1 - integrated pull request #52 by @CADBIMDeveloper
 //
-[assembly: AssemblyVersion( "2020.0.0.0" )]
-[assembly: AssemblyFileVersion( "2020.0.0.0" )]
+[assembly: AssemblyVersion( "2020.0.0.1" )]
+[assembly: AssemblyFileVersion( "2020.0.0.1" )]
