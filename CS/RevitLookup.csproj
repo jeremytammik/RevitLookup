@@ -188,6 +188,7 @@
     <Compile Include="Snoop\CollectorExts\ElementMethodsStream.cs" />
     <Compile Include="Snoop\CollectorExts\ElementPropertiesStream.cs" />
     <Compile Include="Snoop\CollectorExts\ExtensibleStorageEntityContentStream.cs" />
+    <Compile Include="Snoop\CollectorExts\FamilyTypeParameterValuesStream.cs" />
     <Compile Include="Snoop\CollectorExts\IElementStream.cs" />
     <Compile Include="Snoop\CollectorExts\SpatialElementStream.cs" />
     <Compile Include="Snoop\Data\AssetProperty.cs" />
