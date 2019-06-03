@@ -79,6 +79,7 @@ namespace RevitLookup.Snoop.CollectorExts
                     new ElementPropertiesStream(m_app, data, elem),
                     new ElementMethodsStream(m_app, data, elem),
                     new SpatialElementStream(data, elem),
+                    new FamilyTypeParameterValuesStream(data, elem),
                     new ExtensibleStorageEntityContentStream(m_app.ActiveUIDocument.Document, data, elem)
                 };
 

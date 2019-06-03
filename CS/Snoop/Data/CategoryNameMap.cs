@@ -48,7 +48,7 @@ namespace RevitLookup.Snoop.Data
         public override string
         StrValue()
         {
-			return Snoop.Utils.ObjToTypeStr(m_val);
+			return Utils.ObjToLabelStr(m_val);
         }
         
         public override bool
