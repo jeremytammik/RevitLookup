@@ -86,7 +86,7 @@ Says he:
 This clarification was prompted by 
 the [issue #35 &ndash; RevitLookup doesn't snoop all members](https://github.com/jeremytammik/RevitLookup/issues/35):
 
-**Question:** I tried snooping a selected Structual Rebar element in the active view and found not all of the Rebar class members showed up in the Snoop Objects window. One of many members that weren't there: `Rebar.GetFullGeometryForView` method.
+**Question:** I tried snooping a selected Structural Rebar element in the active view and found not all of the Rebar class members showed up in the Snoop Objects window. One of many members that weren't there: `Rebar.GetFullGeometryForView` method.
 
 Is this the expected behaviour? I was thinking I could get all object members just with  RevitLookup and without the Revit API help file `RevitAPI.chm`.
 
@@ -99,7 +99,7 @@ For methods requiring dynamic input that cannot be automatically determined, you
 
 ## Author
 
-Implemented by Jim Awe and the Revit API developement team at Autodesk.
+Implemented by Jim Awe and the Revit API development team at Autodesk.
 
 Maintained by Jeremy Tammik,
 [The Building Coder](http://thebuildingcoder.typepad.com) and
