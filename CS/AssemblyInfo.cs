@@ -146,6 +146,7 @@ using System.Reflection;
 // 2019-04-18 - 2020.0.0.0 - flat migration to Revit 2020
 // 2019-04-26 - 2020.0.0.1 - integrated pull request #52 by @CADBIMDeveloper
 // 2019-06-03 - 2020.0.0.2 - integrated pull request #53 by @CADBIMDeveloper - list available values for ParameterType.FamilyType and FamilyParameters titles
+// 2019-08-20 - 2020.0.0.3 - integrated pull request #56 by @nonoesp - fix two small typos in readme
 //
-[assembly: AssemblyVersion( "2020.0.0.2" )]
-[assembly: AssemblyFileVersion( "2020.0.0.2" )]
+[assembly: AssemblyVersion( "2020.0.0.3" )]
+[assembly: AssemblyFileVersion( "2020.0.0.3" )]
