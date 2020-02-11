@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2019 by Autodesk, Inc. 
+// Copyright 2003-2020 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -32,7 +32,7 @@ using System.Reflection;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "RevitLookup" )]
-[assembly: AssemblyCopyright( "Copyright (C) 2003-2019 by Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright (C) 2003-2020 by Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -147,6 +147,7 @@ using System.Reflection;
 // 2019-04-26 - 2020.0.0.1 - integrated pull request #52 by @CADBIMDeveloper
 // 2019-06-03 - 2020.0.0.2 - integrated pull request #53 by @CADBIMDeveloper - list available values for ParameterType.FamilyType and FamilyParameters titles
 // 2019-08-20 - 2020.0.0.3 - integrated pull request #56 by @nonoesp - fix two small typos in readme
+// 2020-02-11 - 2020.0.0.4 - incremented copyright year
 //
-[assembly: AssemblyVersion( "2020.0.0.3" )]
-[assembly: AssemblyFileVersion( "2020.0.0.3" )]
+[assembly: AssemblyVersion( "2020.0.0.4" )]
+[assembly: AssemblyFileVersion( "2020.0.0.4" )]
