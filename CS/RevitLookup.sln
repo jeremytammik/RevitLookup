@@ -1,25 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1062
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitLookup", "RevitLookup.csproj", "{05C77115-2277-4DFC-8F95-BE37E5F1130F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		2019|Any CPU = 2019|Any CPU
+		2020|Any CPU = 2020|Any CPU
+		2021|Any CPU = 2021|Any CPU
 		Debug (For Release build of Revit)|Any CPU = Debug (For Release build of Revit)|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug (For Release build of Revit)|Any CPU.ActiveCfg = Debug (For Release build of Revit)|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug (For Release build of Revit)|Any CPU.Build.0 = Debug (For Release build of Revit)|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2019|Any CPU.ActiveCfg = 2019|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2019|Any CPU.Build.0 = 2019|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2020|Any CPU.ActiveCfg = 2020|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2020|Any CPU.Build.0 = 2020|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2021|Any CPU.ActiveCfg = 2021|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2021|Any CPU.Build.0 = 2021|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug (For Release build of Revit)|Any CPU.ActiveCfg = 2021|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug (For Release build of Revit)|Any CPU.Build.0 = 2021|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|Any CPU.ActiveCfg = 2021|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|Any CPU.Build.0 = 2021|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|Any CPU.ActiveCfg = 2021|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|Any CPU.Build.0 = 2021|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDC9D108-9880-46A7-B5BE-86ED4F593005}
 	EndGlobalSection
 EndGlobal
