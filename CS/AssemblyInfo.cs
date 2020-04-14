@@ -149,6 +149,7 @@ using System.Reflection;
 // 2019-08-20 - 2020.0.0.3 - integrated pull request #56 by @nonoesp - fix two small typos in readme
 // 2020-02-11 - 2020.0.0.4 - incremented copyright year
 // 2020-04-12 - 2021.0.0.0 - flat migration to Revit 2021
+// 2020-04-14 - 2021.0.0.1 - integrated pull request #58 by @harrymattison with solution changes for multi-release building
 //
-[assembly: AssemblyVersion( "2021.0.0.0" )]
-[assembly: AssemblyFileVersion( "2021.0.0.0" )]
+[assembly: AssemblyVersion( "2021.0.0.1" )]
+[assembly: AssemblyFileVersion( "2021.0.0.1" )]
