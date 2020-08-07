@@ -4,7 +4,7 @@
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgray.svg)
 ![.NET](https://img.shields.io/badge/.NET-4.8-blue.svg)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://opensource.org/licenses/MIT)
-[![Build Status](https://s3-eu-west-1.amazonaws.com/lookup-builds/extra/build_status.svg)](https://lookupbuilds.com)
+[![Build Status](https://gitlab.com/buildinformed-public/revitlookup/badges/master/pipeline.svg)](https://lookupbuilds.com)
 
 Interactive Revit BIM database exploration tool to view and navigate element properties and relationships.
 
@@ -28,19 +28,14 @@ If you are interested in an earlier release of Revit, please grab the latest app
 
 ## <a name="builds"></a> Builds
 
-Peter Hirn of [Build Informed GmbH](https://www.buildinformed.com) very kindly set up a
+[Build Informed GmbH](https://www.buildinformed.com) very kindly set up a
 public [CI](https://en.wikipedia.org/wiki/Continuous_integration) for RevitLookup
 at [lookupbuilds.com](https://lookupbuilds.com)
-using [Jenkins](https://jenkins.io/index.html) in
-a multi-branch project configuration to build all branches and tags from the GitHub repository.
+using [gitlab.com](https://gitlab.com).
 The output is dual-signed with the Build Informed certificate, zipped and published to an Amazon S3 bucket.
-For more information, please refer to 
+For more information, please refer to
 the [Revit API discussion forum](http://forums.autodesk.com/t5/revit-api-forum/bd-p/160) thread
 on [CI for RevitLookup](https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111).
-
-Peter also added the build status badge at the top of this page.
-
-Thank you very much, Peter!
 
 
 ## Installation
@@ -84,7 +79,7 @@ Says he:
 <a name="caveat"></a>
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
 
-This clarification was prompted by 
+This clarification was prompted by
 the [issue #35 &ndash; RevitLookup doesn't snoop all members](https://github.com/jeremytammik/RevitLookup/issues/35):
 
 **Question:** I tried snooping a selected Structural Rebar element in the active view and found not all of the Rebar class members showed up in the Snoop Objects window. One of many members that weren't there: `Rebar.GetFullGeometryForView` method.
