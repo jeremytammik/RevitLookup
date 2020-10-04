@@ -76,6 +76,8 @@ Says he:
 
 > I’ve added some conditional compilation and multiple configurations so that the single solution can be used to build against any version of Revit 2017-2020.
 
+[Download the last version of the RevitLookup.](raw/master/installer/Revit%20Lookup-SetupFiles/Revit%20Lookup.msi)
+
 <a name="caveat"></a>
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
 
