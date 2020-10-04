@@ -32,7 +32,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -50,99 +50,39 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <ConfigurationOverrideFile>
-    </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;ADSK_INTERNAL</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2021|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>false</Optimize>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
-    <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\2021\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <ConfigurationOverrideFile>
-    </ConfigurationOverrideFile>
-    <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
-    <DebugSymbols>false</DebugSymbols>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>true</Optimize>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
-    <DebugType>none</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug %28For Release build of Revit%29|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <BaseAddress>285212672</BaseAddress>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <ConfigurationOverrideFile>
-    </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <DocumentationFile>
-    </DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2020|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <FileAlignment>4096</FileAlignment>
-    <Optimize>false</Optimize>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningLevel>4</WarningLevel>
-    <DebugType>full</DebugType>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\2020\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2019|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\2019\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows">
-      <HintPath>$(ProgramW6432)\Autodesk\Revit 2019\AdWindows.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\AdWindows.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="RevitAPI">
-      <HintPath>$(ProgramW6432)\Autodesk\Revit 2019\RevitAPI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIIFC">
-      <HintPath>$(ProgramW6432)\Autodesk\Revit 2019\RevitAPIIFC.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPIIFC.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIMacros">
-      <HintPath>$(ProgramW6432)\Autodesk\Revit 2019\RevitAPIMacros.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPIMacros.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUI">
-      <HintPath>$(ProgramW6432)\Autodesk\Revit 2019\RevitAPIUI.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPIUI.dll</HintPath>
     </Reference>
     <Reference Include="RevitAPIUIMacros">
-      <HintPath>$(ProgramW6432)\Autodesk\Revit 2019\RevitAPIUIMacros.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPIUIMacros.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -183,15 +123,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Snoop\CollectorExts\DataFactory.cs" />
     <Compile Include="Snoop\CollectorExts\DataTypeInfoHelper.cs" />
     <Compile Include="Snoop\CollectorExts\ElementMethodsStream.cs" />
     <Compile Include="Snoop\CollectorExts\ElementPropertiesStream.cs" />
     <Compile Include="Snoop\CollectorExts\ExtensibleStorageEntityContentStream.cs" />
+    <Compile Include="Snoop\CollectorExts\FamilyTypeParameterValuesStream.cs" />
     <Compile Include="Snoop\CollectorExts\IElementStream.cs" />
     <Compile Include="Snoop\CollectorExts\SpatialElementStream.cs" />
+    <Compile Include="Snoop\Data\AssetProperty.cs" />
+    <Compile Include="Snoop\Data\Color.cs" />
+    <Compile Include="Snoop\Data\DoubleArray.cs" />
     <Compile Include="Snoop\Data\EmptyValue.cs" />
+    <Compile Include="Snoop\Data\EnumerableAsString.cs" />
     <Compile Include="Snoop\Data\ExtensibleStorageSeparator.cs" />
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
+    <Compile Include="Snoop\Data\ElementPhaseStatuses.cs" />
+    <Compile Include="Snoop\Data\SnoopableObjectWrapper.cs" />
+    <Compile Include="Snoop\Data\ViewFiltersOverrideGraphicSettings.cs" />
+    <Compile Include="Snoop\Data\ViewFiltersVisibilitySettings.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -429,8 +379,11 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\2019"
-copy "$(ProjectDir)bin\Debug\RevitLookup.dll" "$(AppData)\Autodesk\REVIT\Addins\2019"
+    <PostBuildEvent>REM "C:\Program Files (x86)\Windows Kits\8.0\bin\x64\signtool.exe" sign /f "C:\Users\harry_000\Documents\Boost Your BIM\BoostYourBIM.pfx" /p $(CodeSignPassword) /v $(TargetPath)
+
+copy "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\$(Configuration)"
+
+copy $(TargetPath) "$(AppData)\Autodesk\REVIT\Addins\$(Configuration)"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

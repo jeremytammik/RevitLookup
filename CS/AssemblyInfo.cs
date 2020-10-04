@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2019 by Autodesk, Inc. 
+// Copyright 2003-2020 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -23,7 +23,6 @@
 #endregion // Header
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -33,7 +32,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "RevitLookup" )]
-[assembly: AssemblyCopyright( "Copyright (C) 2003-2019 by Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright (C) 2003-2020 by Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -136,6 +135,21 @@ using System.Runtime.CompilerServices;
 // 2018-05-29 - 2019.0.0.2 - merged pull request #43 from Levente Koncz @palver123 to use ProgramW6432 variable in csproj to locate Revit API assembly DLLs
 // 2018-12-13 - 2019.0.0.4 - merged issue #45 and pull request #46 from @TheKidMSX to center parent for forms
 // 2019-01-09 - 2019.0.0.5 - incremented copyright year to 2019
+// 2019-01-17 - 2019.0.0.6 - added new commands by Håvard Leding: pick surface, edge, linked element
+// 2019-01-21 - 2019.0.0.7 - fixed typo in variable name reported by @yk35 in pull request #47
+// 2019-03-18 - 2019.0.0.8 - cleanup before adding CmdSnoopModScopeDependents
+// 2019-03-18 - 2019.0.0.9 - added CmdSnoopModScopeDependents
+// 2019-03-25 - 2019.0.0.10 - integrated pull requests #48 and #49 by Victor Chekalin to snoop rendering AssetProperty via Material-AppearanceAssetId-GetRenderingAssset
+// 2019-03-26 - 2019.0.0.11 - integrated pull request #50 by Victor Chekalin to handle DoubleArray4d values
+// 2019-03-27 - 2019.0.0.12 - added MSI installer for 2018.0.0.0 submitted by @VBScab in issue #51
+// 2019-04-18 - 2019.0.0.13 - added MSI installer for Revit 2017-2020 by Harry Mattison
+// 2019-04-18 - 2020.0.0.0 - flat migration to Revit 2020
+// 2019-04-26 - 2020.0.0.1 - integrated pull request #52 by @CADBIMDeveloper
+// 2019-06-03 - 2020.0.0.2 - integrated pull request #53 by @CADBIMDeveloper - list available values for ParameterType.FamilyType and FamilyParameters titles
+// 2019-08-20 - 2020.0.0.3 - integrated pull request #56 by @nonoesp - fix two small typos in readme
+// 2020-02-11 - 2020.0.0.4 - incremented copyright year
+// 2020-04-12 - 2021.0.0.0 - flat migration to Revit 2021
+// 2020-04-14 - 2021.0.0.1 - integrated pull request #58 by @harrymattison with solution changes for multi-release building
 //
-[assembly: AssemblyVersion( "2019.0.0.5" )]
-[assembly: AssemblyFileVersion( "2019.0.0.5" )]
+[assembly: AssemblyVersion( "2021.0.0.1" )]
+[assembly: AssemblyFileVersion( "2021.0.0.1" )]

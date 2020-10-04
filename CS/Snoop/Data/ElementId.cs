@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2019 by Autodesk, Inc. 
+// Copyright 2003-2020 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -58,7 +58,7 @@ namespace RevitLookup.Snoop.Data
         public override string
         StrValue()
         {
-			return Utils.ObjToTypeStr(m_elem);
+			return Utils.ObjToLabelStr(m_elem);
         }
         
         public override bool
