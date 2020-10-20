@@ -138,12 +138,23 @@ namespace RevitLookup.Snoop.CollectorExts
       var parameters = methodInfo.GetParameters();
 
       if( field.ContainerType == ContainerType.Simple
-        && ( field.ValueType == typeof( XYZ )
-          || field.ValueType == typeof( double ) ) )
-        return parameters.Length == 2
-          && parameters.First().ParameterType == typeof( Field )
-          && parameters.Last().ParameterType == typeof( DisplayUnitType );
+        && (field.ValueType == typeof( XYZ )
+          || field.ValueType == typeof( double )) )
+      {
+        // warning CS0618: `DisplayUnitType` is obsolete: 
+        // This enumeration is deprecated in Revit 2021 and may be removed in a future version of Revit. 
+        // Please use the `ForgeTypeId` class instead. 
+        // Use constant members of the `UnitTypeId` class to replace uses of specific values of this enumeration.
 
+        if( 2 == parameters.Length )
+        {
+          ParameterInfo p1 = parameters.First();
+          ParameterInfo p2 = parameters.Last();
+          return p1.ParameterType == typeof( Field )
+            && (p2.ParameterType == typeof( DisplayUnitType )
+              || p2.ParameterType == typeof( ForgeTypeId ));
+        }
+      }
       return parameters.Length == 1 && parameters.Single().ParameterType == typeof( Field );
     }
   }
