@@ -46,13 +46,13 @@ namespace RevitLookup.Snoop.CollectorExts
     {
       try
       {
-        var getEntityValueMehod = GetEntityFieldValueMethod( field );
+        var getEntityValueMethod = GetEntityFieldValueMethod( field );
 
         var valueType = GetFieldValueType( field );
 
-        var genericGet = getEntityValueMehod.MakeGenericMethod( valueType );
+        var genericGet = getEntityValueMethod.MakeGenericMethod( valueType );
 
-        var parameters = getEntityValueMehod.GetParameters().Length == 1
+        var parameters = getEntityValueMethod.GetParameters().Length == 1
           ? new object[] { field }
           : new object[] { field, UnitUtils.GetValidDisplayUnits( field.UnitType ).First() };
 
