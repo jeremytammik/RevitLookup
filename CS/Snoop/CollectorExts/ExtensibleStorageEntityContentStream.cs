@@ -52,7 +52,9 @@ namespace RevitLookup.Snoop.CollectorExts
 
         var genericGet = getEntityValueMethod.MakeGenericMethod( valueType );
 
-        var unit = UnitUtils.GetValidDisplayUnits( field.UnitType ).First();
+        //var unit = UnitUtils.GetValidDisplayUnits( field.UnitType ).First(); // 2020
+
+        var unit = UnitUtils.GetValidUnits( field.GetSpecTypeId() ).First(); // 2021
 
         var parameters = getEntityValueMethod.GetParameters().Length == 1
           ? new object[] { field }
