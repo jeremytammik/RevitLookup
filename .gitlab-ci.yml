@@ -8,10 +8,11 @@ download-revit-api:
   stage: download-revit-api
   image: alpine:3.12
   variables:
-    REVIT_API_URL: https://bimag.b-cdn.net/revit/2019/RevitAPI.dll
-    REVIT_API_CHECKSUM: da1fbac1e5afb210478cbb508e0677679e994da8c9e13b56c43d5e122dabd6e7
-    REVIT_APIUI_URL: https://bimag.b-cdn.net/revit/2019/RevitAPIUI.dll
-    REVIT_APIUI_CHECKSUM: d29a755922997310a215afa83fa44ea91aafdd6feddce722e5feed98d2ae9f73
+    REVIT_API_URL: https://cdn.bim.ag/revit/2021/RevitAPI.dll
+    REVIT_API_CHECKSUM: b5081483584d7f15297c7985936a9d5870a66d89959ac7cc803a528b4836ab30
+    REVIT_APIUI_URL: https://cdn.bim.ag/revit/2021/RevitAPIUI.dll
+    REVIT_APIUI_CHECKSUM: efc5731f64974aeb526ffcaaf7775a4ef0122cf41cf09f71241517c49edfabac
+    GIT_STRATEGY: none
   script:
     - apk add --update --no-cache curl
     - mkdir revit-api
@@ -39,12 +40,24 @@ build:
   dependencies:
     - download-revit-api
   variables:
-    MSBUILD: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin\MSBuild.exe'
+    LOOKUP_CONFIGURATION: "2021"
+    LOOKUP_SOLUTION: CS/RevitLookup.sln
+    PATH_BUILD_TOOLS: C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin
+  before_script:
+    - $env:Path += ";${PATH_BUILD_TOOLS}"
+    - choco install netfx-4.8-devpack -y
   script:
-    - '& "$MSBUILD" -p:TargetFrameworkVersion=v4.7.2 -p:Configuration=2021 -p:ReferencePath="../revit-api" -p:PostBuildEvent= CS/RevitLookup.sln'
-    - New-Item -Force -ItemType Directory -Path artifacts | Out-Null
-    - Copy-Item "CS/bin/2021/RevitLookup.dll" artifacts/
-    - Copy-Item "CS/RevitLookup.addin" artifacts/
+    - >
+      msbuild
+      -p:Configuration=${LOOKUP_CONFIGURATION}
+      -p:ReferencePath="../revit-api"
+      -p:PostBuildEvent=
+      ${LOOKUP_SOLUTION}
+    - if (-not $?) { throw "Build failed" }
+
+    - mkdir artifacts
+    - cp "CS/bin/${LOOKUP_CONFIGURATION}/RevitLookup.dll" artifacts/
+    - cp "CS/RevitLookup.addin" artifacts/
   artifacts:
     paths:
       - artifacts/
@@ -59,6 +72,7 @@ sign:
     ASSEMBLY: artifacts/RevitLookup.dll
     TIMESERVER: http://timestamp.verisign.com/scripts/timstamp.dll
     DEBIAN_FRONTEND: noninteractive
+    GIT_STRATEGY: none
   script:
     - apt-get update && apt-get install -y --no-install-recommends osslsigncode
     - mkdir -p .secrets && mount -t ramfs -o size=1M ramfs .secrets/
@@ -83,6 +97,8 @@ publish:
   image: alpine:3.12
   dependencies:
     - sign
+  variables:
+    GIT_STRATEGY: none
   before_script:
     - |
         if [ -n "${CI_COMMIT_TAG}" ]; then
