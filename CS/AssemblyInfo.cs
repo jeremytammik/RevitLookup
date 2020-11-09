@@ -152,6 +152,7 @@ using System.Reflection;
 // 2020-04-14 2021.0.0.1 integrated pull request #58 by @harrymattison with solution changes for multi-release building
 // 2020-10-20 2021.0.0.5 integrated pull request #63 by @swfaust to update command registration and remove obsolete test framework command
 // 2020-10-20 2021.0.0.6 eliminated deprecated unit api usage
+// 2020-11-09 2021.0.0.7 integrated pull request #64 by @peterhirn to update CI for Revit 2021
 //
-[assembly: AssemblyVersion( "2021.0.0.6" )]
-[assembly: AssemblyFileVersion( "2021.0.0.6" )]
+[assembly: AssemblyVersion( "2021.0.0.7" )]
+[assembly: AssemblyFileVersion( "2021.0.0.7" )]
