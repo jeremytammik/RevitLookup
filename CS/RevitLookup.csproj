@@ -140,6 +140,8 @@
     <Compile Include="Snoop\Data\MemberSeparator.cs" />
     <Compile Include="Snoop\Data\ElementPhaseStatuses.cs" />
     <Compile Include="Snoop\Data\SnoopableObjectWrapper.cs" />
+    <Compile Include="Snoop\Data\ViewGetTemplateParameterIds.cs" />
+    <Compile Include="Snoop\Data\ViewGetNonControlledTemplateParameterIds.cs" />
     <Compile Include="Snoop\Data\ViewFiltersOverrideGraphicSettings.cs" />
     <Compile Include="Snoop\Data\ViewFiltersVisibilitySettings.cs" />
     <Compile Include="Snoop\Forms\ParamEnum.cs">

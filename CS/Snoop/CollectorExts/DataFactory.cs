@@ -47,6 +47,12 @@ namespace RevitLookup.Snoop.CollectorExts
             if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetFilterVisibility))
                 return new ViewFiltersVisibilitySettings(methodInfo.Name, (View) elem);
 
+            if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetNonControlledTemplateParameterIds))
+                return new ViewGetNonControlledTemplateParameterIds(methodInfo.Name, (View)elem);
+
+            if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetTemplateParameterIds))
+                return new ViewGetTemplateParameterIds(methodInfo.Name, (View)elem);
+
             if (declaringType == typeof (Document) && methodInfo.Name == nameof(Document.Close))
                 return null;
 
