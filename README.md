@@ -106,7 +106,8 @@ Maintained by Jeremy Tammik,
 [ADN](http://www.autodesk.com/adn)
 [Open](http://www.autodesk.com/adnopen),
 [Autodesk Inc.](http://www.autodesk.com),
-with invaluable contributions from the entire Revit add-in developer community.
+with invaluable [contributions](graphs/contributors) from
+the entire Revit add-in developer community.
 
 Thank you, guys!
 
