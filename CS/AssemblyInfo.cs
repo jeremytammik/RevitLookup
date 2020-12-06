@@ -156,5 +156,5 @@ using System.Reflection;
 // 2020-12-04 2021.0.0.8 integrated pull request #66 by @RevitArkitek adding handlers for View GetTemplateParameterIds and GetNonControlledTemplateParameterIds
 // 2020-12-06 2021.0.0.9 locally disable warning CS0618 `DisplayUnitType` is obsolete for one specific use case
 //
-[assembly: AssemblyVersion( "2021.0.0.8" )]
-[assembly: AssemblyFileVersion( "2021.0.0.8" )]
+[assembly: AssemblyVersion( "2021.0.0.9" )]
+[assembly: AssemblyFileVersion( "2021.0.0.9" )]
