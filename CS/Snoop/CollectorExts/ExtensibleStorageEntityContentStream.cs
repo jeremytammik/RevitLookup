@@ -141,6 +141,7 @@ namespace RevitLookup.Snoop.CollectorExts
         && (field.ValueType == typeof( XYZ )
           || field.ValueType == typeof( double )) )
       {
+#pragma warning disable CS0618
         // warning CS0618: `DisplayUnitType` is obsolete: 
         // This enumeration is deprecated in Revit 2021 and may be removed in a future version of Revit. 
         // Please use the `ForgeTypeId` class instead. 
@@ -154,6 +155,8 @@ namespace RevitLookup.Snoop.CollectorExts
             && (p2.ParameterType == typeof( DisplayUnitType )
               || p2.ParameterType == typeof( ForgeTypeId ));
         }
+#pragma warning restore CS0618
+
       }
       return parameters.Length == 1 && parameters.Single().ParameterType == typeof( Field );
     }
