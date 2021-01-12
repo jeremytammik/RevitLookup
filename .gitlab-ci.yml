@@ -70,7 +70,7 @@ sign:
     - build
   variables:
     ASSEMBLY: artifacts/RevitLookup.dll
-    TIMESERVER: http://timestamp.verisign.com/scripts/timstamp.dll
+    TIMESERVER: http://timestamp.digicert.com
     DEBIAN_FRONTEND: noninteractive
     GIT_STRATEGY: none
   script:
