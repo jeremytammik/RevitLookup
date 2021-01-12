@@ -156,6 +156,7 @@ using System.Reflection;
 // 2020-12-04 2021.0.0.8 integrated pull request #66 by @RevitArkitek adding handlers for View GetTemplateParameterIds and GetNonControlledTemplateParameterIds
 // 2020-12-06 2021.0.0.9 locally disable warning CS0618 `DisplayUnitType` is obsolete for one specific use case
 // 2021-01-11 2021.0.0.10 increment copyright year
+// 2021-01-12 2021.0.0.11 integrated pull request #67 by @peterhirn to update timestamp server from Verisign to digicert
 //
-[assembly: AssemblyVersion( "2021.0.0.10" )]
-[assembly: AssemblyFileVersion( "2021.0.0.10" )]
+[assembly: AssemblyVersion( "2021.0.0.11" )]
+[assembly: AssemblyFileVersion( "2021.0.0.11" )]
