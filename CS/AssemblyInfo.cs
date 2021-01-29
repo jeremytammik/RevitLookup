@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2020 by Autodesk, Inc. 
+// Copyright 2003-2021 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -32,7 +32,7 @@ using System.Reflection;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Autodesk Inc." )]
 [assembly: AssemblyProduct( "RevitLookup" )]
-[assembly: AssemblyCopyright( "Copyright (C) 2003-2020 by Autodesk Inc." )]
+[assembly: AssemblyCopyright( "Copyright (C) 2003-2021 by Autodesk Inc." )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -153,6 +153,10 @@ using System.Reflection;
 // 2020-10-20 2021.0.0.5 integrated pull request #63 by @swfaust to update command registration and remove obsolete test framework command
 // 2020-10-20 2021.0.0.6 eliminated deprecated unit api usage
 // 2020-11-09 2021.0.0.7 integrated pull request #64 by @peterhirn to update CI for Revit 2021
+// 2020-12-04 2021.0.0.8 integrated pull request #66 by @RevitArkitek adding handlers for View GetTemplateParameterIds and GetNonControlledTemplateParameterIds
+// 2020-12-06 2021.0.0.9 locally disable warning CS0618 `DisplayUnitType` is obsolete for one specific use case
+// 2021-01-11 2021.0.0.10 increment copyright year
+// 2021-01-12 2021.0.0.11 integrated pull request #67 by @peterhirn to update timestamp server from Verisign to digicert
 //
-[assembly: AssemblyVersion( "2021.0.0.7" )]
-[assembly: AssemblyFileVersion( "2021.0.0.7" )]
+[assembly: AssemblyVersion( "2021.0.0.11" )]
+[assembly: AssemblyFileVersion( "2021.0.0.11" )]
