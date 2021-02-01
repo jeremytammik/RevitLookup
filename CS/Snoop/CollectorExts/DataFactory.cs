@@ -53,6 +53,9 @@ namespace RevitLookup.Snoop.CollectorExts
             if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetTemplateParameterIds))
                 return new ViewGetTemplateParameterIds(methodInfo.Name, (View)elem);
 
+            if (declaringType == typeof(ViewCropRegionShapeManager) && methodInfo.Name == nameof(ViewCropRegionShapeManager.GetSplitRegionOffset))
+                return new ViewCropRegionShapeManagerGetSplitRegionOffsets(methodInfo.Name, (ViewCropRegionShapeManager)elem);
+
             if (declaringType == typeof (Document) && methodInfo.Name == nameof(Document.Close))
                 return null;
 
