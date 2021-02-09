@@ -158,6 +158,7 @@ using System.Reflection;
 // 2021-01-11 2021.0.0.10 increment copyright year
 // 2021-01-12 2021.0.0.11 integrated pull request #67 by @peterhirn to update timestamp server from Verisign to digicert
 // 2021-02-01 2021.0.0.12 integrated pull request #69 by @RevitArkitek adding handler for the GetSplitRegionOffsets method to address issue #68 Split Region Offsets (2021)
+// 2021-02-09 2021.0.0.13 integrated pull request #71 by @RevitArkitek adding handler for ScheduleDefinition.GetField to address issue #70
 //
-[assembly: AssemblyVersion( "2021.0.0.12" )]
-[assembly: AssemblyFileVersion( "2021.0.0.12" )]
+[assembly: AssemblyVersion( "2021.0.0.13" )]
+[assembly: AssemblyFileVersion( "2021.0.0.13" )]
