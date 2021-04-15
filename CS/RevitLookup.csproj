@@ -50,6 +50,10 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2022|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\2022\</OutputPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '2021|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\2021\</OutputPath>
@@ -63,26 +67,32 @@
     <OutputPath>bin\2019\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AdWindows">
-      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\AdWindows.dll</HintPath>
+    <Reference Include="AdWindows, Version=3.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2022\AdWindows.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="RevitAPI">
-      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPI.dll</HintPath>
+    <Reference Include="RevitAPI, Version=21.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIIFC">
-      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPIIFC.dll</HintPath>
+    <Reference Include="RevitAPIIFC, Version=21.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPIIFC.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIMacros">
-      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPIMacros.dll</HintPath>
+    <Reference Include="RevitAPIMacros, Version=21.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPIMacros.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIUI">
-      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPIUI.dll</HintPath>
+    <Reference Include="RevitAPIUI, Version=21.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPIUI.dll</HintPath>
     </Reference>
-    <Reference Include="RevitAPIUIMacros">
-      <HintPath>C:\Program Files\Autodesk\Revit $(Configuration)\RevitAPIUIMacros.dll</HintPath>
+    <Reference Include="RevitAPIUIMacros, Version=21.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\Revit 2022\RevitAPIUIMacros.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
