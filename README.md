@@ -18,6 +18,7 @@ The most up-to-date version provided here is for Revit 2021.
 If you are interested in an earlier release of Revit, please grab the latest appropriate one from the
 [release list](https://github.com/jeremytammik/RevitLookup/releases), e.g.:
 
+- [2021.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2021.0.0.13) for Revit 2021
 - [2020.0.0.4](https://github.com/jeremytammik/RevitLookup/releases/tag/2020.0.0.4) for Revit 2020
 - [2019.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2019.0.0.13) for Revit 2019
 - [2018.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2018.0.0.8) for Revit 2018
