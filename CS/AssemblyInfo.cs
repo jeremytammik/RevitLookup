@@ -161,6 +161,7 @@ using System.Reflection;
 // 2021-02-09 2021.0.0.13 integrated pull request #71 by @RevitArkitek adding handler for ScheduleDefinition.GetField to address issue #70
 // 2021-04-15 2022.0.0.0 flat migration to Revit 2022
 // 2021-04-15 2022.0.0.1 integrated pull request #74 by @peterhirn setting up CI to Revit 2022
+// 2021-04-15 2022.0.0.2 integrated pull request #75 by @peterhirn to fix CI for Revit 2022 and non-dotnet-core project file
 //
-[assembly: AssemblyVersion( "2022.0.0.1" )]
-[assembly: AssemblyFileVersion( "2022.0.0.1" )]
+[assembly: AssemblyVersion( "2022.0.0.2" )]
+[assembly: AssemblyFileVersion( "2022.0.0.2" )]
