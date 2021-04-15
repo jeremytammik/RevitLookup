@@ -7,20 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitLookup", "RevitLookup.
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		2019|Any CPU = 2019|Any CPU
-		2020|Any CPU = 2020|Any CPU
-		2021|Any CPU = 2021|Any CPU
-		2022|Any CPU = 2022|Any CPU
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2019|Any CPU.ActiveCfg = 2022|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2019|Any CPU.Build.0 = 2022|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2020|Any CPU.ActiveCfg = 2020|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2020|Any CPU.Build.0 = 2020|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2021|Any CPU.ActiveCfg = 2021|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2021|Any CPU.Build.0 = 2021|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2022|Any CPU.ActiveCfg = 2022|Any CPU
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.2022|Any CPU.Build.0 = 2022|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|x64.ActiveCfg = Debug|x64
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|x64.Build.0 = Debug|x64
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|x64.ActiveCfg = Release|x64
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

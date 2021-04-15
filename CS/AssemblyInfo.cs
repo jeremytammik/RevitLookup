@@ -164,6 +164,7 @@ using System.Reflection;
 // 2021-04-15 2022.0.0.2 integrated pull request #75 by @peterhirn to fix CI for Revit 2022 and non-dotnet-core project file
 // 2021-04-15 2022.0.0.3 integrated pull request #73 by @mphelt to wrap snoop in temporary transaction allowing to snoop PlanTopologies
 // 2021-04-15 2022.0.0.3 reset Revit API assembly DLL references to Copy Local false
+// 2021-04-15 2022.0.0.4 upgraded to Visual Studio 2019 (from 2017) and adopted @peterhirn project and solution files
 //
-[assembly: AssemblyVersion( "2022.0.0.3" )]
-[assembly: AssemblyFileVersion( "2022.0.0.3" )]
+[assembly: AssemblyVersion( "2022.0.0.4" )]
+[assembly: AssemblyFileVersion( "2022.0.0.4" )]
