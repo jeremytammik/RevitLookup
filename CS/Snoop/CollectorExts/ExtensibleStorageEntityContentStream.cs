@@ -152,8 +152,8 @@ namespace RevitLookup.Snoop.CollectorExts
           ParameterInfo p1 = parameters.First();
           ParameterInfo p2 = parameters.Last();
           return p1.ParameterType == typeof( Field )
-            && (p2.ParameterType == typeof( DisplayUnitType )
-              || p2.ParameterType == typeof( ForgeTypeId ));
+            && // (p2.ParameterType == typeof( DisplayUnitType ) || // Revit 2021
+              p2.ParameterType == typeof( ForgeTypeId );
         }
 #pragma warning restore CS0618
 
