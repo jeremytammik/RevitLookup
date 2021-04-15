@@ -395,9 +395,9 @@
     </PreBuildEvent>
     <PostBuildEvent>REM "C:\Program Files (x86)\Windows Kits\8.0\bin\x64\signtool.exe" sign /f "C:\Users\harry_000\Documents\Boost Your BIM\BoostYourBIM.pfx" /p $(CodeSignPassword) /v $(TargetPath)
 
-copy /Y "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\$(Configuration)"
+xcopy "$(ProjectDir)RevitLookup.addin" "$(AppData)\Autodesk\REVIT\Addins\$(Configuration)" /y /i /r
 
-copy /Y $(TargetPath) "$(AppData)\Autodesk\REVIT\Addins\$(Configuration)"
+xcopy "$(TargetPath)" "$(AppData)\Autodesk\REVIT\Addins\$(Configuration)" /y /i /r
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
