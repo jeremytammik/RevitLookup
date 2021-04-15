@@ -65,6 +65,10 @@ namespace RevitLookup.Snoop.CollectorExts
                     propertyValue = pi.GetValue(elem, new object[1] { 0 });
                 else if (pi.Name == "Parameter")
                     return;
+                else if (pi.Name == "PlanTopology")
+                    return;
+                else if (pi.Name == "PlanTopologies" && pi.GetMethod.GetParameters().Length != 0)
+                    return;
                 else
                     propertyValue = pi.GetValue(elem);
 
