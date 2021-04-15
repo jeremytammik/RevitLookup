@@ -44,7 +44,10 @@ namespace RevitLookup
   [Transaction( TransactionMode.Manual )]
   public class HelloWorld : IExternalCommand
   {
-    public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
+    public Result Execute( 
+      ExternalCommandData cmdData, 
+      ref string msg, 
+      ElementSet elems )
     {
       Assembly a = Assembly.GetExecutingAssembly();
       string version = a.GetName().Version.ToString();
@@ -62,7 +65,10 @@ namespace RevitLookup
   [Transaction( TransactionMode.Manual )]
   public class CmdSnoopDb : IExternalCommand
   {
-    public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
+    public Result Execute( 
+      ExternalCommandData cmdData, 
+      ref string msg, 
+      ElementSet elems )
     {
       Result result;
 
@@ -110,7 +116,10 @@ namespace RevitLookup
   [Transaction( TransactionMode.Manual )]
   public class CmdSnoopModScopePickSurface : IExternalCommand
   {
-    public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
+    public Result Execute( 
+      ExternalCommandData cmdData, 
+      ref string msg, 
+      ElementSet elems )
     {
       Result result;
 
