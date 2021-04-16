@@ -40,7 +40,7 @@ build:
   dependencies:
     - download-revit-api
   variables:
-    LOOKUP_CONFIGURATION: "2022"
+    LOOKUP_CONFIGURATION: Release
     LOOKUP_SOLUTION: CS/RevitLookup.sln
     PATH_BUILD_TOOLS: C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
@@ -48,12 +48,11 @@ build:
     - $env:Path += ";${PATH_BUILD_TOOLS}"
     - choco install netfx-4.8-devpack -y
   script:
-    - >
-      msbuild
-      -p:Configuration=${LOOKUP_CONFIGURATION}
-      -p:ReferencePath="../revit-api"
-      -p:PostBuildEvent=
-      ${LOOKUP_SOLUTION}
+    - dotnet restore "${LOOKUP_SOLUTION}"
+    - if (-not $?) { throw "Restore failed" }
+
+    # We can't use `dotnet msbuild` here because of some embedded resource issue.
+    - msbuild -p:Configuration=${LOOKUP_CONFIGURATION} -p:CI=True "${LOOKUP_SOLUTION}"
     - if (-not $?) { throw "Build failed" }
 
     - mkdir artifacts
