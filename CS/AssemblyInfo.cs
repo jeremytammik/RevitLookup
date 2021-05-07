@@ -166,6 +166,7 @@ using System.Reflection;
 // 2021-04-15 2022.0.0.3 reset Revit API assembly DLL references to Copy Local false
 // 2021-04-15 2022.0.0.4 upgraded to Visual Studio 2019 (from 2017) and adopted @peterhirn project and solution files
 // 2021-04-16 2022.0.0.5 integrated pull request #76 by @peterhirn to fix CI for new VS 2019 Revit 2022 dotnet-core csproj
+// 2021-05-07 2022.0.0.6 integrated pull request #77 by @RevitArkitek to get end points for curves 
 //
-[assembly: AssemblyVersion( "2022.0.0.5" )]
-[assembly: AssemblyFileVersion( "2022.0.0.5" )]
+[assembly: AssemblyVersion( "2022.0.0.6" )]
+[assembly: AssemblyFileVersion( "2022.0.0.6" )]
