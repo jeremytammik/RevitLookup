@@ -60,8 +60,11 @@ namespace RevitLookup.Snoop.CollectorExts
                     return new ScheduleDefinitionGetFields(methodInfo.Name, (ScheduleDefinition)elem);
             }
 
-          if (declaringType == typeof(ViewCropRegionShapeManager) && methodInfo.Name == nameof(ViewCropRegionShapeManager.GetSplitRegionOffset))
+            if (declaringType == typeof(ViewCropRegionShapeManager) && methodInfo.Name == nameof(ViewCropRegionShapeManager.GetSplitRegionOffset))
                 return new ViewCropRegionShapeManagerGetSplitRegionOffsets(methodInfo.Name, (ViewCropRegionShapeManager)elem);
+
+            if (declaringType == typeof(Curve) && methodInfo.Name == nameof(Curve.GetEndPoint))
+                return new CurveGetEndPoint(methodInfo.Name, (Curve)elem);
 
             if (declaringType == typeof (Document) && methodInfo.Name == nameof(Document.Close))
                 return null;
