@@ -66,6 +66,13 @@ namespace RevitLookup.Snoop.CollectorExts
             if (declaringType == typeof(Curve) && methodInfo.Name == nameof(Curve.GetEndPoint))
                 return new CurveGetEndPoint(methodInfo.Name, (Curve)elem);
 
+            if (declaringType == typeof(TableData) && methodInfo.Name == nameof(TableData.GetSectionData))
+            {
+                var parameters = methodInfo.GetParameters();
+                if (parameters[0].ParameterType == typeof(SectionType))
+                    return new TableDataSectionData(methodInfo.Name, (TableData)elem);
+            }
+
             if (declaringType == typeof (Document) && methodInfo.Name == nameof(Document.Close))
                 return null;
 
