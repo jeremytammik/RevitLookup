@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using Autodesk.Revit.DB;
 
@@ -24,10 +25,11 @@ namespace RevitLookup.Snoop.CollectorExts
       var parameter = (Parameter) elem;
 
       var family = (parameter.Element as FamilyInstance)?.Symbol.Family ?? (parameter.Element as FamilySymbol)?.Family;
-
-      if (parameter.Definition.ParameterType != ParameterType.FamilyType || family == null) // Revit 2021
+ 
+      //This should filter out all non family types.
+      if (!Category.IsBuiltInCategory(parameter.Definition.GetDataType())) //Revit 2022
           return;
-
+    
       var familyTypeParameterValues = family
           .GetFamilyTypeParameterValues( parameter.Id )
           .Select( family.Document.GetElement )
