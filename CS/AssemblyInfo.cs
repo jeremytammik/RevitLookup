@@ -168,6 +168,7 @@ using System.Reflection;
 // 2021-04-16 2022.0.0.5 integrated pull request #76 by @peterhirn to fix CI for new VS 2019 Revit 2022 dotnet-core csproj
 // 2021-05-07 2022.0.0.6 integrated pull request #77 by @RevitArkitek to get end points for curves
 // 2021-05-07 2022.0.0.7 integrated pull request #78 by @RevitArkitek to handle `TableData.GetSectionData`
+// 2021-05-14 2022.0.0.8 integrated pull request #80 by @WspDev to remove deprecated `ParameterType` usage
 //
-[assembly: AssemblyVersion( "2022.0.0.7" )]
-[assembly: AssemblyFileVersion( "2022.0.0.7" )]
+[assembly: AssemblyVersion( "2022.0.0.8" )]
+[assembly: AssemblyFileVersion( "2022.0.0.8" )]

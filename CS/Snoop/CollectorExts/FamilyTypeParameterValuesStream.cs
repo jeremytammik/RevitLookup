@@ -23,12 +23,13 @@ namespace RevitLookup.Snoop.CollectorExts
 
       var parameter = (Parameter) elem;
 
-      var family = (parameter.Element as FamilyInstance)?.Symbol.Family ?? (parameter.Element as FamilySymbol)?.Family;
+      var family = (parameter.Element as FamilyInstance)?.Symbol.Family 
+        ?? (parameter.Element as FamilySymbol)?.Family;
 
       // Filter out non family types.
 
-      if (parameter.Definition.ParameterType != ParameterType.FamilyType || family == null) // Revit 2021
-          return;
+      //if (parameter.Definition.ParameterType != ParameterType.FamilyType || family == null) // Revit 2021
+      //  return;
 
       if (!Category.IsBuiltInCategory(parameter.Definition.GetDataType())) // Revit 2022
         return;
@@ -38,7 +39,9 @@ namespace RevitLookup.Snoop.CollectorExts
           .Select( family.Document.GetElement )
           .ToList();
 
-      data.Add( new Data.Enumerable( $"{nameof( Family )}.{nameof( Family.GetFamilyTypeParameterValues )}()", familyTypeParameterValues ) );
+      data.Add( new Data.Enumerable( 
+        $"{nameof( Family )}.{nameof( Family.GetFamilyTypeParameterValues )}()", 
+        familyTypeParameterValues ) );
     }
   }
 }
