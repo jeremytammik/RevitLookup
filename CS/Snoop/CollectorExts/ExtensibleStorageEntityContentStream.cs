@@ -42,32 +42,32 @@ namespace RevitLookup.Snoop.CollectorExts
         StreamEntityFieldValue( field );
     }
 
-    private void StreamEntityFieldValue( Field field )
+    private void StreamEntityFieldValue(Field field)
     {
-      try
-      {
-        var getEntityValueMethod = GetEntityFieldValueMethod( field );
+        try
+        {
+            var getEntityValueMethod = GetEntityFieldValueMethod(field);
 
-        var valueType = GetFieldValueType( field );
+            var valueType = GetFieldValueType(field);
 
-        var genericGet = getEntityValueMethod.MakeGenericMethod( valueType );
+            var genericGet = getEntityValueMethod.MakeGenericMethod(valueType);
 
-        //var unit = UnitUtils.GetValidDisplayUnits( field.UnitType ).First(); // 2020
+            var fieldSpecType = field.GetSpecTypeId();
 
-        var unit = UnitUtils.GetValidUnits( field.GetSpecTypeId() ).First(); // 2021
+            var unit = UnitUtils.IsMeasurableSpec(fieldSpecType) ? UnitUtils.GetValidUnits(field.GetSpecTypeId()).First() : null;
 
-        var parameters = getEntityValueMethod.GetParameters().Length == 1
-          ? new object[] { field }
-          : new object[] { field, unit };
+            var parameters = getEntityValueMethod.GetParameters().Length == 1
+                ? new object[] {field}
+                : new object[] {field, unit};
 
-        var value = genericGet.Invoke( entity, parameters );
+            var value = genericGet.Invoke(entity, parameters);
 
-        AddFieldValue( field, value );
-      }
-      catch( Exception ex )
-      {
-        data.Add( new Snoop.Data.Exception( field.FieldName, ex ) );
-      }
+            AddFieldValue(field, value);
+        }
+        catch (Exception ex)
+        {
+            data.Add(new Data.Exception(field.FieldName, ex));
+        }
     }
 
     private Type GetFieldValueType( Field field )
@@ -125,40 +125,30 @@ namespace RevitLookup.Snoop.CollectorExts
       }
     }
 
-    private MethodInfo GetEntityFieldValueMethod( Field field )
+    private static MethodInfo GetEntityFieldValueMethod(Field field)
     {
-      return typeof( Entity )
-        .GetMethods( BindingFlags.Public | BindingFlags.Instance )
-        .Where( x => x.Name == "Get" && x.IsGenericMethod )
-        .Single( x => IsGetByFieldMethod( x, field ) );
+        return typeof(Entity)
+            .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+            .Where(x => x.Name == nameof(Entity.Get) && x.IsGenericMethod)
+            .Single(x => IsGetByFieldMethod(x, field));
     }
 
-    private static bool IsGetByFieldMethod( MethodInfo methodInfo, Field field )
+    private static bool IsGetByFieldMethod(MethodInfo methodInfo, Field field)
     {
-      var parameters = methodInfo.GetParameters();
+        var parameters = methodInfo.GetParameters();
+        
+        var fieldSpecType = field.GetSpecTypeId();
 
-      if( field.ContainerType == ContainerType.Simple
-        && (field.ValueType == typeof( XYZ )
-          || field.ValueType == typeof( double )) )
-      {
-        //#pragma warning disable CS0618 // Revit 2021
-        // warning CS0618: `DisplayUnitType` is obsolete: 
-        // This enumeration is deprecated in Revit 2021 and may be removed in a future version of Revit. 
-        // Please use the `ForgeTypeId` class instead. 
-        // Use constant members of the `UnitTypeId` class to replace uses of specific values of this enumeration.
-
-        if( 2 == parameters.Length )
+        if (UnitUtils.IsMeasurableSpec(fieldSpecType))
         {
-          ParameterInfo p1 = parameters.First();
-          ParameterInfo p2 = parameters.Last();
-          return p1.ParameterType == typeof( Field )
-            && // (p2.ParameterType == typeof( DisplayUnitType ) || // Revit 2021
-              p2.ParameterType == typeof( ForgeTypeId );
-        }
-        //#pragma warning restore CS0618 // Revit 2021
+            var firstParameter = parameters.First();
 
-      }
-      return parameters.Length == 1 && parameters.Single().ParameterType == typeof( Field );
+            var lastParameter = parameters.Last();
+
+            return parameters.Length == 2 && firstParameter.ParameterType == typeof(Field) && lastParameter.ParameterType == typeof(ForgeTypeId);
+        }
+
+        return parameters.Length == 1 && parameters.Single().ParameterType == typeof(Field);
     }
   }
 }
