@@ -169,6 +169,7 @@ using System.Reflection;
 // 2021-05-07 2022.0.0.6 integrated pull request #77 by @RevitArkitek to get end points for curves
 // 2021-05-07 2022.0.0.7 integrated pull request #78 by @RevitArkitek to handle `TableData.GetSectionData`
 // 2021-05-14 2022.0.0.8 integrated pull request #80 by @WspDev to remove deprecated `ParameterType` usage
+// 2021-05-18 2022.0.0.9 integrated pull request #81 by @CADBIMDeveloper enhancing `ElementId` and Revit 2022 extensible storage support
 //
-[assembly: AssemblyVersion( "2022.0.0.8" )]
-[assembly: AssemblyFileVersion( "2022.0.0.8" )]
+[assembly: AssemblyVersion( "2022.0.0.9" )]
+[assembly: AssemblyFileVersion( "2022.0.0.9" )]
