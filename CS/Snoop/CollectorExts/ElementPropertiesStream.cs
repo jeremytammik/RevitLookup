@@ -51,55 +51,62 @@ namespace RevitLookup.Snoop.CollectorExts
         .ToArray();
     }
 
-    private void AddPropertyToData( PropertyInfo pi )
+    private void AddPropertyToData(PropertyInfo pi)
     {
-      Type propertyType = pi.PropertyType;
+        var propertyInfo = pi.PropertyType.ContainsGenericParameters ? elem.GetType().GetProperty(pi.Name) : pi;
+        
+        if (propertyInfo == null)
+            return;
+        
+        var propertyType = propertyInfo.PropertyType;
 
-      try
-      {
-        object propertyValue;
-        if( pi.Name == "Geometry" )
-          propertyValue = pi.GetValue( elem, new object[ 1 ] { new Options() } );
-        else if( pi.Name == "BoundingBox" )
-          propertyValue = pi.GetValue( elem, new object[ 1 ] { application.ActiveUIDocument.ActiveView } );
-        else if( pi.Name == "Item" )
-          propertyValue = pi.GetValue( elem, new object[ 1 ] { 0 } );
-        else if( pi.Name == "Parameter" )
-          return;
-        else if( pi.Name == "PlanTopology" )
-          return;
-        else if( pi.Name == "PlanTopologies" && pi.GetMethod.GetParameters().Length != 0 )
-          return;
-        else
-          propertyValue = pi.GetValue( elem );
-
-        DataTypeInfoHelper.AddDataFromTypeInfo( application, pi, propertyType, propertyValue, elem, data );
-
-        var category = elem as Category;
-        if( category != null && pi.Name == "Id" && category.Id.IntegerValue < 0 )
+        try
         {
-          var bic = (BuiltInCategory) category.Id.IntegerValue;
+            object propertyValue;
+            if (propertyInfo.Name == "Geometry")
+                propertyValue = propertyInfo.GetValue(elem, new object[1] {new Options()});
+            else if (propertyInfo.Name == "BoundingBox")
+                propertyValue = propertyInfo.GetValue(elem, new object[1] {application.ActiveUIDocument.ActiveView});
+            else if (propertyInfo.Name == "Item")
+                propertyValue = propertyInfo.GetValue(elem, new object[1] {0});
+            else if (propertyInfo.Name == "Parameter")
+                return;
+            else if (propertyInfo.Name == "PlanTopology")
+                return;
+            else if (propertyInfo.Name == "PlanTopologies" && propertyInfo.GetMethod.GetParameters().Length != 0)
+                return;
+            else if (propertyType.ContainsGenericParameters)
+                propertyValue = elem.GetType().GetProperty(propertyInfo.Name)?.GetValue(elem);
+            else
+                propertyValue = propertyInfo.GetValue(elem);
 
-          data.Add( new Snoop.Data.String( "BuiltInCategory", bic.ToString() ) );
+            DataTypeInfoHelper.AddDataFromTypeInfo(application, propertyInfo, propertyType, propertyValue, elem, data);
+
+            var category = elem as Category;
+            if (category != null && propertyInfo.Name == "Id" && category.Id.IntegerValue < 0)
+            {
+                var bic = (BuiltInCategory) category.Id.IntegerValue;
+
+                data.Add(new Snoop.Data.String("BuiltInCategory", bic.ToString()));
+            }
+
         }
-
-      }
-      catch( ArgumentException ex )
-      {
-        data.Add( new Snoop.Data.Exception( pi.Name, ex ) );
-      }
-      catch( TargetException ex )
-      {
-        data.Add( new Snoop.Data.Exception( pi.Name, ex ) );
-      }
-      catch( TargetInvocationException ex )
-      {
-        data.Add( new Snoop.Data.Exception( pi.Name, ex ) );
-      }
-      catch( TargetParameterCountException ex )
-      {
-        data.Add( new Snoop.Data.Exception( pi.Name, ex ) );
-      }
+        catch (ArgumentException ex)
+        {
+            data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
+        }
+        catch (TargetException ex)
+        {
+            data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
+        }
+        catch (TargetInvocationException ex)
+        {
+            data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
+        }
+        catch (TargetParameterCountException ex)
+        {
+            data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
+        }
     }
   }
 }
