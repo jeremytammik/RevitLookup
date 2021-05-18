@@ -32,7 +32,6 @@ using RevitLookup.Snoop.Collectors;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Snoop.Data;
-using String = System.String;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
