@@ -97,7 +97,7 @@ namespace RevitLookup.Snoop.CollectorExts
       try
       {
         if( field.ContainerType != ContainerType.Simple )
-          data.Add( new Snoop.Data.Object( field.FieldName, value ) );
+          data.Add( new Snoop.Data.Enumerable( field.FieldName, value as IEnumerable ) );
         else if( field.ValueType == typeof( double ) )
           data.Add( new Snoop.Data.Double( field.FieldName, (double) value ) );
         else if( field.ValueType == typeof( string ) )
