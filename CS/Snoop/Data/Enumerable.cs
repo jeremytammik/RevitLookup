@@ -71,7 +71,7 @@ namespace RevitLookup.Snoop.Data
                 {
                     var elementId = iter.Current as Autodesk.Revit.DB.ElementId;
 
-                    if (elementId != null && doc != null)
+                    if (elementId != null && doc != null && elementId.IntegerValue > 0)
                         m_objs.Add(doc.GetElement(elementId)); // it's more useful for user to view element rather than element id.
                     else
                         m_objs.Add(iter.Current);
