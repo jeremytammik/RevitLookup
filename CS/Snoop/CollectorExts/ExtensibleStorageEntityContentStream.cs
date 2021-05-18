@@ -54,7 +54,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
             var fieldSpecType = field.GetSpecTypeId();
 
-            var unit = UnitUtils.IsMeasurableSpec(fieldSpecType) ? UnitUtils.GetValidUnits(field.GetSpecTypeId()).First() : null;
+            var unit = UnitUtils.IsMeasurableSpec(fieldSpecType) ? UnitUtils.GetValidUnits(field.GetSpecTypeId()).First() : UnitTypeId.Custom;
 
             var parameters = getEntityValueMethod.GetParameters().Length == 1
                 ? new object[] {field}
@@ -139,7 +139,7 @@ namespace RevitLookup.Snoop.CollectorExts
         
         var fieldSpecType = field.GetSpecTypeId();
 
-        if (UnitUtils.IsMeasurableSpec(fieldSpecType))
+        if (UnitUtils.IsMeasurableSpec(fieldSpecType) || fieldSpecType == SpecTypeId.Custom)
         {
             var firstParameter = parameters.First();
 
