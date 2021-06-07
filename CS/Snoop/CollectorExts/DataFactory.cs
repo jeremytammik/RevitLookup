@@ -78,6 +78,12 @@ namespace RevitLookup.Snoop.CollectorExts
                     return new TableDataSectionData(methodInfo.Name, (TableData)elem);
             }
 
+            if (declaringType == typeof(PlanViewRange) && methodInfo.Name == nameof(PlanViewRange.GetLevelId))
+                return new PlanViewRangeGetLevelId(methodInfo.Name, (PlanViewRange) elem, application.ActiveUIDocument.Document);
+
+            if (declaringType == typeof(PlanViewRange) && methodInfo.Name == nameof(PlanViewRange.GetOffset))
+                return new PlanViewRangeGetOffset(methodInfo.Name, (PlanViewRange)elem);
+
             if (declaringType == typeof (Document) && methodInfo.Name == nameof(Document.Close))
                 return null;
 
