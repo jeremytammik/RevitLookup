@@ -22,9 +22,8 @@
 //
 #endregion // Header
 
-using System;
 using System.Collections;
-using System.Windows.Forms;
+using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -57,7 +56,7 @@ namespace RevitLookup.Snoop.Data
 		}
 
         public
-        Enumerable(string label, IEnumerable val, Autodesk.Revit.DB.Document doc)
+        Enumerable(string label, IEnumerable val, Document doc)
             : base(label)
         {
             m_val = val;
@@ -71,8 +70,14 @@ namespace RevitLookup.Snoop.Data
                 {
                     var elementId = iter.Current as Autodesk.Revit.DB.ElementId;
 
-                    if (elementId != null && doc != null && elementId.IntegerValue > 0)
-                        m_objs.Add(doc.GetElement(elementId)); // it's more useful for user to view element rather than element id.
+                    if (elementId != null && doc != null)
+                    {
+                        var elem = doc.GetElement(elementId);
+                        if (elem == null) // Likely a category
+                            m_objs.Add(Category.GetCategory(doc, elementId));
+                        else
+                            m_objs.Add(elem); // it's more useful for user to view element rather than element id.
+                    }
                     else
                         m_objs.Add(iter.Current);
                 }
