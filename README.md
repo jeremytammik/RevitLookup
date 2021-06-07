@@ -13,11 +13,12 @@ Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for mo
 
 ## <a name="versions"></a> Versions
 
-The most up-to-date version provided here is for Revit 2021.
+The most up-to-date version provided here is for Revit 2022.
 
 If you are interested in an earlier release of Revit, please grab the latest appropriate one from the
 [release list](https://github.com/jeremytammik/RevitLookup/releases), e.g.:
 
+- [latest release](https://github.com/jeremytammik/RevitLookup/releases/latest) for Revit 2022
 - [2021.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2021.0.0.13) for Revit 2021
 - [2020.0.0.4](https://github.com/jeremytammik/RevitLookup/releases/tag/2020.0.0.4) for Revit 2020
 - [2019.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2019.0.0.13) for Revit 2019

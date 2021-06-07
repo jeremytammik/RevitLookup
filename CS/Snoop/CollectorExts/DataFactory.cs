@@ -17,8 +17,13 @@ namespace RevitLookup.Snoop.CollectorExts
             this.elem = elem;
         }
 
-        public Data.Data Create(MethodInfo methodInfo)
+        public Data.Data Create(MethodInfo mi)
         {
+            var methodInfo = mi.ContainsGenericParameters ? elem.GetType().GetMethod(mi.Name, mi.GetParameters().Select(x => x.ParameterType).ToArray()) : mi;
+
+            if (methodInfo == null)
+                return null;
+            
             var declaringType = methodInfo.DeclaringType;
 
             if (methodInfo.IsSpecialName || declaringType == null)
