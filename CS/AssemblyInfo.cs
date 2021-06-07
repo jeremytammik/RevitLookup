@@ -170,6 +170,7 @@ using System.Reflection;
 // 2021-05-07 2022.0.0.7 integrated pull request #78 by @RevitArkitek to handle `TableData.GetSectionData`
 // 2021-05-14 2022.0.0.8 integrated pull request #80 by @WspDev to remove deprecated `ParameterType` usage
 // 2021-05-18 2022.0.0.9 integrated pull request #81 by @CADBIMDeveloper enhancing `ElementId` and Revit 2022 extensible storage support
+// 2021-06-07 2022.0.0.10 integrated pull request #83 by @RevitArkitek fixing error where element cannot be retrieved for an element id because SupportedColorFillCategoryIds returns category ids instead
 //
-[assembly: AssemblyVersion( "2022.0.0.9" )]
-[assembly: AssemblyFileVersion( "2022.0.0.9" )]
+[assembly: AssemblyVersion( "2022.0.0.10" )]
+[assembly: AssemblyFileVersion( "2022.0.0.10" )]
