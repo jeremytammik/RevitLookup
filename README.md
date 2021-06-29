@@ -1,8 +1,8 @@
 # RevitLookup
 
-![Revit API](https://img.shields.io/badge/Revit%20API-2021-blue.svg)
-![Platform](https://img.shields.io/badge/platform-Windows-lightgray.svg)
-![.NET](https://img.shields.io/badge/.NET-4.8-blue.svg)
+[![Revit API](https://img.shields.io/badge/Revit%20API-2022-blue.svg)]()
+[![Platform](https://img.shields.io/badge/platform-Windows-lightgray.svg)]()
+[![.NET](https://img.shields.io/badge/.NET-4.8-blue.svg)]()
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://opensource.org/licenses/MIT)
 [![Build Status](https://gitlab.com/buildinformed-public/revitlookup/badges/master/pipeline.svg)](https://lookupbuilds.com)
 
@@ -13,11 +13,13 @@ Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for mo
 
 ## <a name="versions"></a> Versions
 
-The most up-to-date version provided here is for Revit 2021.
+The most up-to-date version provided here is for Revit 2022.
 
 If you are interested in an earlier release of Revit, please grab the latest appropriate one from the
 [release list](https://github.com/jeremytammik/RevitLookup/releases), e.g.:
 
+- [latest release](https://github.com/jeremytammik/RevitLookup/releases/latest) for Revit 2022
+- [2021.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2021.0.0.13) for Revit 2021
 - [2020.0.0.4](https://github.com/jeremytammik/RevitLookup/releases/tag/2020.0.0.4) for Revit 2020
 - [2019.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2019.0.0.13) for Revit 2019
 - [2018.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2018.0.0.8) for Revit 2018
@@ -106,7 +108,8 @@ Maintained by Jeremy Tammik,
 [ADN](http://www.autodesk.com/adn)
 [Open](http://www.autodesk.com/adnopen),
 [Autodesk Inc.](http://www.autodesk.com),
-with invaluable contributions from the entire Revit add-in developer community.
+with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/graphs/contributors) from
+the entire Revit add-in developer community.
 
 Thank you, guys!
 

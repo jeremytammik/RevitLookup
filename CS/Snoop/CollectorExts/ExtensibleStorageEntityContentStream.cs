@@ -42,28 +42,32 @@ namespace RevitLookup.Snoop.CollectorExts
         StreamEntityFieldValue( field );
     }
 
-    private void StreamEntityFieldValue( Field field )
+    private void StreamEntityFieldValue(Field field)
     {
-      try
-      {
-        var getEntityValueMehod = GetEntityFieldValueMethod( field );
+        try
+        {
+            var getEntityValueMethod = GetEntityFieldValueMethod(field);
 
-        var valueType = GetFieldValueType( field );
+            var valueType = GetFieldValueType(field);
 
-        var genericGet = getEntityValueMehod.MakeGenericMethod( valueType );
+            var genericGet = getEntityValueMethod.MakeGenericMethod(valueType);
 
-        var parameters = getEntityValueMehod.GetParameters().Length == 1
-          ? new object[] { field }
-          : new object[] { field, UnitUtils.GetValidDisplayUnits( field.UnitType ).First() };
+            var fieldSpecType = field.GetSpecTypeId();
 
-        var value = genericGet.Invoke( entity, parameters );
+            var unit = UnitUtils.IsMeasurableSpec(fieldSpecType) ? UnitUtils.GetValidUnits(field.GetSpecTypeId()).First() : UnitTypeId.Custom;
 
-        AddFieldValue( field, value );
-      }
-      catch( Exception ex )
-      {
-        data.Add( new Snoop.Data.Exception( field.FieldName, ex ) );
-      }
+            var parameters = getEntityValueMethod.GetParameters().Length == 1
+                ? new object[] {field}
+                : new object[] {field, unit};
+
+            var value = genericGet.Invoke(entity, parameters);
+
+            AddFieldValue(field, value);
+        }
+        catch (Exception ex)
+        {
+            data.Add(new Data.Exception(field.FieldName, ex));
+        }
     }
 
     private Type GetFieldValueType( Field field )
@@ -93,7 +97,7 @@ namespace RevitLookup.Snoop.CollectorExts
       try
       {
         if( field.ContainerType != ContainerType.Simple )
-          data.Add( new Snoop.Data.Object( field.FieldName, value ) );
+          data.Add( new Snoop.Data.Enumerable( field.FieldName, value as IEnumerable ) );
         else if( field.ValueType == typeof( double ) )
           data.Add( new Snoop.Data.Double( field.FieldName, (double) value ) );
         else if( field.ValueType == typeof( string ) )
@@ -121,26 +125,30 @@ namespace RevitLookup.Snoop.CollectorExts
       }
     }
 
-    private MethodInfo GetEntityFieldValueMethod( Field field )
+    private static MethodInfo GetEntityFieldValueMethod(Field field)
     {
-      return typeof( Entity )
-        .GetMethods( BindingFlags.Public | BindingFlags.Instance )
-        .Where( x => x.Name == "Get" && x.IsGenericMethod )
-        .Single( x => IsGetByFieldMethod( x, field ) );
+        return typeof(Entity)
+            .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+            .Where(x => x.Name == nameof(Entity.Get) && x.IsGenericMethod)
+            .Single(x => IsGetByFieldMethod(x, field));
     }
 
-    private static bool IsGetByFieldMethod( MethodInfo methodInfo, Field field )
+    private static bool IsGetByFieldMethod(MethodInfo methodInfo, Field field)
     {
-      var parameters = methodInfo.GetParameters();
+        var parameters = methodInfo.GetParameters();
+        
+        var fieldSpecType = field.GetSpecTypeId();
 
-      if( field.ContainerType == ContainerType.Simple
-        && ( field.ValueType == typeof( XYZ )
-          || field.ValueType == typeof( double ) ) )
-        return parameters.Length == 2
-          && parameters.First().ParameterType == typeof( Field )
-          && parameters.Last().ParameterType == typeof( DisplayUnitType );
+        if (UnitUtils.IsMeasurableSpec(fieldSpecType) || fieldSpecType == SpecTypeId.Custom)
+        {
+            var firstParameter = parameters.First();
 
-      return parameters.Length == 1 && parameters.Single().ParameterType == typeof( Field );
+            var lastParameter = parameters.Last();
+
+            return parameters.Length == 2 && firstParameter.ParameterType == typeof(Field) && lastParameter.ParameterType == typeof(ForgeTypeId);
+        }
+
+        return parameters.Length == 1 && parameters.Single().ParameterType == typeof(Field);
     }
   }
 }

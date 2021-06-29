@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2020 by Autodesk, Inc. 
+// Copyright 2003-2021 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -22,63 +22,44 @@
 //
 #endregion // Header
 
-using System;
-using System.Windows.Forms;
-using System.Collections;
-
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.Data
 {
-	/// <summary>
-	/// Snoop.Data class to hold and format an ElementId value.
-	/// </summary>
-	
-	public class ElementId : Data
-	{
-	    protected Autodesk.Revit.DB.ElementId	m_val;
-		protected Element	m_elem = null;
-	    
-		public
-		ElementId(string label, Autodesk.Revit.DB.ElementId val, Document doc)
-		:   base(label)
-		{
-		   m_val = val;
-         try
-         {
-            if (val != Autodesk.Revit.DB.ElementId.InvalidElementId)
-               m_elem = doc.GetElement(val);	// TBD: strange signature!
-         }
-         catch (System.Exception)
-         {
-            m_elem = null;
-         }
-		}
-		
-        public override string
-        StrValue()
+    /// <summary>
+    /// Snoop.Data class to hold and format an ElementId value.
+    /// </summary>
+
+    public class ElementId : Data
+    {
+        protected Autodesk.Revit.DB.ElementId m_val;
+        protected Element m_elem;
+
+        public ElementId(string label, Autodesk.Revit.DB.ElementId val, Document doc) : base(label)
         {
-			return Utils.ObjToLabelStr(m_elem);
+            m_val = val;
+            
+            m_elem = doc.GetElement(val);
         }
-        
-        public override bool
-        HasDrillDown
+
+        public override string StrValue()
         {
-            get {
-                if (m_elem == null)
-                    return false;
-                else
-                    return true;
-            }
+            if (m_elem != null)
+                return Utils.ObjToLabelStr(m_elem);
+
+            return m_val != Autodesk.Revit.DB.ElementId.InvalidElementId ? m_val.ToString() : Utils.ObjToLabelStr(null);
         }
-        
-        public override void
-        DrillDown()
+
+        public override bool HasDrillDown => m_elem != null;
+
+        public override void DrillDown()
         {
-            if (m_elem != null) {
-				Snoop.Forms.Objects form = new Snoop.Forms.Objects(m_elem);
-				form.ShowDialog();
-			}
+            if (m_elem == null) 
+                return;
+            
+            var form = new Forms.Objects(m_elem);
+            
+            form.ShowDialog();
         }
-	}
+    }
 }

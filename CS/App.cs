@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2020 by Autodesk, Inc. 
+// Copyright 2003-2021 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -74,17 +74,16 @@ namespace RevitLookup
       // Add Icons to main RevitLookup Menu
       optionsBtn.Image = GetEmbeddedImage( "RevitLookup.Resources.RLookup-16.png" );
       optionsBtn.LargeImage = GetEmbeddedImage( "RevitLookup.Resources.RLookup-32.png" );
-      optionsBtn.AddPushButton( new PushButtonData( "HelloWorld", "Hello World...", ExecutingAssemblyPath, "RevitLookup.HelloWorld" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Db..", "Snoop DB...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopDb" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Current Selection...", "Snoop Current Selection...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScope" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Pick Face...", "Snoop Pick Face...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScopePickSurface" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Pick Edge...", "Snoop Pick Edge...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScopePickEdge" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Pick Linked Element...", "Snoop Linked Element...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScopeLinkedElement" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Dependent Elements...", "Snoop Dependent Elements...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopModScopeDependents" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Active View...", "Snoop Active View...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopActiveView" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Snoop Application...", "Snoop Application...", ExecutingAssemblyPath, "RevitLookup.CmdSnoopApp" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Search and Snoop...", "Search and Snoop...", ExecutingAssemblyPath, "RevitLookup.CmdSearchBy" ) );
-      optionsBtn.AddPushButton( new PushButtonData( "Test Framework...", "Test Framework...", ExecutingAssemblyPath, "RevitLookup.CmdTestShell" ) );
+      optionsBtn.AddPushButton(new PushButtonData("HelloWorld", "Hello World...", ExecutingAssemblyPath, typeof(HelloWorld).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Db..", "Snoop DB...", ExecutingAssemblyPath, typeof(CmdSnoopDb).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Current Selection...", "Snoop Current Selection...", ExecutingAssemblyPath, typeof(CmdSnoopModScope).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Face...", "Snoop Pick Face...", ExecutingAssemblyPath, typeof(CmdSnoopModScopePickSurface).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Edge...", "Snoop Pick Edge...", ExecutingAssemblyPath, typeof(CmdSnoopModScopePickEdge).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Linked Element...", "Snoop Linked Element...", ExecutingAssemblyPath, typeof(CmdSnoopModScopeLinkedElement).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Dependent Elements...", "Snoop Dependent Elements...", ExecutingAssemblyPath, typeof(CmdSnoopModScopeDependents).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Active View...", "Snoop Active View...", ExecutingAssemblyPath, typeof(CmdSnoopActiveView).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Application...", "Snoop Application...", ExecutingAssemblyPath, typeof(CmdSnoopApp).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Search and Snoop...", "Search and Snoop...", ExecutingAssemblyPath, typeof(CmdSearchBy).FullName));
     }
 
     private void AddAppDocEvents( ControlledApplication app )
