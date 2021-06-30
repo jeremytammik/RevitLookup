@@ -58,6 +58,9 @@ namespace RevitLookup.Snoop.Forms
 			    // Required for Windows Form Designer support
 			InitializeComponent();
 			
+			// Add Load to update ListView Width
+            Utils.AddOnLoadForm(this);
+
             m_pgProps.SelectedObject = obj; // This all we need to do for Reflection to kick in
 		}
 

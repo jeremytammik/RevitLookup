@@ -75,6 +75,9 @@ namespace RevitLookup.Snoop.Forms
 		        // this constructor is for derived classes to call
             InitializeComponent();
 
+			// Add Load to update ListView Width
+            Utils.AddOnLoadForm(this);
+
             m_tvObjs.BeginUpdate();
 
             AddParametersToTree(paramSet);

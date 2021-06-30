@@ -124,6 +124,9 @@ namespace RevitLookup.Snoop.Forms
       }
 
       m_tvObjs.EndUpdate();
+
+      // Add Load to update ListView Width
+      Utils.AddOnLoadForm(this);
     }
 
     /// <summary>

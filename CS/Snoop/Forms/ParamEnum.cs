@@ -44,6 +44,9 @@ namespace RevitLookup.Snoop.Forms {
         {
             InitializeComponent();
             
+            // Add Load to update ListView Width
+            Utils.AddOnLoadForm(this);
+
                 // Set the column sorter for the list view
             m_colSorter = new RevitLookup.Utils.ListViewColumnSorter( );
             m_listView.ListViewItemSorter = m_colSorter;
