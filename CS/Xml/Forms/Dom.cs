@@ -175,7 +175,7 @@ namespace RevitLookup.Xml.Forms
             // m_lvColValue
             // 
             this.m_lvColValue.Text = "Value";
-            this.m_lvColValue.Width = 250;
+            this.m_lvColValue.Width = 750;
             // 
             // m_rbNodeNameOnly
             // 

@@ -73,7 +73,7 @@ namespace RevitLookup.Snoop.Forms {
 			// m_colVal
 			// 
 			this.m_colVal.Text = "Value";
-			this.m_colVal.Width = 302;
+			this.m_colVal.Width = 802;
 			// 
 			// listViewContextMenuStrip
 			// 
