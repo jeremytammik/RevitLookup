@@ -105,7 +105,7 @@ namespace RevitLookup.Snoop
          }
       }
 
-      private static void UpdateLastColumWidth(ListView lvCur)
+      private static void UpdateLastColumnWidth(ListView lvCur)
       {
          lvCur.Columns[lvCur.Columns.Count - 1].Width = -2;
       }
@@ -116,7 +116,7 @@ namespace RevitLookup.Snoop
          {
                foreach (var control in form.Controls)
                {
-                  if (control is ListView listView) UpdateLastColumWidth(listView);
+                  if (control is ListView listView) UpdateLastColumnWidth(listView);
                }
          };
       }
