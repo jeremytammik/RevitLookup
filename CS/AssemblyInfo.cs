@@ -172,6 +172,7 @@ using System.Reflection;
 // 2021-05-18 2022.0.0.9 integrated pull request #81 by @CADBIMDeveloper enhancing `ElementId` and Revit 2022 extensible storage support
 // 2021-06-07 2022.0.0.10 integrated pull request #83 by @RevitArkitek fixing error where element cannot be retrieved for an element id because SupportedColorFillCategoryIds returns category ids instead
 // 2021-06-07 2022.0.0.11 integrated pull request #84 by @RevitArkitek adding PlanViewRange functionality to display view range level id and offset
+// 2021-06-30 2022.0.0.12 integrated pull request #85 by Luiz Henrique Cassettari increasing width of snoop window value ListView column from 300 to 800
 //
-[assembly: AssemblyVersion( "2022.0.0.11" )]
-[assembly: AssemblyFileVersion( "2022.0.0.11" )]
+[assembly: AssemblyVersion( "2022.0.0.12" )]
+[assembly: AssemblyFileVersion( "2022.0.0.12" )]
