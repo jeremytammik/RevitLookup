@@ -105,6 +105,22 @@ namespace RevitLookup.Snoop
          }
       }
 
+      private static void UpdateLastColumnWidth(ListView lvCur)
+      {
+         lvCur.Columns[lvCur.Columns.Count - 1].Width = -2;
+      }
+
+      public static void AddOnLoadForm(System.Windows.Forms.Form form)
+      {
+         form.Load += (s, e) =>
+         {
+               foreach (var control in form.Controls)
+               {
+                  if (control is ListView listView) UpdateLastColumnWidth(listView);
+               }
+         };
+      }
+
       public static void
       BrowseReflection(Object obj)
       {

@@ -66,6 +66,9 @@ namespace RevitLookup.Snoop.Forms
 		{
 			InitializeComponent();
 
+			// Add Load to update ListView Width
+			Utils.AddOnLoadForm(this);
+
                 // derived classes are responsible for populating the tree
    		}
 
