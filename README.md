@@ -42,6 +42,8 @@ on [CI for RevitLookup](https://forums.autodesk.com/t5/revit-api-forum/ci-for-re
 
 ## Installation
 
+### Forever
+
 You install RevitLookup just like any other Revit add-in,
 by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder](http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Add_In_Integration_Add_in_Registration_html).
 
@@ -49,11 +51,12 @@ by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder
 by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder](http://help.autodesk.com/view/RVT/2018/ENU/?guid=GUID-4FFDB03E-6936-417C-9772-8FC258A261F7).
 ---->
 
-
 If you specify the full DLL pathname in the add-in manifest, it can also be located elsewhere.
 
 For more information on installing Revit add-ins in general, please refer to
 the [Revit API getting started material](http://thebuildingcoder.typepad.com/blog/about-the-author.html#2).
+
+### Revit 2018
 
 Harry Mattison of [Boost your BIM](https://boostyourbim.wordpress.com) very kindly provides
 a ready-built [RevitLookup 2018 installer](https://boostyourbim.wordpress.com/2017/04/28/revit-lookup-2018-install):
@@ -70,6 +73,8 @@ However, please note that other, more recent builds exist for Revit 2018.
 As explained above, they can be downloaded sans installer
 from [lookupbuilds.com](https://lookupbuilds.com).
 
+### Revit 2020
+
 Harry shared a new installer in his post
 on [RevitLookup for Revit 2020](https://boostyourbim.wordpress.com/2019/04/16/revit-lookup-for-revit-2020),
 which I also added to the [installer folder](installer)
@@ -78,7 +83,17 @@ Says he:
 
 > I’ve added some conditional compilation and multiple configurations so that the single solution can be used to build against any version of Revit 2017-2020.
 
-[Download the last version of the RevitLookup.](https://github.com/jeremytammik/RevitLookup/raw/master/installer/Revit%20Lookup-SetupFiles/Revit%20Lookup.msi)
+[Download the last version of the RevitLookup](https://github.com/jeremytammik/RevitLookup/raw/master/installer/Revit%20Lookup-SetupFiles/Revit%20Lookup.msi).
+
+### RevitLookup.Installation
+
+Luiz Henrique [@ricaun](https://github.com/ricaun) Cassettari created
+the [RevitLookup.Installation](https://github.com/ricaun/RevitLookup.Installation) project,
+a simple installation using [Inno Setup](https://jrsoftware.org/isinfo.php) to
+extract the files to the `ApplicationPlugins` folder.
+
+It generates a digitally signed version of RevitLookup and supports the Revit releases 2017, 2018, 2019, 2020, 2021 and 2022.
+
 
 <a name="caveat"></a>
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
