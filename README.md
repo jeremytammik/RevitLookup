@@ -58,7 +58,7 @@ the [Revit API getting started material](http://thebuildingcoder.typepad.com/blo
 
 ### Revit 2018
 
-Harry Mattison of [Boost your BIM](https://boostyourbim.wordpress.com) very kindly provides
+Harry Mattison of [Boost your BIM](https://boostyourbim.wordpress.com) very kindly provided
 a ready-built [RevitLookup 2018 installer](https://boostyourbim.wordpress.com/2017/04/28/revit-lookup-2018-install):
 
 > If you don’t want to deal with source code and just want to use the tool, here
