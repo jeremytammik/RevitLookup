@@ -6,7 +6,7 @@
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://opensource.org/licenses/MIT)
 [![Build Status](https://gitlab.com/buildinformed-public/revitlookup/badges/master/pipeline.svg)](https://lookupbuilds.com)
 
-Interactive Revit BIM database exploration tool to view and navigate element properties and relationships.
+Interactive Revit BIM database exploration tool to view and navigate BIM element parameters, properties and relationships.
 
 Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information.
 
