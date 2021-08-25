@@ -112,9 +112,10 @@ Is this the expected behaviour? I was thinking I could get all object members ju
 
 **Answer:** RevitLookup cannot report **all** properties and methods on **all** elements.
 
-For instance, in the case of GetFullGeometryForView, a view input argument is required. How is RevitLookup supposed to be able to guess what view you are interested in?
+For instance, in the case of `GetFullGeometryForView`, a view input argument is required.
+How is RevitLookup supposed to be able to guess what view you are interested in?
 
-For methods requiring dynamic input that cannot be automatically determined, you will have to [make use of more intimate interactive database exploration tools, e.g. RevitPythonShell](http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html).
+For methods requiring dynamic input that cannot be automatically determined, you can [make use of more intimate interactive database exploration tools, e.g. RevitPythonShell](http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html).
 
 
 ## Author
