@@ -97,7 +97,7 @@ the [RevitLookup.Installation](https://github.com/ricaun/RevitLookup.Installatio
 a simple installation using [Inno Setup](https://jrsoftware.org/isinfo.php) to
 extract the files to the `ApplicationPlugins` folder.
 
-It generates a digitally signed version of RevitLookup and supports the Revit releases 2017, 2018, 2019, 2020, 2021 and 2022.
+It generates a digitally signed version of RevitLookup and currently supports the Revit releases 2017, 2018, 2019, 2020, 2021 and 2022.
 
 
 <a name="caveat"></a>
