@@ -6,12 +6,12 @@ stages:
 
 download-revit-api:
   stage: download-revit-api
-  image: alpine:3.12
+  image: alpine:3.13
   variables:
-    REVIT_API_URL: https://cdn.bim.ag/revit/2021/RevitAPI.dll
-    REVIT_API_CHECKSUM: b5081483584d7f15297c7985936a9d5870a66d89959ac7cc803a528b4836ab30
-    REVIT_APIUI_URL: https://cdn.bim.ag/revit/2021/RevitAPIUI.dll
-    REVIT_APIUI_CHECKSUM: efc5731f64974aeb526ffcaaf7775a4ef0122cf41cf09f71241517c49edfabac
+    REVIT_API_URL: https://cdn.bim.ag/revit/2022/RevitAPI.dll
+    REVIT_API_CHECKSUM: a60011776a7b4994235150ea3ff14929626db97c115ff59ac7524153bb98b48b
+    REVIT_APIUI_URL: https://cdn.bim.ag/revit/2022/RevitAPIUI.dll
+    REVIT_APIUI_CHECKSUM: 65ada14a92857debb7ca985a927d75577d1b4bd189fc9d8a061496bd6a19ddbf
     GIT_STRATEGY: none
   script:
     - apk add --update --no-cache curl
@@ -40,23 +40,24 @@ build:
   dependencies:
     - download-revit-api
   variables:
-    LOOKUP_CONFIGURATION: "2021"
+    LOOKUP_CONFIGURATION: Release
     LOOKUP_SOLUTION: CS/RevitLookup.sln
     PATH_BUILD_TOOLS: C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
   before_script:
     - $env:Path += ";${PATH_BUILD_TOOLS}"
     - choco install netfx-4.8-devpack -y
   script:
-    - >
-      msbuild
-      -p:Configuration=${LOOKUP_CONFIGURATION}
-      -p:ReferencePath="../revit-api"
-      -p:PostBuildEvent=
-      ${LOOKUP_SOLUTION}
+    - dotnet restore "${LOOKUP_SOLUTION}"
+    - if (-not $?) { throw "Restore failed" }
+
+    # We can't use `dotnet msbuild` here because of some embedded resource issue.
+    - msbuild -p:Configuration=${LOOKUP_CONFIGURATION} -p:CI=True "${LOOKUP_SOLUTION}"
     - if (-not $?) { throw "Build failed" }
 
     - mkdir artifacts
     - cp "CS/bin/${LOOKUP_CONFIGURATION}/RevitLookup.dll" artifacts/
+    - cp "CS/bin/${LOOKUP_CONFIGURATION}/RevitLookup.pdb" artifacts/
     - cp "CS/RevitLookup.addin" artifacts/
   artifacts:
     paths:
@@ -94,7 +95,7 @@ sign:
 
 publish:
   stage: publish
-  image: alpine:3.12
+  image: alpine:3.13
   dependencies:
     - sign
   variables:

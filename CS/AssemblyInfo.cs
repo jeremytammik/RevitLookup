@@ -160,6 +160,20 @@ using System.Reflection;
 // 2021-02-01 2021.0.0.12 integrated pull request #69 by @RevitArkitek adding handler for the GetSplitRegionOffsets method to address issue #68 Split Region Offsets (2021)
 // 2021-02-09 2021.0.0.13 integrated pull request #71 by @RevitArkitek adding handler for ScheduleDefinition.GetField to address issue #70
 // 2021-04-15 2022.0.0.0 flat migration to Revit 2022
+// 2021-04-15 2022.0.0.1 integrated pull request #74 by @peterhirn setting up CI to Revit 2022
+// 2021-04-15 2022.0.0.2 integrated pull request #75 by @peterhirn to fix CI for Revit 2022 and non-dotnet-core project file
+// 2021-04-15 2022.0.0.3 integrated pull request #73 by @mphelt to wrap snoop in temporary transaction allowing to snoop PlanTopologies
+// 2021-04-15 2022.0.0.3 reset Revit API assembly DLL references to Copy Local false
+// 2021-04-15 2022.0.0.4 upgraded to Visual Studio 2019 (from 2017) and adopted @peterhirn project and solution files
+// 2021-04-16 2022.0.0.5 integrated pull request #76 by @peterhirn to fix CI for new VS 2019 Revit 2022 dotnet-core csproj
+// 2021-05-07 2022.0.0.6 integrated pull request #77 by @RevitArkitek to get end points for curves
+// 2021-05-07 2022.0.0.7 integrated pull request #78 by @RevitArkitek to handle `TableData.GetSectionData`
+// 2021-05-14 2022.0.0.8 integrated pull request #80 by @WspDev to remove deprecated `ParameterType` usage
+// 2021-05-18 2022.0.0.9 integrated pull request #81 by @CADBIMDeveloper enhancing `ElementId` and Revit 2022 extensible storage support
+// 2021-06-07 2022.0.0.10 integrated pull request #83 by @RevitArkitek fixing error where element cannot be retrieved for an element id because SupportedColorFillCategoryIds returns category ids instead
+// 2021-06-07 2022.0.0.11 integrated pull request #84 by @RevitArkitek adding PlanViewRange functionality to display view range level id and offset
+// 2021-06-30 2022.0.0.12 integrated pull request #85 by Luiz Henrique Cassettari increasing width of snoop window value ListView column from 300 to 800
+// 2021-07-01 2022.0.0.13 integrated pull request #86 by Luiz Henrique Cassettari adding OnLoad to update width of snoop window value ListView last column
 //
-[assembly: AssemblyVersion( "2022.0.0.0" )]
-[assembly: AssemblyFileVersion( "2022.0.0.0" )]
+[assembly: AssemblyVersion( "2022.0.0.13" )]
+[assembly: AssemblyFileVersion( "2022.0.0.13" )]

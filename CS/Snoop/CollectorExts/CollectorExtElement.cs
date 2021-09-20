@@ -25,13 +25,13 @@
 using System;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using RevitLookup.Snoop.Collectors;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Snoop.Data;
-using String = System.String;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
@@ -52,6 +52,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 .Where(x => Path.GetDirectoryName(x.Location) == baseDirectory)
                 .Where(x => x.GetName().Name.ToLower().Contains("revit"))
                 .SelectMany(x => x.GetTypes())
+                .Union(new [] {typeof(KeyValuePair<,>)})
                 .ToArray();
         }
 
@@ -72,7 +73,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
         private void Stream(ArrayList data, object elem)
         {
-            var thisElementTypes = types.Where(x => elem.GetType().IsSubclassOf(x) || elem.GetType() == x || x.IsAssignableFrom(elem.GetType())).ToList();
+            var thisElementTypes = types.Where(x => IsSnoopableType(x, elem)).ToList();
 
             var streams = new IElementStream[]
                 {
@@ -83,9 +84,9 @@ namespace RevitLookup.Snoop.CollectorExts
                     new ExtensibleStorageEntityContentStream(m_app.ActiveUIDocument.Document, data, elem)
                 };
 
-            foreach (Type type in thisElementTypes)
+            foreach (var type in thisElementTypes)
             {
-                data.Add(new Snoop.Data.ClassSeparator(type));
+                data.Add(new ClassSeparator(type));
 
                 foreach (var elementStream in streams)
                     elementStream.Stream(type);
@@ -96,6 +97,27 @@ namespace RevitLookup.Snoop.CollectorExts
             StreamSimpleType(data, elem);
         }
 
+        private static bool IsSnoopableType(Type type, object element)
+        {
+            var elementType = element.GetType();
+
+            if (type == elementType || elementType.IsSubclassOf(type) || type.IsAssignableFrom(elementType))
+                return true;
+            
+            return type.IsGenericType && elementType.IsGenericType && IsSubclassOfRawGeneric(type, elementType);
+        }
+        
+        private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck) {
+            while (toCheck != null && toCheck != typeof(object)) {
+                var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
+                if (generic == cur) {
+                    return true;
+                }
+                toCheck = toCheck.BaseType;
+            }
+            return false;
+        }
+        
         private static void StreamElementExtensibleStorages(ArrayList data, Element elem)
         {
             var schemas = Schema.ListSchemas();

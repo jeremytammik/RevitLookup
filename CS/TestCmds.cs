@@ -1,6 +1,6 @@
 #region Header
 //
-// Copyright 2003-2021 by Autodesk, Inc. 
+// Copyright 2003-2021 by Autodesk, Inc.
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -44,7 +44,10 @@ namespace RevitLookup
   [Transaction( TransactionMode.Manual )]
   public class HelloWorld : IExternalCommand
   {
-    public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
+    public Result Execute( 
+      ExternalCommandData cmdData, 
+      ref string msg, 
+      ElementSet elems )
     {
       Assembly a = Assembly.GetExecutingAssembly();
       string version = a.GetName().Version.ToString();
@@ -62,40 +65,48 @@ namespace RevitLookup
   [Transaction( TransactionMode.Manual )]
   public class CmdSnoopDb : IExternalCommand
   {
-    public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
+    public Result Execute( 
+      ExternalCommandData cmdData, 
+      ref string msg, 
+      ElementSet elems )
     {
       Result result;
 
-      try
+      using (var transaction = new Transaction(cmdData.Application.ActiveUIDocument.Document, this.GetType().Name))
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;   // TBD: see note in CollectorExt.cs
-        Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;
-
-        // iterate over the collection and put them in an ArrayList so we can pass on
-        // to our Form
-        Autodesk.Revit.DB.Document doc = cmdData.Application.ActiveUIDocument.Document;
-        FilteredElementCollector elemTypeCtor = ( new FilteredElementCollector( doc ) ).WhereElementIsElementType();
-        FilteredElementCollector notElemTypeCtor = ( new FilteredElementCollector( doc ) ).WhereElementIsNotElementType();
-        FilteredElementCollector allElementCtor = elemTypeCtor.UnionWith( notElemTypeCtor );
-        ICollection<Element> founds = allElementCtor.ToElements();
-
-        ArrayList objs = new ArrayList();
-        foreach( Element element in founds )
+        transaction.Start(); // necessary to snoop Document.PlanTopologies
+        try
         {
-          objs.Add( element );
+          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;   // TBD: see note in CollectorExt.cs
+          Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;
+
+          // iterate over the collection and put them in an ArrayList so we can pass on
+          // to our Form
+          Autodesk.Revit.DB.Document doc = cmdData.Application.ActiveUIDocument.Document;
+          FilteredElementCollector elemTypeCtor = ( new FilteredElementCollector( doc ) ).WhereElementIsElementType();
+          FilteredElementCollector notElemTypeCtor = ( new FilteredElementCollector( doc ) ).WhereElementIsNotElementType();
+          FilteredElementCollector allElementCtor = elemTypeCtor.UnionWith( notElemTypeCtor );
+          ICollection<Element> founds = allElementCtor.ToElements();
+
+          ArrayList objs = new ArrayList();
+          foreach( Element element in founds )
+          {
+            objs.Add( element );
+          }
+
+          System.Diagnostics.Trace.WriteLine( founds.Count.ToString() );
+          Snoop.Forms.Objects form = new Snoop.Forms.Objects( objs );
+          ActiveDoc.UIApp = cmdData.Application;
+          form.ShowDialog();
+
+          result = Result.Succeeded;
         }
-
-        System.Diagnostics.Trace.WriteLine( founds.Count.ToString() );
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( objs );
-        ActiveDoc.UIApp = cmdData.Application;
-        form.ShowDialog();
-
-        result = Result.Succeeded;
-      }
-      catch( System.Exception e )
-      {
-        msg = e.Message;
-        result = Result.Failed;
+        catch( System.Exception e )
+        {
+          msg = e.Message;
+          result = Result.Failed;
+        }
+        transaction.RollBack();
       }
 
       return result;
@@ -105,7 +116,10 @@ namespace RevitLookup
   [Transaction( TransactionMode.Manual )]
   public class CmdSnoopModScopePickSurface : IExternalCommand
   {
-    public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
+    public Result Execute( 
+      ExternalCommandData cmdData, 
+      ref string msg, 
+      ElementSet elems )
     {
       Result result;
 
@@ -239,7 +253,7 @@ namespace RevitLookup
   }
 
   /// <summary>
-  /// Snoop dependent elements using 
+  /// Snoop dependent elements using
   /// Element.GetDependentElements
   /// </summary>
   [Transaction( TransactionMode.Manual )]
@@ -290,29 +304,34 @@ namespace RevitLookup
     {
       Result result;
 
-      try
+      using (var transaction = new Transaction(cmdData.Application.ActiveUIDocument.Document, this.GetType().Name))
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;   // TBD: see note in CollectorExt.cs
-        Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;
-
-        // iterate over the collection and put them in an ArrayList so we can pass on
-        // to our Form
-        Autodesk.Revit.DB.Document doc = cmdData.Application.ActiveUIDocument.Document;
-        if( doc.ActiveView == null )
+        transaction.Start(); // necessary to snoop Document.PlanTopologies
+        try
         {
-          TaskDialog.Show( "RevitLookup", "The document must have an active view!" );
-          return Result.Cancelled;
+          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;   // TBD: see note in CollectorExt.cs
+          Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;
+
+          // iterate over the collection and put them in an ArrayList so we can pass on
+          // to our Form
+          Autodesk.Revit.DB.Document doc = cmdData.Application.ActiveUIDocument.Document;
+          if( doc.ActiveView == null )
+          {
+            TaskDialog.Show( "RevitLookup", "The document must have an active view!" );
+            return Result.Cancelled;
+          }
+
+          Snoop.Forms.Objects form = new Snoop.Forms.Objects( doc.ActiveView );
+          form.ShowDialog();
+
+          result = Result.Succeeded;
         }
-
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( doc.ActiveView );
-        form.ShowDialog();
-
-        result = Result.Succeeded;
-      }
-      catch( System.Exception e )
-      {
-        msg = e.Message;
-        result = Result.Failed;
+        catch( System.Exception e )
+        {
+          msg = e.Message;
+          result = Result.Failed;
+        }
+        transaction.RollBack();
       }
 
       return result;
@@ -330,53 +349,58 @@ namespace RevitLookup
     {
       Result result;
 
-      try
+      using (var transaction = new Transaction(cmdData.Application.ActiveUIDocument.Document, this.GetType().Name))
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
-        UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
-        Document dbdoc = revitDoc.Document;
-        Snoop.CollectorExts.CollectorExt.m_activeDoc = dbdoc; // TBD: see note in CollectorExt.cs
-        Autodesk.Revit.DB.View view = dbdoc.ActiveView;
-
-        //ElementSet ss = cmdData.Application.ActiveUIDocument.Selection.Elements; // 2015, jeremy: 'Selection.Selection.Elements' is obsolete: 'This property is deprecated in Revit 2015. Use GetElementIds() and SetElementIds instead.'
-        //if (ss.Size == 0)
-        //{
-        //  FilteredElementCollector collector = new FilteredElementCollector( revitDoc.Document, view.Id );
-        //  collector.WhereElementIsNotElementType();
-        //  FilteredElementIterator i = collector.GetElementIterator();
-        //  i.Reset();
-        //  ElementSet ss1 = cmdData.Application.Application.Create.NewElementSet();
-        //  while( i.MoveNext() )
-        //  {
-        //    Element e = i.Current as Element;
-        //    ss1.Insert( e );
-        //  }
-        //  ss = ss1;
-        //}
-
-        ICollection<ElementId> ids = cmdData.Application.ActiveUIDocument.Selection.GetElementIds(); // 2016, jeremy
-        if( 0 == ids.Count )
+        transaction.Start(); // necessary to snoop Document.PlanTopologies
+        try
         {
-          FilteredElementCollector collector
-            = new FilteredElementCollector( revitDoc.Document, view.Id )
-              .WhereElementIsNotElementType();
-          ids = collector.ToElementIds();
+          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+          UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
+          Document dbdoc = revitDoc.Document;
+          Snoop.CollectorExts.CollectorExt.m_activeDoc = dbdoc; // TBD: see note in CollectorExt.cs
+          Autodesk.Revit.DB.View view = dbdoc.ActiveView;
+
+          //ElementSet ss = cmdData.Application.ActiveUIDocument.Selection.Elements; // 2015, jeremy: 'Selection.Selection.Elements' is obsolete: 'This property is deprecated in Revit 2015. Use GetElementIds() and SetElementIds instead.'
+          //if (ss.Size == 0)
+          //{
+          //  FilteredElementCollector collector = new FilteredElementCollector( revitDoc.Document, view.Id );
+          //  collector.WhereElementIsNotElementType();
+          //  FilteredElementIterator i = collector.GetElementIterator();
+          //  i.Reset();
+          //  ElementSet ss1 = cmdData.Application.Application.Create.NewElementSet();
+          //  while( i.MoveNext() )
+          //  {
+          //    Element e = i.Current as Element;
+          //    ss1.Insert( e );
+          //  }
+          //  ss = ss1;
+          //}
+
+          ICollection<ElementId> ids = cmdData.Application.ActiveUIDocument.Selection.GetElementIds(); // 2016, jeremy
+          if( 0 == ids.Count )
+          {
+            FilteredElementCollector collector
+              = new FilteredElementCollector( revitDoc.Document, view.Id )
+                .WhereElementIsNotElementType();
+            ids = collector.ToElementIds();
+          }
+
+          //ICollection<Element> elements
+          //  = new List<Element>( ids.Select<ElementId,Element>(
+          //    id => dbdoc.GetElement( id ) ) );
+
+          Snoop.Forms.Objects form = new Snoop.Forms.Objects( dbdoc, ids );
+          ActiveDoc.UIApp = cmdData.Application;
+          form.ShowDialog();
+
+          result = Result.Succeeded;
         }
-
-        //ICollection<Element> elements 
-        //  = new List<Element>( ids.Select<ElementId,Element>( 
-        //    id => dbdoc.GetElement( id ) ) );
-
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( dbdoc, ids );
-        ActiveDoc.UIApp = cmdData.Application;
-        form.ShowDialog();
-
-        result = Result.Succeeded;
-      }
-      catch( System.Exception e )
-      {
-        msg = e.Message;
-        result = Result.Failed;
+        catch( System.Exception e )
+        {
+          msg = e.Message;
+          result = Result.Failed;
+        }
+        transaction.RollBack();
       }
 
       return result;
@@ -393,20 +417,25 @@ namespace RevitLookup
     {
       Result result;
 
-      try
+      using (var transaction = new Transaction(cmdData.Application.ActiveUIDocument.Document, this.GetType().Name))
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
-        Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;   // TBD: see note in CollectorExt.cs
+        transaction.Start(); // necessary to snoop Document.PlanTopologies
+        try
+        {
+          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+          Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;   // TBD: see note in CollectorExt.cs
 
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( cmdData.Application.Application );
-        form.ShowDialog();
-        ActiveDoc.UIApp = cmdData.Application;
-        result = Result.Succeeded;
-      }
-      catch( System.Exception e )
-      {
-        msg = e.Message;
-        result = Result.Failed;
+          Snoop.Forms.Objects form = new Snoop.Forms.Objects( cmdData.Application.Application );
+          form.ShowDialog();
+          ActiveDoc.UIApp = cmdData.Application;
+          result = Result.Succeeded;
+        }
+        catch( System.Exception e )
+        {
+          msg = e.Message;
+          result = Result.Failed;
+        }
+        transaction.RollBack();
       }
 
       return result;
@@ -439,7 +468,7 @@ namespace RevitLookup
   }
 
   /// <summary>
-  /// Search by and Snoop command: Browse 
+  /// Search by and Snoop command: Browse
   /// elements found by the condition
   /// </summary>
   [Transaction( TransactionMode.Manual )]

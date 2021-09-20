@@ -73,6 +73,9 @@ namespace RevitLookup.Snoop.Forms
 		        // this constructor is for derived classes to call
             InitializeComponent();
 
+			// Add Load to update ListView Width
+            Utils.AddOnLoadForm(this);
+
             m_tvObjs.BeginUpdate();
 
             AddParametersToTree();
@@ -196,7 +199,7 @@ namespace RevitLookup.Snoop.Forms
 			// m_lvCol_value
 			// 
 			this.m_lvCol_value.Text = "Value";
-			this.m_lvCol_value.Width = 300;
+			this.m_lvCol_value.Width = 800;
 			// 
 			// listViewContextMenuStrip
 			// 
