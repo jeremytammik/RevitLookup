@@ -174,6 +174,7 @@ using System.Reflection;
 // 2021-06-07 2022.0.0.11 integrated pull request #84 by @RevitArkitek adding PlanViewRange functionality to display view range level id and offset
 // 2021-06-30 2022.0.0.12 integrated pull request #85 by Luiz Henrique Cassettari increasing width of snoop window value ListView column from 300 to 800
 // 2021-07-01 2022.0.0.13 integrated pull request #86 by Luiz Henrique Cassettari adding OnLoad to update width of snoop window value ListView last column
+// 2021-09-22 2022.0.0.14 integrated pull request #91 by @mphelt to add PartUtilsStream
 //
-[assembly: AssemblyVersion( "2022.0.0.13" )]
-[assembly: AssemblyFileVersion( "2022.0.0.13" )]
+[assembly: AssemblyVersion( "2022.0.0.14" )]
+[assembly: AssemblyFileVersion( "2022.0.0.14" )]
