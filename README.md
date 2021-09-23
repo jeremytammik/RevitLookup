@@ -28,19 +28,13 @@ If you are interested in an earlier release of Revit, please grab the latest app
 - [2015.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2015.0.0.8) for Revit 2015
 
 
-## <a name="builds"></a> Builds
-
-[Build Informed GmbH](https://www.buildinformed.com) very kindly set up a
-public [CI](https://en.wikipedia.org/wiki/Continuous_integration) for RevitLookup
-at [lookupbuilds.com](https://lookupbuilds.com)
-using [gitlab.com](https://gitlab.com).
-The output is dual-signed with the Build Informed certificate, zipped and published to an Amazon S3 bucket.
-For more information, please refer to
-the [Revit API discussion forum](http://forums.autodesk.com/t5/revit-api-forum/bd-p/160) thread
-on [CI for RevitLookup](https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111).
-
-
 ## Installation
+
+No compiled DLL is provided.
+This repository hosts the source code only.
+You can either compile your own DLL,
+download from the [CI builds](#builds),
+or use the [RevitLookup.Installation package](#revitlookupinstallation)
 
 <!----
 ### Forever
@@ -90,7 +84,20 @@ Says he:
 
 -->
 
-### RevitLookup.Installation
+
+## Builds
+
+[Build Informed GmbH](https://www.buildinformed.com) very kindly set up a
+public [CI](https://en.wikipedia.org/wiki/Continuous_integration) for RevitLookup
+at [lookupbuilds.com](https://lookupbuilds.com)
+using [gitlab.com](https://gitlab.com).
+The output is dual-signed with the Build Informed certificate, zipped and published to an Amazon S3 bucket.
+For more information, please refer to
+the [Revit API discussion forum](http://forums.autodesk.com/t5/revit-api-forum/bd-p/160) thread
+on [CI for RevitLookup](https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111).
+
+
+## RevitLookup.Installation
 
 Luiz Henrique [@ricaun](https://github.com/ricaun) Cassettari created
 the [RevitLookup.Installation](https://github.com/ricaun/RevitLookup.Installation) project,
