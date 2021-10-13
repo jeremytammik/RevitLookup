@@ -25,6 +25,7 @@
 using System;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Collectors;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
@@ -33,34 +34,23 @@ namespace RevitLookup.Snoop.CollectorExts
 	/// </summary>
 	public abstract class CollectorExt
 	{
-			// TBD: For the Snoop.Data.ElementId object I need access to the current
-			// document so I can retrieve the Element.  However, from the context of something
-			// like a Parameter.AsElementId(), the Document is nowhere to be found.  So, hack
-			// around it for now by letting original TestCmd set this value.  Its not local-enough
-			// when browsing though, so it could be wrong if browsing doesn't stay within the 
-			// original document! (jma - 05/03/05)
+		// TBD: For the Snoop.Data.ElementId object I need access to the current
+		// document so I can retrieve the Element.  However, from the context of something
+		// like a Parameter.AsElementId(), the Document is nowhere to be found.  So, hack
+		// around it for now by letting original TestCmd set this value.  Its not local-enough
+		// when browsing though, so it could be wrong if browsing doesn't stay within the 
+		// original document! (jma - 05/03/05)
         static public Autodesk.Revit.UI.UIApplication m_app = null;
         static public Autodesk.Revit.DB.Document m_activeDoc = null;
 
-		public
-		CollectorExt()
-		{
-		        // add ourselves to the event list of all SnoopCollectors
-		    Snoop.Collectors.Collector.OnCollectorExt += new Snoop.Collectors.Collector.CollectorExt(CollectEvent);
+		public CollectorExt()
+		{  
             if (m_app != null && m_app.ActiveUIDocument != null && m_app.ActiveUIDocument.Document != null)
             {
                 m_activeDoc = m_app.ActiveUIDocument.Document;
             }
 		}
 
-        protected abstract void
-        CollectEvent(object sender, Snoop.Collectors.CollectorEventArgs e);
-
-        public Element GetElementById(ElementId id)
-        {
-            if (m_activeDoc != null)
-                return m_activeDoc.GetElement(id);
-            return null;
-        }
+        public abstract void Collect(Collector sender, Snoop.Collectors.CollectorEventArgs e);       
     }
 }

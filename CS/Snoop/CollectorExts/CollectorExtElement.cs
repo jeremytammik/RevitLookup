@@ -56,15 +56,8 @@ namespace RevitLookup.Snoop.CollectorExts
                 .ToArray();
         }
 
-        protected override void CollectEvent(object sender, CollectorEventArgs e)
+        public override void Collect(Collector snoopCollector, CollectorEventArgs e)
         {
-            Collector snoopCollector = sender as Collector;
-            if (snoopCollector == null)
-            {
-                Debug.Assert(false); // why did someone else send us the message?
-                return;
-            }
-
             if (e.ObjToSnoop is IEnumerable)
                 snoopCollector.Data().Add(new Snoop.Data.Enumerable(e.ObjToSnoop.GetType().Name, e.ObjToSnoop as IEnumerable));
             else

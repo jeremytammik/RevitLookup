@@ -45,10 +45,7 @@ namespace RevitLookup
 
     public Result OnStartup(
       UIControlledApplication application )
-    {
-      // Call this method explicitly in App.cs when Revit starts up because,
-      // in .NET 4, the static variables will not be initialized until use them.
-      Snoop.Collectors.CollectorObj.InitializeCollectors();
+    {      
       AddMenu( application );
       AddAppDocEvents( application.ControlledApplication );
 

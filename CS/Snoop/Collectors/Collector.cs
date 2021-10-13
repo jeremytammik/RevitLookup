@@ -27,29 +27,14 @@ using System.Collections;
 
 namespace RevitLookup.Snoop.Collectors
 {
-	public class Collector
-	{
-	    public delegate void CollectorExt(object sender, CollectorEventArgs e);
-	    public static event  CollectorExt OnCollectorExt;
-	    
-	    protected ArrayList    m_dataObjs = new ArrayList();
-	    
-		public Collector()
-		{
-
-		}
+	public abstract class Collector
+	{		
+	    protected ArrayList m_dataObjs = new ArrayList();	    
+	
 		
 		public ArrayList Data()
 		{
 		    return m_dataObjs;
 		}
-		
-		// Apparently, you can't call the Event from outside the actual class that defines it.
-		// So, we'll simply wrap it.  Now all derived classes can broadcast the event.
-		protected void FireEvent_CollectExt(object objToSnoop)
-		{
-		    if (OnCollectorExt != null)
-                OnCollectorExt(this, new CollectorEventArgs(objToSnoop));
-        }
 	}
 }
