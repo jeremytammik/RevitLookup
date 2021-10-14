@@ -29,6 +29,7 @@ using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitLookup.Snoop.Collectors;
 
 namespace RevitLookup
 {
@@ -45,7 +46,8 @@ namespace RevitLookup
 
     public Result OnStartup(
       UIControlledApplication application )
-    {      
+    {
+      CollectorObj.CreateExternalEvent();
       AddMenu( application );
       AddAppDocEvents( application.ControlledApplication );
 

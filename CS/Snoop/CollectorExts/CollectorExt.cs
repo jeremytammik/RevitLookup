@@ -25,6 +25,7 @@
 using System;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using RevitLookup.Snoop.Collectors;
 
 namespace RevitLookup.Snoop.CollectorExts
@@ -33,24 +34,16 @@ namespace RevitLookup.Snoop.CollectorExts
 	/// Base class for CollectorExt objects.
 	/// </summary>
 	public abstract class CollectorExt
-	{
-		// TBD: For the Snoop.Data.ElementId object I need access to the current
-		// document so I can retrieve the Element.  However, from the context of something
-		// like a Parameter.AsElementId(), the Document is nowhere to be found.  So, hack
-		// around it for now by letting original TestCmd set this value.  Its not local-enough
-		// when browsing though, so it could be wrong if browsing doesn't stay within the 
-		// original document! (jma - 05/03/05)
-        static public Autodesk.Revit.UI.UIApplication m_app = null;
-        static public Autodesk.Revit.DB.Document m_activeDoc = null;
+	{		
+        protected readonly UIApplication m_app = null;
+		
 
-		public CollectorExt()
-		{  
-            if (m_app != null && m_app.ActiveUIDocument != null && m_app.ActiveUIDocument.Document != null)
-            {
-                m_activeDoc = m_app.ActiveUIDocument.Document;
-            }
-		}
+		public CollectorExt(UIApplication uiApp)
+		{
+			m_app = uiApp;            
+		}		
 
-        public abstract void Collect(Collector sender, Snoop.Collectors.CollectorEventArgs e);       
+
+		public abstract void Collect(Collector sender, Snoop.Collectors.CollectorEventArgs e);       
     }
 }

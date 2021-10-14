@@ -77,8 +77,7 @@ namespace RevitLookup
         transaction.Start(); // necessary to snoop Document.PlanTopologies
         try
         {
-          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;   // TBD: see note in CollectorExt.cs
-          Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;
+          
 
           // iterate over the collection and put them in an ArrayList so we can pass on
           // to our Form
@@ -125,10 +124,7 @@ namespace RevitLookup
 
       try
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
-
-        Snoop.CollectorExts.CollectorExt.m_activeDoc =
-            cmdData.Application.ActiveUIDocument.Document;
+        
 
         Reference refElem = null;
 
@@ -170,10 +166,7 @@ namespace RevitLookup
 
       try
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
-
-        Snoop.CollectorExts.CollectorExt.m_activeDoc =
-            cmdData.Application.ActiveUIDocument.Document;
+       
 
         Reference refElem = null;
         try
@@ -214,7 +207,7 @@ namespace RevitLookup
 
       try
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+        
 
         Document doc =
             cmdData.Application.ActiveUIDocument.Document;
@@ -233,9 +226,10 @@ namespace RevitLookup
         string stableReflink = refElem.ConvertToStableRepresentation( doc ).Split( ':' )[0];
         Reference refLink = Reference.ParseFromStableRepresentation( doc, stableReflink );
         RevitLinkInstance rli_return = doc.GetElement( refLink ) as RevitLinkInstance;
-        Snoop.CollectorExts.CollectorExt.m_activeDoc = rli_return.GetLinkDocument();
-        Element e = Snoop.CollectorExts.CollectorExt.m_activeDoc.GetElement( refElem.LinkedElementId );
-
+        var m_activeDoc = rli_return.GetLinkDocument(); 
+        Element e = m_activeDoc.GetElement( refElem.LinkedElementId );
+       
+       
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( e );
         ActiveDoc.UIApp = cmdData.Application;
         form.ShowDialog();
@@ -268,7 +262,7 @@ namespace RevitLookup
 
       try
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+        
         UIDocument uidoc = cmdData.Application.ActiveUIDocument;
         ICollection<ElementId> idPickfirst = uidoc.Selection.GetElementIds();
         Document doc = uidoc.Document;
@@ -309,8 +303,7 @@ namespace RevitLookup
         transaction.Start(); // necessary to snoop Document.PlanTopologies
         try
         {
-          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;   // TBD: see note in CollectorExt.cs
-          Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;
+         
 
           // iterate over the collection and put them in an ArrayList so we can pass on
           // to our Form
@@ -354,10 +347,9 @@ namespace RevitLookup
         transaction.Start(); // necessary to snoop Document.PlanTopologies
         try
         {
-          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+          
           UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
-          Document dbdoc = revitDoc.Document;
-          Snoop.CollectorExts.CollectorExt.m_activeDoc = dbdoc; // TBD: see note in CollectorExt.cs
+          Document dbdoc = revitDoc.Document;          
           Autodesk.Revit.DB.View view = dbdoc.ActiveView;
 
           //ElementSet ss = cmdData.Application.ActiveUIDocument.Selection.Elements; // 2015, jeremy: 'Selection.Selection.Elements' is obsolete: 'This property is deprecated in Revit 2015. Use GetElementIds() and SetElementIds instead.'
@@ -422,8 +414,7 @@ namespace RevitLookup
         transaction.Start(); // necessary to snoop Document.PlanTopologies
         try
         {
-          Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
-          Snoop.CollectorExts.CollectorExt.m_activeDoc = cmdData.Application.ActiveUIDocument.Document;   // TBD: see note in CollectorExt.cs
+         
 
           Snoop.Forms.Objects form = new Snoop.Forms.Objects( cmdData.Application.Application );
           form.ShowDialog();
@@ -483,10 +474,10 @@ namespace RevitLookup
 
       try
       {
-        Snoop.CollectorExts.CollectorExt.m_app = cmdData.Application;
+        
         UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
         Document dbdoc = revitDoc.Document;
-        Snoop.CollectorExts.CollectorExt.m_activeDoc = dbdoc; // TBD: see note in CollectorExt.cs
+        
 
         SearchBy searchByWin = new SearchBy( dbdoc );
         ActiveDoc.UIApp = cmdData.Application;
