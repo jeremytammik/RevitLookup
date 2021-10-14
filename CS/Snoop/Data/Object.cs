@@ -34,19 +34,22 @@ namespace RevitLookup.Snoop.Data
 	
 	public class Object : Data
 	{
-	    protected System.Object m_val;
+		private string m_StrValue;
+
+		protected System.Object m_val;
 	    
 		public
 		Object(string label, System.Object val)
 		:   base(label)
 		{
 		    m_val = val;
+			m_StrValue = Utils.ObjToLabelStr(m_val);
 		}
 		
         public override string
         StrValue()
         {
-			return Utils.ObjToLabelStr(m_val);
+			return m_StrValue;
         }
         
         public override bool
