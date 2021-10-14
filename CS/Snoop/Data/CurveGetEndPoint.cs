@@ -20,7 +20,7 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => _curve != null && _curve.IsBound;
 
-        public override void DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
             if (!HasDrillDown) return;
 
@@ -33,7 +33,7 @@ namespace RevitLookup.Snoop.Data
             if (!xyzObjects.Any()) return;
 
             var form = new Forms.Objects(xyzObjects);
-            form.ShowDialog();
+            ModelessWindowFactory.Show(form, parent);
         }
     }
 }

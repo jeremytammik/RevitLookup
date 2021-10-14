@@ -61,8 +61,7 @@ namespace RevitLookup.Snoop.Data
             }
         }
         
-        public override void
-        DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
             try {
                 System.Xml.XmlDocument xmlDoc = new System.Xml.XmlDocument();

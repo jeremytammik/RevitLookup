@@ -20,7 +20,7 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => _viewCropRegionShapeManager != null && _viewCropRegionShapeManager.NumberOfSplitRegions > 1;
 
-        public override void DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
             if (!HasDrillDown) return;
 
@@ -32,7 +32,7 @@ namespace RevitLookup.Snoop.Data
             if (!cropRegionOffsetObjects.Any()) return;
 
             var form = new Forms.Objects(cropRegionOffsetObjects);
-            form.ShowDialog();
+            ModelessWindowFactory.Show(form, parent);
         }
     }
 }

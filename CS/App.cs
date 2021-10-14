@@ -29,6 +29,7 @@ using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitLookup.Snoop;
 using RevitLookup.Snoop.Collectors;
 
 namespace RevitLookup
@@ -47,6 +48,7 @@ namespace RevitLookup
     public Result OnStartup(
       UIControlledApplication application )
     {
+      ModelessWindowHandle.RevitMainWindowHandle = application.MainWindowHandle;
       CollectorObj.CreateExternalEvent();
       AddMenu( application );
       AddAppDocEvents( application.ControlledApplication );

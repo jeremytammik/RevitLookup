@@ -23,6 +23,7 @@
 #endregion // Header
 
 using System;
+using System.Windows.Forms;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -88,8 +89,7 @@ namespace RevitLookup.Snoop.Data
 		/// Do the act of drilling down on the data
 		/// </summary>
 		
-        public virtual void
-        DrillDown()
+        public virtual void DrillDown(Form parent)
         {
             ;   // do nothing by default
         }

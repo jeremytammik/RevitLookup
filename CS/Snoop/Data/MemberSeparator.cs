@@ -35,8 +35,7 @@ namespace RevitLookup.Snoop.Data
             get { return false; }
         }
 
-        public override void
-        DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
 
         }

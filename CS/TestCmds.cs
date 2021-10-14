@@ -86,7 +86,7 @@ namespace RevitLookup
 
           System.Diagnostics.Trace.WriteLine( founds.Count.ToString() );
           Snoop.Forms.Objects form = new Snoop.Forms.Objects( objs );         
-          form.Show(new ModelessWindowHandle());  
+          ModelessWindowFactory.Show(form);  
 
           return Result.Succeeded;
     }
@@ -116,7 +116,7 @@ namespace RevitLookup
         //    .GetGeometryObjectFromReference(refElem);
 
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( refElem );       
-        form.Show(new ModelessWindowHandle());       
+        ModelessWindowFactory.Show(form);       
 
         return Result.Succeeded;
     }
@@ -142,7 +142,7 @@ namespace RevitLookup
         //    .GetGeometryObjectFromReference(refElem);
 
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( refElem );       
-        form.Show(new ModelessWindowHandle());     
+        ModelessWindowFactory.Show(form);     
 
         return Result.Succeeded;
     }
@@ -175,7 +175,7 @@ namespace RevitLookup
        
        
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( e );      
-        form.Show(new ModelessWindowHandle());
+        ModelessWindowFactory.Show(form);
         
       return Result.Succeeded;
     }
@@ -207,7 +207,7 @@ namespace RevitLookup
 
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( doc, ids );
         
-        form.Show(new ModelessWindowHandle());
+        ModelessWindowFactory.Show(form);
 
       return Result.Succeeded;
     }
@@ -231,7 +231,7 @@ namespace RevitLookup
         }
 
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( doc.ActiveView );
-        form.Show(new ModelessWindowHandle());
+        ModelessWindowFactory.Show(form);
 
       
         return Result.Succeeded;
@@ -281,7 +281,7 @@ namespace RevitLookup
             //    id => dbdoc.GetElement( id ) ) );
 
             Snoop.Forms.Objects form = new Snoop.Forms.Objects(dbdoc, ids);
-            form.Show(new ModelessWindowHandle());
+            ModelessWindowFactory.Show(form);
 
             return Result.Succeeded;
         }
@@ -296,7 +296,7 @@ namespace RevitLookup
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
          Snoop.Forms.Objects form = new Snoop.Forms.Objects( cmdData.Application.Application );
-         form.Show(new ModelessWindowHandle());
+         ModelessWindowFactory.Show(form);
 
          return Result.Succeeded;
     }
@@ -341,8 +341,8 @@ namespace RevitLookup
     {        
         UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
         Document dbdoc = revitDoc.Document;
-        SearchBy searchByWin = new SearchBy( dbdoc );       
-        searchByWin.Show(new ModelessWindowHandle());         
+        SearchBy form = new SearchBy( dbdoc );
+        ModelessWindowFactory.Show(form);
 
         return Result.Succeeded;
     }

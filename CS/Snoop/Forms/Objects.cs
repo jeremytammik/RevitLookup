@@ -409,19 +409,19 @@ namespace RevitLookup.Snoop.Forms
 
     protected async void TreeNodeSelected( object sender, System.Windows.Forms.TreeNodeMouseClickEventArgs e )
     {
-      m_curObj = e.Node.Tag;
+      //m_curObj = e.Node.Tag;
 
-      // collect the data about this object
-      await m_snoopCollector.Collect( m_curObj );
+      //// collect the data about this object
+      //await m_snoopCollector.Collect( m_curObj );
 
-      // display it
-      Snoop.Utils.Display( m_lvData, m_snoopCollector );
+      //// display it
+      //Snoop.Utils.Display( m_lvData, m_snoopCollector );
     }
 
     protected void
     DataItemSelected( object sender, System.EventArgs e )
     {
-      Snoop.Utils.DataItemSelected( m_lvData );
+      Snoop.Utils.DataItemSelected( m_lvData, this);
     }
 
     private void

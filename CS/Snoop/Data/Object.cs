@@ -63,15 +63,14 @@ namespace RevitLookup.Snoop.Data
             }
         }
         
-        public override void
-        DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
             if (m_val != null) {
 				ArrayList objs = new ArrayList();
 				objs.Add(m_val);
 
 				Snoop.Forms.Objects form = new Snoop.Forms.Objects(objs);
-				form.ShowDialog();
+				ModelessWindowFactory.Show(form, parent);				
 			}
         }
 	}

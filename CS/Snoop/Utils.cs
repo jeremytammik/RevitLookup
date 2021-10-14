@@ -93,15 +93,14 @@ namespace RevitLookup.Snoop
          lvCur.EndUpdate();
       }
 
-      public static void
-      DataItemSelected(ListView lvCur)
+      public static void DataItemSelected(ListView lvCur, System.Windows.Forms.Form parent)
       {
          Debug.Assert((lvCur.SelectedItems.Count > 1) == false);
 
          if (lvCur.SelectedItems.Count != 0)
          {
             Snoop.Data.Data tmpSnoopData = (Snoop.Data.Data)lvCur.SelectedItems[0].Tag;
-            tmpSnoopData.DrillDown();
+            tmpSnoopData.DrillDown(parent);
          }
       }
 
