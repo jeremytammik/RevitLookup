@@ -152,5 +152,12 @@ namespace RevitLookup.Snoop.Forms {
             Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, m_listView);
         }
         #endregion
+
+        private void m_bnOk_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+            Dispose();
+        }
     }
 }
