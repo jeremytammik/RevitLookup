@@ -49,7 +49,7 @@ namespace RevitLookup
       UIControlledApplication application )
     {
       ModelessWindowHandle.RevitMainWindowHandle = application.MainWindowHandle;
-      CollectorObj.CreateExternalEvent();
+      ExternalExecutor.CreateExternalEvent();
       AddMenu( application );
       AddAppDocEvents( application.ControlledApplication );
 

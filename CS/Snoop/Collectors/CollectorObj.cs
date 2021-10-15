@@ -28,7 +28,6 @@ using System.Collections;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using RevitLookup.Snoop.CollectorExts;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
 namespace RevitLookup.Snoop.Collectors
@@ -39,14 +38,7 @@ namespace RevitLookup.Snoop.Collectors
     /// hierarchy.  In .NET, System.Object is the root of everything, so its easy to make a single Collector.
     /// </summary>
     public class CollectorObj : Collector
-    {        
-        static ExternalEvent externalEvent;
-
-        public static void CreateExternalEvent()
-        {
-            externalEvent = ExternalEvent.Create(new ExternalEventHandler());
-        }
-
+    {
         /// <summary>
         /// This is the point where the ball starts rolling.  We'll walk down the object's class hierarchy,
         /// continually trying to cast it to objects we know about.  NOTE: this is intentionally not Reflection.
@@ -61,62 +53,28 @@ namespace RevitLookup.Snoop.Collectors
             if (obj == null)
                 return Task.CompletedTask;
 
-            var request  = new Request(this, obj);
-            ExternalEventHandler.Queue.Enqueue(request);
-            var result = externalEvent.Raise();
-            return request.tcs.Task;
+            return ExternalExecutor.ExecuteInRevitContextAsync((app) => Collect(app, this, obj));           
         }
 
-        private class Request
+        private void Collect(UIApplication app, CollectorObj collector, Object objectToSnoop)
         {
-            public readonly TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();          
-            public readonly CollectorObj Collector;
-            public readonly Object ObjectToSnoop;
-
-            public Request(CollectorObj collector, object objectToSnoop)
-            {                
-                this.Collector = collector;
-                this.ObjectToSnoop = objectToSnoop;
+            var targetElement = objectToSnoop as Element;
+            if (objectToSnoop is IEnumerable enumerable)
+            {
+                targetElement = enumerable.OfType<Element>().FirstOrDefault();
             }
-        }
+            Document document = targetElement?.Document;
+            Transaction transaction = document != null && document.IsModifiable == false ? new Transaction(document, this.GetType().Name) : null;
+            transaction?.Start();
 
-        private class ExternalEventHandler : IExternalEventHandler
-        {
-            public static readonly ConcurrentQueue<Request> Queue = new ConcurrentQueue<Request>();
-
-            public void Execute(UIApplication app)
+            try
             {
-                while (Queue.TryDequeue(out Request request))
-                {
-                    var targetElement = request.ObjectToSnoop as Element;
-                    if (request.ObjectToSnoop is IEnumerable enumerable)
-                    {
-                        targetElement = enumerable.OfType<Element>().FirstOrDefault();
-                    }
-                    Document document = targetElement?.Document;
-                    Transaction transaction = document != null &&document.IsModifiable == false ? new Transaction(document, this.GetType().Name) : null;
-                    transaction?.Start();
-
-                    try
-                    {
-                        var collectorExtElement = new CollectorExtElement(app);
-                        collectorExtElement.Collect(request.Collector, new CollectorEventArgs(request.ObjectToSnoop));
-                        request.tcs.SetResult(null);
-                    }
-                    catch (System.Exception e)
-                    {
-                        request.tcs.SetException(e);
-                    }
-                    finally
-                    {
-                        transaction?.RollBack();
-                    }
-                }
-            }        
-
-            public string GetName()
+                var collectorExtElement = new CollectorExtElement(app);
+                collectorExtElement.Collect(collector, new CollectorEventArgs(objectToSnoop));
+            }
+            finally
             {
-                return "RevitLookup::CollectorObj::ExternalEventHandler";
+                transaction?.RollBack();
             }
         }
     }    
