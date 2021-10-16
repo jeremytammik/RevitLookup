@@ -32,18 +32,18 @@ using RevitLookup.Snoop.Collectors;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Snoop.Data;
+using Autodesk.Revit.UI;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
     /// <summary>
     /// Provide Snoop.Data for any classes related to an Element.
     /// </summary>
-
     public class CollectorExtElement : CollectorExt
     {
-        readonly Type[] types;
+        static readonly Type[] types;
 
-        public CollectorExtElement()
+        static CollectorExtElement()
         {
             var baseDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
 
@@ -56,15 +56,13 @@ namespace RevitLookup.Snoop.CollectorExts
                 .ToArray();
         }
 
-        protected override void CollectEvent(object sender, CollectorEventArgs e)
+        public CollectorExtElement(UIApplication uiApp) : base(uiApp)
         {
-            Collector snoopCollector = sender as Collector;
-            if (snoopCollector == null)
-            {
-                Debug.Assert(false); // why did someone else send us the message?
-                return;
-            }
 
+        }
+
+        public override void Collect(Collector snoopCollector, CollectorEventArgs e)
+        {
             if (e.ObjToSnoop is IEnumerable)
                 snoopCollector.Data().Add(new Snoop.Data.Enumerable(e.ObjToSnoop.GetType().Name, e.ObjToSnoop as IEnumerable));
             else

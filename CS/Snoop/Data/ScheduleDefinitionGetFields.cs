@@ -20,7 +20,7 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => _scheduleDefinition != null && _scheduleDefinition.GetFieldCount() > 0;
 
-        public override void DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
             if (!HasDrillDown) return;
 
@@ -35,7 +35,7 @@ namespace RevitLookup.Snoop.Data
             if (!scheduleFieldObjects.Any()) return;
 
             var form = new Forms.Objects(scheduleFieldObjects);
-            form.ShowDialog();
+            ModelessWindowFactory.Show(form, parent);
         }
     }
 }

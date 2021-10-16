@@ -797,7 +797,7 @@ namespace RevitLookup.Xml.Forms
         private void
         DataItemSelected(object sender, System.EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(m_lvData);
+            Snoop.Utils.DataItemSelected(m_lvData, this);
         }
         
         /// <summary>

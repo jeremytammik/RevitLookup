@@ -29,6 +29,8 @@ using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitLookup.Snoop;
+using RevitLookup.Snoop.Collectors;
 
 namespace RevitLookup
 {
@@ -46,9 +48,8 @@ namespace RevitLookup
     public Result OnStartup(
       UIControlledApplication application )
     {
-      // Call this method explicitly in App.cs when Revit starts up because,
-      // in .NET 4, the static variables will not be initialized until use them.
-      Snoop.Collectors.CollectorObj.InitializeCollectors();
+      ModelessWindowHandle.RevitMainWindowHandle = application.MainWindowHandle;
+      ExternalExecutor.CreateExternalEvent();
       AddMenu( application );
       AddAppDocEvents( application.ControlledApplication );
 

@@ -19,7 +19,7 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.IsTemplate && _view.GetTemplateParameterIds().Any();
 
-        public override void DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
             if (!HasDrillDown) return;
 
@@ -33,7 +33,7 @@ namespace RevitLookup.Snoop.Data
             if (!templateParameterIds.Any()) return;
 
             var form = new Forms.Objects(templateParameterIds);
-            form.ShowDialog();
+            ModelessWindowFactory.Show(form, parent);
         }
     }
 }

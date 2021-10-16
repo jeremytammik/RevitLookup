@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using System.Collections;
+using System.Windows.Forms;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -29,7 +30,7 @@ namespace RevitLookup.Snoop.Data
         }
 
 
-        public override void DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
             if (m_assetProperties != null)
             {
@@ -41,7 +42,7 @@ namespace RevitLookup.Snoop.Data
                 
 
                 Snoop.Forms.Objects form = new Snoop.Forms.Objects(objs);
-                form.ShowDialog();
+                ModelessWindowFactory.Show(form, parent);
             }
         }
 

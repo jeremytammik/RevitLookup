@@ -19,7 +19,7 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => !view.Document.IsFamilyDocument && view.AreGraphicsOverridesAllowed() && view.GetFilters().Any();
 
-        public override void DrillDown()
+        public override void DrillDown(System.Windows.Forms.Form parent)
         {
             if (!HasDrillDown)
                 return;
@@ -33,7 +33,7 @@ namespace RevitLookup.Snoop.Data
             {
                 var form = new Forms.Objects(filtersVisibility);
 
-                form.ShowDialog();
+                ModelessWindowFactory.Show(form, parent);
             }
         }
     }
