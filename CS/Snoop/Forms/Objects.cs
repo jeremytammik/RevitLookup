@@ -677,7 +677,21 @@ namespace RevitLookup.Snoop.Forms
             var selector = (Selector)Enum.Parse(typeof(Selector), btn.Tag as string);
 
 
-            await ExternalExecutor.ExecuteInRevitContextAsync(x => { var r = Selectors.Snoop(x, selector); CommonInit(r); });
-        }      
+            await ExternalExecutor.ExecuteInRevitContextAsync(x =>
+            {
+                tableLayoutPanel1.Enabled = false;
+                m_tvObjs.Enabled = false;
+                m_lvData.Enabled = false;
+                m_bnOK.Enabled = false;
+
+                var r = Selectors.Snoop(x, selector);
+
+                tableLayoutPanel1.Enabled = true;
+                m_tvObjs.Enabled = true;
+                m_lvData.Enabled = true;
+                m_bnOK.Enabled = true;
+                CommonInit(r);
+            });
+        }
     }
 }
