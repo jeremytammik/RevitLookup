@@ -70,21 +70,7 @@ namespace RevitLookup
       ref string msg, 
       ElementSet elems )
     {
-          // iterate over the collection and put them in an ArrayList so we can pass on
-          // to our Form
-          Autodesk.Revit.DB.Document doc = cmdData.Application.ActiveUIDocument.Document;
-          FilteredElementCollector elemTypeCtor = ( new FilteredElementCollector( doc ) ).WhereElementIsElementType();
-          FilteredElementCollector notElemTypeCtor = ( new FilteredElementCollector( doc ) ).WhereElementIsNotElementType();
-          FilteredElementCollector allElementCtor = elemTypeCtor.UnionWith( notElemTypeCtor );
-          ICollection<Element> founds = allElementCtor.ToElements();
-
-          ArrayList objs = new ArrayList();
-          foreach( Element element in founds )
-          {
-            objs.Add( element );
-          }
-
-          System.Diagnostics.Trace.WriteLine( founds.Count.ToString() );
+          var objs = Selectors.SnoopDB(cmdData.Application);
           Snoop.Forms.Objects form = new Snoop.Forms.Objects( objs );         
           ModelessWindowFactory.Show(form);  
 
@@ -100,20 +86,8 @@ namespace RevitLookup
       ref string msg, 
       ElementSet elems )
     {
-        Reference refElem = null;
-
-        try
-        {
-          refElem = cmdData.Application.ActiveUIDocument
-              .Selection.PickObject( Autodesk.Revit.UI.Selection.ObjectType.Face );
-        }
-        catch
-        {
-          return Result.Succeeded;
-        }
-
-        //GeometryObject geoObject = cmdData.Application.ActiveUIDocument.Document.GetElement(refElem)
-        //    .GetGeometryObjectFromReference(refElem);
+        object refElem = Selectors.SnoopPickFace(cmdData.Application);
+        if (refElem == null) return Result.Cancelled;
 
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( refElem );       
         ModelessWindowFactory.Show(form);       
@@ -127,19 +101,8 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-        Reference refElem = null;
-        try
-        {
-          refElem = cmdData.Application.ActiveUIDocument
-              .Selection.PickObject( Autodesk.Revit.UI.Selection.ObjectType.Edge );
-        }
-        catch
-        {
-          return Result.Succeeded;
-        }
-
-        //GeometryObject geoObject = cmdData.Application.ActiveUIDocument.Document.GetElement(refElem)
-        //    .GetGeometryObjectFromReference(refElem);
+        object refElem = Selectors.SnoopPickEdge(cmdData.Application) as object;
+        if (refElem == null) return Result.Cancelled;
 
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( refElem );       
         ModelessWindowFactory.Show(form);     
@@ -153,31 +116,13 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-        Document doc =
-            cmdData.Application.ActiveUIDocument.Document;
+        var e = Selectors.SnoopLinkedElement(cmdData.Application) as Element;
+        if (e == null) return Result.Cancelled;
 
-        Reference refElem = null;
-        try
-        {
-          refElem = cmdData.Application.ActiveUIDocument
-              .Selection.PickObject( Autodesk.Revit.UI.Selection.ObjectType.LinkedElement );
-        }
-        catch
-        {
-          return Result.Succeeded;
-        }
-
-        string stableReflink = refElem.ConvertToStableRepresentation( doc ).Split( ':' )[0];
-        Reference refLink = Reference.ParseFromStableRepresentation( doc, stableReflink );
-        RevitLinkInstance rli_return = doc.GetElement( refLink ) as RevitLinkInstance;
-        var m_activeDoc = rli_return.GetLinkDocument(); 
-        Element e = m_activeDoc.GetElement( refElem.LinkedElementId );
-       
-       
         Snoop.Forms.Objects form = new Snoop.Forms.Objects( e );      
         ModelessWindowFactory.Show(form);
         
-      return Result.Succeeded;
+        return Result.Succeeded;
     }
   }
 
@@ -193,23 +138,11 @@ namespace RevitLookup
       ref string msg,
       ElementSet elems )
     {
-     
-        UIDocument uidoc = cmdData.Application.ActiveUIDocument;
-        ICollection<ElementId> idPickfirst = uidoc.Selection.GetElementIds();
-        Document doc = uidoc.Document;
-
-        ICollection<Element> elemSet = new List<Element>(
-          idPickfirst.Select<ElementId, Element>(
-            id => doc.GetElement( id ) ) );
-
-        ICollection<ElementId> ids = elemSet.SelectMany(
-          t => t.GetDependentElements( null ) ).ToList();
-
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( doc, ids );
-        
+        var elements = Selectors.SnoopDependentElements(cmdData.Application);
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects(elements);        
         ModelessWindowFactory.Show(form);
 
-      return Result.Succeeded;
+        return Result.Succeeded;
     }
   }
 
@@ -221,18 +154,11 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-        // iterate over the collection and put them in an ArrayList so we can pass on
-        // to our Form
-        Autodesk.Revit.DB.Document doc = cmdData.Application.ActiveUIDocument.Document;
-        if( doc.ActiveView == null )
-        {
-        TaskDialog.Show( "RevitLookup", "The document must have an active view!" );
-        return Result.Cancelled;
-        }
+        var activeView = Selectors.SnoopActiveView(cmdData.Application);
+        if ( activeView == null ) return Result.Cancelled;
 
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( doc.ActiveView );
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects(activeView);
         ModelessWindowFactory.Show(form);
-
       
         return Result.Succeeded;
     }
@@ -247,40 +173,9 @@ namespace RevitLookup
   {
         public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
-            UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
-            Document dbdoc = revitDoc.Document;
-            Autodesk.Revit.DB.View view = dbdoc.ActiveView;
+            var selected = Selectors.SnoopCurrentSelection(cmdData.Application);
 
-            //ElementSet ss = cmdData.Application.ActiveUIDocument.Selection.Elements; // 2015, jeremy: 'Selection.Selection.Elements' is obsolete: 'This property is deprecated in Revit 2015. Use GetElementIds() and SetElementIds instead.'
-            //if (ss.Size == 0)
-            //{
-            //  FilteredElementCollector collector = new FilteredElementCollector( revitDoc.Document, view.Id );
-            //  collector.WhereElementIsNotElementType();
-            //  FilteredElementIterator i = collector.GetElementIterator();
-            //  i.Reset();
-            //  ElementSet ss1 = cmdData.Application.Application.Create.NewElementSet();
-            //  while( i.MoveNext() )
-            //  {
-            //    Element e = i.Current as Element;
-            //    ss1.Insert( e );
-            //  }
-            //  ss = ss1;
-            //}
-
-            ICollection<ElementId> ids = cmdData.Application.ActiveUIDocument.Selection.GetElementIds(); // 2016, jeremy
-            if (0 == ids.Count)
-            {
-                FilteredElementCollector collector
-                  = new FilteredElementCollector(revitDoc.Document, view.Id)
-                    .WhereElementIsNotElementType();
-                ids = collector.ToElementIds();
-            }
-
-            //ICollection<Element> elements
-            //  = new List<Element>( ids.Select<ElementId,Element>(
-            //    id => dbdoc.GetElement( id ) ) );
-
-            Snoop.Forms.Objects form = new Snoop.Forms.Objects(dbdoc, ids);
+            Snoop.Forms.Objects form = new Snoop.Forms.Objects(selected);
             ModelessWindowFactory.Show(form);
 
             return Result.Succeeded;
@@ -295,7 +190,9 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-         Snoop.Forms.Objects form = new Snoop.Forms.Objects( cmdData.Application.Application );
+         var app = Selectors.SnoopApplication(cmdData.Application);
+
+         Snoop.Forms.Objects form = new Snoop.Forms.Objects(app);
          ModelessWindowFactory.Show(form);
 
          return Result.Succeeded;

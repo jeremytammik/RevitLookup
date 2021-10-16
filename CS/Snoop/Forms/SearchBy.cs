@@ -40,14 +40,10 @@ namespace RevitLookup.Snoop.Forms
       int id;
       if( int.TryParse( m_tbSearchValue.Text, out id ) )
       {
-        FilteredElementCollector elemTypeCtor = ( new FilteredElementCollector( _doc ) ).WhereElementIsElementType();
-        FilteredElementCollector notElemTypeCtor = ( new FilteredElementCollector( _doc ) ).WhereElementIsNotElementType();
-        FilteredElementCollector allElementCtor = elemTypeCtor.UnionWith( notElemTypeCtor );
-        ICollection<ElementId> ids = allElementCtor
-            .Where( el => el.Id.IntegerValue == id ).Select( el => el.Id ).ToList();
-        if( ids.Count != 0 )
+        var element =  _doc.GetElement(new ElementId(id));
+        if(element != null )
         {
-          Snoop.Forms.Objects form = new Snoop.Forms.Objects( _doc, ids );
+          Snoop.Forms.Objects form = new Snoop.Forms.Objects(element);
           ModelessWindowFactory.Show(form,this);
         }
         else
@@ -59,14 +55,10 @@ namespace RevitLookup.Snoop.Forms
 
     private void SearchAndSnoopByUniqId()
     {
-      FilteredElementCollector elemTypeCtor = ( new FilteredElementCollector( _doc ) ).WhereElementIsElementType();
-      FilteredElementCollector notElemTypeCtor = ( new FilteredElementCollector( _doc ) ).WhereElementIsNotElementType();
-      FilteredElementCollector allElementCtor = elemTypeCtor.UnionWith( notElemTypeCtor );
-      ICollection<ElementId> ids = allElementCtor
-          .Where( el => el.UniqueId == m_tbSearchValue.Text ).Select( el => el.Id ).ToList();
-      if( ids.Count != 0 )
+       var element = _doc.GetElement(m_tbSearchValue.Text);
+       if (element != null)
       {
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( _doc, ids );
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects(element);
         ModelessWindowFactory.Show(form, this);
       }
       else

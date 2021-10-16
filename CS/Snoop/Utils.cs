@@ -115,7 +115,11 @@ namespace RevitLookup.Snoop
          {
                foreach (var control in form.Controls)
                {
-                  if (control is ListView listView) UpdateLastColumnWidth(listView);
+                 if (control is ListView listView)
+                 {
+                     UpdateLastColumnWidth(listView);
+                     listView.Resize += (s2, e2) => UpdateLastColumnWidth(listView);
+                 }
                }
          };
       }
