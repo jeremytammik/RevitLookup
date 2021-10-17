@@ -2,7 +2,8 @@
   "profiles": {
     "RevitLookup": {
       "commandName": "Executable",
-      "executablePath": "C:\\Program Files\\Autodesk\\Revit 2022\\Revit.exe"
+      "executablePath": "C:\\Program Files\\Autodesk\\Revit 2022\\Revit.exe",
+      "commandLineArgs": "Z:\\Users\\jta\\a\\rvt\\rac_2022_one_wall.rvt"
     }
   }
 }

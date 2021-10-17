@@ -175,6 +175,8 @@ using System.Reflection;
 // 2021-06-30 2022.0.0.12 integrated pull request #85 by Luiz Henrique Cassettari increasing width of snoop window value ListView column from 300 to 800
 // 2021-07-01 2022.0.0.13 integrated pull request #86 by Luiz Henrique Cassettari adding OnLoad to update width of snoop window value ListView last column
 // 2021-09-22 2022.0.0.16 integrated pull request #91 by @mphelt to add PartUtilsStream
+// 2021-10-16 2022.0.1.0 integrated pull request #93 by @NeVeS imlementing Modeless windows
+// 2021-10-16 2022.0.1.0 integrated pull request #94 by @NeVeS fixing problem with tranferring focus to Revit when using selectors from modeless window
 //
-[assembly: AssemblyVersion( "2022.0.0.16" )]
-[assembly: AssemblyFileVersion( "2022.0.0.16" )]
+[assembly: AssemblyVersion( "2022.0.1.0" )]
+[assembly: AssemblyFileVersion( "2022.0.1.0" )]
