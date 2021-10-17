@@ -355,7 +355,6 @@ namespace RevitLookup.Snoop.Forms
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(320, 26);
             this.toolStrip1.TabIndex = 5;
-            this.toolStrip1.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton1
             // 
@@ -395,7 +394,6 @@ namespace RevitLookup.Snoop.Forms
             this.toolStrip_ListView.Size = new System.Drawing.Size(160, 26);
             this.toolStrip_ListView.TabIndex = 7;
             this.toolStrip_ListView.Text = "toolStrip3";
-            this.toolStrip_ListView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_RefreshListView
             // 
@@ -407,6 +405,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_RefreshListView.Text = "toolStripButton4";
             this.toolStripButton_RefreshListView.ToolTipText = "Refresh selected element data in the list view";
             this.toolStripButton_RefreshListView.Click += new System.EventHandler(this.toolStripButton_RefreshListView_Click);
+            this.toolStripButton_RefreshListView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStrip_Selectors
             // 
@@ -426,7 +425,6 @@ namespace RevitLookup.Snoop.Forms
             this.toolStrip_Selectors.Size = new System.Drawing.Size(320, 26);
             this.toolStrip_Selectors.TabIndex = 8;
             this.toolStrip_Selectors.Text = "toolStrip2";
-            this.toolStrip_Selectors.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopDB
             // 
@@ -438,6 +436,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_SnoopDB.Tag = "SnoopDB";
             this.toolStripButton_SnoopDB.Text = "Snoop DB";
             this.toolStripButton_SnoopDB.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this.toolStripButton_SnoopDB.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopCurrentSelection
             // 
@@ -450,6 +449,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_SnoopCurrentSelection.Text = "Snoop current selection";
             this.toolStripButton_SnoopCurrentSelection.ToolTipText = "Snoop current selection";
             this.toolStripButton_SnoopCurrentSelection.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this.toolStripButton_SnoopCurrentSelection.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopPickFace
             // 
@@ -461,6 +461,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_SnoopPickFace.Tag = "SnoopPickFace";
             this.toolStripButton_SnoopPickFace.Text = "Snoop pick face";
             this.toolStripButton_SnoopPickFace.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this.toolStripButton_SnoopPickFace.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopPickEdge
             // 
@@ -472,6 +473,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_SnoopPickEdge.Tag = "SnoopPickEdge";
             this.toolStripButton_SnoopPickEdge.Text = "Snoop pick edge";
             this.toolStripButton_SnoopPickEdge.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this.toolStripButton_SnoopPickEdge.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopLinkedElement
             // 
@@ -483,6 +485,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_SnoopLinkedElement.Tag = "SnoopLinkedElement";
             this.toolStripButton_SnoopLinkedElement.Text = "Snoop linked element";
             this.toolStripButton_SnoopLinkedElement.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this.toolStripButton_SnoopLinkedElement.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopDependentElements
             // 
@@ -494,6 +497,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_SnoopDependentElements.Tag = "SnoopDependentElements";
             this.toolStripButton_SnoopDependentElements.Text = "Snoop dependent elements";
             this.toolStripButton_SnoopDependentElements.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this.toolStripButton_SnoopDependentElements.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopActiveView
             // 
@@ -505,6 +509,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_SnoopActiveView.Tag = "SnoopActiveView";
             this.toolStripButton_SnoopActiveView.Text = "Snoop active view";
             this.toolStripButton_SnoopActiveView.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this.toolStripButton_SnoopActiveView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopApplication
             // 
@@ -516,6 +521,7 @@ namespace RevitLookup.Snoop.Forms
             this.toolStripButton_SnoopApplication.Tag = "SnoopApplication";
             this.toolStripButton_SnoopApplication.Text = "Snoop application";
             this.toolStripButton_SnoopApplication.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this.toolStripButton_SnoopApplication.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // Objects
             // 
@@ -660,7 +666,10 @@ namespace RevitLookup.Snoop.Forms
 
         private void toolStrip_MouseEnter(object sender, EventArgs e)
         {
-            Activate();
+            if (System.Windows.Forms.Form.ActiveForm != this)
+            {
+                Activate();
+            }
         }
 
         private void m_bnOK_Click(object sender, EventArgs e)
