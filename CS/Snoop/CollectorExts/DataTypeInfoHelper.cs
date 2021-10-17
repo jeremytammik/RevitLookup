@@ -9,12 +9,12 @@ namespace RevitLookup.Snoop.CollectorExts
 {
     public static class DataTypeInfoHelper
     {
-        public static Data.Data CreateFrom(UIApplication application, MethodInfo info, object returnValue, object elem)
+        public static Data.Data CreateFrom(Document document, MethodInfo info, object returnValue, object elem)
         {
-            return CreateFrom(application, info, info.ReturnType, returnValue, elem);
+            return CreateFrom(document, info, info.ReturnType, returnValue, elem);
         }
 
-        public static Data.Data CreateFrom(UIApplication application, MemberInfo info, Type expectedType, object returnValue, object elem)
+        public static Data.Data CreateFrom(Document document, MemberInfo info, Type expectedType, object returnValue, object elem)
         {
             try
             {
@@ -44,14 +44,14 @@ namespace RevitLookup.Snoop.CollectorExts
                     return new Data.Int(info.Name, (byte) returnValue);
 
                 if ((expectedType == typeof (GeometryObject) || expectedType == typeof (GeometryElement)) && elem is Element)
-                    return new Data.ElementGeometry(info.Name, elem as Element, application.Application);
+                    return new Data.ElementGeometry(info.Name, elem as Element, document.Application);
 
                 if (expectedType == typeof (ElementId))
                 {
                     if (info.Name == nameof(Element.Id))
                         return new Data.String(info.Name, (returnValue as ElementId)?.IntegerValue.ToString());
 
-                    return new Data.ElementId(info.Name, returnValue as ElementId, application.ActiveUIDocument.Document);
+                    return new Data.ElementId(info.Name, returnValue as ElementId, document);
                 }
 
                 if (expectedType == typeof (ElementSet))
@@ -92,7 +92,7 @@ namespace RevitLookup.Snoop.CollectorExts
                     return new Data.EnumerableAsString(info.Name, returnValue as IEnumerable);
 
                 if (typeof (IEnumerable).IsAssignableFrom(expectedType))
-                    return new Data.Enumerable(info.Name, returnValue as IEnumerable, application.ActiveUIDocument.Document);
+                    return new Data.Enumerable(info.Name, returnValue as IEnumerable, document);
 
                 if (expectedType.IsEnum)
                     return new Data.String(info.Name, returnValue.ToString());
@@ -112,9 +112,9 @@ namespace RevitLookup.Snoop.CollectorExts
             }
         }
 
-        public static void AddDataFromTypeInfo(UIApplication application, MemberInfo info, Type expectedType, object returnValue, object elem, ArrayList data)
+        public static void AddDataFromTypeInfo(Document document, MemberInfo info, Type expectedType, object returnValue, object elem, ArrayList data)
         {
-            data.Add(CreateFrom(application, info, expectedType, returnValue, elem));
+            data.Add(CreateFrom(document, info, expectedType, returnValue, elem));
         }
     }
 }

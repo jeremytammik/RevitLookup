@@ -16,10 +16,10 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => !element.Document.Phases.IsEmpty;
 
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
             if (!HasDrillDown)
-                return;
+                return null;
 
             var elementOnPhaseStatuses = element
                 .Document
@@ -31,9 +31,10 @@ namespace RevitLookup.Snoop.Data
             if (elementOnPhaseStatuses.Any())
             {
                 var form = new Forms.Objects(elementOnPhaseStatuses);
-
-                ModelessWindowFactory.Show(form, parent);
+                return form;
             }
+
+            return null;
         }
     }
 }

@@ -10,14 +10,14 @@ namespace RevitLookup.Snoop.CollectorExts
 {
   public class ElementPropertiesStream : IElementStream
   {
-    private readonly UIApplication application;
+    private readonly Document document;
     private readonly ArrayList data;
     private readonly object elem;
     private readonly List<string> seenProperties = new List<string>();
 
-    public ElementPropertiesStream( UIApplication application, ArrayList data, object elem )
+    public ElementPropertiesStream(Document document, ArrayList data, object elem )
     {
-      this.application = application;
+      this.document = document;
       this.data = data;
       this.elem = elem;
     }
@@ -66,7 +66,7 @@ namespace RevitLookup.Snoop.CollectorExts
             if (propertyInfo.Name == "Geometry")
                 propertyValue = propertyInfo.GetValue(elem, new object[1] {new Options()});
             else if (propertyInfo.Name == "BoundingBox")
-                propertyValue = propertyInfo.GetValue(elem, new object[1] {application.ActiveUIDocument.ActiveView});
+                propertyValue = propertyInfo.GetValue(elem, new object[1] {document.ActiveView});
             else if (propertyInfo.Name == "Item")
                 propertyValue = propertyInfo.GetValue(elem, new object[1] {0});
             else if (propertyInfo.Name == "Parameter")
@@ -80,7 +80,7 @@ namespace RevitLookup.Snoop.CollectorExts
             else
                 propertyValue = propertyInfo.GetValue(elem);
 
-            DataTypeInfoHelper.AddDataFromTypeInfo(application, propertyInfo, propertyType, propertyValue, elem, data);
+            DataTypeInfoHelper.AddDataFromTypeInfo(document, propertyInfo, propertyType, propertyValue, elem, data);
 
             var category = elem as Category;
             if (category != null && propertyInfo.Name == "Id" && category.Id.IntegerValue < 0)

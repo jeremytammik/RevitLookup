@@ -30,7 +30,7 @@ namespace RevitLookup.Snoop.Data
         }
 
 
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
             if (m_assetProperties != null)
             {
@@ -42,8 +42,9 @@ namespace RevitLookup.Snoop.Data
                 
 
                 Snoop.Forms.Objects form = new Snoop.Forms.Objects(objs);
-                ModelessWindowFactory.Show(form, parent);
+                return form;
             }
+            return null;
         }
 
        

@@ -20,9 +20,9 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => _scheduleDefinition != null && _scheduleDefinition.GetFieldCount() > 0;
 
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
-            if (!HasDrillDown) return;
+            if (!HasDrillDown) return null;
 
             List<SnoopableObjectWrapper> scheduleFieldObjects = new List<SnoopableObjectWrapper>();
 
@@ -32,10 +32,10 @@ namespace RevitLookup.Snoop.Data
                 scheduleFieldObjects.Add(new SnoopableObjectWrapper("[" + i + "] " + field.GetName(), field));
             }
 
-            if (!scheduleFieldObjects.Any()) return;
+            if (!scheduleFieldObjects.Any()) return null;
 
             var form = new Forms.Objects(scheduleFieldObjects);
-            ModelessWindowFactory.Show(form, parent);
+            return form;
         }
     }
 }

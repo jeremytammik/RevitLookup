@@ -69,11 +69,9 @@ namespace RevitLookup
       ExternalCommandData cmdData, 
       ref string msg, 
       ElementSet elems )
-    {
-          var objs = Selectors.SnoopDB(cmdData.Application);
-          Snoop.Forms.Objects form = new Snoop.Forms.Objects( objs );         
-          ModelessWindowFactory.Show(form);  
-
+    {          
+          Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+          form.SnoopAndShow(Selector.SnoopDB);
           return Result.Succeeded;
     }
   }
@@ -86,12 +84,8 @@ namespace RevitLookup
       ref string msg, 
       ElementSet elems )
     {
-        object refElem = Selectors.SnoopPickFace(cmdData.Application);
-        if (refElem == null) return Result.Cancelled;
-
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( refElem );       
-        ModelessWindowFactory.Show(form);       
-
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        form.SnoopAndShow(Selector.SnoopPickFace);
         return Result.Succeeded;
     }
   }
@@ -100,13 +94,9 @@ namespace RevitLookup
   public class CmdSnoopModScopePickEdge : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
-    {
-        object refElem = Selectors.SnoopPickEdge(cmdData.Application) as object;
-        if (refElem == null) return Result.Cancelled;
-
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( refElem );       
-        ModelessWindowFactory.Show(form);     
-
+    {      
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        form.SnoopAndShow(Selector.SnoopPickEdge);
         return Result.Succeeded;
     }
   }
@@ -116,12 +106,8 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-        var e = Selectors.SnoopLinkedElement(cmdData.Application) as Element;
-        if (e == null) return Result.Cancelled;
-
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects( e );      
-        ModelessWindowFactory.Show(form);
-        
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        form.SnoopAndShow(Selector.SnoopLinkedElement);
         return Result.Succeeded;
     }
   }
@@ -137,11 +123,9 @@ namespace RevitLookup
       ExternalCommandData cmdData,
       ref string msg,
       ElementSet elems )
-    {
-        var elements = Selectors.SnoopDependentElements(cmdData.Application);
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects(elements);        
-        ModelessWindowFactory.Show(form);
-
+    {        
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        form.SnoopAndShow(Selector.SnoopDependentElements);
         return Result.Succeeded;
     }
   }
@@ -153,13 +137,9 @@ namespace RevitLookup
   public class CmdSnoopActiveView : IExternalCommand
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
-    {
-        var activeView = Selectors.SnoopActiveView(cmdData.Application);
-        if ( activeView == null ) return Result.Cancelled;
-
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects(activeView);
-        ModelessWindowFactory.Show(form);
-      
+    {   
+        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        form.SnoopAndShow(Selector.SnoopActiveView);
         return Result.Succeeded;
     }
   }
@@ -173,11 +153,8 @@ namespace RevitLookup
   {
         public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
-            var selected = Selectors.SnoopCurrentSelection(cmdData.Application);
-
-            Snoop.Forms.Objects form = new Snoop.Forms.Objects(selected);
-            ModelessWindowFactory.Show(form);
-
+            Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+            form.SnoopAndShow(Selector.SnoopCurrentSelection);
             return Result.Succeeded;
         }
     }
@@ -190,11 +167,8 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-         var app = Selectors.SnoopApplication(cmdData.Application);
-
-         Snoop.Forms.Objects form = new Snoop.Forms.Objects(app);
-         ModelessWindowFactory.Show(form);
-
+         Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+         form.SnoopAndShow(Selector.SnoopApplication);
          return Result.Succeeded;
     }
   }
