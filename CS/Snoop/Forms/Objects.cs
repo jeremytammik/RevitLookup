@@ -39,7 +39,7 @@ namespace RevitLookup.Snoop.Forms
     /// <summary>
     /// Summary description for Object form.
     /// </summary>
-    public class Objects : System.Windows.Forms.Form
+    public class Objects : System.Windows.Forms.Form, IHaveCollector
     {
         protected System.Windows.Forms.Button m_bnOK;
         protected System.Windows.Forms.TreeView m_tvObjs;
@@ -79,7 +79,7 @@ namespace RevitLookup.Snoop.Forms
         private ToolStripButton toolStripButton_SnoopApplication;
         private Int32 m_currentPrintItem = 0;
 
-        protected Objects()
+        public Objects()
         {
             // this constructor is for derived classes to call
             InitializeComponent();
@@ -99,11 +99,10 @@ namespace RevitLookup.Snoop.Forms
             CommonInit(objs.Cast<object>().Select(SnoopableObjectWrapper.Create));
         }
 
-        public Objects(IList<Element> objs)
+        public async Task SnoopAndShow(Selector selector)
         {
-            InitializeComponent();
-
-            CommonInit(objs.Cast<object>().Select(SnoopableObjectWrapper.Create));
+            await SelectElements(selector);
+            ModelessWindowFactory.Show(this);
         }
 
 
@@ -138,6 +137,7 @@ namespace RevitLookup.Snoop.Forms
             }
 
             m_tvObjs.EndUpdate();
+            m_tvObjs.Focus();
 
             // Add Load to update ListView Width
             Utils.AddOnLoadForm(this);
@@ -254,7 +254,7 @@ namespace RevitLookup.Snoop.Forms
             this.m_bnOK.Location = new System.Drawing.Point(284, 464);
             this.m_bnOK.Name = "m_bnOK";
             this.m_bnOK.Size = new System.Drawing.Size(504, 23);
-            this.m_bnOK.TabIndex = 2;
+            this.m_bnOK.TabIndex = 4;
             this.m_bnOK.Text = "OK";
             this.m_bnOK.Click += new System.EventHandler(this.m_bnOK_Click);
             // 
@@ -598,11 +598,44 @@ namespace RevitLookup.Snoop.Forms
 
         private async Task CollectAndDispalyData()
         {
-            // collect the data about this object
-            await m_snoopCollector.Collect(m_curObj);
+            try
+            {
+                // collect the data about this object
+                await m_snoopCollector.Collect(m_curObj);
 
-            // display it
-            Snoop.Utils.Display(m_lvData, m_snoopCollector);
+                // display it
+                Snoop.Utils.Display(m_lvData, m_snoopCollector);
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task SelectElements(Selector selector)
+        {
+            await ExternalExecutor.ExecuteInRevitContextAsync(x =>
+            {
+                tableLayoutPanel1.Enabled = false;
+                m_tvObjs.Enabled = false;
+                m_lvData.Enabled = false;
+                m_bnOK.Enabled = false;
+
+                var selected = Selectors.Snoop(x, selector);
+
+                tableLayoutPanel1.Enabled = true;
+                m_tvObjs.Enabled = true;
+                m_lvData.Enabled = true;
+                m_bnOK.Enabled = true;
+
+                SetDocument(selected.Item2);
+                CommonInit(selected.Item1);
+            });
+        }
+
+        public void SetDocument(Document document)
+        {
+            m_snoopCollector.SourceDocument = document;
         }
 
         #region Events
@@ -614,7 +647,7 @@ namespace RevitLookup.Snoop.Forms
 
         protected void DataItemSelected(object sender, System.EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(m_lvData, this);
+            Snoop.Utils.DataItemSelected(m_lvData, new ModelessWindowFactory(this, m_snoopCollector.SourceDocument));
         }
 
         private void ContextMenuClick_Copy(object sender, System.EventArgs e)
@@ -677,30 +710,15 @@ namespace RevitLookup.Snoop.Forms
             DialogResult = DialogResult.Cancel;
             Close();
             Dispose();
-        }
-        #endregion
+        }       
 
         private async void toolStripButton_Snoop_Click(object sender, EventArgs e)
         {
             var btn = sender as ToolStripButton;
             var selector = (Selector)Enum.Parse(typeof(Selector), btn.Tag as string);
 
-
-            await ExternalExecutor.ExecuteInRevitContextAsync(x =>
-            {
-                tableLayoutPanel1.Enabled = false;
-                m_tvObjs.Enabled = false;
-                m_lvData.Enabled = false;
-                m_bnOK.Enabled = false;
-
-                var r = Selectors.Snoop(x, selector);
-
-                tableLayoutPanel1.Enabled = true;
-                m_tvObjs.Enabled = true;
-                m_lvData.Enabled = true;
-                m_bnOK.Enabled = true;
-                CommonInit(r);
-            });
-        }
+            await SelectElements(selector);           
+        }       
+        #endregion
     }
 }

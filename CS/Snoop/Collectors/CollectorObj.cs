@@ -39,6 +39,11 @@ namespace RevitLookup.Snoop.Collectors
     /// </summary>
     public class CollectorObj : Collector
     {
+        public Document SourceDocument { get; set; }
+
+
+
+
         /// <summary>
         /// This is the point where the ball starts rolling.  We'll walk down the object's class hierarchy,
         /// continually trying to cast it to objects we know about.  NOTE: this is intentionally not Reflection.
@@ -53,23 +58,23 @@ namespace RevitLookup.Snoop.Collectors
             if (obj == null)
                 return Task.CompletedTask;
 
-            return ExternalExecutor.ExecuteInRevitContextAsync((app) => Collect(app, this, obj));           
+            return ExternalExecutor.ExecuteInRevitContextAsync((app) => Collect(app, SourceDocument, this, obj));           
         }
 
-        private void Collect(UIApplication app, CollectorObj collector, Object objectToSnoop)
+        private void Collect(UIApplication app, Document document, CollectorObj collector, Object objectToSnoop)
         {
-            var targetElement = objectToSnoop as Element;
-            if (objectToSnoop is IEnumerable enumerable)
-            {
-                targetElement = enumerable.OfType<Element>().FirstOrDefault();
-            }
-            Document document = targetElement?.Document;
+            //var targetElement = objectToSnoop as Element;
+            //if (objectToSnoop is IEnumerable enumerable)
+            //{
+            //    targetElement = enumerable.OfType<Element>().FirstOrDefault();
+            //}
+            //Document document = targetElement?.Document;
             Transaction transaction = document != null && document.IsModifiable == false ? new Transaction(document, this.GetType().Name) : null;
             transaction?.Start();
 
             try
             {
-                var collectorExtElement = new CollectorExtElement(app);
+                var collectorExtElement = new CollectorExtElement(document);
                 collectorExtElement.Collect(collector, new CollectorEventArgs(objectToSnoop));
             }
             finally

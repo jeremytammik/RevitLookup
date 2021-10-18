@@ -89,9 +89,9 @@ namespace RevitLookup.Snoop.Data
 		/// Do the act of drilling down on the data
 		/// </summary>
 		
-        public virtual void DrillDown(Form parent)
+        public virtual Form DrillDown()
         {
-            ;   // do nothing by default
+            return null;   // do nothing by default
         }
         
         /// <summary>

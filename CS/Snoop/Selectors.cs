@@ -1,15 +1,13 @@
-﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using Application = Autodesk.Revit.ApplicationServices.Application;
 
 namespace RevitLookup.Snoop
 {
-    enum Selector
+    public enum Selector
     {
         SnoopDB = 0,
         SnoopCurrentSelection,
@@ -24,7 +22,7 @@ namespace RevitLookup.Snoop
     static class Selectors
     {
 
-        public static object Snoop(UIApplication app, Selector selector)
+        public static (object, Document) Snoop(UIApplication app, Selector selector)
         {
             switch (selector)
             {
@@ -49,7 +47,7 @@ namespace RevitLookup.Snoop
             }
         }
 
-        public static IList<Element> SnoopDB(UIApplication app)
+        public static (IList<Element>, Document) SnoopDB(UIApplication app)
         {            
             Autodesk.Revit.DB.Document doc = app.ActiveUIDocument.Document;
             FilteredElementCollector elemTypeCtor = (new FilteredElementCollector(doc)).WhereElementIsElementType();
@@ -59,9 +57,9 @@ namespace RevitLookup.Snoop
 
             System.Diagnostics.Trace.WriteLine(founds.Count.ToString());
 
-            return founds;
+            return (founds, doc);
         }
-        public static IList<Element> SnoopCurrentSelection(UIApplication app)
+        public static (IList<Element>, Document) SnoopCurrentSelection(UIApplication app)
         {
             var activeUIDocument = app.ActiveUIDocument;
             var document = activeUIDocument.Document;
@@ -69,43 +67,42 @@ namespace RevitLookup.Snoop
             ICollection<ElementId> ids = activeUIDocument.Selection.GetElementIds();
             if (ids.Any())
             {
-                return new FilteredElementCollector(document, ids).WhereElementIsNotElementType().ToElements();
+                return (new FilteredElementCollector(document, ids).WhereElementIsNotElementType().ToElements(), document);
             }
 
-            return new FilteredElementCollector(document, document.ActiveView.Id).WhereElementIsNotElementType().ToElements();
+            return (new FilteredElementCollector(document, document.ActiveView.Id).WhereElementIsNotElementType().ToElements(), document);
         }
-        public static object SnoopPickFace(UIApplication app)
+        public static (GeometryObject, Document) SnoopPickFace(UIApplication app)
         {           
             try
             {
                 Reference refElem = app.ActiveUIDocument.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Face);
-
                 GeometryObject geoObject = app.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
-                return geoObject;
+                return (geoObject, app.ActiveUIDocument.Document);
             }
             catch
             {
                 
             }
 
-            return null;
+            return (null, null);
         }
-        public static object SnoopPickEdge(UIApplication app)
+        public static (GeometryObject, Document) SnoopPickEdge(UIApplication app)
         {            
             try
             {
                 Reference refElem = app.ActiveUIDocument.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Edge);
                 GeometryObject geoObject = app.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
-                return geoObject;
+                return (geoObject, app.ActiveUIDocument.Document);
             }
             catch
             {
                
             }
 
-            return null;
+            return (null, null);
         }
-        public static Element SnoopLinkedElement(UIApplication app)
+        public static (Element, Document) SnoopLinkedElement(UIApplication app)
         {
             Document doc = app.ActiveUIDocument.Document;
 
@@ -116,7 +113,7 @@ namespace RevitLookup.Snoop
             }
             catch
             {
-                return null;
+                return (null, null);
             }
 
             string stableReflink = refElem.ConvertToStableRepresentation(doc).Split(':')[0];
@@ -125,9 +122,9 @@ namespace RevitLookup.Snoop
             var m_activeDoc = rli_return.GetLinkDocument();
             Element e = m_activeDoc.GetElement(refElem.LinkedElementId);
 
-            return e;
+            return (e, m_activeDoc);
         }
-        public static IList<Element> SnoopDependentElements(UIApplication app)
+        public static (IList<Element>, Document) SnoopDependentElements(UIApplication app)
         {
             UIDocument uidoc = app.ActiveUIDocument;
             ICollection<ElementId> idPickfirst = uidoc.Selection.GetElementIds();
@@ -139,24 +136,24 @@ namespace RevitLookup.Snoop
                 ICollection<ElementId> ids = elemSet.SelectMany(t => t.GetDependentElements(null)).ToList();
                 IList<Element> result = new FilteredElementCollector(doc, ids).WhereElementIsNotElementType().ToElements();
 
-                return result;
+                return (result, doc);
             }
 
-            return new List<Element>();        
+            return (new List<Element>(), doc);        
         }
-        public static View SnoopActiveView(UIApplication app)
+        public static (View, Document) SnoopActiveView(UIApplication app)
         {
             Autodesk.Revit.DB.Document doc = app.ActiveUIDocument.Document;
             if (doc.ActiveView == null)
             {
                 TaskDialog.Show("RevitLookup", "The document must have an active view!");
-                return null;
+                return (null, null);
             }
-            return doc.ActiveView;
+            return (doc.ActiveView, doc);
         }
-        public static object SnoopApplication(UIApplication app)
+        public static (Application, Document) SnoopApplication(UIApplication app)
         {
-            return app.Application;
+            return (app.Application, null);
         }
     }
 }

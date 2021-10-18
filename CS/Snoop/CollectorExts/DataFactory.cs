@@ -8,12 +8,12 @@ namespace RevitLookup.Snoop.CollectorExts
 {
     public class DataFactory
     {
-        private readonly UIApplication application;
+        private readonly Document document;
         private readonly object elem;
 
-        public DataFactory(UIApplication application, object elem)
+        public DataFactory(Document document, object elem)
         {
-            this.application = application;
+            this.document = document;
             this.elem = elem;
         }
 
@@ -33,7 +33,7 @@ namespace RevitLookup.Snoop.CollectorExts
             {
                 var element = (Element) elem;
 
-                return DataTypeInfoHelper.CreateFrom(application, methodInfo, element.GetDependentElements(null), element);
+                return DataTypeInfoHelper.CreateFrom(document, methodInfo, element.GetDependentElements(null), element);
             }
 
             if (declaringType == typeof (Element) && methodInfo.Name == nameof(Element.GetPhaseStatus))
@@ -43,7 +43,7 @@ namespace RevitLookup.Snoop.CollectorExts
             {
                 var reference = (Reference)elem;
 
-                return DataTypeInfoHelper.CreateFrom(application, methodInfo, reference.ConvertToStableRepresentation(application.ActiveUIDocument.Document), reference);
+                return DataTypeInfoHelper.CreateFrom(document, methodInfo, reference.ConvertToStableRepresentation(document), reference);
             }
 
             if (declaringType == typeof (View) && methodInfo.Name == nameof(View.GetFilterOverrides))
@@ -79,7 +79,7 @@ namespace RevitLookup.Snoop.CollectorExts
             }
 
             if (declaringType == typeof(PlanViewRange) && methodInfo.Name == nameof(PlanViewRange.GetLevelId))
-                return new PlanViewRangeGetLevelId(methodInfo.Name, (PlanViewRange) elem, application.ActiveUIDocument.Document);
+                return new PlanViewRangeGetLevelId(methodInfo.Name, (PlanViewRange) elem, document);
 
             if (declaringType == typeof(PlanViewRange) && methodInfo.Name == nameof(PlanViewRange.GetOffset))
                 return new PlanViewRangeGetOffset(methodInfo.Name, (PlanViewRange)elem);
@@ -92,7 +92,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
             var returnValue = methodInfo.Invoke(elem, new object[0]);
 
-            return DataTypeInfoHelper.CreateFrom(application, methodInfo, returnValue, elem);
+            return DataTypeInfoHelper.CreateFrom(document, methodInfo, returnValue, elem);
         }
     }
 }

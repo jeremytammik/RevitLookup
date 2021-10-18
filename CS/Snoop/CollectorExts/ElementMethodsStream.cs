@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
 namespace RevitLookup.Snoop.CollectorExts
@@ -13,11 +14,11 @@ namespace RevitLookup.Snoop.CollectorExts
         private readonly List<string> seenMethods = new List<string>();
         private readonly DataFactory methodDataFactory;
 
-        public ElementMethodsStream(UIApplication application, ArrayList data, object elem)
+        public ElementMethodsStream(Document document, ArrayList data, object elem)
         {
             this.data = data;
 
-            methodDataFactory = new DataFactory(application, elem);
+            methodDataFactory = new DataFactory(document, elem);
         }
 
         public void Stream(Type type)

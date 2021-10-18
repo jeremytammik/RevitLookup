@@ -56,7 +56,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 .ToArray();
         }
 
-        public CollectorExtElement(UIApplication uiApp) : base(uiApp)
+        public CollectorExtElement(Document doc) : base(doc)
         {
 
         }
@@ -75,11 +75,11 @@ namespace RevitLookup.Snoop.CollectorExts
 
             var streams = new IElementStream[]
                 {
-                    new ElementPropertiesStream(m_app, data, elem),
-                    new ElementMethodsStream(m_app, data, elem),
+                    new ElementPropertiesStream(m_doc, data, elem),
+                    new ElementMethodsStream(m_doc, data, elem),
                     new SpatialElementStream(data, elem),
                     new FamilyTypeParameterValuesStream(data, elem),
-                    new ExtensibleStorageEntityContentStream(m_app.ActiveUIDocument.Document, data, elem),
+                    new ExtensibleStorageEntityContentStream(m_doc, data, elem),
                     new PartUtilsStream(data, elem),
                 };
 
