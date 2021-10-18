@@ -145,6 +145,10 @@ namespace RevitLookup.Snoop.Forms
 
         protected void CommonInit(object obj)
         {
+            if (obj == null)
+            {
+                return;
+            }
             if (obj is IList<Element> lista)
             {
                 CommonInit(lista.Select(SnoopableObjectWrapper.Create));
