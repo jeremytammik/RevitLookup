@@ -44,7 +44,7 @@ namespace RevitLookup.Snoop.Forms
         if(element != null )
         {
           Snoop.Forms.Objects form = new Snoop.Forms.Objects(element);
-          ModelessWindowFactory.Show(form,this);
+          ModelessWindowFactory.Show(form, _doc, this);
         }
         else
           MessageBox.Show( $@"No items with ID {id} found" );
@@ -59,7 +59,7 @@ namespace RevitLookup.Snoop.Forms
        if (element != null)
       {
         Snoop.Forms.Objects form = new Snoop.Forms.Objects(element);
-        ModelessWindowFactory.Show(form, this);
+        ModelessWindowFactory.Show(form, _doc, this);
       }
       else
         MessageBox.Show( $@"No items with ID {m_tbSearchValue.Text} found" );

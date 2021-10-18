@@ -35,12 +35,13 @@ namespace RevitLookup.Snoop.CollectorExts
 	/// </summary>
 	public abstract class CollectorExt
 	{		
-        protected readonly UIApplication m_app = null;
+        
+		protected readonly Document m_doc = null;
 		
 
-		public CollectorExt(UIApplication uiApp)
-		{
-			m_app = uiApp;            
+		public CollectorExt(Document doc)
+		{			
+			m_doc = doc;
 		}		
 
 

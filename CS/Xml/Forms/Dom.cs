@@ -29,6 +29,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Xml;
+using RevitLookup.Snoop;
 
 namespace RevitLookup.Xml.Forms
 {
@@ -797,7 +798,7 @@ namespace RevitLookup.Xml.Forms
         private void
         DataItemSelected(object sender, System.EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(m_lvData, this);
+            Snoop.Utils.DataItemSelected(m_lvData, new ModelessWindowFactory(this, null));
         }
         
         /// <summary>

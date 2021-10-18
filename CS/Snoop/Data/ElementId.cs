@@ -52,14 +52,13 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => m_elem != null;
 
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
             if (m_elem == null) 
-                return;
+                return null;
             
             var form = new Forms.Objects(m_elem);
-
-            ModelessWindowFactory.Show(form, parent);
+            return form;
         }
     }
 }

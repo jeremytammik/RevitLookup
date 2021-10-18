@@ -23,6 +23,7 @@
 #endregion // Header
 
 using System;
+using System.Windows.Forms;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -58,12 +59,13 @@ namespace RevitLookup.Snoop.Data
             get { return true; }
         }
         
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override Form DrillDown()
         {
 			// DrillDown on a ClassType will just browse it using Reflection
             Snoop.Forms.GenericPropGrid pgForm = new Snoop.Forms.GenericPropGrid(m_val);
             pgForm.Text = string.Format("System.Type = {0}", m_val.FullName);
             pgForm.ShowDialog();
+            return null;
         }
     }
 }

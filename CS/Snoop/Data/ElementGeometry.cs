@@ -67,12 +67,13 @@ namespace RevitLookup.Snoop.Data
             }
         }
         
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
             if (m_hasGeometry) {
 				Snoop.Forms.Geometry form = new Snoop.Forms.Geometry(m_val, m_app);
-                ModelessWindowFactory.Show(form, parent);
+                return form;
             }
+            return null;
         }
 
 	    private bool HasModelGeometry()
@@ -149,13 +150,14 @@ namespace RevitLookup.Snoop.Data
          }
       }
 
-      public override void DrillDown(System.Windows.Forms.Form parent)
+      public override System.Windows.Forms.Form DrillDown()
       {
          if (m_hasGeometry)
          {
             Snoop.Forms.OriginalGeometry form = new Snoop.Forms.OriginalGeometry(m_val, m_app);
-            form.ShowDialog();
+            return form;
          }
+         return null;
       }
    }
 }

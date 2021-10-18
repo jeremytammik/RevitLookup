@@ -29,6 +29,8 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Form = System.Windows.Forms.Form;
+using Autodesk.Revit.Exceptions;
 
 namespace RevitLookup.Snoop
 {
@@ -93,14 +95,18 @@ namespace RevitLookup.Snoop
          lvCur.EndUpdate();
       }
 
-      public static void DataItemSelected(ListView lvCur, System.Windows.Forms.Form parent)
+      public static void DataItemSelected(ListView lvCur, ModelessWindowFactory windowFactory)
       {
          Debug.Assert((lvCur.SelectedItems.Count > 1) == false);
 
          if (lvCur.SelectedItems.Count != 0)
          {
             Snoop.Data.Data tmpSnoopData = (Snoop.Data.Data)lvCur.SelectedItems[0].Tag;
-            tmpSnoopData.DrillDown(parent);
+            Form newForm = tmpSnoopData.DrillDown();
+            if (newForm != null)
+            {
+                windowFactory.Show(newForm);
+            }
          }
       }
 
@@ -186,7 +192,7 @@ namespace RevitLookup.Snoop
                    var nameStr = (elem.Name == string.Empty) ? "???" : elem.Name; // use "???" if no name is set
                    return $"< {nameStr}  {elem.Id.IntegerValue} >";
                }
-               catch (InvalidOperationException ex)
+               catch (System.Exception ex)               
                {
                    return $"< {null}  {ex.Message} >";
                }

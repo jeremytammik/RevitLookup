@@ -19,9 +19,9 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.IsTemplate && _view.GetNonControlledTemplateParameterIds().Any();
 
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
-            if (!HasDrillDown) return;
+            if (!HasDrillDown) return null;
 
             var viewParams = _view.Parameters.Cast<Parameter>().ToList();
 
@@ -30,10 +30,10 @@ namespace RevitLookup.Snoop.Data
                 select viewParams.Find(q => q.Id.IntegerValue == id.IntegerValue) 
                 into p where p != null select new SnoopableObjectWrapper(p.Definition.Name, p)).ToList();
 
-            if (!nonControlledTemplateParameterIds.Any()) return;
+            if (!nonControlledTemplateParameterIds.Any()) return null;
 
             var form = new Forms.Objects(nonControlledTemplateParameterIds);
-            ModelessWindowFactory.Show(form, parent);
+            return form;
         }
     }
 }

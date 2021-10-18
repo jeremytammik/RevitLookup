@@ -28,13 +28,14 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.Forms
 {
 	/// <summary>
 	/// Summary description for ObjTreeBase form.
 	/// </summary>
-	public class ObjTreeBase : System.Windows.Forms.Form
+	public class ObjTreeBase : System.Windows.Forms.Form, IHaveCollector
 	{
         protected System.Windows.Forms.Button           m_bnOK;
         protected System.Windows.Forms.TreeView         m_tvObjs;
@@ -295,8 +296,12 @@ namespace RevitLookup.Snoop.Forms
             this.PerformLayout();
 
 		}
-		#endregion
+        #endregion
 
+        public void SetDocument(Document document)
+        {
+            m_snoopCollector.SourceDocument = document;
+        }
 
         #region Events
         /// <summary>
@@ -333,7 +338,7 @@ namespace RevitLookup.Snoop.Forms
         protected void
         DataItemSelected(object sender, System.EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(m_lvData, this);
+            Snoop.Utils.DataItemSelected(m_lvData, new ModelessWindowFactory(this, m_snoopCollector.SourceDocument));
         }        
         
         /// <summary>

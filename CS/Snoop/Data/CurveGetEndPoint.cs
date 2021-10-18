@@ -20,9 +20,9 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => _curve != null && _curve.IsBound;
 
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
-            if (!HasDrillDown) return;
+            if (!HasDrillDown) return null;
 
             var xyzObjects = new List<SnoopableObjectWrapper>
             {
@@ -30,10 +30,10 @@ namespace RevitLookup.Snoop.Data
                 new SnoopableObjectWrapper("[1] End", _curve.GetEndPoint(1))
             };
 
-            if (!xyzObjects.Any()) return;
+            if (!xyzObjects.Any()) return null;
 
             var form = new Forms.Objects(xyzObjects);
-            ModelessWindowFactory.Show(form, parent);
+            return form;
         }
     }
 }

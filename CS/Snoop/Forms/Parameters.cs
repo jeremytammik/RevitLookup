@@ -37,7 +37,7 @@ namespace RevitLookup.Snoop.Forms
 	/// <summary>
 	/// Summary description for Object form.
 	/// </summary>
-	public class Parameters : System.Windows.Forms.Form
+	public class Parameters : System.Windows.Forms.Form, IHaveCollector
 	{
         protected System.Windows.Forms.Button           m_bnOK;
         protected System.Windows.Forms.TreeView         m_tvObjs;
@@ -350,6 +350,11 @@ namespace RevitLookup.Snoop.Forms
             }
         }
 
+        public void SetDocument(Document document)
+        {
+            m_snoopCollector.SourceDocument = document;
+        }
+
         #region Events
         /// <summary>
         /// 
@@ -385,7 +390,7 @@ namespace RevitLookup.Snoop.Forms
         protected void
         DataItemSelected(object sender, System.EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(m_lvData, this);
+            Snoop.Utils.DataItemSelected(m_lvData, new ModelessWindowFactory(this, m_snoopCollector.SourceDocument));
         }
 
 
@@ -444,8 +449,8 @@ namespace RevitLookup.Snoop.Forms
                 }
             }
 
-            RevitLookup.Snoop.Forms.ParamEnumSnoop dbox = new RevitLookup.Snoop.Forms.ParamEnumSnoop(enumMap);
-            dbox.Show(new ModelessWindowHandle(this));                       
+            RevitLookup.Snoop.Forms.ParamEnumSnoop form = new RevitLookup.Snoop.Forms.ParamEnumSnoop(enumMap);
+            ModelessWindowFactory.Show(form, m_snoopCollector.SourceDocument, this);                       
         }
 
 

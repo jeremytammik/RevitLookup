@@ -20,19 +20,19 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => _viewCropRegionShapeManager != null && _viewCropRegionShapeManager.NumberOfSplitRegions > 1;
 
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
-            if (!HasDrillDown) return;
+            if (!HasDrillDown) return null;
 
             List<SnoopableObjectWrapper> cropRegionOffsetObjects = new List<SnoopableObjectWrapper>();
 
             for (int i = 0; i < _viewCropRegionShapeManager.NumberOfSplitRegions; i++)
                 cropRegionOffsetObjects.Add(new SnoopableObjectWrapper("[" + i + "]", _viewCropRegionShapeManager.GetSplitRegionOffset(i)));
 
-            if (!cropRegionOffsetObjects.Any()) return;
+            if (!cropRegionOffsetObjects.Any()) return null;
 
             var form = new Forms.Objects(cropRegionOffsetObjects);
-            ModelessWindowFactory.Show(form, parent);
+            return form;
         }
     }
 }

@@ -61,7 +61,7 @@ namespace RevitLookup.Snoop.Data
             }
         }
         
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override Form DrillDown()
         {
             try {
                 System.Xml.XmlDocument xmlDoc = new System.Xml.XmlDocument();
@@ -76,6 +76,7 @@ namespace RevitLookup.Snoop.Data
             catch (System.Xml.XmlException e) {
                 MessageBox.Show(e.Message, "XML Exception");
             }
+            return null;
         }
 	}
 }

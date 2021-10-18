@@ -62,12 +62,13 @@ namespace RevitLookup.Snoop.Data
             }
         }
         
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
             if ((m_val != null) && (m_val.IsEmpty == false)) {
 				Snoop.Forms.BindingMap form = new Snoop.Forms.BindingMap(m_val);
-                ModelessWindowFactory.Show(form, parent);
+                return form;
             }
+            return null;
         }
 	}
 }

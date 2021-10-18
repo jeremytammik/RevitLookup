@@ -23,9 +23,9 @@ namespace RevitLookup.Snoop.Data
 
         public override bool HasDrillDown => _planViewRange != null;
 
-        public override void DrillDown(System.Windows.Forms.Form parent)
+        public override System.Windows.Forms.Form DrillDown()
         {
-            if (!HasDrillDown) return;
+            if (!HasDrillDown) return null;
 
             var sectionDataObjects = new List<SnoopableObjectWrapper>();
 
@@ -41,10 +41,10 @@ namespace RevitLookup.Snoop.Data
                     sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), levelId));
             }
 
-            if (!sectionDataObjects.Any()) return;
+            if (!sectionDataObjects.Any()) return null;
 
             var form = new Forms.Objects(sectionDataObjects);
-            ModelessWindowFactory.Show(form, parent);
+            return form;
         }
     }
 }
