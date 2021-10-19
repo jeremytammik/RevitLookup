@@ -31,6 +31,7 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using Form = System.Windows.Forms.Form;
 using Autodesk.Revit.Exceptions;
+using RevitLookup.Snoop.Data.PlaceHolders;
 
 namespace RevitLookup.Snoop
 {
@@ -179,6 +180,11 @@ namespace RevitLookup.Snoop
        {
            if (obj == null)
                return "< null >";
+
+           if (obj is IObjectToSnoopPlaceholder placeholder)
+           {
+                return placeholder.GetName();
+           }
 
            var elem = obj as Element;
 

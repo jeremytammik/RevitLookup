@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using Autodesk.Revit.UI;
+using RevitLookup.Snoop.Data.PlaceHolders;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
@@ -84,6 +86,13 @@ namespace RevitLookup.Snoop.CollectorExts
 
                 if (expectedType == typeof (XYZ))
                     return new Data.Xyz(info.Name, returnValue as XYZ);
+
+                if (expectedType == typeof(PlanTopologySet))
+                {
+                    var set = returnValue as PlanTopologySet;
+                    var placeholders = set.ToList<PlanTopology>().Select(x => new PlanTopologyPlaceholder(x)).ToList();
+                    return new Data.Enumerable(info.Name, placeholders, document);
+                }
 
                 if ((typeof (IEnumerable).IsAssignableFrom(expectedType)
                      && expectedType.IsGenericType
