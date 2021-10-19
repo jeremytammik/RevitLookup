@@ -29,6 +29,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using RevitLookup.Snoop.CollectorExts;
 using System.Threading.Tasks;
+using RevitLookup.Snoop.Data.PlaceHolders;
 
 namespace RevitLookup.Snoop.Collectors
 {
@@ -63,14 +64,13 @@ namespace RevitLookup.Snoop.Collectors
 
         private void Collect(UIApplication app, Document document, CollectorObj collector, Object objectToSnoop)
         {
-            //var targetElement = objectToSnoop as Element;
-            //if (objectToSnoop is IEnumerable enumerable)
-            //{
-            //    targetElement = enumerable.OfType<Element>().FirstOrDefault();
-            //}
-            //Document document = targetElement?.Document;
             Transaction transaction = document != null && document.IsModifiable == false ? new Transaction(document, this.GetType().Name) : null;
             transaction?.Start();
+
+            if (objectToSnoop is IObjectToSnoopPlaceholder placeholder)
+            {
+                objectToSnoop = placeholder.GetObject(document);
+            }
 
             try
             {
