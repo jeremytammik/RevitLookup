@@ -1,4 +1,5 @@
 ﻿using System;
+using RevitLookup.Snoop.Data.PlaceHolders;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -17,6 +18,14 @@ namespace RevitLookup.Snoop.Data
 
         public static SnoopableObjectWrapper Create(object obj) => new SnoopableObjectWrapper(Utils.ObjToLabelStr(obj), obj);
 
-        public Type GetUnderlyingType() => Object.GetType();
+        public Type GetUnderlyingType()
+        {
+            if (Object is IObjectToSnoopPlaceholder placeholder)
+            {
+                return placeholder.GetUnderlyingType();
+            }
+
+            return Object.GetType();
+        }
     }
 }
