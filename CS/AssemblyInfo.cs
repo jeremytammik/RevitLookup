@@ -177,6 +177,9 @@ using System.Reflection;
 // 2021-09-22 2022.0.0.16 integrated pull request #91 by @mphelt to add PartUtilsStream
 // 2021-10-16 2022.0.1.0 integrated pull request #93 by @NeVeS imlementing Modeless windows
 // 2021-10-16 2022.0.1.0 integrated pull request #94 by @NeVeS fixing problem with tranferring focus to Revit when using selectors from modeless window
+// 2021-10-17 2022.0.1.0 integrated pull request #95 by @NeVeS to handle multiple open documents at the same time
+// 2021-10-17 2022.0.1.0 integrated pull request #96 by @NeVeS to fix crash on user cancel picking object in cmds: SnoopPickFace, SnoopPickEdge, SnoopLinkedElement
+// 2021-10-18 2022.0.1.0 integrated pull request #97 by @NeVeS to restore ability to snoop plan topologies
 //
 [assembly: AssemblyVersion( "2022.0.1.0" )]
 [assembly: AssemblyFileVersion( "2022.0.1.0" )]
