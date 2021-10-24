@@ -130,7 +130,6 @@ namespace RevitLookup.Snoop.Forms
             this.m_tvObjs.Sorted = true;
             this.m_tvObjs.TabIndex = 0;
             this.m_tvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
-            this.m_tvObjs.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeNodeSelected);
             // 
             // m_cntxMenuObjId
             // 
@@ -315,20 +314,6 @@ namespace RevitLookup.Snoop.Forms
             await m_snoopCollector.Collect(m_curObj);
             Snoop.Utils.Display(m_lvData, m_snoopCollector);
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected async void TreeNodeSelected(object sender, System.Windows.Forms.TreeNodeMouseClickEventArgs e)
-        {
-            //m_curObj = e.Node.Tag;
-            //await m_snoopCollector.Collect(m_curObj); 
-            //Snoop.Utils.Display(m_lvData, m_snoopCollector);
-        }
-
 
         /// <summary>
         /// 
