@@ -1,0 +1,20 @@
+
+
+a:link          { color: #0000CC; }
+a:active        { color: #0000CC; }
+a:visited       { color: #990099; }
+
+
+body            { font-family:Arial, helvetica, sans-serif; font-size:12pt; }
+
+table.small     { font-family:Arial, helvetica, sans-serif; font-size:10pt; }
+
+td.label        { font-weight: bold }
+
+tr.aecobject    { background-color: DarkSeaGreen; }
+tr.nonaecobject { background-color: Whitesmoke; }
+tr.drawing      { background-color: Lightgoldenrodyellow; }
+tr.styleheader  { background-color: Skyblue; }
+
+p.reportDesc    { font-style: italic; }
+

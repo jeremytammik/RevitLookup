@@ -1,0 +1,36 @@
+<HTML>
+	<HEAD>
+		<TITLE>Project Stats Report</TITLE>
+		<SCRIPT TYPE="text/javascript" LANGUAGE="javascript" SRC="js/ReportUtils_DwgStat.js"></SCRIPT>
+		<SCRIPT TYPE="text/javascript" LANGUAGE="javascript">
+			<!--
+				// global vars used to store XML Data source file
+			var xmlDataSource = null;
+
+			function updateDataSource(xmlFilePath) {
+				window.status = "Loading XML data source...";
+
+				xmlDataSource = createXmlDomAndLoad(xmlFilePath);
+
+				if (xmlDataSource == null) {
+					window.status = "Could not load XML data source!";
+					frames[1].document.write("Could not load XML data source!  Please browse to a source file.");
+					frames[0].srcFilePath.value = "";
+				}
+				else {
+					window.status = "XML data source loaded";
+					frames[1].document.write("XML data source loaded.  Click on one of the reports in the left-hand pane.");
+				}
+			}
+
+			//-->
+		</SCRIPT>
+	</HEAD>
+	<!-- frames -->
+	<FRAMESET COLS="30%,*">
+		<FRAME NAME="ReportsFrame" SRC="reports/Reports.htm" MARGINWIDTH="10" MARGINHEIGHT="10" SCROLLING="auto" FRAMEBORDER="1">
+		<FRAME NAME="ContentFrame" SRC="" MARGINWIDTH="10" MARGINHEIGHT="10" SCROLLING="auto" FRAMEBORDER="0">
+		<NOFRAMES>
+			Sorry, this page needs Frames on in order to display</NOFRAMES>
+	</FRAMESET>
+</HTML>

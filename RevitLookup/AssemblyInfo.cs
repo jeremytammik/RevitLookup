@@ -1,0 +1,186 @@
+#region Header
+//
+// Copyright 2003-2021 by Autodesk, Inc. 
+//
+// Permission to use, copy, modify, and distribute this software in
+// object code form for any purpose and without fee is hereby granted,
+// provided that the above copyright notice appears in all copies and
+// that both that copyright notice and the limited warranty and
+// restricted rights notice below appear in all supporting
+// documentation.
+//
+// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
+// AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
+// DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
+// UNINTERRUPTED OR ERROR FREE.
+//
+// Use, duplication, or disclosure by the U.S. Government is subject to
+// restrictions set forth in FAR 52.227-19 (Commercial Computer
+// Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
+// (Rights in Technical Data and Computer Software), as applicable.
+//
+#endregion // Header
+
+using System.Reflection;
+
+// General Information about an assembly is controlled through the following
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+[assembly: AssemblyTitle( "RevitLookup" )]
+[assembly: AssemblyDescription( "Revit add-in interactive BIM database exploration tool to view and navigate element properties and relationships." )]
+[assembly: AssemblyConfiguration( "" )]
+[assembly: AssemblyCompany( "Autodesk Inc." )]
+[assembly: AssemblyProduct( "RevitLookup" )]
+[assembly: AssemblyCopyright( "Copyright (C) 2003-2021 by Autodesk Inc." )]
+[assembly: AssemblyTrademark( "" )]
+[assembly: AssemblyCulture( "" )]
+
+//
+// In order to sign your assembly you must specify a key to use. Refer to the
+// Microsoft .NET Framework documentation for more information on assembly signing.
+//
+// Use the attributes below to control which key is used for signing.
+//
+// Notes:
+//   (*) If no key is specified, the assembly is not signed.
+//   (*) KeyName refers to a key that has been installed in the Crypto Service
+//       Provider (CSP) on your machine. KeyFile refers to a file which contains
+//       a key.
+//   (*) If the KeyFile and the KeyName values are both specified, the
+//       following processing occurs:
+//       (1) If the KeyName can be found in the CSP, that key is used.
+//       (2) If the KeyName does not exist and the KeyFile does exist, the key
+//           in the KeyFile is installed into the CSP and used.
+//   (*) In order to create a KeyFile, you can use the sn.exe (Strong Name) utility.
+//       When specifying the KeyFile, the location of the KeyFile should be
+//       relative to the project output directory which is
+//       %Project Directory%\obj\<configuration>. For example, if your KeyFile is
+//       located in the project directory, you would specify the AssemblyKeyFile
+//       attribute as [assembly: AssemblyKeyFile("..\\..\\mykey.snk")]
+//   (*) Delay Signing is an advanced option - see the Microsoft .NET Framework
+//       documentation for more information on this.
+//
+[assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("")]
+[assembly: AssemblyKeyName("")]
+
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Build and Revision Numbers
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+// 2013-10-24 2014.0.0.5 merged pull request from Prasadgalle
+// 2014-01-11 2014.0.0.6 joespiff adjusted the Anchor property of the "Built-in Enums Map..." button on the Parameters form so that it behaves well when stretching the form
+// 2014-01-27 2014.0.0.7 merged pull request from FlorianSchmid of SOFiSTiK: extended (added) snooping of geometry, FormatOptions and RevitLinkInstances plus some fixes of compiler errors/warnings; bumped copyright year from 2013 to 2014
+// 2014-01-28 2014.0.1.0 double checked that this version corresponds with florian's
+// 2014-04-02 2015.0.0.0 initial migration to Revit 2015 Meridian prerelease PR10
+// 2014-04-17 2015.0.0.1 recompiled for Revit 2015 UR1
+// 2014-10-06 2015.0.0.2 removed obsolete Revit API usage to compile with zero errors and zero warnings
+// 2014-11-24 2015.0.0.3 merged fix by Tom Pesman @tompesman to catch exception thrown by doc.PrintManager
+// 2014-11-24 2015.0.0.4 encapsulate transaction in using statement
+// 2015-01-13 2015.0.0.5 added CategoryType to the CategoryCollector
+// 2015-01-29 2015.0.0.6 incremented copyright message year from 2014 to 2015
+// 2015-01-30 2015.0.0.7 removed all statements 'using' the empty root namespace Autodesk.Revit
+// 2015-04-19 2015.0.0.8 integrated pull request #6 by yzraeu, additinal try catch for Level Offset and MEP System
+// 2015-04-20 2016.0.0.3 initial migration to Revit 2016 by @ElaineJieyanZheng
+// 2015-04-20 2016.0.0.4 integrated changes from previous Revit 2016 version into elaine's one
+// 2015-04-21 2016.0.0.5 initial migration to Revit 2016 - first public release
+// 2015-04-21 2016.0.0.6 set Copy Local false on Revit API assemblies
+// 2015-04-23 2016.0.0.7 updated post-build event target path to Revit 2016 add-ins folder
+// 2015-05-15 2016.0.0.8 updated Revit API assembly paths for final release of Revit 2016
+// 2015-05-21 2016.0.0.9 display all the display names of the BuiltInParameter enumeration value
+// 2015-09-01 2016.0.0.10 handle null floor.GetAnalyticalModel returned in RAC and RME 
+// 2015-09-15 2016.0.0.11 implemented support for Element bounding box
+// 2015-10-22 2016.0.0.12 readme cleanup
+// 2016-04-04 2016.0.0.13 incremented copyright year from 2015 to 2016
+// 2016-04-15 2017.0.0.0 migration to Revit 2017 Manuel of Sofistik
+// 2016-04-15 2017.0.0.1 microscopic cleanup
+// 2016-04-19 2017.0.0.2 ready for publication
+// 2016-06-04 2017.0.0.3 before merging pull request #13 by awmcc90 to skip mepSys.Elements
+// 2016-06-04 2017.0.0.4 merged pull request #13 by awmcc90 to skip mepSys.Elements for OST_ElectricalInternalCircuits category
+// 2016-06-23 2017.0.0.5 merged pull request #14 by Shayneham to handle exceptions snooping flex pipe and duct lacking levels etc.
+// 2016-08-05 2017.0.0.6 merged pull request #16 by @arif-hanif to add post build event to project file to copy addin manifest and dll to addins folder
+// 2016-12-20 2017.0.0.7 merged pull request #18 by @Andrey-Bushman to use NuGet Revit API package
+// 2016-12-20 2017.0.0.8 added version number to Hello World message box
+// 2017-01-03 2017.0.0.9 incremented copyright year
+// 2017-01-06 2017.0.0.10 merged pull #20 from @luftbanana supporting close-with-ESC to all forms by assigning the cancel button
+// 2017-01-06 2017.0.0.11 fixed issue #19 raised by LeeJaeYoung spot dimension position and text position error
+// 2017-02-02 2017.0.0.12 merged pull #21 from @eibre adding UnitType property on the parameter Definition class
+// 2017-02-02 2017.0.0.13 whitespace
+// 2017-02-06 2017.0.0.14 merged pull request #22 from awmcc90 drastic changes implementing object inspection via reflection and cross-version compatibility
+// 2017-02-06 2017.0.0.15 merged pull request #23 from awmcc90 to catch specific reflection invocation exceptions, not all
+// 2017-02-17 2017.0.0.16 merged pull request #25 from chekalin-v: fix old bugs, significant improvements to the new reflection approach
+// 2017-02-21 2017.0.0.17 merged pull request #26 from Alexander Ignatovich to restore ability to see extensible storage content
+// 2017-03-02 2017.0.0.18 merged pull request #27 from @CADBIMDeveloper to display category BuiltInCategory, nullable double properties and empty lists
+// 2017-03-15 2017.0.0.19 merged pull request #29 from @CADBIMDeveloper fixing bugs initialising type and opening background documents
+// 2017-03-16 2017.0.0.20 merged pull request #30 from @eirannejad adding icon and exception handling
+// 2017-03-17 2017.0.0.21 merged pull request #31 from @CADBIMDeveloper removing try-catch handler
+// 2017-03-17 2017.0.0.22 added 'new' keyword to avoid warning and override inherited methods
+// 2017-03-27 2017.0.0.23 dummy modification to trigger build for https://lookupbuilds.com cf. https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111
+// 2017-04-07 2017.0.0.24 merged pull request #33 by @peterhirn added build status badge
+// 2017-04-21 2018.0.0.0 flat migration to Revit 2018
+// 2017-06-05 2018.0.0.1 merged pull request #34 from @CADBIMDeveloper: annotative family instance geometry, element enumerations instead of ids, parameter names and byte property values
+// 2017-08-28 2018.0.0.3 merged pull request #36 from @Andrey-Bushman: switch target platform to.Net 4.6 and replace Revit 2017 NuGet package by Revit 2018.1 Nuget package
+// 2018-01-05 2018.0.0.5 readme enhancements: badges, installer and updated link to MSI installer
+// 2018-01-05 2018.0.0.6 incremented copyright year to 2018
+// 2018-03-02 2018.0.0.7 merged pull request #41 from @Modis Pekshev: Add ConvertToStableRepresentation method for References
+// 2018-03-12 2018.0.0.8 merged pull request #42 from @Modis Pekshev: Add "Search by and snoop" command
+// 2018-04-15 2019.0.0.0 flat migration to Revit 2019
+// 2018-05-29 2019.0.0.2 merged pull request #43 from Levente Koncz @palver123 to use ProgramW6432 variable in csproj to locate Revit API assembly DLLs
+// 2018-12-13 2019.0.0.4 merged issue #45 and pull request #46 from @TheKidMSX to center parent for forms
+// 2019-01-09 2019.0.0.5 incremented copyright year to 2019
+// 2019-01-17 2019.0.0.6 added new commands by Håvard Leding: pick surface, edge, linked element
+// 2019-01-21 2019.0.0.7 fixed typo in variable name reported by @yk35 in pull request #47
+// 2019-03-18 2019.0.0.8 cleanup before adding CmdSnoopModScopeDependents
+// 2019-03-18 2019.0.0.9 added CmdSnoopModScopeDependents
+// 2019-03-25 2019.0.0.10 integrated pull requests #48 and #49 by Victor Chekalin to snoop rendering AssetProperty via Material-AppearanceAssetId-GetRenderingAssset
+// 2019-03-26 2019.0.0.11 integrated pull request #50 by Victor Chekalin to handle DoubleArray4d values
+// 2019-03-27 2019.0.0.12 added MSI installer for 2018.0.0.0 submitted by @VBScab in issue #51
+// 2019-04-18 2019.0.0.13 added MSI installer for Revit 2017-2020 by Harry Mattison
+// 2019-04-18 2020.0.0.0 flat migration to Revit 2020
+// 2019-04-26 2020.0.0.1 integrated pull request #52 by @CADBIMDeveloper
+// 2019-06-03 2020.0.0.2 integrated pull request #53 by @CADBIMDeveloper - list available values for ParameterType.FamilyType and FamilyParameters titles
+// 2019-08-20 2020.0.0.3 integrated pull request #56 by @nonoesp - fix two small typos in readme
+// 2020-02-11 2020.0.0.4 incremented copyright year
+// 2020-04-12 2021.0.0.0 flat migration to Revit 2021
+// 2020-04-14 2021.0.0.1 integrated pull request #58 by @harrymattison with solution changes for multi-release building
+// 2020-10-20 2021.0.0.5 integrated pull request #63 by @swfaust to update command registration and remove obsolete test framework command
+// 2020-10-20 2021.0.0.6 eliminated deprecated unit api usage
+// 2020-11-09 2021.0.0.7 integrated pull request #64 by @peterhirn to update CI for Revit 2021
+// 2020-12-04 2021.0.0.8 integrated pull request #66 by @RevitArkitek adding handlers for View GetTemplateParameterIds and GetNonControlledTemplateParameterIds
+// 2020-12-06 2021.0.0.9 locally disable warning CS0618 `DisplayUnitType` is obsolete for one specific use case
+// 2021-01-11 2021.0.0.10 increment copyright year
+// 2021-01-12 2021.0.0.11 integrated pull request #67 by @peterhirn to update timestamp server from Verisign to digicert
+// 2021-02-01 2021.0.0.12 integrated pull request #69 by @RevitArkitek adding handler for the GetSplitRegionOffsets method to address issue #68 Split Region Offsets (2021)
+// 2021-02-09 2021.0.0.13 integrated pull request #71 by @RevitArkitek adding handler for ScheduleDefinition.GetField to address issue #70
+// 2021-04-15 2022.0.0.0 flat migration to Revit 2022
+// 2021-04-15 2022.0.0.1 integrated pull request #74 by @peterhirn setting up CI to Revit 2022
+// 2021-04-15 2022.0.0.2 integrated pull request #75 by @peterhirn to fix CI for Revit 2022 and non-dotnet-core project file
+// 2021-04-15 2022.0.0.3 integrated pull request #73 by @mphelt to wrap snoop in temporary transaction allowing to snoop PlanTopologies
+// 2021-04-15 2022.0.0.3 reset Revit API assembly DLL references to Copy Local false
+// 2021-04-15 2022.0.0.4 upgraded to Visual Studio 2019 (from 2017) and adopted @peterhirn project and solution files
+// 2021-04-16 2022.0.0.5 integrated pull request #76 by @peterhirn to fix CI for new VS 2019 Revit 2022 dotnet-core csproj
+// 2021-05-07 2022.0.0.6 integrated pull request #77 by @RevitArkitek to get end points for curves
+// 2021-05-07 2022.0.0.7 integrated pull request #78 by @RevitArkitek to handle `TableData.GetSectionData`
+// 2021-05-14 2022.0.0.8 integrated pull request #80 by @WspDev to remove deprecated `ParameterType` usage
+// 2021-05-18 2022.0.0.9 integrated pull request #81 by @CADBIMDeveloper enhancing `ElementId` and Revit 2022 extensible storage support
+// 2021-06-07 2022.0.0.10 integrated pull request #83 by @RevitArkitek fixing error where element cannot be retrieved for an element id because SupportedColorFillCategoryIds returns category ids instead
+// 2021-06-07 2022.0.0.11 integrated pull request #84 by @RevitArkitek adding PlanViewRange functionality to display view range level id and offset
+// 2021-06-30 2022.0.0.12 integrated pull request #85 by Luiz Henrique Cassettari increasing width of snoop window value ListView column from 300 to 800
+// 2021-07-01 2022.0.0.13 integrated pull request #86 by Luiz Henrique Cassettari adding OnLoad to update width of snoop window value ListView last column
+// 2021-09-22 2022.0.0.16 integrated pull request #91 by @mphelt to add PartUtilsStream
+// 2021-10-16 2022.0.1.0 integrated pull request #93 by @NeVeS imlementing Modeless windows
+// 2021-10-16 2022.0.1.0 integrated pull request #94 by @NeVeS fixing problem with tranferring focus to Revit when using selectors from modeless window
+// 2021-10-17 2022.0.1.0 integrated pull request #95 by @NeVeS to handle multiple open documents at the same time
+// 2021-10-17 2022.0.1.0 integrated pull request #96 by @NeVeS to fix crash on user cancel picking object in cmds: SnoopPickFace, SnoopPickEdge, SnoopLinkedElement
+// 2021-10-18 2022.0.1.0 integrated pull request #97 by @NeVeS to restore ability to snoop plan topologies
+// 2021-10-24 2022.0.1.0 integrated pull request #99 by @NeVeS to Eliminate warnings from #98
+//
+[assembly: AssemblyVersion( "2022.0.1.0" )]
+[assembly: AssemblyFileVersion( "2022.0.1.0" )]

@@ -91,6 +91,7 @@ csx
 AppPackages/
 
 # Others
+.idea
 [Bb]in
 [Oo]bj
 sql

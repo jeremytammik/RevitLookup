@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+   <AddIn Type="Application">
+      <Assembly>RevitLookup.dll</Assembly>
+      <ClientId>356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8</ClientId>
+      <FullClassName>RevitLookup.App</FullClassName>
+      <Name>RevitLookup External Application</Name>
+      <VendorId>ADSK</VendorId>
+      <VendorDescription>Autodesk, www.autodesk.com</VendorDescription>	  
+   </AddIn>
+</RevitAddIns>
