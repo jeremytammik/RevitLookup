@@ -419,7 +419,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_RefreshListView
             // 
             this._toolStripButtonRefreshListView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonRefreshListView.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_RefreshListView.Image")));
+            this._toolStripButtonRefreshListView.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonRefreshListView.Image")));
             this._toolStripButtonRefreshListView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonRefreshListView.Name = "_toolStripButtonRefreshListView";
             this._toolStripButtonRefreshListView.Size = new System.Drawing.Size(24, 23);
@@ -452,7 +452,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopDB
             // 
             this._toolStripButtonSnoopDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopDB.Image")));
+            this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopDb.Image")));
             this._toolStripButtonSnoopDb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopDb.Name = "_toolStripButtonSnoopDb";
             this._toolStripButtonSnoopDb.Size = new System.Drawing.Size(24, 23);
@@ -464,7 +464,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopCurrentSelection
             // 
             this._toolStripButtonSnoopCurrentSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopCurrentSelection.Image")));
+            this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopCurrentSelection.Image")));
             this._toolStripButtonSnoopCurrentSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopCurrentSelection.Name = "_toolStripButtonSnoopCurrentSelection";
             this._toolStripButtonSnoopCurrentSelection.Size = new System.Drawing.Size(24, 23);
@@ -477,7 +477,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopPickFace
             // 
             this._toolStripButtonSnoopPickFace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopPickFace.Image")));
+            this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopPickFace.Image")));
             this._toolStripButtonSnoopPickFace.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopPickFace.Name = "_toolStripButtonSnoopPickFace";
             this._toolStripButtonSnoopPickFace.Size = new System.Drawing.Size(24, 23);
@@ -489,7 +489,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopPickEdge
             // 
             this._toolStripButtonSnoopPickEdge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopPickEdge.Image")));
+            this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopPickEdge.Image")));
             this._toolStripButtonSnoopPickEdge.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopPickEdge.Name = "_toolStripButtonSnoopPickEdge";
             this._toolStripButtonSnoopPickEdge.Size = new System.Drawing.Size(24, 23);
@@ -501,7 +501,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopLinkedElement
             // 
             this._toolStripButtonSnoopLinkedElement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopLinkedElement.Image")));
+            this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopLinkedElement.Image")));
             this._toolStripButtonSnoopLinkedElement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopLinkedElement.Name = "_toolStripButtonSnoopLinkedElement";
             this._toolStripButtonSnoopLinkedElement.Size = new System.Drawing.Size(24, 23);
@@ -513,7 +513,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopDependentElements
             // 
             this._toolStripButtonSnoopDependentElements.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopDependentElements.Image")));
+            this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopDependentElements.Image")));
             this._toolStripButtonSnoopDependentElements.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopDependentElements.Name = "_toolStripButtonSnoopDependentElements";
             this._toolStripButtonSnoopDependentElements.Size = new System.Drawing.Size(24, 23);
@@ -525,7 +525,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopActiveView
             // 
             this._toolStripButtonSnoopActiveView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopActiveView.Image")));
+            this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopActiveView.Image")));
             this._toolStripButtonSnoopActiveView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopActiveView.Name = "_toolStripButtonSnoopActiveView";
             this._toolStripButtonSnoopActiveView.Size = new System.Drawing.Size(24, 23);
@@ -537,7 +537,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopApplication
             // 
             this._toolStripButtonSnoopApplication.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopApplication.Image")));
+            this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopApplication.Image")));
             this._toolStripButtonSnoopApplication.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopApplication.Name = "_toolStripButtonSnoopApplication";
             this._toolStripButtonSnoopApplication.Size = new System.Drawing.Size(24, 23);
