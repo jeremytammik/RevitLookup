@@ -20,7 +20,7 @@ namespace RevitLookup.Snoop.Data
         override public string
         StrValue()
         {
-            return string.Format("--- {0} ---", name);
+            return $"--- {name} ---";
         }
 
         public override bool
@@ -50,7 +50,7 @@ namespace RevitLookup.Snoop.Data
 
         override public string StrValue()
         {
-            return string.Format("  --- {0} ---", name);
+            return $"  --- {name} ---";
         }
     }
 }

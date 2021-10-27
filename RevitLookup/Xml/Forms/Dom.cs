@@ -572,9 +572,9 @@ namespace RevitLookup.Xml.Forms
                 labelStr = node.Name;
             else if (m_rbNodeAndText.Checked) {
                 if ((node.NodeType == XmlNodeType.Element) || (node.NodeType == XmlNodeType.Attribute))
-                    labelStr = string.Format("{0} ({1})", node.Name, GetTextLabelValue(node));
+                    labelStr = $"{node.Name} ({GetTextLabelValue(node)})";
                 else
-                    labelStr = string.Format("{0} ({1})", node.Name, node.Value);
+                    labelStr = $"{node.Name} ({node.Value})";
             }
             else {
                 Debug.Assert(false, "Unknown radio button!");   // Someone must have added a button we don't know about!

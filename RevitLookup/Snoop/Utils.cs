@@ -141,7 +141,7 @@ namespace RevitLookup.Snoop
          }
 
          RevitLookup.Snoop.Forms.GenericPropGrid pgForm = new RevitLookup.Snoop.Forms.GenericPropGrid(obj);
-         pgForm.Text = string.Format("Object Data (System.Type = {0})", obj.GetType().FullName);
+         pgForm.Text = $"Object Data (System.Type = {obj.GetType().FullName})";
          pgForm.ShowDialog();
       }
 
@@ -155,8 +155,7 @@ namespace RevitLookup.Snoop
            {
                var propertyValue = nameProperty.GetValue(obj) as string;
 
-               return string.Format("< {0}  {1} >", obj.GetType().Name,
-                   string.IsNullOrEmpty(propertyValue) ? "???" : propertyValue);
+               return $"< {obj.GetType().Name}  {(string.IsNullOrEmpty(propertyValue) ? "???" : propertyValue)} >";
            }
 
            return null;
@@ -233,8 +232,8 @@ namespace RevitLookup.Snoop
             }
          }
 
-         String headerFormat = String.Format("{{0,{0}}}----{1}\r\n", maxField, new String('-', maxValue));
-         String tabbedFormat = String.Format("{{0,{0}}}    {{1}}\r\n", maxField);
+         String headerFormat = $"{{0,{maxField}}}----{new String('-', maxValue)}\r\n";
+         String tabbedFormat = $"{{0,{maxField}}}    {{1}}\r\n";
 
          System.Text.StringBuilder bldr = new System.Text.StringBuilder();
 

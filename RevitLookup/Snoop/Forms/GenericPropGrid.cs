@@ -190,7 +190,7 @@ namespace RevitLookup.Snoop.Forms
                 MessageBox.Show("Value is null.");
             else {
                 GenericPropGrid pgForm = new GenericPropGrid(selObj);
-                pgForm.Text = string.Format("{0} (Object Info: {1})", m_pgProps.SelectedGridItem.Label, selObj.GetType());
+                pgForm.Text = $"{m_pgProps.SelectedGridItem.Label} (Object Info: {selObj.GetType()})";
                 pgForm.ShowDialog();
             }
         }
@@ -211,7 +211,7 @@ namespace RevitLookup.Snoop.Forms
                 MessageBox.Show("Value is null.");
             else {
                 GenericPropGrid pgForm = new GenericPropGrid(selObj.GetType());
-                pgForm.Text = string.Format("{0} (System.Type = {1})", m_pgProps.SelectedGridItem.Label, selObj.GetType().FullName);
+                pgForm.Text = $"{m_pgProps.SelectedGridItem.Label} (System.Type = {selObj.GetType().FullName})";
                 pgForm.ShowDialog();
             }
         }

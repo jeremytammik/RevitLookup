@@ -206,7 +206,7 @@ namespace RevitLookup.EventTrack.Events {
         private void
         DisplayEvent(string eventStr)
         {
-            MessageBox.Show(string.Format("Event: {0}", eventStr), "Application Event", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Event: {eventStr}", "Application Event", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }       
     }
 }

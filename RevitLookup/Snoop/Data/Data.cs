@@ -70,7 +70,7 @@ namespace RevitLookup.Snoop.Data
 		
 		public override string ToString()
 		{
-		    return string.Format("{0}: {1}", m_label, StrValue());
+		    return $"{m_label}: {StrValue()}";
 		}
 		
 		/// <summary>

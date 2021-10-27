@@ -44,7 +44,7 @@ namespace RevitLookup.Snoop.Data
         override public string
         StrValue()
         {
-            return string.Format("--- {0} ---", m_val.Name);
+            return $"--- {m_val.Name} ---";
         }
         
         public override bool
@@ -63,7 +63,7 @@ namespace RevitLookup.Snoop.Data
         {
 			// DrillDown on a ClassType will just browse it using Reflection
             Snoop.Forms.GenericPropGrid pgForm = new Snoop.Forms.GenericPropGrid(m_val);
-            pgForm.Text = string.Format("System.Type = {0}", m_val.FullName);
+            pgForm.Text = $"System.Type = {m_val.FullName}";
             pgForm.ShowDialog();
             return null;
         }

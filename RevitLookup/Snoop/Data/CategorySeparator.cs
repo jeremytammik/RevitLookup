@@ -44,7 +44,7 @@ namespace RevitLookup.Snoop.Data
         override public string
         StrValue()
         {
-            return string.Format("--- {0} ---", m_val);
+            return $"--- {m_val} ---";
         }
         
         public override bool

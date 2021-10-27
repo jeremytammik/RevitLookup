@@ -45,7 +45,7 @@ namespace RevitLookup.Snoop.Data
         StrValue()
         {
           if (m_val != null)
-            return string.Format("({0}, {1}, {2})", m_val.X, m_val.Y, m_val.Z);
+            return $"({m_val.X}, {m_val.Y}, {m_val.Z})";
           else
             return "< null >";
         }
