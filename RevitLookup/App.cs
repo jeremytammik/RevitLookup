@@ -40,7 +40,7 @@ namespace RevitLookup
       "356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8" ) );
 
     // get the absolute path of this assembly
-    private static string _executingAssemblyPath = Assembly
+    private static readonly string _executingAssemblyPath = Assembly
       .GetExecutingAssembly().Location;
 
     private AppDocEvents _mAppDocEvents;

@@ -43,7 +43,7 @@ namespace RevitLookup.Utils
         /// <summary>
         /// Case insensitive comparer object
         /// </summary>
-        private CaseInsensitiveComparer _objectCompare;
+        private readonly CaseInsensitiveComparer _objectCompare;
 
         /// <summary>
         /// 

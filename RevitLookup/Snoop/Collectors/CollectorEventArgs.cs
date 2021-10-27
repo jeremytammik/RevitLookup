@@ -29,7 +29,7 @@ namespace RevitLookup.Snoop.Collectors
 {
 	public class CollectorEventArgs : EventArgs
 	{
-	    private object  _mObjToSnoop;
+	    private readonly object  _mObjToSnoop;
         private List<Type> _seenTypes;
 	    
 		public CollectorEventArgs(object objToSnoop)

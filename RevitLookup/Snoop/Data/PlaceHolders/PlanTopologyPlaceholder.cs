@@ -9,8 +9,8 @@ namespace RevitLookup.Snoop.Data.PlaceHolders
 {
     internal class PlanTopologyPlaceholder : IObjectToSnoopPlaceholder
     {
-        private Phase _phase;
-        private Level _level;
+        private readonly Phase _phase;
+        private readonly Level _level;
 
 
         public PlanTopologyPlaceholder(PlanTopology planTopology)

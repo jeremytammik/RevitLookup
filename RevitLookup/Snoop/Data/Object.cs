@@ -34,7 +34,7 @@ namespace RevitLookup.Snoop.Data
 	
 	public class Object : Data
 	{
-		private string _mStrValue;
+		private readonly string _mStrValue;
 
 		protected System.Object MVal;
 	    

@@ -34,7 +34,7 @@ namespace RevitLookup
 {
     public class AppDocEvents
     {
-       private ControlledApplication _mApp;
+       private readonly ControlledApplication _mApp;
 
        public AppDocEvents(ControlledApplication app)
         {

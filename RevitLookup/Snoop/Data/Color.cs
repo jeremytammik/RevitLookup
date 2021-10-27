@@ -2,7 +2,7 @@
 {
     public class Color : Data
     {
-        private Autodesk.Revit.DB.Color _mColor;
+        private readonly Autodesk.Revit.DB.Color _mColor;
 
         public Color(string label, Autodesk.Revit.DB.Color color) : base(label)
         {

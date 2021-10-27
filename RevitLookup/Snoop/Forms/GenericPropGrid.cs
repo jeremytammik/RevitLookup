@@ -50,7 +50,7 @@ namespace RevitLookup.Snoop.Forms
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private Container _components = null;
+		private readonly Container _components = null;
 
 		public
 		GenericPropGrid(object obj)

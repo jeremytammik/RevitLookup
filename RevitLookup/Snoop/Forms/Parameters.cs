@@ -52,7 +52,7 @@ namespace RevitLookup.Snoop.Forms
         protected Collectors.CollectorObj         MSnoopCollector            = new();
         protected Object							MCurObj;
 
-        private Element                                         _mElem;
+        private readonly Element                                         _mElem;
         private   ContextMenuStrip                      _listViewContextMenuStrip;
         private   MenuItem         _mMnuItemCopy;
         private   ToolStripMenuItem                     _copyToolStripMenuItem;
