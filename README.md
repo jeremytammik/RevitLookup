@@ -10,7 +10,6 @@ Interactive Revit BIM database exploration tool to view and navigate BIM element
 
 Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information.
 
-
 ## <a name="versions"></a> Versions
 
 The most up-to-date version provided here is for Revit 2022.
@@ -27,21 +26,18 @@ If you are interested in an earlier release of Revit, please grab the latest app
 - [2016.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2016.0.0.13) for Revit 2016
 - [2015.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2015.0.0.8) for Revit 2015
 
-
 ## Installation
 
-No compiled DLL is provided.
-This repository hosts the source code only.
-You can either compile your own DLL,
-download from the [CI builds](#builds),
-or use the [RevitLookup.Installation package](#revitlookupinstallation)
+No compiled DLL is provided. This repository hosts the source code only. You can either compile your own DLL, download from the [CI builds](#builds), or use
+the [RevitLookup.Installation package](#revitlookupinstallation)
 
 <!----
 ### Forever
 -->
 
 You install RevitLookup just like any other Revit add-in,
-by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder](http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Add_In_Integration_Add_in_Registration_html).
+by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder](http://help.autodesk.com/view/RVT/2019/ENU/?guid=Revit_API_Revit_API_Developers_Guide_Introduction_Add_In_Integration_Add_in_Registration_html)
+.
 
 <!----
 by [copying the add-in manifest and the assembly DLL to the Revit Add-Ins folder](http://help.autodesk.com/view/RVT/2018/ENU/?guid=GUID-4FFDB03E-6936-417C-9772-8FC258A261F7).
@@ -84,46 +80,39 @@ Says he:
 
 -->
 
-
 ## Builds
 
-[Build Informed GmbH](https://www.buildinformed.com) very kindly set up a
-public [CI](https://en.wikipedia.org/wiki/Continuous_integration) for RevitLookup
+[Build Informed GmbH](https://www.buildinformed.com) very kindly set up a public [CI](https://en.wikipedia.org/wiki/Continuous_integration) for RevitLookup
 at [lookupbuilds.com](https://lookupbuilds.com)
-using [gitlab.com](https://gitlab.com).
-The output is dual-signed with the Build Informed certificate, zipped and published to an Amazon S3 bucket.
-For more information, please refer to
-the [Revit API discussion forum](http://forums.autodesk.com/t5/revit-api-forum/bd-p/160) thread
+using [gitlab.com](https://gitlab.com). The output is dual-signed with the Build Informed certificate, zipped and published to an Amazon S3 bucket. For more information, please
+refer to the [Revit API discussion forum](http://forums.autodesk.com/t5/revit-api-forum/bd-p/160) thread
 on [CI for RevitLookup](https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111).
-
 
 ## RevitLookup.Installation
 
-Luiz Henrique [@ricaun](https://github.com/ricaun) Cassettari created
-the [RevitLookup.Installation](https://github.com/ricaun/RevitLookup.Installation) project,
-a simple installation using [Inno Setup](https://jrsoftware.org/isinfo.php) to
-extract the files to the `ApplicationPlugins` folder.
+Luiz Henrique [@ricaun](https://github.com/ricaun) Cassettari created the [RevitLookup.Installation](https://github.com/ricaun/RevitLookup.Installation) project, a simple
+installation using [Inno Setup](https://jrsoftware.org/isinfo.php) to extract the files to the `ApplicationPlugins` folder.
 
 It generates a digitally signed version of RevitLookup and currently supports the Revit releases 2017, 2018, 2019, 2020, 2021 and 2022.
 
-
 <a name="caveat"></a>
+
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
 
-This clarification was prompted by
-the [issue #35 &ndash; RevitLookup doesn't snoop all members](https://github.com/jeremytammik/RevitLookup/issues/35):
+This clarification was prompted by the [issue #35 &ndash; RevitLookup doesn't snoop all members](https://github.com/jeremytammik/RevitLookup/issues/35):
 
-**Question:** I tried snooping a selected Structural Rebar element in the active view and found not all of the Rebar class members showed up in the Snoop Objects window. One of many members that weren't there: `Rebar.GetFullGeometryForView` method.
+**Question:** I tried snooping a selected Structural Rebar element in the active view and found not all of the Rebar class members showed up in the Snoop Objects window. One of
+many members that weren't there: `Rebar.GetFullGeometryForView` method.
 
-Is this the expected behaviour? I was thinking I could get all object members just with  RevitLookup and without the Revit API help file `RevitAPI.chm`.
+Is this the expected behaviour? I was thinking I could get all object members just with RevitLookup and without the Revit API help file `RevitAPI.chm`.
 
 **Answer:** RevitLookup cannot report **all** properties and methods on **all** elements.
 
-For instance, in the case of `GetFullGeometryForView`, a view input argument is required.
-How is RevitLookup supposed to be able to guess what view you are interested in?
+For instance, in the case of `GetFullGeometryForView`, a view input argument is required. How is RevitLookup supposed to be able to guess what view you are interested in?
 
-For methods requiring dynamic input that cannot be automatically determined, you can [make use of more intimate interactive database exploration tools, e.g. RevitPythonShell](http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html).
-
+For methods requiring dynamic input that cannot be automatically determined, you
+can [make use of more intimate interactive database exploration tools, e.g. RevitPythonShell](http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html)
+.
 
 ## Author
 
@@ -135,17 +124,14 @@ Maintained by Jeremy Tammik,
 [Forge](http://forge.autodesk.com) [Platform](https://developer.autodesk.com) Development,
 [ADN](http://www.autodesk.com/adn)
 [Open](http://www.autodesk.com/adnopen),
-[Autodesk Inc.](http://www.autodesk.com),
-with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/graphs/contributors) from
-the entire Revit add-in developer community.
+[Autodesk Inc.](http://www.autodesk.com), with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/graphs/contributors) from the entire Revit add-in developer
+community.
 
 Thank you, guys!
 
-
 ## License
 
-This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-Please see the [LICENSE](LICENSE) file for full details.
+This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
 
 Credit to [icons8.com](https://icons8.com) for the RevitLookup icons.
 
