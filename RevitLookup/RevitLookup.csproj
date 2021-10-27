@@ -39,16 +39,11 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <None Remove="Resources\RLookup-16.ico"/>
-        <None Remove="Resources\RLookup-16.png"/>
-        <None Remove="Resources\RLookup-32.png"/>
-    </ItemGroup>
-    <ItemGroup>
-        <EmbeddedResource Include="Resources\RLookup-16.ico"/>
-        <EmbeddedResource Include="Resources\RLookup-16.png"/>
-        <EmbeddedResource Include="Resources\RLookup-32.png"/>
+        <Resource Include="Resources\RLookup-16.ico" />
+        <Resource Include="Resources\RLookup-16.png" />
+        <Resource Include="Resources\RLookup-32.png" />
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="rem copy Y:\a\src\rvt\RevitLookup\CS\bin\Debug\RevitLookup.dll C:\Users\jta\AppData\Roaming\Autodesk\Revit\Addins\2022&#xD;&#xA;rem copy Y:\a\src\rvt\RevitLookup\CS\RevitLookup.addin C:\Users\jta\AppData\Roaming\Autodesk\Revit\Addins\2022"/>
+        <Exec Command="rem copy Y:\a\src\rvt\RevitLookup\CS\bin\Debug\RevitLookup.dll C:\Users\jta\AppData\Roaming\Autodesk\Revit\Addins\2022&#xD;&#xA;rem copy Y:\a\src\rvt\RevitLookup\CS\RevitLookup.addin C:\Users\jta\AppData\Roaming\Autodesk\Revit\Addins\2022" />
     </Target>
 </Project>

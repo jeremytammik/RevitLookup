@@ -30,23 +30,18 @@ using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitLookup.RevitUtils;
 using RevitLookup.Snoop;
 
 namespace RevitLookup
 {
     public class App : IExternalApplication
     {
-        private static AddInId _mAppId = new(new Guid(
-            "356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8"));
-
-        // get the absolute path of this assembly
-        private static readonly string _executingAssemblyPath = Assembly
-            .GetExecutingAssembly().Location;
+        private static AddInId _mAppId = new(new Guid("356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8"));
 
         private AppDocEvents _mAppDocEvents;
 
-        public Result OnStartup(
-            UIControlledApplication application)
+        public Result OnStartup(UIControlledApplication application)
         {
             ModelessWindowHandle.RevitMainWindowHandle = application.MainWindowHandle;
             ExternalExecutor.CreateExternalEvent();
@@ -56,37 +51,33 @@ namespace RevitLookup
             return Result.Succeeded;
         }
 
-        public Result OnShutdown(
-            UIControlledApplication application)
+        public Result OnShutdown(UIControlledApplication application)
         {
             RemoveAppDocEvents();
-
             return Result.Succeeded;
         }
 
         private void AddMenu(UIControlledApplication app)
         {
-            var rvtRibbonPanel = app.CreateRibbonPanel("Revit Lookup");
+            var rvtRibbonPanel = app.CreatePanel("Revit Lookup");
             var data = new PulldownButtonData("Options", "Revit Lookup");
 
             var item = rvtRibbonPanel.AddItem(data);
-            var optionsBtn = item as PulldownButton;
+            var optionsBtn = (PulldownButton) item;
 
             // Add Icons to main RevitLookup Menu
-            optionsBtn.Image = GetEmbeddedImage("RevitLookup.Resources.RLookup-16.png");
-            optionsBtn.LargeImage = GetEmbeddedImage("RevitLookup.Resources.RLookup-32.png");
-            optionsBtn.AddPushButton(new PushButtonData("HelloWorld", "Hello World...", _executingAssemblyPath, typeof(HelloWorld).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Snoop Db..", "Snoop DB...", _executingAssemblyPath, typeof(CmdSnoopDb).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Snoop Current Selection...", "Snoop Current Selection...", _executingAssemblyPath, typeof(CmdSnoopModScope).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Face...", "Snoop Pick Face...", _executingAssemblyPath, typeof(CmdSnoopModScopePickSurface).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Edge...", "Snoop Pick Edge...", _executingAssemblyPath, typeof(CmdSnoopModScopePickEdge).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Linked Element...", "Snoop Linked Element...", _executingAssemblyPath,
-                typeof(CmdSnoopModScopeLinkedElement).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Snoop Dependent Elements...", "Snoop Dependent Elements...", _executingAssemblyPath,
-                typeof(CmdSnoopModScopeDependents).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Snoop Active View...", "Snoop Active View...", _executingAssemblyPath, typeof(CmdSnoopActiveView).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Snoop Application...", "Snoop Application...", _executingAssemblyPath, typeof(CmdSnoopApp).FullName));
-            optionsBtn.AddPushButton(new PushButtonData("Search and Snoop...", "Search and Snoop...", _executingAssemblyPath, typeof(CmdSearchBy).FullName));
+            optionsBtn.Image = new BitmapImage(new Uri("pack://application:,,,/RevitLookup;component/Resources/RLookup-16.png"));
+            optionsBtn.LargeImage = new BitmapImage(new Uri("pack://application:,,,/RevitLookup;component/Resources/RLookup-32.png"));
+            optionsBtn.AddPushButton(typeof(HelloWorld), "HelloWorld", "Hello World...");
+            optionsBtn.AddPushButton(typeof(CmdSnoopDb), "Snoop Db..", "Snoop DB...");
+            optionsBtn.AddPushButton(typeof(CmdSnoopModScope), "Snoop Current Selection...", "Snoop Current Selection...");
+            optionsBtn.AddPushButton(typeof(CmdSnoopModScopePickSurface), "Snoop Pick Face...", "Snoop Pick Face...");
+            optionsBtn.AddPushButton(typeof(CmdSnoopModScopePickEdge), "Snoop Pick Edge...", "Snoop Pick Edge...");
+            optionsBtn.AddPushButton(typeof(CmdSnoopModScopeLinkedElement), "Snoop Pick Linked Element...", "Snoop Linked Element...");
+            optionsBtn.AddPushButton(typeof(CmdSnoopModScopeDependents), "Snoop Dependent Elements...", "Snoop Dependent Elements...");
+            optionsBtn.AddPushButton(typeof(CmdSnoopActiveView), "Snoop Active View...", "Snoop Active View...");
+            optionsBtn.AddPushButton(typeof(CmdSnoopApp), "Snoop Application...", "Snoop Application...");
+            optionsBtn.AddPushButton(typeof(CmdSearchBy), "Search and Snoop...", "Search and Snoop...");
         }
 
         private void AddAppDocEvents(ControlledApplication app)
@@ -98,20 +89,6 @@ namespace RevitLookup
         private void RemoveAppDocEvents()
         {
             _mAppDocEvents.DisableEvents();
-        }
-
-        private static BitmapSource GetEmbeddedImage(string name)
-        {
-            try
-            {
-                var a = Assembly.GetExecutingAssembly();
-                var s = a.GetManifestResourceStream(name);
-                return BitmapFrame.Create(s);
-            }
-            catch
-            {
-                return null;
-            }
         }
     }
 }
