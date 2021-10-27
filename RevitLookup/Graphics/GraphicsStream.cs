@@ -133,12 +133,10 @@ namespace RevitLookup.Graphics {
 
         #region Low-Level geometric primitives
 
-        public abstract void
-        StreamWcs(XYZ pt1, XYZ pt2);       // only function you absolutely have to override (to get Vector graphics)
+        public abstract void StreamWcs(XYZ pt1, XYZ pt2);       // only function you absolutely have to override (to get Vector graphics)
 
 
-        public virtual void
-        StreamWcs(IList<XYZ> pts, bool closed)
+        public virtual void StreamWcs(IList<XYZ> pts, bool closed)
         {
             if (pts.Count < 2) {
                 Debug.Assert(false); // have to have at least 2 points!
@@ -160,8 +158,7 @@ namespace RevitLookup.Graphics {
                 StreamWcs(pts[len-1], pts[0]);
         }
 
-        public virtual void
-        StreamWcs(Line line)
+        public virtual void StreamWcs(Line line)
         {
             if (line.IsBound == false) {
                 Debug.Assert(false);
@@ -171,26 +168,22 @@ namespace RevitLookup.Graphics {
             StreamWcs(line.GetEndPoint(0), line.GetEndPoint(1));
         }
 
-        public virtual void
-        StreamWcs(Arc arc)
+        public virtual void StreamWcs(Arc arc)
         {
             StreamCurveAsTesselatedPointsWcs(arc);
         }
 
-        public virtual void
-        StreamWcs(Ellipse ellipse)
+        public virtual void StreamWcs(Ellipse ellipse)
         {
             StreamCurveAsTesselatedPointsWcs(ellipse);
         }
 
-        public virtual void
-        StreamWcs(NurbSpline spline)
+        public virtual void StreamWcs(NurbSpline spline)
         {
             StreamCurveAsTesselatedPointsWcs(spline);
         }
 
-        public virtual void
-        StreamWcs(Curve curve)
+        public virtual void StreamWcs(Curve curve)
         {
             switch (curve)
             {
@@ -250,8 +243,7 @@ namespace RevitLookup.Graphics {
             }
         }
 
-        public virtual void
-        Stream(Line line)
+        public virtual void Stream(Line line)
         {
             if (line.IsBound == false) {
                 Debug.Assert(false);
@@ -261,8 +253,7 @@ namespace RevitLookup.Graphics {
             Stream(line.GetEndPoint(0), line.GetEndPoint(1));
         }
 
-        public virtual void
-        Stream(Arc arc)
+        public virtual void Stream(Arc arc)
         {
             if (HasXform)
                 StreamWcs(arc.CreateTransformed(CurrentXform));
@@ -270,8 +261,7 @@ namespace RevitLookup.Graphics {
                 StreamWcs(arc);
         }
 
-        public virtual void
-        Stream(Ellipse ellipse)
+        public virtual void Stream(Ellipse ellipse)
         {
             if (HasXform)
                 StreamWcs(ellipse.CreateTransformed(CurrentXform));
@@ -279,8 +269,7 @@ namespace RevitLookup.Graphics {
                 StreamWcs(ellipse);
         }
 
-        public virtual void
-        Stream(NurbSpline spline)
+        public virtual void Stream(NurbSpline spline)
         {
             if (HasXform)
                 StreamWcs(spline.CreateTransformed(CurrentXform));
@@ -288,8 +277,7 @@ namespace RevitLookup.Graphics {
                 StreamWcs(spline);
         }
 
-        public virtual void
-        Stream(Curve curve)
+        public virtual void Stream(Curve curve)
         {
             if (HasXform)
                 StreamWcs(curve.CreateTransformed(CurrentXform));
@@ -305,22 +293,19 @@ namespace RevitLookup.Graphics {
         /// </summary>
         /// <param name="crv">Curve to tesselate into vectors</param>
         
-        private void
-        StreamCurveAsTesselatedPointsWcs(Curve crv)
+        private void StreamCurveAsTesselatedPointsWcs(Curve crv)
         {
             StreamWcs(crv.Tessellate(), false);   // stream out as array of points
         }
 
-        private void
-        StreamCurveAsTesselatedPoints(Curve crv)
+        private void StreamCurveAsTesselatedPoints(Curve crv)
         {
             Stream(crv.Tessellate(), false);   // stream out as array of points
         }
 
         #region High-Level Object Stream functions
 
-        public virtual void
-        Stream(Element elem)
+        public virtual void Stream(Element elem)
         {
             if ((MViewStack.Count == 0) || (MGeomOptionsStack.Count == 0)) {
                 throw new ArgumentException("View stack or Geometry Options stack is empty.");
@@ -332,8 +317,7 @@ namespace RevitLookup.Graphics {
             }
         }
 
-        public virtual void
-        Stream(GeometryObject obj)
+        public virtual void Stream(GeometryObject obj)
         {
             switch (obj)
             {
@@ -382,8 +366,7 @@ namespace RevitLookup.Graphics {
             }
         }
 
-        public virtual void
-        Stream(Edge edge)
+        public virtual void Stream(Edge edge)
         {
             var ptArray = edge.Tessellate();
 
@@ -393,16 +376,14 @@ namespace RevitLookup.Graphics {
             }
         }
 
-        public virtual void
-        Stream(EdgeArray edgeArray)
+        public virtual void Stream(EdgeArray edgeArray)
         {
             foreach (Edge edge in edgeArray) {
                 Stream(edge);
             }
         }
 
-        public virtual void
-        Stream(GeometryElement elem)
+        public virtual void Stream(GeometryElement elem)
         {
             foreach (var geom in elem)
             {
@@ -419,66 +400,56 @@ namespace RevitLookup.Graphics {
         /// </summary>
         /// <param name="face"></param>
         
-        private void
-        StreamFaceGeoometry(Face face)
+        private void StreamFaceGeometry(Face face)
         {
             foreach (EdgeArray edgeArray in face.EdgeLoops)
                 Stream(edgeArray);
         }
 
-        public virtual void
-        Stream(ConicalFace face)
+        public virtual void Stream(ConicalFace face)
         {
-            StreamFaceGeoometry(face);
+            StreamFaceGeometry(face);
         }
 
-        public virtual void
-        Stream(CylindricalFace face)
+        public virtual void Stream(CylindricalFace face)
         {
-            StreamFaceGeoometry(face);
+            StreamFaceGeometry(face);
         }
 
-        public virtual void
-        Stream(HermiteFace face)
+        public virtual void Stream(HermiteFace face)
         {
-            StreamFaceGeoometry(face);
+            StreamFaceGeometry(face);
         }
 
-        public virtual void
-        Stream(PlanarFace face)
+        public virtual void Stream(PlanarFace face)
         {
-            StreamFaceGeoometry(face);
+            StreamFaceGeometry(face);
         }
 
-        public virtual void
-        Stream(RevolvedFace face)
+        public virtual void Stream(RevolvedFace face)
         {
-            StreamFaceGeoometry(face);
+            StreamFaceGeometry(face);
         }
 
-        public virtual void
-        Stream(RuledFace face)
+        public virtual void Stream(RuledFace face)
         {
-            StreamFaceGeoometry(face);
+            StreamFaceGeometry(face);
         }
 
-        public virtual void
-        Stream(Face face)
+        public virtual void Stream(Face face)
         {
-            StreamFaceGeoometry(face);
+            StreamFaceGeometry(face);
         }
 
 
-        public virtual void
-        Stream(GeometryInstance inst)
+        public virtual void Stream(GeometryInstance inst)
         {
             PushXform(inst.Transform);
             Stream(inst.SymbolGeometry);
             PopXform();
         }
 
-        public virtual void
-        Stream(Mesh mesh)
+        public virtual void Stream(Mesh mesh)
         {
             for (var i=0; i<mesh.NumTriangles; i++) {
                 var mt = mesh.get_Triangle(i);
@@ -489,16 +460,14 @@ namespace RevitLookup.Graphics {
             }
         }
 
-        public virtual void
-        Stream(Profile prof)
+        public virtual void Stream(Profile prof)
         {
             foreach (Curve curve in prof.Curves) {
                 Stream(curve);
             }
         }
 
-        public virtual void
-        Stream(Solid solid)
+        public virtual void Stream(Solid solid)
         {
             foreach (Face face in solid.Faces) {
                 Stream(face);
