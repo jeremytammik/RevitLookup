@@ -45,6 +45,6 @@ namespace RevitLookup.Snoop.CollectorExts
 		}		
 
 
-		public abstract void Collect(Collector sender, Snoop.Collectors.CollectorEventArgs e);       
+		public abstract void Collect(Collector sender, CollectorEventArgs e);       
     }
 }

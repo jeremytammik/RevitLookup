@@ -8,7 +8,7 @@ namespace System.Collections
 {
     public static class EnumerableExtensions
     {
-        public static List<T> ToList<T>(this System.Collections.IEnumerable set)
+        public static List<T> ToList<T>(this IEnumerable set)
         {
             List<T> list = new List<T>();
 

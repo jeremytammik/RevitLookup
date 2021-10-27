@@ -52,7 +52,7 @@ namespace RevitLookup.EventTrack.Forms {
             SetEventsOnOff(MAppEvents, m_cbAppEventsOn.Checked, false);
             SetEventsOnOff(MDocEvents, m_cbDocEventsOn.Checked, false);          
 
-            this.Close();
+            Close();
         }
 
         private void

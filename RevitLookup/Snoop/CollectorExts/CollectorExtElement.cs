@@ -64,7 +64,7 @@ namespace RevitLookup.Snoop.CollectorExts
         public override void Collect(Collector snoopCollector, CollectorEventArgs e)
         {
             if (e.ObjToSnoop is IEnumerable)
-                snoopCollector.Data().Add(new Snoop.Data.Enumerable(e.ObjToSnoop.GetType().Name, e.ObjToSnoop as IEnumerable));
+                snoopCollector.Data().Add(new Data.Enumerable(e.ObjToSnoop.GetType().Name, e.ObjToSnoop as IEnumerable));
             else
                 Stream(snoopCollector.Data(), e.ObjToSnoop);
         }

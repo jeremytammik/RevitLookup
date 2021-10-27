@@ -39,20 +39,20 @@ namespace RevitLookup.Snoop.Forms
 	/// </summary>
 	public class ParamEnumSnoop : System.Windows.Forms.Form, IHaveCollector
 	{
-        protected System.Windows.Forms.Button           MBnOk;
-        protected System.Windows.Forms.TreeView         MTvObjs;
-        protected System.Windows.Forms.ContextMenu      MCntxMenuObjId;
-        protected System.Windows.Forms.MenuItem         MMnuItemBrowseReflection;
-		protected System.Windows.Forms.ListView			MLvData;
-		protected System.Windows.Forms.ColumnHeader		MLvColLabel;
-        protected System.Windows.Forms.ColumnHeader     MLvColValue;
+        protected Button           MBnOk;
+        protected TreeView         MTvObjs;
+        protected ContextMenu      MCntxMenuObjId;
+        protected MenuItem         MMnuItemBrowseReflection;
+		protected ListView			MLvData;
+		protected ColumnHeader		MLvColLabel;
+        protected ColumnHeader     MLvColValue;
        
-        protected Snoop.Collectors.CollectorObj         MSnoopCollector            = new Snoop.Collectors.CollectorObj();
-        protected System.Object							MCurObj;
+        protected Collectors.CollectorObj         MSnoopCollector            = new Collectors.CollectorObj();
+        protected Object							MCurObj;
         
         private   Hashtable                             _mEnumMap;                       
         private   ContextMenuStrip                      _listViewContextMenuStrip;
-        private   System.Windows.Forms.MenuItem         _mMnuItemCopy;
+        private   MenuItem         _mMnuItemCopy;
         private   ToolStripMenuItem                     _copyToolStripMenuItem;
         private   ToolStrip                             _toolStrip1;
         private   ToolStripButton                       _toolStripButton1;
@@ -332,11 +332,11 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected async void TreeNodeSelected(object sender, System.Windows.Forms.TreeViewEventArgs e)
+        protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
             MCurObj = e.Node.Tag;
             await MSnoopCollector.Collect(MCurObj);
-            Snoop.Utils.Display(MLvData, MSnoopCollector); 
+            Utils.Display(MLvData, MSnoopCollector); 
         } 
 
         /// <summary>
@@ -345,9 +345,9 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void
-        DataItemSelected(object sender, System.EventArgs e)
+        DataItemSelected(object sender, EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
+            Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
 
 
@@ -357,7 +357,7 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void
-        ContextMenuClick_Copy (object sender, System.EventArgs e)
+        ContextMenuClick_Copy (object sender, EventArgs e)
         {
             if (MTvObjs.SelectedNode != null)
             {
@@ -372,9 +372,9 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void
-        ContextMenuClick_BrowseReflection(object sender, System.EventArgs e)
+        ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
-            Snoop.Utils.BrowseReflection(MCurObj);
+            Utils.BrowseReflection(MCurObj);
         }
        
 

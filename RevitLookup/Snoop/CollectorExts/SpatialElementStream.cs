@@ -13,7 +13,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
         public SpatialElementStream(ArrayList data, object elem)
         {
-            this._data = data;
+            _data = data;
             _spatialElement = elem as SpatialElement;
 
             _boundaryOptions = new SpatialElementBoundaryOptions

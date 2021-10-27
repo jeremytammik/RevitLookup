@@ -105,7 +105,7 @@ namespace RevitLookup.Snoop.Data
         public override System.Windows.Forms.Form DrillDown()
         {
 			if ((MVal != null) && (MObjs.Count != 0)) {
-				Snoop.Forms.Objects form = new Snoop.Forms.Objects(MObjs);
+				Forms.Objects form = new Forms.Objects(MObjs);
                 return form;
             }
             return null;

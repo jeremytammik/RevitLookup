@@ -72,7 +72,7 @@ namespace RevitLookup
       ref string msg, 
       ElementSet elems )
     {          
-          Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+          Objects form = new Objects();
           form.SnoopAndShow(Selector.SnoopDb);
           return Result.Succeeded;
     }
@@ -86,7 +86,7 @@ namespace RevitLookup
       ref string msg, 
       ElementSet elems )
     {
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        Objects form = new Objects();
         form.SnoopAndShow(Selector.SnoopPickFace);
         return Result.Succeeded;
     }
@@ -97,7 +97,7 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {      
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        Objects form = new Objects();
         form.SnoopAndShow(Selector.SnoopPickEdge);
         return Result.Succeeded;
     }
@@ -108,7 +108,7 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        Objects form = new Objects();
         form.SnoopAndShow(Selector.SnoopLinkedElement);
         return Result.Succeeded;
     }
@@ -126,7 +126,7 @@ namespace RevitLookup
       ref string msg,
       ElementSet elems )
     {        
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        Objects form = new Objects();
         form.SnoopAndShow(Selector.SnoopDependentElements);
         return Result.Succeeded;
     }
@@ -140,7 +140,7 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {   
-        Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+        Objects form = new Objects();
         form.SnoopAndShow(Selector.SnoopActiveView);
         return Result.Succeeded;
     }
@@ -155,7 +155,7 @@ namespace RevitLookup
   {
         public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
-            Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+            Objects form = new Objects();
             form.SnoopAndShow(Selector.SnoopCurrentSelection);
             return Result.Succeeded;
         }
@@ -169,7 +169,7 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-         Snoop.Forms.Objects form = new Snoop.Forms.Objects();
+         Objects form = new Objects();
          form.SnoopAndShow(Selector.SnoopApplication);
          return Result.Succeeded;
     }

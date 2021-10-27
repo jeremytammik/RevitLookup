@@ -38,19 +38,19 @@ namespace RevitLookup.Snoop.Forms
 	/// to go write a SnoopCollector for every item in the .NET system.
 	/// </summary>
 	
-	public class GenericPropGrid : System.Windows.Forms.Form
+	public class GenericPropGrid : Form
 	{
-        private System.Windows.Forms.PropertyGrid   _mPgProps;
-        private System.Windows.Forms.Button         _mBnOk;
-        private System.Windows.Forms.Button         _mBnCancel;
-        private System.Windows.Forms.ContextMenu    _mMnuContext;
-        private System.Windows.Forms.MenuItem       _mMnuItemShowObjInfo;
-        private System.Windows.Forms.MenuItem       _mMnuItemShowClassInfo;
+        private PropertyGrid   _mPgProps;
+        private Button         _mBnOk;
+        private Button         _mBnCancel;
+        private ContextMenu    _mMnuContext;
+        private MenuItem       _mMnuItemShowObjInfo;
+        private MenuItem       _mMnuItemShowClassInfo;
                 
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container _components = null;
+		private Container _components = null;
 
 		public
 		GenericPropGrid(object obj)
@@ -182,7 +182,7 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="e"></param>
         
         private void
-        OnShowObjInfo(object sender, System.EventArgs e)
+        OnShowObjInfo(object sender, EventArgs e)
         {
             object selObj = _mPgProps.SelectedGridItem.Value;
 
@@ -203,7 +203,7 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="e"></param>
         
         private void
-        OnShowClassInfo(object sender, System.EventArgs e)
+        OnShowClassInfo(object sender, EventArgs e)
         {
             object selObj = _mPgProps.SelectedGridItem.Value;
 
@@ -223,7 +223,7 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="e"></param>
         
         private void
-        OnMenuContextPopup(object sender, System.EventArgs e)
+        OnMenuContextPopup(object sender, EventArgs e)
         {
             bool enabled = (_mPgProps.SelectedGridItem == null) ? false : true;
             _mMnuItemShowObjInfo.Enabled = enabled;

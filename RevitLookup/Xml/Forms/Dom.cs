@@ -36,41 +36,41 @@ namespace RevitLookup.Xml.Forms
 	/// <summary>
 	/// UI Test for navigating the XML Dom
 	/// </summary>
-	public class Dom : System.Windows.Forms.Form
+	public class Dom : Form
 	{
-        private System.Windows.Forms.TreeView       _mTvDom;
-        private System.Windows.Forms.ListView       _mLvData;
-        private System.Windows.Forms.RadioButton    _mRbNodeNameOnly;
-        private System.Windows.Forms.RadioButton    _mRbNodeAndText;
-        private System.Windows.Forms.GroupBox       _mGrpLabelDisplay;
-        private System.Windows.Forms.GroupBox       _mGrpNodeDisplay;
-        private System.Windows.Forms.CheckBox       _mCbHideCommentNodes;
-        private System.Windows.Forms.CheckBox       _mCbHideTextNodes;
-        private System.Windows.Forms.Button         _mBnParent;
-        private System.Windows.Forms.Button         _mBnOwnerDoc;
-        private System.Windows.Forms.Button         _mBnPrevSibling;
-        private System.Windows.Forms.Button         _mBnNextSibling;
-        private System.Windows.Forms.Button         _mBnFirstChild;
-        private System.Windows.Forms.Button         _mBnLastChild;
-        private System.Windows.Forms.Button         _mBnDocElem;
-        private System.Windows.Forms.TextBox        _mEbXpathPattern;
-        private System.Windows.Forms.Button         _mBnSelectSingleNode;
-        private System.Windows.Forms.Button         _mBnXpathClear;
-        private System.Windows.Forms.Button         _mBnSelectNodes;
-        private System.Windows.Forms.Button         _mBnOk;
-        private System.Windows.Forms.ColumnHeader   _mLvColLabel;
-        private System.Windows.Forms.ColumnHeader   _mLvColValue;
-        private System.Windows.Forms.ImageList      _mImgListTree;
-        private System.Windows.Forms.Label          _mTxtXpathPattern;
-        private System.Windows.Forms.GroupBox       _mGrpXpath;
+        private TreeView       _mTvDom;
+        private ListView       _mLvData;
+        private RadioButton    _mRbNodeNameOnly;
+        private RadioButton    _mRbNodeAndText;
+        private GroupBox       _mGrpLabelDisplay;
+        private GroupBox       _mGrpNodeDisplay;
+        private CheckBox       _mCbHideCommentNodes;
+        private CheckBox       _mCbHideTextNodes;
+        private Button         _mBnParent;
+        private Button         _mBnOwnerDoc;
+        private Button         _mBnPrevSibling;
+        private Button         _mBnNextSibling;
+        private Button         _mBnFirstChild;
+        private Button         _mBnLastChild;
+        private Button         _mBnDocElem;
+        private TextBox        _mEbXpathPattern;
+        private Button         _mBnSelectSingleNode;
+        private Button         _mBnXpathClear;
+        private Button         _mBnSelectNodes;
+        private Button         _mBnOk;
+        private ColumnHeader   _mLvColLabel;
+        private ColumnHeader   _mLvColValue;
+        private ImageList      _mImgListTree;
+        private Label          _mTxtXpathPattern;
+        private GroupBox       _mGrpXpath;
         
-        private System.Xml.XmlDocument              _mXmlDoc = null;
+        private XmlDocument              _mXmlDoc = null;
         private Snoop.Collectors.CollectorXmlNode   _mSnoopCollector = new Snoop.Collectors.CollectorXmlNode();
         
-        private System.ComponentModel.IContainer components;
+        private IContainer components;
 
 		public
-		Dom(System.Xml.XmlDocument xmlDoc)
+		Dom(XmlDocument xmlDoc)
 		{
 		    _mXmlDoc = xmlDoc;
 		    
@@ -459,7 +459,7 @@ namespace RevitLookup.Xml.Forms
         /// <param name="parentNode">The parent node to attach to or null for the root</param>
         
         private void
-        MakeTree(System.Xml.XmlNode xmlNode, TreeNode parentNode)
+        MakeTree(XmlNode xmlNode, TreeNode parentNode)
         {
             XmlNodeType nType = xmlNode.NodeType;
             
@@ -653,7 +653,7 @@ namespace RevitLookup.Xml.Forms
         /// <param name="e"></param>
         
         private void
-        TreeNodeSelected(object sender, System.Windows.Forms.TreeViewEventArgs e)
+        TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
             XmlNode curNode = (XmlNode)e.Node.Tag;
             Display(curNode);
@@ -662,49 +662,49 @@ namespace RevitLookup.Xml.Forms
         // UI Callbacks when buttons in the Form are pressed
         
         private void
-        OnBnParent(object sender, System.EventArgs e)
+        OnBnParent(object sender, EventArgs e)
         {
             XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.ParentNode);
         }
 
         private void
-        OnBnOwnerDoc(object sender, System.EventArgs e)
+        OnBnOwnerDoc(object sender, EventArgs e)
         {
             XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.OwnerDocument);
         }
 
         private void
-        OnBnPrevSibling(object sender, System.EventArgs e)
+        OnBnPrevSibling(object sender, EventArgs e)
         {
             XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.PreviousSibling);
         }
 
         private void
-        OnBnNextSibling(object sender, System.EventArgs e)
+        OnBnNextSibling(object sender, EventArgs e)
         {
             XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.NextSibling);
         }
 
         private void
-        OnBnFirstChild(object sender, System.EventArgs e)
+        OnBnFirstChild(object sender, EventArgs e)
         {
             XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.FirstChild);
         }
 
         private void
-        OnBnLastChild(object sender, System.EventArgs e)
+        OnBnLastChild(object sender, EventArgs e)
         {
             XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.LastChild);
         }
         
         private void
-        OnBnDocElement(object sender, System.EventArgs e)
+        OnBnDocElement(object sender, EventArgs e)
         {
             XmlElement elem = _mXmlDoc.DocumentElement;
             MoveToNewNodeInTree(elem);
@@ -719,7 +719,7 @@ namespace RevitLookup.Xml.Forms
         /// <param name="e"></param>
         
         private void
-        OnBnSelectSingleNode(object sender, System.EventArgs e)
+        OnBnSelectSingleNode(object sender, EventArgs e)
         {
             XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
 
@@ -753,7 +753,7 @@ namespace RevitLookup.Xml.Forms
         /// <param name="e"></param>
         
         private void
-        OnBnSelectNodes(object sender, System.EventArgs e)
+        OnBnSelectNodes(object sender, EventArgs e)
         {
             XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
 
@@ -777,26 +777,26 @@ namespace RevitLookup.Xml.Forms
         }
         
         private void
-        OnBnClear(object sender, System.EventArgs e)
+        OnBnClear(object sender, EventArgs e)
         {
             _mEbXpathPattern.Text = string.Empty;
             ClearSelectedNodes(_mTvDom.Nodes);
         }
 
         private void
-        OnRbChanged_LabelDisplay(object sender, System.EventArgs e)
+        OnRbChanged_LabelDisplay(object sender, EventArgs e)
         {
             LoadTree();     // reload the tree with our new display preference set
         }
 
         private void
-        OnCbChanged_NodeDisplay(object sender, System.EventArgs e)
+        OnCbChanged_NodeDisplay(object sender, EventArgs e)
         {
             LoadTree();     // reload the tree with our new display preference set
         }
         
         private void
-        DataItemSelected(object sender, System.EventArgs e)
+        DataItemSelected(object sender, EventArgs e)
         {
             Snoop.Utils.DataItemSelected(_mLvData, new ModelessWindowFactory(this, null));
         }
@@ -871,7 +871,7 @@ namespace RevitLookup.Xml.Forms
         ClearSelectedNodes(TreeNodeCollection treeNodes)
         {
             foreach (TreeNode tNode in treeNodes) {
-                tNode.BackColor = System.Drawing.Color.Empty;  
+                tNode.BackColor = Color.Empty;  
                 if (tNode.Nodes.Count > 0) {
                     ClearSelectedNodes(tNode.Nodes);
                 }
@@ -889,9 +889,9 @@ namespace RevitLookup.Xml.Forms
         {
             foreach (TreeNode tNode in treeNodes) {
                 if (selNode == (XmlNode)tNode.Tag)
-                    tNode.BackColor = System.Drawing.Color.LightSkyBlue;
+                    tNode.BackColor = Color.LightSkyBlue;
                 else
-                    tNode.BackColor = System.Drawing.Color.Empty;
+                    tNode.BackColor = Color.Empty;
                     
                 if (tNode.Nodes.Count > 0) {
                     SetSelectedNode(tNode.Nodes, selNode);
@@ -912,9 +912,9 @@ namespace RevitLookup.Xml.Forms
         {
             foreach (TreeNode tNode in treeNodes) {
                 if (NodeListContains(selNodes, (XmlNode)tNode.Tag))
-                    tNode.BackColor = System.Drawing.Color.LightSkyBlue;
+                    tNode.BackColor = Color.LightSkyBlue;
                 else
-                    tNode.BackColor = System.Drawing.Color.Empty;
+                    tNode.BackColor = Color.Empty;
                     
                 if (tNode.Nodes.Count > 0) {
                     SetSelectedNodes(tNode.Nodes, selNodes);

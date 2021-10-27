@@ -35,7 +35,7 @@ namespace RevitLookup.Graphics {
 
     public abstract class GraphicsStream {
 
-        protected Autodesk.Revit.UI.UIApplication      MApp;
+        protected UIApplication      MApp;
         protected Stack<Transform> MXformStack;
         protected Stack<Options>   MGeomOptionsStack;
         protected Stack<View>      MViewStack;
@@ -333,10 +333,10 @@ namespace RevitLookup.Graphics {
         Stream(Element elem)
         {
             if ((MViewStack.Count == 0) || (MGeomOptionsStack.Count == 0)) {
-                throw new System.ArgumentException("View stack or Geometry Options stack is empty.");
+                throw new ArgumentException("View stack or Geometry Options stack is empty.");
             }
 
-            GeometryElement geom = elem.get_Geometry(this.CurrentGeometryOptions);
+            GeometryElement geom = elem.get_Geometry(CurrentGeometryOptions);
             if (geom != null) {
                 Stream(geom);
             }
@@ -477,7 +477,7 @@ namespace RevitLookup.Graphics {
 
 
         public virtual void
-        Stream(Autodesk.Revit.DB.GeometryInstance inst)
+        Stream(GeometryInstance inst)
         {
             PushXform(inst.Transform);
             Stream(inst.SymbolGeometry);

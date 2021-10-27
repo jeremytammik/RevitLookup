@@ -16,8 +16,8 @@ namespace RevitLookup.Snoop.CollectorExts
 
     public ExtensibleStorageEntityContentStream( Document document, ArrayList data, object elem )
     {
-      this._document = document;
-      this._data = data;
+      _document = document;
+      _data = data;
       _entity = elem as Entity;
     }
 
@@ -36,7 +36,7 @@ namespace RevitLookup.Snoop.CollectorExts
       if( !fields.Any() )
         return;
 
-      _data.Add( new Snoop.Data.ExtensibleStorageSeparator() );
+      _data.Add( new Data.ExtensibleStorageSeparator() );
 
       foreach( var field in fields )
         StreamEntityFieldValue( field );
@@ -103,11 +103,11 @@ namespace RevitLookup.Snoop.CollectorExts
         else if( field.ValueType == typeof( string ) )
           _data.Add( new Snoop.Data.String( field.FieldName, value as string ) );
         else if( field.ValueType == typeof( XYZ ) )
-          _data.Add( new Snoop.Data.Xyz( field.FieldName, value as XYZ ) );
+          _data.Add( new Data.Xyz( field.FieldName, value as XYZ ) );
         else if( field.ValueType == typeof( UV ) )
-          _data.Add( new Snoop.Data.Uv( field.FieldName, value as UV ) );
+          _data.Add( new Data.Uv( field.FieldName, value as UV ) );
         else if( field.ValueType == typeof( int ) )
-          _data.Add( new Snoop.Data.Int( field.FieldName, (int) value ) );
+          _data.Add( new Data.Int( field.FieldName, (int) value ) );
         else if( field.ValueType == typeof( ElementId ) )
           _data.Add( new Snoop.Data.ElementId( field.FieldName, value as ElementId, _document ) );
         else if( field.ValueType == typeof( Guid ) )

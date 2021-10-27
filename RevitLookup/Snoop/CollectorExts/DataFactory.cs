@@ -13,8 +13,8 @@ namespace RevitLookup.Snoop.CollectorExts
 
         public DataFactory(Document document, object elem)
         {
-            this._document = document;
-            this._elem = elem;
+            _document = document;
+            _elem = elem;
         }
 
         public Data.Data Create(MethodInfo mi)

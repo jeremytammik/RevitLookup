@@ -17,9 +17,9 @@ namespace RevitLookup.Snoop.CollectorExts
 
     public ElementPropertiesStream(Document document, ArrayList data, object elem )
     {
-      this._document = document;
-      this._data = data;
-      this._elem = elem;
+      _document = document;
+      _data = data;
+      _elem = elem;
     }
 
     public void Stream( Type type )
@@ -29,7 +29,7 @@ namespace RevitLookup.Snoop.CollectorExts
       var currentTypeProperties = new List<string>();
 
       if( properties.Length > 0 )
-        _data.Add( new Snoop.Data.MemberSeparatorWithOffset( "Properties" ) );
+        _data.Add( new Data.MemberSeparatorWithOffset( "Properties" ) );
 
       foreach( PropertyInfo pi in properties )
       {

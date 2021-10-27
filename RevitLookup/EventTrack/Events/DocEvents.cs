@@ -42,13 +42,11 @@ namespace RevitLookup.EventTrack.Events
 
         static public DocumentSet MDocSet = null;
 
-        public
-        DocEvents()
+        public DocEvents()
         {
         }
 
-        protected override void
-        EnableEventsImp()
+        protected override void EnableEventsImp()
         {
             MessageBox.Show("Document Events Turned On ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -58,8 +56,7 @@ namespace RevitLookup.EventTrack.Events
             }
         }
 
-        public void
-        EnableEvents(Document doc)
+        public void EnableEvents(Document doc)
         {
             doc.DocumentClosing += doc_DocumentClosing;
             doc.DocumentPrinted += doc_DocumentPrinted;
@@ -72,8 +69,7 @@ namespace RevitLookup.EventTrack.Events
             doc.ViewPrinting += doc_ViewPrinting;            
         }        
 
-        protected override void
-        DisableEventsImp()
+        protected override void DisableEventsImp()
         {
             MessageBox.Show("Document Events Turned Off ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -83,8 +79,7 @@ namespace RevitLookup.EventTrack.Events
             }
         }
 
-        public void
-        DisableEvents(Document doc)
+        public void DisableEvents(Document doc)
         {
             doc.DocumentClosing -= doc_DocumentClosing;
             doc.DocumentPrinted -= doc_DocumentPrinted;
@@ -97,53 +92,52 @@ namespace RevitLookup.EventTrack.Events
             doc.ViewPrinting -= doc_ViewPrinting;
         }
 
-        private void doc_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)
+        private void doc_ViewPrinting(object sender, ViewPrintingEventArgs e)
         {
             DisplayEvent("View printing");
         }
 
-        private void doc_ViewPrinted(object sender, Autodesk.Revit.DB.Events.ViewPrintedEventArgs e)
+        private void doc_ViewPrinted(object sender, ViewPrintedEventArgs e)
         {
             DisplayEvent("View printed");
         }
 
-        private void doc_DocumentSavingAs(object sender, Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs e)
+        private void doc_DocumentSavingAs(object sender, DocumentSavingAsEventArgs e)
         {
             DisplayEvent("Document saving as");
         }
 
-        private void doc_DocumentSaving(object sender, Autodesk.Revit.DB.Events.DocumentSavingEventArgs e)
+        private void doc_DocumentSaving(object sender, DocumentSavingEventArgs e)
         {
             DisplayEvent("Document saving");
         }
 
-        private void doc_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)
+        private void doc_DocumentSavedAs(object sender, DocumentSavedAsEventArgs e)
         {
             DisplayEvent("Document saved as");
         }
 
-        private void doc_DocumentSaved(object sender, Autodesk.Revit.DB.Events.DocumentSavedEventArgs e)
+        private void doc_DocumentSaved(object sender, DocumentSavedEventArgs e)
         {
             DisplayEvent("Document saved");
         }
 
-        private void doc_DocumentPrinting(object sender, Autodesk.Revit.DB.Events.DocumentPrintingEventArgs e)
+        private void doc_DocumentPrinting(object sender, DocumentPrintingEventArgs e)
         {
             DisplayEvent("Document printing");
         }
 
-        private void doc_DocumentPrinted(object sender, Autodesk.Revit.DB.Events.DocumentPrintedEventArgs e)
+        private void doc_DocumentPrinted(object sender, DocumentPrintedEventArgs e)
         {
             DisplayEvent("Document printed");
         }
 
-        private void doc_DocumentClosing(object sender, Autodesk.Revit.DB.Events.DocumentClosingEventArgs e)
+        private void doc_DocumentClosing(object sender, DocumentClosingEventArgs e)
         {
             DisplayEvent("Document closing");
         }       
         
-        private void
-        DisplayEvent(string eventStr)
+        private void DisplayEvent(string eventStr)
         {
             MessageBox.Show($"Event: {eventStr}", "Document Event", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

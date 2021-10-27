@@ -58,7 +58,7 @@ namespace RevitLookup.ModelStats
     /// <returns></returns>
 
     private RawObjCount
-    FindRawObjNode( System.Type objType )
+    FindRawObjNode( Type objType )
     {
       foreach( RawObjCount tmpNode in _mRawObjCounts )
       {
@@ -69,7 +69,7 @@ namespace RevitLookup.ModelStats
     }
 
     private void
-        RawObjStats( System.Object obj )
+        RawObjStats( Object obj )
     {
       RawObjCount tmpNode = FindRawObjNode( obj.GetType() );
       if( tmpNode == null )
@@ -247,7 +247,7 @@ FindSymbolNode( ElementType sym )
         stream.WriteAttributeString( "fullName", tmpNode.MClassType.FullName );
         stream.WriteAttributeString( "count", tmpNode.MObjs.Count.ToString() );
         // list a reference to each element of this type
-        foreach( System.Object tmpObj in tmpNode.MObjs )
+        foreach( Object tmpObj in tmpNode.MObjs )
         {
           Element tmpElem = tmpObj as Element;
           if( tmpElem != null )

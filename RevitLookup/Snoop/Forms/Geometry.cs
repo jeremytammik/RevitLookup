@@ -37,15 +37,15 @@ namespace RevitLookup.Snoop.Forms
   /// Summary description for BindingMap form.
   /// </summary>
 
-  public class Geometry : RevitLookup.Snoop.Forms.ObjTreeBase
+  public class Geometry : ObjTreeBase
   {
     protected Element MElem = null;
     protected Autodesk.Revit.ApplicationServices.Application MApp = null;
 
     public
-    Geometry( Autodesk.Revit.DB.Element elem, Autodesk.Revit.ApplicationServices.Application app )
+    Geometry( Element elem, Autodesk.Revit.ApplicationServices.Application app )
     {
-      this.Text = "Element Geometry";
+      Text = "Element Geometry";
 
       MElem = elem;
       MApp = app;
@@ -58,7 +58,7 @@ namespace RevitLookup.Snoop.Forms
     protected void
     AddObjectsToTree( Element elem, TreeNodeCollection curNodes )
     {
-      Autodesk.Revit.DB.Options geomOp;
+      Options geomOp;
 
       TreeNode tmpNode;
 
@@ -111,7 +111,7 @@ namespace RevitLookup.Snoop.Forms
         // SOFiSTiK FS
         // add model geometry including geometry objects not set as Visible.
         {
-          Autodesk.Revit.DB.Options opts = MApp.Create.NewGeometryOptions();
+          Options opts = MApp.Create.NewGeometryOptions();
           opts.ComputeReferences = true;
           opts.IncludeNonVisibleObjects = true;
           opts.View = elem.Document.ActiveView;
@@ -126,21 +126,21 @@ namespace RevitLookup.Snoop.Forms
 
     new private void InitializeComponent()
     {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Geometry));
-			this.SuspendLayout();
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(Geometry));
+			SuspendLayout();
 			// 
 			// m_tvObjs
 			// 
-			this.MTvObjs.LineColor = System.Drawing.Color.Black;
+			MTvObjs.LineColor = System.Drawing.Color.Black;
 			// 
 			// Geometry
 			// 
-			this.ClientSize = new System.Drawing.Size(800, 478);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "Geometry";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.ResumeLayout(false);
-			this.PerformLayout();
+			ClientSize = new Size(800, 478);
+			Icon = ((Icon)(resources.GetObject("$this.Icon")));
+			Name = "Geometry";
+			StartPosition = FormStartPosition.CenterParent;
+			ResumeLayout(false);
+			PerformLayout();
 
     }
   }
@@ -150,15 +150,15 @@ namespace RevitLookup.Snoop.Forms
 
   //SOFiSTiK FS
 
-  public class OriginalGeometry : RevitLookup.Snoop.Forms.ObjTreeBase
+  public class OriginalGeometry : ObjTreeBase
   {
     protected Element MElem = null;
     protected Autodesk.Revit.ApplicationServices.Application MApp = null;
 
     public
-    OriginalGeometry( Autodesk.Revit.DB.FamilyInstance elem, Autodesk.Revit.ApplicationServices.Application app )
+    OriginalGeometry( FamilyInstance elem, Autodesk.Revit.ApplicationServices.Application app )
     {
-      this.Text = "Element Original Geometry";
+      Text = "Element Original Geometry";
 
       MElem = elem;
       MApp = app;
@@ -171,7 +171,7 @@ namespace RevitLookup.Snoop.Forms
     protected void
     AddObjectsToTree( FamilyInstance elem, TreeNodeCollection curNodes )
     {
-      Autodesk.Revit.DB.Options geomOp = MApp.Create.NewGeometryOptions();
+      Options geomOp = MApp.Create.NewGeometryOptions();
       geomOp.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!
       TreeNode tmpNode;
 
@@ -202,7 +202,7 @@ namespace RevitLookup.Snoop.Forms
       // SOFiSTiK FS
       // add model geometry including geometry objects not set as Visible.
       {
-        Autodesk.Revit.DB.Options opts = MApp.Create.NewGeometryOptions();
+        Options opts = MApp.Create.NewGeometryOptions();
         opts.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
         opts.IncludeNonVisibleObjects = true;
 
@@ -244,7 +244,7 @@ namespace RevitLookup.Snoop.Forms
         // SOFiSTiK FS
         // add model geometry including geometry objects not set as Visible.
         {
-          Autodesk.Revit.DB.Options opts = MApp.Create.NewGeometryOptions();
+          Options opts = MApp.Create.NewGeometryOptions();
           opts.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
           opts.IncludeNonVisibleObjects = true;
           opts.View = elem.Document.ActiveView;

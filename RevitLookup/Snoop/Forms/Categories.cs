@@ -36,12 +36,12 @@ namespace RevitLookup.Snoop.Forms
 	/// <summary>
 	/// Summary description for Categories form.
 	/// </summary>
-	public class Categories : RevitLookup.Snoop.Forms.ObjTreeBase
+	public class Categories : ObjTreeBase
 	{
 		public
 		Categories( CategoryNameMap map )
 		{
-			this.Text = "Snoop Categories";
+			Text = "Snoop Categories";
 
 			MTvObjs.BeginUpdate();
 			AddObjectsToTree( map, MTvObjs.Nodes );
@@ -72,21 +72,21 @@ namespace RevitLookup.Snoop.Forms
 
 		new private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Categories));
-			this.SuspendLayout();
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(Categories));
+			SuspendLayout();
 			// 
 			// m_tvObjs
 			// 
-			this.MTvObjs.LineColor = System.Drawing.Color.Black;
+			MTvObjs.LineColor = System.Drawing.Color.Black;
 			// 
 			// Categories
 			// 
-			this.ClientSize = new System.Drawing.Size(800, 478);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "Categories";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.ResumeLayout(false);
-			this.PerformLayout();
+			ClientSize = new Size(800, 478);
+			Icon = ((Icon)(resources.GetObject("$this.Icon")));
+			Name = "Categories";
+			StartPosition = FormStartPosition.CenterParent;
+			ResumeLayout(false);
+			PerformLayout();
 
 		}
 	}

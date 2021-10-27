@@ -41,20 +41,20 @@ namespace RevitLookup.Snoop.Forms
     /// </summary>
     public class Objects : System.Windows.Forms.Form, IHaveCollector
     {
-        protected System.Windows.Forms.Button MBnOk;
-        protected System.Windows.Forms.TreeView MTvObjs;
-        protected System.Windows.Forms.ContextMenu MCntxMenuObjId;
-        protected System.Windows.Forms.MenuItem MMnuItemBrowseReflection;
-        protected System.Windows.Forms.ListView MLvData;
-        protected System.Windows.Forms.ColumnHeader MLvColLabel;
-        protected System.Windows.Forms.ColumnHeader MLvColValue;
+        protected Button MBnOk;
+        protected TreeView MTvObjs;
+        protected ContextMenu MCntxMenuObjId;
+        protected MenuItem MMnuItemBrowseReflection;
+        protected ListView MLvData;
+        protected ColumnHeader MLvColLabel;
+        protected ColumnHeader MLvColValue;
 
-        protected Snoop.Collectors.CollectorObj MSnoopCollector = new Snoop.Collectors.CollectorObj();
+        protected Collectors.CollectorObj MSnoopCollector = new Collectors.CollectorObj();
         protected System.Object MCurObj;
         protected ArrayList MTreeTypeNodes = new ArrayList();
         protected ArrayList MTypes = new ArrayList();
         private ContextMenuStrip _listViewContextMenuStrip;
-        private System.Windows.Forms.MenuItem _mMnuItemCopy;
+        private MenuItem _mMnuItemCopy;
         private ToolStripMenuItem _copyToolStripMenuItem;
         private PrintDialog _mPrintDialog;
         private System.Drawing.Printing.PrintDocument _mPrintDocument;
@@ -588,12 +588,12 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="objType">System.Type we're looking to find</param>
         /// <returns>The existing TreeNode or NULL</returns>
-        protected TreeNode GetExistingNodeForType(System.Type objType)
+        protected TreeNode GetExistingNodeForType(Type objType)
         {
             int len = MTypes.Count;
             for (int i = 0; i < len; i++)
             {
-                if ((System.Type)MTypes[i] == objType)
+                if ((Type)MTypes[i] == objType)
                     return (TreeNode)MTreeTypeNodes[i];
             }
 
@@ -608,7 +608,7 @@ namespace RevitLookup.Snoop.Forms
                 await MSnoopCollector.Collect(MCurObj);
 
                 // display it
-                Snoop.Utils.Display(MLvData, MSnoopCollector);
+                Utils.Display(MLvData, MSnoopCollector);
             }
             catch (System.Exception ex)
             {
@@ -643,18 +643,18 @@ namespace RevitLookup.Snoop.Forms
         }
 
         #region Events
-        protected async void TreeNodeSelected(object sender, System.Windows.Forms.TreeViewEventArgs e)
+        protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
             MCurObj = e.Node.Tag;
             await CollectAndDispalyData();
         }
 
-        protected void DataItemSelected(object sender, System.EventArgs e)
+        protected void DataItemSelected(object sender, EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
+            Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
 
-        private void ContextMenuClick_Copy(object sender, System.EventArgs e)
+        private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
             if (MTvObjs.SelectedNode != null)
             {
@@ -662,12 +662,12 @@ namespace RevitLookup.Snoop.Forms
             }
         }
 
-        private void ContextMenuClick_BrowseReflection(object sender, System.EventArgs e)
+        private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
-            Snoop.Utils.BrowseReflection(MCurObj);
+            Utils.BrowseReflection(MCurObj);
         }
 
-        private void CopyToolStripMenuItem_Click(object sender, System.EventArgs e)
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MLvData.SelectedItems.Count > 0)
             {
@@ -703,7 +703,7 @@ namespace RevitLookup.Snoop.Forms
 
         private void toolStrip_MouseEnter(object sender, EventArgs e)
         {
-            if (System.Windows.Forms.Form.ActiveForm != this)
+            if (ActiveForm != this)
             {
                 Activate();
             }

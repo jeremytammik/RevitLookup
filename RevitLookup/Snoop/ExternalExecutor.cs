@@ -34,7 +34,7 @@ namespace RevitLookup.Snoop
 
             public Request(Action<UIApplication> command)
             {
-                this.Command = command;
+                Command = command;
             }
         }
 
@@ -51,7 +51,7 @@ namespace RevitLookup.Snoop
                         request.Command(app);
                         request.Tcs.SetResult(null);
                     }
-                    catch (System.Exception e)
+                    catch (Exception e)
                     {
                         request.Tcs.SetException(e);
                     }

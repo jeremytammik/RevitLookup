@@ -33,9 +33,9 @@ namespace RevitLookup.Snoop.Data
 	
 	public class ClassSeparator : Data
 	{
-        protected System.Type    MVal;
+        protected Type    MVal;
 	    
-        public ClassSeparator(System.Type val)
+        public ClassSeparator(Type val)
         :   base("------- CLASS -------")
 		{
 		    MVal = val;
@@ -62,7 +62,7 @@ namespace RevitLookup.Snoop.Data
         public override Form DrillDown()
         {
 			// DrillDown on a ClassType will just browse it using Reflection
-            Snoop.Forms.GenericPropGrid pgForm = new Snoop.Forms.GenericPropGrid(MVal);
+            Forms.GenericPropGrid pgForm = new Forms.GenericPropGrid(MVal);
             pgForm.Text = $"System.Type = {MVal.FullName}";
             pgForm.ShowDialog();
             return null;

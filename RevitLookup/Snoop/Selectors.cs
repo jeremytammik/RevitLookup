@@ -49,7 +49,7 @@ namespace RevitLookup.Snoop
 
         public static (IList<Element>, Document) SnoopDb(UIApplication app)
         {            
-            Autodesk.Revit.DB.Document doc = app.ActiveUIDocument.Document;
+            Document doc = app.ActiveUIDocument.Document;
             FilteredElementCollector elemTypeCtor = (new FilteredElementCollector(doc)).WhereElementIsElementType();
             FilteredElementCollector notElemTypeCtor = (new FilteredElementCollector(doc)).WhereElementIsNotElementType();
             FilteredElementCollector allElementCtor = elemTypeCtor.UnionWith(notElemTypeCtor);
@@ -143,7 +143,7 @@ namespace RevitLookup.Snoop
         }
         public static (View, Document) SnoopActiveView(UIApplication app)
         {
-            Autodesk.Revit.DB.Document doc = app.ActiveUIDocument.Document;
+            Document doc = app.ActiveUIDocument.Document;
             if (doc.ActiveView == null)
             {
                 TaskDialog.Show("RevitLookup", "The document must have an active view!");

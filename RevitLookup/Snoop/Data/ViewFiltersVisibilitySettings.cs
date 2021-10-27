@@ -9,7 +9,7 @@ namespace RevitLookup.Snoop.Data
 
         public ViewFiltersVisibilitySettings(string label, View view) : base(label)
         {
-            this._view = view;
+            _view = view;
         }
 
         public override string StrValue()

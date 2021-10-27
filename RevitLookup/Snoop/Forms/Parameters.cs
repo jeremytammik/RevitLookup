@@ -39,22 +39,22 @@ namespace RevitLookup.Snoop.Forms
 	/// </summary>
 	public class Parameters : System.Windows.Forms.Form, IHaveCollector
 	{
-        protected System.Windows.Forms.Button           MBnOk;
-        protected System.Windows.Forms.TreeView         MTvObjs;
-        protected System.Windows.Forms.ContextMenu      MCntxMenuObjId;
-        protected System.Windows.Forms.MenuItem         MMnuItemBrowseReflection;
-		protected System.Windows.Forms.ListView			MLvData;
-		protected System.Windows.Forms.ColumnHeader		MLvColLabel;
-		protected System.Windows.Forms.ColumnHeader		MLvColValue;
+        protected Button           MBnOk;
+        protected TreeView         MTvObjs;
+        protected ContextMenu      MCntxMenuObjId;
+        protected MenuItem         MMnuItemBrowseReflection;
+		protected ListView			MLvData;
+		protected ColumnHeader		MLvColLabel;
+		protected ColumnHeader		MLvColValue;
         private   Button                                _mBnParamEnums;
         private   Button                                _mBnParamEnumsMap;
        
-        protected Snoop.Collectors.CollectorObj         MSnoopCollector            = new Snoop.Collectors.CollectorObj();
-        protected System.Object							MCurObj;
+        protected Collectors.CollectorObj         MSnoopCollector            = new Collectors.CollectorObj();
+        protected Object							MCurObj;
 
         private Element                                         _mElem;
         private   ContextMenuStrip                      _listViewContextMenuStrip;
-        private   System.Windows.Forms.MenuItem         _mMnuItemCopy;
+        private   MenuItem         _mMnuItemCopy;
         private   ToolStripMenuItem                     _copyToolStripMenuItem;
         private   ToolStrip                             _toolStrip1;
         private   ToolStripButton                       _toolStripButton1;
@@ -360,11 +360,11 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected async void TreeNodeSelected(object sender, System.Windows.Forms.TreeViewEventArgs e)
+        protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
             MCurObj = e.Node.Tag;
             await MSnoopCollector.Collect(MCurObj);
-            Snoop.Utils.Display(MLvData, MSnoopCollector);
+            Utils.Display(MLvData, MSnoopCollector);
         }    
 
 
@@ -374,9 +374,9 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void
-        DataItemSelected(object sender, System.EventArgs e)
+        DataItemSelected(object sender, EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
+            Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
 
 
@@ -386,7 +386,7 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void
-        ContextMenuClick_Copy (object sender, System.EventArgs e)
+        ContextMenuClick_Copy (object sender, EventArgs e)
         {
             if (MTvObjs.SelectedNode != null)
             {
@@ -401,9 +401,9 @@ namespace RevitLookup.Snoop.Forms
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void
-        ContextMenuClick_BrowseReflection(object sender, System.EventArgs e)
+        ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
-            Snoop.Utils.BrowseReflection(MCurObj);
+            Utils.BrowseReflection(MCurObj);
         }
 
 
@@ -422,10 +422,10 @@ namespace RevitLookup.Snoop.Forms
                 // only unique Enum names.  Then go backward to get the actual BuiltinParam Enum.
                 // See TestElements.ParameterEnums() and TestElements.ParameterEnumsNoDup() for an
                 // explanation of what is going on.  (jma - 07/24/06)
-            string [] strs = System.Enum.GetNames(typeof(BuiltInParameter));
+            string [] strs = Enum.GetNames(typeof(BuiltInParameter));
             foreach (string str in strs) {
                     // look up the actual enum from its name
-                BuiltInParameter paramEnum = (BuiltInParameter)System.Enum.Parse(typeof(BuiltInParameter), str);
+                BuiltInParameter paramEnum = (BuiltInParameter)Enum.Parse(typeof(BuiltInParameter), str);
                 
                     // see if this Element supports that parameter
                 Parameter tmpParam = _mElem.get_Parameter(paramEnum);
@@ -435,7 +435,7 @@ namespace RevitLookup.Snoop.Forms
                 }
             }
 
-            RevitLookup.Snoop.Forms.ParamEnumSnoop form = new RevitLookup.Snoop.Forms.ParamEnumSnoop(enumMap);
+            ParamEnumSnoop form = new ParamEnumSnoop(enumMap);
             ModelessWindowFactory.Show(form, MSnoopCollector.SourceDocument, this);                       
         }
 
@@ -457,11 +457,11 @@ namespace RevitLookup.Snoop.Forms
             // See TestElements.ParameterEnums() and TestElements.ParameterEnumsNoDup() for an
             // explanation of what is going on.  (jma - 07/24/06)
 
-            string [] strs = System.Enum.GetNames(typeof(BuiltInParameter));
+            string [] strs = Enum.GetNames(typeof(BuiltInParameter));
             foreach (string str in strs)
             {
                 // look up the actual enum from its name
-                BuiltInParameter paramEnum = (BuiltInParameter)System.Enum.Parse(typeof(BuiltInParameter), str);
+                BuiltInParameter paramEnum = (BuiltInParameter)Enum.Parse(typeof(BuiltInParameter), str);
 
                 // see if this Element supports that parameter
                 Parameter tmpParam = _mElem.get_Parameter(paramEnum);
@@ -472,7 +472,7 @@ namespace RevitLookup.Snoop.Forms
                 }
             }
 
-            RevitLookup.Snoop.Forms.ParamEnum dbox = new RevitLookup.Snoop.Forms.ParamEnum(labelStrs, valueStrs);
+            ParamEnum dbox = new ParamEnum(labelStrs, valueStrs);
             dbox.ShowDialog();
         }
 

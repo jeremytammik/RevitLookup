@@ -12,8 +12,8 @@ namespace RevitLookup.Snoop.CollectorExts
 
     public FamilyTypeParameterValuesStream( ArrayList data, object elem )
     {
-      this._data = data;
-      this._elem = elem;
+      _data = data;
+      _elem = elem;
     }
 
     public void Stream( Type type )

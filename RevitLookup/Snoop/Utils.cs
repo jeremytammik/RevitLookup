@@ -44,7 +44,7 @@ namespace RevitLookup.Snoop
       }
 
       public static void
-      Display(ListView lvCur, Snoop.Collectors.Collector snoopCollector)
+      Display(ListView lvCur, Collectors.Collector snoopCollector)
       {
          lvCur.BeginUpdate();
          lvCur.Items.Clear();
@@ -63,7 +63,7 @@ namespace RevitLookup.Snoop
             {
                ListViewItem lvItem = new ListViewItem(tmpSnoopData.StrValue());
 
-               if (tmpSnoopData is Snoop.Data.ClassSeparator)
+               if (tmpSnoopData is Data.ClassSeparator)
                   lvItem.BackColor = System.Drawing.Color.LightBlue;
                else
                   lvItem.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -116,7 +116,7 @@ namespace RevitLookup.Snoop
          lvCur.Columns[lvCur.Columns.Count - 1].Width = -2;
       }
 
-      public static void AddOnLoadForm(System.Windows.Forms.Form form)
+      public static void AddOnLoadForm(Form form)
       {
          form.Load += (s, e) =>
          {
@@ -140,7 +140,7 @@ namespace RevitLookup.Snoop
             return;
          }
 
-         RevitLookup.Snoop.Forms.GenericPropGrid pgForm = new RevitLookup.Snoop.Forms.GenericPropGrid(obj);
+         Forms.GenericPropGrid pgForm = new Forms.GenericPropGrid(obj);
          pgForm.Text = $"Object Data (System.Type = {obj.GetType().FullName})";
          pgForm.ShowDialog();
       }
@@ -197,7 +197,7 @@ namespace RevitLookup.Snoop
                    var nameStr = (elem.Name == string.Empty) ? "???" : elem.Name; // use "???" if no name is set
                    return $"< {nameStr}  {elem.Id.IntegerValue} >";
                }
-               catch (System.Exception ex)               
+               catch (Exception ex)               
                {
                    return $"< {null}  {ex.Message} >";
                }
@@ -284,7 +284,7 @@ namespace RevitLookup.Snoop
       }
 
       public static Int32
-      Print(String title, ListView lv, System.Drawing.Printing.PrintPageEventArgs e, Int32 maxFieldWidth, Int32 maxValueWidth, Int32 currentItem)
+      Print(String title, ListView lv, PrintPageEventArgs e, Int32 maxFieldWidth, Int32 maxValueWidth, Int32 currentItem)
       {
          Single linesPerPage = 0;
          Single yPos = 0;
@@ -452,14 +452,14 @@ namespace RevitLookup.Snoop
          {
             return;
          }
-         doc.DocumentName = Utils.GetPrintDocumentName(tv.SelectedNode);
-         widthArray = Utils.GetMaximumColumnWidths(lv);
+         doc.DocumentName = GetPrintDocumentName(tv.SelectedNode);
+         widthArray = GetMaximumColumnWidths(lv);
       }
 
       public static void
       UpdatePrintSettings(ListView lv, ref Int32[] widthArray)
       {
-         widthArray = Utils.GetMaximumColumnWidths(lv);
+         widthArray = GetMaximumColumnWidths(lv);
       }
 
       public static void

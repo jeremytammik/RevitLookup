@@ -52,7 +52,7 @@ namespace RevitLookup.Snoop.Collectors
         /// so we will manually walk the entire hierarchy.
         /// </summary>
         /// <param name="obj">Object to collect data for</param>
-        public Task Collect(System.Object obj)
+        public Task Collect(Object obj)
         {
             MDataObjs.Clear();
 
@@ -64,7 +64,7 @@ namespace RevitLookup.Snoop.Collectors
 
         private void Collect(UIApplication app, Document document, CollectorObj collector, Object objectToSnoop)
         {
-            Transaction transaction = document != null && document.IsModifiable == false ? new Transaction(document, this.GetType().Name) : null;
+            Transaction transaction = document != null && document.IsModifiable == false ? new Transaction(document, GetType().Name) : null;
             transaction?.Start();
 
             if (objectToSnoop is IObjectToSnoopPlaceholder placeholder)

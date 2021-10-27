@@ -9,7 +9,7 @@ namespace RevitLookup.Snoop.Data
 
         public ElementPhaseStatuses(string label, Element element) : base(label)
         {
-            this._element = element;
+            _element = element;
         }
 
         public override string StrValue() => "< phases statuses >";

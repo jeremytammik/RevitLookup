@@ -37,14 +37,14 @@ namespace RevitLookup.Snoop.Forms
   /// Summary description for BindingMap form.
   /// </summary>
 
-  public class BindingMap : RevitLookup.Snoop.Forms.ObjTreeBase
+  public class BindingMap : ObjTreeBase
   {
     protected Autodesk.Revit.DB.BindingMap MMap = null;
 
     public
     BindingMap( Autodesk.Revit.DB.BindingMap map )
     {
-      this.Text = "Snoop Binding Map";
+      Text = "Snoop Binding Map";
 
       MTvObjs.BeginUpdate();
       AddObjectsToTree( map, MTvObjs.Nodes );
@@ -58,7 +58,7 @@ namespace RevitLookup.Snoop.Forms
         return;   // nothing to add
 
       // iterate over the map and add items to the tree
-      Autodesk.Revit.DB.DefinitionBindingMapIterator iter = map.ForwardIterator();
+      DefinitionBindingMapIterator iter = map.ForwardIterator();
       while( iter.MoveNext() )
       {
         Definition def = iter.Key;
@@ -98,21 +98,21 @@ namespace RevitLookup.Snoop.Forms
 
     new private void InitializeComponent()
     {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BindingMap));
-			this.SuspendLayout();
+			ComponentResourceManager resources = new ComponentResourceManager(typeof(BindingMap));
+			SuspendLayout();
 			// 
 			// m_tvObjs
 			// 
-			this.MTvObjs.LineColor = System.Drawing.Color.Black;
+			MTvObjs.LineColor = System.Drawing.Color.Black;
 			// 
 			// BindingMap
 			// 
-			this.ClientSize = new System.Drawing.Size(800, 478);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "BindingMap";
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.ResumeLayout(false);
-			this.PerformLayout();
+			ClientSize = new Size(800, 478);
+			Icon = ((Icon)(resources.GetObject("$this.Icon")));
+			Name = "BindingMap";
+			StartPosition = FormStartPosition.CenterParent;
+			ResumeLayout(false);
+			PerformLayout();
 
     }
   }

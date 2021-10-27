@@ -78,7 +78,7 @@ namespace RevitLookup.Snoop.Data
         public override Form DrillDown()
         {
             if ((MVal != null) && (MVal.IsEmpty == false)) {
-				Snoop.Forms.Objects form = new Snoop.Forms.Objects(MVal);
+				Forms.Objects form = new Forms.Objects(MVal);
                 return form;
             }
             return null;

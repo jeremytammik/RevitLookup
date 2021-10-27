@@ -102,7 +102,7 @@ namespace RevitLookup.Snoop.Forms {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void
-        CopyToolStripMenuItem_Click (object sender, System.EventArgs e)
+        CopyToolStripMenuItem_Click (object sender, EventArgs e)
         {
             if (m_listView.SelectedItems.Count > 0)
             {

@@ -16,7 +16,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
         public ElementMethodsStream(Document document, ArrayList data, object elem)
         {
-            this._data = data;
+            _data = data;
 
             _methodDataFactory = new DataFactory(document, elem);
         }
