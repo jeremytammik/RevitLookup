@@ -34,7 +34,7 @@ namespace RevitLookup.Snoop.Data
 	public class Xml : Data
 	{
 	    protected string    MVal;
-	    protected bool      MIsFileName = false;
+	    protected bool      MIsFileName;
 	    
 		public
 		Xml(string label, string val, bool isFileName)

@@ -36,7 +36,7 @@ namespace RevitLookup.Snoop.CollectorExts
 	public abstract class CollectorExt
 	{		
         
-		protected readonly Document MDoc = null;
+		protected readonly Document MDoc;
 		
 
 		public CollectorExt(Document doc)

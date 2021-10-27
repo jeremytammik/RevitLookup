@@ -77,7 +77,7 @@ namespace RevitLookup.Snoop.Forms
         private ToolStripButton _toolStripButtonSnoopDependentElements;
         private ToolStripButton _toolStripButtonSnoopActiveView;
         private ToolStripButton _toolStripButtonSnoopApplication;
-        private Int32 _mCurrentPrintItem = 0;
+        private Int32 _mCurrentPrintItem;
 
         public Objects()
         {

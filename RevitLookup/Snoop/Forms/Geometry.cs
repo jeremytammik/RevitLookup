@@ -39,8 +39,8 @@ namespace RevitLookup.Snoop.Forms
 
   public class Geometry : ObjTreeBase
   {
-    protected Element MElem = null;
-    protected Autodesk.Revit.ApplicationServices.Application MApp = null;
+    protected Element MElem;
+    protected Autodesk.Revit.ApplicationServices.Application MApp;
 
     public
     Geometry( Element elem, Autodesk.Revit.ApplicationServices.Application app )
@@ -152,8 +152,8 @@ namespace RevitLookup.Snoop.Forms
 
   public class OriginalGeometry : ObjTreeBase
   {
-    protected Element MElem = null;
-    protected Autodesk.Revit.ApplicationServices.Application MApp = null;
+    protected Element MElem;
+    protected Autodesk.Revit.ApplicationServices.Application MApp;
 
     public
     OriginalGeometry( FamilyInstance elem, Autodesk.Revit.ApplicationServices.Application app )

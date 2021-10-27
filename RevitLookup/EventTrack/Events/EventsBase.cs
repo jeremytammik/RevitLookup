@@ -32,8 +32,8 @@ namespace RevitLookup.EventTrack.Events
 
     public abstract class EventsBase {
 
-        protected bool MShowDetails = false;
-        protected bool MAreEventsEnabled = false;
+        protected bool MShowDetails;
+        protected bool MAreEventsEnabled;
 
         protected
         EventsBase()

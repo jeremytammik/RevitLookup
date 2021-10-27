@@ -37,7 +37,7 @@ namespace RevitLookup.Snoop.Forms {
     public partial class ParamEnum : Form {
 
         private Int32[]  _mMaxWidths;
-        private Int32    _mCurrentPrintItem = 0;
+        private Int32    _mCurrentPrintItem;
     
         public
         ParamEnum(ArrayList labelStrs, ArrayList valueStrs)

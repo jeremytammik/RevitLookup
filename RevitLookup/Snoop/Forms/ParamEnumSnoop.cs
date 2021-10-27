@@ -63,7 +63,7 @@ namespace RevitLookup.Snoop.Forms
         private   IContainer                            components;
         private   Int32[]                               _mMaxWidths;
         private   ToolStripButton _toolStripButton3;
-        private   Int32                                 _mCurrentPrintItem           = 0;
+        private   Int32                                 _mCurrentPrintItem;
 		
 		public
 		ParamEnumSnoop (Hashtable enumMap)
