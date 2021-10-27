@@ -67,7 +67,11 @@ namespace Installer
                 else
                     versionStorages.Add(version, new List<WixEntity> {files});
 
-                Console.WriteLine($"Added version {version} with files: {directory}");
+                var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
+                foreach (var assembly in assemblies)
+                {
+                    Console.WriteLine($"Added {version} version file: {assembly}");
+                }
             }
 
             return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
