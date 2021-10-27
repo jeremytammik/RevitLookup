@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
     public class PlanViewRangeGetLevelId : Data
     {
-        private readonly PlanViewRange _planViewRange;
         private readonly Document _document;
+        private readonly PlanViewRange _planViewRange;
 
         public PlanViewRangeGetLevelId(string label, PlanViewRange planViewRange, Document doc) : base(label)
         {
@@ -16,14 +18,14 @@ namespace RevitLookup.Snoop.Data
             _document = doc;
         }
 
+        public override bool HasDrillDown => _planViewRange != null;
+
         public override string StrValue()
         {
             return "< Get Level Ids >";
         }
 
-        public override bool HasDrillDown => _planViewRange != null;
-
-        public override System.Windows.Forms.Form DrillDown()
+        public override Form DrillDown()
         {
             if (!HasDrillDown) return null;
 
@@ -38,12 +40,14 @@ namespace RevitLookup.Snoop.Data
                     sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), level));
                 }
                 else
+                {
                     sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), levelId));
+                }
             }
 
             if (!sectionDataObjects.Any()) return null;
 
-            var form = new Forms.Objects(sectionDataObjects);
+            var form = new Objects(sectionDataObjects);
             return form;
         }
     }

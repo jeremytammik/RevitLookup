@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,76 +21,73 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
-
 using Autodesk.Revit.DB;
+using Color = System.Drawing.Color;
 
 namespace RevitLookup.Snoop.Forms
 {
 	/// <summary>
-	/// Summary description for Categories form.
+	///     Summary description for Categories form.
 	/// </summary>
 	public class Categories : ObjTreeBase
-	{
-		public
-		Categories( CategoryNameMap map )
-		{
-			Text = "Snoop Categories";
+    {
+        public
+            Categories(CategoryNameMap map)
+        {
+            Text = "Snoop Categories";
 
-			MTvObjs.BeginUpdate();
-			AddObjectsToTree( map, MTvObjs.Nodes );
-			MTvObjs.EndUpdate();
-		}
+            MTvObjs.BeginUpdate();
+            AddObjectsToTree(map, MTvObjs.Nodes);
+            MTvObjs.EndUpdate();
+        }
 
-		protected void
-		AddObjectsToTree( CategoryNameMap map, TreeNodeCollection curNodes )
-		{
-			MTvObjs.Sorted = true;
+        protected void
+            AddObjectsToTree(CategoryNameMap map, TreeNodeCollection curNodes)
+        {
+            MTvObjs.Sorted = true;
 
-			if( map.IsEmpty )
-				return;   // nothing to add
+            if (map.IsEmpty)
+                return; // nothing to add
 
-			// iterate over the map and add items to the tree
-			var iter = map.ForwardIterator();
-			while( iter.MoveNext() )
-			{
-				var tmpNode = new TreeNode( iter.Key )
-				{
-					Tag = iter.Current
-				};
-				curNodes.Add( tmpNode );
+            // iterate over the map and add items to the tree
+            var iter = map.ForwardIterator();
+            while (iter.MoveNext())
+            {
+                var tmpNode = new TreeNode(iter.Key)
+                {
+                    Tag = iter.Current
+                };
+                curNodes.Add(tmpNode);
 
-				// recursively add sub-nodes (if any)
-				var curCat = (Category) iter.Current;
-				AddObjectsToTree( curCat.SubCategories, tmpNode.Nodes );
-			}
-		}
+                // recursively add sub-nodes (if any)
+                var curCat = (Category) iter.Current;
+                AddObjectsToTree(curCat.SubCategories, tmpNode.Nodes);
+            }
+        }
 
-		new private void InitializeComponent()
-		{
-			var resources = new ComponentResourceManager(typeof(Categories));
-			SuspendLayout();
-			// 
-			// m_tvObjs
-			// 
-			MTvObjs.LineColor = System.Drawing.Color.Black;
-			// 
-			// Categories
-			// 
-			ClientSize = new Size(800, 478);
-			Icon = ((Icon)(resources.GetObject("$this.Icon")));
-			Name = "Categories";
-			StartPosition = FormStartPosition.CenterParent;
-			ResumeLayout(false);
-			PerformLayout();
-
-		}
-	}
+        private new void InitializeComponent()
+        {
+            var resources = new ComponentResourceManager(typeof(Categories));
+            SuspendLayout();
+            // 
+            // m_tvObjs
+            // 
+            MTvObjs.LineColor = Color.Black;
+            // 
+            // Categories
+            // 
+            ClientSize = new Size(800, 478);
+            Icon = (Icon) resources.GetObject("$this.Icon");
+            Name = "Categories";
+            StartPosition = FormStartPosition.CenterParent;
+            ResumeLayout(false);
+            PerformLayout();
+        }
+    }
 }

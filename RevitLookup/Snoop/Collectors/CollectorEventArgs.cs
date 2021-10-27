@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,6 +21,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
@@ -27,17 +29,16 @@ using System.Collections.Generic;
 
 namespace RevitLookup.Snoop.Collectors
 {
-	public class CollectorEventArgs : EventArgs
-	{
-	    private readonly object  _mObjToSnoop;
+    public class CollectorEventArgs : EventArgs
+    {
         private List<Type> _seenTypes;
-	    
-		public CollectorEventArgs(object objToSnoop)
-		{
-		    _mObjToSnoop = objToSnoop;
+
+        public CollectorEventArgs(object objToSnoop)
+        {
+            ObjToSnoop = objToSnoop;
             _seenTypes = new List<Type>();
-		}
-		
-		public object ObjToSnoop => _mObjToSnoop;
-	}
+        }
+
+        public object ObjToSnoop { get; }
+    }
 }

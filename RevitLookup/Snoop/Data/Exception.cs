@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,30 +21,29 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
-#endregion // Header
 
-using System;
+#endregion // Header
 
 namespace RevitLookup.Snoop.Data
 {
    /// <summary>
-   /// Snoop.Data class to hold and format a Exception value.
-   /// </summary>	
+   ///     Snoop.Data class to hold and format a Exception value.
+   /// </summary>
    public class Exception : Data
-   {
-      protected System.Exception MVal;
+    {
+        protected System.Exception MVal;
 
-      public Exception(string label, System.Exception val)
-         : base(label)
-      {
-         MVal = val;
-      }
+        public Exception(string label, System.Exception val)
+            : base(label)
+        {
+            MVal = val;
+        }
 
-      public override string StrValue()
-      {
-         return MVal.Message;
-      }
+        public override bool IsError => true;
 
-      public override bool IsError => true;
-   }
+        public override string StrValue()
+        {
+            return MVal.Message;
+        }
+    }
 }

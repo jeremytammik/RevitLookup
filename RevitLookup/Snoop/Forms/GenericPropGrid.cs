@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,71 +21,68 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace RevitLookup.Snoop.Forms
 {
 	/// <summary>
-	/// This Form makes use of the built-in abilities of Reflection and the PropertyGrid
-	/// class to automatically list out the data of an object.  Because we don't have much
-	/// control, it will get output in the order that it chooses (or alphabetical) and
-	/// most of the items will appear as Greyed-out, read-only items.  But, we don't have
-	/// to go write a SnoopCollector for every item in the .NET system.
+	///     This Form makes use of the built-in abilities of Reflection and the PropertyGrid
+	///     class to automatically list out the data of an object.  Because we don't have much
+	///     control, it will get output in the order that it chooses (or alphabetical) and
+	///     most of the items will appear as Greyed-out, read-only items.  But, we don't have
+	///     to go write a SnoopCollector for every item in the .NET system.
 	/// </summary>
-	
 	public class GenericPropGrid : Form
-	{
-        private PropertyGrid   _mPgProps;
-        private Button         _mBnOk;
-        private Button         _mBnCancel;
-        private ContextMenu    _mMnuContext;
-        private MenuItem       _mMnuItemShowObjInfo;
-        private MenuItem       _mMnuItemShowClassInfo;
-                
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private readonly Container _components = null;
+    {
+	    /// <summary>
+	    ///     Required designer variable.
+	    /// </summary>
+	    private readonly Container _components = null;
 
-		public
-		GenericPropGrid(object obj)
-		{
-			    // Required for Windows Form Designer support
-			InitializeComponent();
-			
-			// Add Load to update ListView Width
+        private Button _mBnCancel;
+        private Button _mBnOk;
+        private ContextMenu _mMnuContext;
+        private MenuItem _mMnuItemShowClassInfo;
+        private MenuItem _mMnuItemShowObjInfo;
+        private PropertyGrid _mPgProps;
+
+        public
+            GenericPropGrid(object obj)
+        {
+            // Required for Windows Form Designer support
+            InitializeComponent();
+
+            // Add Load to update ListView Width
             Utils.AddOnLoadForm(this);
 
             _mPgProps.SelectedObject = obj; // This all we need to do for Reflection to kick in
-		}
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void
-		Dispose(bool disposing)
-		{
-			if (disposing) {
-				if (_components != null) {
-					_components.Dispose();
-				}
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        ///     Clean up any resources being used.
+        /// </summary>
+        protected override void
+            Dispose(bool disposing)
+        {
+            if (disposing)
+                if (_components != null)
+                    _components.Dispose();
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///     Required method for Designer support - do not modify
+        ///     the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenericPropGrid));
             this._mPgProps = new System.Windows.Forms.PropertyGrid();
             this._mMnuContext = new System.Windows.Forms.ContextMenu();
@@ -96,9 +94,9 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_pgProps
             // 
-            this._mPgProps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this._mPgProps.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                            | System.Windows.Forms.AnchorStyles.Left)
+                                                                           | System.Windows.Forms.AnchorStyles.Right)));
             this._mPgProps.ContextMenu = this._mMnuContext;
             this._mPgProps.Cursor = System.Windows.Forms.Cursors.Hand;
             this._mPgProps.LineColor = System.Drawing.SystemColors.ScrollBar;
@@ -110,9 +108,11 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_mnuContext
             // 
-            this._mMnuContext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this._mMnuItemShowObjInfo,
-            this._mMnuItemShowClassInfo});
+            this._mMnuContext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
+            {
+                this._mMnuItemShowObjInfo,
+                this._mMnuItemShowClassInfo
+            });
             this._mMnuContext.Popup += new System.EventHandler(this.OnMenuContextPopup);
             // 
             // m_mnuItemShowObjInfo
@@ -160,7 +160,7 @@ namespace RevitLookup.Snoop.Forms
             this.Controls.Add(this._mBnCancel);
             this.Controls.Add(this._mBnOk);
             this.Controls.Add(this._mPgProps);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(280, 250);
@@ -169,26 +169,28 @@ namespace RevitLookup.Snoop.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "PropGrid";
             this.ResumeLayout(false);
+        }
 
-		}
-		#endregion
+        #endregion
 
 
         /// <summary>
-        /// User chose "Show Object Info..." from the context menu.  Allow them to browse
-        /// using Reflection for the sub-object selected.
+        ///     User chose "Show Object Info..." from the context menu.  Allow them to browse
+        ///     using Reflection for the sub-object selected.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
         private void
-        OnShowObjInfo(object sender, EventArgs e)
+            OnShowObjInfo(object sender, EventArgs e)
         {
             var selObj = _mPgProps.SelectedGridItem.Value;
 
             if (selObj == null)
+            {
                 MessageBox.Show("Value is null.");
-            else {
+            }
+            else
+            {
                 var pgForm = new GenericPropGrid(selObj);
                 pgForm.Text = $"{_mPgProps.SelectedGridItem.Label} (Object Info: {selObj.GetType()})";
                 pgForm.ShowDialog();
@@ -196,20 +198,22 @@ namespace RevitLookup.Snoop.Forms
         }
 
         /// <summary>
-        /// User chose "Show Class Info..." from the context menu.  Allow them to browse
-        /// using Reflection for the class of the sub-object selected.
+        ///     User chose "Show Class Info..." from the context menu.  Allow them to browse
+        ///     using Reflection for the class of the sub-object selected.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
         private void
-        OnShowClassInfo(object sender, EventArgs e)
+            OnShowClassInfo(object sender, EventArgs e)
         {
             var selObj = _mPgProps.SelectedGridItem.Value;
 
             if (selObj == null)
+            {
                 MessageBox.Show("Value is null.");
-            else {
+            }
+            else
+            {
                 var pgForm = new GenericPropGrid(selObj.GetType());
                 pgForm.Text = $"{_mPgProps.SelectedGridItem.Label} (System.Type = {selObj.GetType().FullName})";
                 pgForm.ShowDialog();
@@ -217,15 +221,14 @@ namespace RevitLookup.Snoop.Forms
         }
 
         /// <summary>
-        /// disable any menu options if there is no current item selected in the PropGrid
+        ///     disable any menu options if there is no current item selected in the PropGrid
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
         private void
-        OnMenuContextPopup(object sender, EventArgs e)
+            OnMenuContextPopup(object sender, EventArgs e)
         {
-            var enabled = (_mPgProps.SelectedGridItem == null) ? false : true;
+            var enabled = _mPgProps.SelectedGridItem == null ? false : true;
             _mMnuItemShowObjInfo.Enabled = enabled;
             _mMnuItemShowClassInfo.Enabled = enabled;
         }

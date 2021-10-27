@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,68 +21,71 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format an ElementSet value.
+	///     Snoop.Data class to hold and format an ElementSet value.
 	/// </summary>
-	
 	public class ElementSet : Data
-	{
-	    protected Autodesk.Revit.DB.ElementSet MVal;
-	    
-		public
-        ElementSet(string label, Autodesk.Revit.DB.ElementSet val)
-		:   base(label)
-		{
-		    MVal = val;
-		}
+    {
+        protected Autodesk.Revit.DB.ElementSet MVal;
 
-        public 
-        ElementSet(string label, ICollection<Autodesk.Revit.DB.ElementId> val, Autodesk.Revit.DB.Document doc)
-        : base(label)
+        public
+            ElementSet(string label, Autodesk.Revit.DB.ElementSet val)
+            : base(label)
+        {
+            MVal = val;
+        }
+
+        public
+            ElementSet(string label, ICollection<Autodesk.Revit.DB.ElementId> val, Document doc)
+            : base(label)
         {
             MVal = new Autodesk.Revit.DB.ElementSet();
-            foreach(var elemId in val)
+            foreach (var elemId in val)
             {
-                if(Autodesk.Revit.DB.ElementId.InvalidElementId == elemId)
+                if (Autodesk.Revit.DB.ElementId.InvalidElementId == elemId)
                     continue;
                 var elem = doc.GetElement(elemId);
-                if(null != elem)
+                if (null != elem)
                     MVal.Insert(elem);
             }
         }
-		
-        public override string
-        StrValue()
-        {
-			return Utils.ObjToLabelStr(MVal);
-        }
-        
+
         public override bool
-        HasDrillDown
+            HasDrillDown
         {
-            get {
-                if ((MVal == null) || (MVal.IsEmpty))
+            get
+            {
+                if (MVal == null || MVal.IsEmpty)
                     return false;
-                else
-                    return true;
+                return true;
             }
         }
-        
+
+        public override string
+            StrValue()
+        {
+            return Utils.ObjToLabelStr(MVal);
+        }
+
         public override Form DrillDown()
         {
-            if (MVal is {IsEmpty: false}) {
-				var form = new Forms.Objects(MVal);
+            if (MVal is {IsEmpty: false})
+            {
+                var form = new Objects(MVal);
                 return form;
             }
+
             return null;
         }
-	}
+    }
 }

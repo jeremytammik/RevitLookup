@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,24 +21,27 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using RevitLookup.Snoop.Collectors;
+using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
+using RevitLookup.Snoop.Collectors;
 using RevitLookup.Snoop.Data;
-using Autodesk.Revit.UI;
+using Enumerable = RevitLookup.Snoop.Data.Enumerable;
+using Exception = System.Exception;
+using Object = RevitLookup.Snoop.Data.Object;
+using String = RevitLookup.Snoop.Data.String;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
     /// <summary>
-    /// Provide Snoop.Data for any classes related to an Element.
+    ///     Provide Snoop.Data for any classes related to an Element.
     /// </summary>
     public class CollectorExtElement : CollectorExt
     {
@@ -52,19 +56,18 @@ namespace RevitLookup.Snoop.CollectorExts
                 .Where(x => Path.GetDirectoryName(x.Location) == baseDirectory)
                 .Where(x => x.GetName().Name.ToLower().Contains("revit"))
                 .SelectMany(x => x.GetTypes())
-                .Union(new [] {typeof(KeyValuePair<,>)})
+                .Union(new[] {typeof(KeyValuePair<,>)})
                 .ToArray();
         }
 
         public CollectorExtElement(Document doc) : base(doc)
         {
-
         }
 
         public override void Collect(Collector snoopCollector, CollectorEventArgs e)
         {
             if (e.ObjToSnoop is IEnumerable snoop)
-                snoopCollector.Data().Add(new Data.Enumerable(snoop.GetType().Name, snoop));
+                snoopCollector.Data().Add(new Enumerable(snoop.GetType().Name, snoop));
             else
                 Stream(snoopCollector.Data(), e.ObjToSnoop);
         }
@@ -74,14 +77,14 @@ namespace RevitLookup.Snoop.CollectorExts
             var thisElementTypes = Types.Where(x => IsSnoopableType(x, elem)).ToList();
 
             var streams = new IElementStream[]
-                {
-                    new ElementPropertiesStream(MDoc, data, elem),
-                    new ElementMethodsStream(MDoc, data, elem),
-                    new SpatialElementStream(data, elem),
-                    new FamilyTypeParameterValuesStream(data, elem),
-                    new ExtensibleStorageEntityContentStream(MDoc, data, elem),
-                    new PartUtilsStream(data, elem),
-                };
+            {
+                new ElementPropertiesStream(MDoc, data, elem),
+                new ElementMethodsStream(MDoc, data, elem),
+                new SpatialElementStream(data, elem),
+                new FamilyTypeParameterValuesStream(data, elem),
+                new ExtensibleStorageEntityContentStream(MDoc, data, elem),
+                new PartUtilsStream(data, elem)
+            };
 
             foreach (var type in thisElementTypes)
             {
@@ -90,7 +93,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 foreach (var elementStream in streams)
                     elementStream.Stream(type);
             }
-            
+
             StreamElementExtensibleStorages(data, elem as Element);
 
             StreamSimpleType(data, elem);
@@ -102,21 +105,22 @@ namespace RevitLookup.Snoop.CollectorExts
 
             if (type == elementType || elementType.IsSubclassOf(type) || type.IsAssignableFrom(elementType))
                 return true;
-            
+
             return type.IsGenericType && elementType.IsGenericType && IsSubclassOfRawGeneric(type, elementType);
         }
-        
-        private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck) {
-            while (toCheck != null && toCheck != typeof(object)) {
+
+        private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
+        {
+            while (toCheck != null && toCheck != typeof(object))
+            {
                 var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                if (generic == cur) {
-                    return true;
-                }
+                if (generic == cur) return true;
                 toCheck = toCheck.BaseType;
             }
+
             return false;
         }
-        
+
         private static void StreamElementExtensibleStorages(ArrayList data, Element elem)
         {
             var schemas = Schema.ListSchemas();
@@ -136,9 +140,9 @@ namespace RevitLookup.Snoop.CollectorExts
                     if (!entity.IsValid())
                         continue;
 
-                    data.Add(new Data.Object(objectName, entity));
+                    data.Add(new Object(objectName, entity));
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     data.Add(new Data.Exception(objectName, ex));
                 }
@@ -150,7 +154,7 @@ namespace RevitLookup.Snoop.CollectorExts
             var elemType = elem.GetType();
 
             if (elemType.IsEnum || elemType.IsPrimitive || elemType.IsValueType)
-                data.Add(new Data.String($"{elemType.Name} value", elem.ToString()));
+                data.Add(new String($"{elemType.Name} value", elem.ToString()));
         }
     }
 }

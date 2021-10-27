@@ -4,7 +4,7 @@
     {
         protected Autodesk.Revit.DB.DoubleArray MVal;
 
-        public DoubleArray(string label, Autodesk.Revit.DB.DoubleArray val) : 
+        public DoubleArray(string label, Autodesk.Revit.DB.DoubleArray val) :
             base(label)
         {
             MVal = val;
@@ -14,10 +14,7 @@
         {
             var array = new string[MVal.Size];
 
-            for (var i = 0; i < MVal.Size; i++)
-            {
-                array[i] = MVal.get_Item(i).ToString();
-            }
+            for (var i = 0; i < MVal.Size; i++) array[i] = MVal.get_Item(i).ToString();
 
             return string.Join("; ", array);
         }

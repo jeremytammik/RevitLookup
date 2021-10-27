@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,104 +21,99 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
-
 using Autodesk.Revit.DB;
+using Color = System.Drawing.Color;
 
 namespace RevitLookup.Snoop.Forms
 {
-  /// <summary>
-  /// Summary description for BindingMap form.
-  /// </summary>
-
-  public class BindingMap : ObjTreeBase
-  {
-    protected Autodesk.Revit.DB.BindingMap MMap = null;
-
-    public
-    BindingMap( Autodesk.Revit.DB.BindingMap map )
+    /// <summary>
+    ///     Summary description for BindingMap form.
+    /// </summary>
+    public class BindingMap : ObjTreeBase
     {
-      Text = "Snoop Binding Map";
+        protected Autodesk.Revit.DB.BindingMap MMap = null;
 
-      MTvObjs.BeginUpdate();
-      AddObjectsToTree( map, MTvObjs.Nodes );
-      MTvObjs.EndUpdate();
-    }
-
-    protected void
-    AddObjectsToTree( Autodesk.Revit.DB.BindingMap map, TreeNodeCollection curNodes )
-    {
-      if( map.IsEmpty )
-        return;   // nothing to add
-
-      // iterate over the map and add items to the tree
-      var iter = map.ForwardIterator();
-      while( iter.MoveNext() )
-      {
-        var def = iter.Key;
-        var elemBind = (ElementBinding) iter.Current;
-
-        // TBD:  not sure if this map is implemented correctly... doesn't seem to be
-        // find out if this one already exists
-        TreeNode defNode = null;
-        foreach( TreeNode tmpNode in curNodes )
+        public
+            BindingMap(Autodesk.Revit.DB.BindingMap map)
         {
-          if( tmpNode.Text == def.Name )
-          {
-            defNode = tmpNode;
-            break;
-          }
-        }
-        // this one doesn't exist in the tree yet, add it.
-        if( defNode == null )
-        {
-          defNode = new TreeNode( def.Name )
-          {
-              Tag = iter.Current
-          };
-          curNodes.Add( defNode );
+            Text = "Snoop Binding Map";
+
+            MTvObjs.BeginUpdate();
+            AddObjectsToTree(map, MTvObjs.Nodes);
+            MTvObjs.EndUpdate();
         }
 
-        if( elemBind != null )
+        protected void
+            AddObjectsToTree(Autodesk.Revit.DB.BindingMap map, TreeNodeCollection curNodes)
         {
-          var cats = elemBind.Categories;
-          foreach( Category cat in cats )
-          {
-            var tmpNode = new TreeNode( cat.Name )
+            if (map.IsEmpty)
+                return; // nothing to add
+
+            // iterate over the map and add items to the tree
+            var iter = map.ForwardIterator();
+            while (iter.MoveNext())
             {
-                Tag = cat
-            };
-            defNode.Nodes.Add( tmpNode );
-          }
+                var def = iter.Key;
+                var elemBind = (ElementBinding) iter.Current;
+
+                // TBD:  not sure if this map is implemented correctly... doesn't seem to be
+                // find out if this one already exists
+                TreeNode defNode = null;
+                foreach (TreeNode tmpNode in curNodes)
+                    if (tmpNode.Text == def.Name)
+                    {
+                        defNode = tmpNode;
+                        break;
+                    }
+
+                // this one doesn't exist in the tree yet, add it.
+                if (defNode == null)
+                {
+                    defNode = new TreeNode(def.Name)
+                    {
+                        Tag = iter.Current
+                    };
+                    curNodes.Add(defNode);
+                }
+
+                if (elemBind != null)
+                {
+                    var cats = elemBind.Categories;
+                    foreach (Category cat in cats)
+                    {
+                        var tmpNode = new TreeNode(cat.Name)
+                        {
+                            Tag = cat
+                        };
+                        defNode.Nodes.Add(tmpNode);
+                    }
+                }
+            }
         }
-      }
-    }
 
-    new private void InitializeComponent()
-    {
-			var resources = new ComponentResourceManager(typeof(BindingMap));
-			SuspendLayout();
-			// 
-			// m_tvObjs
-			// 
-			MTvObjs.LineColor = System.Drawing.Color.Black;
-			// 
-			// BindingMap
-			// 
-			ClientSize = new Size(800, 478);
-			Icon = ((Icon)(resources.GetObject("$this.Icon")));
-			Name = "BindingMap";
-			StartPosition = FormStartPosition.CenterParent;
-			ResumeLayout(false);
-			PerformLayout();
-
+        private new void InitializeComponent()
+        {
+            var resources = new ComponentResourceManager(typeof(BindingMap));
+            SuspendLayout();
+            // 
+            // m_tvObjs
+            // 
+            MTvObjs.LineColor = Color.Black;
+            // 
+            // BindingMap
+            // 
+            ClientSize = new Size(800, 478);
+            Icon = (Icon) resources.GetObject("$this.Icon");
+            Name = "BindingMap";
+            StartPosition = FormStartPosition.CenterParent;
+            ResumeLayout(false);
+            PerformLayout();
+        }
     }
-  }
 }

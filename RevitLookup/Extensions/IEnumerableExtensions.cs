@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace System.Collections
 {
@@ -12,10 +8,7 @@ namespace System.Collections
         {
             var list = new List<T>();
 
-            foreach (T element in set)
-            {
-                list.Add(element);
-            }
+            foreach (T element in set) list.Add(element);
 
             return list;
         }

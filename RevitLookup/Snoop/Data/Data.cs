@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,92 +21,88 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
 using System.Windows.Forms;
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// This is the base class for all types of "Snoop.Data".  Basically, we
-	/// want something smarter than the original data type so that we can 
-	/// hook it up to an editor and allow its output to go different places.
+	///     This is the base class for all types of "Snoop.Data".  Basically, we
+	///     want something smarter than the original data type so that we can
+	///     hook it up to an editor and allow its output to go different places.
 	/// </summary>
-	
 	public abstract class Data
-	{
-	    private string  _mLabel;
-	    
-		public
-		Data(string label)
-		{
-		    _mLabel = label;
-		}
-		
-		/// <summary>
-		/// The Label value for the property (e.g. "Radius" for a Circle
-		/// </summary>
-		
-		public virtual string
-		Label
-		{
+    {
+        private string _mLabel;
+
+        public
+            Data(string label)
+        {
+            _mLabel = label;
+        }
+
+        /// <summary>
+        ///     The Label value for the property (e.g. "Radius" for a Circle
+        /// </summary>
+
+        public virtual string
+            Label
+        {
             get => _mLabel;
             set => _mLabel = value;
-		}
-		
-		/// <summary>
-		/// The value for the Property, expressed as a string
-		/// </summary>
-		/// <returns>The value formatted as a string</returns>
-		
-		public abstract string StrValue();
-		
-		/// <summary>
-		/// Format the Label and Value as a single string.  The Snoop Forms will
-		///	handle the Label/Value pair individually, but in other contexts, this
-		///	could be used to make a flat list of Label/Value pairs.
-		/// </summary>
-		/// <returns>Label/Value pair as a string</returns>
-		
-		public override string ToString()
-		{
-		    return $"{_mLabel}: {StrValue()}";
-		}
-		
-		/// <summary>
-		/// Is there more information available about this property.  For instance,
-		/// a type double would not have anything further to show.  But, a Collection
-		/// can bring up a nested dialog showing all those objects.
-		/// </summary>
-		
-        public virtual bool
-        HasDrillDown =>
-			false;
+        }
 
-		/// <summary>
-		/// Do the act of drilling down on the data
-		/// </summary>
-		
+        /// <summary>
+        ///     Is there more information available about this property.  For instance,
+        ///     a type double would not have anything further to show.  But, a Collection
+        ///     can bring up a nested dialog showing all those objects.
+        /// </summary>
+
+        public virtual bool
+            HasDrillDown =>
+            false;
+
+        /// <summary>
+        ///     Is this real data, or just a logical category separator?
+        /// </summary>
+
+        public virtual bool
+            IsSeparator =>
+            false;
+
+        /// <summary>
+        ///     Is this an error condition
+        /// </summary>
+
+        public virtual bool
+            IsError =>
+            false;
+
+        /// <summary>
+        ///     The value for the Property, expressed as a string
+        /// </summary>
+        /// <returns>The value formatted as a string</returns>
+        public abstract string StrValue();
+
+        /// <summary>
+        ///     Format the Label and Value as a single string.  The Snoop Forms will
+        ///     handle the Label/Value pair individually, but in other contexts, this
+        ///     could be used to make a flat list of Label/Value pairs.
+        /// </summary>
+        /// <returns>Label/Value pair as a string</returns>
+        public override string ToString()
+        {
+            return $"{_mLabel}: {StrValue()}";
+        }
+
+        /// <summary>
+        ///     Do the act of drilling down on the data
+        /// </summary>
         public virtual Form DrillDown()
         {
-            return null;   // do nothing by default
+            return null; // do nothing by default
         }
-        
-        /// <summary>
-        /// Is this real data, or just a logical category separator?
-        /// </summary>
-        
-        public virtual bool
-        IsSeparator =>
-	        false;
-
-        /// <summary>
-        /// Is this an error condition
-        /// </summary>
-        
-        public virtual bool
-        IsError =>
-	        false;
-	}
+    }
 }

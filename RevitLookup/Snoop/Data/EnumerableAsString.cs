@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace RevitLookup.Snoop.Data
 {
     /// <summary>
-    /// Returns the INumeragle as string, separated by semicolon
+    ///     Returns the INumeragle as string, separated by semicolon
     /// </summary>
     public class EnumerableAsString : Data
     {
@@ -21,10 +21,7 @@ namespace RevitLookup.Snoop.Data
                 return "null";
 
             var stringList = new List<string>();
-            foreach (var v in _mVal)
-            {
-                stringList.Add(v.ToString());
-            }
+            foreach (var v in _mVal) stringList.Add(v.ToString());
 
             return string.Join("; ", stringList);
         }

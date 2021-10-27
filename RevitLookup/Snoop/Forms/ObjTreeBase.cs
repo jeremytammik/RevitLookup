@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,81 +21,86 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
+using System.Drawing.Printing;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Collectors;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Forms
 {
 	/// <summary>
-	/// Summary description for ObjTreeBase form.
+	///     Summary description for ObjTreeBase form.
 	/// </summary>
-	public class ObjTreeBase : System.Windows.Forms.Form, IHaveCollector
-	{
-        protected Button           MBnOk;
-        protected TreeView         MTvObjs;
-        protected ContextMenu      MCntxMenuObjId;
-        protected MenuItem         MMnuItemBrowseReflection;
-		protected ListView			MLvData;
-		protected ColumnHeader		MLvColLabel;
-		protected ColumnHeader		MLvColValue;
-       
-        protected Collectors.CollectorObj         MSnoopCollector            = new();
-        protected Object                         MCurObj;
-        private   ContextMenuStrip                      _listViewContextMenuStrip;
-        private   MenuItem                              _mMnuItemCopy;
-        private   ToolStripMenuItem                     _copyToolStripMenuItem;
-        private   ToolStrip                             _toolStrip1;
-        private   ToolStripButton                       _toolStripButton1;
-        private   ToolStripButton                       _toolStripButton2;
-        private   PrintDialog                           _mPrintDialog;
-        private   PrintPreviewDialog                    _mPrintPreviewDialog;
-        private   System.Drawing.Printing.PrintDocument _mPrintDocument;
-        private   IContainer                            components;
-        private   Int32[]                               _mMaxWidths;
-        private   ToolStripButton                       _toolStripButton3;
-        private   Int32                                 _mCurrentPrintItem;
-		
+	public class ObjTreeBase : Form, IHaveCollector
+    {
+        private ToolStripMenuItem _copyToolStripMenuItem;
+        private ContextMenuStrip _listViewContextMenuStrip;
+        private int _mCurrentPrintItem;
+        private int[] _mMaxWidths;
+        private MenuItem _mMnuItemCopy;
+        private PrintDialog _mPrintDialog;
+        private PrintDocument _mPrintDocument;
+        private PrintPreviewDialog _mPrintPreviewDialog;
+        private ToolStrip _toolStrip1;
+        private ToolStripButton _toolStripButton1;
+        private ToolStripButton _toolStripButton2;
+        private ToolStripButton _toolStripButton3;
+        private IContainer components;
+        protected Button MBnOk;
+        protected ContextMenu MCntxMenuObjId;
+        protected object MCurObj;
+        protected ColumnHeader MLvColLabel;
+        protected ColumnHeader MLvColValue;
+        protected ListView MLvData;
+        protected MenuItem MMnuItemBrowseReflection;
 
-		public
-		ObjTreeBase()
-		{
-			InitializeComponent();
+        protected CollectorObj MSnoopCollector = new();
+        protected TreeView MTvObjs;
 
-			// Add Load to update ListView Width
-			Utils.AddOnLoadForm(this);
 
-                // derived classes are responsible for populating the tree
-   		}
+        public
+            ObjTreeBase()
+        {
+            InitializeComponent();
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void
-		Dispose(bool disposing)
-		{
-			if (disposing) {
-				if (components != null) {
-					components.Dispose();
-				}
-			}
-			base.Dispose(disposing);
-		}
+            // Add Load to update ListView Width
+            Utils.AddOnLoadForm(this);
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		protected void
-		InitializeComponent()
-		{
+            // derived classes are responsible for populating the tree
+        }
+
+        public void SetDocument(Document document)
+        {
+            MSnoopCollector.SourceDocument = document;
+        }
+
+        /// <summary>
+        ///     Clean up any resources being used.
+        /// </summary>
+        protected override void
+            Dispose(bool disposing)
+        {
+            if (disposing)
+                if (components != null)
+                    components.Dispose();
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///     Required method for Designer support - do not modify
+        ///     the contents of this method with the code editor.
+        /// </summary>
+        protected void
+            InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjTreeBase));
             this.MTvObjs = new System.Windows.Forms.TreeView();
@@ -103,8 +109,8 @@ namespace RevitLookup.Snoop.Forms
             this.MMnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
             this.MBnOk = new System.Windows.Forms.Button();
             this.MLvData = new System.Windows.Forms.ListView();
-            this.MLvColLabel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MLvColValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MLvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+            this.MLvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
             this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -120,8 +126,8 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_tvObjs
             // 
-            this.MTvObjs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.MTvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                         | System.Windows.Forms.AnchorStyles.Left)));
             this.MTvObjs.ContextMenu = this.MCntxMenuObjId;
             this.MTvObjs.HideSelection = false;
             this.MTvObjs.Location = new System.Drawing.Point(12, 28);
@@ -133,9 +139,11 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_cntxMenuObjId
             // 
-            this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this._mMnuItemCopy,
-            this.MMnuItemBrowseReflection});
+            this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
+            {
+                this._mMnuItemCopy,
+                this.MMnuItemBrowseReflection
+            });
             // 
             // m_mnuItemCopy
             // 
@@ -163,12 +171,14 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_lvData
             // 
-            this.MLvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.MLvColLabel,
-            this.MLvColValue});
+            this.MLvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                          | System.Windows.Forms.AnchorStyles.Left)
+                                                                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
+            {
+                this.MLvColLabel,
+                this.MLvColValue
+            });
             this.MLvData.ContextMenuStrip = this._listViewContextMenuStrip;
             this.MLvData.FullRowSelect = true;
             this.MLvData.GridLines = true;
@@ -195,8 +205,10 @@ namespace RevitLookup.Snoop.Forms
             // 
             // listViewContextMenuStrip
             // 
-            this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._copyToolStripMenuItem});
+            this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this._copyToolStripMenuItem
+            });
             this._listViewContextMenuStrip.Name = "_listViewContextMenuStrip";
             this._listViewContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
@@ -210,10 +222,12 @@ namespace RevitLookup.Snoop.Forms
             // 
             // toolStrip1
             // 
-            this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._toolStripButton1,
-            this._toolStripButton2,
-            this._toolStripButton3});
+            this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this._toolStripButton1,
+                this._toolStripButton2,
+                this._toolStripButton3
+            });
             this._toolStrip1.Location = new System.Drawing.Point(0, 0);
             this._toolStrip1.Name = "_toolStrip1";
             this._toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -266,7 +280,7 @@ namespace RevitLookup.Snoop.Forms
             this._mPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
             this._mPrintPreviewDialog.Document = this._mPrintDocument;
             this._mPrintPreviewDialog.Enabled = true;
-            this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("m_printPreviewDialog.Icon")));
+            this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
             this._mPrintPreviewDialog.Name = "_mPrintPreviewDialog";
             this._mPrintPreviewDialog.Visible = false;
             // 
@@ -280,7 +294,7 @@ namespace RevitLookup.Snoop.Forms
             this.Controls.Add(this.MLvData);
             this.Controls.Add(this.MBnOk);
             this.Controls.Add(this.MTvObjs);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(650, 200);
@@ -293,119 +307,8 @@ namespace RevitLookup.Snoop.Forms
             this._toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
-		}
-        #endregion
-
-        public void SetDocument(Document document)
-        {
-            MSnoopCollector.SourceDocument = document;
         }
 
-        #region Events
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>      
-        protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
-        {
-            MCurObj = e.Node.Tag;
-            await MSnoopCollector.Collect(MCurObj);
-            Utils.Display(MLvData, MSnoopCollector);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void
-        DataItemSelected(object sender, EventArgs e)
-        {
-            Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
-        }        
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void
-        ContextMenuClick_Copy (object sender, EventArgs e)
-        {
-            if (MTvObjs.SelectedNode != null)
-            {
-                Utils.CopyToClipboard(MLvData);
-            }  
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void
-        ContextMenuClick_BrowseReflection(object sender, EventArgs e)
-        {
-            Utils.BrowseReflection(MCurObj);
-        }
-
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void
-        CopyToolStripMenuItem_Click (object sender, EventArgs e)
-        {
-            if (MLvData.SelectedItems.Count > 0)
-            {
-                Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
-            }
-            else
-            {
-                Clipboard.Clear();
-            }
-        }      
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void
-        PrintDocument_PrintPage (object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-            _mCurrentPrintItem = Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void
-        PrintMenuItem_Click (object sender, EventArgs e)
-        {
-            Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void
-        PrintPreviewMenuItem_Click (object sender, EventArgs e)
-        {
-            Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
-        }
         #endregion
 
         private void m_bnOK_Click(object sender, EventArgs e)
@@ -414,5 +317,98 @@ namespace RevitLookup.Snoop.Forms
             Close();
             Dispose();
         }
+
+        #region Events
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
+        {
+            MCurObj = e.Node.Tag;
+            await MSnoopCollector.Collect(MCurObj);
+            Utils.Display(MLvData, MSnoopCollector);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void
+            DataItemSelected(object sender, EventArgs e)
+        {
+            Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void
+            ContextMenuClick_Copy(object sender, EventArgs e)
+        {
+            if (MTvObjs.SelectedNode != null) Utils.CopyToClipboard(MLvData);
+        }
+
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void
+            ContextMenuClick_BrowseReflection(object sender, EventArgs e)
+        {
+            Utils.BrowseReflection(MCurObj);
+        }
+
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void
+            CopyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MLvData.SelectedItems.Count > 0)
+                Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
+            else
+                Clipboard.Clear();
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void
+            PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            _mCurrentPrintItem = Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
+        }
+
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void
+            PrintMenuItem_Click(object sender, EventArgs e)
+        {
+            Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
+            Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void
+            PrintPreviewMenuItem_Click(object sender, EventArgs e)
+        {
+            Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
+            Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
+        }
+
+        #endregion
     }
 }

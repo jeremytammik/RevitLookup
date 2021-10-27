@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,27 +21,31 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
     /// <summary>
-    /// Snoop.Data class to hold and format an ElementId value.
+    ///     Snoop.Data class to hold and format an ElementId value.
     /// </summary>
-
     public class ElementId : Data
     {
-        protected Autodesk.Revit.DB.ElementId MVal;
         protected Element MElem;
+        protected Autodesk.Revit.DB.ElementId MVal;
 
         public ElementId(string label, Autodesk.Revit.DB.ElementId val, Document doc) : base(label)
         {
             MVal = val;
-            
+
             MElem = doc.GetElement(val);
         }
+
+        public override bool HasDrillDown => MElem != null;
 
         public override string StrValue()
         {
@@ -50,14 +55,12 @@ namespace RevitLookup.Snoop.Data
             return MVal != Autodesk.Revit.DB.ElementId.InvalidElementId ? MVal.ToString() : Utils.ObjToLabelStr(null);
         }
 
-        public override bool HasDrillDown => MElem != null;
-
-        public override System.Windows.Forms.Form DrillDown()
+        public override Form DrillDown()
         {
-            if (MElem == null) 
+            if (MElem == null)
                 return null;
-            
-            var form = new Forms.Objects(MElem);
+
+            var form = new Objects(MElem);
             return form;
         }
     }

@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,55 +21,54 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
-using System.Collections;
 using System.Windows.Forms;
-
-using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format a CategoryNameMap value.
+	///     Snoop.Data class to hold and format a CategoryNameMap value.
 	/// </summary>
-
 	public class CategoryNameMap : Data
-	{
-	    protected Autodesk.Revit.DB.CategoryNameMap MVal;
-	    
-		public
-        CategoryNameMap(string label, Autodesk.Revit.DB.CategoryNameMap val)
-		:   base(label)
-		{
-		    MVal = val;
-		}
-		
-        public override string
-        StrValue()
+    {
+        protected Autodesk.Revit.DB.CategoryNameMap MVal;
+
+        public
+            CategoryNameMap(string label, Autodesk.Revit.DB.CategoryNameMap val)
+            : base(label)
         {
-			return Utils.ObjToLabelStr(MVal);
+            MVal = val;
         }
-        
+
         public override bool
-        HasDrillDown
+            HasDrillDown
         {
-            get {
-                if ((MVal == null) || (MVal.IsEmpty))
+            get
+            {
+                if (MVal == null || MVal.IsEmpty)
                     return false;
-                else
-                    return true;
+                return true;
             }
         }
-        
-        public override System.Windows.Forms.Form DrillDown()
+
+        public override string
+            StrValue()
         {
-            if (MVal is {IsEmpty: false}) {
-				var form = new Snoop.Forms.Categories(MVal);
+            return Utils.ObjToLabelStr(MVal);
+        }
+
+        public override Form DrillDown()
+        {
+            if (MVal is {IsEmpty: false})
+            {
+                var form = new Categories(MVal);
                 return form;
             }
+
             return null;
         }
-	}
+    }
 }

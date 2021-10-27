@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,43 +21,46 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System.Collections;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format an Enumerable value.  This class can be used
-	/// for any object that supports the IEnumerable interface.  However, some classes,
-	/// such as a Map, are better seen visually in Key/Value pairs vs a straight list of 
-	/// enumerated objects.  Use this when it works well, but write your own Snoop.Data object
-	/// for Enumerable cases that need better feedback to the user.
+	///     Snoop.Data class to hold and format an Enumerable value.  This class can be used
+	///     for any object that supports the IEnumerable interface.  However, some classes,
+	///     such as a Map, are better seen visually in Key/Value pairs vs a straight list of
+	///     enumerated objects.  Use this when it works well, but write your own Snoop.Data object
+	///     for Enumerable cases that need better feedback to the user.
 	/// </summary>
-	
 	public class Enumerable : Data
-	{
-	    protected IEnumerable	MVal;
-		protected ArrayList		MObjs = new();
-	    
-		public
-		Enumerable(string label, IEnumerable val)
-		:   base(label)
-		{
-		    MVal = val;
-
-				// iterate over the collection and put them in an ArrayList so we can pass on
-				// to our Form
-			if (MVal != null) {
-				var iter = MVal.GetEnumerator();
-				while (iter.MoveNext())
-					MObjs.Add(iter.Current);
-			}
-		}
+    {
+        protected ArrayList MObjs = new();
+        protected IEnumerable MVal;
 
         public
-        Enumerable(string label, IEnumerable val, Document doc)
+            Enumerable(string label, IEnumerable val)
+            : base(label)
+        {
+            MVal = val;
+
+            // iterate over the collection and put them in an ArrayList so we can pass on
+            // to our Form
+            if (MVal != null)
+            {
+                var iter = MVal.GetEnumerator();
+                while (iter.MoveNext())
+                    MObjs.Add(iter.Current);
+            }
+        }
+
+        public
+            Enumerable(string label, IEnumerable val, Document doc)
             : base(label)
         {
             MVal = val;
@@ -79,36 +83,40 @@ namespace RevitLookup.Snoop.Data
                             MObjs.Add(elem); // it's more useful for user to view element rather than element id.
                     }
                     else
+                    {
                         MObjs.Add(iter.Current);
+                    }
                 }
             }
         }
 
-		
-        public override string
-        StrValue()
-        {
-			return Utils.ObjToLabelStr(MVal);
-        }
-        
         public override bool
-        HasDrillDown
+            HasDrillDown
         {
-            get {
-                if ((MVal == null) || (MObjs.Count == 0))
+            get
+            {
+                if (MVal == null || MObjs.Count == 0)
                     return false;
-                else
-                    return true;
+                return true;
             }
         }
-        
-        public override System.Windows.Forms.Form DrillDown()
+
+
+        public override string
+            StrValue()
         {
-			if ((MVal != null) && (MObjs.Count != 0)) {
-				var form = new Forms.Objects(MObjs);
+            return Utils.ObjToLabelStr(MVal);
+        }
+
+        public override Form DrillDown()
+        {
+            if (MVal != null && MObjs.Count != 0)
+            {
+                var form = new Objects(MObjs);
                 return form;
             }
+
             return null;
         }
-	}
+    }
 }

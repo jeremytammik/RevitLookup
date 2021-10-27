@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,34 +21,28 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
+using Autodesk.Revit.DB.Events;
+using Autodesk.Revit.UI.Events;
+using Application = Autodesk.Revit.ApplicationServices.Application;
 
-
-namespace RevitLookup.EventTrack.Events {
-
+namespace RevitLookup.EventTrack.Events
+{
     /// <summary>
-    /// Bring up a simple MessageBox to show that we trapped a given event.
+    ///     Bring up a simple MessageBox to show that we trapped a given event.
     /// </summary>
-    
-    public class ApplicationEvents : EventsBase {
-       
-        static public Autodesk.Revit.ApplicationServices.Application MApp = null;
-
-        public
-        ApplicationEvents()
-        {
-        }
+    public class ApplicationEvents : EventsBase
+    {
+        public static Application MApp = null;
 
         protected override void
-        EnableEventsImp()
-        {           
+            EnableEventsImp()
+        {
             MessageBox.Show("Application Events Turned On ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
-           
+
             MApp.DocumentClosed += m_app_DocumentClosed;
             MApp.DocumentClosing += m_app_DocumentClosing;
             MApp.DocumentOpened += m_app_DocumentOpened;
@@ -55,24 +50,24 @@ namespace RevitLookup.EventTrack.Events {
             MApp.DocumentCreated += m_app_DocumentCreated;
             MApp.DocumentCreating += m_app_DocumentCreating;
             MApp.DocumentSaved += m_app_DocumentSaved;
-            MApp.DocumentSaving += m_app_DocumentSaving;           
+            MApp.DocumentSaving += m_app_DocumentSaving;
             MApp.DocumentSavedAs += m_app_DocumentSavedAs;
             MApp.DocumentSavingAs += m_app_DocumentSavingAs;
             MApp.DocumentPrinted += m_app_DocumentPrinted;
             MApp.DocumentPrinting += m_app_DocumentPrinting;
-            MApp.DocumentSynchronizedWithCentral += m_app_DocumentSavedToCentral;                        
+            MApp.DocumentSynchronizedWithCentral += m_app_DocumentSavedToCentral;
             MApp.DocumentSynchronizingWithCentral += m_app_DocumentSavingToCentral;
             MApp.FileExported += m_app_FileExported;
             MApp.FileExporting += m_app_FileExporting;
             MApp.FileImported += m_app_FileImported;
             MApp.FileImporting += m_app_FileImporting;
             MApp.ViewPrinted += m_app_ViewPrinted;
-            MApp.ViewPrinting += m_app_ViewPrinting;                                                 
-        }        
+            MApp.ViewPrinting += m_app_ViewPrinting;
+        }
 
         protected override void
-        DisableEventsImp ()
-        {            
+            DisableEventsImp()
+        {
             MessageBox.Show("Application Events Turned Off ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             MApp.DocumentClosed -= m_app_DocumentClosed;
@@ -94,118 +89,117 @@ namespace RevitLookup.EventTrack.Events {
             MApp.FileImported -= m_app_FileImported;
             MApp.FileImporting -= m_app_FileImporting;
             MApp.ViewPrinted -= m_app_ViewPrinted;
-            MApp.ViewPrinting -= m_app_ViewPrinting;   
+            MApp.ViewPrinting -= m_app_ViewPrinting;
         }
 
-        private void m_app_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)
+        private void m_app_ViewPrinting(object sender, ViewPrintingEventArgs e)
         {
             DisplayEvent("View printing");
         }
 
-        private void m_app_ViewPrinted(object sender, Autodesk.Revit.DB.Events.ViewPrintedEventArgs e)
+        private void m_app_ViewPrinted(object sender, ViewPrintedEventArgs e)
         {
             DisplayEvent("View printed");
         }
 
-        private void m_app_DocumentOpening(object sender, Autodesk.Revit.DB.Events.DocumentOpeningEventArgs e)
+        private void m_app_DocumentOpening(object sender, DocumentOpeningEventArgs e)
         {
             DisplayEvent("Document opening");
         }
 
-        private void m_app_DocumentCreating(object sender, Autodesk.Revit.DB.Events.DocumentCreatingEventArgs e)
+        private void m_app_DocumentCreating(object sender, DocumentCreatingEventArgs e)
         {
             DisplayEvent("Document creating");
         }
 
-        private void m_app_DocumentClosing(object sender, Autodesk.Revit.DB.Events.DocumentClosingEventArgs e)
+        private void m_app_DocumentClosing(object sender, DocumentClosingEventArgs e)
         {
             DisplayEvent("Document closing");
         }
 
-        private void m_app_FileImporting(object sender, Autodesk.Revit.DB.Events.FileImportingEventArgs e)
+        private void m_app_FileImporting(object sender, FileImportingEventArgs e)
         {
             DisplayEvent("File importing");
         }
 
-        private void m_app_FileImported(object sender, Autodesk.Revit.DB.Events.FileImportedEventArgs e)
+        private void m_app_FileImported(object sender, FileImportedEventArgs e)
         {
             DisplayEvent("File imported");
         }
 
-        private void m_app_FileExporting(object sender, Autodesk.Revit.DB.Events.FileExportingEventArgs e)
+        private void m_app_FileExporting(object sender, FileExportingEventArgs e)
         {
             DisplayEvent("File exporting");
         }
 
-        private void m_app_FileExported(object sender, Autodesk.Revit.DB.Events.FileExportedEventArgs e)
+        private void m_app_FileExported(object sender, FileExportedEventArgs e)
         {
             DisplayEvent("File exported");
         }
 
-        private void m_app_DocumentSavingToCentral(object sender, Autodesk.Revit.DB.Events.DocumentSynchronizingWithCentralEventArgs e)
+        private void m_app_DocumentSavingToCentral(object sender, DocumentSynchronizingWithCentralEventArgs e)
         {
-            
             DisplayEvent("Document saving to central");
         }
 
-        private void m_app_DocumentSavingAs(object sender, Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs e)
+        private void m_app_DocumentSavingAs(object sender, DocumentSavingAsEventArgs e)
         {
             DisplayEvent("Document saving as");
         }
 
-        private void m_app_DocumentSaving(object sender, Autodesk.Revit.DB.Events.DocumentSavingEventArgs e)
+        private void m_app_DocumentSaving(object sender, DocumentSavingEventArgs e)
         {
             DisplayEvent("Document saving");
         }
 
-        private void m_app_DocumentSavedToCentral(object sender, Autodesk.Revit.DB.Events.DocumentSynchronizedWithCentralEventArgs e)
+        private void m_app_DocumentSavedToCentral(object sender, DocumentSynchronizedWithCentralEventArgs e)
         {
             DisplayEvent("Document saved to central");
         }
 
-        private void m_app_DocumentPrinting(object sender, Autodesk.Revit.DB.Events.DocumentPrintingEventArgs e)
+        private void m_app_DocumentPrinting(object sender, DocumentPrintingEventArgs e)
         {
             DisplayEvent("Document printing");
         }
 
-        private void m_app_DocumentPrinted(object sender, Autodesk.Revit.DB.Events.DocumentPrintedEventArgs e)
+        private void m_app_DocumentPrinted(object sender, DocumentPrintedEventArgs e)
         {
             DisplayEvent("Document printed");
         }
 
-        private void m_app_DocumentCreated(object sender, Autodesk.Revit.DB.Events.DocumentCreatedEventArgs e)
+        private void m_app_DocumentCreated(object sender, DocumentCreatedEventArgs e)
         {
             DisplayEvent("Document created");
         }
 
-        private void m_app_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)
+        private void m_app_DocumentSavedAs(object sender, DocumentSavedAsEventArgs e)
         {
             DisplayEvent("Document saved as");
         }
 
-        private void m_app_DocumentSaved(object sender, Autodesk.Revit.DB.Events.DocumentSavedEventArgs e)
+        private void m_app_DocumentSaved(object sender, DocumentSavedEventArgs e)
         {
             DisplayEvent("Document saved");
         }
 
-        private void m_app_DocumentOpened(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e)
+        private void m_app_DocumentOpened(object sender, DocumentOpenedEventArgs e)
         {
             DisplayEvent("Document opened");
         }
 
-        private void m_app_DialogBoxShowing(object sender, Autodesk.Revit.UI.Events.DialogBoxShowingEventArgs e)
+        private void m_app_DialogBoxShowing(object sender, DialogBoxShowingEventArgs e)
         {
             DisplayEvent("Dialog Box");
         }
 
-        private void m_app_DocumentClosed(object sender, Autodesk.Revit.DB.Events.DocumentClosedEventArgs e)
+        private void m_app_DocumentClosed(object sender, DocumentClosedEventArgs e)
         {
             DisplayEvent("Document closed");
-        }                
+        }
 
         private void DisplayEvent(string eventStr)
         {
             MessageBox.Show($"Event: {eventStr}", "Application Event", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }       
+        }
     }
 }

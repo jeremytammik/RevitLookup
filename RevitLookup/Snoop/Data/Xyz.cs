@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,34 +21,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
+using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format an XYZ value.
+	///     Snoop.Data class to hold and format an XYZ value.
 	/// </summary>
-	
 	public class Xyz : Data
-	{
-	    protected Autodesk.Revit.DB.XYZ    MVal;
-	    
-		public
-		Xyz(string label, Autodesk.Revit.DB.XYZ val)
-		:   base(label)
-		{
-		    MVal = val;
-		}
-		
-        public override string
-        StrValue()
+    {
+        protected XYZ MVal;
+
+        public
+            Xyz(string label, XYZ val)
+            : base(label)
         {
-          if (MVal != null)
-            return $"({MVal.X}, {MVal.Y}, {MVal.Z})";
-          else
+            MVal = val;
+        }
+
+        public override string
+            StrValue()
+        {
+            if (MVal != null)
+                return $"({MVal.X}, {MVal.Y}, {MVal.Z})";
             return "< null >";
         }
-	}
+    }
 }

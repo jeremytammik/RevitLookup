@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RevitLookup.Snoop
 {
     internal class ModelessWindowHandle : IWin32Window
     {
-        public static IntPtr RevitMainWindowHandle { get; set; }
-        public IntPtr Handle { get; }
-
-
         public ModelessWindowHandle()
-        {            
+        {
             Handle = RevitMainWindowHandle;
         }
 
@@ -25,6 +16,9 @@ namespace RevitLookup.Snoop
             // That does not work very well
             //Handle = form.Handle;
         }
+
+        public static IntPtr RevitMainWindowHandle { get; set; }
+        public IntPtr Handle { get; }
 
         [DllImport("USER32.DLL")]
         internal static extern bool SetForegroundWindow(IntPtr hWnd);

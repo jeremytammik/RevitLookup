@@ -2,14 +2,15 @@ using System;
 using System.Collections;
 using System.Linq;
 using Autodesk.Revit.DB;
+using Object = RevitLookup.Snoop.Data.Object;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
     public class SpatialElementStream : IElementStream
     {
+        private readonly SpatialElementBoundaryOptions _boundaryOptions;
         private readonly ArrayList _data;
         private readonly SpatialElement _spatialElement;
-        private readonly SpatialElementBoundaryOptions _boundaryOptions;
 
         public SpatialElementStream(ArrayList data, object elem)
         {
@@ -26,7 +27,7 @@ namespace RevitLookup.Snoop.CollectorExts
         public void Stream(Type type)
         {
             if (MustStream(type))
-                _data.Add(new Snoop.Data.Object("GetBoundarySegments", _spatialElement.GetBoundarySegments(_boundaryOptions)));
+                _data.Add(new Object("GetBoundarySegments", _spatialElement.GetBoundarySegments(_boundaryOptions)));
         }
 
         private bool MustStream(Type type)

@@ -1,11 +1,5 @@
-﻿using Autodesk.Revit.DB;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using Autodesk.Revit.DB;
 using Form = System.Windows.Forms.Form;
 using Point = System.Drawing.Point;
 
@@ -39,12 +33,10 @@ namespace RevitLookup.Snoop
             {
                 parentForm.AddOwnedForm(newForm);
                 newForm.StartPosition = FormStartPosition.Manual;
-                newForm.Location = new Point(parentForm.Location.X + (parentForm.Width - newForm.Width) / 2, parentForm.Location.Y + (parentForm.Height - newForm.Height) / 2);  
+                newForm.Location = new Point(parentForm.Location.X + (parentForm.Width - newForm.Width) / 2, parentForm.Location.Y + (parentForm.Height - newForm.Height) / 2);
             }
-            if ((targetDocument != null) && (newForm is IHaveCollector formWithCollector))
-            {
-                formWithCollector.SetDocument(targetDocument);
-            }
+
+            if (targetDocument != null && newForm is IHaveCollector formWithCollector) formWithCollector.SetDocument(targetDocument);
             newForm.Show(new ModelessWindowHandle(parentForm));
             newForm.FormClosed += (s, e) => ModelessWindowHandle.BringRevitToFront();
         }

@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -12,14 +14,14 @@ namespace RevitLookup.Snoop.Data
             _view = view;
         }
 
+        public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.AreGraphicsOverridesAllowed() && _view.GetFilters().Any();
+
         public override string StrValue()
         {
             return "< view filters ovverride graphic settings >";
         }
 
-        public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.AreGraphicsOverridesAllowed() && _view.GetFilters().Any();
-
-        public override System.Windows.Forms.Form DrillDown()
+        public override Form DrillDown()
         {
             if (!HasDrillDown)
                 return null;
@@ -31,9 +33,10 @@ namespace RevitLookup.Snoop.Data
 
             if (filterOverrides.Any())
             {
-                var form = new Forms.Objects(filterOverrides);
+                var form = new Objects(filterOverrides);
                 return form;
             }
+
             return null;
         }
     }

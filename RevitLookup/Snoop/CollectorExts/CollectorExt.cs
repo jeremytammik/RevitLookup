@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,31 +21,28 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
 using RevitLookup.Snoop.Collectors;
 
 namespace RevitLookup.Snoop.CollectorExts
 {
 	/// <summary>
-	/// Base class for CollectorExt objects.
+	///     Base class for CollectorExt objects.
 	/// </summary>
 	public abstract class CollectorExt
-	{		
-        
-		protected readonly Document MDoc;
-		
-
-		public CollectorExt(Document doc)
-		{			
-			MDoc = doc;
-		}		
+    {
+        protected readonly Document MDoc;
 
 
-		public abstract void Collect(Collector sender, CollectorEventArgs e);       
+        public CollectorExt(Document doc)
+        {
+            MDoc = doc;
+        }
+
+
+        public abstract void Collect(Collector sender, CollectorEventArgs e);
     }
 }

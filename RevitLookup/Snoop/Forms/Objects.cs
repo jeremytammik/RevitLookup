@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,64 +21,67 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
-using System.Diagnostics;
-using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel;
-using System.Windows.Forms;
-using RevitLookup.Snoop.Data;
+using System.Drawing.Printing;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Collectors;
+using RevitLookup.Snoop.Data;
+using Exception = System.Exception;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Forms
 {
     /// <summary>
-    /// Summary description for Object form.
+    ///     Summary description for Object form.
     /// </summary>
-    public class Objects : System.Windows.Forms.Form, IHaveCollector
+    public class Objects : Form, IHaveCollector
     {
-        protected Button MBnOk;
-        protected TreeView MTvObjs;
-        protected ContextMenu MCntxMenuObjId;
-        protected MenuItem MMnuItemBrowseReflection;
-        protected ListView MLvData;
-        protected ColumnHeader MLvColLabel;
-        protected ColumnHeader MLvColValue;
-
-        protected Collectors.CollectorObj MSnoopCollector = new();
-        protected System.Object MCurObj;
-        protected ArrayList MTreeTypeNodes = new();
-        protected ArrayList MTypes = new();
-        private ContextMenuStrip _listViewContextMenuStrip;
-        private MenuItem _mMnuItemCopy;
         private ToolStripMenuItem _copyToolStripMenuItem;
+        private ContextMenuStrip _listViewContextMenuStrip;
+        private int _mCurrentPrintItem;
+        private int[] _mMaxWidths;
+        private MenuItem _mMnuItemCopy;
         private PrintDialog _mPrintDialog;
-        private System.Drawing.Printing.PrintDocument _mPrintDocument;
+        private PrintDocument _mPrintDocument;
         private PrintPreviewDialog _mPrintPreviewDialog;
-        private IContainer components;
-        private Int32[] _mMaxWidths;
         private TableLayoutPanel _tableLayoutPanel1;
         private ToolStrip _toolStrip1;
         private ToolStripButton _toolStripButton1;
         private ToolStripButton _toolStripButton2;
         private ToolStripButton _toolStripButton3;
-        private ToolStrip _toolStripListView;
-        private ToolStrip _toolStripSelectors;
         private ToolStripButton _toolStripButtonRefreshListView;
-        private ToolStripButton _toolStripButtonSnoopDb;
-        private ToolStripButton _toolStripButtonSnoopCurrentSelection;
-        private ToolStripButton _toolStripButtonSnoopPickFace;
-        private ToolStripButton _toolStripButtonSnoopPickEdge;
-        private ToolStripButton _toolStripButtonSnoopLinkedElement;
-        private ToolStripButton _toolStripButtonSnoopDependentElements;
         private ToolStripButton _toolStripButtonSnoopActiveView;
         private ToolStripButton _toolStripButtonSnoopApplication;
-        private Int32 _mCurrentPrintItem;
+        private ToolStripButton _toolStripButtonSnoopCurrentSelection;
+        private ToolStripButton _toolStripButtonSnoopDb;
+        private ToolStripButton _toolStripButtonSnoopDependentElements;
+        private ToolStripButton _toolStripButtonSnoopLinkedElement;
+        private ToolStripButton _toolStripButtonSnoopPickEdge;
+        private ToolStripButton _toolStripButtonSnoopPickFace;
+        private ToolStrip _toolStripListView;
+        private ToolStrip _toolStripSelectors;
+        private IContainer components;
+        protected Button MBnOk;
+        protected ContextMenu MCntxMenuObjId;
+        protected object MCurObj;
+        protected ColumnHeader MLvColLabel;
+        protected ColumnHeader MLvColValue;
+        protected ListView MLvData;
+        protected MenuItem MMnuItemBrowseReflection;
+
+        protected CollectorObj MSnoopCollector = new();
+        protected ArrayList MTreeTypeNodes = new();
+        protected TreeView MTvObjs;
+        protected ArrayList MTypes = new();
 
         public Objects()
         {
@@ -89,7 +93,7 @@ namespace RevitLookup.Snoop.Forms
         {
             InitializeComponent();
 
-            CommonInit(new[] { SnoopableObjectWrapper.Create(obj) });
+            CommonInit(new[] {SnoopableObjectWrapper.Create(obj)});
         }
 
         public Objects(ArrayList objs)
@@ -99,18 +103,23 @@ namespace RevitLookup.Snoop.Forms
             CommonInit(objs.Cast<object>().Select(SnoopableObjectWrapper.Create));
         }
 
-        public async Task SnoopAndShow(Selector selector)
-        {
-            await SelectElements(selector);
-            ModelessWindowFactory.Show(this);
-        }
-
 
         public Objects(IEnumerable<SnoopableObjectWrapper> objs)
         {
             InitializeComponent();
 
             CommonInit(objs);
+        }
+
+        public void SetDocument(Document document)
+        {
+            MSnoopCollector.SourceDocument = document;
+        }
+
+        public async Task SnoopAndShow(Selector selector)
+        {
+            await SelectElements(selector);
+            ModelessWindowFactory.Show(this);
         }
 
         protected void CommonInit(IEnumerable<SnoopableObjectWrapper> objs)
@@ -153,33 +162,30 @@ namespace RevitLookup.Snoop.Forms
                     CommonInit(lista.Select(SnoopableObjectWrapper.Create));
                     break;
                 default:
-                    CommonInit(new[] { SnoopableObjectWrapper.Create(obj) });
+                    CommonInit(new[] {SnoopableObjectWrapper.Create(obj)});
                     break;
             }
         }
 
         /// <summary>
-        /// Clean up any resources being used.
+        ///     Clean up any resources being used.
         /// </summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
-            {
                 if (components != null)
-                {
                     components.Dispose();
-                }
-            }
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
+
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        ///     Required method for Designer support - do not modify
+        ///     the contents of this method with the code editor.
         /// </summary>
         protected void
-        InitializeComponent()
+            InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Objects));
@@ -189,8 +195,8 @@ namespace RevitLookup.Snoop.Forms
             this.MMnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
             this.MBnOk = new System.Windows.Forms.Button();
             this.MLvData = new System.Windows.Forms.ListView();
-            this.MLvColLabel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MLvColValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MLvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+            this.MLvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
             this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._mPrintDialog = new System.Windows.Forms.PrintDialog();
@@ -221,8 +227,8 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_tvObjs
             // 
-            this.MTvObjs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.MTvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                         | System.Windows.Forms.AnchorStyles.Left)));
             this.MTvObjs.ContextMenu = this.MCntxMenuObjId;
             this.MTvObjs.HideSelection = false;
             this.MTvObjs.Location = new System.Drawing.Point(12, 32);
@@ -233,9 +239,11 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_cntxMenuObjId
             // 
-            this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this._mMnuItemCopy,
-            this.MMnuItemBrowseReflection});
+            this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
+            {
+                this._mMnuItemCopy,
+                this.MMnuItemBrowseReflection
+            });
             // 
             // m_mnuItemCopy
             // 
@@ -263,12 +271,14 @@ namespace RevitLookup.Snoop.Forms
             // 
             // m_lvData
             // 
-            this.MLvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.MLvColLabel,
-            this.MLvColValue});
+            this.MLvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                          | System.Windows.Forms.AnchorStyles.Left)
+                                                                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
+            {
+                this.MLvColLabel,
+                this.MLvColValue
+            });
             this.MLvData.ContextMenuStrip = this._listViewContextMenuStrip;
             this.MLvData.FullRowSelect = true;
             this.MLvData.GridLines = true;
@@ -295,8 +305,10 @@ namespace RevitLookup.Snoop.Forms
             // 
             // listViewContextMenuStrip
             // 
-            this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._copyToolStripMenuItem});
+            this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this._copyToolStripMenuItem
+            });
             this._listViewContextMenuStrip.Name = "_listViewContextMenuStrip";
             this._listViewContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
@@ -324,7 +336,7 @@ namespace RevitLookup.Snoop.Forms
             this._mPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
             this._mPrintPreviewDialog.Document = this._mPrintDocument;
             this._mPrintPreviewDialog.Enabled = true;
-            this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("m_printPreviewDialog.Icon")));
+            this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
             this._mPrintPreviewDialog.Name = "_mPrintPreviewDialog";
             this._mPrintPreviewDialog.Visible = false;
             // 
@@ -350,10 +362,12 @@ namespace RevitLookup.Snoop.Forms
             // 
             this._toolStrip1.AutoSize = false;
             this._toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._toolStripButton1,
-            this._toolStripButton2,
-            this._toolStripButton3});
+            this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this._toolStripButton1,
+                this._toolStripButton2,
+                this._toolStripButton3
+            });
             this._toolStrip1.Location = new System.Drawing.Point(0, 0);
             this._toolStrip1.Name = "_toolStrip1";
             this._toolStrip1.Size = new System.Drawing.Size(320, 26);
@@ -390,8 +404,10 @@ namespace RevitLookup.Snoop.Forms
             // 
             this._toolStripListView.AutoSize = false;
             this._toolStripListView.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this._toolStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._toolStripButtonRefreshListView});
+            this._toolStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this._toolStripButtonRefreshListView
+            });
             this._toolStripListView.Location = new System.Drawing.Point(640, 0);
             this._toolStripListView.Name = "_toolStripListView";
             this._toolStripListView.Size = new System.Drawing.Size(160, 26);
@@ -401,7 +417,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_RefreshListView
             // 
             this._toolStripButtonRefreshListView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonRefreshListView.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_RefreshListView.Image")));
+            this._toolStripButtonRefreshListView.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_RefreshListView.Image")));
             this._toolStripButtonRefreshListView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonRefreshListView.Name = "_toolStripButtonRefreshListView";
             this._toolStripButtonRefreshListView.Size = new System.Drawing.Size(24, 23);
@@ -414,15 +430,17 @@ namespace RevitLookup.Snoop.Forms
             // 
             this._toolStripSelectors.AutoSize = false;
             this._toolStripSelectors.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this._toolStripButtonSnoopDb,
-            this._toolStripButtonSnoopCurrentSelection,
-            this._toolStripButtonSnoopPickFace,
-            this._toolStripButtonSnoopPickEdge,
-            this._toolStripButtonSnoopLinkedElement,
-            this._toolStripButtonSnoopDependentElements,
-            this._toolStripButtonSnoopActiveView,
-            this._toolStripButtonSnoopApplication});
+            this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+            {
+                this._toolStripButtonSnoopDb,
+                this._toolStripButtonSnoopCurrentSelection,
+                this._toolStripButtonSnoopPickFace,
+                this._toolStripButtonSnoopPickEdge,
+                this._toolStripButtonSnoopLinkedElement,
+                this._toolStripButtonSnoopDependentElements,
+                this._toolStripButtonSnoopActiveView,
+                this._toolStripButtonSnoopApplication
+            });
             this._toolStripSelectors.Location = new System.Drawing.Point(320, 0);
             this._toolStripSelectors.Name = "_toolStripSelectors";
             this._toolStripSelectors.Size = new System.Drawing.Size(320, 26);
@@ -432,7 +450,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopDB
             // 
             this._toolStripButtonSnoopDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopDB.Image")));
+            this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopDB.Image")));
             this._toolStripButtonSnoopDb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopDb.Name = "_toolStripButtonSnoopDb";
             this._toolStripButtonSnoopDb.Size = new System.Drawing.Size(24, 23);
@@ -444,7 +462,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopCurrentSelection
             // 
             this._toolStripButtonSnoopCurrentSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopCurrentSelection.Image")));
+            this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopCurrentSelection.Image")));
             this._toolStripButtonSnoopCurrentSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopCurrentSelection.Name = "_toolStripButtonSnoopCurrentSelection";
             this._toolStripButtonSnoopCurrentSelection.Size = new System.Drawing.Size(24, 23);
@@ -457,7 +475,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopPickFace
             // 
             this._toolStripButtonSnoopPickFace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopPickFace.Image")));
+            this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopPickFace.Image")));
             this._toolStripButtonSnoopPickFace.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopPickFace.Name = "_toolStripButtonSnoopPickFace";
             this._toolStripButtonSnoopPickFace.Size = new System.Drawing.Size(24, 23);
@@ -469,7 +487,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopPickEdge
             // 
             this._toolStripButtonSnoopPickEdge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopPickEdge.Image")));
+            this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopPickEdge.Image")));
             this._toolStripButtonSnoopPickEdge.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopPickEdge.Name = "_toolStripButtonSnoopPickEdge";
             this._toolStripButtonSnoopPickEdge.Size = new System.Drawing.Size(24, 23);
@@ -481,7 +499,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopLinkedElement
             // 
             this._toolStripButtonSnoopLinkedElement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopLinkedElement.Image")));
+            this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopLinkedElement.Image")));
             this._toolStripButtonSnoopLinkedElement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopLinkedElement.Name = "_toolStripButtonSnoopLinkedElement";
             this._toolStripButtonSnoopLinkedElement.Size = new System.Drawing.Size(24, 23);
@@ -493,7 +511,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopDependentElements
             // 
             this._toolStripButtonSnoopDependentElements.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopDependentElements.Image")));
+            this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopDependentElements.Image")));
             this._toolStripButtonSnoopDependentElements.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopDependentElements.Name = "_toolStripButtonSnoopDependentElements";
             this._toolStripButtonSnoopDependentElements.Size = new System.Drawing.Size(24, 23);
@@ -505,7 +523,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopActiveView
             // 
             this._toolStripButtonSnoopActiveView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopActiveView.Image")));
+            this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopActiveView.Image")));
             this._toolStripButtonSnoopActiveView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopActiveView.Name = "_toolStripButtonSnoopActiveView";
             this._toolStripButtonSnoopActiveView.Size = new System.Drawing.Size(24, 23);
@@ -517,7 +535,7 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopApplication
             // 
             this._toolStripButtonSnoopApplication.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopApplication.Image")));
+            this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image) (resources.GetObject("toolStripButton_SnoopApplication.Image")));
             this._toolStripButtonSnoopApplication.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopApplication.Name = "_toolStripButtonSnoopApplication";
             this._toolStripButtonSnoopApplication.Size = new System.Drawing.Size(24, 23);
@@ -535,7 +553,7 @@ namespace RevitLookup.Snoop.Forms
             this.Controls.Add(this.MLvData);
             this.Controls.Add(this.MTvObjs);
             this.Controls.Add(this.MBnOk);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(650, 200);
@@ -553,8 +571,8 @@ namespace RevitLookup.Snoop.Forms
             this._toolStripSelectors.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
         #endregion
 
         protected void AddObjectsToTree(IEnumerable<SnoopableObjectWrapper> snoopableObjects)
@@ -577,13 +595,13 @@ namespace RevitLookup.Snoop.Forms
                 }
 
                 // add the new node for this element
-                var tmpNode = new TreeNode(snoopableObject.Title) { Tag = snoopableObject.Object };
+                var tmpNode = new TreeNode(snoopableObject.Title) {Tag = snoopableObject.Object};
                 parentNode.Nodes.Add(tmpNode);
             }
         }
 
         /// <summary>
-        /// If we've already seen this type before, return the existing TreeNode object
+        ///     If we've already seen this type before, return the existing TreeNode object
         /// </summary>
         /// <param name="objType">System.Type we're looking to find</param>
         /// <returns>The existing TreeNode or NULL</returns>
@@ -591,10 +609,8 @@ namespace RevitLookup.Snoop.Forms
         {
             var len = MTypes.Count;
             for (var i = 0; i < len; i++)
-            {
-                if ((Type)MTypes[i] == objType)
-                    return (TreeNode)MTreeTypeNodes[i];
-            }
+                if ((Type) MTypes[i] == objType)
+                    return (TreeNode) MTreeTypeNodes[i];
 
             return null;
         }
@@ -609,7 +625,7 @@ namespace RevitLookup.Snoop.Forms
                 // display it
                 Utils.Display(MLvData, MSnoopCollector);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -636,12 +652,8 @@ namespace RevitLookup.Snoop.Forms
             });
         }
 
-        public void SetDocument(Document document)
-        {
-            MSnoopCollector.SourceDocument = document;
-        }
-
         #region Events
+
         protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
             MCurObj = e.Node.Tag;
@@ -655,10 +667,7 @@ namespace RevitLookup.Snoop.Forms
 
         private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (MTvObjs.SelectedNode != null)
-            {
-                Utils.CopyToClipboard(MLvData);
-            }
+            if (MTvObjs.SelectedNode != null) Utils.CopyToClipboard(MLvData);
         }
 
         private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
@@ -669,13 +678,9 @@ namespace RevitLookup.Snoop.Forms
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MLvData.SelectedItems.Count > 0)
-            {
                 Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
-            }
             else
-            {
                 Clipboard.Clear();
-            }
         }
 
         private void PrintMenuItem_Click(object sender, EventArgs e)
@@ -690,7 +695,7 @@ namespace RevitLookup.Snoop.Forms
             Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
         }
 
-        private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
             _mCurrentPrintItem = Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
         }
@@ -702,10 +707,7 @@ namespace RevitLookup.Snoop.Forms
 
         private void toolStrip_MouseEnter(object sender, EventArgs e)
         {
-            if (ActiveForm != this)
-            {
-                Activate();
-            }
+            if (ActiveForm != this) Activate();
         }
 
         private void m_bnOK_Click(object sender, EventArgs e)
@@ -713,15 +715,16 @@ namespace RevitLookup.Snoop.Forms
             DialogResult = DialogResult.Cancel;
             Close();
             Dispose();
-        }       
+        }
 
         private async void toolStripButton_Snoop_Click(object sender, EventArgs e)
         {
             var btn = sender as ToolStripButton;
-            var selector = (Selector)Enum.Parse(typeof(Selector), btn.Tag as string);
+            var selector = (Selector) Enum.Parse(typeof(Selector), btn.Tag as string);
 
-            await SelectElements(selector);           
-        }       
+            await SelectElements(selector);
+        }
+
         #endregion
     }
 }

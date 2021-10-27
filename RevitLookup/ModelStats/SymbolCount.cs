@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,27 +21,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
 using System.Collections;
-
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.ModelStats
 {
 	/// <summary>
-	/// Summary description for SymbolCount.
+	///     Summary description for SymbolCount.
 	/// </summary>
 	public class SymbolCount
-	{
-	        // data members
-	    public ElementType       MSymbol;
-	    public ArrayList    MRefs = new();
+    {
+        public ArrayList MRefs = new();
 
-		public
-		SymbolCount()
-		{
-		}
-	}
+        // data members
+        public ElementType MSymbol;
+    }
 }

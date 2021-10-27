@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,57 +21,57 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
-using System.Collections;
-using System.Windows.Forms;
-
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format an ElementSet value.
+	///     Snoop.Data class to hold and format an ElementSet value.
 	/// </summary>
-	
 	public class ParameterSet : Data
-	{
-	    protected Autodesk.Revit.DB.ParameterSet	MVal;
-	    protected Element        MElem;
-	    
-		public
-		ParameterSet(string label, Element elem, Autodesk.Revit.DB.ParameterSet val)
-		:   base(label)
-		{
-		    MVal = val;
-		    MElem = elem;
-		}
-		
-        public override string
-        StrValue()
+    {
+        protected Element MElem;
+        protected Autodesk.Revit.DB.ParameterSet MVal;
+
+        public
+            ParameterSet(string label, Element elem, Autodesk.Revit.DB.ParameterSet val)
+            : base(label)
         {
-			return Utils.ObjToLabelStr(MVal);
+            MVal = val;
+            MElem = elem;
         }
-        
+
         public override bool
-        HasDrillDown
+            HasDrillDown
         {
-            get {
-                if ((MVal == null) || (MVal.IsEmpty))
+            get
+            {
+                if (MVal == null || MVal.IsEmpty)
                     return false;
-                else
-                    return true;
+                return true;
             }
         }
-        
-        public override System.Windows.Forms.Form DrillDown()
+
+        public override string
+            StrValue()
         {
-			if (MVal is {IsEmpty: false}) {
-				var form = new Forms.Parameters(MElem, MVal);
-				return form;
-			}
-			return null;
+            return Utils.ObjToLabelStr(MVal);
         }
-	}
+
+        public override Form DrillDown()
+        {
+            if (MVal is {IsEmpty: false})
+            {
+                var form = new Parameters(MElem, MVal);
+                return form;
+            }
+
+            return null;
+        }
+    }
 }

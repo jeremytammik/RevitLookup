@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,25 +21,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using RevitLookup.EventTrack.Events;
 
-namespace RevitLookup.EventTrack.Forms {    
-
-    public partial class EventsForm : Form {
-
-        public static Events.ApplicationEvents    MAppEvents       = new();
-        public static Events.DocEvents            MDocEvents       = new();
+namespace RevitLookup.EventTrack.Forms
+{
+    public partial class EventsForm : Form
+    {
+        public static ApplicationEvents MAppEvents = new();
+        public static DocEvents MDocEvents = new();
 
         public
-        EventsForm()
+            EventsForm()
         {
             InitializeComponent();
 
@@ -47,27 +45,28 @@ namespace RevitLookup.EventTrack.Forms {
         }
 
         private void
-        event_OnBnOkClick(object sender, EventArgs e)
+            event_OnBnOkClick(object sender, EventArgs e)
         {
             SetEventsOnOff(MAppEvents, m_cbAppEventsOn.Checked, false);
-            SetEventsOnOff(MDocEvents, m_cbDocEventsOn.Checked, false);          
+            SetEventsOnOff(MDocEvents, m_cbDocEventsOn.Checked, false);
 
             Close();
         }
 
         private void
-        SetEventsOnOff(Events.EventsBase eventGroup, bool onOff, bool showDetails)
+            SetEventsOnOff(EventsBase eventGroup, bool onOff, bool showDetails)
         {
-            if (onOff) {    // on
-                if (eventGroup.AreEventsEnabled == false) {
-                    eventGroup.EnableEvents();
-                }
+            if (onOff)
+            {
+                // on
+                if (eventGroup.AreEventsEnabled == false) eventGroup.EnableEvents();
             }
-            else {          // off
-                if (eventGroup.AreEventsEnabled) {
-                    eventGroup.DisableEvents();
-                }
+            else
+            {
+                // off
+                if (eventGroup.AreEventsEnabled) eventGroup.DisableEvents();
             }
+
             eventGroup.ShowDetails = showDetails;
         }
     }

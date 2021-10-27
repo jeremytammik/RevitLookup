@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,6 +21,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
@@ -28,17 +30,12 @@ using System.Collections;
 namespace RevitLookup.ModelStats
 {
 	/// <summary>
-	/// Summary description for RawObjCount.
+	///     Summary description for RawObjCount.
 	/// </summary>
 	public class RawObjCount
-	{
-	        // data members
-	    public Type  MClassType;    // raw class type of object we are counting
-	    public ArrayList    MObjs = new();
-	   
-		public
-		RawObjCount()
-		{
-		}
-	}
+    {
+        // data members
+        public Type MClassType; // raw class type of object we are counting
+        public ArrayList MObjs = new();
+    }
 }

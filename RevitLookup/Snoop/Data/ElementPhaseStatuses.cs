@@ -1,5 +1,7 @@
 using System.Linq;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -12,11 +14,14 @@ namespace RevitLookup.Snoop.Data
             _element = element;
         }
 
-        public override string StrValue() => "< phases statuses >";
-
         public override bool HasDrillDown => !_element.Document.Phases.IsEmpty;
 
-        public override System.Windows.Forms.Form DrillDown()
+        public override string StrValue()
+        {
+            return "< phases statuses >";
+        }
+
+        public override Form DrillDown()
         {
             if (!HasDrillDown)
                 return null;
@@ -30,7 +35,7 @@ namespace RevitLookup.Snoop.Data
 
             if (elementOnPhaseStatuses.Any())
             {
-                var form = new Forms.Objects(elementOnPhaseStatuses);
+                var form = new Objects(elementOnPhaseStatuses);
                 return form;
             }
 

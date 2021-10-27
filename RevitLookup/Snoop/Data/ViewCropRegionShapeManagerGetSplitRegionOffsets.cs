@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -13,14 +15,14 @@ namespace RevitLookup.Snoop.Data
             _viewCropRegionShapeManager = viewCropRegionShapeManager;
         }
 
+        public override bool HasDrillDown => _viewCropRegionShapeManager is {NumberOfSplitRegions: > 1};
+
         public override string StrValue()
         {
             return "< Split Region Offsets >";
         }
 
-        public override bool HasDrillDown => _viewCropRegionShapeManager is {NumberOfSplitRegions: > 1};
-
-        public override System.Windows.Forms.Form DrillDown()
+        public override Form DrillDown()
         {
             if (!HasDrillDown) return null;
 
@@ -31,7 +33,7 @@ namespace RevitLookup.Snoop.Data
 
             if (!cropRegionOffsetObjects.Any()) return null;
 
-            var form = new Forms.Objects(cropRegionOffsetObjects);
+            var form = new Objects(cropRegionOffsetObjects);
             return form;
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -13,14 +15,14 @@ namespace RevitLookup.Snoop.Data
             _scheduleDefinition = scheduleDefinition;
         }
 
+        public override bool HasDrillDown => _scheduleDefinition != null && _scheduleDefinition.GetFieldCount() > 0;
+
         public override string StrValue()
         {
             return "< Get Fields >";
         }
 
-        public override bool HasDrillDown => _scheduleDefinition != null && _scheduleDefinition.GetFieldCount() > 0;
-
-        public override System.Windows.Forms.Form DrillDown()
+        public override Form DrillDown()
         {
             if (!HasDrillDown) return null;
 
@@ -34,7 +36,7 @@ namespace RevitLookup.Snoop.Data
 
             if (!scheduleFieldObjects.Any()) return null;
 
-            var form = new Forms.Objects(scheduleFieldObjects);
+            var form = new Objects(scheduleFieldObjects);
             return form;
         }
     }

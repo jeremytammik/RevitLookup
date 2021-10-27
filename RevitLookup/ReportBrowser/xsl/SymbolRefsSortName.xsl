@@ -5,16 +5,19 @@
 //  Autodesk, Inc.
 -->
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                version="1.0">
     <xsl:output method="html"/>
 
     <xsl:template match="/">
         <html>
             <head>
-            	<link rel='stylesheet' type='text/css' href='../css/Reports.css'/>
+                <link rel='stylesheet'
+                      type='text/css'
+                      href='../css/Reports.css'/>
             </head>
             <body>
-                <xsl:apply-templates select="//Project" />
+                <xsl:apply-templates select="//Project"/>
             </body>
         </html>
     </xsl:template>
@@ -24,17 +27,22 @@
         <hr/>
         <table>
             <tr class="drawing">
-                <td class="label">Document:</td><td width="1000"><xsl:value-of select="@path"/></td>
+                <td class="label">Document:</td>
+                <td width="1000">
+                    <xsl:value-of select="@path"/>
+                </td>
             </tr>
         </table>
         <hr/>
 
-        <xsl:apply-templates select="Symbols" />
+        <xsl:apply-templates select="Symbols"/>
     </xsl:template>
 
 
     <xsl:template match="Symbols">
-        <table class="small" border="3" cellpadding="5">
+        <table class="small"
+               border="3"
+               cellpadding="5">
             <caption>Symbol Reference Count</caption>
             <thead>
                 <tr>
@@ -45,11 +53,17 @@
             </thead>
             <tbody>
                 <xsl:for-each select="Symbol">
-                    <xsl:sort select="@name" />
+                    <xsl:sort select="@name"/>
                     <tr>
-                        <td><xsl:value-of select="@name"/></td>
-                        <td><xsl:value-of select="@symbolType"/></td>
-                        <td align="right"><xsl:value-of select="@refCount"/></td>
+                        <td>
+                            <xsl:value-of select="@name"/>
+                        </td>
+                        <td>
+                            <xsl:value-of select="@symbolType"/>
+                        </td>
+                        <td align="right">
+                            <xsl:value-of select="@refCount"/>
+                        </td>
                     </tr>
                 </xsl:for-each>
             </tbody>

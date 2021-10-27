@@ -1,11 +1,7 @@
-﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Autodesk.Revit.UI;
 
 namespace RevitLookup.Snoop
 {
@@ -29,8 +25,8 @@ namespace RevitLookup.Snoop
 
         private class Request
         {
-            public readonly TaskCompletionSource<object> Tcs = new();
             public readonly Action<UIApplication> Command;
+            public readonly TaskCompletionSource<object> Tcs = new();
 
             public Request(Action<UIApplication> command)
             {
@@ -45,7 +41,6 @@ namespace RevitLookup.Snoop
             public void Execute(UIApplication app)
             {
                 while (Queue.TryDequeue(out var request))
-                {
                     try
                     {
                         request.Command(app);
@@ -55,7 +50,6 @@ namespace RevitLookup.Snoop
                     {
                         request.Tcs.SetException(e);
                     }
-                }
             }
 
             public string GetName()

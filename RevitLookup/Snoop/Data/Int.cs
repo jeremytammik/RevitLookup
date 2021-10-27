@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,31 +21,29 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
-#endregion // Header
 
-using System;
+#endregion // Header
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format an Integer value.
+	///     Snoop.Data class to hold and format an Integer value.
 	/// </summary>
-	
 	public class Int : Data
-	{
-	    protected double    MVal;
-	    
-		public
-		Int(string label, int val)
-		:   base(label)
-		{
-		    MVal = val;
-		}
-		
-        public override string
-        StrValue()
+    {
+        protected double MVal;
+
+        public
+            Int(string label, int val)
+            : base(label)
         {
-			return MVal.ToString();
+            MVal = val;
         }
-	}
+
+        public override string
+            StrValue()
+        {
+            return MVal.ToString();
+        }
+    }
 }

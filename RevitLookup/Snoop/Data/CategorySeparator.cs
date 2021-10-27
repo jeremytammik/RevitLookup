@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,35 +21,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
-#endregion // Header
 
-using System;
+#endregion // Header
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format a CategorySeparator value.
+	///     Snoop.Data class to hold and format a CategorySeparator value.
 	/// </summary>
-	
 	public class CategorySeparator : Data
-	{
-        protected string    MVal;
-	    
+    {
+        protected string MVal;
+
         public
-        CategorySeparator(string category)
-        :   base("------- CATEGORY -------")
-		{
-		    MVal = category;
-		}
-		
-        override public string
-        StrValue()
+            CategorySeparator(string category)
+            : base("------- CATEGORY -------")
+        {
+            MVal = category;
+        }
+
+        public override bool
+            IsSeparator =>
+            true;
+
+        public override string
+            StrValue()
         {
             return $"--- {MVal} ---";
         }
-        
-        public override bool
-        IsSeparator =>
-	        true;
-	}
+    }
 }

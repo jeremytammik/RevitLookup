@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,40 +21,27 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Events;
 
 namespace RevitLookup.EventTrack.Events
 {
-
     /// <summary>
-    /// Bring up a simple MessageBox to show that we trapped a given event.
+    ///     Bring up a simple MessageBox to show that we trapped a given event.
     /// </summary>
-
     public class DocEvents : EventsBase
     {
-
-        static public DocumentSet MDocSet = null;
-
-        public DocEvents()
-        {
-        }
+        public static DocumentSet MDocSet = null;
 
         protected override void EnableEventsImp()
         {
             MessageBox.Show("Document Events Turned On ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            foreach (Document doc in MDocSet)
-            {
-                EnableEvents(doc);
-            }
+            foreach (Document doc in MDocSet) EnableEvents(doc);
         }
 
         public void EnableEvents(Document doc)
@@ -66,17 +54,14 @@ namespace RevitLookup.EventTrack.Events
             doc.DocumentSaving += doc_DocumentSaving;
             doc.DocumentSavingAs += doc_DocumentSavingAs;
             doc.ViewPrinted += doc_ViewPrinted;
-            doc.ViewPrinting += doc_ViewPrinting;            
-        }        
+            doc.ViewPrinting += doc_ViewPrinting;
+        }
 
         protected override void DisableEventsImp()
         {
             MessageBox.Show("Document Events Turned Off ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            foreach (Document doc in MDocSet)
-            {
-                DisableEvents(doc);
-            }
+            foreach (Document doc in MDocSet) DisableEvents(doc);
         }
 
         public void DisableEvents(Document doc)
@@ -135,8 +120,8 @@ namespace RevitLookup.EventTrack.Events
         private void doc_DocumentClosing(object sender, DocumentClosingEventArgs e)
         {
             DisplayEvent("Document closing");
-        }       
-        
+        }
+
         private void DisplayEvent(string eventStr)
         {
             MessageBox.Show($"Event: {eventStr}", "Document Event", MessageBoxButtons.OK, MessageBoxIcon.Information);

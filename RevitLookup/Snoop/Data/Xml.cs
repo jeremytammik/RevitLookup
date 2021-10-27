@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,63 +21,67 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
 using System.Windows.Forms;
+using System.Xml;
+using RevitLookup.Xml.Forms;
 
 namespace RevitLookup.Snoop.Data
 {
-	/// <summary>
-	/// Snoop.Data class to hold and format a chunk of XML.
-	/// </summary>
+    /// <summary>
+    ///     Snoop.Data class to hold and format a chunk of XML.
+    /// </summary>
+    public class Xml : Data
+    {
+        protected bool MIsFileName;
+        protected string MVal;
 
-	public class Xml : Data
-	{
-	    protected string    MVal;
-	    protected bool      MIsFileName;
-	    
-		public
-		Xml(string label, string val, bool isFileName)
-		:   base(label)
-		{
-		    MVal = val;
-		    MIsFileName = isFileName;
-		}
-		
+        public
+            Xml(string label, string val, bool isFileName)
+            : base(label)
+        {
+            MVal = val;
+            MIsFileName = isFileName;
+        }
+
+        public override bool
+            HasDrillDown
+        {
+            get
+            {
+                if (MVal == string.Empty)
+                    return false;
+                return true;
+            }
+        }
+
         public override string
-        StrValue()
+            StrValue()
         {
             return MVal;
         }
-        
-        public override bool
-        HasDrillDown
-        {
-            get {
-                if (MVal == string.Empty)
-                    return false;
-                else
-                    return true;
-            }
-        }
-        
+
         public override Form DrillDown()
         {
-            try {
-                var xmlDoc = new System.Xml.XmlDocument();
+            try
+            {
+                var xmlDoc = new XmlDocument();
                 if (MIsFileName)
                     xmlDoc.Load(MVal);
                 else
                     xmlDoc.LoadXml(MVal);
-            
-                var form = new RevitLookup.Xml.Forms.Dom(xmlDoc);
+
+                var form = new Dom(xmlDoc);
                 form.ShowDialog();
             }
-            catch (System.Xml.XmlException e) {
+            catch (XmlException e)
+            {
                 MessageBox.Show(e.Message, "XML Exception");
             }
+
             return null;
         }
-	}
+    }
 }

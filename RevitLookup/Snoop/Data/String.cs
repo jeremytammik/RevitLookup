@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,31 +21,29 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
-#endregion // Header
 
-using System;
+#endregion // Header
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format a String value.
+	///     Snoop.Data class to hold and format a String value.
 	/// </summary>
-	
 	public class String : Data
-	{
-	    protected string    MVal;
-	    
-		public
-		String(string label, string val)
-		:   base(label)
-		{
-		    MVal = val;
-		}
-		
+    {
+        protected string MVal;
+
+        public
+            String(string label, string val)
+            : base(label)
+        {
+            MVal = val;
+        }
+
         public override string
-        StrValue()
+            StrValue()
         {
             return MVal;
         }
-	}
+    }
 }

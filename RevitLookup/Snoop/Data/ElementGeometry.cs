@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,140 +21,142 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
-using System.Collections;
 using System.Linq;
-using System.Windows.Forms;
+using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format an Object value.
+	///     Snoop.Data class to hold and format an Object value.
 	/// </summary>
-	
 	public class ElementGeometry : Data
-	{
-	    protected Element MVal;
-        protected Autodesk.Revit.ApplicationServices.Application MApp;
+    {
+        protected Application MApp;
         protected bool MHasGeometry;
-	    
-		public
-		ElementGeometry(string label, Element val, Autodesk.Revit.ApplicationServices.Application app)
-		:   base(label)
-		{
-		    MVal = val;
+        protected Element MVal;
+
+        public
+            ElementGeometry(string label, Element val, Application app)
+            : base(label)
+        {
+            MVal = val;
             MApp = app;
 
             MHasGeometry = false;
 
-		    if (MVal != null && MApp != null)
-		        MHasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
-		}
-		
-        public override string
-        StrValue()
-        {
-			return "<Geometry.Element>";
+            if (MVal != null && MApp != null)
+                MHasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
         }
-        
-        public override bool
-        HasDrillDown =>
-	        MHasGeometry;
 
-        public override System.Windows.Forms.Form DrillDown()
+        public override bool
+            HasDrillDown =>
+            MHasGeometry;
+
+        public override string
+            StrValue()
         {
-            if (MHasGeometry) {
-				var form = new Forms.Geometry(MVal, MApp);
+            return "<Geometry.Element>";
+        }
+
+        public override Form DrillDown()
+        {
+            if (MHasGeometry)
+            {
+                var form = new Geometry(MVal, MApp);
                 return form;
             }
+
             return null;
         }
 
-	    private bool HasModelGeometry()
-	    {
-	        return Enum
-	            .GetValues(typeof (ViewDetailLevel))
-	            .Cast<ViewDetailLevel>()
-	            .Select(x => new Options
-	                {
-	                    DetailLevel = x
-	                })
-	            .Any(x => MVal.get_Geometry(x) != null);
-	    }
+        private bool HasModelGeometry()
+        {
+            return Enum
+                .GetValues(typeof(ViewDetailLevel))
+                .Cast<ViewDetailLevel>()
+                .Select(x => new Options
+                {
+                    DetailLevel = x
+                })
+                .Any(x => MVal.get_Geometry(x) != null);
+        }
 
-	    private bool HasViewSpecificGeometry()
-	    {
-	        var view = MVal.Document.ActiveView;
+        private bool HasViewSpecificGeometry()
+        {
+            var view = MVal.Document.ActiveView;
 
-	        if (view == null)
-	            return false;
+            if (view == null)
+                return false;
 
-	        var options = new Options
-	            {
-	                View = view,
-	                IncludeNonVisibleObjects = true
-	            };
+            var options = new Options
+            {
+                View = view,
+                IncludeNonVisibleObjects = true
+            };
 
-	        return MVal.get_Geometry(options) != null;
-	    }
-	}
+            return MVal.get_Geometry(options) != null;
+        }
+    }
 
 
+    // SOFiSTiK FS
+    public class OriginalInstanceGeometry : Data
+    {
+        protected Application MApp;
+        protected bool MHasGeometry;
+        protected FamilyInstance MVal;
 
-   // SOFiSTiK FS
-   public class OriginalInstanceGeometry : Data
-   {
-      protected FamilyInstance MVal;
-      protected Autodesk.Revit.ApplicationServices.Application MApp;
-      protected bool MHasGeometry;
+        public
+            OriginalInstanceGeometry(string label, FamilyInstance val, Application app)
+            : base(label)
+        {
+            MVal = val;
+            MApp = app;
 
-      public
-      OriginalInstanceGeometry(string label, FamilyInstance val, Autodesk.Revit.ApplicationServices.Application app)
-         : base(label)
-      {
-         MVal = val;
-         MApp = app;
+            MHasGeometry = false;
 
-         MHasGeometry = false;
+            if (MVal != null && MApp != null)
+            {
+                var geomOp = MApp.Create.NewGeometryOptions();
+                geomOp.DetailLevel = ViewDetailLevel.Undefined;
+                if (MVal.GetOriginalGeometry(geomOp) != null)
+                    MHasGeometry = true;
+            }
+        }
 
-         if (MVal != null && MApp != null)
-         {
-            var geomOp = MApp.Create.NewGeometryOptions();
-            geomOp.DetailLevel = ViewDetailLevel.Undefined;
-            if (MVal.GetOriginalGeometry(geomOp) != null)
-               MHasGeometry = true;
-         }
-      }
+        public override bool
+            HasDrillDown
+        {
+            get
+            {
+                if (MHasGeometry)
+                    return true;
+                return false;
+            }
+        }
 
-      public override string
-      StrValue()
-      {
-         return "<Geometry.Element>";
-      }
+        public override string
+            StrValue()
+        {
+            return "<Geometry.Element>";
+        }
 
-      public override bool
-      HasDrillDown
-      {
-         get
-         {
+        public override Form DrillDown()
+        {
             if (MHasGeometry)
-               return true;
-            else
-               return false;
-         }
-      }
+            {
+                var form = new OriginalGeometry(MVal, MApp);
+                return form;
+            }
 
-      public override System.Windows.Forms.Form DrillDown()
-      {
-         if (MHasGeometry)
-         {
-            var form = new Forms.OriginalGeometry(MVal, MApp);
-            return form;
-         }
-         return null;
-      }
-   }
+            return null;
+        }
+    }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Autodesk.Revit.DB;
+using RevitLookup.Snoop.Forms;
+using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Snoop.Data
 {
@@ -13,26 +15,26 @@ namespace RevitLookup.Snoop.Data
             _curve = curve;
         }
 
+        public override bool HasDrillDown => _curve != null && _curve.IsBound;
+
         public override string StrValue()
         {
             return "< Get End Points >";
         }
 
-        public override bool HasDrillDown => _curve != null && _curve.IsBound;
-
-        public override System.Windows.Forms.Form DrillDown()
+        public override Form DrillDown()
         {
             if (!HasDrillDown) return null;
 
             var xyzObjects = new List<SnoopableObjectWrapper>
             {
-                new("[0] Start", _curve.GetEndPoint(0)), 
+                new("[0] Start", _curve.GetEndPoint(0)),
                 new("[1] End", _curve.GetEndPoint(1))
             };
 
             if (!xyzObjects.Any()) return null;
 
-            var form = new Forms.Objects(xyzObjects);
+            var form = new Objects(xyzObjects);
             return form;
         }
     }

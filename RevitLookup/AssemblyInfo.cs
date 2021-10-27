@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,6 +21,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System.Reflection;
@@ -27,14 +29,14 @@ using System.Reflection;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "RevitLookup" )]
-[assembly: AssemblyDescription( "Revit add-in interactive BIM database exploration tool to view and navigate element properties and relationships." )]
-[assembly: AssemblyConfiguration( "" )]
-[assembly: AssemblyCompany( "Autodesk Inc." )]
-[assembly: AssemblyProduct( "RevitLookup" )]
-[assembly: AssemblyCopyright( "Copyright (C) 2003-2021 by Autodesk Inc." )]
-[assembly: AssemblyTrademark( "" )]
-[assembly: AssemblyCulture( "" )]
+[assembly: AssemblyTitle("RevitLookup")]
+[assembly: AssemblyDescription("Revit add-in interactive BIM database exploration tool to view and navigate element properties and relationships.")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Autodesk Inc.")]
+[assembly: AssemblyProduct("RevitLookup")]
+[assembly: AssemblyCopyright("Copyright (C) 2003-2021 by Autodesk Inc.")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the
@@ -135,7 +137,7 @@ using System.Reflection;
 // 2018-05-29 2019.0.0.2 merged pull request #43 from Levente Koncz @palver123 to use ProgramW6432 variable in csproj to locate Revit API assembly DLLs
 // 2018-12-13 2019.0.0.4 merged issue #45 and pull request #46 from @TheKidMSX to center parent for forms
 // 2019-01-09 2019.0.0.5 incremented copyright year to 2019
-// 2019-01-17 2019.0.0.6 added new commands by Håvard Leding: pick surface, edge, linked element
+// 2019-01-17 2019.0.0.6 added new commands by Hï¿½vard Leding: pick surface, edge, linked element
 // 2019-01-21 2019.0.0.7 fixed typo in variable name reported by @yk35 in pull request #47
 // 2019-03-18 2019.0.0.8 cleanup before adding CmdSnoopModScopeDependents
 // 2019-03-18 2019.0.0.9 added CmdSnoopModScopeDependents
@@ -182,5 +184,5 @@ using System.Reflection;
 // 2021-10-18 2022.0.1.0 integrated pull request #97 by @NeVeS to restore ability to snoop plan topologies
 // 2021-10-24 2022.0.1.0 integrated pull request #99 by @NeVeS to Eliminate warnings from #98
 //
-[assembly: AssemblyVersion( "2022.0.1.0" )]
-[assembly: AssemblyFileVersion( "2022.0.1.0" )]
+[assembly: AssemblyVersion("2022.0.1.0")]
+[assembly: AssemblyFileVersion("2022.0.1.0")]

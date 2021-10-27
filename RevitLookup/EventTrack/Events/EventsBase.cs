@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,25 +21,18 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 
 namespace RevitLookup.EventTrack.Events
 {
-
-    public abstract class EventsBase {
-
-        protected bool MShowDetails;
+    public abstract class EventsBase
+    {
         protected bool MAreEventsEnabled;
 
-        protected
-        EventsBase()
-        {
-        }
+        protected bool MShowDetails;
 
         public bool ShowDetails
         {
@@ -65,9 +59,8 @@ namespace RevitLookup.EventTrack.Events
             MAreEventsEnabled = false;
         }
 
-            // override these to enable and diable events in derived classes
+        // override these to enable and diable events in derived classes
         protected abstract void EnableEventsImp();
         protected abstract void DisableEventsImp();
-
     }
 }

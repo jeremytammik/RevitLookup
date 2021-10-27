@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,85 +21,86 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.XPath;
 using RevitLookup.Snoop;
+using RevitLookup.Snoop.Collectors;
 
 namespace RevitLookup.Xml.Forms
 {
-	/// <summary>
-	/// UI Test for navigating the XML Dom
-	/// </summary>
-	public class Dom : Form
-	{
-        private TreeView       _mTvDom;
-        private ListView       _mLvData;
-        private RadioButton    _mRbNodeNameOnly;
-        private RadioButton    _mRbNodeAndText;
-        private GroupBox       _mGrpLabelDisplay;
-        private GroupBox       _mGrpNodeDisplay;
-        private CheckBox       _mCbHideCommentNodes;
-        private CheckBox       _mCbHideTextNodes;
-        private Button         _mBnParent;
-        private Button         _mBnOwnerDoc;
-        private Button         _mBnPrevSibling;
-        private Button         _mBnNextSibling;
-        private Button         _mBnFirstChild;
-        private Button         _mBnLastChild;
-        private Button         _mBnDocElem;
-        private TextBox        _mEbXpathPattern;
-        private Button         _mBnSelectSingleNode;
-        private Button         _mBnXpathClear;
-        private Button         _mBnSelectNodes;
-        private Button         _mBnOk;
-        private ColumnHeader   _mLvColLabel;
-        private ColumnHeader   _mLvColValue;
-        private ImageList      _mImgListTree;
-        private Label          _mTxtXpathPattern;
-        private GroupBox       _mGrpXpath;
-        
-        private readonly XmlDocument              _mXmlDoc;
-        private readonly Snoop.Collectors.CollectorXmlNode   _mSnoopCollector = new();
-        
+    /// <summary>
+    ///     UI Test for navigating the XML Dom
+    /// </summary>
+    public class Dom : Form
+    {
+        private readonly CollectorXmlNode _mSnoopCollector = new();
+
+        private readonly XmlDocument _mXmlDoc;
+        private Button _mBnDocElem;
+        private Button _mBnFirstChild;
+        private Button _mBnLastChild;
+        private Button _mBnNextSibling;
+        private Button _mBnOk;
+        private Button _mBnOwnerDoc;
+        private Button _mBnParent;
+        private Button _mBnPrevSibling;
+        private Button _mBnSelectNodes;
+        private Button _mBnSelectSingleNode;
+        private Button _mBnXpathClear;
+        private CheckBox _mCbHideCommentNodes;
+        private CheckBox _mCbHideTextNodes;
+        private TextBox _mEbXpathPattern;
+        private GroupBox _mGrpLabelDisplay;
+        private GroupBox _mGrpNodeDisplay;
+        private GroupBox _mGrpXpath;
+        private ImageList _mImgListTree;
+        private ColumnHeader _mLvColLabel;
+        private ColumnHeader _mLvColValue;
+        private ListView _mLvData;
+        private RadioButton _mRbNodeAndText;
+        private RadioButton _mRbNodeNameOnly;
+        private TreeView _mTvDom;
+        private Label _mTxtXpathPattern;
+
         private IContainer components;
 
-		public
-		Dom(XmlDocument xmlDoc)
-		{
-		    _mXmlDoc = xmlDoc;
-		    
-			InitializeComponent();
-			
-			LoadTree();
-		}
+        public
+            Dom(XmlDocument xmlDoc)
+        {
+            _mXmlDoc = xmlDoc;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing) {
-				if (components != null) {
-					components.Dispose();
-				}
-			}
-			base.Dispose(disposing);
-		}
+            InitializeComponent();
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+            LoadTree();
+        }
+
+        /// <summary>
+        ///     Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                if (components != null)
+                    components.Dispose();
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///     Required method for Designer support - do not modify
+        ///     the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(Dom));
             this._mTvDom = new System.Windows.Forms.TreeView();
@@ -132,9 +134,9 @@ namespace RevitLookup.Xml.Forms
             // 
             // m_tvDom
             // 
-            this._mTvDom.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-                | System.Windows.Forms.AnchorStyles.Left) 
-                | System.Windows.Forms.AnchorStyles.Right);
+            this._mTvDom.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                    | System.Windows.Forms.AnchorStyles.Left)
+                                   | System.Windows.Forms.AnchorStyles.Right);
             this._mTvDom.HideSelection = false;
             this._mTvDom.ImageList = this._mImgListTree;
             this._mTvDom.Location = new System.Drawing.Point(16, 16);
@@ -147,16 +149,18 @@ namespace RevitLookup.Xml.Forms
             // 
             this._mImgListTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this._mImgListTree.ImageSize = new System.Drawing.Size(16, 16);
-            this._mImgListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("m_imgListTree.ImageStream")));
+            this._mImgListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer) (resources.GetObject("m_imgListTree.ImageStream")));
             this._mImgListTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // m_lvData
             // 
-            this._mLvData.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-                | System.Windows.Forms.AnchorStyles.Right);
-            this._mLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-                                                                                       this._mLvColLabel,
-                                                                                       this._mLvColValue});
+            this._mLvData.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                    | System.Windows.Forms.AnchorStyles.Right);
+            this._mLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
+            {
+                this._mLvColLabel,
+                this._mLvColValue
+            });
             this._mLvData.FullRowSelect = true;
             this._mLvData.GridLines = true;
             this._mLvData.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -216,9 +220,11 @@ namespace RevitLookup.Xml.Forms
             // m_grpNodeDisplay
             // 
             this._mGrpNodeDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-            this._mGrpNodeDisplay.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                                           this._mCbHideTextNodes,
-                                                                                           this._mCbHideCommentNodes});
+            this._mGrpNodeDisplay.Controls.AddRange(new System.Windows.Forms.Control[]
+            {
+                this._mCbHideTextNodes,
+                this._mCbHideCommentNodes
+            });
             this._mGrpNodeDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._mGrpNodeDisplay.Location = new System.Drawing.Point(584, 360);
             this._mGrpNodeDisplay.Name = "_mGrpNodeDisplay";
@@ -374,11 +380,13 @@ namespace RevitLookup.Xml.Forms
             // m_grpXpath
             // 
             this._mGrpXpath.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mGrpXpath.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                                     this._mEbXpathPattern,
-                                                                                     this._mBnXpathClear,
-                                                                                     this._mBnSelectNodes,
-                                                                                     this._mBnSelectSingleNode});
+            this._mGrpXpath.Controls.AddRange(new System.Windows.Forms.Control[]
+            {
+                this._mEbXpathPattern,
+                this._mBnXpathClear,
+                this._mBnSelectNodes,
+                this._mBnSelectSingleNode
+            });
             this._mGrpXpath.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._mGrpXpath.Location = new System.Drawing.Point(16, 488);
             this._mGrpXpath.Name = "_mGrpXpath";
@@ -404,23 +412,25 @@ namespace RevitLookup.Xml.Forms
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this._mBnOk;
             this.ClientSize = new System.Drawing.Size(800, 591);
-            this.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                          this._mBnDocElem,
-                                                                          this._mBnOk,
-                                                                          this._mTxtXpathPattern,
-                                                                          this._mBnLastChild,
-                                                                          this._mBnFirstChild,
-                                                                          this._mBnNextSibling,
-                                                                          this._mBnPrevSibling,
-                                                                          this._mBnOwnerDoc,
-                                                                          this._mBnParent,
-                                                                          this._mGrpNodeDisplay,
-                                                                          this._mRbNodeAndText,
-                                                                          this._mRbNodeNameOnly,
-                                                                          this._mLvData,
-                                                                          this._mTvDom,
-                                                                          this._mGrpLabelDisplay,
-                                                                          this._mGrpXpath});
+            this.Controls.AddRange(new System.Windows.Forms.Control[]
+            {
+                this._mBnDocElem,
+                this._mBnOk,
+                this._mTxtXpathPattern,
+                this._mBnLastChild,
+                this._mBnFirstChild,
+                this._mBnNextSibling,
+                this._mBnPrevSibling,
+                this._mBnOwnerDoc,
+                this._mBnParent,
+                this._mGrpNodeDisplay,
+                this._mRbNodeAndText,
+                this._mRbNodeNameOnly,
+                this._mLvData,
+                this._mTvDom,
+                this._mGrpLabelDisplay,
+                this._mGrpXpath
+            });
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(650, 400);
@@ -429,49 +439,47 @@ namespace RevitLookup.Xml.Forms
             this._mGrpNodeDisplay.ResumeLayout(false);
             this._mGrpXpath.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
-		#endregion
+
+        #endregion
 
         /// <summary>
-        /// This will populate the UI TreeView with all the nodes from the DOM tree
+        ///     This will populate the UI TreeView with all the nodes from the DOM tree
         /// </summary>
-        
         private void
-        LoadTree()
+            LoadTree()
         {
-            _mTvDom.BeginUpdate();  // suppress redraw events
+            _mTvDom.BeginUpdate(); // suppress redraw events
             _mTvDom.Nodes.Clear();
-            
+
             MakeTree(_mXmlDoc, null);
 
             _mTvDom.ExpandAll();
             if (_mTvDom.Nodes.Count > 0)
-                _mTvDom.SelectedNode = _mTvDom.Nodes[0];    // make first one selected
+                _mTvDom.SelectedNode = _mTvDom.Nodes[0]; // make first one selected
 
-            _mTvDom.EndUpdate();		// flushes redraw events
+            _mTvDom.EndUpdate(); // flushes redraw events
         }
 
         /// <summary>
-        /// Recursive function to walk the tree and populate all the nodes
+        ///     Recursive function to walk the tree and populate all the nodes
         /// </summary>
         /// <param name="xmlNode">The "root" of this portion of the tree</param>
         /// <param name="parentNode">The parent node to attach to or null for the root</param>
-        
         private void
-        MakeTree(XmlNode xmlNode, TreeNode parentNode)
+            MakeTree(XmlNode xmlNode, TreeNode parentNode)
         {
             var nType = xmlNode.NodeType;
-            
-                // bail early if user doesn't want this type of node displayed
-            if (((nType == XmlNodeType.Comment) && (_mCbHideCommentNodes.Checked)) ||
-                ((nType == XmlNodeType.Text) && (_mCbHideTextNodes.Checked)))
+
+            // bail early if user doesn't want this type of node displayed
+            if (nType == XmlNodeType.Comment && _mCbHideCommentNodes.Checked ||
+                nType == XmlNodeType.Text && _mCbHideTextNodes.Checked)
                 return;
 
-                // get image index and label to use in the TreeNode
+            // get image index and label to use in the TreeNode
             var imageIndex = GetImageIndex(nType);
             var labelStr = FormatLabel(xmlNode);
-            
+
             var treeNode = new TreeNode(labelStr)
             {
                 Tag = xmlNode,
@@ -480,34 +488,29 @@ namespace RevitLookup.Xml.Forms
             };
 
             if (parentNode == null)
-                _mTvDom.Nodes.Add(treeNode);    // This is the root node
+                _mTvDom.Nodes.Add(treeNode); // This is the root node
             else
                 parentNode.Nodes.Add(treeNode);
-                        
-                // get attributes of this node
+
+            // get attributes of this node
             var atts = xmlNode.Attributes;
-            if (atts != null) {
-                foreach (XmlAttribute tmpAtt in atts) {
+            if (atts != null)
+                foreach (XmlAttribute tmpAtt in atts)
                     MakeTree(tmpAtt, treeNode);
-                }
-            }
-                // now recursively go to the children of this node
-            if (xmlNode.HasChildNodes) {
-                foreach (XmlNode childNode in xmlNode.ChildNodes) {
+            // now recursively go to the children of this node
+            if (xmlNode.HasChildNodes)
+                foreach (XmlNode childNode in xmlNode.ChildNodes)
                     MakeTree(childNode, treeNode);
-                }
-            }
         }
 
         /// <summary>
-        /// Match a particular Image with the XML Node type.  A different Icon will
-        /// be used in the UI tree for each type of node.
+        ///     Match a particular Image with the XML Node type.  A different Icon will
+        ///     be used in the UI tree for each type of node.
         /// </summary>
         /// <param name="nType">The node type</param>
         /// <returns>index into the ImageList assigned to the TreeView</returns>
-        
         private int
-        GetImageIndex(XmlNodeType nType)
+            GetImageIndex(XmlNodeType nType)
         {
             var imageIndex = 0;
 
@@ -565,393 +568,382 @@ namespace RevitLookup.Xml.Forms
                     imageIndex = 12;
                     break;
             }
-            
+
             return imageIndex;
         }
-        
+
         /// <summary>
-        /// Allow the user prefernces to affect how we format the label for the tree node.
+        ///     Allow the user prefernces to affect how we format the label for the tree node.
         /// </summary>
         /// <param name="node">The node to format</param>
         /// <returns>formatted string according to user preferences</returns>
-        
         private string
-        FormatLabel(XmlNode node)
+            FormatLabel(XmlNode node)
         {
             string labelStr;
-            
+
             if (_mRbNodeNameOnly.Checked)
+            {
                 labelStr = node.Name;
-            else if (_mRbNodeAndText.Checked) {
-                if ((node.NodeType == XmlNodeType.Element) || (node.NodeType == XmlNodeType.Attribute))
+            }
+            else if (_mRbNodeAndText.Checked)
+            {
+                if (node.NodeType == XmlNodeType.Element || node.NodeType == XmlNodeType.Attribute)
                     labelStr = $"{node.Name} ({GetTextLabelValue(node)})";
                 else
                     labelStr = $"{node.Name} ({node.Value})";
             }
-            else {
-                Debug.Assert(false, "Unknown radio button!");   // Someone must have added a button we don't know about!
+            else
+            {
+                Debug.Assert(false, "Unknown radio button!"); // Someone must have added a button we don't know about!
                 labelStr = string.Empty;
             }
-            
+
             return labelStr;
         }
-        
+
         /// <summary>
-        /// Retrieve the text value for a given node
+        ///     Retrieve the text value for a given node
         /// </summary>
         /// <param name="node">Node to look at</param>
         /// <returns>Text value of the node (the XmlText Child Node of the one passed in)</returns>
-        
         private string
-        GetTextLabelValue(XmlNode node)
+            GetTextLabelValue(XmlNode node)
         {
             var txtNode = node.FirstChild;
-            if (txtNode is {NodeType: XmlNodeType.Text}) {
+            if (txtNode is {NodeType: XmlNodeType.Text})
                 return txtNode.Value;
-            }
-            else {
-                return string.Empty;
-            }
+            return string.Empty;
         }
-        
+
         /// <summary>
-        /// Display the data values associated with a selected node in the tree.
+        ///     Display the data values associated with a selected node in the tree.
         /// </summary>
         /// <param name="node">Currently selected node</param>
-        
         private void
-        Display(XmlNode node)
+            Display(XmlNode node)
         {
             SetButtonModes(node);
-                                   
+
             _mSnoopCollector.Collect(node);
             Snoop.Utils.Display(_mLvData, _mSnoopCollector);
         }
-        
+
         /// <summary>
-        /// Do a preview check to see which navigation buttons are going to work.  Disable
-        /// the ones that will not.
+        ///     Do a preview check to see which navigation buttons are going to work.  Disable
+        ///     the ones that will not.
         /// </summary>
         /// <param name="node">Currently selected node</param>
-        
         private void
-        SetButtonModes(XmlNode node)
+            SetButtonModes(XmlNode node)
         {
             XmlNode tmpNode;
-            
+
             tmpNode = node.ParentNode;
-            _mBnParent.Enabled = (tmpNode != null);
-            
+            _mBnParent.Enabled = tmpNode != null;
+
             tmpNode = node.OwnerDocument;
-            _mBnOwnerDoc.Enabled = (tmpNode != null);
+            _mBnOwnerDoc.Enabled = tmpNode != null;
 
             tmpNode = node.PreviousSibling;
-            _mBnPrevSibling.Enabled = (tmpNode != null);
+            _mBnPrevSibling.Enabled = tmpNode != null;
 
             tmpNode = node.NextSibling;
-            _mBnNextSibling.Enabled = (tmpNode != null);
-            
+            _mBnNextSibling.Enabled = tmpNode != null;
+
             tmpNode = node.FirstChild;
-            _mBnFirstChild.Enabled = (tmpNode != null);
+            _mBnFirstChild.Enabled = tmpNode != null;
 
             tmpNode = node.LastChild;
-            _mBnLastChild.Enabled = (tmpNode != null);
+            _mBnLastChild.Enabled = tmpNode != null;
         }
 
         /// <summary>
-        /// The user selected a UI TreeNode.  Update the Display based on the new selection
+        ///     The user selected a UI TreeNode.  Update the Display based on the new selection
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
         private void
-        TreeNodeSelected(object sender, TreeViewEventArgs e)
+            TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
-            var curNode = (XmlNode)e.Node.Tag;
+            var curNode = (XmlNode) e.Node.Tag;
             Display(curNode);
         }
 
         // UI Callbacks when buttons in the Form are pressed
-        
+
         private void
-        OnBnParent(object sender, EventArgs e)
+            OnBnParent(object sender, EventArgs e)
         {
-            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.ParentNode);
         }
 
         private void
-        OnBnOwnerDoc(object sender, EventArgs e)
+            OnBnOwnerDoc(object sender, EventArgs e)
         {
-            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.OwnerDocument);
         }
 
         private void
-        OnBnPrevSibling(object sender, EventArgs e)
+            OnBnPrevSibling(object sender, EventArgs e)
         {
-            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.PreviousSibling);
         }
 
         private void
-        OnBnNextSibling(object sender, EventArgs e)
+            OnBnNextSibling(object sender, EventArgs e)
         {
-            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.NextSibling);
         }
 
         private void
-        OnBnFirstChild(object sender, EventArgs e)
+            OnBnFirstChild(object sender, EventArgs e)
         {
-            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.FirstChild);
         }
 
         private void
-        OnBnLastChild(object sender, EventArgs e)
+            OnBnLastChild(object sender, EventArgs e)
         {
-            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.LastChild);
         }
-        
+
         private void
-        OnBnDocElement(object sender, EventArgs e)
+            OnBnDocElement(object sender, EventArgs e)
         {
             var elem = _mXmlDoc.DocumentElement;
             MoveToNewNodeInTree(elem);
         }
 
         /// <summary>
-        /// Based on a user-specified XPath expression, try to find a matching
-        /// node.  If found, change the background of the label to a different
-        /// color and make that item the current selection in the UI Tree.
+        ///     Based on a user-specified XPath expression, try to find a matching
+        ///     node.  If found, change the background of the label to a different
+        ///     color and make that item the current selection in the UI Tree.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
         private void
-        OnBnSelectSingleNode(object sender, EventArgs e)
+            OnBnSelectSingleNode(object sender, EventArgs e)
         {
-            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
 
-            try {
+            try
+            {
                 var newNode = curNode.SelectSingleNode(_mEbXpathPattern.Text);
-                
-                if (newNode != null) {
+
+                if (newNode != null)
+                {
                     _mTvDom.BeginUpdate();
-                   
+
                     SetSelectedNode(_mTvDom.Nodes, newNode);
                     MoveToNewNodeInTree(newNode);
-                    
+
                     _mTvDom.EndUpdate();
                 }
-                else {
+                else
+                {
                     MessageBox.Show("No node matches the pattern.", "XPath Search", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
             }
-            catch (System.Xml.XPath.XPathException ex) {
+            catch (XPathException ex)
+            {
                 MessageBox.Show(ex.Message, "XPath Exception", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
         /// <summary>
-        /// Based on a user-specified XPath expression, try to find any matching
-        /// nodes.  If found, change the background of the labels to a different
-        /// color and make the first item the current selection in the UI Tree.
+        ///     Based on a user-specified XPath expression, try to find any matching
+        ///     nodes.  If found, change the background of the labels to a different
+        ///     color and make the first item the current selection in the UI Tree.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
         private void
-        OnBnSelectNodes(object sender, EventArgs e)
+            OnBnSelectNodes(object sender, EventArgs e)
         {
-            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
 
-            try {
+            try
+            {
                 var selNodes = curNode.SelectNodes(_mEbXpathPattern.Text);
-                if (selNodes is {Count: > 0}) {
+                if (selNodes is {Count: > 0})
+                {
                     _mTvDom.BeginUpdate();
-                    
+
                     SetSelectedNodes(_mTvDom.Nodes, selNodes);
                     MoveToNewNodeInTree(selNodes[0]);
-                    
+
                     _mTvDom.EndUpdate();
                 }
-                else {
+                else
+                {
                     MessageBox.Show("No nodes match the pattern.", "XPath Search", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            catch (System.Xml.XPath.XPathException ex) {
+            catch (XPathException ex)
+            {
                 MessageBox.Show(ex.Message, "XPath Exception", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
-        
+
         private void
-        OnBnClear(object sender, EventArgs e)
+            OnBnClear(object sender, EventArgs e)
         {
             _mEbXpathPattern.Text = string.Empty;
             ClearSelectedNodes(_mTvDom.Nodes);
         }
 
         private void
-        OnRbChanged_LabelDisplay(object sender, EventArgs e)
+            OnRbChanged_LabelDisplay(object sender, EventArgs e)
         {
-            LoadTree();     // reload the tree with our new display preference set
+            LoadTree(); // reload the tree with our new display preference set
         }
 
         private void
-        OnCbChanged_NodeDisplay(object sender, EventArgs e)
+            OnCbChanged_NodeDisplay(object sender, EventArgs e)
         {
-            LoadTree();     // reload the tree with our new display preference set
+            LoadTree(); // reload the tree with our new display preference set
         }
-        
+
         private void
-        DataItemSelected(object sender, EventArgs e)
+            DataItemSelected(object sender, EventArgs e)
         {
             Snoop.Utils.DataItemSelected(_mLvData, new ModelessWindowFactory(this, null));
         }
-        
+
         /// <summary>
-        /// One of the navigation buttons ("Parent", "First Child", etc) was picked.  Based on the
-        /// XmlNode that those functions returned, find the corresponding UI TreeNode and make it
-        /// the currently selected one.
+        ///     One of the navigation buttons ("Parent", "First Child", etc) was picked.  Based on the
+        ///     XmlNode that those functions returned, find the corresponding UI TreeNode and make it
+        ///     the currently selected one.
         /// </summary>
         /// <param name="newXmlNode">The XmlNode that should now be selected</param>
-        
         private void
-        MoveToNewNodeInTree(XmlNode newXmlNode)
+            MoveToNewNodeInTree(XmlNode newXmlNode)
         {
-            Debug.Assert(newXmlNode != null);   // we should have checked out OK in SetButtonModes()
-            
+            Debug.Assert(newXmlNode != null); // we should have checked out OK in SetButtonModes()
+
             var newTreeNode = FindTreeNodeFromXmlNodeTag(_mTvDom.Nodes, newXmlNode);
-            if (newTreeNode != null) {
+            if (newTreeNode != null)
                 _mTvDom.SelectedNode = newTreeNode;
-            }
-            else {
+            else
                 MessageBox.Show("The node exist in the XML DOM, but not in the UI tree.\nPerhaps you have Text or Comment nodes turned off?",
                     "MgdDbg", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
-        
+
         /// <summary>
-        /// Sometimes we have the Xml DOM node and we need to find where that is in our
-        /// UI tree.  This function will brute-force search the UI tree looking for a
-        /// TreeNode.Tag that matches the XmlNode we are searching for.  Note: this function
-        /// is recursive.
+        ///     Sometimes we have the Xml DOM node and we need to find where that is in our
+        ///     UI tree.  This function will brute-force search the UI tree looking for a
+        ///     TreeNode.Tag that matches the XmlNode we are searching for.  Note: this function
+        ///     is recursive.
         /// </summary>
         /// <param name="treeNodes">The current collection of nodes to look through</param>
         /// <param name="xmlNode">The XmlNode we are searching for.</param>
         /// <returns>The found TreeNode or null, if not found</returns>
-        
         private TreeNode
-        FindTreeNodeFromXmlNodeTag(TreeNodeCollection treeNodes, XmlNode xmlNode)
+            FindTreeNodeFromXmlNodeTag(TreeNodeCollection treeNodes, XmlNode xmlNode)
         {
             XmlNode tmpXmlNode = null;
-            
-                // walk the list of tree nodes looking for a match in the attached
-                // Tag object.
-            foreach (TreeNode tNode in treeNodes) {
-                tmpXmlNode = (XmlNode)tNode.Tag;
+
+            // walk the list of tree nodes looking for a match in the attached
+            // Tag object.
+            foreach (TreeNode tNode in treeNodes)
+            {
+                tmpXmlNode = (XmlNode) tNode.Tag;
                 if (tmpXmlNode == xmlNode)
-                    return tNode;       // found it
-                    
-                    // Didn't find it, but this node may have children, so recursively
-                    // look for it here.
-                if (tNode.Nodes.Count > 0) {
-                        // if we find it on the recursive call, pop back out,
-                        // otherwise continue searching at this level
+                    return tNode; // found it
+
+                // Didn't find it, but this node may have children, so recursively
+                // look for it here.
+                if (tNode.Nodes.Count > 0)
+                {
+                    // if we find it on the recursive call, pop back out,
+                    // otherwise continue searching at this level
                     TreeNode recursiveNode = null;
                     recursiveNode = FindTreeNodeFromXmlNodeTag(tNode.Nodes, xmlNode);
                     if (recursiveNode != null)
                         return recursiveNode;
                 }
             }
-            
+
             return null;
         }
 
         /// <summary>
-        /// When nodes are selected by XPath expressions, we highlighted them by changing
-        /// the background color.  Go through and reset them to normal.  This function handles
-        /// one level of the tree at a time and then goes recursive.
+        ///     When nodes are selected by XPath expressions, we highlighted them by changing
+        ///     the background color.  Go through and reset them to normal.  This function handles
+        ///     one level of the tree at a time and then goes recursive.
         /// </summary>
         /// <param name="treeNodes">The "root" of this protion of the tree</param>
-        
         private void
-        ClearSelectedNodes(TreeNodeCollection treeNodes)
+            ClearSelectedNodes(TreeNodeCollection treeNodes)
         {
-            foreach (TreeNode tNode in treeNodes) {
-                tNode.BackColor = Color.Empty;  
-                if (tNode.Nodes.Count > 0) {
-                    ClearSelectedNodes(tNode.Nodes);
-                }
+            foreach (TreeNode tNode in treeNodes)
+            {
+                tNode.BackColor = Color.Empty;
+                if (tNode.Nodes.Count > 0) ClearSelectedNodes(tNode.Nodes);
             }
         }
-        
+
         /// <summary>
-        /// Change the background color of the matching node
+        ///     Change the background color of the matching node
         /// </summary>
         /// <param name="treeNodes">The "root" of this section of the tree</param>
         /// <param name="selNode">The XmlNode we are trying to find</param>
-        
         private void
-        SetSelectedNode(TreeNodeCollection treeNodes, XmlNode selNode)
+            SetSelectedNode(TreeNodeCollection treeNodes, XmlNode selNode)
         {
-            foreach (TreeNode tNode in treeNodes) {
-                if (selNode == (XmlNode)tNode.Tag)
+            foreach (TreeNode tNode in treeNodes)
+            {
+                if (selNode == (XmlNode) tNode.Tag)
                     tNode.BackColor = Color.LightSkyBlue;
                 else
                     tNode.BackColor = Color.Empty;
-                    
-                if (tNode.Nodes.Count > 0) {
-                    SetSelectedNode(tNode.Nodes, selNode);
-                }
+
+                if (tNode.Nodes.Count > 0) SetSelectedNode(tNode.Nodes, selNode);
             }
         }
-        
+
         /// <summary>
-        /// Same as SetSelectedNode(), but with a set of matches.
-        /// NOTE: You cannot manually add to an XmlNodeList, so I couldn't
-        /// have the above function call this one.
+        ///     Same as SetSelectedNode(), but with a set of matches.
+        ///     NOTE: You cannot manually add to an XmlNodeList, so I couldn't
+        ///     have the above function call this one.
         /// </summary>
         /// <param name="treeNodes"></param>
         /// <param name="selNodes"></param>
-        
         private void
-        SetSelectedNodes(TreeNodeCollection treeNodes, XmlNodeList selNodes)
+            SetSelectedNodes(TreeNodeCollection treeNodes, XmlNodeList selNodes)
         {
-            foreach (TreeNode tNode in treeNodes) {
-                if (NodeListContains(selNodes, (XmlNode)tNode.Tag))
+            foreach (TreeNode tNode in treeNodes)
+            {
+                if (NodeListContains(selNodes, (XmlNode) tNode.Tag))
                     tNode.BackColor = Color.LightSkyBlue;
                 else
                     tNode.BackColor = Color.Empty;
-                    
-                if (tNode.Nodes.Count > 0) {
-                    SetSelectedNodes(tNode.Nodes, selNodes);
-                }
+
+                if (tNode.Nodes.Count > 0) SetSelectedNodes(tNode.Nodes, selNodes);
             }
         }
-        
+
         /// <summary>
-        /// Is a given node part of the nodeSet?
+        ///     Is a given node part of the nodeSet?
         /// </summary>
         /// <param name="nodeSet">Set of nodes to search</param>
         /// <param name="findNode">Node we are searching for</param>
         /// <returns>true if found, false if not</returns>
-        
         private bool
-        NodeListContains(XmlNodeList nodeSet, XmlNode findNode)
+            NodeListContains(XmlNodeList nodeSet, XmlNode findNode)
         {
-            foreach (XmlNode tmpNode in nodeSet) {
+            foreach (XmlNode tmpNode in nodeSet)
                 if (tmpNode == findNode)
                     return true;
-            }
-            
+
             return false;
         }
-
-
-	}
+    }
 }

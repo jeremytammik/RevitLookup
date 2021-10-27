@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,34 +21,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
+using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.Data
 {
 	/// <summary>
-	/// Snoop.Data class to hold and format a UV value.
+	///     Snoop.Data class to hold and format a UV value.
 	/// </summary>
-	
 	public class Uv : Data
-	{
-	    protected Autodesk.Revit.DB.UV    MVal;
-	    
-		public
-		Uv(string label, Autodesk.Revit.DB.UV val)
-		:   base(label)
-		{
-		    MVal = val;
-		}
-		
-        public override string
-        StrValue()
+    {
+        protected UV MVal;
+
+        public
+            Uv(string label, UV val)
+            : base(label)
         {
-          if (MVal != null)
-            return $"({MVal.U}, {MVal.V})";
-          else
+            MVal = val;
+        }
+
+        public override string
+            StrValue()
+        {
+            if (MVal != null)
+                return $"({MVal.U}, {MVal.V})";
             return "< null >";
         }
-	}
+    }
 }

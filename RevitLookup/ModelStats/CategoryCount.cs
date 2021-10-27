@@ -1,4 +1,5 @@
 #region Header
+
 //
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
@@ -20,27 +21,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 //
+
 #endregion // Header
 
-using System;
 using System.Collections;
-
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.ModelStats
 {
 	/// <summary>
-	/// Summary description for CategoryCount.
+	///     Summary description for CategoryCount.
 	/// </summary>
 	public class CategoryCount
-	{
-	        // data members
-	    public Category     MCategory;
-	    public ArrayList    MObjs = new();
-	   
-		public
-		CategoryCount()
-		{
-		}
-	}
+    {
+        // data members
+        public Category MCategory;
+        public ArrayList MObjs = new();
+    }
 }
