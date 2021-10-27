@@ -97,108 +97,108 @@ namespace RevitLookup.EventTrack.Events {
             m_app.ViewPrinting -= m_app_ViewPrinting;   
         }
 
-        void m_app_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)
+        private void m_app_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)
         {
             DisplayEvent("View printing");
         }
 
-        void m_app_ViewPrinted(object sender, Autodesk.Revit.DB.Events.ViewPrintedEventArgs e)
+        private void m_app_ViewPrinted(object sender, Autodesk.Revit.DB.Events.ViewPrintedEventArgs e)
         {
             DisplayEvent("View printed");
         }
 
-        void m_app_DocumentOpening(object sender, Autodesk.Revit.DB.Events.DocumentOpeningEventArgs e)
+        private void m_app_DocumentOpening(object sender, Autodesk.Revit.DB.Events.DocumentOpeningEventArgs e)
         {
             DisplayEvent("Document opening");
         }
 
-        void m_app_DocumentCreating(object sender, Autodesk.Revit.DB.Events.DocumentCreatingEventArgs e)
+        private void m_app_DocumentCreating(object sender, Autodesk.Revit.DB.Events.DocumentCreatingEventArgs e)
         {
             DisplayEvent("Document creating");
         }
 
-        void m_app_DocumentClosing(object sender, Autodesk.Revit.DB.Events.DocumentClosingEventArgs e)
+        private void m_app_DocumentClosing(object sender, Autodesk.Revit.DB.Events.DocumentClosingEventArgs e)
         {
             DisplayEvent("Document closing");
         }
 
-        void m_app_FileImporting(object sender, Autodesk.Revit.DB.Events.FileImportingEventArgs e)
+        private void m_app_FileImporting(object sender, Autodesk.Revit.DB.Events.FileImportingEventArgs e)
         {
             DisplayEvent("File importing");
         }
 
-        void m_app_FileImported(object sender, Autodesk.Revit.DB.Events.FileImportedEventArgs e)
+        private void m_app_FileImported(object sender, Autodesk.Revit.DB.Events.FileImportedEventArgs e)
         {
             DisplayEvent("File imported");
         }
 
-        void m_app_FileExporting(object sender, Autodesk.Revit.DB.Events.FileExportingEventArgs e)
+        private void m_app_FileExporting(object sender, Autodesk.Revit.DB.Events.FileExportingEventArgs e)
         {
             DisplayEvent("File exporting");
         }
 
-        void m_app_FileExported(object sender, Autodesk.Revit.DB.Events.FileExportedEventArgs e)
+        private void m_app_FileExported(object sender, Autodesk.Revit.DB.Events.FileExportedEventArgs e)
         {
             DisplayEvent("File exported");
         }
 
-        void m_app_DocumentSavingToCentral(object sender, Autodesk.Revit.DB.Events.DocumentSynchronizingWithCentralEventArgs e)
+        private void m_app_DocumentSavingToCentral(object sender, Autodesk.Revit.DB.Events.DocumentSynchronizingWithCentralEventArgs e)
         {
             
             DisplayEvent("Document saving to central");
         }
 
-        void m_app_DocumentSavingAs(object sender, Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs e)
+        private void m_app_DocumentSavingAs(object sender, Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs e)
         {
             DisplayEvent("Document saving as");
         }
 
-        void m_app_DocumentSaving(object sender, Autodesk.Revit.DB.Events.DocumentSavingEventArgs e)
+        private void m_app_DocumentSaving(object sender, Autodesk.Revit.DB.Events.DocumentSavingEventArgs e)
         {
             DisplayEvent("Document saving");
         }
 
-        void m_app_DocumentSavedToCentral(object sender, Autodesk.Revit.DB.Events.DocumentSynchronizedWithCentralEventArgs e)
+        private void m_app_DocumentSavedToCentral(object sender, Autodesk.Revit.DB.Events.DocumentSynchronizedWithCentralEventArgs e)
         {
             DisplayEvent("Document saved to central");
         }
 
-        void m_app_DocumentPrinting(object sender, Autodesk.Revit.DB.Events.DocumentPrintingEventArgs e)
+        private void m_app_DocumentPrinting(object sender, Autodesk.Revit.DB.Events.DocumentPrintingEventArgs e)
         {
             DisplayEvent("Document printing");
         }
 
-        void m_app_DocumentPrinted(object sender, Autodesk.Revit.DB.Events.DocumentPrintedEventArgs e)
+        private void m_app_DocumentPrinted(object sender, Autodesk.Revit.DB.Events.DocumentPrintedEventArgs e)
         {
             DisplayEvent("Document printed");
         }
 
-        void m_app_DocumentCreated(object sender, Autodesk.Revit.DB.Events.DocumentCreatedEventArgs e)
+        private void m_app_DocumentCreated(object sender, Autodesk.Revit.DB.Events.DocumentCreatedEventArgs e)
         {
             DisplayEvent("Document created");
         }
 
-        void m_app_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)
+        private void m_app_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)
         {
             DisplayEvent("Document saved as");
         }
 
-        void m_app_DocumentSaved(object sender, Autodesk.Revit.DB.Events.DocumentSavedEventArgs e)
+        private void m_app_DocumentSaved(object sender, Autodesk.Revit.DB.Events.DocumentSavedEventArgs e)
         {
             DisplayEvent("Document saved");
         }
 
-        void m_app_DocumentOpened(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e)
+        private void m_app_DocumentOpened(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e)
         {
             DisplayEvent("Document opened");
         }
 
-        void m_app_DialogBoxShowing(object sender, Autodesk.Revit.UI.Events.DialogBoxShowingEventArgs e)
+        private void m_app_DialogBoxShowing(object sender, Autodesk.Revit.UI.Events.DialogBoxShowingEventArgs e)
         {
             DisplayEvent("Dialog Box");
         }
 
-        void m_app_DocumentClosed(object sender, Autodesk.Revit.DB.Events.DocumentClosedEventArgs e)
+        private void m_app_DocumentClosed(object sender, Autodesk.Revit.DB.Events.DocumentClosedEventArgs e)
         {
             DisplayEvent("Document closed");
         }                

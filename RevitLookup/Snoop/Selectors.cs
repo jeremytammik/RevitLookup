@@ -19,7 +19,7 @@ namespace RevitLookup.Snoop
         SnoopApplication
     }
 
-    static class Selectors
+    internal static class Selectors
     {
 
         public static (object, Document) Snoop(UIApplication app, Selector selector)

@@ -7,7 +7,7 @@ using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.Data.PlaceHolders
 {
-    interface IObjectToSnoopPlaceholder
+    internal interface IObjectToSnoopPlaceholder
     {
         object GetObject(Document document);
         string GetName();

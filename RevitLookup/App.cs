@@ -36,11 +36,11 @@ namespace RevitLookup
 {
   public class App : IExternalApplication
   {
-    static AddInId m_appId = new AddInId( new Guid(
+    private static AddInId m_appId = new AddInId( new Guid(
       "356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8" ) );
 
     // get the absolute path of this assembly
-    static string ExecutingAssemblyPath = System.Reflection.Assembly
+    private static string ExecutingAssemblyPath = System.Reflection.Assembly
       .GetExecutingAssembly().Location;
 
     private AppDocEvents m_appDocEvents;
@@ -98,7 +98,7 @@ namespace RevitLookup
       m_appDocEvents.DisableEvents();
     }
 
-    static BitmapSource GetEmbeddedImage( string name )
+    private static BitmapSource GetEmbeddedImage( string name )
     {
       try
       {

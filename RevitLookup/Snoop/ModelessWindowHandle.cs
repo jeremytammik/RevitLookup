@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace RevitLookup.Snoop
 {
-    class ModelessWindowHandle : IWin32Window
+    internal class ModelessWindowHandle : IWin32Window
     {
         public static IntPtr RevitMainWindowHandle { get; set; }
         public IntPtr Handle { get; }

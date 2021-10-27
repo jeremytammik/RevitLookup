@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace RevitLookup.Snoop
 {
-    static class ExternalExecutor
+    internal static class ExternalExecutor
     {
-        static ExternalEvent externalEvent;
+        private static ExternalEvent externalEvent;
 
         public static void CreateExternalEvent()
         {

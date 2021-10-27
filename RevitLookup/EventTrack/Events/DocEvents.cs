@@ -97,47 +97,47 @@ namespace RevitLookup.EventTrack.Events
             doc.ViewPrinting -= doc_ViewPrinting;
         }
 
-        void doc_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)
+        private void doc_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)
         {
             DisplayEvent("View printing");
         }
 
-        void doc_ViewPrinted(object sender, Autodesk.Revit.DB.Events.ViewPrintedEventArgs e)
+        private void doc_ViewPrinted(object sender, Autodesk.Revit.DB.Events.ViewPrintedEventArgs e)
         {
             DisplayEvent("View printed");
         }
 
-        void doc_DocumentSavingAs(object sender, Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs e)
+        private void doc_DocumentSavingAs(object sender, Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs e)
         {
             DisplayEvent("Document saving as");
         }
 
-        void doc_DocumentSaving(object sender, Autodesk.Revit.DB.Events.DocumentSavingEventArgs e)
+        private void doc_DocumentSaving(object sender, Autodesk.Revit.DB.Events.DocumentSavingEventArgs e)
         {
             DisplayEvent("Document saving");
         }
 
-        void doc_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)
+        private void doc_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)
         {
             DisplayEvent("Document saved as");
         }
 
-        void doc_DocumentSaved(object sender, Autodesk.Revit.DB.Events.DocumentSavedEventArgs e)
+        private void doc_DocumentSaved(object sender, Autodesk.Revit.DB.Events.DocumentSavedEventArgs e)
         {
             DisplayEvent("Document saved");
         }
 
-        void doc_DocumentPrinting(object sender, Autodesk.Revit.DB.Events.DocumentPrintingEventArgs e)
+        private void doc_DocumentPrinting(object sender, Autodesk.Revit.DB.Events.DocumentPrintingEventArgs e)
         {
             DisplayEvent("Document printing");
         }
 
-        void doc_DocumentPrinted(object sender, Autodesk.Revit.DB.Events.DocumentPrintedEventArgs e)
+        private void doc_DocumentPrinted(object sender, Autodesk.Revit.DB.Events.DocumentPrintedEventArgs e)
         {
             DisplayEvent("Document printed");
         }
 
-        void doc_DocumentClosing(object sender, Autodesk.Revit.DB.Events.DocumentClosingEventArgs e)
+        private void doc_DocumentClosing(object sender, Autodesk.Revit.DB.Events.DocumentClosingEventArgs e)
         {
             DisplayEvent("Document closing");
         }       

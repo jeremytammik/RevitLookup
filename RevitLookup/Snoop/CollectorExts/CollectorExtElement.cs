@@ -41,7 +41,7 @@ namespace RevitLookup.Snoop.CollectorExts
     /// </summary>
     public class CollectorExtElement : CollectorExt
     {
-        static readonly Type[] types;
+        private static readonly Type[] types;
 
         static CollectorExtElement()
         {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RevitLookup.Snoop
 {
-    interface IHaveCollector
+    internal interface IHaveCollector
     {
         void SetDocument(Document document);
     }

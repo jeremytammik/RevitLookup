@@ -7,7 +7,7 @@ using Autodesk.Revit.DB;
 
 namespace RevitLookup.Snoop.Data.PlaceHolders
 {
-    class PlanTopologyPlaceholder : IObjectToSnoopPlaceholder
+    internal class PlanTopologyPlaceholder : IObjectToSnoopPlaceholder
     {
         private Phase phase;
         private Level level;

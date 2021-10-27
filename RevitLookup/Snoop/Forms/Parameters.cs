@@ -52,7 +52,7 @@ namespace RevitLookup.Snoop.Forms
         protected Snoop.Collectors.CollectorObj         m_snoopCollector            = new Snoop.Collectors.CollectorObj();
         protected System.Object							m_curObj;
 
-        Element                                         m_elem;
+        private Element                                         m_elem;
         private   ContextMenuStrip                      listViewContextMenuStrip;
         private   System.Windows.Forms.MenuItem         m_mnuItemCopy;
         private   ToolStripMenuItem                     copyToolStripMenuItem;
