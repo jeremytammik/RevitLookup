@@ -32,8 +32,8 @@ namespace RevitLookup.EventTrack.Events
 
     public abstract class EventsBase {
 
-        protected bool m_showDetails = false;
-        protected bool m_areEventsEnabled = false;
+        protected bool MShowDetails = false;
+        protected bool MAreEventsEnabled = false;
 
         protected
         EventsBase()
@@ -43,33 +43,33 @@ namespace RevitLookup.EventTrack.Events
         public bool
         ShowDetails
         {
-            get { return m_showDetails; }
-            set { m_showDetails = value; }
+            get { return MShowDetails; }
+            set { MShowDetails = value; }
         }
 
 
         public bool
         AreEventsEnabled
         {
-            get { return m_areEventsEnabled; }
+            get { return MAreEventsEnabled; }
         }
 
         public void
         EnableEvents()
         {
-            Debug.Assert(m_areEventsEnabled == false);
+            Debug.Assert(MAreEventsEnabled == false);
 
             EnableEventsImp();
-            m_areEventsEnabled = true;
+            MAreEventsEnabled = true;
         }
 
         public void
         DisableEvents()
         {
-            Debug.Assert(m_areEventsEnabled == true);
+            Debug.Assert(MAreEventsEnabled == true);
 
             DisableEventsImp();
-            m_areEventsEnabled = false;
+            MAreEventsEnabled = false;
         }
 
             // override these to enable and diable events in derived classes

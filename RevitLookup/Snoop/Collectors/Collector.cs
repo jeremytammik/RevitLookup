@@ -29,12 +29,12 @@ namespace RevitLookup.Snoop.Collectors
 {
 	public abstract class Collector
 	{		
-	    protected ArrayList m_dataObjs = new ArrayList();	    
+	    protected ArrayList MDataObjs = new ArrayList();	    
 	
 		
 		public ArrayList Data()
 		{
-		    return m_dataObjs;
+		    return MDataObjs;
 		}
 	}
 }

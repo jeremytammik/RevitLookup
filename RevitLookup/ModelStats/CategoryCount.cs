@@ -35,8 +35,8 @@ namespace RevitLookup.ModelStats
 	public class CategoryCount
 	{
 	        // data members
-	    public Category     m_category;
-	    public ArrayList    m_objs = new ArrayList();
+	    public Category     MCategory;
+	    public ArrayList    MObjs = new ArrayList();
 	   
 		public
 		CategoryCount()

@@ -36,14 +36,14 @@ namespace RevitLookup
 {
   public class App : IExternalApplication
   {
-    private static AddInId m_appId = new AddInId( new Guid(
+    private static AddInId _mAppId = new AddInId( new Guid(
       "356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8" ) );
 
     // get the absolute path of this assembly
-    private static string ExecutingAssemblyPath = System.Reflection.Assembly
+    private static string _executingAssemblyPath = System.Reflection.Assembly
       .GetExecutingAssembly().Location;
 
-    private AppDocEvents m_appDocEvents;
+    private AppDocEvents _mAppDocEvents;
 
     public Result OnStartup(
       UIControlledApplication application )
@@ -75,27 +75,27 @@ namespace RevitLookup
       // Add Icons to main RevitLookup Menu
       optionsBtn.Image = GetEmbeddedImage( "RevitLookup.Resources.RLookup-16.png" );
       optionsBtn.LargeImage = GetEmbeddedImage( "RevitLookup.Resources.RLookup-32.png" );
-      optionsBtn.AddPushButton(new PushButtonData("HelloWorld", "Hello World...", ExecutingAssemblyPath, typeof(HelloWorld).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Snoop Db..", "Snoop DB...", ExecutingAssemblyPath, typeof(CmdSnoopDb).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Snoop Current Selection...", "Snoop Current Selection...", ExecutingAssemblyPath, typeof(CmdSnoopModScope).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Face...", "Snoop Pick Face...", ExecutingAssemblyPath, typeof(CmdSnoopModScopePickSurface).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Edge...", "Snoop Pick Edge...", ExecutingAssemblyPath, typeof(CmdSnoopModScopePickEdge).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Linked Element...", "Snoop Linked Element...", ExecutingAssemblyPath, typeof(CmdSnoopModScopeLinkedElement).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Snoop Dependent Elements...", "Snoop Dependent Elements...", ExecutingAssemblyPath, typeof(CmdSnoopModScopeDependents).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Snoop Active View...", "Snoop Active View...", ExecutingAssemblyPath, typeof(CmdSnoopActiveView).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Snoop Application...", "Snoop Application...", ExecutingAssemblyPath, typeof(CmdSnoopApp).FullName));
-      optionsBtn.AddPushButton(new PushButtonData("Search and Snoop...", "Search and Snoop...", ExecutingAssemblyPath, typeof(CmdSearchBy).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("HelloWorld", "Hello World...", _executingAssemblyPath, typeof(HelloWorld).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Db..", "Snoop DB...", _executingAssemblyPath, typeof(CmdSnoopDb).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Current Selection...", "Snoop Current Selection...", _executingAssemblyPath, typeof(CmdSnoopModScope).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Face...", "Snoop Pick Face...", _executingAssemblyPath, typeof(CmdSnoopModScopePickSurface).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Edge...", "Snoop Pick Edge...", _executingAssemblyPath, typeof(CmdSnoopModScopePickEdge).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Pick Linked Element...", "Snoop Linked Element...", _executingAssemblyPath, typeof(CmdSnoopModScopeLinkedElement).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Dependent Elements...", "Snoop Dependent Elements...", _executingAssemblyPath, typeof(CmdSnoopModScopeDependents).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Active View...", "Snoop Active View...", _executingAssemblyPath, typeof(CmdSnoopActiveView).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Snoop Application...", "Snoop Application...", _executingAssemblyPath, typeof(CmdSnoopApp).FullName));
+      optionsBtn.AddPushButton(new PushButtonData("Search and Snoop...", "Search and Snoop...", _executingAssemblyPath, typeof(CmdSearchBy).FullName));
     }
 
     private void AddAppDocEvents( ControlledApplication app )
     {
-      m_appDocEvents = new AppDocEvents( app );
-      m_appDocEvents.EnableEvents();
+      _mAppDocEvents = new AppDocEvents( app );
+      _mAppDocEvents.EnableEvents();
     }
 
     private void RemoveAppDocEvents()
     {
-      m_appDocEvents.DisableEvents();
+      _mAppDocEvents.DisableEvents();
     }
 
     private static BitmapSource GetEmbeddedImage( string name )

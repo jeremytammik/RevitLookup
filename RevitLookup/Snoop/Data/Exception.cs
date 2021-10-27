@@ -31,17 +31,17 @@ namespace RevitLookup.Snoop.Data
    /// </summary>	
    public class Exception : Data
    {
-      protected System.Exception m_val;
+      protected System.Exception MVal;
 
       public Exception(string label, System.Exception val)
          : base(label)
       {
-         m_val = val;
+         MVal = val;
       }
 
       public override string StrValue()
       {
-         return m_val.Message;
+         return MVal.Message;
       }
 
       public override bool IsError

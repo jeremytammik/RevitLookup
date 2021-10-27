@@ -40,17 +40,17 @@ namespace RevitLookup.Snoop.Forms
 	
 	public class GenericPropGrid : System.Windows.Forms.Form
 	{
-        private System.Windows.Forms.PropertyGrid   m_pgProps;
-        private System.Windows.Forms.Button         m_bnOK;
-        private System.Windows.Forms.Button         m_bnCancel;
-        private System.Windows.Forms.ContextMenu    m_mnuContext;
-        private System.Windows.Forms.MenuItem       m_mnuItemShowObjInfo;
-        private System.Windows.Forms.MenuItem       m_mnuItemShowClassInfo;
+        private System.Windows.Forms.PropertyGrid   _mPgProps;
+        private System.Windows.Forms.Button         _mBnOk;
+        private System.Windows.Forms.Button         _mBnCancel;
+        private System.Windows.Forms.ContextMenu    _mMnuContext;
+        private System.Windows.Forms.MenuItem       _mMnuItemShowObjInfo;
+        private System.Windows.Forms.MenuItem       _mMnuItemShowClassInfo;
                 
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.Container components = null;
+		private System.ComponentModel.Container _components = null;
 
 		public
 		GenericPropGrid(object obj)
@@ -61,7 +61,7 @@ namespace RevitLookup.Snoop.Forms
 			// Add Load to update ListView Width
             Utils.AddOnLoadForm(this);
 
-            m_pgProps.SelectedObject = obj; // This all we need to do for Reflection to kick in
+            _mPgProps.SelectedObject = obj; // This all we need to do for Reflection to kick in
 		}
 
 		/// <summary>
@@ -71,8 +71,8 @@ namespace RevitLookup.Snoop.Forms
 		Dispose(bool disposing)
 		{
 			if (disposing) {
-				if (components != null) {
-					components.Dispose();
+				if (_components != null) {
+					_components.Dispose();
 				}
 			}
 			base.Dispose(disposing);
@@ -86,80 +86,80 @@ namespace RevitLookup.Snoop.Forms
 		private void InitializeComponent()
 		{
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenericPropGrid));
-            this.m_pgProps = new System.Windows.Forms.PropertyGrid();
-            this.m_mnuContext = new System.Windows.Forms.ContextMenu();
-            this.m_mnuItemShowObjInfo = new System.Windows.Forms.MenuItem();
-            this.m_mnuItemShowClassInfo = new System.Windows.Forms.MenuItem();
-            this.m_bnOK = new System.Windows.Forms.Button();
-            this.m_bnCancel = new System.Windows.Forms.Button();
+            this._mPgProps = new System.Windows.Forms.PropertyGrid();
+            this._mMnuContext = new System.Windows.Forms.ContextMenu();
+            this._mMnuItemShowObjInfo = new System.Windows.Forms.MenuItem();
+            this._mMnuItemShowClassInfo = new System.Windows.Forms.MenuItem();
+            this._mBnOk = new System.Windows.Forms.Button();
+            this._mBnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // m_pgProps
             // 
-            this.m_pgProps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this._mPgProps.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_pgProps.ContextMenu = this.m_mnuContext;
-            this.m_pgProps.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.m_pgProps.LineColor = System.Drawing.SystemColors.ScrollBar;
-            this.m_pgProps.Location = new System.Drawing.Point(16, 16);
-            this.m_pgProps.Name = "m_pgProps";
-            this.m_pgProps.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-            this.m_pgProps.Size = new System.Drawing.Size(472, 384);
-            this.m_pgProps.TabIndex = 0;
+            this._mPgProps.ContextMenu = this._mMnuContext;
+            this._mPgProps.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._mPgProps.LineColor = System.Drawing.SystemColors.ScrollBar;
+            this._mPgProps.Location = new System.Drawing.Point(16, 16);
+            this._mPgProps.Name = "_mPgProps";
+            this._mPgProps.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
+            this._mPgProps.Size = new System.Drawing.Size(472, 384);
+            this._mPgProps.TabIndex = 0;
             // 
             // m_mnuContext
             // 
-            this.m_mnuContext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.m_mnuItemShowObjInfo,
-            this.m_mnuItemShowClassInfo});
-            this.m_mnuContext.Popup += new System.EventHandler(this.OnMenuContextPopup);
+            this._mMnuContext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this._mMnuItemShowObjInfo,
+            this._mMnuItemShowClassInfo});
+            this._mMnuContext.Popup += new System.EventHandler(this.OnMenuContextPopup);
             // 
             // m_mnuItemShowObjInfo
             // 
-            this.m_mnuItemShowObjInfo.Index = 0;
-            this.m_mnuItemShowObjInfo.Text = "Show Object Info...";
-            this.m_mnuItemShowObjInfo.Click += new System.EventHandler(this.OnShowObjInfo);
+            this._mMnuItemShowObjInfo.Index = 0;
+            this._mMnuItemShowObjInfo.Text = "Show Object Info...";
+            this._mMnuItemShowObjInfo.Click += new System.EventHandler(this.OnShowObjInfo);
             // 
             // m_mnuItemShowClassInfo
             // 
-            this.m_mnuItemShowClassInfo.Index = 1;
-            this.m_mnuItemShowClassInfo.Text = "Show Class Info...";
-            this.m_mnuItemShowClassInfo.Click += new System.EventHandler(this.OnShowClassInfo);
+            this._mMnuItemShowClassInfo.Index = 1;
+            this._mMnuItemShowClassInfo.Text = "Show Class Info...";
+            this._mMnuItemShowClassInfo.Click += new System.EventHandler(this.OnShowClassInfo);
             // 
             // m_bnOK
             // 
-            this.m_bnOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.m_bnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.m_bnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.m_bnOK.Location = new System.Drawing.Point(171, 416);
-            this.m_bnOK.Name = "m_bnOK";
-            this.m_bnOK.Size = new System.Drawing.Size(75, 23);
-            this.m_bnOK.TabIndex = 1;
-            this.m_bnOK.Text = "OK";
-            this.m_bnOK.Click += new System.EventHandler(this.m_bnOK_Click);
+            this._mBnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this._mBnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this._mBnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._mBnOk.Location = new System.Drawing.Point(171, 416);
+            this._mBnOk.Name = "_mBnOk";
+            this._mBnOk.Size = new System.Drawing.Size(75, 23);
+            this._mBnOk.TabIndex = 1;
+            this._mBnOk.Text = "OK";
+            this._mBnOk.Click += new System.EventHandler(this.m_bnOK_Click);
             // 
             // m_bnCancel
             // 
-            this.m_bnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.m_bnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.m_bnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.m_bnCancel.Location = new System.Drawing.Point(259, 416);
-            this.m_bnCancel.Name = "m_bnCancel";
-            this.m_bnCancel.Size = new System.Drawing.Size(75, 23);
-            this.m_bnCancel.TabIndex = 3;
-            this.m_bnCancel.Text = "Cancel";
-            this.m_bnCancel.Click += new System.EventHandler(this.m_bnOK_Click);
+            this._mBnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this._mBnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this._mBnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._mBnCancel.Location = new System.Drawing.Point(259, 416);
+            this._mBnCancel.Name = "_mBnCancel";
+            this._mBnCancel.Size = new System.Drawing.Size(75, 23);
+            this._mBnCancel.TabIndex = 3;
+            this._mBnCancel.Text = "Cancel";
+            this._mBnCancel.Click += new System.EventHandler(this.m_bnOK_Click);
             // 
             // GenericPropGrid
             // 
-            this.AcceptButton = this.m_bnOK;
+            this.AcceptButton = this._mBnOk;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.CancelButton = this.m_bnCancel;
+            this.CancelButton = this._mBnCancel;
             this.ClientSize = new System.Drawing.Size(504, 454);
-            this.Controls.Add(this.m_bnCancel);
-            this.Controls.Add(this.m_bnOK);
-            this.Controls.Add(this.m_pgProps);
+            this.Controls.Add(this._mBnCancel);
+            this.Controls.Add(this._mBnOk);
+            this.Controls.Add(this._mPgProps);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -184,13 +184,13 @@ namespace RevitLookup.Snoop.Forms
         private void
         OnShowObjInfo(object sender, System.EventArgs e)
         {
-            object selObj = m_pgProps.SelectedGridItem.Value;
+            object selObj = _mPgProps.SelectedGridItem.Value;
 
             if (selObj == null)
                 MessageBox.Show("Value is null.");
             else {
                 GenericPropGrid pgForm = new GenericPropGrid(selObj);
-                pgForm.Text = $"{m_pgProps.SelectedGridItem.Label} (Object Info: {selObj.GetType()})";
+                pgForm.Text = $"{_mPgProps.SelectedGridItem.Label} (Object Info: {selObj.GetType()})";
                 pgForm.ShowDialog();
             }
         }
@@ -205,13 +205,13 @@ namespace RevitLookup.Snoop.Forms
         private void
         OnShowClassInfo(object sender, System.EventArgs e)
         {
-            object selObj = m_pgProps.SelectedGridItem.Value;
+            object selObj = _mPgProps.SelectedGridItem.Value;
 
             if (selObj == null)
                 MessageBox.Show("Value is null.");
             else {
                 GenericPropGrid pgForm = new GenericPropGrid(selObj.GetType());
-                pgForm.Text = $"{m_pgProps.SelectedGridItem.Label} (System.Type = {selObj.GetType().FullName})";
+                pgForm.Text = $"{_mPgProps.SelectedGridItem.Label} (System.Type = {selObj.GetType().FullName})";
                 pgForm.ShowDialog();
             }
         }
@@ -225,9 +225,9 @@ namespace RevitLookup.Snoop.Forms
         private void
         OnMenuContextPopup(object sender, System.EventArgs e)
         {
-            bool enabled = (m_pgProps.SelectedGridItem == null) ? false : true;
-            m_mnuItemShowObjInfo.Enabled = enabled;
-            m_mnuItemShowClassInfo.Enabled = enabled;
+            bool enabled = (_mPgProps.SelectedGridItem == null) ? false : true;
+            _mMnuItemShowObjInfo.Enabled = enabled;
+            _mMnuItemShowClassInfo.Enabled = enabled;
         }
 
         private void m_bnOK_Click(object sender, EventArgs e)

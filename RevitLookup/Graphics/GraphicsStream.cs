@@ -35,23 +35,23 @@ namespace RevitLookup.Graphics {
 
     public abstract class GraphicsStream {
 
-        protected Autodesk.Revit.UI.UIApplication      m_app;
-        protected Stack<Transform> m_xformStack;
-        protected Stack<Options>   m_geomOptionsStack;
-        protected Stack<View>      m_viewStack;
+        protected Autodesk.Revit.UI.UIApplication      MApp;
+        protected Stack<Transform> MXformStack;
+        protected Stack<Options>   MGeomOptionsStack;
+        protected Stack<View>      MViewStack;
 
         public
         GraphicsStream(UIApplication app)
         {
-            m_app = app;
-            m_xformStack = new Stack<Transform>();
-            m_geomOptionsStack = new Stack<Options>();
-            m_viewStack = new Stack<View>();
+            MApp = app;
+            MXformStack = new Stack<Transform>();
+            MGeomOptionsStack = new Stack<Options>();
+            MViewStack = new Stack<View>();
         }
 
         public UIApplication Application
         {
-            get { return m_app; }
+            get { return MApp; }
         }
 
         #region Transformation Stack
@@ -59,30 +59,30 @@ namespace RevitLookup.Graphics {
         public virtual void
         PushXform(Transform mat)
         {
-            if (m_xformStack.Count > 0) {
-                m_xformStack.Push(m_xformStack.Peek() * mat);
+            if (MXformStack.Count > 0) {
+                MXformStack.Push(MXformStack.Peek() * mat);
             }
             else {
-                m_xformStack.Push(mat);
+                MXformStack.Push(mat);
             }
         }
 
         public virtual void
         PopXform()
         {
-            m_xformStack.Pop();
+            MXformStack.Pop();
         }
 
         public virtual Transform
         CurrentXform
         {
-            get { return m_xformStack.Peek(); }
+            get { return MXformStack.Peek(); }
         }
 
         public Boolean
         HasXform
         {
-            get { return (m_xformStack.Count == 0) ? false : true; }
+            get { return (MXformStack.Count == 0) ? false : true; }
         }
 
         #endregion
@@ -92,19 +92,19 @@ namespace RevitLookup.Graphics {
         public void
         PushGeometryOptions(Options opts)
         {
-            m_geomOptionsStack.Push(opts);
+            MGeomOptionsStack.Push(opts);
         }
 
         public void
         PopGeometryOptions()
         {
-            m_geomOptionsStack.Pop();
+            MGeomOptionsStack.Pop();
         }
 
         public Options
         CurrentGeometryOptions
         {
-            get { return m_geomOptionsStack.Peek(); }
+            get { return MGeomOptionsStack.Peek(); }
         }
 
         #endregion
@@ -114,19 +114,19 @@ namespace RevitLookup.Graphics {
         public void
         PushView(View view)
         {
-            m_viewStack.Push(view);
+            MViewStack.Push(view);
         }
 
         public void
         PopView()
         {
-            m_viewStack.Pop();
+            MViewStack.Pop();
         }
 
         public View
         CurrentView
         {
-            get { return m_viewStack.Peek(); }
+            get { return MViewStack.Peek(); }
         }
 
         #endregion
@@ -332,7 +332,7 @@ namespace RevitLookup.Graphics {
         public virtual void
         Stream(Element elem)
         {
-            if ((m_viewStack.Count == 0) || (m_geomOptionsStack.Count == 0)) {
+            if ((MViewStack.Count == 0) || (MGeomOptionsStack.Count == 0)) {
                 throw new System.ArgumentException("View stack or Geometry Options stack is empty.");
             }
 

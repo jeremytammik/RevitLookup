@@ -36,26 +36,26 @@ namespace RevitLookup.Snoop.Data
 
 	public class BindingMap : Data
 	{
-	    protected Autodesk.Revit.DB.BindingMap m_val;
+	    protected Autodesk.Revit.DB.BindingMap MVal;
 	    
 		public
         BindingMap(string label, Autodesk.Revit.DB.BindingMap val)
 		:   base(label)
 		{
-		    m_val = val;
+		    MVal = val;
 		}
 		
         public override string
         StrValue()
         {
-			return Utils.ObjToLabelStr(m_val);
+			return Utils.ObjToLabelStr(MVal);
         }
         
         public override bool
         HasDrillDown
         {
             get {
-                if ((m_val == null) || (m_val.IsEmpty))
+                if ((MVal == null) || (MVal.IsEmpty))
                     return false;
                 else
                     return true;
@@ -64,8 +64,8 @@ namespace RevitLookup.Snoop.Data
         
         public override System.Windows.Forms.Form DrillDown()
         {
-            if ((m_val != null) && (m_val.IsEmpty == false)) {
-				Snoop.Forms.BindingMap form = new Snoop.Forms.BindingMap(m_val);
+            if ((MVal != null) && (MVal.IsEmpty == false)) {
+				Snoop.Forms.BindingMap form = new Snoop.Forms.BindingMap(MVal);
                 return form;
             }
             return null;

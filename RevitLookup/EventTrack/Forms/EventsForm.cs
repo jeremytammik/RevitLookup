@@ -34,23 +34,23 @@ namespace RevitLookup.EventTrack.Forms {
 
     public partial class EventsForm : Form {
 
-        public static Events.ApplicationEvents    m_appEvents       = new Events.ApplicationEvents();
-        public static Events.DocEvents            m_docEvents       = new Events.DocEvents();
+        public static Events.ApplicationEvents    MAppEvents       = new Events.ApplicationEvents();
+        public static Events.DocEvents            MDocEvents       = new Events.DocEvents();
 
         public
         EventsForm()
         {
             InitializeComponent();
 
-            m_cbAppEventsOn.Checked = m_appEvents.AreEventsEnabled;
-            m_cbDocEventsOn.Checked = m_docEvents.AreEventsEnabled;
+            m_cbAppEventsOn.Checked = MAppEvents.AreEventsEnabled;
+            m_cbDocEventsOn.Checked = MDocEvents.AreEventsEnabled;
         }
 
         private void
         event_OnBnOkClick(object sender, EventArgs e)
         {
-            SetEventsOnOff(m_appEvents, m_cbAppEventsOn.Checked, false);
-            SetEventsOnOff(m_docEvents, m_cbDocEventsOn.Checked, false);          
+            SetEventsOnOff(MAppEvents, m_cbAppEventsOn.Checked, false);
+            SetEventsOnOff(MDocEvents, m_cbDocEventsOn.Checked, false);          
 
             this.Close();
         }

@@ -10,33 +10,33 @@ namespace RevitLookup.Snoop.CollectorExts
 {
   public class ExtensibleStorageEntityContentStream : IElementStream
   {
-    private readonly Document document;
-    private readonly ArrayList data;
-    private readonly Entity entity;
+    private readonly Document _document;
+    private readonly ArrayList _data;
+    private readonly Entity _entity;
 
     public ExtensibleStorageEntityContentStream( Document document, ArrayList data, object elem )
     {
-      this.document = document;
-      this.data = data;
-      entity = elem as Entity;
+      this._document = document;
+      this._data = data;
+      _entity = elem as Entity;
     }
 
     public void Stream( Type type )
     {
-      if( type != typeof( Entity ) || entity == null || !entity.IsValid() )
+      if( type != typeof( Entity ) || _entity == null || !_entity.IsValid() )
         return;
 
-      if( !entity.ReadAccessGranted() )
-        data.Add( new Snoop.Data.Exception(
+      if( !_entity.ReadAccessGranted() )
+        _data.Add( new Snoop.Data.Exception(
           "<Extensible storage Fields>", new Exception(
             "Doesn't have access to read extensible storage data" ) ) );
 
-      var fields = entity.Schema.ListFields();
+      var fields = _entity.Schema.ListFields();
 
       if( !fields.Any() )
         return;
 
-      data.Add( new Snoop.Data.ExtensibleStorageSeparator() );
+      _data.Add( new Snoop.Data.ExtensibleStorageSeparator() );
 
       foreach( var field in fields )
         StreamEntityFieldValue( field );
@@ -60,13 +60,13 @@ namespace RevitLookup.Snoop.CollectorExts
                 ? new object[] {field}
                 : new object[] {field, unit};
 
-            var value = genericGet.Invoke(entity, parameters);
+            var value = genericGet.Invoke(_entity, parameters);
 
             AddFieldValue(field, value);
         }
         catch (Exception ex)
         {
-            data.Add(new Data.Exception(field.FieldName, ex));
+            _data.Add(new Data.Exception(field.FieldName, ex));
         }
     }
 
@@ -97,31 +97,31 @@ namespace RevitLookup.Snoop.CollectorExts
       try
       {
         if( field.ContainerType != ContainerType.Simple )
-          data.Add( new Snoop.Data.Enumerable( field.FieldName, value as IEnumerable ) );
+          _data.Add( new Snoop.Data.Enumerable( field.FieldName, value as IEnumerable ) );
         else if( field.ValueType == typeof( double ) )
-          data.Add( new Snoop.Data.Double( field.FieldName, (double) value ) );
+          _data.Add( new Snoop.Data.Double( field.FieldName, (double) value ) );
         else if( field.ValueType == typeof( string ) )
-          data.Add( new Snoop.Data.String( field.FieldName, value as string ) );
+          _data.Add( new Snoop.Data.String( field.FieldName, value as string ) );
         else if( field.ValueType == typeof( XYZ ) )
-          data.Add( new Snoop.Data.Xyz( field.FieldName, value as XYZ ) );
+          _data.Add( new Snoop.Data.Xyz( field.FieldName, value as XYZ ) );
         else if( field.ValueType == typeof( UV ) )
-          data.Add( new Snoop.Data.Uv( field.FieldName, value as UV ) );
+          _data.Add( new Snoop.Data.Uv( field.FieldName, value as UV ) );
         else if( field.ValueType == typeof( int ) )
-          data.Add( new Snoop.Data.Int( field.FieldName, (int) value ) );
+          _data.Add( new Snoop.Data.Int( field.FieldName, (int) value ) );
         else if( field.ValueType == typeof( ElementId ) )
-          data.Add( new Snoop.Data.ElementId( field.FieldName, value as ElementId, document ) );
+          _data.Add( new Snoop.Data.ElementId( field.FieldName, value as ElementId, _document ) );
         else if( field.ValueType == typeof( Guid ) )
         {
           var guidValue = (Guid) value;
 
-          data.Add( new Snoop.Data.String( field.FieldName, guidValue.ToString() ) );
+          _data.Add( new Snoop.Data.String( field.FieldName, guidValue.ToString() ) );
         }
         else
-          data.Add( new Snoop.Data.Object( field.FieldName, value ) );
+          _data.Add( new Snoop.Data.Object( field.FieldName, value ) );
       }
       catch( Exception ex )
       {
-        data.Add( new Snoop.Data.Exception( field.FieldName, ex ) );
+        _data.Add( new Snoop.Data.Exception( field.FieldName, ex ) );
       }
     }
 

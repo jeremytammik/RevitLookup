@@ -33,8 +33,8 @@ namespace RevitLookup.ModelStats
 	public class RawObjCount
 	{
 	        // data members
-	    public System.Type  m_classType;    // raw class type of object we are counting
-	    public ArrayList    m_objs = new ArrayList();
+	    public System.Type  MClassType;    // raw class type of object we are counting
+	    public ArrayList    MObjs = new ArrayList();
 	   
 		public
 		RawObjCount()

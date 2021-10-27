@@ -13,19 +13,19 @@ namespace RevitLookup.Snoop
 {
     public class ModelessWindowFactory
     {
-        private readonly Form parentForm;
-        private readonly Document targetDocument;
+        private readonly Form _parentForm;
+        private readonly Document _targetDocument;
 
         public ModelessWindowFactory(Form parentForm, Document targetDocument)
         {
-            this.parentForm = parentForm;
-            this.targetDocument = targetDocument;
+            this._parentForm = parentForm;
+            this._targetDocument = targetDocument;
         }
 
 
         public void Show(Form newForm)
         {
-            Show(newForm, targetDocument, parentForm);
+            Show(newForm, _targetDocument, _parentForm);
         }
 
 

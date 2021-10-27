@@ -32,20 +32,20 @@ namespace RevitLookup.Snoop.Data
 	
 	public class Xyz : Data
 	{
-	    protected Autodesk.Revit.DB.XYZ    m_val;
+	    protected Autodesk.Revit.DB.XYZ    MVal;
 	    
 		public
 		Xyz(string label, Autodesk.Revit.DB.XYZ val)
 		:   base(label)
 		{
-		    m_val = val;
+		    MVal = val;
 		}
 		
         public override string
         StrValue()
         {
-          if (m_val != null)
-            return $"({m_val.X}, {m_val.Y}, {m_val.Z})";
+          if (MVal != null)
+            return $"({MVal.X}, {MVal.Y}, {MVal.Z})";
           else
             return "< null >";
         }

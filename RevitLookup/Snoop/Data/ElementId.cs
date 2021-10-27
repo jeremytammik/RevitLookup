@@ -32,32 +32,32 @@ namespace RevitLookup.Snoop.Data
 
     public class ElementId : Data
     {
-        protected Autodesk.Revit.DB.ElementId m_val;
-        protected Element m_elem;
+        protected Autodesk.Revit.DB.ElementId MVal;
+        protected Element MElem;
 
         public ElementId(string label, Autodesk.Revit.DB.ElementId val, Document doc) : base(label)
         {
-            m_val = val;
+            MVal = val;
             
-            m_elem = doc.GetElement(val);
+            MElem = doc.GetElement(val);
         }
 
         public override string StrValue()
         {
-            if (m_elem != null)
-                return Utils.ObjToLabelStr(m_elem);
+            if (MElem != null)
+                return Utils.ObjToLabelStr(MElem);
 
-            return m_val != Autodesk.Revit.DB.ElementId.InvalidElementId ? m_val.ToString() : Utils.ObjToLabelStr(null);
+            return MVal != Autodesk.Revit.DB.ElementId.InvalidElementId ? MVal.ToString() : Utils.ObjToLabelStr(null);
         }
 
-        public override bool HasDrillDown => m_elem != null;
+        public override bool HasDrillDown => MElem != null;
 
         public override System.Windows.Forms.Form DrillDown()
         {
-            if (m_elem == null) 
+            if (MElem == null) 
                 return null;
             
-            var form = new Forms.Objects(m_elem);
+            var form = new Forms.Objects(MElem);
             return form;
         }
     }

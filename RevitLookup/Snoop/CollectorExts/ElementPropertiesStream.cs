@@ -10,16 +10,16 @@ namespace RevitLookup.Snoop.CollectorExts
 {
   public class ElementPropertiesStream : IElementStream
   {
-    private readonly Document document;
-    private readonly ArrayList data;
-    private readonly object elem;
-    private readonly List<string> seenProperties = new List<string>();
+    private readonly Document _document;
+    private readonly ArrayList _data;
+    private readonly object _elem;
+    private readonly List<string> _seenProperties = new List<string>();
 
     public ElementPropertiesStream(Document document, ArrayList data, object elem )
     {
-      this.document = document;
-      this.data = data;
-      this.elem = elem;
+      this._document = document;
+      this._data = data;
+      this._elem = elem;
     }
 
     public void Stream( Type type )
@@ -29,17 +29,17 @@ namespace RevitLookup.Snoop.CollectorExts
       var currentTypeProperties = new List<string>();
 
       if( properties.Length > 0 )
-        data.Add( new Snoop.Data.MemberSeparatorWithOffset( "Properties" ) );
+        _data.Add( new Snoop.Data.MemberSeparatorWithOffset( "Properties" ) );
 
       foreach( PropertyInfo pi in properties )
       {
-        if( seenProperties.Contains( pi.Name ) )
+        if( _seenProperties.Contains( pi.Name ) )
           continue;
 
         currentTypeProperties.Add( pi.Name );
         AddPropertyToData( pi );
       }
-      seenProperties.AddRange( currentTypeProperties );
+      _seenProperties.AddRange( currentTypeProperties );
     }
 
     private PropertyInfo[] GetElementProperties( Type type )
@@ -53,7 +53,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
     private void AddPropertyToData(PropertyInfo pi)
     {
-        var propertyInfo = pi.PropertyType.ContainsGenericParameters ? elem.GetType().GetProperty(pi.Name) : pi;
+        var propertyInfo = pi.PropertyType.ContainsGenericParameters ? _elem.GetType().GetProperty(pi.Name) : pi;
         
         if (propertyInfo == null)
             return;
@@ -64,11 +64,11 @@ namespace RevitLookup.Snoop.CollectorExts
         {
             object propertyValue;
             if (propertyInfo.Name == "Geometry")
-                propertyValue = propertyInfo.GetValue(elem, new object[1] {new Options()});
+                propertyValue = propertyInfo.GetValue(_elem, new object[1] {new Options()});
             else if (propertyInfo.Name == "BoundingBox")
-                propertyValue = propertyInfo.GetValue(elem, new object[1] {document.ActiveView});
+                propertyValue = propertyInfo.GetValue(_elem, new object[1] {_document.ActiveView});
             else if (propertyInfo.Name == "Item")
-                propertyValue = propertyInfo.GetValue(elem, new object[1] {0});
+                propertyValue = propertyInfo.GetValue(_elem, new object[1] {0});
             else if (propertyInfo.Name == "Parameter")
                 return;
             else if (propertyInfo.Name == "PlanTopology")
@@ -76,36 +76,36 @@ namespace RevitLookup.Snoop.CollectorExts
             else if (propertyInfo.Name == "PlanTopologies" && propertyInfo.GetMethod.GetParameters().Length != 0)
                 return;
             else if (propertyType.ContainsGenericParameters)
-                propertyValue = elem.GetType().GetProperty(propertyInfo.Name)?.GetValue(elem);
+                propertyValue = _elem.GetType().GetProperty(propertyInfo.Name)?.GetValue(_elem);
             else
-                propertyValue = propertyInfo.GetValue(elem);
+                propertyValue = propertyInfo.GetValue(_elem);
 
-            DataTypeInfoHelper.AddDataFromTypeInfo(document, propertyInfo, propertyType, propertyValue, elem, data);
+            DataTypeInfoHelper.AddDataFromTypeInfo(_document, propertyInfo, propertyType, propertyValue, _elem, _data);
 
-            var category = elem as Category;
+            var category = _elem as Category;
             if (category != null && propertyInfo.Name == "Id" && category.Id.IntegerValue < 0)
             {
                 var bic = (BuiltInCategory) category.Id.IntegerValue;
 
-                data.Add(new Snoop.Data.String("BuiltInCategory", bic.ToString()));
+                _data.Add(new Snoop.Data.String("BuiltInCategory", bic.ToString()));
             }
 
         }
         catch (ArgumentException ex)
         {
-            data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
+            _data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
         }
         catch (TargetException ex)
         {
-            data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
+            _data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
         }
         catch (TargetInvocationException ex)
         {
-            data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
+            _data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
         }
         catch (TargetParameterCountException ex)
         {
-            data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
+            _data.Add(new Snoop.Data.Exception(propertyInfo.Name, ex));
         }
     }
   }

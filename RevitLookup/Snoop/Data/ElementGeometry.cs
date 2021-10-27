@@ -36,21 +36,21 @@ namespace RevitLookup.Snoop.Data
 	
 	public class ElementGeometry : Data
 	{
-	    protected Element m_val;
-        protected Autodesk.Revit.ApplicationServices.Application m_app;
-        protected bool m_hasGeometry;
+	    protected Element MVal;
+        protected Autodesk.Revit.ApplicationServices.Application MApp;
+        protected bool MHasGeometry;
 	    
 		public
 		ElementGeometry(string label, Element val, Autodesk.Revit.ApplicationServices.Application app)
 		:   base(label)
 		{
-		    m_val = val;
-            m_app = app;
+		    MVal = val;
+            MApp = app;
 
-            m_hasGeometry = false;
+            MHasGeometry = false;
 
-		    if (m_val != null && m_app != null)
-		        m_hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
+		    if (MVal != null && MApp != null)
+		        MHasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
 		}
 		
         public override string
@@ -63,14 +63,14 @@ namespace RevitLookup.Snoop.Data
         HasDrillDown
         {
             get {
-                return m_hasGeometry;
+                return MHasGeometry;
             }
         }
         
         public override System.Windows.Forms.Form DrillDown()
         {
-            if (m_hasGeometry) {
-				Snoop.Forms.Geometry form = new Snoop.Forms.Geometry(m_val, m_app);
+            if (MHasGeometry) {
+				Snoop.Forms.Geometry form = new Snoop.Forms.Geometry(MVal, MApp);
                 return form;
             }
             return null;
@@ -85,12 +85,12 @@ namespace RevitLookup.Snoop.Data
 	                {
 	                    DetailLevel = x
 	                })
-	            .Any(x => m_val.get_Geometry(x) != null);
+	            .Any(x => MVal.get_Geometry(x) != null);
 	    }
 
 	    private bool HasViewSpecificGeometry()
 	    {
-	        var view = m_val.Document.ActiveView;
+	        var view = MVal.Document.ActiveView;
 
 	        if (view == null)
 	            return false;
@@ -101,7 +101,7 @@ namespace RevitLookup.Snoop.Data
 	                IncludeNonVisibleObjects = true
 	            };
 
-	        return m_val.get_Geometry(options) != null;
+	        return MVal.get_Geometry(options) != null;
 	    }
 	}
 
@@ -110,25 +110,25 @@ namespace RevitLookup.Snoop.Data
    // SOFiSTiK FS
    public class OriginalInstanceGeometry : Data
    {
-      protected FamilyInstance m_val;
-      protected Autodesk.Revit.ApplicationServices.Application m_app;
-      protected bool m_hasGeometry;
+      protected FamilyInstance MVal;
+      protected Autodesk.Revit.ApplicationServices.Application MApp;
+      protected bool MHasGeometry;
 
       public
       OriginalInstanceGeometry(string label, FamilyInstance val, Autodesk.Revit.ApplicationServices.Application app)
          : base(label)
       {
-         m_val = val;
-         m_app = app;
+         MVal = val;
+         MApp = app;
 
-         m_hasGeometry = false;
+         MHasGeometry = false;
 
-         if (m_val != null && m_app != null)
+         if (MVal != null && MApp != null)
          {
-            Autodesk.Revit.DB.Options geomOp = m_app.Create.NewGeometryOptions();
+            Autodesk.Revit.DB.Options geomOp = MApp.Create.NewGeometryOptions();
             geomOp.DetailLevel = ViewDetailLevel.Undefined;
-            if (m_val.GetOriginalGeometry(geomOp) != null)
-               m_hasGeometry = true;
+            if (MVal.GetOriginalGeometry(geomOp) != null)
+               MHasGeometry = true;
          }
       }
 
@@ -143,7 +143,7 @@ namespace RevitLookup.Snoop.Data
       {
          get
          {
-            if (m_hasGeometry)
+            if (MHasGeometry)
                return true;
             else
                return false;
@@ -152,9 +152,9 @@ namespace RevitLookup.Snoop.Data
 
       public override System.Windows.Forms.Form DrillDown()
       {
-         if (m_hasGeometry)
+         if (MHasGeometry)
          {
-            Snoop.Forms.OriginalGeometry form = new Snoop.Forms.OriginalGeometry(m_val, m_app);
+            Snoop.Forms.OriginalGeometry form = new Snoop.Forms.OriginalGeometry(MVal, MApp);
             return form;
          }
          return null;

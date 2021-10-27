@@ -9,7 +9,7 @@ namespace RevitLookup.Snoop
 {
     public enum Selector
     {
-        SnoopDB = 0,
+        SnoopDb = 0,
         SnoopCurrentSelection,
         SnoopPickFace,
         SnoopPickEdge,
@@ -26,8 +26,8 @@ namespace RevitLookup.Snoop
         {
             switch (selector)
             {
-                case Selector.SnoopDB:
-                    return SnoopDB(app);
+                case Selector.SnoopDb:
+                    return SnoopDb(app);
                 case Selector.SnoopCurrentSelection:
                     return SnoopCurrentSelection(app);
                 case Selector.SnoopPickFace:
@@ -47,7 +47,7 @@ namespace RevitLookup.Snoop
             }
         }
 
-        public static (IList<Element>, Document) SnoopDB(UIApplication app)
+        public static (IList<Element>, Document) SnoopDb(UIApplication app)
         {            
             Autodesk.Revit.DB.Document doc = app.ActiveUIDocument.Document;
             FilteredElementCollector elemTypeCtor = (new FilteredElementCollector(doc)).WhereElementIsElementType();
@@ -61,10 +61,10 @@ namespace RevitLookup.Snoop
         }
         public static (IList<Element>, Document) SnoopCurrentSelection(UIApplication app)
         {
-            var activeUIDocument = app.ActiveUIDocument;
-            var document = activeUIDocument.Document;
+            var activeUiDocument = app.ActiveUIDocument;
+            var document = activeUiDocument.Document;
 
-            ICollection<ElementId> ids = activeUIDocument.Selection.GetElementIds();
+            ICollection<ElementId> ids = activeUiDocument.Selection.GetElementIds();
             if (ids.Any())
             {
                 return (new FilteredElementCollector(document, ids).WhereElementIsNotElementType().ToElements(), document);
@@ -118,11 +118,11 @@ namespace RevitLookup.Snoop
 
             string stableReflink = refElem.ConvertToStableRepresentation(doc).Split(':')[0];
             Reference refLink = Reference.ParseFromStableRepresentation(doc, stableReflink);
-            RevitLinkInstance rli_return = doc.GetElement(refLink) as RevitLinkInstance;
-            var m_activeDoc = rli_return.GetLinkDocument();
-            Element e = m_activeDoc.GetElement(refElem.LinkedElementId);
+            RevitLinkInstance rliReturn = doc.GetElement(refLink) as RevitLinkInstance;
+            var mActiveDoc = rliReturn.GetLinkDocument();
+            Element e = mActiveDoc.GetElement(refElem.LinkedElementId);
 
-            return (e, m_activeDoc);
+            return (e, mActiveDoc);
         }
         public static (IList<Element>, Document) SnoopDependentElements(UIApplication app)
         {

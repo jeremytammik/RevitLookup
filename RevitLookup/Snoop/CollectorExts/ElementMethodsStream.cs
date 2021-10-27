@@ -10,15 +10,15 @@ namespace RevitLookup.Snoop.CollectorExts
 {
     public class ElementMethodsStream : IElementStream
     {
-        private readonly ArrayList data;
-        private readonly List<string> seenMethods = new List<string>();
-        private readonly DataFactory methodDataFactory;
+        private readonly ArrayList _data;
+        private readonly List<string> _seenMethods = new List<string>();
+        private readonly DataFactory _methodDataFactory;
 
         public ElementMethodsStream(Document document, ArrayList data, object elem)
         {
-            this.data = data;
+            this._data = data;
 
-            methodDataFactory = new DataFactory(document, elem);
+            _methodDataFactory = new DataFactory(document, elem);
         }
 
         public void Stream(Type type)
@@ -28,30 +28,30 @@ namespace RevitLookup.Snoop.CollectorExts
                 .OrderBy(x => x.Name)
                 .ToList();
 
-            if (methods.Count > 0) data.Add(new Data.MemberSeparatorWithOffset("Methods"));
+            if (methods.Count > 0) _data.Add(new Data.MemberSeparatorWithOffset("Methods"));
 
             var currentTypeMethods = new List<string>();
 
             foreach (var methodInfo in methods)
             {
-                if (seenMethods.Contains(methodInfo.Name)) continue;
+                if (_seenMethods.Contains(methodInfo.Name)) continue;
 
                 currentTypeMethods.Add(methodInfo.Name);
 
                 var methodData = GetMethodData(methodInfo);
 
                 if (methodData != null)
-                    data.Add(methodData);
+                    _data.Add(methodData);
             }
 
-            seenMethods.AddRange(currentTypeMethods);
+            _seenMethods.AddRange(currentTypeMethods);
         }
 
         private Data.Data GetMethodData(MethodInfo methodInfo)
         {
             try
             {
-                return methodDataFactory.Create(methodInfo);
+                return _methodDataFactory.Create(methodInfo);
             }
             catch (TargetException ex)
             {

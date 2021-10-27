@@ -7,13 +7,13 @@ namespace RevitLookup.Snoop.CollectorExts
 {
   public class FamilyTypeParameterValuesStream : IElementStream
   {
-    private readonly ArrayList data;
-    private readonly object elem;
+    private readonly ArrayList _data;
+    private readonly object _elem;
 
     public FamilyTypeParameterValuesStream( ArrayList data, object elem )
     {
-      this.data = data;
-      this.elem = elem;
+      this._data = data;
+      this._elem = elem;
     }
 
     public void Stream( Type type )
@@ -21,7 +21,7 @@ namespace RevitLookup.Snoop.CollectorExts
       if( type != typeof( Parameter ) )
         return;
 
-      var parameter = (Parameter) elem;
+      var parameter = (Parameter) _elem;
 
       var family = (parameter.Element as FamilyInstance)?.Symbol.Family 
         ?? (parameter.Element as FamilySymbol)?.Family;
@@ -39,7 +39,7 @@ namespace RevitLookup.Snoop.CollectorExts
           .Select( family.Document.GetElement )
           .ToList();
 
-      data.Add( new Data.Enumerable( 
+      _data.Add( new Data.Enumerable( 
         $"{nameof( Family )}.{nameof( Family.GetFamilyTypeParameterValues )}()", 
         familyTypeParameterValues ) );
     }

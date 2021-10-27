@@ -36,7 +36,7 @@ namespace RevitLookup.EventTrack.Events {
     
     public class ApplicationEvents : EventsBase {
        
-        static public Autodesk.Revit.ApplicationServices.Application m_app = null;
+        static public Autodesk.Revit.ApplicationServices.Application MApp = null;
 
         public
         ApplicationEvents()
@@ -48,26 +48,26 @@ namespace RevitLookup.EventTrack.Events {
         {           
             MessageBox.Show("Application Events Turned On ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
            
-            m_app.DocumentClosed += m_app_DocumentClosed;
-            m_app.DocumentClosing += m_app_DocumentClosing;
-            m_app.DocumentOpened += m_app_DocumentOpened;
-            m_app.DocumentOpening += m_app_DocumentOpening;
-            m_app.DocumentCreated += m_app_DocumentCreated;
-            m_app.DocumentCreating += m_app_DocumentCreating;
-            m_app.DocumentSaved += m_app_DocumentSaved;
-            m_app.DocumentSaving += m_app_DocumentSaving;           
-            m_app.DocumentSavedAs += m_app_DocumentSavedAs;
-            m_app.DocumentSavingAs += m_app_DocumentSavingAs;
-            m_app.DocumentPrinted += m_app_DocumentPrinted;
-            m_app.DocumentPrinting += m_app_DocumentPrinting;
-            m_app.DocumentSynchronizedWithCentral += m_app_DocumentSavedToCentral;                        
-            m_app.DocumentSynchronizingWithCentral += m_app_DocumentSavingToCentral;
-            m_app.FileExported += m_app_FileExported;
-            m_app.FileExporting += m_app_FileExporting;
-            m_app.FileImported += m_app_FileImported;
-            m_app.FileImporting += m_app_FileImporting;
-            m_app.ViewPrinted += m_app_ViewPrinted;
-            m_app.ViewPrinting += m_app_ViewPrinting;                                                 
+            MApp.DocumentClosed += m_app_DocumentClosed;
+            MApp.DocumentClosing += m_app_DocumentClosing;
+            MApp.DocumentOpened += m_app_DocumentOpened;
+            MApp.DocumentOpening += m_app_DocumentOpening;
+            MApp.DocumentCreated += m_app_DocumentCreated;
+            MApp.DocumentCreating += m_app_DocumentCreating;
+            MApp.DocumentSaved += m_app_DocumentSaved;
+            MApp.DocumentSaving += m_app_DocumentSaving;           
+            MApp.DocumentSavedAs += m_app_DocumentSavedAs;
+            MApp.DocumentSavingAs += m_app_DocumentSavingAs;
+            MApp.DocumentPrinted += m_app_DocumentPrinted;
+            MApp.DocumentPrinting += m_app_DocumentPrinting;
+            MApp.DocumentSynchronizedWithCentral += m_app_DocumentSavedToCentral;                        
+            MApp.DocumentSynchronizingWithCentral += m_app_DocumentSavingToCentral;
+            MApp.FileExported += m_app_FileExported;
+            MApp.FileExporting += m_app_FileExporting;
+            MApp.FileImported += m_app_FileImported;
+            MApp.FileImporting += m_app_FileImporting;
+            MApp.ViewPrinted += m_app_ViewPrinted;
+            MApp.ViewPrinting += m_app_ViewPrinting;                                                 
         }        
 
         protected override void
@@ -75,26 +75,26 @@ namespace RevitLookup.EventTrack.Events {
         {            
             MessageBox.Show("Application Events Turned Off ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            m_app.DocumentClosed -= m_app_DocumentClosed;
-            m_app.DocumentClosing -= m_app_DocumentClosing;
-            m_app.DocumentOpened -= m_app_DocumentOpened;
-            m_app.DocumentOpening -= m_app_DocumentOpening;
-            m_app.DocumentCreated -= m_app_DocumentCreated;
-            m_app.DocumentCreating -= m_app_DocumentCreating;
-            m_app.DocumentSaved -= m_app_DocumentSaved;
-            m_app.DocumentSaving -= m_app_DocumentSaving;
-            m_app.DocumentSavedAs -= m_app_DocumentSavedAs;
-            m_app.DocumentSavingAs -= m_app_DocumentSavingAs;
-            m_app.DocumentPrinted -= m_app_DocumentPrinted;
-            m_app.DocumentPrinting -= m_app_DocumentPrinting;
-            m_app.DocumentSynchronizedWithCentral -= m_app_DocumentSavedToCentral;
-            m_app.DocumentSynchronizingWithCentral -= m_app_DocumentSavingToCentral;
-            m_app.FileExported -= m_app_FileExported;
-            m_app.FileExporting -= m_app_FileExporting;
-            m_app.FileImported -= m_app_FileImported;
-            m_app.FileImporting -= m_app_FileImporting;
-            m_app.ViewPrinted -= m_app_ViewPrinted;
-            m_app.ViewPrinting -= m_app_ViewPrinting;   
+            MApp.DocumentClosed -= m_app_DocumentClosed;
+            MApp.DocumentClosing -= m_app_DocumentClosing;
+            MApp.DocumentOpened -= m_app_DocumentOpened;
+            MApp.DocumentOpening -= m_app_DocumentOpening;
+            MApp.DocumentCreated -= m_app_DocumentCreated;
+            MApp.DocumentCreating -= m_app_DocumentCreating;
+            MApp.DocumentSaved -= m_app_DocumentSaved;
+            MApp.DocumentSaving -= m_app_DocumentSaving;
+            MApp.DocumentSavedAs -= m_app_DocumentSavedAs;
+            MApp.DocumentSavingAs -= m_app_DocumentSavingAs;
+            MApp.DocumentPrinted -= m_app_DocumentPrinted;
+            MApp.DocumentPrinting -= m_app_DocumentPrinting;
+            MApp.DocumentSynchronizedWithCentral -= m_app_DocumentSavedToCentral;
+            MApp.DocumentSynchronizingWithCentral -= m_app_DocumentSavingToCentral;
+            MApp.FileExported -= m_app_FileExported;
+            MApp.FileExporting -= m_app_FileExporting;
+            MApp.FileImported -= m_app_FileImported;
+            MApp.FileImporting -= m_app_FileImporting;
+            MApp.ViewPrinted -= m_app_ViewPrinted;
+            MApp.ViewPrinting -= m_app_ViewPrinting;   
         }
 
         private void m_app_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)
@@ -203,8 +203,7 @@ namespace RevitLookup.EventTrack.Events {
             DisplayEvent("Document closed");
         }                
 
-        private void
-        DisplayEvent(string eventStr)
+        private void DisplayEvent(string eventStr)
         {
             MessageBox.Show($"Event: {eventStr}", "Application Event", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }       

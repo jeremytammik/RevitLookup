@@ -46,7 +46,7 @@ namespace RevitLookup.Snoop.Collectors
 		public void
 		Collect(System.Xml.XmlNode node)
 		{
-            m_dataObjs.Clear();
+            MDataObjs.Clear();
             Stream(node);
             
                 // now that we've collected all the data that we know about,
@@ -59,20 +59,20 @@ namespace RevitLookup.Snoop.Collectors
 		private void
 		Stream(System.Xml.XmlNode node)
 		{
-		    m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlNode)));
+		    MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlNode)));
 		    
-            m_dataObjs.Add(new Snoop.Data.String("Node type", node.NodeType.ToString()));
-            m_dataObjs.Add(new Snoop.Data.String("Name", node.Name));
-            m_dataObjs.Add(new Snoop.Data.String("Local name", node.LocalName));
-            m_dataObjs.Add(new Snoop.Data.String("Value", node.Value));
-            m_dataObjs.Add(new Snoop.Data.Bool("Has child nodes", node.HasChildNodes));
-            m_dataObjs.Add(new Snoop.Data.String("Inner text", node.InnerText));
-            m_dataObjs.Add(new Snoop.Data.Xml("Inner XML", node.InnerXml, false));
-            m_dataObjs.Add(new Snoop.Data.Xml("Outer XML", node.OuterXml, false));
-            m_dataObjs.Add(new Snoop.Data.Bool("Is read only", node.IsReadOnly));
-            m_dataObjs.Add(new Snoop.Data.String("BaseURI", node.BaseURI));
-            m_dataObjs.Add(new Snoop.Data.String("Namespace URI", node.NamespaceURI));
-            m_dataObjs.Add(new Snoop.Data.String("Prefix", node.Prefix));
+            MDataObjs.Add(new Snoop.Data.String("Node type", node.NodeType.ToString()));
+            MDataObjs.Add(new Snoop.Data.String("Name", node.Name));
+            MDataObjs.Add(new Snoop.Data.String("Local name", node.LocalName));
+            MDataObjs.Add(new Snoop.Data.String("Value", node.Value));
+            MDataObjs.Add(new Snoop.Data.Bool("Has child nodes", node.HasChildNodes));
+            MDataObjs.Add(new Snoop.Data.String("Inner text", node.InnerText));
+            MDataObjs.Add(new Snoop.Data.Xml("Inner XML", node.InnerXml, false));
+            MDataObjs.Add(new Snoop.Data.Xml("Outer XML", node.OuterXml, false));
+            MDataObjs.Add(new Snoop.Data.Bool("Is read only", node.IsReadOnly));
+            MDataObjs.Add(new Snoop.Data.String("BaseURI", node.BaseURI));
+            MDataObjs.Add(new Snoop.Data.String("Namespace URI", node.NamespaceURI));
+            MDataObjs.Add(new Snoop.Data.String("Prefix", node.Prefix));
                         
                 // branch to all known major sub-classes
             System.Xml.XmlAttribute att = node as System.Xml.XmlAttribute;
@@ -115,15 +115,15 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlAttribute att)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlAttribute)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlAttribute)));
 
-            m_dataObjs.Add(new Snoop.Data.Bool("Specified", att.Specified));
+            MDataObjs.Add(new Snoop.Data.Bool("Specified", att.Specified));
         }
         
         private void
         Stream(System.Xml.XmlLinkedNode lnkNode)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlLinkedNode)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlLinkedNode)));
 
                 // No data to show at this level, but we want to explicitly
                 // show that there is an intermediate class.
@@ -169,19 +169,19 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlElement elem)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlElement)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlElement)));
 
-            m_dataObjs.Add(new Snoop.Data.Bool("Has attributes", elem.HasAttributes));
-            m_dataObjs.Add(new Snoop.Data.Bool("Is empty", elem.IsEmpty));
+            MDataObjs.Add(new Snoop.Data.Bool("Has attributes", elem.HasAttributes));
+            MDataObjs.Add(new Snoop.Data.Bool("Is empty", elem.IsEmpty));
         }
         
         private void
         Stream(System.Xml.XmlCharacterData charData)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlCharacterData)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlCharacterData)));
 
-            m_dataObjs.Add(new Snoop.Data.Int("Length", charData.Length));
-            m_dataObjs.Add(new Snoop.Data.String("Data", charData.Data));
+            MDataObjs.Add(new Snoop.Data.Int("Length", charData.Length));
+            MDataObjs.Add(new Snoop.Data.String("Data", charData.Data));
             
             System.Xml.XmlCDataSection cDataSection = charData as System.Xml.XmlCDataSection;
             if (cDataSection != null) {
@@ -217,7 +217,7 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlCDataSection cDataSection)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlCDataSection)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlCDataSection)));
 
 			// do data to display at this level
         }
@@ -225,7 +225,7 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlComment comment)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlComment)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlComment)));
 
             // no data to display at this level
         }
@@ -233,25 +233,25 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlDeclaration decl)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlDeclaration)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlDeclaration)));
 
-            m_dataObjs.Add(new Snoop.Data.String("Encoding", decl.Encoding));
-            m_dataObjs.Add(new Snoop.Data.String("Standalone", decl.Standalone));
-            m_dataObjs.Add(new Snoop.Data.String("Version", decl.Version));
+            MDataObjs.Add(new Snoop.Data.String("Encoding", decl.Encoding));
+            MDataObjs.Add(new Snoop.Data.String("Standalone", decl.Standalone));
+            MDataObjs.Add(new Snoop.Data.String("Version", decl.Version));
         }
 
         private void
         Stream(System.Xml.XmlDocument doc)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlDocument)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlDocument)));
 
-            m_dataObjs.Add(new Snoop.Data.Bool("Preserve whitespace", doc.PreserveWhitespace));
+            MDataObjs.Add(new Snoop.Data.Bool("Preserve whitespace", doc.PreserveWhitespace));
         }
 
         private void
         Stream(System.Xml.XmlDocumentFragment doc)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlDocumentFragment)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlDocumentFragment)));
 
             // no data to display at this level
         }
@@ -259,27 +259,27 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlDocumentType dType)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlDocumentType)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlDocumentType)));
 
-            m_dataObjs.Add(new Snoop.Data.String("Internal subset", dType.InternalSubset));
-            m_dataObjs.Add(new Snoop.Data.String("Public ID", dType.PublicId));
-            m_dataObjs.Add(new Snoop.Data.String("System ID", dType.SystemId));
+            MDataObjs.Add(new Snoop.Data.String("Internal subset", dType.InternalSubset));
+            MDataObjs.Add(new Snoop.Data.String("Public ID", dType.PublicId));
+            MDataObjs.Add(new Snoop.Data.String("System ID", dType.SystemId));
         }
 
         private void
         Stream(System.Xml.XmlEntity ent)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlEntity)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlEntity)));
 
-            m_dataObjs.Add(new Snoop.Data.String("Notation name", ent.NotationName));
-            m_dataObjs.Add(new Snoop.Data.String("Public ID", ent.PublicId));
-            m_dataObjs.Add(new Snoop.Data.String("System ID", ent.SystemId));
+            MDataObjs.Add(new Snoop.Data.String("Notation name", ent.NotationName));
+            MDataObjs.Add(new Snoop.Data.String("Public ID", ent.PublicId));
+            MDataObjs.Add(new Snoop.Data.String("System ID", ent.SystemId));
         }
         
         private void
         Stream(System.Xml.XmlEntityReference entRef)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlEntityReference)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlEntityReference)));
 
             // no data to display at this level
         }
@@ -287,24 +287,24 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlNotation notation)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlNotation)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlNotation)));
 
-            m_dataObjs.Add(new Snoop.Data.String("Public ID", notation.PublicId));
-            m_dataObjs.Add(new Snoop.Data.String("System ID", notation.SystemId));
+            MDataObjs.Add(new Snoop.Data.String("Public ID", notation.PublicId));
+            MDataObjs.Add(new Snoop.Data.String("System ID", notation.SystemId));
         }
         
         private void
         Stream(System.Xml.XmlProcessingInstruction pi)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlProcessingInstruction)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlProcessingInstruction)));
 
-            m_dataObjs.Add(new Snoop.Data.String("Target", pi.Target));
+            MDataObjs.Add(new Snoop.Data.String("Target", pi.Target));
         }
         
         private void
         Stream(System.Xml.XmlSignificantWhitespace swSpace)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlSignificantWhitespace)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlSignificantWhitespace)));
 
             // no data to display at this level
         }
@@ -312,7 +312,7 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlText text)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlText)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlText)));
 
             // no data to display at this level
         }
@@ -320,7 +320,7 @@ namespace RevitLookup.Snoop.Collectors
         private void
         Stream(System.Xml.XmlWhitespace wSpace)
         {
-            m_dataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlWhitespace)));
+            MDataObjs.Add(new Snoop.Data.ClassSeparator(typeof(System.Xml.XmlWhitespace)));
 
             // no data to display at this level
         }

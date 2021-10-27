@@ -35,12 +35,12 @@ namespace RevitLookup.Snoop.Data
 	
 	public abstract class Data
 	{
-	    private string  m_label;
+	    private string  _mLabel;
 	    
 		public
 		Data(string label)
 		{
-		    m_label = label;
+		    _mLabel = label;
 		}
 		
 		/// <summary>
@@ -50,8 +50,8 @@ namespace RevitLookup.Snoop.Data
 		public virtual string
 		Label
 		{
-            get { return m_label;  }
-            set { m_label = value; }
+            get { return _mLabel;  }
+            set { _mLabel = value; }
    		}
 		
 		/// <summary>
@@ -70,7 +70,7 @@ namespace RevitLookup.Snoop.Data
 		
 		public override string ToString()
 		{
-		    return $"{m_label}: {StrValue()}";
+		    return $"{_mLabel}: {StrValue()}";
 		}
 		
 		/// <summary>

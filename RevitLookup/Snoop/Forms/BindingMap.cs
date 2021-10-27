@@ -39,16 +39,16 @@ namespace RevitLookup.Snoop.Forms
 
   public class BindingMap : RevitLookup.Snoop.Forms.ObjTreeBase
   {
-    protected Autodesk.Revit.DB.BindingMap m_map = null;
+    protected Autodesk.Revit.DB.BindingMap MMap = null;
 
     public
     BindingMap( Autodesk.Revit.DB.BindingMap map )
     {
       this.Text = "Snoop Binding Map";
 
-      m_tvObjs.BeginUpdate();
-      AddObjectsToTree( map, m_tvObjs.Nodes );
-      m_tvObjs.EndUpdate();
+      MTvObjs.BeginUpdate();
+      AddObjectsToTree( map, MTvObjs.Nodes );
+      MTvObjs.EndUpdate();
     }
 
     protected void
@@ -103,7 +103,7 @@ namespace RevitLookup.Snoop.Forms
 			// 
 			// m_tvObjs
 			// 
-			this.m_tvObjs.LineColor = System.Drawing.Color.Black;
+			this.MTvObjs.LineColor = System.Drawing.Color.Black;
 			// 
 			// BindingMap
 			// 

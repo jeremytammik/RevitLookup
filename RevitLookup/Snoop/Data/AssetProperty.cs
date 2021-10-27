@@ -7,16 +7,16 @@ namespace RevitLookup.Snoop.Data
 {
     public class AssetProperty : Data
     {
-        protected Autodesk.Revit.DB.Visual.AssetProperty m_val;
-        protected Element m_elem;
-        protected AssetProperties m_assetProperties;
+        protected Autodesk.Revit.DB.Visual.AssetProperty MVal;
+        protected Element MElem;
+        protected AssetProperties MAssetProperties;
 
         public AssetProperty(string label, 
             AssetProperties assetProperties,
             Autodesk.Revit.DB.Visual.AssetProperty val) : base(label)
         {
-            m_val = val;
-            m_assetProperties = assetProperties;
+            MVal = val;
+            MAssetProperties = assetProperties;
         }
 
 
@@ -25,19 +25,19 @@ namespace RevitLookup.Snoop.Data
         {
             get
             {
-                return m_assetProperties!=null && m_assetProperties.Size > 0;
+                return MAssetProperties!=null && MAssetProperties.Size > 0;
             }
         }
 
 
         public override System.Windows.Forms.Form DrillDown()
         {
-            if (m_assetProperties != null)
+            if (MAssetProperties != null)
             {
                 ArrayList objs = new ArrayList();
-                for (int i = 0; i < m_assetProperties.Size; i++)
+                for (int i = 0; i < MAssetProperties.Size; i++)
                 {
-                    objs.Add(m_assetProperties.Get(i));
+                    objs.Add(MAssetProperties.Get(i));
                 }
                 
 

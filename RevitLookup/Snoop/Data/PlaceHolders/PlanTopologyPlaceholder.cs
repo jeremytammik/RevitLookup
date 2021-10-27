@@ -9,24 +9,24 @@ namespace RevitLookup.Snoop.Data.PlaceHolders
 {
     internal class PlanTopologyPlaceholder : IObjectToSnoopPlaceholder
     {
-        private Phase phase;
-        private Level level;
+        private Phase _phase;
+        private Level _level;
 
 
         public PlanTopologyPlaceholder(PlanTopology planTopology)
         {
-            phase = planTopology.Phase;
-            level = planTopology.Level;
+            _phase = planTopology.Phase;
+            _level = planTopology.Level;
         }
 
         public string GetName()
         {
-            return $"PlanTopology<{level?.Name}, {phase?.Name}>";
+            return $"PlanTopology<{_level?.Name}, {_phase?.Name}>";
         }
 
         public object GetObject(Document document)
         {
-            return document.get_PlanTopology(level, phase);
+            return document.get_PlanTopology(_level, _phase);
         }
 
         public Type GetUnderlyingType()

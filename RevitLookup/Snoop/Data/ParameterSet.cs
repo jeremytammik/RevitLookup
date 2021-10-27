@@ -36,28 +36,28 @@ namespace RevitLookup.Snoop.Data
 	
 	public class ParameterSet : Data
 	{
-	    protected Autodesk.Revit.DB.ParameterSet	m_val;
-	    protected Element        m_elem;
+	    protected Autodesk.Revit.DB.ParameterSet	MVal;
+	    protected Element        MElem;
 	    
 		public
 		ParameterSet(string label, Element elem, Autodesk.Revit.DB.ParameterSet val)
 		:   base(label)
 		{
-		    m_val = val;
-		    m_elem = elem;
+		    MVal = val;
+		    MElem = elem;
 		}
 		
         public override string
         StrValue()
         {
-			return Utils.ObjToLabelStr(m_val);
+			return Utils.ObjToLabelStr(MVal);
         }
         
         public override bool
         HasDrillDown
         {
             get {
-                if ((m_val == null) || (m_val.IsEmpty))
+                if ((MVal == null) || (MVal.IsEmpty))
                     return false;
                 else
                     return true;
@@ -66,8 +66,8 @@ namespace RevitLookup.Snoop.Data
         
         public override System.Windows.Forms.Form DrillDown()
         {
-			if ((m_val != null) && (m_val.IsEmpty == false)) {
-				Snoop.Forms.Parameters form = new Snoop.Forms.Parameters(m_elem, m_val);
+			if ((MVal != null) && (MVal.IsEmpty == false)) {
+				Snoop.Forms.Parameters form = new Snoop.Forms.Parameters(MElem, MVal);
 				return form;
 			}
 			return null;

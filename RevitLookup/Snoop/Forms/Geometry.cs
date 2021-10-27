@@ -39,20 +39,20 @@ namespace RevitLookup.Snoop.Forms
 
   public class Geometry : RevitLookup.Snoop.Forms.ObjTreeBase
   {
-    protected Element m_elem = null;
-    protected Autodesk.Revit.ApplicationServices.Application m_app = null;
+    protected Element MElem = null;
+    protected Autodesk.Revit.ApplicationServices.Application MApp = null;
 
     public
     Geometry( Autodesk.Revit.DB.Element elem, Autodesk.Revit.ApplicationServices.Application app )
     {
       this.Text = "Element Geometry";
 
-      m_elem = elem;
-      m_app = app;
+      MElem = elem;
+      MApp = app;
 
-      m_tvObjs.BeginUpdate();
-      AddObjectsToTree( elem, m_tvObjs.Nodes );
-      m_tvObjs.EndUpdate();
+      MTvObjs.BeginUpdate();
+      AddObjectsToTree( elem, MTvObjs.Nodes );
+      MTvObjs.EndUpdate();
     }
 
     protected void
@@ -71,7 +71,7 @@ namespace RevitLookup.Snoop.Forms
         // IMPORTANT!!! Need to create options each time when you are 
         // getting geometry. In other case, all the geometry you got at the 
         // previous step will be owerriten according with the latest DetailLevel
-        geomOp = m_app.Create.NewGeometryOptions();
+        geomOp = MApp.Create.NewGeometryOptions();
         geomOp.ComputeReferences = true;
         geomOp.DetailLevel = viewDetailLevel;
         tmpNode.Tag = elem.get_Geometry( geomOp );
@@ -89,7 +89,7 @@ namespace RevitLookup.Snoop.Forms
         // IMPORTANT!!! Need to create options each time when you are 
         // getting geometry. In other case, all the geometry you got at the 
         // previous step will be owerriten according with the latest DetailLevel
-        geomOp = m_app.Create.NewGeometryOptions();
+        geomOp = MApp.Create.NewGeometryOptions();
         geomOp.ComputeReferences = true;
         geomOp.IncludeNonVisibleObjects = true;
         geomOp.DetailLevel = viewDetailLevel;
@@ -100,7 +100,7 @@ namespace RevitLookup.Snoop.Forms
       // now add geometry with the View set to the current view
       if( elem.Document.ActiveView != null )
       {
-        Options geomOp2 = m_app.Create.NewGeometryOptions();
+        Options geomOp2 = MApp.Create.NewGeometryOptions();
         geomOp2.ComputeReferences = true;
         geomOp2.View = elem.Document.ActiveView;
 
@@ -111,7 +111,7 @@ namespace RevitLookup.Snoop.Forms
         // SOFiSTiK FS
         // add model geometry including geometry objects not set as Visible.
         {
-          Autodesk.Revit.DB.Options opts = m_app.Create.NewGeometryOptions();
+          Autodesk.Revit.DB.Options opts = MApp.Create.NewGeometryOptions();
           opts.ComputeReferences = true;
           opts.IncludeNonVisibleObjects = true;
           opts.View = elem.Document.ActiveView;
@@ -131,7 +131,7 @@ namespace RevitLookup.Snoop.Forms
 			// 
 			// m_tvObjs
 			// 
-			this.m_tvObjs.LineColor = System.Drawing.Color.Black;
+			this.MTvObjs.LineColor = System.Drawing.Color.Black;
 			// 
 			// Geometry
 			// 
@@ -152,26 +152,26 @@ namespace RevitLookup.Snoop.Forms
 
   public class OriginalGeometry : RevitLookup.Snoop.Forms.ObjTreeBase
   {
-    protected Element m_elem = null;
-    protected Autodesk.Revit.ApplicationServices.Application m_app = null;
+    protected Element MElem = null;
+    protected Autodesk.Revit.ApplicationServices.Application MApp = null;
 
     public
     OriginalGeometry( Autodesk.Revit.DB.FamilyInstance elem, Autodesk.Revit.ApplicationServices.Application app )
     {
       this.Text = "Element Original Geometry";
 
-      m_elem = elem;
-      m_app = app;
+      MElem = elem;
+      MApp = app;
 
-      m_tvObjs.BeginUpdate();
-      AddObjectsToTree( elem, m_tvObjs.Nodes );
-      m_tvObjs.EndUpdate();
+      MTvObjs.BeginUpdate();
+      AddObjectsToTree( elem, MTvObjs.Nodes );
+      MTvObjs.EndUpdate();
     }
 
     protected void
     AddObjectsToTree( FamilyInstance elem, TreeNodeCollection curNodes )
     {
-      Autodesk.Revit.DB.Options geomOp = m_app.Create.NewGeometryOptions();
+      Autodesk.Revit.DB.Options geomOp = MApp.Create.NewGeometryOptions();
       geomOp.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!
       TreeNode tmpNode;
 
@@ -202,7 +202,7 @@ namespace RevitLookup.Snoop.Forms
       // SOFiSTiK FS
       // add model geometry including geometry objects not set as Visible.
       {
-        Autodesk.Revit.DB.Options opts = m_app.Create.NewGeometryOptions();
+        Autodesk.Revit.DB.Options opts = MApp.Create.NewGeometryOptions();
         opts.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
         opts.IncludeNonVisibleObjects = true;
 
@@ -233,7 +233,7 @@ namespace RevitLookup.Snoop.Forms
       // now add geometry with the View set to the current view
       if( elem.Document.ActiveView != null )
       {
-        Options geomOp2 = m_app.Create.NewGeometryOptions();
+        Options geomOp2 = MApp.Create.NewGeometryOptions();
         geomOp2.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
         geomOp2.View = elem.Document.ActiveView;
 
@@ -244,7 +244,7 @@ namespace RevitLookup.Snoop.Forms
         // SOFiSTiK FS
         // add model geometry including geometry objects not set as Visible.
         {
-          Autodesk.Revit.DB.Options opts = m_app.Create.NewGeometryOptions();
+          Autodesk.Revit.DB.Options opts = MApp.Create.NewGeometryOptions();
           opts.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
           opts.IncludeNonVisibleObjects = true;
           opts.View = elem.Document.ActiveView;

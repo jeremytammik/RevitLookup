@@ -41,13 +41,13 @@ namespace RevitLookup.Snoop.CollectorExts
     /// </summary>
     public class CollectorExtElement : CollectorExt
     {
-        private static readonly Type[] types;
+        private static readonly Type[] Types;
 
         static CollectorExtElement()
         {
             var baseDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
 
-            types = AppDomain.CurrentDomain.GetAssemblies()
+            Types = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location))
                 .Where(x => Path.GetDirectoryName(x.Location) == baseDirectory)
                 .Where(x => x.GetName().Name.ToLower().Contains("revit"))
@@ -71,15 +71,15 @@ namespace RevitLookup.Snoop.CollectorExts
 
         private void Stream(ArrayList data, object elem)
         {
-            var thisElementTypes = types.Where(x => IsSnoopableType(x, elem)).ToList();
+            var thisElementTypes = Types.Where(x => IsSnoopableType(x, elem)).ToList();
 
             var streams = new IElementStream[]
                 {
-                    new ElementPropertiesStream(m_doc, data, elem),
-                    new ElementMethodsStream(m_doc, data, elem),
+                    new ElementPropertiesStream(MDoc, data, elem),
+                    new ElementMethodsStream(MDoc, data, elem),
                     new SpatialElementStream(data, elem),
                     new FamilyTypeParameterValuesStream(data, elem),
-                    new ExtensibleStorageEntityContentStream(m_doc, data, elem),
+                    new ExtensibleStorageEntityContentStream(MDoc, data, elem),
                     new PartUtilsStream(data, elem),
                 };
 

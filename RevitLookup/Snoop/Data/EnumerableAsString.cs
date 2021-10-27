@@ -8,20 +8,20 @@ namespace RevitLookup.Snoop.Data
     /// </summary>
     public class EnumerableAsString : Data
     {
-        private readonly IEnumerable m_val;
+        private readonly IEnumerable _mVal;
 
         public EnumerableAsString(string label, IEnumerable val) : base(label)
         {
-            m_val = val;
+            _mVal = val;
         }
 
         public override string StrValue()
         {
-            if (m_val == null)
+            if (_mVal == null)
                 return "null";
 
             List<string> stringList = new List<string>();
-            foreach (var v in m_val)
+            foreach (var v in _mVal)
             {
                 stringList.Add(v.ToString());
             }

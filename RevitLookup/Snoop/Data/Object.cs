@@ -34,29 +34,29 @@ namespace RevitLookup.Snoop.Data
 	
 	public class Object : Data
 	{
-		private string m_StrValue;
+		private string _mStrValue;
 
-		protected System.Object m_val;
+		protected System.Object MVal;
 	    
 		public
 		Object(string label, System.Object val)
 		:   base(label)
 		{
-		    m_val = val;
-			m_StrValue = Utils.ObjToLabelStr(m_val);
+		    MVal = val;
+			_mStrValue = Utils.ObjToLabelStr(MVal);
 		}
 		
         public override string
         StrValue()
         {
-			return m_StrValue;
+			return _mStrValue;
         }
         
         public override bool
         HasDrillDown
         {
             get {
-                if (m_val == null)
+                if (MVal == null)
                     return false;
                 else
                     return true;
@@ -65,9 +65,9 @@ namespace RevitLookup.Snoop.Data
         
         public override System.Windows.Forms.Form DrillDown()
         {
-            if (m_val != null) {
+            if (MVal != null) {
 				ArrayList objs = new ArrayList();
-				objs.Add(m_val);
+				objs.Add(MVal);
 
 				Snoop.Forms.Objects form = new Snoop.Forms.Objects(objs);
 				return form;				

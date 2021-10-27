@@ -54,7 +54,7 @@ namespace RevitLookup.Snoop.Collectors
         /// <param name="obj">Object to collect data for</param>
         public Task Collect(System.Object obj)
         {
-            m_dataObjs.Clear();
+            MDataObjs.Clear();
 
             if (obj == null)
                 return Task.CompletedTask;

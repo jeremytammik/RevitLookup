@@ -43,15 +43,15 @@ namespace RevitLookup.Snoop.Forms
 		{
 			this.Text = "Snoop Categories";
 
-			m_tvObjs.BeginUpdate();
-			AddObjectsToTree( map, m_tvObjs.Nodes );
-			m_tvObjs.EndUpdate();
+			MTvObjs.BeginUpdate();
+			AddObjectsToTree( map, MTvObjs.Nodes );
+			MTvObjs.EndUpdate();
 		}
 
 		protected void
 		AddObjectsToTree( CategoryNameMap map, TreeNodeCollection curNodes )
 		{
-			m_tvObjs.Sorted = true;
+			MTvObjs.Sorted = true;
 
 			if( map.IsEmpty )
 				return;   // nothing to add
@@ -77,7 +77,7 @@ namespace RevitLookup.Snoop.Forms
 			// 
 			// m_tvObjs
 			// 
-			this.m_tvObjs.LineColor = System.Drawing.Color.Black;
+			this.MTvObjs.LineColor = System.Drawing.Color.Black;
 			// 
 			// Categories
 			// 

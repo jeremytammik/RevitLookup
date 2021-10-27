@@ -32,19 +32,19 @@ namespace RevitLookup.Snoop.Data
 	
 	public class CategorySeparator : Data
 	{
-        protected string    m_val;
+        protected string    MVal;
 	    
         public
         CategorySeparator(string category)
         :   base("------- CATEGORY -------")
 		{
-		    m_val = category;
+		    MVal = category;
 		}
 		
         override public string
         StrValue()
         {
-            return $"--- {m_val} ---";
+            return $"--- {MVal} ---";
         }
         
         public override bool

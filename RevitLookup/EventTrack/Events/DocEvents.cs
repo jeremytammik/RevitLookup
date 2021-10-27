@@ -40,7 +40,7 @@ namespace RevitLookup.EventTrack.Events
     public class DocEvents : EventsBase
     {
 
-        static public DocumentSet m_docSet = null;
+        static public DocumentSet MDocSet = null;
 
         public
         DocEvents()
@@ -52,7 +52,7 @@ namespace RevitLookup.EventTrack.Events
         {
             MessageBox.Show("Document Events Turned On ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            foreach (Document doc in m_docSet)
+            foreach (Document doc in MDocSet)
             {
                 EnableEvents(doc);
             }
@@ -77,7 +77,7 @@ namespace RevitLookup.EventTrack.Events
         {
             MessageBox.Show("Document Events Turned Off ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            foreach (Document doc in m_docSet)
+            foreach (Document doc in MDocSet)
             {
                 DisableEvents(doc);
             }

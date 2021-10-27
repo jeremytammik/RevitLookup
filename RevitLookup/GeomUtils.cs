@@ -40,25 +40,25 @@ namespace RevitLookup
 // Math.Pi    = 3.14159265358979323846;
 
             // predefined constants for common angles
-        public const double kPi       = 3.14159265358979323846;
+        public const double Pi       = 3.14159265358979323846;
         // TBD: have to use Revit's version of Pi for Ellipse else it will fail!
-        public const double kRevitPi   = 3.14159265358979;  
-        public const double kHalfPi   = 3.14159265358979323846 / 2.0;
-        public const double kTwoPi	  = 3.14159265358979323846 * 2.0;
+        public const double RevitPi   = 3.14159265358979;  
+        public const double HalfPi   = 3.14159265358979323846 / 2.0;
+        public const double TwoPi	  = 3.14159265358979323846 * 2.0;
 
-        public const double kRad0     = 0.0;
-        public const double kRad45    = 3.14159265358979323846 / 4.0;
-        public const double kRad90    = 3.14159265358979323846 / 2.0;
-        public const double kRad135   = (3.14159265358979323846 * 3.0) / 4.0;
-        public const double kRad180   = 3.14159265358979323846;
-        public const double kRad270   = 3.14159265358979323846 * 1.5;
-        public const double kRad360   = 3.14159265358979323846 * 2.0;
+        public const double Rad0     = 0.0;
+        public const double Rad45    = 3.14159265358979323846 / 4.0;
+        public const double Rad90    = 3.14159265358979323846 / 2.0;
+        public const double Rad135   = (3.14159265358979323846 * 3.0) / 4.0;
+        public const double Rad180   = 3.14159265358979323846;
+        public const double Rad270   = 3.14159265358979323846 * 1.5;
+        public const double Rad360   = 3.14159265358979323846 * 2.0;
         
             // predefined values for common Points and Vectors
-        public static readonly XYZ kOrigin = new XYZ(0.0, 0.0, 0.0);
-        public static readonly XYZ kXAxis  = new XYZ(1.0, 0.0, 0.0);
-        public static readonly XYZ kYAxis  = new XYZ(0.0, 1.0, 0.0);
-        public static readonly XYZ kZAxis  = new XYZ(0.0, 0.0, 1.0);
+        public static readonly XYZ Origin = new XYZ(0.0, 0.0, 0.0);
+        public static readonly XYZ XAxis  = new XYZ(1.0, 0.0, 0.0);
+        public static readonly XYZ YAxis  = new XYZ(0.0, 1.0, 0.0);
+        public static readonly XYZ ZAxis  = new XYZ(0.0, 0.0, 1.0);
 
 		public GeomUtils()
 		{
@@ -67,13 +67,13 @@ namespace RevitLookup
         public static double
         RadiansToDegrees(double rads)
         {
-            return rads * (180.0 / kPi);
+            return rads * (180.0 / Pi);
         }
         
         public static double
         DegreesToRadians(double degrees)
         {
-            return degrees * (kPi / 180.0);
+            return degrees * (Pi / 180.0);
         }
         
         public static XYZ
@@ -99,19 +99,19 @@ namespace RevitLookup
         {
             XYZ pt = new XYZ();
 
-            if(axis.Equals(kXAxis)){
+            if(axis.Equals(XAxis)){
                 if (pt1.X > pt2.X)
                     pt = pt1;
                 else
                     pt = pt2;
             }
-            if (axis.Equals(kYAxis)) {
+            if (axis.Equals(YAxis)) {
                 if (pt1.Y > pt2.Y)
                     pt = pt1;
                 else
                     pt = pt2;
             }
-            if (axis.Equals(kZAxis)) {
+            if (axis.Equals(ZAxis)) {
                 if (pt1.Z > pt2.Z)
                     pt = pt1;
                 else

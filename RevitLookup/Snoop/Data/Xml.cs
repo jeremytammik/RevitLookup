@@ -33,28 +33,28 @@ namespace RevitLookup.Snoop.Data
 
 	public class Xml : Data
 	{
-	    protected string    m_val;
-	    protected bool      m_isFileName = false;
+	    protected string    MVal;
+	    protected bool      MIsFileName = false;
 	    
 		public
 		Xml(string label, string val, bool isFileName)
 		:   base(label)
 		{
-		    m_val = val;
-		    m_isFileName = isFileName;
+		    MVal = val;
+		    MIsFileName = isFileName;
 		}
 		
         public override string
         StrValue()
         {
-            return m_val;
+            return MVal;
         }
         
         public override bool
         HasDrillDown
         {
             get {
-                if (m_val == string.Empty)
+                if (MVal == string.Empty)
                     return false;
                 else
                     return true;
@@ -65,10 +65,10 @@ namespace RevitLookup.Snoop.Data
         {
             try {
                 System.Xml.XmlDocument xmlDoc = new System.Xml.XmlDocument();
-                if (m_isFileName)
-                    xmlDoc.Load(m_val);
+                if (MIsFileName)
+                    xmlDoc.Load(MVal);
                 else
-                    xmlDoc.LoadXml(m_val);
+                    xmlDoc.LoadXml(MVal);
             
                 RevitLookup.Xml.Forms.Dom form = new RevitLookup.Xml.Forms.Dom(xmlDoc);
                 form.ShowDialog();

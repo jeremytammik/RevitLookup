@@ -73,7 +73,7 @@ namespace RevitLookup
       ElementSet elems )
     {          
           Snoop.Forms.Objects form = new Snoop.Forms.Objects();
-          form.SnoopAndShow(Selector.SnoopDB);
+          form.SnoopAndShow(Selector.SnoopDb);
           return Result.Succeeded;
     }
   }

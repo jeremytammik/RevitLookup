@@ -34,27 +34,27 @@ namespace RevitLookup
 {
     public class AppDocEvents
     {
-       private ControlledApplication m_app;
+       private ControlledApplication _mApp;
 
        public AppDocEvents(ControlledApplication app)
         {
-            m_app = app;
+            _mApp = app;
         }
 
         public void EnableEvents()
         {
-            m_app.DocumentClosed   += m_app_DocumentClosed;
-            m_app.DocumentOpened   += m_app_DocumentOpened;
-            m_app.DocumentSaved    += m_app_DocumentSaved;
-            m_app.DocumentSavedAs  += m_app_DocumentSavedAs;            
+            _mApp.DocumentClosed   += m_app_DocumentClosed;
+            _mApp.DocumentOpened   += m_app_DocumentOpened;
+            _mApp.DocumentSaved    += m_app_DocumentSaved;
+            _mApp.DocumentSavedAs  += m_app_DocumentSavedAs;            
         }        
 
         public void DisableEvents()
         {
-            m_app.DocumentClosed   -= m_app_DocumentClosed;
-            m_app.DocumentOpened   -= m_app_DocumentOpened;
-            m_app.DocumentSaved    -= m_app_DocumentSaved;
-            m_app.DocumentSavedAs  -= m_app_DocumentSavedAs;            
+            _mApp.DocumentClosed   -= m_app_DocumentClosed;
+            _mApp.DocumentOpened   -= m_app_DocumentOpened;
+            _mApp.DocumentSaved    -= m_app_DocumentSaved;
+            _mApp.DocumentSavedAs  -= m_app_DocumentSavedAs;            
         }
 
         private void m_app_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)
@@ -67,9 +67,9 @@ namespace RevitLookup
 
         private void m_app_DocumentOpened(object sender, Autodesk.Revit.DB.Events.DocumentOpenedEventArgs e)
         {
-            if (EventTrack.Forms.EventsForm.m_docEvents.AreEventsEnabled)
+            if (EventTrack.Forms.EventsForm.MDocEvents.AreEventsEnabled)
             {
-                EventTrack.Forms.EventsForm.m_docEvents.EnableEvents(e.Document);
+                EventTrack.Forms.EventsForm.MDocEvents.EnableEvents(e.Document);
             }
         }
 

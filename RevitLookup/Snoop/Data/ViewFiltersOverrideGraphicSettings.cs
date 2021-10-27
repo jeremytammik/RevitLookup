@@ -5,11 +5,11 @@ namespace RevitLookup.Snoop.Data
 {
     public class ViewFiltersOverrideGraphicSettings : Data
     {
-        private readonly View view;
+        private readonly View _view;
 
         public ViewFiltersOverrideGraphicSettings(string label, View view) : base(label)
         {
-            this.view = view;
+            this._view = view;
         }
 
         public override string StrValue()
@@ -17,16 +17,16 @@ namespace RevitLookup.Snoop.Data
             return "< view filters ovverride graphic settings >";
         }
 
-        public override bool HasDrillDown => !view.Document.IsFamilyDocument && view.AreGraphicsOverridesAllowed() && view.GetFilters().Any();
+        public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.AreGraphicsOverridesAllowed() && _view.GetFilters().Any();
 
         public override System.Windows.Forms.Form DrillDown()
         {
             if (!HasDrillDown)
                 return null;
 
-            var filterOverrides = view
+            var filterOverrides = _view
                 .GetFilters()
-                .Select(x => new SnoopableObjectWrapper(view.Document.GetElement(x).Name, view.GetFilterOverrides(x)))
+                .Select(x => new SnoopableObjectWrapper(_view.Document.GetElement(x).Name, _view.GetFilterOverrides(x)))
                 .ToList();
 
             if (filterOverrides.Any())

@@ -32,13 +32,13 @@ namespace RevitLookup.Snoop.Data
 	
 	public class Angle : Data
 	{
-	    protected double    m_val;
+	    protected double    MVal;
 	    
 		public
 		Angle(string label, double val)
 		:   base(label)
 		{
-		    m_val = val;
+		    MVal = val;
 		}
 		
         public override string
@@ -46,7 +46,7 @@ namespace RevitLookup.Snoop.Data
         {
 				// convert from radians to degrees so we can read it
 				// TBD: probably need an API to format in current dispaly units
-			double degAng = GeomUtils.RadiansToDegrees(m_val);
+			double degAng = GeomUtils.RadiansToDegrees(MVal);
 			return degAng.ToString();
         }
 	}

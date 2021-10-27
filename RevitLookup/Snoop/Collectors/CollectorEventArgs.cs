@@ -29,18 +29,18 @@ namespace RevitLookup.Snoop.Collectors
 {
 	public class CollectorEventArgs : System.EventArgs
 	{
-	    private object  m_objToSnoop;
-        private List<Type> seenTypes;
+	    private object  _mObjToSnoop;
+        private List<Type> _seenTypes;
 	    
 		public CollectorEventArgs(object objToSnoop)
 		{
-		    m_objToSnoop = objToSnoop;
-            seenTypes = new List<Type>();
+		    _mObjToSnoop = objToSnoop;
+            _seenTypes = new List<Type>();
 		}
 		
 		public object ObjToSnoop
 		{
-		    get { return m_objToSnoop; }
+		    get { return _mObjToSnoop; }
 		}
 	}
 }

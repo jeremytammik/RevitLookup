@@ -5,27 +5,27 @@ namespace RevitLookup.Snoop.Data
 {
     public class ElementPhaseStatuses : Data
     {
-        private readonly Element element;
+        private readonly Element _element;
 
         public ElementPhaseStatuses(string label, Element element) : base(label)
         {
-            this.element = element;
+            this._element = element;
         }
 
         public override string StrValue() => "< phases statuses >";
 
-        public override bool HasDrillDown => !element.Document.Phases.IsEmpty;
+        public override bool HasDrillDown => !_element.Document.Phases.IsEmpty;
 
         public override System.Windows.Forms.Form DrillDown()
         {
             if (!HasDrillDown)
                 return null;
 
-            var elementOnPhaseStatuses = element
+            var elementOnPhaseStatuses = _element
                 .Document
                 .Phases
                 .Cast<Phase>()
-                .Select(x => new SnoopableObjectWrapper(x.Name, element.GetPhaseStatus(x.Id)))
+                .Select(x => new SnoopableObjectWrapper(x.Name, _element.GetPhaseStatus(x.Id)))
                 .ToList();
 
             if (elementOnPhaseStatuses.Any())

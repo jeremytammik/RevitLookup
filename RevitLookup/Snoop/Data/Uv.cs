@@ -32,20 +32,20 @@ namespace RevitLookup.Snoop.Data
 	
 	public class Uv : Data
 	{
-	    protected Autodesk.Revit.DB.UV    m_val;
+	    protected Autodesk.Revit.DB.UV    MVal;
 	    
 		public
 		Uv(string label, Autodesk.Revit.DB.UV val)
 		:   base(label)
 		{
-		    m_val = val;
+		    MVal = val;
 		}
 		
         public override string
         StrValue()
         {
-          if (m_val != null)
-            return $"({m_val.U}, {m_val.V})";
+          if (MVal != null)
+            return $"({MVal.U}, {MVal.V})";
           else
             return "< null >";
         }

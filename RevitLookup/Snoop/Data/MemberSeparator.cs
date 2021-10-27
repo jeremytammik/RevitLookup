@@ -9,18 +9,18 @@ namespace RevitLookup.Snoop.Data
 
     public class MemberSeparator : Data
     {
-        protected string name;
+        protected string Name;
 
         public MemberSeparator(string val)
         : base("------- CLASS -------")
         {
-            name = val;
+            Name = val;
         }
 
         override public string
         StrValue()
         {
-            return $"--- {name} ---";
+            return $"--- {Name} ---";
         }
 
         public override bool
@@ -50,7 +50,7 @@ namespace RevitLookup.Snoop.Data
 
         override public string StrValue()
         {
-            return $"  --- {name} ---";
+            return $"  --- {Name} ---";
         }
     }
 }

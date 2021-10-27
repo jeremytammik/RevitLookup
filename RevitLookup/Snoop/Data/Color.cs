@@ -2,17 +2,17 @@
 {
     public class Color : Data
     {
-        private Autodesk.Revit.DB.Color m_color;
+        private Autodesk.Revit.DB.Color _mColor;
 
         public Color(string label, Autodesk.Revit.DB.Color color) : base(label)
         {
-            m_color = color;
+            _mColor = color;
         }
 
         public override string StrValue()
         {
-            return m_color.IsValid
-                ? $"R: {m_color.Red}; G: {m_color.Green}; B: {m_color.Blue}"
+            return _mColor.IsValid
+                ? $"R: {_mColor.Red}; G: {_mColor.Green}; B: {_mColor.Blue}"
                 : "-- invalid color value --";
         }
     }

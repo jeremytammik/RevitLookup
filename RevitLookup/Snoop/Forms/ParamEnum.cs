@@ -36,8 +36,8 @@ namespace RevitLookup.Snoop.Forms {
 
     public partial class ParamEnum : Form {
 
-        private Int32[]  m_maxWidths;
-        private Int32    m_currentPrintItem = 0;
+        private Int32[]  _mMaxWidths;
+        private Int32    _mCurrentPrintItem = 0;
     
         public
         ParamEnum(ArrayList labelStrs, ArrayList valueStrs)
@@ -123,7 +123,7 @@ namespace RevitLookup.Snoop.Forms {
         private void
         PrintDocument_PrintPage (object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            m_currentPrintItem = Utils.Print("", m_listView, e, m_maxWidths[0], m_maxWidths[1], m_currentPrintItem);
+            _mCurrentPrintItem = Utils.Print("", m_listView, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
         }
 
         
@@ -135,7 +135,7 @@ namespace RevitLookup.Snoop.Forms {
         private void
         PrintMenuItem_Click (object sender, EventArgs e)
         {
-            Utils.UpdatePrintSettings(m_listView, ref m_maxWidths);
+            Utils.UpdatePrintSettings(m_listView, ref _mMaxWidths);
             Utils.PrintMenuItemClick(m_printDialog);
         }
 
@@ -148,7 +148,7 @@ namespace RevitLookup.Snoop.Forms {
         private void
         PrintPreviewMenuItem_Click (object sender, EventArgs e)
         {
-            Utils.UpdatePrintSettings(m_listView, ref m_maxWidths);
+            Utils.UpdatePrintSettings(m_listView, ref _mMaxWidths);
             Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, m_listView);
         }
         #endregion

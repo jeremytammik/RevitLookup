@@ -32,19 +32,19 @@ namespace RevitLookup.Snoop.Data
 	
 	public class Double : Data
 	{
-	    protected double    m_val;
+	    protected double    MVal;
 	    
 		public
 		Double(string label, double val)
 		:   base(label)
 		{
-		    m_val = val;
+		    MVal = val;
 		}
 		
         public override string
         StrValue()
         {
-			return m_val.ToString();
+			return MVal.ToString();
         }
 	}
 }

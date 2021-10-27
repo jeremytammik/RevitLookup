@@ -41,43 +41,43 @@ namespace RevitLookup.Snoop.Forms
     /// </summary>
     public class Objects : System.Windows.Forms.Form, IHaveCollector
     {
-        protected System.Windows.Forms.Button m_bnOK;
-        protected System.Windows.Forms.TreeView m_tvObjs;
-        protected System.Windows.Forms.ContextMenu m_cntxMenuObjId;
-        protected System.Windows.Forms.MenuItem m_mnuItemBrowseReflection;
-        protected System.Windows.Forms.ListView m_lvData;
-        protected System.Windows.Forms.ColumnHeader m_lvCol_label;
-        protected System.Windows.Forms.ColumnHeader m_lvCol_value;
+        protected System.Windows.Forms.Button MBnOk;
+        protected System.Windows.Forms.TreeView MTvObjs;
+        protected System.Windows.Forms.ContextMenu MCntxMenuObjId;
+        protected System.Windows.Forms.MenuItem MMnuItemBrowseReflection;
+        protected System.Windows.Forms.ListView MLvData;
+        protected System.Windows.Forms.ColumnHeader MLvColLabel;
+        protected System.Windows.Forms.ColumnHeader MLvColValue;
 
-        protected Snoop.Collectors.CollectorObj m_snoopCollector = new Snoop.Collectors.CollectorObj();
-        protected System.Object m_curObj;
-        protected ArrayList m_treeTypeNodes = new ArrayList();
-        protected ArrayList m_types = new ArrayList();
-        private ContextMenuStrip listViewContextMenuStrip;
-        private System.Windows.Forms.MenuItem m_mnuItemCopy;
-        private ToolStripMenuItem copyToolStripMenuItem;
-        private PrintDialog m_printDialog;
-        private System.Drawing.Printing.PrintDocument m_printDocument;
-        private PrintPreviewDialog m_printPreviewDialog;
+        protected Snoop.Collectors.CollectorObj MSnoopCollector = new Snoop.Collectors.CollectorObj();
+        protected System.Object MCurObj;
+        protected ArrayList MTreeTypeNodes = new ArrayList();
+        protected ArrayList MTypes = new ArrayList();
+        private ContextMenuStrip _listViewContextMenuStrip;
+        private System.Windows.Forms.MenuItem _mMnuItemCopy;
+        private ToolStripMenuItem _copyToolStripMenuItem;
+        private PrintDialog _mPrintDialog;
+        private System.Drawing.Printing.PrintDocument _mPrintDocument;
+        private PrintPreviewDialog _mPrintPreviewDialog;
         private IContainer components;
-        private Int32[] m_maxWidths;
-        private TableLayoutPanel tableLayoutPanel1;
-        private ToolStrip toolStrip1;
-        private ToolStripButton toolStripButton1;
-        private ToolStripButton toolStripButton2;
-        private ToolStripButton toolStripButton3;
-        private ToolStrip toolStrip_ListView;
-        private ToolStrip toolStrip_Selectors;
-        private ToolStripButton toolStripButton_RefreshListView;
-        private ToolStripButton toolStripButton_SnoopDB;
-        private ToolStripButton toolStripButton_SnoopCurrentSelection;
-        private ToolStripButton toolStripButton_SnoopPickFace;
-        private ToolStripButton toolStripButton_SnoopPickEdge;
-        private ToolStripButton toolStripButton_SnoopLinkedElement;
-        private ToolStripButton toolStripButton_SnoopDependentElements;
-        private ToolStripButton toolStripButton_SnoopActiveView;
-        private ToolStripButton toolStripButton_SnoopApplication;
-        private Int32 m_currentPrintItem = 0;
+        private Int32[] _mMaxWidths;
+        private TableLayoutPanel _tableLayoutPanel1;
+        private ToolStrip _toolStrip1;
+        private ToolStripButton _toolStripButton1;
+        private ToolStripButton _toolStripButton2;
+        private ToolStripButton _toolStripButton3;
+        private ToolStrip _toolStripListView;
+        private ToolStrip _toolStripSelectors;
+        private ToolStripButton _toolStripButtonRefreshListView;
+        private ToolStripButton _toolStripButtonSnoopDb;
+        private ToolStripButton _toolStripButtonSnoopCurrentSelection;
+        private ToolStripButton _toolStripButtonSnoopPickFace;
+        private ToolStripButton _toolStripButtonSnoopPickEdge;
+        private ToolStripButton _toolStripButtonSnoopLinkedElement;
+        private ToolStripButton _toolStripButtonSnoopDependentElements;
+        private ToolStripButton _toolStripButtonSnoopActiveView;
+        private ToolStripButton _toolStripButtonSnoopApplication;
+        private Int32 _mCurrentPrintItem = 0;
 
         public Objects()
         {
@@ -115,29 +115,29 @@ namespace RevitLookup.Snoop.Forms
 
         protected void CommonInit(IEnumerable<SnoopableObjectWrapper> objs)
         {
-            m_tvObjs.Nodes.Clear();
-            m_lvData.Items.Clear();
-            m_curObj = null;
-            m_treeTypeNodes = new ArrayList();
-            m_types = new ArrayList();
+            MTvObjs.Nodes.Clear();
+            MLvData.Items.Clear();
+            MCurObj = null;
+            MTreeTypeNodes = new ArrayList();
+            MTypes = new ArrayList();
 
-            m_tvObjs.BeginUpdate();
+            MTvObjs.BeginUpdate();
 
             AddObjectsToTree(objs);
 
             // if the tree isn't well populated, expand it and select the first item
             // so its not a pain for the user when there is only one relevant item in the tree
-            if (m_tvObjs.Nodes.Count == 1)
+            if (MTvObjs.Nodes.Count == 1)
             {
-                m_tvObjs.Nodes[0].Expand();
-                if (m_tvObjs.Nodes[0].Nodes.Count == 0)
-                    m_tvObjs.SelectedNode = m_tvObjs.Nodes[0];
+                MTvObjs.Nodes[0].Expand();
+                if (MTvObjs.Nodes[0].Nodes.Count == 0)
+                    MTvObjs.SelectedNode = MTvObjs.Nodes[0];
                 else
-                    m_tvObjs.SelectedNode = m_tvObjs.Nodes[0].Nodes[0];
+                    MTvObjs.SelectedNode = MTvObjs.Nodes[0].Nodes[0];
             }
 
-            m_tvObjs.EndUpdate();
-            m_tvObjs.Focus();
+            MTvObjs.EndUpdate();
+            MTvObjs.Focus();
 
             // Add Load to update ListView Width
             Utils.AddOnLoadForm(this);
@@ -184,358 +184,358 @@ namespace RevitLookup.Snoop.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Objects));
-            this.m_tvObjs = new System.Windows.Forms.TreeView();
-            this.m_cntxMenuObjId = new System.Windows.Forms.ContextMenu();
-            this.m_mnuItemCopy = new System.Windows.Forms.MenuItem();
-            this.m_mnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
-            this.m_bnOK = new System.Windows.Forms.Button();
-            this.m_lvData = new System.Windows.Forms.ListView();
-            this.m_lvCol_label = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.m_lvCol_value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_printDialog = new System.Windows.Forms.PrintDialog();
-            this.m_printDocument = new System.Drawing.Printing.PrintDocument();
-            this.m_printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip_ListView = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_RefreshListView = new System.Windows.Forms.ToolStripButton();
-            this.toolStrip_Selectors = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton_SnoopDB = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_SnoopCurrentSelection = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_SnoopPickFace = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_SnoopPickEdge = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_SnoopLinkedElement = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_SnoopDependentElements = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_SnoopActiveView = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton_SnoopApplication = new System.Windows.Forms.ToolStripButton();
-            this.listViewContextMenuStrip.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
-            this.toolStrip_ListView.SuspendLayout();
-            this.toolStrip_Selectors.SuspendLayout();
+            this.MTvObjs = new System.Windows.Forms.TreeView();
+            this.MCntxMenuObjId = new System.Windows.Forms.ContextMenu();
+            this._mMnuItemCopy = new System.Windows.Forms.MenuItem();
+            this.MMnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
+            this.MBnOk = new System.Windows.Forms.Button();
+            this.MLvData = new System.Windows.Forms.ListView();
+            this.MLvColLabel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.MLvColValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._mPrintDialog = new System.Windows.Forms.PrintDialog();
+            this._mPrintDocument = new System.Drawing.Printing.PrintDocument();
+            this._mPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this._tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this._toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this._toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this._toolStripListView = new System.Windows.Forms.ToolStrip();
+            this._toolStripButtonRefreshListView = new System.Windows.Forms.ToolStripButton();
+            this._toolStripSelectors = new System.Windows.Forms.ToolStrip();
+            this._toolStripButtonSnoopDb = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButtonSnoopCurrentSelection = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButtonSnoopPickFace = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButtonSnoopPickEdge = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButtonSnoopLinkedElement = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButtonSnoopDependentElements = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButtonSnoopActiveView = new System.Windows.Forms.ToolStripButton();
+            this._toolStripButtonSnoopApplication = new System.Windows.Forms.ToolStripButton();
+            this._listViewContextMenuStrip.SuspendLayout();
+            this._tableLayoutPanel1.SuspendLayout();
+            this._toolStrip1.SuspendLayout();
+            this._toolStripListView.SuspendLayout();
+            this._toolStripSelectors.SuspendLayout();
             this.SuspendLayout();
             // 
             // m_tvObjs
             // 
-            this.m_tvObjs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.MTvObjs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.m_tvObjs.ContextMenu = this.m_cntxMenuObjId;
-            this.m_tvObjs.HideSelection = false;
-            this.m_tvObjs.Location = new System.Drawing.Point(12, 32);
-            this.m_tvObjs.Name = "m_tvObjs";
-            this.m_tvObjs.Size = new System.Drawing.Size(248, 430);
-            this.m_tvObjs.TabIndex = 0;
-            this.m_tvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
+            this.MTvObjs.ContextMenu = this.MCntxMenuObjId;
+            this.MTvObjs.HideSelection = false;
+            this.MTvObjs.Location = new System.Drawing.Point(12, 32);
+            this.MTvObjs.Name = "MTvObjs";
+            this.MTvObjs.Size = new System.Drawing.Size(248, 430);
+            this.MTvObjs.TabIndex = 0;
+            this.MTvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
             // 
             // m_cntxMenuObjId
             // 
-            this.m_cntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.m_mnuItemCopy,
-            this.m_mnuItemBrowseReflection});
+            this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this._mMnuItemCopy,
+            this.MMnuItemBrowseReflection});
             // 
             // m_mnuItemCopy
             // 
-            this.m_mnuItemCopy.Index = 0;
-            this.m_mnuItemCopy.Text = "Copy";
-            this.m_mnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
+            this._mMnuItemCopy.Index = 0;
+            this._mMnuItemCopy.Text = "Copy";
+            this._mMnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
             // 
             // m_mnuItemBrowseReflection
             // 
-            this.m_mnuItemBrowseReflection.Index = 1;
-            this.m_mnuItemBrowseReflection.Text = "Browse Using Reflection...";
-            this.m_mnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
+            this.MMnuItemBrowseReflection.Index = 1;
+            this.MMnuItemBrowseReflection.Text = "Browse Using Reflection...";
+            this.MMnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
             // 
             // m_bnOK
             // 
-            this.m_bnOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.m_bnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.m_bnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.m_bnOK.Location = new System.Drawing.Point(284, 464);
-            this.m_bnOK.Name = "m_bnOK";
-            this.m_bnOK.Size = new System.Drawing.Size(504, 23);
-            this.m_bnOK.TabIndex = 4;
-            this.m_bnOK.Text = "OK";
-            this.m_bnOK.Click += new System.EventHandler(this.m_bnOK_Click);
+            this.MBnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.MBnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.MBnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.MBnOk.Location = new System.Drawing.Point(284, 464);
+            this.MBnOk.Name = "MBnOk";
+            this.MBnOk.Size = new System.Drawing.Size(504, 23);
+            this.MBnOk.TabIndex = 4;
+            this.MBnOk.Text = "OK";
+            this.MBnOk.Click += new System.EventHandler(this.m_bnOK_Click);
             // 
             // m_lvData
             // 
-            this.m_lvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.MLvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_lvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.m_lvCol_label,
-            this.m_lvCol_value});
-            this.m_lvData.ContextMenuStrip = this.listViewContextMenuStrip;
-            this.m_lvData.FullRowSelect = true;
-            this.m_lvData.GridLines = true;
-            this.m_lvData.HideSelection = false;
-            this.m_lvData.Location = new System.Drawing.Point(284, 32);
-            this.m_lvData.Name = "m_lvData";
-            this.m_lvData.ShowItemToolTips = true;
-            this.m_lvData.Size = new System.Drawing.Size(504, 430);
-            this.m_lvData.TabIndex = 3;
-            this.m_lvData.UseCompatibleStateImageBehavior = false;
-            this.m_lvData.View = System.Windows.Forms.View.Details;
-            this.m_lvData.Click += new System.EventHandler(this.DataItemSelected);
-            this.m_lvData.DoubleClick += new System.EventHandler(this.DataItemSelected);
+            this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.MLvColLabel,
+            this.MLvColValue});
+            this.MLvData.ContextMenuStrip = this._listViewContextMenuStrip;
+            this.MLvData.FullRowSelect = true;
+            this.MLvData.GridLines = true;
+            this.MLvData.HideSelection = false;
+            this.MLvData.Location = new System.Drawing.Point(284, 32);
+            this.MLvData.Name = "MLvData";
+            this.MLvData.ShowItemToolTips = true;
+            this.MLvData.Size = new System.Drawing.Size(504, 430);
+            this.MLvData.TabIndex = 3;
+            this.MLvData.UseCompatibleStateImageBehavior = false;
+            this.MLvData.View = System.Windows.Forms.View.Details;
+            this.MLvData.Click += new System.EventHandler(this.DataItemSelected);
+            this.MLvData.DoubleClick += new System.EventHandler(this.DataItemSelected);
             // 
             // m_lvCol_label
             // 
-            this.m_lvCol_label.Text = "Field";
-            this.m_lvCol_label.Width = 200;
+            this.MLvColLabel.Text = "Field";
+            this.MLvColLabel.Width = 200;
             // 
             // m_lvCol_value
             // 
-            this.m_lvCol_value.Text = "Value";
-            this.m_lvCol_value.Width = 800;
+            this.MLvColValue.Text = "Value";
+            this.MLvColValue.Width = 800;
             // 
             // listViewContextMenuStrip
             // 
-            this.listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToolStripMenuItem});
-            this.listViewContextMenuStrip.Name = "listViewContextMenuStrip";
-            this.listViewContextMenuStrip.Size = new System.Drawing.Size(103, 26);
+            this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._copyToolStripMenuItem});
+            this._listViewContextMenuStrip.Name = "_listViewContextMenuStrip";
+            this._listViewContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // copyToolStripMenuItem
             // 
-            this.copyToolStripMenuItem.Image = global::RevitLookup.Properties.Resources.Copy;
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
-            this.copyToolStripMenuItem.Text = "Copy";
-            this.copyToolStripMenuItem.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
+            this._copyToolStripMenuItem.Image = global::RevitLookup.Properties.Resources.Copy;
+            this._copyToolStripMenuItem.Name = "_copyToolStripMenuItem";
+            this._copyToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
+            this._copyToolStripMenuItem.Text = "Copy";
+            this._copyToolStripMenuItem.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
             // 
             // m_printDialog
             // 
-            this.m_printDialog.Document = this.m_printDocument;
-            this.m_printDialog.UseEXDialog = true;
+            this._mPrintDialog.Document = this._mPrintDocument;
+            this._mPrintDialog.UseEXDialog = true;
             // 
             // m_printDocument
             // 
-            this.m_printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
+            this._mPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
             // 
             // m_printPreviewDialog
             // 
-            this.m_printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this.m_printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this.m_printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-            this.m_printPreviewDialog.Document = this.m_printDocument;
-            this.m_printPreviewDialog.Enabled = true;
-            this.m_printPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("m_printPreviewDialog.Icon")));
-            this.m_printPreviewDialog.Name = "m_printPreviewDialog";
-            this.m_printPreviewDialog.Visible = false;
+            this._mPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this._mPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this._mPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+            this._mPrintPreviewDialog.Document = this._mPrintDocument;
+            this._mPrintPreviewDialog.Enabled = true;
+            this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("m_printPreviewDialog.Icon")));
+            this._mPrintPreviewDialog.Name = "_mPrintPreviewDialog";
+            this._mPrintPreviewDialog.Visible = false;
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.toolStrip1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.toolStrip_ListView, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.toolStrip_Selectors, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 26);
-            this.tableLayoutPanel1.TabIndex = 5;
+            this._tableLayoutPanel1.AutoSize = true;
+            this._tableLayoutPanel1.ColumnCount = 3;
+            this._tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this._tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this._tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this._tableLayoutPanel1.Controls.Add(this._toolStrip1, 0, 0);
+            this._tableLayoutPanel1.Controls.Add(this._toolStripListView, 2, 0);
+            this._tableLayoutPanel1.Controls.Add(this._toolStripSelectors, 1, 0);
+            this._tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this._tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this._tableLayoutPanel1.Name = "_tableLayoutPanel1";
+            this._tableLayoutPanel1.RowCount = 1;
+            this._tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this._tableLayoutPanel1.Size = new System.Drawing.Size(800, 26);
+            this._tableLayoutPanel1.TabIndex = 5;
             // 
             // toolStrip1
             // 
-            this.toolStrip1.AutoSize = false;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(320, 26);
-            this.toolStrip1.TabIndex = 5;
+            this._toolStrip1.AutoSize = false;
+            this._toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._toolStripButton1,
+            this._toolStripButton2,
+            this._toolStripButton3});
+            this._toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this._toolStrip1.Name = "_toolStrip1";
+            this._toolStrip1.Size = new System.Drawing.Size(320, 26);
+            this._toolStrip1.TabIndex = 5;
             // 
             // toolStripButton1
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::RevitLookup.Properties.Resources.Print;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton1.Text = "Print";
+            this._toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButton1.Image = global::RevitLookup.Properties.Resources.Print;
+            this._toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButton1.Name = "_toolStripButton1";
+            this._toolStripButton1.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButton1.Text = "Print";
             // 
             // toolStripButton2
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::RevitLookup.Properties.Resources.Preview;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton2.Text = "Print Preview";
+            this._toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButton2.Image = global::RevitLookup.Properties.Resources.Preview;
+            this._toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButton2.Name = "_toolStripButton2";
+            this._toolStripButton2.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButton2.Text = "Print Preview";
             // 
             // toolStripButton3
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::RevitLookup.Properties.Resources.Copy;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton3.Text = "Copy To Clipboard";
+            this._toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButton3.Image = global::RevitLookup.Properties.Resources.Copy;
+            this._toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButton3.Name = "_toolStripButton3";
+            this._toolStripButton3.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButton3.Text = "Copy To Clipboard";
             // 
             // toolStrip_ListView
             // 
-            this.toolStrip_ListView.AutoSize = false;
-            this.toolStrip_ListView.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip_ListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_RefreshListView});
-            this.toolStrip_ListView.Location = new System.Drawing.Point(640, 0);
-            this.toolStrip_ListView.Name = "toolStrip_ListView";
-            this.toolStrip_ListView.Size = new System.Drawing.Size(160, 26);
-            this.toolStrip_ListView.TabIndex = 7;
-            this.toolStrip_ListView.Text = "toolStrip3";
+            this._toolStripListView.AutoSize = false;
+            this._toolStripListView.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this._toolStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._toolStripButtonRefreshListView});
+            this._toolStripListView.Location = new System.Drawing.Point(640, 0);
+            this._toolStripListView.Name = "_toolStripListView";
+            this._toolStripListView.Size = new System.Drawing.Size(160, 26);
+            this._toolStripListView.TabIndex = 7;
+            this._toolStripListView.Text = "toolStrip3";
             // 
             // toolStripButton_RefreshListView
             // 
-            this.toolStripButton_RefreshListView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_RefreshListView.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_RefreshListView.Image")));
-            this.toolStripButton_RefreshListView.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_RefreshListView.Name = "toolStripButton_RefreshListView";
-            this.toolStripButton_RefreshListView.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_RefreshListView.Text = "toolStripButton4";
-            this.toolStripButton_RefreshListView.ToolTipText = "Refresh selected element data in the list view";
-            this.toolStripButton_RefreshListView.Click += new System.EventHandler(this.toolStripButton_RefreshListView_Click);
-            this.toolStripButton_RefreshListView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonRefreshListView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonRefreshListView.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_RefreshListView.Image")));
+            this._toolStripButtonRefreshListView.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonRefreshListView.Name = "_toolStripButtonRefreshListView";
+            this._toolStripButtonRefreshListView.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonRefreshListView.Text = "toolStripButton4";
+            this._toolStripButtonRefreshListView.ToolTipText = "Refresh selected element data in the list view";
+            this._toolStripButtonRefreshListView.Click += new System.EventHandler(this.toolStripButton_RefreshListView_Click);
+            this._toolStripButtonRefreshListView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStrip_Selectors
             // 
-            this.toolStrip_Selectors.AutoSize = false;
-            this.toolStrip_Selectors.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip_Selectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton_SnoopDB,
-            this.toolStripButton_SnoopCurrentSelection,
-            this.toolStripButton_SnoopPickFace,
-            this.toolStripButton_SnoopPickEdge,
-            this.toolStripButton_SnoopLinkedElement,
-            this.toolStripButton_SnoopDependentElements,
-            this.toolStripButton_SnoopActiveView,
-            this.toolStripButton_SnoopApplication});
-            this.toolStrip_Selectors.Location = new System.Drawing.Point(320, 0);
-            this.toolStrip_Selectors.Name = "toolStrip_Selectors";
-            this.toolStrip_Selectors.Size = new System.Drawing.Size(320, 26);
-            this.toolStrip_Selectors.TabIndex = 8;
-            this.toolStrip_Selectors.Text = "toolStrip2";
+            this._toolStripSelectors.AutoSize = false;
+            this._toolStripSelectors.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this._toolStripButtonSnoopDb,
+            this._toolStripButtonSnoopCurrentSelection,
+            this._toolStripButtonSnoopPickFace,
+            this._toolStripButtonSnoopPickEdge,
+            this._toolStripButtonSnoopLinkedElement,
+            this._toolStripButtonSnoopDependentElements,
+            this._toolStripButtonSnoopActiveView,
+            this._toolStripButtonSnoopApplication});
+            this._toolStripSelectors.Location = new System.Drawing.Point(320, 0);
+            this._toolStripSelectors.Name = "_toolStripSelectors";
+            this._toolStripSelectors.Size = new System.Drawing.Size(320, 26);
+            this._toolStripSelectors.TabIndex = 8;
+            this._toolStripSelectors.Text = "toolStrip2";
             // 
             // toolStripButton_SnoopDB
             // 
-            this.toolStripButton_SnoopDB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SnoopDB.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopDB.Image")));
-            this.toolStripButton_SnoopDB.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SnoopDB.Name = "toolStripButton_SnoopDB";
-            this.toolStripButton_SnoopDB.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_SnoopDB.Tag = "SnoopDB";
-            this.toolStripButton_SnoopDB.Text = "Snoop DB";
-            this.toolStripButton_SnoopDB.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this.toolStripButton_SnoopDB.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopDB.Image")));
+            this._toolStripButtonSnoopDb.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonSnoopDb.Name = "_toolStripButtonSnoopDb";
+            this._toolStripButtonSnoopDb.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonSnoopDb.Tag = "SnoopDB";
+            this._toolStripButtonSnoopDb.Text = "Snoop DB";
+            this._toolStripButtonSnoopDb.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopDb.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopCurrentSelection
             // 
-            this.toolStripButton_SnoopCurrentSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SnoopCurrentSelection.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopCurrentSelection.Image")));
-            this.toolStripButton_SnoopCurrentSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SnoopCurrentSelection.Name = "toolStripButton_SnoopCurrentSelection";
-            this.toolStripButton_SnoopCurrentSelection.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_SnoopCurrentSelection.Tag = "SnoopCurrentSelection";
-            this.toolStripButton_SnoopCurrentSelection.Text = "Snoop current selection";
-            this.toolStripButton_SnoopCurrentSelection.ToolTipText = "Snoop current selection";
-            this.toolStripButton_SnoopCurrentSelection.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this.toolStripButton_SnoopCurrentSelection.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopCurrentSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopCurrentSelection.Image")));
+            this._toolStripButtonSnoopCurrentSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonSnoopCurrentSelection.Name = "_toolStripButtonSnoopCurrentSelection";
+            this._toolStripButtonSnoopCurrentSelection.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonSnoopCurrentSelection.Tag = "SnoopCurrentSelection";
+            this._toolStripButtonSnoopCurrentSelection.Text = "Snoop current selection";
+            this._toolStripButtonSnoopCurrentSelection.ToolTipText = "Snoop current selection";
+            this._toolStripButtonSnoopCurrentSelection.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopCurrentSelection.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopPickFace
             // 
-            this.toolStripButton_SnoopPickFace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SnoopPickFace.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopPickFace.Image")));
-            this.toolStripButton_SnoopPickFace.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SnoopPickFace.Name = "toolStripButton_SnoopPickFace";
-            this.toolStripButton_SnoopPickFace.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_SnoopPickFace.Tag = "SnoopPickFace";
-            this.toolStripButton_SnoopPickFace.Text = "Snoop pick face";
-            this.toolStripButton_SnoopPickFace.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this.toolStripButton_SnoopPickFace.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopPickFace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopPickFace.Image")));
+            this._toolStripButtonSnoopPickFace.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonSnoopPickFace.Name = "_toolStripButtonSnoopPickFace";
+            this._toolStripButtonSnoopPickFace.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonSnoopPickFace.Tag = "SnoopPickFace";
+            this._toolStripButtonSnoopPickFace.Text = "Snoop pick face";
+            this._toolStripButtonSnoopPickFace.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopPickFace.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopPickEdge
             // 
-            this.toolStripButton_SnoopPickEdge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SnoopPickEdge.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopPickEdge.Image")));
-            this.toolStripButton_SnoopPickEdge.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SnoopPickEdge.Name = "toolStripButton_SnoopPickEdge";
-            this.toolStripButton_SnoopPickEdge.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_SnoopPickEdge.Tag = "SnoopPickEdge";
-            this.toolStripButton_SnoopPickEdge.Text = "Snoop pick edge";
-            this.toolStripButton_SnoopPickEdge.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this.toolStripButton_SnoopPickEdge.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopPickEdge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopPickEdge.Image")));
+            this._toolStripButtonSnoopPickEdge.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonSnoopPickEdge.Name = "_toolStripButtonSnoopPickEdge";
+            this._toolStripButtonSnoopPickEdge.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonSnoopPickEdge.Tag = "SnoopPickEdge";
+            this._toolStripButtonSnoopPickEdge.Text = "Snoop pick edge";
+            this._toolStripButtonSnoopPickEdge.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopPickEdge.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopLinkedElement
             // 
-            this.toolStripButton_SnoopLinkedElement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SnoopLinkedElement.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopLinkedElement.Image")));
-            this.toolStripButton_SnoopLinkedElement.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SnoopLinkedElement.Name = "toolStripButton_SnoopLinkedElement";
-            this.toolStripButton_SnoopLinkedElement.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_SnoopLinkedElement.Tag = "SnoopLinkedElement";
-            this.toolStripButton_SnoopLinkedElement.Text = "Snoop linked element";
-            this.toolStripButton_SnoopLinkedElement.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this.toolStripButton_SnoopLinkedElement.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopLinkedElement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopLinkedElement.Image")));
+            this._toolStripButtonSnoopLinkedElement.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonSnoopLinkedElement.Name = "_toolStripButtonSnoopLinkedElement";
+            this._toolStripButtonSnoopLinkedElement.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonSnoopLinkedElement.Tag = "SnoopLinkedElement";
+            this._toolStripButtonSnoopLinkedElement.Text = "Snoop linked element";
+            this._toolStripButtonSnoopLinkedElement.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopLinkedElement.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopDependentElements
             // 
-            this.toolStripButton_SnoopDependentElements.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SnoopDependentElements.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopDependentElements.Image")));
-            this.toolStripButton_SnoopDependentElements.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SnoopDependentElements.Name = "toolStripButton_SnoopDependentElements";
-            this.toolStripButton_SnoopDependentElements.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_SnoopDependentElements.Tag = "SnoopDependentElements";
-            this.toolStripButton_SnoopDependentElements.Text = "Snoop dependent elements";
-            this.toolStripButton_SnoopDependentElements.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this.toolStripButton_SnoopDependentElements.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopDependentElements.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopDependentElements.Image")));
+            this._toolStripButtonSnoopDependentElements.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonSnoopDependentElements.Name = "_toolStripButtonSnoopDependentElements";
+            this._toolStripButtonSnoopDependentElements.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonSnoopDependentElements.Tag = "SnoopDependentElements";
+            this._toolStripButtonSnoopDependentElements.Text = "Snoop dependent elements";
+            this._toolStripButtonSnoopDependentElements.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopDependentElements.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopActiveView
             // 
-            this.toolStripButton_SnoopActiveView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SnoopActiveView.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopActiveView.Image")));
-            this.toolStripButton_SnoopActiveView.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SnoopActiveView.Name = "toolStripButton_SnoopActiveView";
-            this.toolStripButton_SnoopActiveView.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_SnoopActiveView.Tag = "SnoopActiveView";
-            this.toolStripButton_SnoopActiveView.Text = "Snoop active view";
-            this.toolStripButton_SnoopActiveView.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this.toolStripButton_SnoopActiveView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopActiveView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopActiveView.Image")));
+            this._toolStripButtonSnoopActiveView.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonSnoopActiveView.Name = "_toolStripButtonSnoopActiveView";
+            this._toolStripButtonSnoopActiveView.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonSnoopActiveView.Tag = "SnoopActiveView";
+            this._toolStripButtonSnoopActiveView.Text = "Snoop active view";
+            this._toolStripButtonSnoopActiveView.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopActiveView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopApplication
             // 
-            this.toolStripButton_SnoopApplication.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton_SnoopApplication.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopApplication.Image")));
-            this.toolStripButton_SnoopApplication.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton_SnoopApplication.Name = "toolStripButton_SnoopApplication";
-            this.toolStripButton_SnoopApplication.Size = new System.Drawing.Size(24, 23);
-            this.toolStripButton_SnoopApplication.Tag = "SnoopApplication";
-            this.toolStripButton_SnoopApplication.Text = "Snoop application";
-            this.toolStripButton_SnoopApplication.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this.toolStripButton_SnoopApplication.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopApplication.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton_SnoopApplication.Image")));
+            this._toolStripButtonSnoopApplication.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this._toolStripButtonSnoopApplication.Name = "_toolStripButtonSnoopApplication";
+            this._toolStripButtonSnoopApplication.Size = new System.Drawing.Size(24, 23);
+            this._toolStripButtonSnoopApplication.Tag = "SnoopApplication";
+            this._toolStripButtonSnoopApplication.Text = "Snoop application";
+            this._toolStripButtonSnoopApplication.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopApplication.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
             // 
             // Objects
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.CancelButton = this.m_bnOK;
+            this.CancelButton = this.MBnOk;
             this.ClientSize = new System.Drawing.Size(800, 492);
-            this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.m_lvData);
-            this.Controls.Add(this.m_tvObjs);
-            this.Controls.Add(this.m_bnOK);
+            this.Controls.Add(this._tableLayoutPanel1);
+            this.Controls.Add(this.MLvData);
+            this.Controls.Add(this.MTvObjs);
+            this.Controls.Add(this.MBnOk);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -544,14 +544,14 @@ namespace RevitLookup.Snoop.Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Snoop Objects";
-            this.listViewContextMenuStrip.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.toolStrip_ListView.ResumeLayout(false);
-            this.toolStrip_ListView.PerformLayout();
-            this.toolStrip_Selectors.ResumeLayout(false);
-            this.toolStrip_Selectors.PerformLayout();
+            this._listViewContextMenuStrip.ResumeLayout(false);
+            this._tableLayoutPanel1.ResumeLayout(false);
+            this._toolStrip1.ResumeLayout(false);
+            this._toolStrip1.PerformLayout();
+            this._toolStripListView.ResumeLayout(false);
+            this._toolStripListView.PerformLayout();
+            this._toolStripSelectors.ResumeLayout(false);
+            this._toolStripSelectors.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -560,7 +560,7 @@ namespace RevitLookup.Snoop.Forms
 
         protected void AddObjectsToTree(IEnumerable<SnoopableObjectWrapper> snoopableObjects)
         {
-            m_tvObjs.Sorted = true;
+            MTvObjs.Sorted = true;
 
             // initialize the tree control
             foreach (var snoopableObject in snoopableObjects)
@@ -570,11 +570,11 @@ namespace RevitLookup.Snoop.Forms
                 if (parentNode == null)
                 {
                     parentNode = new TreeNode(snoopableObject.GetUnderlyingType().Name);
-                    m_tvObjs.Nodes.Add(parentNode);
+                    MTvObjs.Nodes.Add(parentNode);
 
                     // record that we've seen this one
-                    m_treeTypeNodes.Add(parentNode);
-                    m_types.Add(snoopableObject.GetUnderlyingType());
+                    MTreeTypeNodes.Add(parentNode);
+                    MTypes.Add(snoopableObject.GetUnderlyingType());
                 }
 
                 // add the new node for this element
@@ -590,11 +590,11 @@ namespace RevitLookup.Snoop.Forms
         /// <returns>The existing TreeNode or NULL</returns>
         protected TreeNode GetExistingNodeForType(System.Type objType)
         {
-            int len = m_types.Count;
+            int len = MTypes.Count;
             for (int i = 0; i < len; i++)
             {
-                if ((System.Type)m_types[i] == objType)
-                    return (TreeNode)m_treeTypeNodes[i];
+                if ((System.Type)MTypes[i] == objType)
+                    return (TreeNode)MTreeTypeNodes[i];
             }
 
             return null;
@@ -605,10 +605,10 @@ namespace RevitLookup.Snoop.Forms
             try
             {
                 // collect the data about this object
-                await m_snoopCollector.Collect(m_curObj);
+                await MSnoopCollector.Collect(MCurObj);
 
                 // display it
-                Snoop.Utils.Display(m_lvData, m_snoopCollector);
+                Snoop.Utils.Display(MLvData, MSnoopCollector);
             }
             catch (System.Exception ex)
             {
@@ -620,17 +620,17 @@ namespace RevitLookup.Snoop.Forms
         {
             await ExternalExecutor.ExecuteInRevitContextAsync(x =>
             {
-                tableLayoutPanel1.Enabled = false;
-                m_tvObjs.Enabled = false;
-                m_lvData.Enabled = false;
-                m_bnOK.Enabled = false;
+                _tableLayoutPanel1.Enabled = false;
+                MTvObjs.Enabled = false;
+                MLvData.Enabled = false;
+                MBnOk.Enabled = false;
 
                 var selected = Selectors.Snoop(x, selector);
 
-                tableLayoutPanel1.Enabled = true;
-                m_tvObjs.Enabled = true;
-                m_lvData.Enabled = true;
-                m_bnOK.Enabled = true;
+                _tableLayoutPanel1.Enabled = true;
+                MTvObjs.Enabled = true;
+                MLvData.Enabled = true;
+                MBnOk.Enabled = true;
 
                 SetDocument(selected.Item2);
                 CommonInit(selected.Item1);
@@ -639,39 +639,39 @@ namespace RevitLookup.Snoop.Forms
 
         public void SetDocument(Document document)
         {
-            m_snoopCollector.SourceDocument = document;
+            MSnoopCollector.SourceDocument = document;
         }
 
         #region Events
         protected async void TreeNodeSelected(object sender, System.Windows.Forms.TreeViewEventArgs e)
         {
-            m_curObj = e.Node.Tag;
+            MCurObj = e.Node.Tag;
             await CollectAndDispalyData();
         }
 
         protected void DataItemSelected(object sender, System.EventArgs e)
         {
-            Snoop.Utils.DataItemSelected(m_lvData, new ModelessWindowFactory(this, m_snoopCollector.SourceDocument));
+            Snoop.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
 
         private void ContextMenuClick_Copy(object sender, System.EventArgs e)
         {
-            if (m_tvObjs.SelectedNode != null)
+            if (MTvObjs.SelectedNode != null)
             {
-                Utils.CopyToClipboard(m_lvData);
+                Utils.CopyToClipboard(MLvData);
             }
         }
 
         private void ContextMenuClick_BrowseReflection(object sender, System.EventArgs e)
         {
-            Snoop.Utils.BrowseReflection(m_curObj);
+            Snoop.Utils.BrowseReflection(MCurObj);
         }
 
         private void CopyToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
-            if (m_lvData.SelectedItems.Count > 0)
+            if (MLvData.SelectedItems.Count > 0)
             {
-                Utils.CopyToClipboard(m_lvData.SelectedItems[0], false);
+                Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
             }
             else
             {
@@ -681,19 +681,19 @@ namespace RevitLookup.Snoop.Forms
 
         private void PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Utils.UpdatePrintSettings(m_printDocument, m_tvObjs, m_lvData, ref m_maxWidths);
-            Utils.PrintMenuItemClick(m_printDialog, m_tvObjs);
+            Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
+            Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
         }
 
         private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Utils.UpdatePrintSettings(m_printDocument, m_tvObjs, m_lvData, ref m_maxWidths);
-            Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, m_tvObjs);
+            Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
+            Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
         }
 
         private void PrintDocument_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            m_currentPrintItem = Utils.Print(m_tvObjs.SelectedNode.Text, m_lvData, e, m_maxWidths[0], m_maxWidths[1], m_currentPrintItem);
+            _mCurrentPrintItem = Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
         }
 
         private async void toolStripButton_RefreshListView_Click(object sender, EventArgs e)

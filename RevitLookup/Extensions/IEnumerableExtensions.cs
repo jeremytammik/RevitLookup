@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace System.Collections
 {
-    public static class IEnumerableExtensions
+    public static class EnumerableExtensions
     {
         public static List<T> ToList<T>(this System.Collections.IEnumerable set)
         {

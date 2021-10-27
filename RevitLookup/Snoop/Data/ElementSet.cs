@@ -34,41 +34,41 @@ namespace RevitLookup.Snoop.Data
 	
 	public class ElementSet : Data
 	{
-	    protected Autodesk.Revit.DB.ElementSet m_val;
+	    protected Autodesk.Revit.DB.ElementSet MVal;
 	    
 		public
         ElementSet(string label, Autodesk.Revit.DB.ElementSet val)
 		:   base(label)
 		{
-		    m_val = val;
+		    MVal = val;
 		}
 
         public 
         ElementSet(string label, ICollection<Autodesk.Revit.DB.ElementId> val, Autodesk.Revit.DB.Document doc)
         : base(label)
         {
-            m_val = new Autodesk.Revit.DB.ElementSet();
+            MVal = new Autodesk.Revit.DB.ElementSet();
             foreach(Autodesk.Revit.DB.ElementId elemId in val)
             {
                 if(Autodesk.Revit.DB.ElementId.InvalidElementId == elemId)
                     continue;
                 Autodesk.Revit.DB.Element elem = doc.GetElement(elemId);
                 if(null != elem)
-                    m_val.Insert(elem);
+                    MVal.Insert(elem);
             }
         }
 		
         public override string
         StrValue()
         {
-			return Utils.ObjToLabelStr(m_val);
+			return Utils.ObjToLabelStr(MVal);
         }
         
         public override bool
         HasDrillDown
         {
             get {
-                if ((m_val == null) || (m_val.IsEmpty))
+                if ((MVal == null) || (MVal.IsEmpty))
                     return false;
                 else
                     return true;
@@ -77,8 +77,8 @@ namespace RevitLookup.Snoop.Data
         
         public override Form DrillDown()
         {
-            if ((m_val != null) && (m_val.IsEmpty == false)) {
-				Snoop.Forms.Objects form = new Snoop.Forms.Objects(m_val);
+            if ((MVal != null) && (MVal.IsEmpty == false)) {
+				Snoop.Forms.Objects form = new Snoop.Forms.Objects(MVal);
                 return form;
             }
             return null;

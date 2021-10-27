@@ -11,30 +11,30 @@ namespace RevitLookup.Snoop
 {
     internal static class ExternalExecutor
     {
-        private static ExternalEvent externalEvent;
+        private static ExternalEvent _externalEvent;
 
         public static void CreateExternalEvent()
         {
-            externalEvent = ExternalEvent.Create(new ExternalEventHandler());
+            _externalEvent = ExternalEvent.Create(new ExternalEventHandler());
         }
 
         public static Task ExecuteInRevitContextAsync(Action<UIApplication> command)
         {
             var request = new Request(command);
             ExternalEventHandler.Queue.Enqueue(request);
-            var result = externalEvent.Raise();
-            return request.tcs.Task;
+            var result = _externalEvent.Raise();
+            return request.Tcs.Task;
         }
 
 
         private class Request
         {
-            public readonly TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
-            public readonly Action<UIApplication> command;
+            public readonly TaskCompletionSource<object> Tcs = new TaskCompletionSource<object>();
+            public readonly Action<UIApplication> Command;
 
             public Request(Action<UIApplication> command)
             {
-                this.command = command;
+                this.Command = command;
             }
         }
 
@@ -48,12 +48,12 @@ namespace RevitLookup.Snoop
                 {
                     try
                     {
-                        request.command(app);
-                        request.tcs.SetResult(null);
+                        request.Command(app);
+                        request.Tcs.SetResult(null);
                     }
                     catch (System.Exception e)
                     {
-                        request.tcs.SetException(e);
+                        request.Tcs.SetException(e);
                     }
                 }
             }

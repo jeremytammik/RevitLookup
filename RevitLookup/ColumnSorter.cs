@@ -35,24 +35,24 @@ namespace RevitLookup.Utils
         /// <summary>
         /// Specifies the column to be sorted
         /// </summary>
-        private int ColumnToSort;
+        private int _columnToSort;
         /// <summary>
         /// Specifies the order in which to sort (i.e. 'Ascending').
         /// </summary>
-        private SortOrder OrderOfSort;
+        private SortOrder _orderOfSort;
         /// <summary>
         /// Case insensitive comparer object
         /// </summary>
-        private CaseInsensitiveComparer ObjectCompare;
+        private CaseInsensitiveComparer _objectCompare;
 
         /// <summary>
         /// 
         /// </summary>
         public ListViewColumnSorter()
         {
-            ColumnToSort = 0;
-            OrderOfSort = SortOrder.None;
-            ObjectCompare = new CaseInsensitiveComparer();
+            _columnToSort = 0;
+            _orderOfSort = SortOrder.None;
+            _objectCompare = new CaseInsensitiveComparer();
         }
 
         /// <summary>
@@ -73,12 +73,12 @@ namespace RevitLookup.Utils
             listviewX = (ListViewItem)x;
             listviewY = (ListViewItem)y;
 
-            compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
+            compareResult = _objectCompare.Compare(listviewX.SubItems[_columnToSort].Text, listviewY.SubItems[_columnToSort].Text);
 
-            if (OrderOfSort == SortOrder.Ascending) {
+            if (_orderOfSort == SortOrder.Ascending) {
                 return compareResult;
             }
-            else if (OrderOfSort == SortOrder.Descending) {
+            else if (_orderOfSort == SortOrder.Descending) {
                 return (-compareResult);
             }
             else {
@@ -94,11 +94,11 @@ namespace RevitLookup.Utils
         {
             set
             {
-                ColumnToSort = value;
+                _columnToSort = value;
             }
             get
             {
-                return ColumnToSort;
+                return _columnToSort;
             }
         }
 
@@ -110,11 +110,11 @@ namespace RevitLookup.Utils
         {
             set
             {
-                OrderOfSort = value;
+                _orderOfSort = value;
             }
             get
             {
-                return OrderOfSort;
+                return _orderOfSort;
             }
         }
     }

@@ -7,16 +7,16 @@ namespace RevitLookup.Snoop.CollectorExts
 {
     public class SpatialElementStream : IElementStream
     {
-        private readonly ArrayList data;
-        private readonly SpatialElement spatialElement;
-        private readonly SpatialElementBoundaryOptions boundaryOptions;
+        private readonly ArrayList _data;
+        private readonly SpatialElement _spatialElement;
+        private readonly SpatialElementBoundaryOptions _boundaryOptions;
 
         public SpatialElementStream(ArrayList data, object elem)
         {
-            this.data = data;
-            spatialElement = elem as SpatialElement;
+            this._data = data;
+            _spatialElement = elem as SpatialElement;
 
-            boundaryOptions = new SpatialElementBoundaryOptions
+            _boundaryOptions = new SpatialElementBoundaryOptions
             {
                 StoreFreeBoundaryFaces = true,
                 SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center
@@ -26,7 +26,7 @@ namespace RevitLookup.Snoop.CollectorExts
         public void Stream(Type type)
         {
             if (MustStream(type))
-                data.Add(new Snoop.Data.Object("GetBoundarySegments", spatialElement.GetBoundarySegments(boundaryOptions)));
+                _data.Add(new Snoop.Data.Object("GetBoundarySegments", _spatialElement.GetBoundarySegments(_boundaryOptions)));
         }
 
         private bool MustStream(Type type)
@@ -37,7 +37,7 @@ namespace RevitLookup.Snoop.CollectorExts
                 "SpatialElement",
                 "Room"
             };
-            return spatialElement != null && typeNames.Contains(type.Name);
+            return _spatialElement != null && typeNames.Contains(type.Name);
         }
     }
 }
