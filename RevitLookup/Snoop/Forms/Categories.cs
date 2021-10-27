@@ -60,8 +60,10 @@ namespace RevitLookup.Snoop.Forms
 			var iter = map.ForwardIterator();
 			while( iter.MoveNext() )
 			{
-				var tmpNode = new TreeNode( iter.Key );
-				tmpNode.Tag = iter.Current;
+				var tmpNode = new TreeNode( iter.Key )
+				{
+					Tag = iter.Current
+				};
 				curNodes.Add( tmpNode );
 
 				// recursively add sub-nodes (if any)

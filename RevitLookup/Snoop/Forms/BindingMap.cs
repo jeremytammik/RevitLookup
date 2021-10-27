@@ -78,8 +78,10 @@ namespace RevitLookup.Snoop.Forms
         // this one doesn't exist in the tree yet, add it.
         if( defNode == null )
         {
-          defNode = new TreeNode( def.Name );
-          defNode.Tag = iter.Current;
+          defNode = new TreeNode( def.Name )
+          {
+              Tag = iter.Current
+          };
           curNodes.Add( defNode );
         }
 
@@ -88,8 +90,10 @@ namespace RevitLookup.Snoop.Forms
           var cats = elemBind.Categories;
           foreach( Category cat in cats )
           {
-            var tmpNode = new TreeNode( cat.Name );
-            tmpNode.Tag = cat;
+            var tmpNode = new TreeNode( cat.Name )
+            {
+                Tag = cat
+            };
             defNode.Nodes.Add( tmpNode );
           }
         }

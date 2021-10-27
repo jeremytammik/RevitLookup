@@ -472,11 +472,13 @@ namespace RevitLookup.Xml.Forms
             var imageIndex = GetImageIndex(nType);
             var labelStr = FormatLabel(xmlNode);
             
-            var treeNode = new TreeNode(labelStr);
-            treeNode.Tag = xmlNode;
-            treeNode.ImageIndex = imageIndex;
-            treeNode.SelectedImageIndex = imageIndex;
-            
+            var treeNode = new TreeNode(labelStr)
+            {
+                Tag = xmlNode,
+                ImageIndex = imageIndex,
+                SelectedImageIndex = imageIndex
+            };
+
             if (parentNode == null)
                 _mTvDom.Nodes.Add(treeNode);    // This is the root node
             else

@@ -104,8 +104,10 @@ namespace RevitLookup.Snoop.Forms
         geomOp2.ComputeReferences = true;
         geomOp2.View = elem.Document.ActiveView;
 
-        var rootNode2 = new TreeNode( "View = Document.ActiveView" );
-        rootNode2.Tag = elem.get_Geometry( geomOp2 );
+        var rootNode2 = new TreeNode( "View = Document.ActiveView" )
+        {
+          Tag = elem.get_Geometry( geomOp2 )
+        };
         curNodes.Add( rootNode2 );
 
         // SOFiSTiK FS
@@ -237,8 +239,10 @@ namespace RevitLookup.Snoop.Forms
         geomOp2.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
         geomOp2.View = elem.Document.ActiveView;
 
-        var rootNode2 = new TreeNode( "View = Document.ActiveView" );
-        rootNode2.Tag = elem.GetOriginalGeometry( geomOp2 );
+        var rootNode2 = new TreeNode( "View = Document.ActiveView" )
+        {
+          Tag = elem.GetOriginalGeometry( geomOp2 )
+        };
         curNodes.Add( rootNode2 );
 
         // SOFiSTiK FS

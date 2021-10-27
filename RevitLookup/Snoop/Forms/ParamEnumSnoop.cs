@@ -314,9 +314,11 @@ namespace RevitLookup.Snoop.Forms
             foreach (DictionaryEntry de in _mEnumMap)
             {
                 var tmpObj = (Parameter)de.Value;
-                var tmpNode = new TreeNode(de.Key.ToString());
+                var tmpNode = new TreeNode(de.Key.ToString())
+                {
+	                Tag = de.Value
+                };
 
-                tmpNode.Tag = de.Value;
                 MTvObjs.Nodes.Add(tmpNode);                
             }         
         }

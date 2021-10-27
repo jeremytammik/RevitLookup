@@ -46,8 +46,7 @@ namespace RevitLookup.ModelStats
     private readonly ArrayList _mCategoryCounts = new();
     private readonly ArrayList _mSymRefCounts = new();
 
-    public
-    Report()
+    public Report()
     {
     }
 
@@ -57,8 +56,7 @@ namespace RevitLookup.ModelStats
     /// <param name="obj"></param>
     /// <returns></returns>
 
-    private RawObjCount
-    FindRawObjNode( Type objType )
+    private RawObjCount FindRawObjNode( Type objType )
     {
       foreach( RawObjCount tmpNode in _mRawObjCounts )
       {
@@ -68,22 +66,22 @@ namespace RevitLookup.ModelStats
       return null;
     }
 
-    private void
-        RawObjStats( Object obj )
+    private void RawObjStats( Object obj )
     {
       var tmpNode = FindRawObjNode( obj.GetType() );
       if( tmpNode == null )
       {
-        tmpNode = new RawObjCount();
-        tmpNode.MClassType = obj.GetType();
+        tmpNode = new RawObjCount
+        {
+          MClassType = obj.GetType()
+        };
         _mRawObjCounts.Add( tmpNode );
       }
 
       tmpNode.MObjs.Add( obj );
     }
 
-    private CategoryCount
-    FindCategoryNode( Category cat )
+    private CategoryCount FindCategoryNode( Category cat )
     {
       Debug.Assert( cat != null );    // don't call unless you've already checked this
 
@@ -96,8 +94,7 @@ namespace RevitLookup.ModelStats
       return null;
     }
 
-    private void
-    CategoryStats( Element elem )
+    private void CategoryStats( Element elem )
     {
       if( elem.Category == null )  // some elements don't belong to a category
         return;
@@ -105,16 +102,17 @@ namespace RevitLookup.ModelStats
       var tmpNode = FindCategoryNode( elem.Category );
       if( tmpNode == null )
       {
-        tmpNode = new CategoryCount();
-        tmpNode.MCategory = elem.Category;
+        tmpNode = new CategoryCount
+        {
+          MCategory = elem.Category
+        };
         _mCategoryCounts.Add( tmpNode );
       }
 
       tmpNode.MObjs.Add( elem );
     }
 
-    private SymbolCount
-FindSymbolNode( ElementType sym )
+    private SymbolCount FindSymbolNode( ElementType sym )
     {
       foreach( SymbolCount tmpNode in _mSymRefCounts )
       {
@@ -124,8 +122,7 @@ FindSymbolNode( ElementType sym )
       return null;
     }
 
-    private ElementType
-    GetSymbolRef( Element elem )
+    private ElementType GetSymbolRef( Element elem )
     {
       switch (elem)
       {
@@ -133,8 +130,8 @@ FindSymbolNode( ElementType sym )
           return famInst.Symbol;
         case Floor floor:
           return floor.FloorType;
-        case Group @group:
-          return @group.GroupType;
+        case Group group:
+          return group.GroupType;
         case Wall wall:
           return wall.WallType;
         default:
@@ -142,8 +139,7 @@ FindSymbolNode( ElementType sym )
       }
     }
 
-    private void
-    SymbolRefStats( Element elem )
+    private void SymbolRefStats( Element elem )
     {
       // if it is a Symbol element, just make an entry in our map
       // and get out.
@@ -153,8 +149,10 @@ FindSymbolNode( ElementType sym )
         var tmpNode = FindSymbolNode( sym );
         if( tmpNode == null )
         {
-          tmpNode = new SymbolCount();
-          tmpNode.MSymbol = sym;
+          tmpNode = new SymbolCount
+          {
+            MSymbol = sym
+          };
           _mSymRefCounts.Add( tmpNode );
         }
 
@@ -169,8 +167,10 @@ FindSymbolNode( ElementType sym )
         var tmpNode = FindSymbolNode( sym );
         if( tmpNode == null )
         {
-          tmpNode = new SymbolCount();
-          tmpNode.MSymbol = sym;
+          tmpNode = new SymbolCount
+          {
+            MSymbol = sym
+          };
           _mSymRefCounts.Add( tmpNode );
         }
         tmpNode.MRefs.Add( elem );
@@ -178,8 +178,7 @@ FindSymbolNode( ElementType sym )
     }
 
 
-    private void
-    ProcessElements( Document doc )
+    private void ProcessElements( Document doc )
     {
       var fec = new FilteredElementCollector( doc );
       var elementsAreWanted = new ElementClassFilter( typeof( Element ) );
@@ -204,8 +203,7 @@ FindSymbolNode( ElementType sym )
     /// <param name="reportPath"></param>
     /// <param name="elemIter"></param>
 
-    public void
-    XmlReport( string reportPath, Document doc )
+    public void XmlReport( string reportPath, Document doc )
     {
       ProcessElements( doc );   // index all of the elements
 
@@ -230,8 +228,7 @@ FindSymbolNode( ElementType sym )
       stream.Close();
     }
 
-    private void
-    XmlReportRawCounts( XmlTextWriter stream )
+    private void XmlReportRawCounts( XmlTextWriter stream )
     {
       stream.WriteStartElement( "RawCounts" );
 
@@ -260,8 +257,7 @@ FindSymbolNode( ElementType sym )
       stream.WriteEndElement();   // RawCounts
     }
 
-    private void
-    XmlReportCategoryCounts( XmlTextWriter stream )
+    private void XmlReportCategoryCounts( XmlTextWriter stream )
     {
       stream.WriteStartElement( "Categories" );
 
@@ -285,8 +281,7 @@ FindSymbolNode( ElementType sym )
       stream.WriteEndElement();   // Categories
     }
 
-    private void
-    XmlReportSymbolRefCounts( XmlTextWriter stream )
+    private void XmlReportSymbolRefCounts( XmlTextWriter stream )
     {
       stream.WriteStartElement( "Symbols" );
 
@@ -311,8 +306,7 @@ FindSymbolNode( ElementType sym )
       stream.WriteEndElement();   // Symbols
     }
 
-    private void
-    XmlReportWriteElement( XmlTextWriter stream, Element elem )
+    private void XmlReportWriteElement( XmlTextWriter stream, Element elem )
     {
       if( elem.Category == null )
         return;
