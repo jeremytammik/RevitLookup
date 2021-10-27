@@ -49,10 +49,7 @@ namespace RevitLookup.Graphics {
             MViewStack = new Stack<View>();
         }
 
-        public UIApplication Application
-        {
-            get { return MApp; }
-        }
+        public UIApplication Application => MApp;
 
         #region Transformation Stack
 
@@ -74,16 +71,12 @@ namespace RevitLookup.Graphics {
         }
 
         public virtual Transform
-        CurrentXform
-        {
-            get { return MXformStack.Peek(); }
-        }
+        CurrentXform =>
+            MXformStack.Peek();
 
         public Boolean
-        HasXform
-        {
-            get { return (MXformStack.Count == 0) ? false : true; }
-        }
+        HasXform =>
+            (MXformStack.Count == 0) ? false : true;
 
         #endregion
 
@@ -102,10 +95,8 @@ namespace RevitLookup.Graphics {
         }
 
         public Options
-        CurrentGeometryOptions
-        {
-            get { return MGeomOptionsStack.Peek(); }
-        }
+        CurrentGeometryOptions =>
+            MGeomOptionsStack.Peek();
 
         #endregion
 
@@ -124,10 +115,8 @@ namespace RevitLookup.Graphics {
         }
 
         public View
-        CurrentView
-        {
-            get { return MViewStack.Peek(); }
-        }
+        CurrentView =>
+            MViewStack.Peek();
 
         #endregion
 

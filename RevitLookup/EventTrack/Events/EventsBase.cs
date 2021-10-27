@@ -43,16 +43,14 @@ namespace RevitLookup.EventTrack.Events
         public bool
         ShowDetails
         {
-            get { return MShowDetails; }
-            set { MShowDetails = value; }
+            get => MShowDetails;
+            set => MShowDetails = value;
         }
 
 
         public bool
-        AreEventsEnabled
-        {
-            get { return MAreEventsEnabled; }
-        }
+        AreEventsEnabled =>
+            MAreEventsEnabled;
 
         public void
         EnableEvents()

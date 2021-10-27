@@ -11,14 +11,8 @@ namespace RevitLookup.Snoop.Data
             return "--- Extensible storages ---";
         }
 
-        public override bool IsSeparator
-        {
-            get { return true; }
-        }
+        public override bool IsSeparator => true;
 
-        public override bool HasDrillDown
-        {
-            get { return false; }
-        }
+        public override bool HasDrillDown => false;
     }
 }

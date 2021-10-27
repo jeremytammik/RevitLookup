@@ -44,9 +44,6 @@ namespace RevitLookup.Snoop.Data
          return MVal.Message;
       }
 
-      public override bool IsError
-      {
-         get { return true; }
-      }
+      public override bool IsError => true;
    }
 }

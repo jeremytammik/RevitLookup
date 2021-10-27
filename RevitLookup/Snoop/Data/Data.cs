@@ -50,9 +50,9 @@ namespace RevitLookup.Snoop.Data
 		public virtual string
 		Label
 		{
-            get { return _mLabel;  }
-            set { _mLabel = value; }
-   		}
+            get => _mLabel;
+            set => _mLabel = value;
+		}
 		
 		/// <summary>
 		/// The value for the Property, expressed as a string
@@ -80,11 +80,9 @@ namespace RevitLookup.Snoop.Data
 		/// </summary>
 		
         public virtual bool
-        HasDrillDown
-        {
-            get { return false;  }
-        }
-		
+        HasDrillDown =>
+			false;
+
 		/// <summary>
 		/// Do the act of drilling down on the data
 		/// </summary>
@@ -99,19 +97,15 @@ namespace RevitLookup.Snoop.Data
         /// </summary>
         
         public virtual bool
-        IsSeparator
-        {
-            get { return false;  }
-        }
+        IsSeparator =>
+	        false;
 
         /// <summary>
         /// Is this an error condition
         /// </summary>
         
         public virtual bool
-        IsError
-        {
-            get { return false;  }
-        }
-    }
+        IsError =>
+	        false;
+	}
 }

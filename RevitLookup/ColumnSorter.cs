@@ -92,14 +92,8 @@ namespace RevitLookup.Utils
         /// </summary>
         public int SortColumn
         {
-            set
-            {
-                _columnToSort = value;
-            }
-            get
-            {
-                return _columnToSort;
-            }
+            set => _columnToSort = value;
+            get => _columnToSort;
         }
 
         /// <summary>
@@ -108,14 +102,8 @@ namespace RevitLookup.Utils
         /// </summary>
         public SortOrder Order
         {
-            set
-            {
-                _orderOfSort = value;
-            }
-            get
-            {
-                return _orderOfSort;
-            }
+            set => _orderOfSort = value;
+            get => _orderOfSort;
         }
     }
 }

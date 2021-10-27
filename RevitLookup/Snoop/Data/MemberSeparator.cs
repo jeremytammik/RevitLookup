@@ -24,16 +24,12 @@ namespace RevitLookup.Snoop.Data
         }
 
         public override bool
-        IsSeparator
-        {
-            get { return true; }
-        }
+        IsSeparator =>
+            true;
 
         public override bool
-        HasDrillDown
-        {
-            get { return false; }
-        }
+        HasDrillDown =>
+            false;
 
         public override System.Windows.Forms.Form DrillDown()
         {

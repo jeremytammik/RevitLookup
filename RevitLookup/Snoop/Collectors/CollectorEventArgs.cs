@@ -38,9 +38,6 @@ namespace RevitLookup.Snoop.Collectors
             _seenTypes = new List<Type>();
 		}
 		
-		public object ObjToSnoop
-		{
-		    get { return _mObjToSnoop; }
-		}
+		public object ObjToSnoop => _mObjToSnoop;
 	}
 }

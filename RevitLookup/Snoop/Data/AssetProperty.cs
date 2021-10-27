@@ -21,13 +21,8 @@ namespace RevitLookup.Snoop.Data
 
 
         public override bool 
-            HasDrillDown
-        {
-            get
-            {
-                return MAssetProperties!=null && MAssetProperties.Size > 0;
-            }
-        }
+            HasDrillDown =>
+            MAssetProperties!=null && MAssetProperties.Size > 0;
 
 
         public override System.Windows.Forms.Form DrillDown()

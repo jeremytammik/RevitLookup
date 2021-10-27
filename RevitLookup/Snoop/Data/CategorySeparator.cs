@@ -48,9 +48,7 @@ namespace RevitLookup.Snoop.Data
         }
         
         public override bool
-        IsSeparator
-        {
-            get { return true;  }
-        }
-    }
+        IsSeparator =>
+	        true;
+	}
 }

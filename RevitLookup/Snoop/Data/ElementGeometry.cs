@@ -60,13 +60,9 @@ namespace RevitLookup.Snoop.Data
         }
         
         public override bool
-        HasDrillDown
-        {
-            get {
-                return MHasGeometry;
-            }
-        }
-        
+        HasDrillDown =>
+	        MHasGeometry;
+
         public override System.Windows.Forms.Form DrillDown()
         {
             if (MHasGeometry) {
