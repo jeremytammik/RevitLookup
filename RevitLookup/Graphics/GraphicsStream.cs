@@ -39,8 +39,7 @@ namespace RevitLookup.Graphics
         protected Stack<View> MViewStack;
         protected Stack<Transform> MXformStack;
 
-        public
-            GraphicsStream(UIApplication app)
+        public GraphicsStream(UIApplication app)
         {
             MApp = app;
             MXformStack = new Stack<Transform>();
