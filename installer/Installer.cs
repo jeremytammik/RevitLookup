@@ -39,7 +39,7 @@ namespace Installer
                 BannerImage = @"Installer\Resources\Icons\BannerImage.png",
                 ControlPanelInfo =
                 {
-                    Manufacturer = Environment.UserName,
+                    Manufacturer = "Jeremy Tammik",
                     ProductIcon = @"Installer\Resources\Icons\ShellIcon.ico"
                 },
                 Dirs = new Dir[]
