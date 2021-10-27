@@ -566,7 +566,7 @@ namespace RevitLookup.Snoop.Forms
             foreach (var snoopableObject in snoopableObjects)
             {
                 // hook this up to the correct spot in the tree based on the object's type
-                TreeNode parentNode = GetExistingNodeForType(snoopableObject.GetUnderlyingType());
+                var parentNode = GetExistingNodeForType(snoopableObject.GetUnderlyingType());
                 if (parentNode == null)
                 {
                     parentNode = new TreeNode(snoopableObject.GetUnderlyingType().Name);
@@ -590,8 +590,8 @@ namespace RevitLookup.Snoop.Forms
         /// <returns>The existing TreeNode or NULL</returns>
         protected TreeNode GetExistingNodeForType(Type objType)
         {
-            int len = MTypes.Count;
-            for (int i = 0; i < len; i++)
+            var len = MTypes.Count;
+            for (var i = 0; i < len; i++)
             {
                 if ((Type)MTypes[i] == objType)
                     return (TreeNode)MTreeTypeNodes[i];

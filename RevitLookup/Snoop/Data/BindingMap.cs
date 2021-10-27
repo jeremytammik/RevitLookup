@@ -65,7 +65,7 @@ namespace RevitLookup.Snoop.Data
         public override System.Windows.Forms.Form DrillDown()
         {
             if ((MVal != null) && (MVal.IsEmpty == false)) {
-				Snoop.Forms.BindingMap form = new Snoop.Forms.BindingMap(MVal);
+				var form = new Snoop.Forms.BindingMap(MVal);
                 return form;
             }
             return null;

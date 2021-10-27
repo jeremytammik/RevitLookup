@@ -79,7 +79,7 @@ namespace RevitLookup
         public static XYZ
         Midpoint(XYZ pt1, XYZ pt2)
         {
-            XYZ newPt = new XYZ(((pt1.X + pt2.X) / 2.0),
+            var newPt = new XYZ(((pt1.X + pt2.X) / 2.0),
                                         ((pt1.Y + pt2.Y) / 2.0),
                                         ((pt1.Z + pt2.Z) / 2.0));
 
@@ -97,7 +97,7 @@ namespace RevitLookup
         public static XYZ
         Greater (XYZ pt1, XYZ pt2, XYZ axis)
         {
-            XYZ pt = new XYZ();
+            var pt = new XYZ();
 
             if(axis.Equals(XAxis)){
                 if (pt1.X > pt2.X)
@@ -132,18 +132,18 @@ namespace RevitLookup
         GetClosestPt (XYZ pt, System.Collections.Generic.IList<XYZ> pts)
         {
             
-            XYZ closestPt = new XYZ();
-            Double closestDist = 0.0;
+            var closestPt = new XYZ();
+            var closestDist = 0.0;
 
-            foreach( XYZ ptTemp in pts )
+            foreach( var ptTemp in pts )
             {
                 /// don't consider the pt itself
                 if (pt.Equals(ptTemp))
                     continue;
 
-                Double dist = Math.Sqrt(Math.Pow((pt.X - ptTemp.X), 2.0) +
-                    Math.Pow((pt.Y - ptTemp.Y), 2.0) +
-                    Math.Pow((pt.Z - ptTemp.Z), 2.0));
+                var dist = Math.Sqrt(Math.Pow((pt.X - ptTemp.X), 2.0) +
+                                     Math.Pow((pt.Y - ptTemp.Y), 2.0) +
+                                     Math.Pow((pt.Z - ptTemp.Z), 2.0));
 
                 if (closestPt.IsZeroLength()) {
                     closestDist = dist;

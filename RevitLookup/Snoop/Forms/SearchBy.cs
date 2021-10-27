@@ -43,7 +43,7 @@ namespace RevitLookup.Snoop.Forms
         var element =  _doc.GetElement(new ElementId(id));
         if(element != null )
         {
-          Objects form = new Objects(element);
+          var form = new Objects(element);
           ModelessWindowFactory.Show(form, _doc, this);
         }
         else
@@ -58,7 +58,7 @@ namespace RevitLookup.Snoop.Forms
        var element = _doc.GetElement(m_tbSearchValue.Text);
        if (element != null)
       {
-        Objects form = new Objects(element);
+        var form = new Objects(element);
         ModelessWindowFactory.Show(form, _doc, this);
       }
       else

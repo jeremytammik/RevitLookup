@@ -63,7 +63,7 @@ namespace RevitLookup.Snoop.Forms
       TreeNode tmpNode;
 
       // add geometry with the View set to null.
-      TreeNode rootNode1 = new TreeNode( "View = null" );
+      var rootNode1 = new TreeNode( "View = null" );
       curNodes.Add( rootNode1 );
       foreach( ViewDetailLevel viewDetailLevel in Enum.GetValues( typeof( ViewDetailLevel ) ) )
       {
@@ -81,7 +81,7 @@ namespace RevitLookup.Snoop.Forms
 
 
       // add model geometry including geometry objects not set as Visible.
-      TreeNode rootNode = new TreeNode( "View = null - Including geometry objects not set as Visible" );
+      var rootNode = new TreeNode( "View = null - Including geometry objects not set as Visible" );
       curNodes.Add( rootNode );
       foreach( ViewDetailLevel viewDetailLevel in Enum.GetValues( typeof( ViewDetailLevel ) ) )
       {
@@ -100,18 +100,18 @@ namespace RevitLookup.Snoop.Forms
       // now add geometry with the View set to the current view
       if( elem.Document.ActiveView != null )
       {
-        Options geomOp2 = MApp.Create.NewGeometryOptions();
+        var geomOp2 = MApp.Create.NewGeometryOptions();
         geomOp2.ComputeReferences = true;
         geomOp2.View = elem.Document.ActiveView;
 
-        TreeNode rootNode2 = new TreeNode( "View = Document.ActiveView" );
+        var rootNode2 = new TreeNode( "View = Document.ActiveView" );
         rootNode2.Tag = elem.get_Geometry( geomOp2 );
         curNodes.Add( rootNode2 );
 
         // SOFiSTiK FS
         // add model geometry including geometry objects not set as Visible.
         {
-          Options opts = MApp.Create.NewGeometryOptions();
+          var opts = MApp.Create.NewGeometryOptions();
           opts.ComputeReferences = true;
           opts.IncludeNonVisibleObjects = true;
           opts.View = elem.Document.ActiveView;
@@ -126,7 +126,7 @@ namespace RevitLookup.Snoop.Forms
 
     new private void InitializeComponent()
     {
-			ComponentResourceManager resources = new ComponentResourceManager(typeof(Geometry));
+			var resources = new ComponentResourceManager(typeof(Geometry));
 			SuspendLayout();
 			// 
 			// m_tvObjs
@@ -171,12 +171,12 @@ namespace RevitLookup.Snoop.Forms
     protected void
     AddObjectsToTree( FamilyInstance elem, TreeNodeCollection curNodes )
     {
-      Options geomOp = MApp.Create.NewGeometryOptions();
+      var geomOp = MApp.Create.NewGeometryOptions();
       geomOp.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!
       TreeNode tmpNode;
 
       // add geometry with the View set to null.
-      TreeNode rootNode1 = new TreeNode( "View = null" );
+      var rootNode1 = new TreeNode( "View = null" );
       curNodes.Add( rootNode1 );
 
       tmpNode = new TreeNode( "Detail Level = Undefined" );
@@ -202,11 +202,11 @@ namespace RevitLookup.Snoop.Forms
       // SOFiSTiK FS
       // add model geometry including geometry objects not set as Visible.
       {
-        Options opts = MApp.Create.NewGeometryOptions();
+        var opts = MApp.Create.NewGeometryOptions();
         opts.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
         opts.IncludeNonVisibleObjects = true;
 
-        TreeNode rootNode = new TreeNode( "View = null - Including geometry objects not set as Visible" );
+        var rootNode = new TreeNode( "View = null - Including geometry objects not set as Visible" );
         curNodes.Add( rootNode );
 
         tmpNode = new TreeNode( "Detail Level = Undefined" );
@@ -233,23 +233,23 @@ namespace RevitLookup.Snoop.Forms
       // now add geometry with the View set to the current view
       if( elem.Document.ActiveView != null )
       {
-        Options geomOp2 = MApp.Create.NewGeometryOptions();
+        var geomOp2 = MApp.Create.NewGeometryOptions();
         geomOp2.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
         geomOp2.View = elem.Document.ActiveView;
 
-        TreeNode rootNode2 = new TreeNode( "View = Document.ActiveView" );
+        var rootNode2 = new TreeNode( "View = Document.ActiveView" );
         rootNode2.Tag = elem.GetOriginalGeometry( geomOp2 );
         curNodes.Add( rootNode2 );
 
         // SOFiSTiK FS
         // add model geometry including geometry objects not set as Visible.
         {
-          Options opts = MApp.Create.NewGeometryOptions();
+          var opts = MApp.Create.NewGeometryOptions();
           opts.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
           opts.IncludeNonVisibleObjects = true;
           opts.View = elem.Document.ActiveView;
 
-          TreeNode rootNode = new TreeNode( "View = Document.ActiveView - Including geometry objects not set as Visible" );
+          var rootNode = new TreeNode( "View = Document.ActiveView - Including geometry objects not set as Visible" );
           curNodes.Add( rootNode );
 
           rootNode.Tag = elem.GetOriginalGeometry( opts );

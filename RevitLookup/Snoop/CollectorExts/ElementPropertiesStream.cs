@@ -31,7 +31,7 @@ namespace RevitLookup.Snoop.CollectorExts
       if( properties.Length > 0 )
         _data.Add( new Data.MemberSeparatorWithOffset( "Properties" ) );
 
-      foreach( PropertyInfo pi in properties )
+      foreach( var pi in properties )
       {
         if( _seenProperties.Contains( pi.Name ) )
           continue;

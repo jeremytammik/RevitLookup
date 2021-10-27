@@ -66,11 +66,11 @@ namespace RevitLookup
 
     private void AddMenu( UIControlledApplication app )
     {
-      RibbonPanel rvtRibbonPanel = app.CreateRibbonPanel( "Revit Lookup" );
-      PulldownButtonData data = new PulldownButtonData( "Options", "Revit Lookup" );
+      var rvtRibbonPanel = app.CreateRibbonPanel( "Revit Lookup" );
+      var data = new PulldownButtonData( "Options", "Revit Lookup" );
 
-      RibbonItem item = rvtRibbonPanel.AddItem( data );
-      PulldownButton optionsBtn = item as PulldownButton;
+      var item = rvtRibbonPanel.AddItem( data );
+      var optionsBtn = item as PulldownButton;
 
       // Add Icons to main RevitLookup Menu
       optionsBtn.Image = GetEmbeddedImage( "RevitLookup.Resources.RLookup-16.png" );
@@ -102,8 +102,8 @@ namespace RevitLookup
     {
       try
       {
-        Assembly a = Assembly.GetExecutingAssembly();
-        Stream s = a.GetManifestResourceStream( name );
+        var a = Assembly.GetExecutingAssembly();
+        var s = a.GetManifestResourceStream( name );
         return BitmapFrame.Create( s );
       }
       catch

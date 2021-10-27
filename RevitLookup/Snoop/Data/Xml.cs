@@ -64,13 +64,13 @@ namespace RevitLookup.Snoop.Data
         public override Form DrillDown()
         {
             try {
-                System.Xml.XmlDocument xmlDoc = new System.Xml.XmlDocument();
+                var xmlDoc = new System.Xml.XmlDocument();
                 if (MIsFileName)
                     xmlDoc.Load(MVal);
                 else
                     xmlDoc.LoadXml(MVal);
             
-                RevitLookup.Xml.Forms.Dom form = new RevitLookup.Xml.Forms.Dom(xmlDoc);
+                var form = new RevitLookup.Xml.Forms.Dom(xmlDoc);
                 form.ShowDialog();
             }
             catch (System.Xml.XmlException e) {

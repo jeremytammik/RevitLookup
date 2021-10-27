@@ -49,7 +49,7 @@ namespace RevitLookup.Snoop.Data
 				// iterate over the collection and put them in an ArrayList so we can pass on
 				// to our Form
 			if (MVal != null) {
-				IEnumerator iter = MVal.GetEnumerator();
+				var iter = MVal.GetEnumerator();
 				while (iter.MoveNext())
 					MObjs.Add(iter.Current);
 			}
@@ -65,7 +65,7 @@ namespace RevitLookup.Snoop.Data
             // to our Form
             if (MVal != null)
             {
-                IEnumerator iter = MVal.GetEnumerator();
+                var iter = MVal.GetEnumerator();
                 while (iter.MoveNext())
                 {
                     var elementId = iter.Current as Autodesk.Revit.DB.ElementId;
@@ -105,7 +105,7 @@ namespace RevitLookup.Snoop.Data
         public override System.Windows.Forms.Form DrillDown()
         {
 			if ((MVal != null) && (MObjs.Count != 0)) {
-				Forms.Objects form = new Forms.Objects(MObjs);
+				var form = new Forms.Objects(MObjs);
                 return form;
             }
             return null;

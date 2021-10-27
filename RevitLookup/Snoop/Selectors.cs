@@ -49,11 +49,11 @@ namespace RevitLookup.Snoop
 
         public static (IList<Element>, Document) SnoopDb(UIApplication app)
         {            
-            Document doc = app.ActiveUIDocument.Document;
-            FilteredElementCollector elemTypeCtor = (new FilteredElementCollector(doc)).WhereElementIsElementType();
-            FilteredElementCollector notElemTypeCtor = (new FilteredElementCollector(doc)).WhereElementIsNotElementType();
-            FilteredElementCollector allElementCtor = elemTypeCtor.UnionWith(notElemTypeCtor);
-            IList<Element> founds = allElementCtor.ToElements();          
+            var doc = app.ActiveUIDocument.Document;
+            var elemTypeCtor = (new FilteredElementCollector(doc)).WhereElementIsElementType();
+            var notElemTypeCtor = (new FilteredElementCollector(doc)).WhereElementIsNotElementType();
+            var allElementCtor = elemTypeCtor.UnionWith(notElemTypeCtor);
+            var founds = allElementCtor.ToElements();          
 
             System.Diagnostics.Trace.WriteLine(founds.Count.ToString());
 
@@ -64,7 +64,7 @@ namespace RevitLookup.Snoop
             var activeUiDocument = app.ActiveUIDocument;
             var document = activeUiDocument.Document;
 
-            ICollection<ElementId> ids = activeUiDocument.Selection.GetElementIds();
+            var ids = activeUiDocument.Selection.GetElementIds();
             if (ids.Any())
             {
                 return (new FilteredElementCollector(document, ids).WhereElementIsNotElementType().ToElements(), document);
@@ -76,8 +76,8 @@ namespace RevitLookup.Snoop
         {           
             try
             {
-                Reference refElem = app.ActiveUIDocument.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Face);
-                GeometryObject geoObject = app.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
+                var refElem = app.ActiveUIDocument.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Face);
+                var geoObject = app.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
                 return (geoObject, app.ActiveUIDocument.Document);
             }
             catch
@@ -91,8 +91,8 @@ namespace RevitLookup.Snoop
         {            
             try
             {
-                Reference refElem = app.ActiveUIDocument.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Edge);
-                GeometryObject geoObject = app.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
+                var refElem = app.ActiveUIDocument.Selection.PickObject(Autodesk.Revit.UI.Selection.ObjectType.Edge);
+                var geoObject = app.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
                 return (geoObject, app.ActiveUIDocument.Document);
             }
             catch
@@ -104,7 +104,7 @@ namespace RevitLookup.Snoop
         }
         public static (Element, Document) SnoopLinkedElement(UIApplication app)
         {
-            Document doc = app.ActiveUIDocument.Document;
+            var doc = app.ActiveUIDocument.Document;
 
             Reference refElem = null;
             try
@@ -116,25 +116,25 @@ namespace RevitLookup.Snoop
                 return (null, null);
             }
 
-            string stableReflink = refElem.ConvertToStableRepresentation(doc).Split(':')[0];
-            Reference refLink = Reference.ParseFromStableRepresentation(doc, stableReflink);
-            RevitLinkInstance rliReturn = doc.GetElement(refLink) as RevitLinkInstance;
+            var stableReflink = refElem.ConvertToStableRepresentation(doc).Split(':')[0];
+            var refLink = Reference.ParseFromStableRepresentation(doc, stableReflink);
+            var rliReturn = doc.GetElement(refLink) as RevitLinkInstance;
             var mActiveDoc = rliReturn.GetLinkDocument();
-            Element e = mActiveDoc.GetElement(refElem.LinkedElementId);
+            var e = mActiveDoc.GetElement(refElem.LinkedElementId);
 
             return (e, mActiveDoc);
         }
         public static (IList<Element>, Document) SnoopDependentElements(UIApplication app)
         {
-            UIDocument uidoc = app.ActiveUIDocument;
-            ICollection<ElementId> idPickfirst = uidoc.Selection.GetElementIds();
-            Document doc = uidoc.Document;
+            var uidoc = app.ActiveUIDocument;
+            var idPickfirst = uidoc.Selection.GetElementIds();
+            var doc = uidoc.Document;
 
             if (idPickfirst.Any())
             {
-                IList<Element> elemSet = new FilteredElementCollector(doc, idPickfirst).WhereElementIsNotElementType().ToElements();
+                var elemSet = new FilteredElementCollector(doc, idPickfirst).WhereElementIsNotElementType().ToElements();
                 ICollection<ElementId> ids = elemSet.SelectMany(t => t.GetDependentElements(null)).ToList();
-                IList<Element> result = new FilteredElementCollector(doc, ids).WhereElementIsNotElementType().ToElements();
+                var result = new FilteredElementCollector(doc, ids).WhereElementIsNotElementType().ToElements();
 
                 return (result, doc);
             }
@@ -143,7 +143,7 @@ namespace RevitLookup.Snoop
         }
         public static (View, Document) SnoopActiveView(UIApplication app)
         {
-            Document doc = app.ActiveUIDocument.Document;
+            var doc = app.ActiveUIDocument.Document;
             if (doc.ActiveView == null)
             {
                 TaskDialog.Show("RevitLookup", "The document must have an active view!");

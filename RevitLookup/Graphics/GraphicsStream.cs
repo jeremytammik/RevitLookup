@@ -150,11 +150,11 @@ namespace RevitLookup.Graphics {
                 return;
             }
 
-            XYZ pt1 = new XYZ();
-            XYZ pt2 = new XYZ();
+            var pt1 = new XYZ();
+            var pt2 = new XYZ();
 
-            int len = pts.Count;
-            for (int i=0; i <(len - 1); i++) {
+            var len = pts.Count;
+            for (var i=0; i <(len - 1); i++) {
                 pt1 = pts[i];
                 pt2 = pts[i + 1];
 
@@ -230,8 +230,8 @@ namespace RevitLookup.Graphics {
 
             XYZ pt1, pt2;
 
-            int len = pts.Count;
-            for (int i=0; i <(len - 1); i++) {
+            var len = pts.Count;
+            for (var i=0; i <(len - 1); i++) {
                 pt1 = pts[i];
                 pt2 = pts[i + 1];
 
@@ -325,7 +325,7 @@ namespace RevitLookup.Graphics {
                 throw new ArgumentException("View stack or Geometry Options stack is empty.");
             }
 
-            GeometryElement geom = elem.get_Geometry(CurrentGeometryOptions);
+            var geom = elem.get_Geometry(CurrentGeometryOptions);
             if (geom != null) {
                 Stream(geom);
             }
@@ -381,10 +381,10 @@ namespace RevitLookup.Graphics {
         public virtual void
         Stream(Edge edge)
         {
-            IList<XYZ> ptArray = edge.Tessellate();
+            var ptArray = edge.Tessellate();
 
-            int len = ptArray.Count;
-            for (int i=0; i < (len - 1); i++) {
+            var len = ptArray.Count;
+            for (var i=0; i < (len - 1); i++) {
                 Stream(ptArray[i], ptArray[i + 1]);
             }
         }
@@ -400,7 +400,7 @@ namespace RevitLookup.Graphics {
         public virtual void
         Stream(GeometryElement elem)
         {
-            foreach (GeometryObject geom in elem)
+            foreach (var geom in elem)
             {
                 Stream(geom);
             }
@@ -476,8 +476,8 @@ namespace RevitLookup.Graphics {
         public virtual void
         Stream(Mesh mesh)
         {
-            for (int i=0; i<mesh.NumTriangles; i++) {
-                MeshTriangle mt = mesh.get_Triangle(i);
+            for (var i=0; i<mesh.NumTriangles; i++) {
+                var mt = mesh.get_Triangle(i);
 
                 Stream(mt.get_Vertex(0), mt.get_Vertex(1));
                 Stream(mt.get_Vertex(1), mt.get_Vertex(2));

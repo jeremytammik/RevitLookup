@@ -20,7 +20,7 @@ namespace RevitLookup.Snoop.Data
             if (_mVal == null)
                 return "null";
 
-            List<string> stringList = new List<string>();
+            var stringList = new List<string>();
             foreach (var v in _mVal)
             {
                 stringList.Add(v.ToString());

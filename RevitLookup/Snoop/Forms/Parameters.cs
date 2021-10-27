@@ -341,7 +341,7 @@ namespace RevitLookup.Snoop.Forms
 
                 // initialize the tree control
 			foreach (Parameter tmpObj in paramSet) {
-			    TreeNode tmpNode = new TreeNode(Utils.GetParameterObjectLabel(tmpObj))
+			    var tmpNode = new TreeNode(Utils.GetParameterObjectLabel(tmpObj))
 			        {
 			            Tag = tmpObj
 			        };
@@ -415,27 +415,27 @@ namespace RevitLookup.Snoop.Forms
         private void
         OnBnEnumSnoop(object sender, EventArgs e)
         {                           
-            Hashtable    enumMap        = new Hashtable();                       
+            var    enumMap        = new Hashtable();                       
             
                 // TBD: iterating over the Parameters using basic reflection gives us lots
                 // of duplicates (not sure why).  Instead, use Enum.GetNames() which will return
                 // only unique Enum names.  Then go backward to get the actual BuiltinParam Enum.
                 // See TestElements.ParameterEnums() and TestElements.ParameterEnumsNoDup() for an
                 // explanation of what is going on.  (jma - 07/24/06)
-            string [] strs = Enum.GetNames(typeof(BuiltInParameter));
-            foreach (string str in strs) {
+            var strs = Enum.GetNames(typeof(BuiltInParameter));
+            foreach (var str in strs) {
                     // look up the actual enum from its name
-                BuiltInParameter paramEnum = (BuiltInParameter)Enum.Parse(typeof(BuiltInParameter), str);
+                var paramEnum = (BuiltInParameter)Enum.Parse(typeof(BuiltInParameter), str);
                 
                     // see if this Element supports that parameter
-                Parameter tmpParam = _mElem.get_Parameter(paramEnum);
+                var tmpParam = _mElem.get_Parameter(paramEnum);
                 
                 if (tmpParam != null) {                                   
                     enumMap.Add(str, tmpParam);
                 }
             }
 
-            ParamEnumSnoop form = new ParamEnumSnoop(enumMap);
+            var form = new ParamEnumSnoop(enumMap);
             ModelessWindowFactory.Show(form, MSnoopCollector.SourceDocument, this);                       
         }
 
@@ -448,8 +448,8 @@ namespace RevitLookup.Snoop.Forms
         private void
         OnBnEnumMap(object sender, EventArgs e)
         {
-            ArrayList labelStrs = new ArrayList();
-            ArrayList valueStrs = new ArrayList();                                     
+            var labelStrs = new ArrayList();
+            var valueStrs = new ArrayList();                                     
                
             // TBD: iterating over the Parameters using basic reflection gives us lots
             // of duplicates (not sure why).  Instead, use Enum.GetNames() which will return
@@ -457,14 +457,14 @@ namespace RevitLookup.Snoop.Forms
             // See TestElements.ParameterEnums() and TestElements.ParameterEnumsNoDup() for an
             // explanation of what is going on.  (jma - 07/24/06)
 
-            string [] strs = Enum.GetNames(typeof(BuiltInParameter));
-            foreach (string str in strs)
+            var strs = Enum.GetNames(typeof(BuiltInParameter));
+            foreach (var str in strs)
             {
                 // look up the actual enum from its name
-                BuiltInParameter paramEnum = (BuiltInParameter)Enum.Parse(typeof(BuiltInParameter), str);
+                var paramEnum = (BuiltInParameter)Enum.Parse(typeof(BuiltInParameter), str);
 
                 // see if this Element supports that parameter
-                Parameter tmpParam = _mElem.get_Parameter(paramEnum);
+                var tmpParam = _mElem.get_Parameter(paramEnum);
                 if (tmpParam != null)
                 {
                     labelStrs.Add(str);
@@ -472,7 +472,7 @@ namespace RevitLookup.Snoop.Forms
                 }
             }
 
-            ParamEnum dbox = new ParamEnum(labelStrs, valueStrs);
+            var dbox = new ParamEnum(labelStrs, valueStrs);
             dbox.ShowDialog();
         }
 

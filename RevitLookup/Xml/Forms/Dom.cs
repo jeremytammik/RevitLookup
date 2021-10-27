@@ -461,7 +461,7 @@ namespace RevitLookup.Xml.Forms
         private void
         MakeTree(XmlNode xmlNode, TreeNode parentNode)
         {
-            XmlNodeType nType = xmlNode.NodeType;
+            var nType = xmlNode.NodeType;
             
                 // bail early if user doesn't want this type of node displayed
             if (((nType == XmlNodeType.Comment) && (_mCbHideCommentNodes.Checked)) ||
@@ -469,10 +469,10 @@ namespace RevitLookup.Xml.Forms
                 return;
 
                 // get image index and label to use in the TreeNode
-            int imageIndex = GetImageIndex(nType);
-            string labelStr = FormatLabel(xmlNode);
+            var imageIndex = GetImageIndex(nType);
+            var labelStr = FormatLabel(xmlNode);
             
-            TreeNode treeNode = new TreeNode(labelStr);
+            var treeNode = new TreeNode(labelStr);
             treeNode.Tag = xmlNode;
             treeNode.ImageIndex = imageIndex;
             treeNode.SelectedImageIndex = imageIndex;
@@ -483,7 +483,7 @@ namespace RevitLookup.Xml.Forms
                 parentNode.Nodes.Add(treeNode);
                         
                 // get attributes of this node
-            XmlAttributeCollection atts = xmlNode.Attributes;
+            var atts = xmlNode.Attributes;
             if (atts != null) {
                 foreach (XmlAttribute tmpAtt in atts) {
                     MakeTree(tmpAtt, treeNode);
@@ -507,7 +507,7 @@ namespace RevitLookup.Xml.Forms
         private int
         GetImageIndex(XmlNodeType nType)
         {
-            int imageIndex = 0;
+            var imageIndex = 0;
             
                 // associate the correct image with this type of node
             if (nType == XmlNodeType.Document)
@@ -593,7 +593,7 @@ namespace RevitLookup.Xml.Forms
         private string
         GetTextLabelValue(XmlNode node)
         {
-            XmlNode txtNode = node.FirstChild;
+            var txtNode = node.FirstChild;
             if ((txtNode != null) && (txtNode.NodeType == XmlNodeType.Text)) {
                 return txtNode.Value;
             }
@@ -655,7 +655,7 @@ namespace RevitLookup.Xml.Forms
         private void
         TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
-            XmlNode curNode = (XmlNode)e.Node.Tag;
+            var curNode = (XmlNode)e.Node.Tag;
             Display(curNode);
         }
 
@@ -664,49 +664,49 @@ namespace RevitLookup.Xml.Forms
         private void
         OnBnParent(object sender, EventArgs e)
         {
-            XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.ParentNode);
         }
 
         private void
         OnBnOwnerDoc(object sender, EventArgs e)
         {
-            XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.OwnerDocument);
         }
 
         private void
         OnBnPrevSibling(object sender, EventArgs e)
         {
-            XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.PreviousSibling);
         }
 
         private void
         OnBnNextSibling(object sender, EventArgs e)
         {
-            XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.NextSibling);
         }
 
         private void
         OnBnFirstChild(object sender, EventArgs e)
         {
-            XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.FirstChild);
         }
 
         private void
         OnBnLastChild(object sender, EventArgs e)
         {
-            XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.LastChild);
         }
         
         private void
         OnBnDocElement(object sender, EventArgs e)
         {
-            XmlElement elem = _mXmlDoc.DocumentElement;
+            var elem = _mXmlDoc.DocumentElement;
             MoveToNewNodeInTree(elem);
         }
 
@@ -721,10 +721,10 @@ namespace RevitLookup.Xml.Forms
         private void
         OnBnSelectSingleNode(object sender, EventArgs e)
         {
-            XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
 
             try {
-                XmlNode newNode = curNode.SelectSingleNode(_mEbXpathPattern.Text);
+                var newNode = curNode.SelectSingleNode(_mEbXpathPattern.Text);
                 
                 if (newNode != null) {
                     _mTvDom.BeginUpdate();
@@ -755,10 +755,10 @@ namespace RevitLookup.Xml.Forms
         private void
         OnBnSelectNodes(object sender, EventArgs e)
         {
-            XmlNode curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode)_mTvDom.SelectedNode.Tag;
 
             try {
-                XmlNodeList selNodes = curNode.SelectNodes(_mEbXpathPattern.Text);
+                var selNodes = curNode.SelectNodes(_mEbXpathPattern.Text);
                 if ((selNodes != null) && (selNodes.Count > 0)) {
                     _mTvDom.BeginUpdate();
                     
@@ -813,7 +813,7 @@ namespace RevitLookup.Xml.Forms
         {
             Debug.Assert(newXmlNode != null);   // we should have checked out OK in SetButtonModes()
             
-            TreeNode newTreeNode = FindTreeNodeFromXmlNodeTag(_mTvDom.Nodes, newXmlNode);
+            var newTreeNode = FindTreeNodeFromXmlNodeTag(_mTvDom.Nodes, newXmlNode);
             if (newTreeNode != null) {
                 _mTvDom.SelectedNode = newTreeNode;
             }

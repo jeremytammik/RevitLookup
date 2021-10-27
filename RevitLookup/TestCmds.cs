@@ -51,9 +51,9 @@ namespace RevitLookup
       ref string msg, 
       ElementSet elems )
     {
-      Assembly a = Assembly.GetExecutingAssembly();
-      string version = a.GetName().Version.ToString();
-      TaskDialog helloDlg = new TaskDialog( "Autodesk Revit" );
+      var a = Assembly.GetExecutingAssembly();
+      var version = a.GetName().Version.ToString();
+      var helloDlg = new TaskDialog( "Autodesk Revit" );
       helloDlg.MainContent = "Hello World from " + a.Location + " v" + version;
       helloDlg.Show();
       return Result.Cancelled;
@@ -72,7 +72,7 @@ namespace RevitLookup
       ref string msg, 
       ElementSet elems )
     {          
-          Objects form = new Objects();
+          var form = new Objects();
           form.SnoopAndShow(Selector.SnoopDb);
           return Result.Succeeded;
     }
@@ -86,7 +86,7 @@ namespace RevitLookup
       ref string msg, 
       ElementSet elems )
     {
-        Objects form = new Objects();
+        var form = new Objects();
         form.SnoopAndShow(Selector.SnoopPickFace);
         return Result.Succeeded;
     }
@@ -97,7 +97,7 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {      
-        Objects form = new Objects();
+        var form = new Objects();
         form.SnoopAndShow(Selector.SnoopPickEdge);
         return Result.Succeeded;
     }
@@ -108,7 +108,7 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-        Objects form = new Objects();
+        var form = new Objects();
         form.SnoopAndShow(Selector.SnoopLinkedElement);
         return Result.Succeeded;
     }
@@ -126,7 +126,7 @@ namespace RevitLookup
       ref string msg,
       ElementSet elems )
     {        
-        Objects form = new Objects();
+        var form = new Objects();
         form.SnoopAndShow(Selector.SnoopDependentElements);
         return Result.Succeeded;
     }
@@ -140,7 +140,7 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {   
-        Objects form = new Objects();
+        var form = new Objects();
         form.SnoopAndShow(Selector.SnoopActiveView);
         return Result.Succeeded;
     }
@@ -155,7 +155,7 @@ namespace RevitLookup
   {
         public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
-            Objects form = new Objects();
+            var form = new Objects();
             form.SnoopAndShow(Selector.SnoopCurrentSelection);
             return Result.Succeeded;
         }
@@ -169,7 +169,7 @@ namespace RevitLookup
   {
     public Result Execute( ExternalCommandData cmdData, ref string msg, ElementSet elems )
     {
-         Objects form = new Objects();
+         var form = new Objects();
          form.SnoopAndShow(Selector.SnoopApplication);
          return Result.Succeeded;
     }
@@ -212,9 +212,9 @@ namespace RevitLookup
       ref string msg,
       ElementSet elems )
     {        
-        UIDocument revitDoc = cmdData.Application.ActiveUIDocument;
-        Document dbdoc = revitDoc.Document;
-        SearchBy form = new SearchBy( dbdoc );
+        var revitDoc = cmdData.Application.ActiveUIDocument;
+        var dbdoc = revitDoc.Document;
+        var form = new SearchBy( dbdoc );
         ModelessWindowFactory.Show(form);
 
         return Result.Succeeded;

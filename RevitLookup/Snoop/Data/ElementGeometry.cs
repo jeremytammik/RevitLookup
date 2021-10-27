@@ -66,7 +66,7 @@ namespace RevitLookup.Snoop.Data
         public override System.Windows.Forms.Form DrillDown()
         {
             if (MHasGeometry) {
-				Forms.Geometry form = new Forms.Geometry(MVal, MApp);
+				var form = new Forms.Geometry(MVal, MApp);
                 return form;
             }
             return null;
@@ -121,7 +121,7 @@ namespace RevitLookup.Snoop.Data
 
          if (MVal != null && MApp != null)
          {
-            Options geomOp = MApp.Create.NewGeometryOptions();
+            var geomOp = MApp.Create.NewGeometryOptions();
             geomOp.DetailLevel = ViewDetailLevel.Undefined;
             if (MVal.GetOriginalGeometry(geomOp) != null)
                MHasGeometry = true;
@@ -150,7 +150,7 @@ namespace RevitLookup.Snoop.Data
       {
          if (MHasGeometry)
          {
-            Forms.OriginalGeometry form = new Forms.OriginalGeometry(MVal, MApp);
+            var form = new Forms.OriginalGeometry(MVal, MApp);
             return form;
          }
          return null;

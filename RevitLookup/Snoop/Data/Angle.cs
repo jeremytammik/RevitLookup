@@ -46,7 +46,7 @@ namespace RevitLookup.Snoop.Data
         {
 				// convert from radians to degrees so we can read it
 				// TBD: probably need an API to format in current dispaly units
-			double degAng = GeomUtils.RadiansToDegrees(MVal);
+			var degAng = GeomUtils.RadiansToDegrees(MVal);
 			return degAng.ToString();
         }
 	}

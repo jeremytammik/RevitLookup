@@ -10,7 +10,7 @@ namespace System.Collections
     {
         public static List<T> ToList<T>(this IEnumerable set)
         {
-            List<T> list = new List<T>();
+            var list = new List<T>();
 
             foreach (T element in set)
             {

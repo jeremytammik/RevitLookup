@@ -24,11 +24,11 @@ namespace RevitLookup.Snoop.Data
         {
             if (!HasDrillDown) return null;
 
-            List<SnoopableObjectWrapper> scheduleFieldObjects = new List<SnoopableObjectWrapper>();
+            var scheduleFieldObjects = new List<SnoopableObjectWrapper>();
 
-            for (int i = 0; i < _scheduleDefinition.GetFieldCount(); i++)
+            for (var i = 0; i < _scheduleDefinition.GetFieldCount(); i++)
             {
-                ScheduleField field = _scheduleDefinition.GetField(i);
+                var field = _scheduleDefinition.GetField(i);
                 scheduleFieldObjects.Add(new SnoopableObjectWrapper("[" + i + "] " + field.GetName(), field));
             }
 

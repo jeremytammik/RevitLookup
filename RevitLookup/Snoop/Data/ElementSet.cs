@@ -48,11 +48,11 @@ namespace RevitLookup.Snoop.Data
         : base(label)
         {
             MVal = new Autodesk.Revit.DB.ElementSet();
-            foreach(Autodesk.Revit.DB.ElementId elemId in val)
+            foreach(var elemId in val)
             {
                 if(Autodesk.Revit.DB.ElementId.InvalidElementId == elemId)
                     continue;
-                Autodesk.Revit.DB.Element elem = doc.GetElement(elemId);
+                var elem = doc.GetElement(elemId);
                 if(null != elem)
                     MVal.Insert(elem);
             }
@@ -78,7 +78,7 @@ namespace RevitLookup.Snoop.Data
         public override Form DrillDown()
         {
             if ((MVal != null) && (MVal.IsEmpty == false)) {
-				Forms.Objects form = new Forms.Objects(MVal);
+				var form = new Forms.Objects(MVal);
                 return form;
             }
             return null;

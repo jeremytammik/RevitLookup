@@ -184,12 +184,12 @@ namespace RevitLookup.Snoop.Forms
         private void
         OnShowObjInfo(object sender, EventArgs e)
         {
-            object selObj = _mPgProps.SelectedGridItem.Value;
+            var selObj = _mPgProps.SelectedGridItem.Value;
 
             if (selObj == null)
                 MessageBox.Show("Value is null.");
             else {
-                GenericPropGrid pgForm = new GenericPropGrid(selObj);
+                var pgForm = new GenericPropGrid(selObj);
                 pgForm.Text = $"{_mPgProps.SelectedGridItem.Label} (Object Info: {selObj.GetType()})";
                 pgForm.ShowDialog();
             }
@@ -205,12 +205,12 @@ namespace RevitLookup.Snoop.Forms
         private void
         OnShowClassInfo(object sender, EventArgs e)
         {
-            object selObj = _mPgProps.SelectedGridItem.Value;
+            var selObj = _mPgProps.SelectedGridItem.Value;
 
             if (selObj == null)
                 MessageBox.Show("Value is null.");
             else {
-                GenericPropGrid pgForm = new GenericPropGrid(selObj.GetType());
+                var pgForm = new GenericPropGrid(selObj.GetType());
                 pgForm.Text = $"{_mPgProps.SelectedGridItem.Label} (System.Type = {selObj.GetType().FullName})";
                 pgForm.ShowDialog();
             }
@@ -225,7 +225,7 @@ namespace RevitLookup.Snoop.Forms
         private void
         OnMenuContextPopup(object sender, EventArgs e)
         {
-            bool enabled = (_mPgProps.SelectedGridItem == null) ? false : true;
+            var enabled = (_mPgProps.SelectedGridItem == null) ? false : true;
             _mMnuItemShowObjInfo.Enabled = enabled;
             _mMnuItemShowClassInfo.Enabled = enabled;
         }

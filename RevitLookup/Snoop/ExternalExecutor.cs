@@ -44,7 +44,7 @@ namespace RevitLookup.Snoop
 
             public void Execute(UIApplication app)
             {
-                while (Queue.TryDequeue(out Request request))
+                while (Queue.TryDequeue(out var request))
                 {
                     try
                     {

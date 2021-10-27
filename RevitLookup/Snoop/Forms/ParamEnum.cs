@@ -55,9 +55,9 @@ namespace RevitLookup.Snoop.Forms {
             
             //Debug.Assert(labelStrs.Count == valueStrs.Count);
 
-            int len = valueStrs.Count;
-            for (int i=0; i<len; i++) {
-                ListViewItem lvItem = new ListViewItem((string)labelStrs[i]);
+            var len = valueStrs.Count;
+            for (var i=0; i<len; i++) {
+                var lvItem = new ListViewItem((string)labelStrs[i]);
                 lvItem.SubItems.Add((string)valueStrs[i]);
                 m_listView.Items.Add(lvItem);
             }

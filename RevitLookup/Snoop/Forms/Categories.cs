@@ -57,22 +57,22 @@ namespace RevitLookup.Snoop.Forms
 				return;   // nothing to add
 
 			// iterate over the map and add items to the tree
-			CategoryNameMapIterator iter = map.ForwardIterator();
+			var iter = map.ForwardIterator();
 			while( iter.MoveNext() )
 			{
-				TreeNode tmpNode = new TreeNode( iter.Key );
+				var tmpNode = new TreeNode( iter.Key );
 				tmpNode.Tag = iter.Current;
 				curNodes.Add( tmpNode );
 
 				// recursively add sub-nodes (if any)
-				Category curCat = (Category) iter.Current;
+				var curCat = (Category) iter.Current;
 				AddObjectsToTree( curCat.SubCategories, tmpNode.Nodes );
 			}
 		}
 
 		new private void InitializeComponent()
 		{
-			ComponentResourceManager resources = new ComponentResourceManager(typeof(Categories));
+			var resources = new ComponentResourceManager(typeof(Categories));
 			SuspendLayout();
 			// 
 			// m_tvObjs

@@ -66,10 +66,10 @@ namespace RevitLookup.Snoop.Data
         public override Form DrillDown()
         {
             if (MVal != null) {
-				ArrayList objs = new ArrayList();
+				var objs = new ArrayList();
 				objs.Add(MVal);
 
-				Forms.Objects form = new Forms.Objects(objs);
+				var form = new Forms.Objects(objs);
 				return form;				
 			}
 			return null;

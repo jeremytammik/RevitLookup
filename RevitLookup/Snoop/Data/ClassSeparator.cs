@@ -58,7 +58,7 @@ namespace RevitLookup.Snoop.Data
         public override Form DrillDown()
         {
 			// DrillDown on a ClassType will just browse it using Reflection
-            Forms.GenericPropGrid pgForm = new Forms.GenericPropGrid(MVal);
+            var pgForm = new Forms.GenericPropGrid(MVal);
             pgForm.Text = $"System.Type = {MVal.FullName}";
             pgForm.ShowDialog();
             return null;

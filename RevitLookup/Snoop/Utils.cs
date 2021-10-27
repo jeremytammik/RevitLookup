@@ -49,19 +49,19 @@ namespace RevitLookup.Snoop
          lvCur.BeginUpdate();
          lvCur.Items.Clear();
 
-         Font oldFont = lvCur.Font;
-         FontStyle newStyle = lvCur.Font.Style ^ FontStyle.Bold;
-         Font boldFont = new Font(oldFont, newStyle);
+         var oldFont = lvCur.Font;
+         var newStyle = lvCur.Font.Style ^ FontStyle.Bold;
+         var boldFont = new Font(oldFont, newStyle);
 
-         for (int i = 0; i < snoopCollector.Data().Count; i++)
+         for (var i = 0; i < snoopCollector.Data().Count; i++)
          {
-            Snoop.Data.Data tmpSnoopData = (Snoop.Data.Data)snoopCollector.Data()[i];
+            var tmpSnoopData = (Snoop.Data.Data)snoopCollector.Data()[i];
 
             // if it is a class separator, then color the background differently
             // and don't add a SubItem for the "Field" value
             if (tmpSnoopData.IsSeparator)
             {
-               ListViewItem lvItem = new ListViewItem(tmpSnoopData.StrValue());
+               var lvItem = new ListViewItem(tmpSnoopData.StrValue());
 
                if (tmpSnoopData is Data.ClassSeparator)
                   lvItem.BackColor = System.Drawing.Color.LightBlue;
@@ -73,18 +73,18 @@ namespace RevitLookup.Snoop
             }
             else
             {
-               ListViewItem lvItem = new ListViewItem(tmpSnoopData.Label);
+               var lvItem = new ListViewItem(tmpSnoopData.Label);
                lvItem.SubItems.Add(tmpSnoopData.StrValue());
 
                if (tmpSnoopData.IsError)
                {
-                  ListViewItem.ListViewSubItem sItem = (ListViewItem.ListViewSubItem)lvItem.SubItems[0];
+                  var sItem = (ListViewItem.ListViewSubItem)lvItem.SubItems[0];
                   sItem.ForeColor = System.Drawing.Color.Red;
                }
 
                if (tmpSnoopData.HasDrillDown)
                {
-                  ListViewItem.ListViewSubItem sItem = (ListViewItem.ListViewSubItem)lvItem.SubItems[0];
+                  var sItem = (ListViewItem.ListViewSubItem)lvItem.SubItems[0];
                   sItem.Font = boldFont;
                }
 
@@ -102,8 +102,8 @@ namespace RevitLookup.Snoop
 
          if (lvCur.SelectedItems.Count != 0)
          {
-            Snoop.Data.Data tmpSnoopData = (Snoop.Data.Data)lvCur.SelectedItems[0].Tag;
-            Form newForm = tmpSnoopData.DrillDown();
+            var tmpSnoopData = (Snoop.Data.Data)lvCur.SelectedItems[0].Tag;
+            var newForm = tmpSnoopData.DrillDown();
             if (newForm != null)
             {
                 windowFactory.Show(newForm);
@@ -140,7 +140,7 @@ namespace RevitLookup.Snoop
             return;
          }
 
-         Forms.GenericPropGrid pgForm = new Forms.GenericPropGrid(obj);
+         var pgForm = new Forms.GenericPropGrid(obj);
          pgForm.Text = $"Object Data (System.Type = {obj.GetType().FullName})";
          pgForm.ShowDialog();
       }
@@ -217,8 +217,8 @@ namespace RevitLookup.Snoop
 
          //First find the longest piece of text in the Field column
          //
-         Int32 maxField = 0;
-         Int32 maxValue = 0;
+         var maxField = 0;
+         var maxValue = 0;
 
          foreach (ListViewItem item in lv.Items)
          {
@@ -232,16 +232,16 @@ namespace RevitLookup.Snoop
             }
          }
 
-         String headerFormat = $"{{0,{maxField}}}----{new String('-', maxValue)}\r\n";
-         String tabbedFormat = $"{{0,{maxField}}}    {{1}}\r\n";
+         var headerFormat = $"{{0,{maxField}}}----{new String('-', maxValue)}\r\n";
+         var tabbedFormat = $"{{0,{maxField}}}    {{1}}\r\n";
 
-         System.Text.StringBuilder bldr = new System.Text.StringBuilder();
+         var bldr = new System.Text.StringBuilder();
 
          foreach (ListViewItem item in lv.Items)
          {
             if (item.SubItems.Count == 1)
             {
-               String tmp = item.Text;
+               var tmp = item.Text;
                if (item.Text.Length < maxField)
                {
                   tmp = item.Text.PadLeft(item.Text.Length + (maxField - item.Text.Length), '-');
@@ -255,7 +255,7 @@ namespace RevitLookup.Snoop
             }
          }
 
-         String txt = bldr.ToString();
+         var txt = bldr.ToString();
          if (String.IsNullOrEmpty(txt) == false)
          {
             Clipboard.SetDataObject(txt);
@@ -290,17 +290,17 @@ namespace RevitLookup.Snoop
          Single yPos = 0;
          Single leftMargin = e.MarginBounds.Left + ((e.MarginBounds.Width - (maxFieldWidth + maxValueWidth)) / 2);
          Single topMargin = e.MarginBounds.Top;
-         Single fontHeight = lv.Font.GetHeight(e.Graphics);
-         Int32 count = 0;
+         var fontHeight = lv.Font.GetHeight(e.Graphics);
+         var count = 0;
          String line = null;
          ListViewItem item;
          SolidBrush backgroundBrush;
          SolidBrush subbackgroundBrush;
          SolidBrush textBrush;
          RectangleF rect;
-         StringFormat centerFormat = new StringFormat();
-         StringFormat fieldFormat = new StringFormat();
-         StringFormat valueFormat = new StringFormat();
+         var centerFormat = new StringFormat();
+         var fieldFormat = new StringFormat();
+         var valueFormat = new StringFormat();
 
          centerFormat.Alignment = StringAlignment.Center;
          fieldFormat.Alignment = HorizontalAlignmentToStringAligment(lv.Columns[0].TextAlign);
@@ -389,8 +389,8 @@ namespace RevitLookup.Snoop
       public static Int32[]
       GetMaximumColumnWidths(ListView lv)
       {
-         Int32 index = 0;
-         Int32[] widthArray = new Int32[lv.Columns.Count];
+         var index = 0;
+         var widthArray = new Int32[lv.Columns.Count];
 
          foreach (ColumnHeader col in lv.Columns)
          {
@@ -398,9 +398,9 @@ namespace RevitLookup.Snoop
             index++;
          }
 
-         System.Drawing.Graphics g = lv.CreateGraphics();
-         Int32 offset = Convert.ToInt32(Math.Ceiling(g.MeasureString(" ", lv.Font).Width));
-         Int32 width = 0;
+         var g = lv.CreateGraphics();
+         var offset = Convert.ToInt32(Math.Ceiling(g.MeasureString(" ", lv.Font).Width));
+         var width = 0;
 
          foreach (ListViewItem item in lv.Items)
          {
@@ -435,8 +435,8 @@ namespace RevitLookup.Snoop
       public static String
       GetPrintDocumentName(TreeNode node)
       {
-         TreeNode root = GetRootNode(node);
-         String str = root.Tag as String;
+         var root = GetRootNode(node);
+         var str = root.Tag as String;
 
          if (str != null)
          {

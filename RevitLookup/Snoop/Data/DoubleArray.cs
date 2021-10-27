@@ -12,9 +12,9 @@
 
         public override string StrValue()
         {
-            string[] array = new string[MVal.Size];
+            var array = new string[MVal.Size];
 
-            for (int i = 0; i < MVal.Size; i++)
+            for (var i = 0; i < MVal.Size; i++)
             {
                 array[i] = MVal.get_Item(i).ToString();
             }

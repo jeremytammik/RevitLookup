@@ -58,11 +58,11 @@ namespace RevitLookup.Snoop.Forms
         return;   // nothing to add
 
       // iterate over the map and add items to the tree
-      DefinitionBindingMapIterator iter = map.ForwardIterator();
+      var iter = map.ForwardIterator();
       while( iter.MoveNext() )
       {
-        Definition def = iter.Key;
-        ElementBinding elemBind = (ElementBinding) iter.Current;
+        var def = iter.Key;
+        var elemBind = (ElementBinding) iter.Current;
 
         // TBD:  not sure if this map is implemented correctly... doesn't seem to be
         // find out if this one already exists
@@ -85,10 +85,10 @@ namespace RevitLookup.Snoop.Forms
 
         if( elemBind != null )
         {
-          CategorySet cats = elemBind.Categories;
+          var cats = elemBind.Categories;
           foreach( Category cat in cats )
           {
-            TreeNode tmpNode = new TreeNode( cat.Name );
+            var tmpNode = new TreeNode( cat.Name );
             tmpNode.Tag = cat;
             defNode.Nodes.Add( tmpNode );
           }
@@ -98,7 +98,7 @@ namespace RevitLookup.Snoop.Forms
 
     new private void InitializeComponent()
     {
-			ComponentResourceManager resources = new ComponentResourceManager(typeof(BindingMap));
+			var resources = new ComponentResourceManager(typeof(BindingMap));
 			SuspendLayout();
 			// 
 			// m_tvObjs

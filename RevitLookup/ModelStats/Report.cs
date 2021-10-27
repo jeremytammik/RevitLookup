@@ -71,7 +71,7 @@ namespace RevitLookup.ModelStats
     private void
         RawObjStats( Object obj )
     {
-      RawObjCount tmpNode = FindRawObjNode( obj.GetType() );
+      var tmpNode = FindRawObjNode( obj.GetType() );
       if( tmpNode == null )
       {
         tmpNode = new RawObjCount();
@@ -102,7 +102,7 @@ namespace RevitLookup.ModelStats
       if( elem.Category == null )  // some elements don't belong to a category
         return;
 
-      CategoryCount tmpNode = FindCategoryNode( elem.Category );
+      var tmpNode = FindCategoryNode( elem.Category );
       if( tmpNode == null )
       {
         tmpNode = new CategoryCount();
@@ -127,19 +127,19 @@ FindSymbolNode( ElementType sym )
     private ElementType
     GetSymbolRef( Element elem )
     {
-      FamilyInstance famInst = elem as FamilyInstance;
+      var famInst = elem as FamilyInstance;
       if( famInst != null )
         return famInst.Symbol;
 
-      Floor floor = elem as Floor;
+      var floor = elem as Floor;
       if( floor != null )
         return floor.FloorType;
 
-      Group group = elem as Group;
+      var group = elem as Group;
       if( group != null )
         return group.GroupType;
 
-      Wall wall = elem as Wall;
+      var wall = elem as Wall;
       if( wall != null )
         return wall.WallType;
 
@@ -151,10 +151,10 @@ FindSymbolNode( ElementType sym )
     {
       // if it is a Symbol element, just make an entry in our map
       // and get out.
-      ElementType sym = elem as ElementType;
+      var sym = elem as ElementType;
       if( sym != null )
       {
-        SymbolCount tmpNode = FindSymbolNode( sym );
+        var tmpNode = FindSymbolNode( sym );
         if( tmpNode == null )
         {
           tmpNode = new SymbolCount();
@@ -170,7 +170,7 @@ FindSymbolNode( ElementType sym )
       sym = GetSymbolRef( elem );
       if( sym != null )
       {
-        SymbolCount tmpNode = FindSymbolNode( sym );
+        var tmpNode = FindSymbolNode( sym );
         if( tmpNode == null )
         {
           tmpNode = new SymbolCount();
@@ -185,12 +185,12 @@ FindSymbolNode( ElementType sym )
     private void
     ProcessElements( Document doc )
     {
-      FilteredElementCollector fec = new FilteredElementCollector( doc );
-      ElementClassFilter elementsAreWanted = new ElementClassFilter( typeof( Element ) );
+      var fec = new FilteredElementCollector( doc );
+      var elementsAreWanted = new ElementClassFilter( typeof( Element ) );
       fec.WherePasses( elementsAreWanted );
-      List<Element> elements = fec.ToElements() as List<Element>;
+      var elements = fec.ToElements() as List<Element>;
 
-      foreach( Element element in elements )
+      foreach( var element in elements )
       {
         RawObjStats( element );
 
@@ -213,7 +213,7 @@ FindSymbolNode( ElementType sym )
     {
       ProcessElements( doc );   // index all of the elements
 
-      XmlTextWriter stream = new XmlTextWriter( reportPath, System.Text.Encoding.UTF8 );
+      var stream = new XmlTextWriter( reportPath, System.Text.Encoding.UTF8 );
       stream.Formatting = Formatting.Indented;
       stream.IndentChar = '\t';
       stream.Indentation = 1;
@@ -247,9 +247,9 @@ FindSymbolNode( ElementType sym )
         stream.WriteAttributeString( "fullName", tmpNode.MClassType.FullName );
         stream.WriteAttributeString( "count", tmpNode.MObjs.Count.ToString() );
         // list a reference to each element of this type
-        foreach( Object tmpObj in tmpNode.MObjs )
+        foreach( var tmpObj in tmpNode.MObjs )
         {
-          Element tmpElem = tmpObj as Element;
+          var tmpElem = tmpObj as Element;
           if( tmpElem != null )
           {
             stream.WriteStartElement( "ElementRef" );
@@ -327,7 +327,7 @@ FindSymbolNode( ElementType sym )
       stream.WriteAttributeString( "id", elem.Id.IntegerValue.ToString() );
       stream.WriteAttributeString( "name", elem.Name );
 
-      ParameterSet paramSet = elem.Parameters;
+      var paramSet = elem.Parameters;
       foreach( Parameter tmpObj in paramSet )
       {
         stream.WriteStartElement( "Param" );

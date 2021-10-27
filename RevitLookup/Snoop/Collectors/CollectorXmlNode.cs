@@ -75,37 +75,37 @@ namespace RevitLookup.Snoop.Collectors
             MDataObjs.Add(new Snoop.Data.String("Prefix", node.Prefix));
                         
                 // branch to all known major sub-classes
-            System.Xml.XmlAttribute att = node as System.Xml.XmlAttribute;
+            var att = node as System.Xml.XmlAttribute;
             if (att != null) {
                 Stream(att);
                 return;
             }
             
-            System.Xml.XmlDocument doc = node as System.Xml.XmlDocument;
+            var doc = node as System.Xml.XmlDocument;
             if (doc != null) {
                 Stream(doc);
                 return;
             }
             
-            System.Xml.XmlDocumentFragment docFrag = node as System.Xml.XmlDocumentFragment;
+            var docFrag = node as System.Xml.XmlDocumentFragment;
             if (docFrag != null) {
                 Stream(docFrag);
                 return;
             }
             
-            System.Xml.XmlEntity ent = node as System.Xml.XmlEntity;
+            var ent = node as System.Xml.XmlEntity;
             if (ent != null) {
                 Stream(ent);
                 return;
             }
             
-            System.Xml.XmlNotation notation = node as System.Xml.XmlNotation;
+            var notation = node as System.Xml.XmlNotation;
             if (notation != null) {
                 Stream(notation);
                 return;
             }
             
-            System.Xml.XmlLinkedNode lnkNode = node as System.Xml.XmlLinkedNode;
+            var lnkNode = node as System.Xml.XmlLinkedNode;
             if (lnkNode != null) {
                 Stream(lnkNode);
                 return;
@@ -128,37 +128,37 @@ namespace RevitLookup.Snoop.Collectors
                 // No data to show at this level, but we want to explicitly
                 // show that there is an intermediate class.
                 
-            System.Xml.XmlElement elem = lnkNode as System.Xml.XmlElement;
+            var elem = lnkNode as System.Xml.XmlElement;
             if (elem != null) {
                 Stream(elem);
                 return;
             }
             
-            System.Xml.XmlCharacterData charData = lnkNode as System.Xml.XmlCharacterData;
+            var charData = lnkNode as System.Xml.XmlCharacterData;
             if (charData != null) {
                 Stream(charData);
                 return;
             }
             
-            System.Xml.XmlDeclaration decl = lnkNode as System.Xml.XmlDeclaration;
+            var decl = lnkNode as System.Xml.XmlDeclaration;
             if (decl != null) {
                 Stream(decl);
                 return;
             }
             
-            System.Xml.XmlDocumentType dType = lnkNode as System.Xml.XmlDocumentType;
+            var dType = lnkNode as System.Xml.XmlDocumentType;
             if (dType != null) {
                 Stream(dType);
                 return;
             }
             
-            System.Xml.XmlEntityReference entRef = lnkNode as System.Xml.XmlEntityReference;
+            var entRef = lnkNode as System.Xml.XmlEntityReference;
             if (entRef != null) {
                 Stream(entRef);
                 return;
             }
             
-            System.Xml.XmlProcessingInstruction pi = lnkNode as System.Xml.XmlProcessingInstruction;
+            var pi = lnkNode as System.Xml.XmlProcessingInstruction;
             if (pi != null) {
                 Stream(pi);
                 return;
@@ -183,31 +183,31 @@ namespace RevitLookup.Snoop.Collectors
             MDataObjs.Add(new Data.Int("Length", charData.Length));
             MDataObjs.Add(new Snoop.Data.String("Data", charData.Data));
             
-            System.Xml.XmlCDataSection cDataSection = charData as System.Xml.XmlCDataSection;
+            var cDataSection = charData as System.Xml.XmlCDataSection;
             if (cDataSection != null) {
                 Stream(cDataSection);
                 return;
             }
             
-            System.Xml.XmlComment comment = charData as System.Xml.XmlComment;
+            var comment = charData as System.Xml.XmlComment;
             if (comment != null) {
                 Stream(comment);
                 return;
             }
             
-            System.Xml.XmlSignificantWhitespace swSpace = charData as System.Xml.XmlSignificantWhitespace;
+            var swSpace = charData as System.Xml.XmlSignificantWhitespace;
             if (swSpace != null) {
                 Stream(swSpace);
                 return;
             }
             
-            System.Xml.XmlText txt = charData as System.Xml.XmlText;
+            var txt = charData as System.Xml.XmlText;
             if (txt != null) {
                 Stream(txt);
                 return;
             }
             
-            System.Xml.XmlWhitespace wSpace = charData as System.Xml.XmlWhitespace;
+            var wSpace = charData as System.Xml.XmlWhitespace;
             if (wSpace != null) {
                 Stream(wSpace);
                 return;

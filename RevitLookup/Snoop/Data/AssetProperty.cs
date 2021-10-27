@@ -29,14 +29,14 @@ namespace RevitLookup.Snoop.Data
         {
             if (MAssetProperties != null)
             {
-                ArrayList objs = new ArrayList();
-                for (int i = 0; i < MAssetProperties.Size; i++)
+                var objs = new ArrayList();
+                for (var i = 0; i < MAssetProperties.Size; i++)
                 {
                     objs.Add(MAssetProperties.Get(i));
                 }
                 
 
-                Forms.Objects form = new Forms.Objects(objs);
+                var form = new Forms.Objects(objs);
                 return form;
             }
             return null;
