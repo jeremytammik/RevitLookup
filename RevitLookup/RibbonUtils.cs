@@ -5,7 +5,7 @@ using System.Reflection;
 using Autodesk.Revit.UI;
 using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
 
-namespace RevitLookup.RevitUtils
+namespace RevitLookup
 {
     public static class RibbonUtils
     {

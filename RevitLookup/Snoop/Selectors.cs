@@ -106,7 +106,7 @@ namespace RevitLookup.Snoop
         {
             var doc = app.ActiveUIDocument.Document;
 
-            Reference refElem = null;
+            Reference refElem;
             try
             {
                 refElem = app.ActiveUIDocument.Selection.PickObject(ObjectType.LinkedElement);

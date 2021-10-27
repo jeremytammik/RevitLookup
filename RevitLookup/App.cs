@@ -30,7 +30,6 @@ using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using RevitLookup.RevitUtils;
 using RevitLookup.Snoop;
 
 namespace RevitLookup

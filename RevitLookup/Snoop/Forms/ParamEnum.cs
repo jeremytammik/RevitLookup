@@ -28,7 +28,6 @@ using System;
 using System.Collections;
 using System.Drawing.Printing;
 using System.Windows.Forms;
-using RevitLookup.Utils;
 
 namespace RevitLookup.Snoop.Forms
 {

@@ -96,8 +96,10 @@ namespace RevitLookup.Snoop.Forms
             Dispose(bool disposing)
         {
             if (disposing)
-                if (components != null)
-                    components.Dispose();
+            {
+                components?.Dispose();
+            }
+
             base.Dispose(disposing);
         }
 

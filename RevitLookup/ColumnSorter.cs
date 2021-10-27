@@ -27,7 +27,7 @@
 using System.Collections;
 using System.Windows.Forms;
 
-namespace RevitLookup.Utils
+namespace RevitLookup
 {
     /// <summary>
     ///     This class is an implementation of the 'IComparer' interface.
@@ -91,13 +91,10 @@ namespace RevitLookup.Utils
         /// </returns>
         public int Compare(object x, object y)
         {
-            int compareResult;
-            ListViewItem listviewX, listviewY;
+            var listviewX = (ListViewItem) x;
+            var listviewY = (ListViewItem) y;
 
-            listviewX = (ListViewItem) x;
-            listviewY = (ListViewItem) y;
-
-            compareResult = _objectCompare.Compare(listviewX.SubItems[_columnToSort].Text, listviewY.SubItems[_columnToSort].Text);
+            var compareResult = _objectCompare.Compare(listviewX.SubItems[_columnToSort].Text, listviewY.SubItems[_columnToSort].Text);
 
             switch (_orderOfSort)
             {

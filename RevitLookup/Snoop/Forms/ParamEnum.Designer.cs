@@ -184,7 +184,7 @@ namespace RevitLookup.Snoop.Forms {
         private System.Windows.Forms.ColumnHeader       m_colVal;
         private System.Windows.Forms.Button             m_bnOk;
         
-        private RevitLookup.Utils.ListViewColumnSorter    m_colSorter;
+        private ListViewColumnSorter    m_colSorter;
         private System.Windows.Forms.ContextMenuStrip   listViewContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem  copyToolStripMenuItem;
         private System.Windows.Forms.PrintDialog        m_printDialog;

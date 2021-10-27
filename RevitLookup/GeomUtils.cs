@@ -61,20 +61,17 @@ namespace RevitLookup
         public static readonly XYZ YAxis = new(0.0, 1.0, 0.0);
         public static readonly XYZ ZAxis = new(0.0, 0.0, 1.0);
 
-        public static double
-            RadiansToDegrees(double rads)
+        public static double RadiansToDegrees(double rads)
         {
             return rads * (180.0 / Pi);
         }
 
-        public static double
-            DegreesToRadians(double degrees)
+        public static double DegreesToRadians(double degrees)
         {
             return degrees * (Pi / 180.0);
         }
 
-        public static XYZ
-            Midpoint(XYZ pt1, XYZ pt2)
+        public static XYZ Midpoint(XYZ pt1, XYZ pt2)
         {
             var newPt = new XYZ((pt1.X + pt2.X) / 2.0,
                 (pt1.Y + pt2.Y) / 2.0,
@@ -91,8 +88,7 @@ namespace RevitLookup
         /// <param name="pt2">point 2 to compare</param>
         /// <param name="axis">axis to compare along</param>
         /// <returns></returns>
-        public static XYZ
-            Greater(XYZ pt1, XYZ pt2, XYZ axis)
+        public static XYZ Greater(XYZ pt1, XYZ pt2, XYZ axis)
         {
             var pt = new XYZ();
 
@@ -130,8 +126,7 @@ namespace RevitLookup
         /// <param name="pt"></param>
         /// <param name="pts"></param>
         /// <returns></returns>
-        public static XYZ
-            GetClosestPt(XYZ pt, IList<XYZ> pts)
+        public static XYZ GetClosestPt(XYZ pt, IList<XYZ> pts)
         {
             var closestPt = new XYZ();
             var closestDist = 0.0;

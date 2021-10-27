@@ -45,8 +45,7 @@ namespace RevitLookup.Snoop
 {
     public class Utils
     {
-        public static void
-            Display(ListView lvCur, Collector snoopCollector)
+        public static void Display(ListView lvCur, Collector snoopCollector)
         {
             lvCur.BeginUpdate();
             lvCur.Items.Clear();
@@ -128,8 +127,7 @@ namespace RevitLookup.Snoop
             };
         }
 
-        public static void
-            BrowseReflection(object obj)
+        public static void BrowseReflection(object obj)
         {
             if (obj == null)
             {
@@ -198,8 +196,7 @@ namespace RevitLookup.Snoop
             }
         }
 
-        public static void
-            CopyToClipboard(ListView lv)
+        public static void CopyToClipboard(ListView lv)
         {
             if (lv.Items.Count == 0)
             {
@@ -243,8 +240,7 @@ namespace RevitLookup.Snoop
             if (string.IsNullOrEmpty(txt) == false) Clipboard.SetDataObject(txt);
         }
 
-        public static void
-            CopyToClipboard(ListViewItem lvItem, bool multipleItems)
+        public static void CopyToClipboard(ListViewItem lvItem, bool multipleItems)
         {
             if (lvItem.SubItems.Count > 1)
             {
@@ -259,8 +255,7 @@ namespace RevitLookup.Snoop
             }
         }
 
-        public static int
-            Print(string title, ListView lv, PrintPageEventArgs e, int maxFieldWidth, int maxValueWidth, int currentItem)
+        public static int Print(string title, ListView lv, PrintPageEventArgs e, int maxFieldWidth, int maxValueWidth, int currentItem)
         {
             float linesPerPage = 0;
             float yPos = 0;
@@ -268,7 +263,6 @@ namespace RevitLookup.Snoop
             float topMargin = e.MarginBounds.Top;
             var fontHeight = lv.Font.GetHeight(e.Graphics);
             var count = 0;
-            string line = null;
             ListViewItem item;
             SolidBrush backgroundBrush;
             SolidBrush subbackgroundBrush;
@@ -298,7 +292,6 @@ namespace RevitLookup.Snoop
             while (count < linesPerPage && currentItem < lv.Items.Count)
             {
                 item = lv.Items[currentItem];
-                line = item.Text;
                 yPos = topMargin + count * fontHeight;
 
                 backgroundBrush = new SolidBrush(item.BackColor);

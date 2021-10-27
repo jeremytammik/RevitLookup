@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
-namespace System.Collections
+namespace RevitLookup.Extensions
 {
     public static class EnumerableExtensions
     {

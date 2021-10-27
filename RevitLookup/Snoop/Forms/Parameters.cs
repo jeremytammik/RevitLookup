@@ -67,8 +67,7 @@ namespace RevitLookup.Snoop.Forms
         protected CollectorObj MSnoopCollector = new();
         protected TreeView MTvObjs;
 
-        public
-            Parameters(Element elem, ParameterSet paramSet)
+        public Parameters(Element elem, ParameterSet paramSet)
         {
             _mElem = elem;
 
@@ -94,12 +93,13 @@ namespace RevitLookup.Snoop.Forms
         /// <summary>
         ///     Clean up any resources being used.
         /// </summary>
-        protected override void
-            Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
-                if (components != null)
-                    components.Dispose();
+            {
+                components?.Dispose();
+            }
+
             base.Dispose(disposing);
         }
 
@@ -346,8 +346,7 @@ namespace RevitLookup.Snoop.Forms
 
         #endregion
 
-        protected void
-            AddParametersToTree(ParameterSet paramSet)
+        protected void AddParametersToTree(ParameterSet paramSet)
         {
             MTvObjs.Sorted = true;
 
@@ -387,8 +386,7 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void
-            DataItemSelected(object sender, EventArgs e)
+        protected void DataItemSelected(object sender, EventArgs e)
         {
             Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
@@ -398,8 +396,7 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            ContextMenuClick_Copy(object sender, EventArgs e)
+        private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
             if (MTvObjs.SelectedNode != null) Utils.CopyToClipboard(MLvData);
         }
@@ -409,8 +406,7 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            ContextMenuClick_BrowseReflection(object sender, EventArgs e)
+        private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
             Utils.BrowseReflection(MCurObj);
         }
@@ -420,8 +416,7 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            OnBnEnumSnoop(object sender, EventArgs e)
+        private void OnBnEnumSnoop(object sender, EventArgs e)
         {
             var enumMap = new Hashtable();
 
@@ -451,8 +446,7 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            OnBnEnumMap(object sender, EventArgs e)
+        private void OnBnEnumMap(object sender, EventArgs e)
         {
             var labelStrs = new ArrayList();
             var valueStrs = new ArrayList();
@@ -499,8 +493,7 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintMenuItem_Click(object sender, EventArgs e)
+        private void PrintMenuItem_Click(object sender, EventArgs e)
         {
             Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
             Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
@@ -511,8 +504,7 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintPreviewMenuItem_Click(object sender, EventArgs e)
+        private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
             Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
             Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
@@ -523,8 +515,7 @@ namespace RevitLookup.Snoop.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
             _mCurrentPrintItem = Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
         }

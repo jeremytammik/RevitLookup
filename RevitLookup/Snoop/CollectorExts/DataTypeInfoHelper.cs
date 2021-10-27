@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
+using RevitLookup.Extensions;
 using RevitLookup.Snoop.Data;
 using RevitLookup.Snoop.Data.PlaceHolders;
 using AssetProperty = Autodesk.Revit.DB.Visual.AssetProperty;
