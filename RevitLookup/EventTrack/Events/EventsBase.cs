@@ -40,20 +40,16 @@ namespace RevitLookup.EventTrack.Events
         {
         }
 
-        public bool
-        ShowDetails
+        public bool ShowDetails
         {
             get => MShowDetails;
             set => MShowDetails = value;
         }
 
 
-        public bool
-        AreEventsEnabled =>
-            MAreEventsEnabled;
+        public bool AreEventsEnabled => MAreEventsEnabled;
 
-        public void
-        EnableEvents()
+        public void EnableEvents()
         {
             Debug.Assert(MAreEventsEnabled == false);
 
@@ -61,10 +57,9 @@ namespace RevitLookup.EventTrack.Events
             MAreEventsEnabled = true;
         }
 
-        public void
-        DisableEvents()
+        public void DisableEvents()
         {
-            Debug.Assert(MAreEventsEnabled == true);
+            Debug.Assert(MAreEventsEnabled);
 
             DisableEventsImp();
             MAreEventsEnabled = false;

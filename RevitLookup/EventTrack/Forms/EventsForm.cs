@@ -64,7 +64,7 @@ namespace RevitLookup.EventTrack.Forms {
                 }
             }
             else {          // off
-                if (eventGroup.AreEventsEnabled == true) {
+                if (eventGroup.AreEventsEnabled) {
                     eventGroup.DisableEvents();
                 }
             }
