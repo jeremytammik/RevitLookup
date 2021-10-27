@@ -508,50 +508,60 @@ namespace RevitLookup.Xml.Forms
         GetImageIndex(XmlNodeType nType)
         {
             var imageIndex = 0;
-            
+
+            switch (nType)
+            {
                 // associate the correct image with this type of node
-            if (nType == XmlNodeType.Document)
-                imageIndex = 0;
-            else if (nType == XmlNodeType.Attribute)
-                imageIndex = 1;
-            else if (nType == XmlNodeType.CDATA)
-                imageIndex = 2;
-            else if (nType == XmlNodeType.Comment)
-                imageIndex = 3;
-            else if (nType == XmlNodeType.DocumentType)
-                imageIndex = 4;
-            else if (nType == XmlNodeType.Element)
-                imageIndex = 5;
-            else if (nType == XmlNodeType.Entity)
-                imageIndex = 6;
-            else if (nType == XmlNodeType.DocumentFragment)
-                imageIndex = 7;
-            else if (nType == XmlNodeType.ProcessingInstruction)
-                imageIndex = 8;
-            else if (nType == XmlNodeType.EntityReference)
-                imageIndex = 9;
-            else if (nType == XmlNodeType.Text)
-                imageIndex = 10;
-            else if (nType == XmlNodeType.XmlDeclaration)
-                imageIndex = 11;
-                
-                    // TBD: Not sure what when the rest of these come up yet?
-                    // I will reserve a spot in case they become significant
-            else if (nType == XmlNodeType.EndElement)
-                imageIndex = 12;
-            else if (nType == XmlNodeType.EndEntity)
-                imageIndex = 12;
-            else if (nType == XmlNodeType.None)
-                imageIndex = 12;
-            else if (nType == XmlNodeType.Notation)
-                imageIndex = 12;
-            else if (nType == XmlNodeType.SignificantWhitespace)
-                imageIndex = 12;
-            else if (nType == XmlNodeType.Whitespace)
-                imageIndex = 12;
-            else {
-                Debug.Assert(false);
-                imageIndex = 12;
+                case XmlNodeType.Document:
+                    imageIndex = 0;
+                    break;
+                case XmlNodeType.Attribute:
+                    imageIndex = 1;
+                    break;
+                case XmlNodeType.CDATA:
+                    imageIndex = 2;
+                    break;
+                case XmlNodeType.Comment:
+                    imageIndex = 3;
+                    break;
+                case XmlNodeType.DocumentType:
+                    imageIndex = 4;
+                    break;
+                case XmlNodeType.Element:
+                    imageIndex = 5;
+                    break;
+                case XmlNodeType.Entity:
+                    imageIndex = 6;
+                    break;
+                case XmlNodeType.DocumentFragment:
+                    imageIndex = 7;
+                    break;
+                case XmlNodeType.ProcessingInstruction:
+                    imageIndex = 8;
+                    break;
+                case XmlNodeType.EntityReference:
+                    imageIndex = 9;
+                    break;
+                case XmlNodeType.Text:
+                    imageIndex = 10;
+                    break;
+                case XmlNodeType.XmlDeclaration:
+                    imageIndex = 11;
+                    break;
+                // TBD: Not sure what when the rest of these come up yet?
+                // I will reserve a spot in case they become significant
+                case XmlNodeType.EndElement:
+                case XmlNodeType.EndEntity:
+                case XmlNodeType.None:
+                case XmlNodeType.Notation:
+                case XmlNodeType.SignificantWhitespace:
+                case XmlNodeType.Whitespace:
+                    imageIndex = 12;
+                    break;
+                default:
+                    Debug.Assert(false);
+                    imageIndex = 12;
+                    break;
             }
             
             return imageIndex;

@@ -75,14 +75,14 @@ namespace RevitLookup.Utils
 
             compareResult = _objectCompare.Compare(listviewX.SubItems[_columnToSort].Text, listviewY.SubItems[_columnToSort].Text);
 
-            if (_orderOfSort == SortOrder.Ascending) {
-                return compareResult;
-            }
-            else if (_orderOfSort == SortOrder.Descending) {
-                return (-compareResult);
-            }
-            else {
-                return 0;
+            switch (_orderOfSort)
+            {
+                case SortOrder.Ascending:
+                    return compareResult;
+                case SortOrder.Descending:
+                    return (-compareResult);
+                default:
+                    return 0;
             }
         }
 

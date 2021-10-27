@@ -63,22 +63,30 @@ namespace RevitLookup.Snoop.CollectorExts
         try
         {
             object propertyValue;
-            if (propertyInfo.Name == "Geometry")
-                propertyValue = propertyInfo.GetValue(_elem, new object[1] {new Options()});
-            else if (propertyInfo.Name == "BoundingBox")
-                propertyValue = propertyInfo.GetValue(_elem, new object[1] {_document.ActiveView});
-            else if (propertyInfo.Name == "Item")
-                propertyValue = propertyInfo.GetValue(_elem, new object[1] {0});
-            else if (propertyInfo.Name == "Parameter")
-                return;
-            else if (propertyInfo.Name == "PlanTopology")
-                return;
-            else if (propertyInfo.Name == "PlanTopologies" && propertyInfo.GetMethod.GetParameters().Length != 0)
-                return;
-            else if (propertyType.ContainsGenericParameters)
-                propertyValue = _elem.GetType().GetProperty(propertyInfo.Name)?.GetValue(_elem);
-            else
-                propertyValue = propertyInfo.GetValue(_elem);
+            switch (propertyInfo.Name)
+            {
+                case "Geometry":
+                    propertyValue = propertyInfo.GetValue(_elem, new object[1] {new Options()});
+                    break;
+                case "BoundingBox":
+                    propertyValue = propertyInfo.GetValue(_elem, new object[1] {_document.ActiveView});
+                    break;
+                case "Item":
+                    propertyValue = propertyInfo.GetValue(_elem, new object[1] {0});
+                    break;
+                case "Parameter":
+                case "PlanTopology":
+                case "PlanTopologies" when propertyInfo.GetMethod.GetParameters().Length != 0:
+                    return;
+                default:
+                {
+                    if (propertyType.ContainsGenericParameters)
+                        propertyValue = _elem.GetType().GetProperty(propertyInfo.Name)?.GetValue(_elem);
+                    else
+                        propertyValue = propertyInfo.GetValue(_elem);
+                    break;
+                }
+            }
 
             DataTypeInfoHelper.AddDataFromTypeInfo(_document, propertyInfo, propertyType, propertyValue, _elem, _data);
 

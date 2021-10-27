@@ -177,33 +177,28 @@ namespace RevitLookup.Snoop
 
        public static string ObjToLabelStr(object obj)
        {
-           if (obj == null)
-               return "< null >";
-
-           if (obj is IObjectToSnoopPlaceholder placeholder)
+           switch (obj)
            {
-                return placeholder.GetName();
+              case null:
+                 return "< null >";
+              case IObjectToSnoopPlaceholder placeholder:
+                 return placeholder.GetName();
+              case Element elem:
+                 // TBD: Exceptions are thrown in certain cases when accessing the Name property. 
+                 // Eg. for the RoomTag object. So we will catch the exception and display the exception message
+                 // arj - 1/23/07
+                 try
+                 {
+                    var nameStr = (elem.Name == string.Empty) ? "???" : elem.Name; // use "???" if no name is set
+                    return $"< {nameStr}  {elem.Id.IntegerValue} >";
+                 }
+                 catch (Exception ex)               
+                 {
+                    return $"< {null}  {ex.Message} >";
+                 }
+              default:
+                 return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? GetFamilyParameterObjectLabel(obj) ?? $"< {obj.GetType().Name} >";
            }
-
-           var elem = obj as Element;
-
-           if (elem != null)
-           {
-               // TBD: Exceptions are thrown in certain cases when accessing the Name property. 
-               // Eg. for the RoomTag object. So we will catch the exception and display the exception message
-               // arj - 1/23/07
-               try
-               {
-                   var nameStr = (elem.Name == string.Empty) ? "???" : elem.Name; // use "???" if no name is set
-                   return $"< {nameStr}  {elem.Id.IntegerValue} >";
-               }
-               catch (Exception ex)               
-               {
-                   return $"< {null}  {ex.Message} >";
-               }
-           }
-
-           return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? GetFamilyParameterObjectLabel(obj) ?? $"< {obj.GetType().Name} >";
        }
 
        public static void
@@ -239,19 +234,22 @@ namespace RevitLookup.Snoop
 
          foreach (ListViewItem item in lv.Items)
          {
-            if (item.SubItems.Count == 1)
+            switch (item.SubItems.Count)
             {
-               var tmp = item.Text;
-               if (item.Text.Length < maxField)
+               case 1:
                {
-                  tmp = item.Text.PadLeft(item.Text.Length + (maxField - item.Text.Length), '-');
-               }
+                  var tmp = item.Text;
+                  if (item.Text.Length < maxField)
+                  {
+                     tmp = item.Text.PadLeft(item.Text.Length + (maxField - item.Text.Length), '-');
+                  }
 
-               bldr.AppendFormat(headerFormat, tmp);
-            }
-            else if (item.SubItems.Count > 1)
-            {
-               bldr.AppendFormat(tabbedFormat, item.Text, item.SubItems[1].Text);
+                  bldr.AppendFormat(headerFormat, tmp);
+                  break;
+               }
+               case > 1:
+                  bldr.AppendFormat(tabbedFormat, item.Text, item.SubItems[1].Text);
+                  break;
             }
          }
 

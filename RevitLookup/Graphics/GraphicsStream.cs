@@ -192,22 +192,29 @@ namespace RevitLookup.Graphics {
         public virtual void
         StreamWcs(Curve curve)
         {
-            if (curve is Line line)
-                StreamWcs(line);
-            else if (curve is Arc arc)
-                StreamWcs(arc);
-            else if (curve is Ellipse ellipse)
-                StreamWcs(ellipse);
-            else if (curve is NurbSpline spline)
-                StreamWcs(spline);
-            else
-                StreamCurveAsTesselatedPointsWcs(curve);
+            switch (curve)
+            {
+                case Line line:
+                    StreamWcs(line);
+                    break;
+                case Arc arc:
+                    StreamWcs(arc);
+                    break;
+                case Ellipse ellipse:
+                    StreamWcs(ellipse);
+                    break;
+                case NurbSpline spline:
+                    StreamWcs(spline);
+                    break;
+                default:
+                    StreamCurveAsTesselatedPointsWcs(curve);
+                    break;
+            }
         }
 
         #endregion // Low-level geometric primitives
 
-        public virtual void
-        Stream(XYZ pt1, XYZ pt2)
+        public virtual void Stream(XYZ pt1, XYZ pt2)
         {
             if (HasXform)
                 StreamWcs(CurrentXform.OfPoint(pt1), CurrentXform.OfPoint(pt2));
@@ -215,8 +222,7 @@ namespace RevitLookup.Graphics {
                 StreamWcs(pt1, pt2);
         }
 
-        public virtual void
-        Stream(IList<XYZ> pts, bool closed)
+        public virtual void Stream(IList<XYZ> pts, bool closed)
         {
             if (pts.Count < 2) {
                 Debug.Assert(false); // have to have at least 2 points!
@@ -329,47 +335,50 @@ namespace RevitLookup.Graphics {
         public virtual void
         Stream(GeometryObject obj)
         {
-            if (obj is Curve curve) {
-                Stream(curve);
-            }
-            else if (obj is Edge edge) {
-                Stream(edge);
-            }
-            else if (obj is GeometryElement element) {
-                Stream(element);
-            }
-            else if (obj is ConicalFace conicalFace) {
-                Stream(conicalFace);
-            }
-            else if (obj is CylindricalFace cylindricalFace) {
-                Stream(cylindricalFace);
-            }
-            else if (obj is HermiteFace hermiteFace) {
-                Stream(hermiteFace);
-            }
-            else if (obj is PlanarFace planarFace) {
-                Stream(planarFace);
-            }
-            else if (obj is RevolvedFace revolvedFace) {
-                Stream(revolvedFace);
-            }
-            else if (obj is RuledFace ruledFace) {
-                Stream(ruledFace);
-            }
-            else if (obj is Face face) {
-                Stream(face);
-            }
-            else if (obj is GeometryInstance instance) {
-                Stream(instance);
-            }
-            else if (obj is Mesh mesh) {
-                Stream(mesh);
-            }
-            else if (obj is Profile profile) {
-                Stream(profile);
-            }
-            else if (obj is Solid solid) {
-                Stream(solid);
+            switch (obj)
+            {
+                case Curve curve:
+                    Stream(curve);
+                    break;
+                case Edge edge:
+                    Stream(edge);
+                    break;
+                case GeometryElement element:
+                    Stream(element);
+                    break;
+                case ConicalFace conicalFace:
+                    Stream(conicalFace);
+                    break;
+                case CylindricalFace cylindricalFace:
+                    Stream(cylindricalFace);
+                    break;
+                case HermiteFace hermiteFace:
+                    Stream(hermiteFace);
+                    break;
+                case PlanarFace planarFace:
+                    Stream(planarFace);
+                    break;
+                case RevolvedFace revolvedFace:
+                    Stream(revolvedFace);
+                    break;
+                case RuledFace ruledFace:
+                    Stream(ruledFace);
+                    break;
+                case Face face:
+                    Stream(face);
+                    break;
+                case GeometryInstance instance:
+                    Stream(instance);
+                    break;
+                case Mesh mesh:
+                    Stream(mesh);
+                    break;
+                case Profile profile:
+                    Stream(profile);
+                    break;
+                case Solid solid:
+                    Stream(solid);
+                    break;
             }
         }
 

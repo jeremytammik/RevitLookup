@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections;
+using System.Xml;
 
 
 namespace RevitLookup.Snoop.Collectors
@@ -73,42 +74,28 @@ namespace RevitLookup.Snoop.Collectors
             MDataObjs.Add(new Snoop.Data.String("BaseURI", node.BaseURI));
             MDataObjs.Add(new Snoop.Data.String("Namespace URI", node.NamespaceURI));
             MDataObjs.Add(new Snoop.Data.String("Prefix", node.Prefix));
-                        
+
+            switch (node)
+            {
                 // branch to all known major sub-classes
-            var att = node as System.Xml.XmlAttribute;
-            if (att != null) {
-                Stream(att);
-                return;
-            }
-            
-            var doc = node as System.Xml.XmlDocument;
-            if (doc != null) {
-                Stream(doc);
-                return;
-            }
-            
-            var docFrag = node as System.Xml.XmlDocumentFragment;
-            if (docFrag != null) {
-                Stream(docFrag);
-                return;
-            }
-            
-            var ent = node as System.Xml.XmlEntity;
-            if (ent != null) {
-                Stream(ent);
-                return;
-            }
-            
-            var notation = node as System.Xml.XmlNotation;
-            if (notation != null) {
-                Stream(notation);
-                return;
-            }
-            
-            var lnkNode = node as System.Xml.XmlLinkedNode;
-            if (lnkNode != null) {
-                Stream(lnkNode);
-                return;
+                case XmlAttribute att:
+                    Stream(att);
+                    return;
+                case XmlDocument doc:
+                    Stream(doc);
+                    return;
+                case XmlDocumentFragment docFrag:
+                    Stream(docFrag);
+                    return;
+                case XmlEntity ent:
+                    Stream(ent);
+                    return;
+                case XmlNotation notation:
+                    Stream(notation);
+                    return;
+                case XmlLinkedNode lnkNode:
+                    Stream(lnkNode);
+                    return;
             }
         }
         
@@ -127,42 +114,28 @@ namespace RevitLookup.Snoop.Collectors
 
                 // No data to show at this level, but we want to explicitly
                 // show that there is an intermediate class.
-                
-            var elem = lnkNode as System.Xml.XmlElement;
-            if (elem != null) {
-                Stream(elem);
-                return;
-            }
-            
-            var charData = lnkNode as System.Xml.XmlCharacterData;
-            if (charData != null) {
-                Stream(charData);
-                return;
-            }
-            
-            var decl = lnkNode as System.Xml.XmlDeclaration;
-            if (decl != null) {
-                Stream(decl);
-                return;
-            }
-            
-            var dType = lnkNode as System.Xml.XmlDocumentType;
-            if (dType != null) {
-                Stream(dType);
-                return;
-            }
-            
-            var entRef = lnkNode as System.Xml.XmlEntityReference;
-            if (entRef != null) {
-                Stream(entRef);
-                return;
-            }
-            
-            var pi = lnkNode as System.Xml.XmlProcessingInstruction;
-            if (pi != null) {
-                Stream(pi);
-                return;
-            }
+
+                switch (lnkNode)
+                {
+                    case XmlElement elem:
+                        Stream(elem);
+                        return;
+                    case XmlCharacterData charData:
+                        Stream(charData);
+                        return;
+                    case XmlDeclaration decl:
+                        Stream(decl);
+                        return;
+                    case XmlDocumentType dType:
+                        Stream(dType);
+                        return;
+                    case XmlEntityReference entRef:
+                        Stream(entRef);
+                        return;
+                    case XmlProcessingInstruction pi:
+                        Stream(pi);
+                        return;
+                }
         }
 
         
@@ -182,35 +155,24 @@ namespace RevitLookup.Snoop.Collectors
 
             MDataObjs.Add(new Data.Int("Length", charData.Length));
             MDataObjs.Add(new Snoop.Data.String("Data", charData.Data));
-            
-            var cDataSection = charData as System.Xml.XmlCDataSection;
-            if (cDataSection != null) {
-                Stream(cDataSection);
-                return;
-            }
-            
-            var comment = charData as System.Xml.XmlComment;
-            if (comment != null) {
-                Stream(comment);
-                return;
-            }
-            
-            var swSpace = charData as System.Xml.XmlSignificantWhitespace;
-            if (swSpace != null) {
-                Stream(swSpace);
-                return;
-            }
-            
-            var txt = charData as System.Xml.XmlText;
-            if (txt != null) {
-                Stream(txt);
-                return;
-            }
-            
-            var wSpace = charData as System.Xml.XmlWhitespace;
-            if (wSpace != null) {
-                Stream(wSpace);
-                return;
+
+            switch (charData)
+            {
+                case XmlCDataSection cDataSection:
+                    Stream(cDataSection);
+                    return;
+                case XmlComment comment:
+                    Stream(comment);
+                    return;
+                case XmlSignificantWhitespace swSpace:
+                    Stream(swSpace);
+                    return;
+                case XmlText txt:
+                    Stream(txt);
+                    return;
+                case XmlWhitespace wSpace:
+                    Stream(wSpace);
+                    return;
             }
         }
         

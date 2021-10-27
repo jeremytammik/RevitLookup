@@ -127,23 +127,19 @@ FindSymbolNode( ElementType sym )
     private ElementType
     GetSymbolRef( Element elem )
     {
-      var famInst = elem as FamilyInstance;
-      if( famInst != null )
-        return famInst.Symbol;
-
-      var floor = elem as Floor;
-      if( floor != null )
-        return floor.FloorType;
-
-      var group = elem as Group;
-      if( group != null )
-        return group.GroupType;
-
-      var wall = elem as Wall;
-      if( wall != null )
-        return wall.WallType;
-
-      return null;    // nothing we know about
+      switch (elem)
+      {
+        case FamilyInstance famInst:
+          return famInst.Symbol;
+        case Floor floor:
+          return floor.FloorType;
+        case Group @group:
+          return @group.GroupType;
+        case Wall wall:
+          return wall.WallType;
+        default:
+          return null;    // nothing we know about
+      }
     }
 
     private void
@@ -332,30 +328,28 @@ FindSymbolNode( ElementType sym )
       {
         stream.WriteStartElement( "Param" );
         stream.WriteAttributeString( "name", tmpObj.Definition.Name );
-        if( tmpObj.StorageType == StorageType.Double )
+        switch (tmpObj.StorageType)
         {
-          stream.WriteAttributeString( "dataType", "double" );
-          stream.WriteAttributeString( "value", tmpObj.AsDouble().ToString() );
-        }
-        else if( tmpObj.StorageType == StorageType.ElementId )
-        {
-          stream.WriteAttributeString( "dataType", "elemId" );
-          stream.WriteAttributeString( "value", tmpObj.AsElementId().IntegerValue.ToString() );
-        }
-        else if( tmpObj.StorageType == StorageType.Integer )
-        {
-          stream.WriteAttributeString( "dataType", "int" );
-          stream.WriteAttributeString( "value", tmpObj.AsInteger().ToString() );
-        }
-        else if( tmpObj.StorageType == StorageType.String )
-        {
-          stream.WriteAttributeString( "dataType", "string" );
-          stream.WriteAttributeString( "value", tmpObj.AsString() );
-        }
-        else if( tmpObj.StorageType == StorageType.None )
-        {
-          stream.WriteAttributeString( "dataType", "none" );
-          stream.WriteAttributeString( "value", "???" );
+          case StorageType.Double:
+            stream.WriteAttributeString( "dataType", "double" );
+            stream.WriteAttributeString( "value", tmpObj.AsDouble().ToString() );
+            break;
+          case StorageType.ElementId:
+            stream.WriteAttributeString( "dataType", "elemId" );
+            stream.WriteAttributeString( "value", tmpObj.AsElementId().IntegerValue.ToString() );
+            break;
+          case StorageType.Integer:
+            stream.WriteAttributeString( "dataType", "int" );
+            stream.WriteAttributeString( "value", tmpObj.AsInteger().ToString() );
+            break;
+          case StorageType.String:
+            stream.WriteAttributeString( "dataType", "string" );
+            stream.WriteAttributeString( "value", tmpObj.AsString() );
+            break;
+          case StorageType.None:
+            stream.WriteAttributeString( "dataType", "none" );
+            stream.WriteAttributeString( "value", "???" );
+            break;
         }
         stream.WriteEndElement();   // "Param"
       }
