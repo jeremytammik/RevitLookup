@@ -5,21 +5,28 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitLookup", "RevitLookup\RevitLookup.csproj", "{05C77115-2277-4DFC-8F95-BE37E5F1130F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer", "Installer\Installer.csproj", "{B3814652-9158-4056-A721-1A380DE74BAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "build", "build\build.csproj", "{64D9C223-D070-46CD-A635-04FD4E1BEC3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Release|x64 = Release|x64
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Installer|Any CPU = Installer|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|x64.ActiveCfg = Debug|x64
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|x64.Build.0 = Debug|x64
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|x64.ActiveCfg = Release|x64
-		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|x64.Build.0 = Release|x64
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {CDC9D108-9880-46A7-B5BE-86ED4F593005}
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Installer|Any CPU.ActiveCfg = Release|Any CPU
+		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Installer|Any CPU.ActiveCfg = Release|Any CPU
+		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3814652-9158-4056-A721-1A380DE74BAE}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{B3814652-9158-4056-A721-1A380DE74BAE}.Installer|Any CPU.ActiveCfg = Release|Any CPU
+		{B3814652-9158-4056-A721-1A380DE74BAE}.Installer|Any CPU.Build.0 = Release|Any CPU
+		{B3814652-9158-4056-A721-1A380DE74BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 EndGlobal

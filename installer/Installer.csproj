@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <Configurations>Release</Configurations>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
+        <Optimize>true</Optimize>
+        <DebugType>none</DebugType>
+        <DefineConstants/>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="WixSharp">
+            <Version>1.18.1</Version>
+        </PackageReference>
+        <PackageReference Include="WixSharp.wix.bin">
+            <Version>3.11.2</Version>
+        </PackageReference>
+    </ItemGroup>
+</Project>
