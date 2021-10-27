@@ -13,7 +13,7 @@ namespace Installer
     public static class Installer
     {
         private const string InstallationDir = @"%AppDataFolder%\Autodesk\Revit\Addins\";
-        private const string ProjectName = "RevitLookup";
+        private const string ProjectName = "Revit Lookup";
         private const string OutputName = "RevitLookup";
         private const string OutputDir = "output";
         private const string Version = "22.0.1";
@@ -39,7 +39,7 @@ namespace Installer
                 BannerImage = @"Installer\Resources\Icons\BannerImage.png",
                 ControlPanelInfo =
                 {
-                    Manufacturer = Environment.UserName,
+                    Manufacturer = "Jeremy Tammik",
                     ProductIcon = @"Installer\Resources\Icons\ShellIcon.ico"
                 },
                 Dirs = new Dir[]

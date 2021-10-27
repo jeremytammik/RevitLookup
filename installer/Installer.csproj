@@ -8,7 +8,7 @@
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
         <Optimize>true</Optimize>
         <DebugType>none</DebugType>
-        <DefineConstants/>
+        <DefineConstants />
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="WixSharp">
