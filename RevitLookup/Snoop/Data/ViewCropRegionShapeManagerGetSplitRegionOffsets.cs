@@ -18,7 +18,7 @@ namespace RevitLookup.Snoop.Data
             return "< Split Region Offsets >";
         }
 
-        public override bool HasDrillDown => _viewCropRegionShapeManager != null && _viewCropRegionShapeManager.NumberOfSplitRegions > 1;
+        public override bool HasDrillDown => _viewCropRegionShapeManager is {NumberOfSplitRegions: > 1};
 
         public override System.Windows.Forms.Form DrillDown()
         {

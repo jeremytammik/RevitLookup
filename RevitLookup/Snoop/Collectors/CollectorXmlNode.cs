@@ -44,8 +44,7 @@ namespace RevitLookup.Snoop.Collectors
 		{
 		}
 		
-		public void
-		Collect(System.Xml.XmlNode node)
+		public void Collect(XmlNode node)
 		{
             MDataObjs.Clear();
             Stream(node);
@@ -57,10 +56,9 @@ namespace RevitLookup.Snoop.Collectors
 		}
 	
             //  main branch for anything derived from System.Xml.XmlNode
-		private void
-		Stream(System.Xml.XmlNode node)
+		private void Stream(XmlNode node)
 		{
-		    MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlNode)));
+		    MDataObjs.Add(new Data.ClassSeparator(typeof(XmlNode)));
 		    
             MDataObjs.Add(new Snoop.Data.String("Node type", node.NodeType.ToString()));
             MDataObjs.Add(new Snoop.Data.String("Name", node.Name));
@@ -99,18 +97,16 @@ namespace RevitLookup.Snoop.Collectors
             }
         }
         
-        private void
-        Stream(System.Xml.XmlAttribute att)
+        private void Stream(XmlAttribute att)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlAttribute)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlAttribute)));
 
             MDataObjs.Add(new Data.Bool("Specified", att.Specified));
         }
         
-        private void
-        Stream(System.Xml.XmlLinkedNode lnkNode)
+        private void Stream(XmlLinkedNode lnkNode)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlLinkedNode)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlLinkedNode)));
 
                 // No data to show at this level, but we want to explicitly
                 // show that there is an intermediate class.
@@ -139,19 +135,17 @@ namespace RevitLookup.Snoop.Collectors
         }
 
         
-        private void
-        Stream(System.Xml.XmlElement elem)
+        private void Stream(XmlElement elem)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlElement)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlElement)));
 
             MDataObjs.Add(new Data.Bool("Has attributes", elem.HasAttributes));
             MDataObjs.Add(new Data.Bool("Is empty", elem.IsEmpty));
         }
         
-        private void
-        Stream(System.Xml.XmlCharacterData charData)
+        private void Stream(XmlCharacterData charData)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlCharacterData)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlCharacterData)));
 
             MDataObjs.Add(new Data.Int("Length", charData.Length));
             MDataObjs.Add(new Snoop.Data.String("Data", charData.Data));
@@ -176,113 +170,101 @@ namespace RevitLookup.Snoop.Collectors
             }
         }
         
-        private void
-        Stream(System.Xml.XmlCDataSection cDataSection)
+        private void Stream(XmlCDataSection cDataSection)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlCDataSection)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlCDataSection)));
 
 			// do data to display at this level
         }
 
         private void
-        Stream(System.Xml.XmlComment comment)
+        Stream(XmlComment comment)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlComment)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlComment)));
 
             // no data to display at this level
         }
         
-        private void
-        Stream(System.Xml.XmlDeclaration decl)
+        private void Stream(XmlDeclaration decl)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlDeclaration)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlDeclaration)));
 
             MDataObjs.Add(new Snoop.Data.String("Encoding", decl.Encoding));
             MDataObjs.Add(new Snoop.Data.String("Standalone", decl.Standalone));
             MDataObjs.Add(new Snoop.Data.String("Version", decl.Version));
         }
 
-        private void
-        Stream(System.Xml.XmlDocument doc)
+        private void Stream(XmlDocument doc)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlDocument)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlDocument)));
 
             MDataObjs.Add(new Data.Bool("Preserve whitespace", doc.PreserveWhitespace));
         }
 
-        private void
-        Stream(System.Xml.XmlDocumentFragment doc)
+        private void Stream(XmlDocumentFragment doc)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlDocumentFragment)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlDocumentFragment)));
 
             // no data to display at this level
         }
 
-        private void
-        Stream(System.Xml.XmlDocumentType dType)
+        private void Stream(XmlDocumentType dType)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlDocumentType)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlDocumentType)));
 
             MDataObjs.Add(new Snoop.Data.String("Internal subset", dType.InternalSubset));
             MDataObjs.Add(new Snoop.Data.String("Public ID", dType.PublicId));
             MDataObjs.Add(new Snoop.Data.String("System ID", dType.SystemId));
         }
 
-        private void
-        Stream(System.Xml.XmlEntity ent)
+        private void Stream(XmlEntity ent)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlEntity)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlEntity)));
 
             MDataObjs.Add(new Snoop.Data.String("Notation name", ent.NotationName));
             MDataObjs.Add(new Snoop.Data.String("Public ID", ent.PublicId));
             MDataObjs.Add(new Snoop.Data.String("System ID", ent.SystemId));
         }
         
-        private void
-        Stream(System.Xml.XmlEntityReference entRef)
+        private void Stream(XmlEntityReference entRef)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlEntityReference)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlEntityReference)));
 
             // no data to display at this level
         }
         
-        private void
-        Stream(System.Xml.XmlNotation notation)
+        private void Stream(XmlNotation notation)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlNotation)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlNotation)));
 
             MDataObjs.Add(new Snoop.Data.String("Public ID", notation.PublicId));
             MDataObjs.Add(new Snoop.Data.String("System ID", notation.SystemId));
         }
         
-        private void
-        Stream(System.Xml.XmlProcessingInstruction pi)
+        private void Stream(XmlProcessingInstruction pi)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlProcessingInstruction)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlProcessingInstruction)));
 
             MDataObjs.Add(new Snoop.Data.String("Target", pi.Target));
         }
         
-        private void
-        Stream(System.Xml.XmlSignificantWhitespace swSpace)
+        private void Stream(XmlSignificantWhitespace swSpace)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlSignificantWhitespace)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlSignificantWhitespace)));
 
             // no data to display at this level
         }
         
-        private void
-        Stream(System.Xml.XmlText text)
+        private void Stream(XmlText text)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlText)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlText)));
 
             // no data to display at this level
         }
         
-        private void
-        Stream(System.Xml.XmlWhitespace wSpace)
+        private void Stream(XmlWhitespace wSpace)
         {
-            MDataObjs.Add(new Data.ClassSeparator(typeof(System.Xml.XmlWhitespace)));
+            MDataObjs.Add(new Data.ClassSeparator(typeof(XmlWhitespace)));
 
             // no data to display at this level
         }

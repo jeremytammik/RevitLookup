@@ -64,7 +64,7 @@ namespace RevitLookup.Snoop.Collectors
 
         private void Collect(UIApplication app, Document document, CollectorObj collector, Object objectToSnoop)
         {
-            var transaction = document != null && document.IsModifiable == false ? new Transaction(document, GetType().Name) : null;
+            var transaction = document is {IsModifiable: false} ? new Transaction(document, GetType().Name) : null;
             transaction?.Start();
 
             if (objectToSnoop is IObjectToSnoopPlaceholder placeholder)

@@ -66,7 +66,7 @@ namespace RevitLookup.Snoop.Data
         
         public override System.Windows.Forms.Form DrillDown()
         {
-			if ((MVal != null) && (MVal.IsEmpty == false)) {
+			if (MVal is {IsEmpty: false}) {
 				var form = new Forms.Parameters(MElem, MVal);
 				return form;
 			}

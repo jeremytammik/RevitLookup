@@ -19,7 +19,7 @@ namespace RevitLookup.Snoop.Data
             return "< Get Section Data >";
         }
 
-        public override bool HasDrillDown => _tableData != null && _tableData.NumberOfSections > 0;
+        public override bool HasDrillDown => _tableData is {NumberOfSections: > 0};
 
         public override System.Windows.Forms.Form DrillDown()
         {

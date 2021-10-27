@@ -606,7 +606,7 @@ namespace RevitLookup.Xml.Forms
         GetTextLabelValue(XmlNode node)
         {
             var txtNode = node.FirstChild;
-            if ((txtNode != null) && (txtNode.NodeType == XmlNodeType.Text)) {
+            if (txtNode is {NodeType: XmlNodeType.Text}) {
                 return txtNode.Value;
             }
             else {
@@ -771,7 +771,7 @@ namespace RevitLookup.Xml.Forms
 
             try {
                 var selNodes = curNode.SelectNodes(_mEbXpathPattern.Text);
-                if ((selNodes != null) && (selNodes.Count > 0)) {
+                if (selNodes is {Count: > 0}) {
                     _mTvDom.BeginUpdate();
                     
                     SetSelectedNodes(_mTvDom.Nodes, selNodes);
