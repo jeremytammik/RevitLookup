@@ -43,18 +43,18 @@ namespace RevitLookup
 
         public void EnableEvents()
         {
-            m_app.DocumentClosed   += new EventHandler<Autodesk.Revit.DB.Events.DocumentClosedEventArgs>(m_app_DocumentClosed);
-            m_app.DocumentOpened   += new EventHandler<Autodesk.Revit.DB.Events.DocumentOpenedEventArgs>(m_app_DocumentOpened);
-            m_app.DocumentSaved    += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedEventArgs>(m_app_DocumentSaved);
-            m_app.DocumentSavedAs  += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs>(m_app_DocumentSavedAs);            
+            m_app.DocumentClosed   += m_app_DocumentClosed;
+            m_app.DocumentOpened   += m_app_DocumentOpened;
+            m_app.DocumentSaved    += m_app_DocumentSaved;
+            m_app.DocumentSavedAs  += m_app_DocumentSavedAs;            
         }        
 
         public void DisableEvents()
         {
-            m_app.DocumentClosed   -= new EventHandler<Autodesk.Revit.DB.Events.DocumentClosedEventArgs>(m_app_DocumentClosed);
-            m_app.DocumentOpened   -= new EventHandler<Autodesk.Revit.DB.Events.DocumentOpenedEventArgs>(m_app_DocumentOpened);
-            m_app.DocumentSaved    -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedEventArgs>(m_app_DocumentSaved);
-            m_app.DocumentSavedAs  -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs>(m_app_DocumentSavedAs);            
+            m_app.DocumentClosed   -= m_app_DocumentClosed;
+            m_app.DocumentOpened   -= m_app_DocumentOpened;
+            m_app.DocumentSaved    -= m_app_DocumentSaved;
+            m_app.DocumentSavedAs  -= m_app_DocumentSavedAs;            
         }
 
         void m_app_DocumentSavedAs(object sender, Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs e)

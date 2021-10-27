@@ -61,15 +61,15 @@ namespace RevitLookup.EventTrack.Events
         public void
         EnableEvents(Document doc)
         {
-            doc.DocumentClosing += new EventHandler<Autodesk.Revit.DB.Events.DocumentClosingEventArgs>(doc_DocumentClosing);
-            doc.DocumentPrinted += new EventHandler<Autodesk.Revit.DB.Events.DocumentPrintedEventArgs>(doc_DocumentPrinted);
-            doc.DocumentPrinting += new EventHandler<Autodesk.Revit.DB.Events.DocumentPrintingEventArgs>(doc_DocumentPrinting);
-            doc.DocumentSaved += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedEventArgs>(doc_DocumentSaved);
-            doc.DocumentSavedAs += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs>(doc_DocumentSavedAs);
-            doc.DocumentSaving += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavingEventArgs>(doc_DocumentSaving);
-            doc.DocumentSavingAs += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs>(doc_DocumentSavingAs);
-            doc.ViewPrinted += new EventHandler<Autodesk.Revit.DB.Events.ViewPrintedEventArgs>(doc_ViewPrinted);
-            doc.ViewPrinting += new EventHandler<Autodesk.Revit.DB.Events.ViewPrintingEventArgs>(doc_ViewPrinting);            
+            doc.DocumentClosing += doc_DocumentClosing;
+            doc.DocumentPrinted += doc_DocumentPrinted;
+            doc.DocumentPrinting += doc_DocumentPrinting;
+            doc.DocumentSaved += doc_DocumentSaved;
+            doc.DocumentSavedAs += doc_DocumentSavedAs;
+            doc.DocumentSaving += doc_DocumentSaving;
+            doc.DocumentSavingAs += doc_DocumentSavingAs;
+            doc.ViewPrinted += doc_ViewPrinted;
+            doc.ViewPrinting += doc_ViewPrinting;            
         }        
 
         protected override void
@@ -86,15 +86,15 @@ namespace RevitLookup.EventTrack.Events
         public void
         DisableEvents(Document doc)
         {
-            doc.DocumentClosing -= new EventHandler<Autodesk.Revit.DB.Events.DocumentClosingEventArgs>(doc_DocumentClosing);
-            doc.DocumentPrinted -= new EventHandler<Autodesk.Revit.DB.Events.DocumentPrintedEventArgs>(doc_DocumentPrinted);
-            doc.DocumentPrinting -= new EventHandler<Autodesk.Revit.DB.Events.DocumentPrintingEventArgs>(doc_DocumentPrinting);
-            doc.DocumentSaved -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedEventArgs>(doc_DocumentSaved);
-            doc.DocumentSavedAs -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs>(doc_DocumentSavedAs);
-            doc.DocumentSaving -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavingEventArgs>(doc_DocumentSaving);
-            doc.DocumentSavingAs -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs>(doc_DocumentSavingAs);
-            doc.ViewPrinted -= new EventHandler<Autodesk.Revit.DB.Events.ViewPrintedEventArgs>(doc_ViewPrinted);
-            doc.ViewPrinting -= new EventHandler<Autodesk.Revit.DB.Events.ViewPrintingEventArgs>(doc_ViewPrinting);
+            doc.DocumentClosing -= doc_DocumentClosing;
+            doc.DocumentPrinted -= doc_DocumentPrinted;
+            doc.DocumentPrinting -= doc_DocumentPrinting;
+            doc.DocumentSaved -= doc_DocumentSaved;
+            doc.DocumentSavedAs -= doc_DocumentSavedAs;
+            doc.DocumentSaving -= doc_DocumentSaving;
+            doc.DocumentSavingAs -= doc_DocumentSavingAs;
+            doc.ViewPrinted -= doc_ViewPrinted;
+            doc.ViewPrinting -= doc_ViewPrinting;
         }
 
         void doc_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)

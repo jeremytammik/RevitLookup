@@ -48,26 +48,26 @@ namespace RevitLookup.EventTrack.Events {
         {           
             MessageBox.Show("Application Events Turned On ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
            
-            m_app.DocumentClosed += new EventHandler<Autodesk.Revit.DB.Events.DocumentClosedEventArgs>(m_app_DocumentClosed);
-            m_app.DocumentClosing += new EventHandler<Autodesk.Revit.DB.Events.DocumentClosingEventArgs>(m_app_DocumentClosing);
-            m_app.DocumentOpened += new EventHandler<Autodesk.Revit.DB.Events.DocumentOpenedEventArgs>(m_app_DocumentOpened);
-            m_app.DocumentOpening += new EventHandler<Autodesk.Revit.DB.Events.DocumentOpeningEventArgs>(m_app_DocumentOpening);
-            m_app.DocumentCreated += new EventHandler<Autodesk.Revit.DB.Events.DocumentCreatedEventArgs>(m_app_DocumentCreated);
-            m_app.DocumentCreating += new EventHandler<Autodesk.Revit.DB.Events.DocumentCreatingEventArgs>(m_app_DocumentCreating);
-            m_app.DocumentSaved += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedEventArgs>(m_app_DocumentSaved);
-            m_app.DocumentSaving += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavingEventArgs>(m_app_DocumentSaving);           
-            m_app.DocumentSavedAs += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs>(m_app_DocumentSavedAs);
-            m_app.DocumentSavingAs += new EventHandler<Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs>(m_app_DocumentSavingAs);
-            m_app.DocumentPrinted += new EventHandler<Autodesk.Revit.DB.Events.DocumentPrintedEventArgs>(m_app_DocumentPrinted);
-            m_app.DocumentPrinting += new EventHandler<Autodesk.Revit.DB.Events.DocumentPrintingEventArgs>(m_app_DocumentPrinting);
-            m_app.DocumentSynchronizedWithCentral += new EventHandler<Autodesk.Revit.DB.Events.DocumentSynchronizedWithCentralEventArgs>(m_app_DocumentSavedToCentral);                        
-            m_app.DocumentSynchronizingWithCentral += new EventHandler<Autodesk.Revit.DB.Events.DocumentSynchronizingWithCentralEventArgs>(m_app_DocumentSavingToCentral);
-            m_app.FileExported += new EventHandler<Autodesk.Revit.DB.Events.FileExportedEventArgs>(m_app_FileExported);
-            m_app.FileExporting += new EventHandler<Autodesk.Revit.DB.Events.FileExportingEventArgs>(m_app_FileExporting);
-            m_app.FileImported += new EventHandler<Autodesk.Revit.DB.Events.FileImportedEventArgs>(m_app_FileImported);
-            m_app.FileImporting += new EventHandler<Autodesk.Revit.DB.Events.FileImportingEventArgs>(m_app_FileImporting);
-            m_app.ViewPrinted += new EventHandler<Autodesk.Revit.DB.Events.ViewPrintedEventArgs>(m_app_ViewPrinted);
-            m_app.ViewPrinting += new EventHandler<Autodesk.Revit.DB.Events.ViewPrintingEventArgs>(m_app_ViewPrinting);                                                 
+            m_app.DocumentClosed += m_app_DocumentClosed;
+            m_app.DocumentClosing += m_app_DocumentClosing;
+            m_app.DocumentOpened += m_app_DocumentOpened;
+            m_app.DocumentOpening += m_app_DocumentOpening;
+            m_app.DocumentCreated += m_app_DocumentCreated;
+            m_app.DocumentCreating += m_app_DocumentCreating;
+            m_app.DocumentSaved += m_app_DocumentSaved;
+            m_app.DocumentSaving += m_app_DocumentSaving;           
+            m_app.DocumentSavedAs += m_app_DocumentSavedAs;
+            m_app.DocumentSavingAs += m_app_DocumentSavingAs;
+            m_app.DocumentPrinted += m_app_DocumentPrinted;
+            m_app.DocumentPrinting += m_app_DocumentPrinting;
+            m_app.DocumentSynchronizedWithCentral += m_app_DocumentSavedToCentral;                        
+            m_app.DocumentSynchronizingWithCentral += m_app_DocumentSavingToCentral;
+            m_app.FileExported += m_app_FileExported;
+            m_app.FileExporting += m_app_FileExporting;
+            m_app.FileImported += m_app_FileImported;
+            m_app.FileImporting += m_app_FileImporting;
+            m_app.ViewPrinted += m_app_ViewPrinted;
+            m_app.ViewPrinting += m_app_ViewPrinting;                                                 
         }        
 
         protected override void
@@ -75,26 +75,26 @@ namespace RevitLookup.EventTrack.Events {
         {            
             MessageBox.Show("Application Events Turned Off ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            m_app.DocumentClosed -= new EventHandler<Autodesk.Revit.DB.Events.DocumentClosedEventArgs>(m_app_DocumentClosed);
-            m_app.DocumentClosing -= new EventHandler<Autodesk.Revit.DB.Events.DocumentClosingEventArgs>(m_app_DocumentClosing);
-            m_app.DocumentOpened -= new EventHandler<Autodesk.Revit.DB.Events.DocumentOpenedEventArgs>(m_app_DocumentOpened);
-            m_app.DocumentOpening -= new EventHandler<Autodesk.Revit.DB.Events.DocumentOpeningEventArgs>(m_app_DocumentOpening);
-            m_app.DocumentCreated -= new EventHandler<Autodesk.Revit.DB.Events.DocumentCreatedEventArgs>(m_app_DocumentCreated);
-            m_app.DocumentCreating -= new EventHandler<Autodesk.Revit.DB.Events.DocumentCreatingEventArgs>(m_app_DocumentCreating);
-            m_app.DocumentSaved -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedEventArgs>(m_app_DocumentSaved);
-            m_app.DocumentSaving -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavingEventArgs>(m_app_DocumentSaving);
-            m_app.DocumentSavedAs -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavedAsEventArgs>(m_app_DocumentSavedAs);
-            m_app.DocumentSavingAs -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSavingAsEventArgs>(m_app_DocumentSavingAs);
-            m_app.DocumentPrinted -= new EventHandler<Autodesk.Revit.DB.Events.DocumentPrintedEventArgs>(m_app_DocumentPrinted);
-            m_app.DocumentPrinting -= new EventHandler<Autodesk.Revit.DB.Events.DocumentPrintingEventArgs>(m_app_DocumentPrinting);
-            m_app.DocumentSynchronizedWithCentral -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSynchronizedWithCentralEventArgs>(m_app_DocumentSavedToCentral);
-            m_app.DocumentSynchronizingWithCentral -= new EventHandler<Autodesk.Revit.DB.Events.DocumentSynchronizingWithCentralEventArgs>(m_app_DocumentSavingToCentral);
-            m_app.FileExported -= new EventHandler<Autodesk.Revit.DB.Events.FileExportedEventArgs>(m_app_FileExported);
-            m_app.FileExporting -= new EventHandler<Autodesk.Revit.DB.Events.FileExportingEventArgs>(m_app_FileExporting);
-            m_app.FileImported -= new EventHandler<Autodesk.Revit.DB.Events.FileImportedEventArgs>(m_app_FileImported);
-            m_app.FileImporting -= new EventHandler<Autodesk.Revit.DB.Events.FileImportingEventArgs>(m_app_FileImporting);
-            m_app.ViewPrinted -= new EventHandler<Autodesk.Revit.DB.Events.ViewPrintedEventArgs>(m_app_ViewPrinted);
-            m_app.ViewPrinting -= new EventHandler<Autodesk.Revit.DB.Events.ViewPrintingEventArgs>(m_app_ViewPrinting);   
+            m_app.DocumentClosed -= m_app_DocumentClosed;
+            m_app.DocumentClosing -= m_app_DocumentClosing;
+            m_app.DocumentOpened -= m_app_DocumentOpened;
+            m_app.DocumentOpening -= m_app_DocumentOpening;
+            m_app.DocumentCreated -= m_app_DocumentCreated;
+            m_app.DocumentCreating -= m_app_DocumentCreating;
+            m_app.DocumentSaved -= m_app_DocumentSaved;
+            m_app.DocumentSaving -= m_app_DocumentSaving;
+            m_app.DocumentSavedAs -= m_app_DocumentSavedAs;
+            m_app.DocumentSavingAs -= m_app_DocumentSavingAs;
+            m_app.DocumentPrinted -= m_app_DocumentPrinted;
+            m_app.DocumentPrinting -= m_app_DocumentPrinting;
+            m_app.DocumentSynchronizedWithCentral -= m_app_DocumentSavedToCentral;
+            m_app.DocumentSynchronizingWithCentral -= m_app_DocumentSavingToCentral;
+            m_app.FileExported -= m_app_FileExported;
+            m_app.FileExporting -= m_app_FileExporting;
+            m_app.FileImported -= m_app_FileImported;
+            m_app.FileImporting -= m_app_FileImporting;
+            m_app.ViewPrinted -= m_app_ViewPrinted;
+            m_app.ViewPrinting -= m_app_ViewPrinting;   
         }
 
         void m_app_ViewPrinting(object sender, Autodesk.Revit.DB.Events.ViewPrintingEventArgs e)
