@@ -143,8 +143,7 @@ namespace RevitLookup.ModelStats
     {
       // if it is a Symbol element, just make an entry in our map
       // and get out.
-      var sym = elem as ElementType;
-      if( sym != null )
+      if( elem is ElementType sym )
       {
         var tmpNode = FindSymbolNode( sym );
         if( tmpNode == null )
@@ -242,8 +241,7 @@ namespace RevitLookup.ModelStats
         // list a reference to each element of this type
         foreach( var tmpObj in tmpNode.MObjs )
         {
-          var tmpElem = tmpObj as Element;
-          if( tmpElem != null )
+          if( tmpObj is Element tmpElem )
           {
             stream.WriteStartElement( "ElementRef" );
             stream.WriteAttributeString( "idRef", tmpElem.Id.IntegerValue.ToString() );

@@ -90,8 +90,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
             DataTypeInfoHelper.AddDataFromTypeInfo(_document, propertyInfo, propertyType, propertyValue, _elem, _data);
 
-            var category = _elem as Category;
-            if (category != null && propertyInfo.Name == "Id" && category.Id.IntegerValue < 0)
+            if (_elem is Category category && propertyInfo.Name == "Id" && category.Id.IntegerValue < 0)
             {
                 var bic = (BuiltInCategory) category.Id.IntegerValue;
 

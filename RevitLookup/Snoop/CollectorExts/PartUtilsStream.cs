@@ -18,10 +18,9 @@ namespace RevitLookup.Snoop.CollectorExts
 
         public void Stream(Type type)
         {
-            var element = _elem as Element;
             var part = _elem as Part;
 
-            if (type == typeof(Element) && element != null)
+            if (type == typeof(Element) && _elem is Element element)
             {
                 _data.Add(new Data.MemberSeparatorWithOffset(nameof(PartUtils)));
                 _data.Add(new Data.Bool(nameof(PartUtils.AreElementsValidForCreateParts), PartUtils.AreElementsValidForCreateParts(element.Document, new[] { element.Id, })));

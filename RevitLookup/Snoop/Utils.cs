@@ -434,9 +434,8 @@ namespace RevitLookup.Snoop
       GetPrintDocumentName(TreeNode node)
       {
          var root = GetRootNode(node);
-         var str = root.Tag as String;
 
-         if (str != null)
+         if (root.Tag is string str)
          {
             return System.IO.Path.GetFileNameWithoutExtension((String)root.Tag);
          }
