@@ -53,8 +53,7 @@ namespace RevitLookup.Graphics {
 
         #region Transformation Stack
 
-        public virtual void
-        PushXform(Transform mat)
+        public virtual void PushXform(Transform mat)
         {
             if (MXformStack.Count > 0) {
                 MXformStack.Push(MXformStack.Peek() * mat);
@@ -64,8 +63,7 @@ namespace RevitLookup.Graphics {
             }
         }
 
-        public virtual void
-        PopXform()
+        public virtual void PopXform()
         {
             MXformStack.Pop();
         }
@@ -74,9 +72,7 @@ namespace RevitLookup.Graphics {
         CurrentXform =>
             MXformStack.Peek();
 
-        public Boolean
-        HasXform =>
-            (MXformStack.Count == 0) ? false : true;
+        public Boolean HasXform => (MXformStack.Count == 0) ? false : true;
 
         #endregion
 
@@ -95,8 +91,7 @@ namespace RevitLookup.Graphics {
         }
 
         public Options
-        CurrentGeometryOptions =>
-            MGeomOptionsStack.Peek();
+        CurrentGeometryOptions => MGeomOptionsStack.Peek();
 
         #endregion
 
@@ -197,14 +192,14 @@ namespace RevitLookup.Graphics {
         public virtual void
         StreamWcs(Curve curve)
         {
-            if (curve is Line)
-                StreamWcs(curve as Line);
-            else if (curve is Arc)
-                StreamWcs(curve as Arc);
-            else if (curve is Ellipse)
-                StreamWcs(curve as Ellipse);
-            else if (curve is NurbSpline)
-                StreamWcs(curve as NurbSpline);
+            if (curve is Line line)
+                StreamWcs(line);
+            else if (curve is Arc arc)
+                StreamWcs(arc);
+            else if (curve is Ellipse ellipse)
+                StreamWcs(ellipse);
+            else if (curve is NurbSpline spline)
+                StreamWcs(spline);
             else
                 StreamCurveAsTesselatedPointsWcs(curve);
         }
@@ -334,47 +329,47 @@ namespace RevitLookup.Graphics {
         public virtual void
         Stream(GeometryObject obj)
         {
-            if (obj is Curve) {
-                Stream(obj as Curve);
+            if (obj is Curve curve) {
+                Stream(curve);
             }
-            else if (obj is Edge) {
-                Stream(obj as Edge);
+            else if (obj is Edge edge) {
+                Stream(edge);
             }
-            else if (obj is GeometryElement) {
-                Stream(obj as GeometryElement);
+            else if (obj is GeometryElement element) {
+                Stream(element);
             }
-            else if (obj is ConicalFace) {
-                Stream(obj as ConicalFace);
+            else if (obj is ConicalFace conicalFace) {
+                Stream(conicalFace);
             }
-            else if (obj is CylindricalFace) {
-                Stream(obj as CylindricalFace);
+            else if (obj is CylindricalFace cylindricalFace) {
+                Stream(cylindricalFace);
             }
-            else if (obj is HermiteFace) {
-                Stream(obj as HermiteFace);
+            else if (obj is HermiteFace hermiteFace) {
+                Stream(hermiteFace);
             }
-            else if (obj is PlanarFace) {
-                Stream(obj as PlanarFace);
+            else if (obj is PlanarFace planarFace) {
+                Stream(planarFace);
             }
-            else if (obj is RevolvedFace) {
-                Stream(obj as RevolvedFace);
+            else if (obj is RevolvedFace revolvedFace) {
+                Stream(revolvedFace);
             }
-            else if (obj is RuledFace) {
-                Stream(obj as RuledFace);
+            else if (obj is RuledFace ruledFace) {
+                Stream(ruledFace);
             }
-            else if (obj is Face) {
-                Stream(obj as Face);
+            else if (obj is Face face) {
+                Stream(face);
             }
-            else if (obj is GeometryInstance) {
-                Stream(obj as GeometryInstance);
+            else if (obj is GeometryInstance instance) {
+                Stream(instance);
             }
-            else if (obj is Mesh) {
-                Stream(obj as Mesh);
+            else if (obj is Mesh mesh) {
+                Stream(mesh);
             }
-            else if (obj is Profile) {
-                Stream(obj as Profile);
+            else if (obj is Profile profile) {
+                Stream(profile);
             }
-            else if (obj is Solid) {
-                Stream(obj as Solid);
+            else if (obj is Solid solid) {
+                Stream(solid);
             }
         }
 

@@ -45,8 +45,8 @@ namespace RevitLookup.Snoop.CollectorExts
                 if (expectedType == typeof (byte))
                     return new Data.Int(info.Name, (byte) returnValue);
 
-                if ((expectedType == typeof (GeometryObject) || expectedType == typeof (GeometryElement)) && elem is Element)
-                    return new Data.ElementGeometry(info.Name, elem as Element, document.Application);
+                if ((expectedType == typeof (GeometryObject) || expectedType == typeof (GeometryElement)) && elem is Element element)
+                    return new Data.ElementGeometry(info.Name, element, document.Application);
 
                 if (expectedType == typeof (ElementId))
                 {
