@@ -42,9 +42,9 @@ namespace RevitLookup.ModelStats
   public class Report
   {
     // data members
-    private ArrayList _mRawObjCounts = new ArrayList();
-    private ArrayList _mCategoryCounts = new ArrayList();
-    private ArrayList _mSymRefCounts = new ArrayList();
+    private ArrayList _mRawObjCounts = new();
+    private ArrayList _mCategoryCounts = new();
+    private ArrayList _mSymRefCounts = new();
 
     public
     Report()

@@ -65,7 +65,7 @@ namespace RevitLookup.Xml.Forms
         private GroupBox       _mGrpXpath;
         
         private XmlDocument              _mXmlDoc;
-        private Snoop.Collectors.CollectorXmlNode   _mSnoopCollector = new Snoop.Collectors.CollectorXmlNode();
+        private Snoop.Collectors.CollectorXmlNode   _mSnoopCollector = new();
         
         private IContainer components;
 

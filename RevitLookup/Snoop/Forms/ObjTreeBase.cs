@@ -45,7 +45,7 @@ namespace RevitLookup.Snoop.Forms
 		protected ColumnHeader		MLvColLabel;
 		protected ColumnHeader		MLvColValue;
        
-        protected Collectors.CollectorObj         MSnoopCollector            = new Collectors.CollectorObj();
+        protected Collectors.CollectorObj         MSnoopCollector            = new();
         protected Object                         MCurObj;
         private   ContextMenuStrip                      _listViewContextMenuStrip;
         private   MenuItem                              _mMnuItemCopy;

@@ -34,8 +34,8 @@ namespace RevitLookup.EventTrack.Forms {
 
     public partial class EventsForm : Form {
 
-        public static Events.ApplicationEvents    MAppEvents       = new Events.ApplicationEvents();
-        public static Events.DocEvents            MDocEvents       = new Events.DocEvents();
+        public static Events.ApplicationEvents    MAppEvents       = new();
+        public static Events.DocEvents            MDocEvents       = new();
 
         public
         EventsForm()

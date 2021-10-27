@@ -36,7 +36,7 @@ namespace RevitLookup.ModelStats
 	{
 	        // data members
 	    public Category     MCategory;
-	    public ArrayList    MObjs = new ArrayList();
+	    public ArrayList    MObjs = new();
 	   
 		public
 		CategoryCount()

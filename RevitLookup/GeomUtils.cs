@@ -55,10 +55,10 @@ namespace RevitLookup
         public const double Rad360   = 3.14159265358979323846 * 2.0;
         
             // predefined values for common Points and Vectors
-        public static readonly XYZ Origin = new XYZ(0.0, 0.0, 0.0);
-        public static readonly XYZ XAxis  = new XYZ(1.0, 0.0, 0.0);
-        public static readonly XYZ YAxis  = new XYZ(0.0, 1.0, 0.0);
-        public static readonly XYZ ZAxis  = new XYZ(0.0, 0.0, 1.0);
+        public static readonly XYZ Origin = new(0.0, 0.0, 0.0);
+        public static readonly XYZ XAxis  = new(1.0, 0.0, 0.0);
+        public static readonly XYZ YAxis  = new(0.0, 1.0, 0.0);
+        public static readonly XYZ ZAxis  = new(0.0, 0.0, 1.0);
 
 		public GeomUtils()
 		{

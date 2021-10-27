@@ -26,8 +26,8 @@ namespace RevitLookup.Snoop.Data
 
             var xyzObjects = new List<SnoopableObjectWrapper>
             {
-                new SnoopableObjectWrapper("[0] Start", _curve.GetEndPoint(0)), 
-                new SnoopableObjectWrapper("[1] End", _curve.GetEndPoint(1))
+                new("[0] Start", _curve.GetEndPoint(0)), 
+                new("[1] End", _curve.GetEndPoint(1))
             };
 
             if (!xyzObjects.Any()) return null;

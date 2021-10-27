@@ -16,7 +16,7 @@ namespace RevitLookup.Snoop.Data
 
         public object Object { get; }
 
-        public static SnoopableObjectWrapper Create(object obj) => new SnoopableObjectWrapper(Utils.ObjToLabelStr(obj), obj);
+        public static SnoopableObjectWrapper Create(object obj) => new(Utils.ObjToLabelStr(obj), obj);
 
         public Type GetUnderlyingType()
         {

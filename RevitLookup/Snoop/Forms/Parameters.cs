@@ -49,7 +49,7 @@ namespace RevitLookup.Snoop.Forms
         private   Button                                _mBnParamEnums;
         private   Button                                _mBnParamEnumsMap;
        
-        protected Collectors.CollectorObj         MSnoopCollector            = new Collectors.CollectorObj();
+        protected Collectors.CollectorObj         MSnoopCollector            = new();
         protected Object							MCurObj;
 
         private Element                                         _mElem;

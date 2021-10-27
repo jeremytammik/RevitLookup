@@ -38,7 +38,7 @@ namespace RevitLookup.Snoop.Data
 	public class Enumerable : Data
 	{
 	    protected IEnumerable	MVal;
-		protected ArrayList		MObjs = new ArrayList();
+		protected ArrayList		MObjs = new();
 	    
 		public
 		Enumerable(string label, IEnumerable val)

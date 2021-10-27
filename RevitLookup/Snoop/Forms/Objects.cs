@@ -49,10 +49,10 @@ namespace RevitLookup.Snoop.Forms
         protected ColumnHeader MLvColLabel;
         protected ColumnHeader MLvColValue;
 
-        protected Collectors.CollectorObj MSnoopCollector = new Collectors.CollectorObj();
+        protected Collectors.CollectorObj MSnoopCollector = new();
         protected System.Object MCurObj;
-        protected ArrayList MTreeTypeNodes = new ArrayList();
-        protected ArrayList MTypes = new ArrayList();
+        protected ArrayList MTreeTypeNodes = new();
+        protected ArrayList MTypes = new();
         private ContextMenuStrip _listViewContextMenuStrip;
         private MenuItem _mMnuItemCopy;
         private ToolStripMenuItem _copyToolStripMenuItem;

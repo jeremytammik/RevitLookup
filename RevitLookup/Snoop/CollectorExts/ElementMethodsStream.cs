@@ -11,7 +11,7 @@ namespace RevitLookup.Snoop.CollectorExts
     public class ElementMethodsStream : IElementStream
     {
         private readonly ArrayList _data;
-        private readonly List<string> _seenMethods = new List<string>();
+        private readonly List<string> _seenMethods = new();
         private readonly DataFactory _methodDataFactory;
 
         public ElementMethodsStream(Document document, ArrayList data, object elem)

@@ -13,7 +13,7 @@ namespace RevitLookup.Snoop.CollectorExts
     private readonly Document _document;
     private readonly ArrayList _data;
     private readonly object _elem;
-    private readonly List<string> _seenProperties = new List<string>();
+    private readonly List<string> _seenProperties = new();
 
     public ElementPropertiesStream(Document document, ArrayList data, object elem )
     {

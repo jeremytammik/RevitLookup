@@ -29,7 +29,7 @@ namespace RevitLookup.Snoop
 
         private class Request
         {
-            public readonly TaskCompletionSource<object> Tcs = new TaskCompletionSource<object>();
+            public readonly TaskCompletionSource<object> Tcs = new();
             public readonly Action<UIApplication> Command;
 
             public Request(Action<UIApplication> command)
@@ -40,7 +40,7 @@ namespace RevitLookup.Snoop
 
         private class ExternalEventHandler : IExternalEventHandler
         {
-            public static readonly ConcurrentQueue<Request> Queue = new ConcurrentQueue<Request>();
+            public static readonly ConcurrentQueue<Request> Queue = new();
 
             public void Execute(UIApplication app)
             {
