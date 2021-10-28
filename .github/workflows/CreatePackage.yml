@@ -21,8 +21,8 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Run './build/build.cmd'
-        run: ./build/build.cmd
+      - name: Run './Build/Build.cmd'
+        run: ./Build/Build.cmd
       - uses: actions/upload-artifact@v1
         with:
           name: RevitLookup
