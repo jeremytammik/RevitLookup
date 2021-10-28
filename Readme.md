@@ -1,10 +1,12 @@
 # RevitLookup
 
-[![Revit API](https://img.shields.io/badge/Revit%20API-2022-blue.svg)]()
-[![Platform](https://img.shields.io/badge/platform-Windows-lightgray.svg)]()
-[![.NET](https://img.shields.io/badge/.NET-4.8-blue.svg)]()
-[![License](http://img.shields.io/:license-mit-blue.svg)](http://opensource.org/licenses/MIT)
-[![Build Status](https://gitlab.com/buildinformed-public/revitlookup/badges/master/pipeline.svg)](https://lookupbuilds.com)
+<p align="center">
+  <img src="https://img.shields.io/badge/Revit%20API-2022-blue.svg?style=for-the-badge">
+  <img src="https://img.shields.io/badge/platform-Windows-lightgray.svg?style=for-the-badge">
+  <img src="https://img.shields.io/badge/.NET-4.8-blue.svg?style=for-the-badge">
+  <a href="http://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/jeremytammik/RevitLookup?style=for-the-badge"></a>
+  <a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge&style=for-the-badge"></a>
+</p>
 
 Interactive Revit BIM database exploration tool to view and navigate BIM element parameters, properties and relationships.
 

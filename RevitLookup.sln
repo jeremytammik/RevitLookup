@@ -12,7 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FF48108-2C4C-4389-92DC-CCC4F153190F}"
 	ProjectSection(SolutionItems) = preProject
 		Changelog.md = Changelog.md
-		README.md = README.md
+		Readme.md = Readme.md
 		Wishlist.md = Wishlist.md
 	EndProjectSection
 EndProject
