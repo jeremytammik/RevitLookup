@@ -106,5 +106,5 @@
 - 2021-10-17 2022.0.1.0 integrated pull request [#96](https://github.com/jeremytammik/RevitLookup/pull/96) by @NeVeS to fix crash on user cancel picking object in cmds: SnoopPickFace, SnoopPickEdge, SnoopLinkedElement
 - 2021-10-18 2022.0.1.0 integrated pull request [#97](https://github.com/jeremytammik/RevitLookup/pull/97) by @NeVeS to restore ability to snoop plan topologies
 - 2021-10-24 2022.0.1.0 integrated pull request [#99](https://github.com/jeremytammik/RevitLookup/pull/99) by @NeVeS to Eliminate warnings from [#98](https://github.com/jeremytammik/RevitLookup/pull/98)
-- 2021-10-28 2022.0.1.1 integrated pull request #101 by Roman @Nice3point implementing code rerstructuring, cleanup, build system and installer
-- 2021-10-28 2022.0.1.2 integrated pull request #102 by Roman @Nice3point to add changelog and remove unused files
+- 2021-10-28 2022.0.1.1 integrated pull request [#101](https://github.com/jeremytammik/RevitLookup/pull/101) by Roman @Nice3point implementing code rerstructuring, cleanup, build system and installer
+- 2021-10-28 2022.0.1.2 integrated pull request [#102](https://github.com/jeremytammik/RevitLookup/pull/102) by Roman @Nice3point to add changelog and remove unused files
