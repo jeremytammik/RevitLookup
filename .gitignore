@@ -93,6 +93,7 @@ AppPackages/
 # Others
 .idea/
 output/
+temp/
 [Bb]in
 [Oo]bj
 sql

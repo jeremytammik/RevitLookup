@@ -49,7 +49,5 @@
             <OutLibPath Include="$(AddinDir)**\*.*" />
         </ItemGroup>
         <Copy SourceFiles="@(OutLibPath)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\2022\%(RecursiveDir)" />
-        
-<!--        <Exec Command="rem copy Y:\a\src\rvt\RevitLookup\CS\bin\Debug\RevitLookup.dll C:\Users\jta\AppData\Roaming\Autodesk\Revit\Addins\2022&#xD;&#xA;rem copy Y:\a\src\rvt\RevitLookup\CS\RevitLookup.addin C:\Users\jta\AppData\Roaming\Autodesk\Revit\Addins\2022" />-->
     </Target>
 </Project>
