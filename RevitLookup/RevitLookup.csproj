@@ -16,6 +16,11 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Installer\Installer.csproj" />
+    </ItemGroup>
+    
     <ItemGroup>
         <PackageReference Include="Revit_API_x64" Version="2022.0.0" />
     </ItemGroup>
