@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 - 2013-10-24 2014.0.0.5 merged pull request from Prasadgalle
 - 2014-01-11 2014.0.0.6 joespiff adjusted the Anchor property of the "Built-in Enums Map..." button on the Parameters form so that it behaves well when stretching the form
@@ -110,3 +110,5 @@
 - 2021-10-28 2022.0.1.2 integrated pull request [#102](https://github.com/jeremytammik/RevitLookup/pull/102) by Roman @Nice3point to add changelog and remove unused files
 - 2021-10-28 2022.0.1.3 integrated pull request [#104](https://github.com/jeremytammik/RevitLookup/pull/104) by Roman @Nice3point to fix snoop db exception due to tag and enum mismatch
 - 2021-10-28 2022.0.1.4 integrated pull request [#105](https://github.com/jeremytammik/RevitLookup/pull/105) by Roman @Nice3point to update badges, consolidate version number management, clean up builder and remove gitlab CI
+- 2021-10-28 2022.0.1.6 integrated pull request [#107](https://github.com/jeremytammik/RevitLookup/pull/107) by Roman @Nice3point to rename Build, fix hello world version and move version number into csproj
+
