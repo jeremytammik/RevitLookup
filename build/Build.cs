@@ -41,10 +41,8 @@ partial class Build : NukeBuild
             }
 
             var wixTargetPath = Environment.ExpandEnvironmentVariables(WixTargetPath);
-            var ilTargetPath = Environment.ExpandEnvironmentVariables(IlRepackTargetPath);
 
             if (File.Exists(wixTargetPath)) ReplaceFileText("<Target Name=\"MSIAuthoring\">", wixTargetPath, 3);
-            if (File.Exists(ilTargetPath)) ReplaceFileText("<Target Name=\"ILRepack\">", ilTargetPath, 13);
 
             if (IsServerBuild) return;
             foreach (var projectName in Projects)
