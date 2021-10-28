@@ -5,8 +5,8 @@
         <TargetFramework>net48</TargetFramework>
         <OutputType>Library</OutputType>
         <UseWpf>true</UseWpf>
-        <Version>2022.0.1.0</Version>
-        <FileVersion>2022.0.1.0</FileVersion>
+        <Version>2022.0.1.2</Version>
+        <FileVersion>2022.0.1.2</FileVersion>
         <UseWindowsForms>true</UseWindowsForms>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
