@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RevitLookup", "RevitLookup\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Installer", "Installer\Installer.csproj", "{B3814652-9158-4056-A721-1A380DE74BAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "build", "build\build.csproj", "{64D9C223-D070-46CD-A635-04FD4E1BEC3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build", "Build\Build.csproj", "{64D9C223-D070-46CD-A635-04FD4E1BEC3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FF48108-2C4C-4389-92DC-CCC4F153190F}"
 	ProjectSection(SolutionItems) = preProject
