@@ -41,7 +41,7 @@ build:
     - download-revit-api
   variables:
     LOOKUP_CONFIGURATION: Release
-    LOOKUP_SOLUTION: RevitLookup/RevitLookup.sln
+    LOOKUP_SOLUTION: RevitLookup.sln
     PATH_BUILD_TOOLS: C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
   before_script:
