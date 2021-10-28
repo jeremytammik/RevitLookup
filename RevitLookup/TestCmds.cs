@@ -45,15 +45,11 @@ namespace RevitLookup
   [Transaction(TransactionMode.Manual)]
     public class HelloWorld : IExternalCommand
     {
-        public Result Execute(
-            ExternalCommandData cmdData,
-            ref string msg,
-            ElementSet elems)
+        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
             var a = Assembly.GetExecutingAssembly();
-            const string version = App.Version;
             var helloDlg = new TaskDialog("Autodesk Revit");
-            helloDlg.MainContent = "Hello World from " + a.Location + " v" + version;
+            helloDlg.MainContent = "Hello World from " + a.Location + " v" + App.Version;
             helloDlg.Show();
             return Result.Cancelled;
         }
@@ -65,10 +61,7 @@ namespace RevitLookup
   [Transaction(TransactionMode.Manual)]
     public class CmdSnoopDb : IExternalCommand
     {
-        public Result Execute(
-            ExternalCommandData cmdData,
-            ref string msg,
-            ElementSet elems)
+        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
             var form = new Objects();
             form.SnoopAndShow(Selector.SnoopDb);
@@ -79,10 +72,7 @@ namespace RevitLookup
     [Transaction(TransactionMode.Manual)]
     public class CmdSnoopModScopePickSurface : IExternalCommand
     {
-        public Result Execute(
-            ExternalCommandData cmdData,
-            ref string msg,
-            ElementSet elems)
+        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
             var form = new Objects();
             form.SnoopAndShow(Selector.SnoopPickFace);
@@ -119,10 +109,7 @@ namespace RevitLookup
     [Transaction(TransactionMode.Manual)]
     public class CmdSnoopModScopeDependents : IExternalCommand
     {
-        public Result Execute(
-            ExternalCommandData cmdData,
-            ref string msg,
-            ElementSet elems)
+        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
             var form = new Objects();
             form.SnoopAndShow(Selector.SnoopDependentElements);
@@ -205,10 +192,7 @@ namespace RevitLookup
     [Transaction(TransactionMode.Manual)]
     public class CmdSearchBy : IExternalCommand
     {
-        public Result Execute(
-            ExternalCommandData cmdData,
-            ref string msg,
-            ElementSet elems)
+        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
         {
             var revitDoc = cmdData.Application.ActiveUIDocument;
             var dbdoc = revitDoc.Document;
