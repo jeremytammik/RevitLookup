@@ -47,7 +47,8 @@ namespace Installer
                     new InstallDir(InstallationDir, GetOutputFolders(args))
                 }
             };
-
+            
+            MajorUpgrade.Default.AllowSameVersionUpgrades = true;
             project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
             project.BuildMsi();
         }
