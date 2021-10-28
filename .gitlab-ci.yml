@@ -41,7 +41,7 @@ build:
     - download-revit-api
   variables:
     LOOKUP_CONFIGURATION: Release
-    LOOKUP_SOLUTION: CS/RevitLookup.sln
+    LOOKUP_SOLUTION: RevitLookup/RevitLookup.sln
     PATH_BUILD_TOOLS: C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
   before_script:
@@ -56,9 +56,9 @@ build:
     - if (-not $?) { throw "Build failed" }
 
     - mkdir artifacts
-    - cp "CS/bin/${LOOKUP_CONFIGURATION}/RevitLookup.dll" artifacts/
-    - cp "CS/bin/${LOOKUP_CONFIGURATION}/RevitLookup.pdb" artifacts/
-    - cp "CS/RevitLookup.addin" artifacts/
+    - cp "RevitLookup/bin/${LOOKUP_CONFIGURATION}/RevitLookup.dll" artifacts/
+    - cp "RevitLookup/bin/${LOOKUP_CONFIGURATION}/RevitLookup.pdb" artifacts/
+    - cp "RevitLookup/RevitLookup.addin" artifacts/
   artifacts:
     paths:
       - artifacts/
