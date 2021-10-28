@@ -16,7 +16,7 @@ namespace Installer
         private const string ProjectName = "RevitLookup";
         private const string OutputName = "RevitLookup";
         private const string OutputDir = "output";
-        public const string Version = "22.0.1.5";
+        private const string Version = RevitLookup.App.Version;
 
         public static void Main(string[] args)
         {
