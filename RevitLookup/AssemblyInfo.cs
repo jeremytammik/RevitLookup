@@ -182,7 +182,8 @@ using System.Reflection;
 // 2021-10-17 2022.0.1.0 integrated pull request #95 by @NeVeS to handle multiple open documents at the same time
 // 2021-10-17 2022.0.1.0 integrated pull request #96 by @NeVeS to fix crash on user cancel picking object in cmds: SnoopPickFace, SnoopPickEdge, SnoopLinkedElement
 // 2021-10-18 2022.0.1.0 integrated pull request #97 by @NeVeS to restore ability to snoop plan topologies
-// 2021-10-24 2022.0.1.0 integrated pull request #99 by @NeVeS to Eliminate warnings from #98
+// 2021-10-24 2022.0.1.0 integrated pull request #99 by @NeVeS to eliminate warnings from #98
+// 2021-10-28 2022.0.1.1 integrated pull request #101 by Roman @Nice3point implementing cleanup and build system
 //
-[assembly: AssemblyVersion("2022.0.1.0")]
-[assembly: AssemblyFileVersion("2022.0.1.0")]
+[assembly: AssemblyVersion("2022.0.1.1")]
+[assembly: AssemblyFileVersion("2022.0.1.1")]
