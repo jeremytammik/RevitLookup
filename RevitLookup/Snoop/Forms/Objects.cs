@@ -452,11 +452,11 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopDB
             // 
             this._toolStripButtonSnoopDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopDb.Image")));
+            this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image) (resources.GetObject(nameof(_toolStripButtonSnoopDb.Image))));
             this._toolStripButtonSnoopDb.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopDb.Name = "_toolStripButtonSnoopDb";
             this._toolStripButtonSnoopDb.Size = new System.Drawing.Size(24, 23);
-            this._toolStripButtonSnoopDb.Tag = "SnoopDB";
+            this._toolStripButtonSnoopDb.Tag = nameof(Selector.SnoopDb);
             this._toolStripButtonSnoopDb.Text = "Snoop DB";
             this._toolStripButtonSnoopDb.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
             this._toolStripButtonSnoopDb.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
@@ -464,11 +464,11 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopCurrentSelection
             // 
             this._toolStripButtonSnoopCurrentSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopCurrentSelection.Image")));
+            this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image) (resources.GetObject(nameof(_toolStripButtonSnoopCurrentSelection.Image))));
             this._toolStripButtonSnoopCurrentSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopCurrentSelection.Name = "_toolStripButtonSnoopCurrentSelection";
             this._toolStripButtonSnoopCurrentSelection.Size = new System.Drawing.Size(24, 23);
-            this._toolStripButtonSnoopCurrentSelection.Tag = "SnoopCurrentSelection";
+            this._toolStripButtonSnoopCurrentSelection.Tag = nameof(Selector.SnoopCurrentSelection);
             this._toolStripButtonSnoopCurrentSelection.Text = "Snoop current selection";
             this._toolStripButtonSnoopCurrentSelection.ToolTipText = "Snoop current selection";
             this._toolStripButtonSnoopCurrentSelection.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
@@ -477,11 +477,11 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopPickFace
             // 
             this._toolStripButtonSnoopPickFace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopPickFace.Image")));
+            this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image) (resources.GetObject(nameof(_toolStripButtonSnoopPickFace.Image))));
             this._toolStripButtonSnoopPickFace.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopPickFace.Name = "_toolStripButtonSnoopPickFace";
             this._toolStripButtonSnoopPickFace.Size = new System.Drawing.Size(24, 23);
-            this._toolStripButtonSnoopPickFace.Tag = "SnoopPickFace";
+            this._toolStripButtonSnoopPickFace.Tag = nameof(Selector.SnoopPickFace);
             this._toolStripButtonSnoopPickFace.Text = "Snoop pick face";
             this._toolStripButtonSnoopPickFace.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
             this._toolStripButtonSnoopPickFace.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
@@ -489,11 +489,11 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopPickEdge
             // 
             this._toolStripButtonSnoopPickEdge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopPickEdge.Image")));
+            this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image) (resources.GetObject(nameof(_toolStripButtonSnoopPickEdge.Image))));
             this._toolStripButtonSnoopPickEdge.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopPickEdge.Name = "_toolStripButtonSnoopPickEdge";
             this._toolStripButtonSnoopPickEdge.Size = new System.Drawing.Size(24, 23);
-            this._toolStripButtonSnoopPickEdge.Tag = "SnoopPickEdge";
+            this._toolStripButtonSnoopPickEdge.Tag = nameof(Selector.SnoopPickEdge);
             this._toolStripButtonSnoopPickEdge.Text = "Snoop pick edge";
             this._toolStripButtonSnoopPickEdge.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
             this._toolStripButtonSnoopPickEdge.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
@@ -501,11 +501,11 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopLinkedElement
             // 
             this._toolStripButtonSnoopLinkedElement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopLinkedElement.Image")));
+            this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image) (resources.GetObject(nameof(_toolStripButtonSnoopLinkedElement.Image))));
             this._toolStripButtonSnoopLinkedElement.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopLinkedElement.Name = "_toolStripButtonSnoopLinkedElement";
             this._toolStripButtonSnoopLinkedElement.Size = new System.Drawing.Size(24, 23);
-            this._toolStripButtonSnoopLinkedElement.Tag = "SnoopLinkedElement";
+            this._toolStripButtonSnoopLinkedElement.Tag = nameof(Selector.SnoopLinkedElement);
             this._toolStripButtonSnoopLinkedElement.Text = "Snoop linked element";
             this._toolStripButtonSnoopLinkedElement.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
             this._toolStripButtonSnoopLinkedElement.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
@@ -513,11 +513,11 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopDependentElements
             // 
             this._toolStripButtonSnoopDependentElements.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopDependentElements.Image")));
+            this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image) (resources.GetObject(nameof(_toolStripButtonSnoopDependentElements.Image))));
             this._toolStripButtonSnoopDependentElements.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopDependentElements.Name = "_toolStripButtonSnoopDependentElements";
             this._toolStripButtonSnoopDependentElements.Size = new System.Drawing.Size(24, 23);
-            this._toolStripButtonSnoopDependentElements.Tag = "SnoopDependentElements";
+            this._toolStripButtonSnoopDependentElements.Tag = nameof(Selector.SnoopDependentElements);
             this._toolStripButtonSnoopDependentElements.Text = "Snoop dependent elements";
             this._toolStripButtonSnoopDependentElements.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
             this._toolStripButtonSnoopDependentElements.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
@@ -525,11 +525,11 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopActiveView
             // 
             this._toolStripButtonSnoopActiveView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopActiveView.Image")));
+            this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image) (resources.GetObject(nameof(_toolStripButtonSnoopActiveView.Image))));
             this._toolStripButtonSnoopActiveView.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopActiveView.Name = "_toolStripButtonSnoopActiveView";
             this._toolStripButtonSnoopActiveView.Size = new System.Drawing.Size(24, 23);
-            this._toolStripButtonSnoopActiveView.Tag = "SnoopActiveView";
+            this._toolStripButtonSnoopActiveView.Tag = nameof(Selector.SnoopActiveView);
             this._toolStripButtonSnoopActiveView.Text = "Snoop active view";
             this._toolStripButtonSnoopActiveView.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
             this._toolStripButtonSnoopActiveView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
@@ -537,11 +537,11 @@ namespace RevitLookup.Snoop.Forms
             // toolStripButton_SnoopApplication
             // 
             this._toolStripButtonSnoopApplication.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopApplication.Image")));
+            this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image) (resources.GetObject(nameof(_toolStripButtonSnoopApplication.Image))));
             this._toolStripButtonSnoopApplication.ImageTransparentColor = System.Drawing.Color.Magenta;
             this._toolStripButtonSnoopApplication.Name = "_toolStripButtonSnoopApplication";
             this._toolStripButtonSnoopApplication.Size = new System.Drawing.Size(24, 23);
-            this._toolStripButtonSnoopApplication.Tag = "SnoopApplication";
+            this._toolStripButtonSnoopApplication.Tag = nameof(Selector.SnoopApplication);
             this._toolStripButtonSnoopApplication.Text = "Snoop application";
             this._toolStripButtonSnoopApplication.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
             this._toolStripButtonSnoopApplication.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
