@@ -5,10 +5,10 @@
         <LangVersion>9</LangVersion>
         <Configurations>Release</Configurations>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <Optimize>true</Optimize>
+        <PlatformTarget>x64</PlatformTarget>
         <DebugType>none</DebugType>
-        <DefineConstants />
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="WixSharp">

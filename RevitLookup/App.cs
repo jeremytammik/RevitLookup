@@ -25,10 +25,8 @@
 #endregion // Header
 
 using System;
-using System.Reflection;
 using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using RevitLookup.Snoop;
 
@@ -36,8 +34,6 @@ namespace RevitLookup
 {
     public class App : IExternalApplication
     {
-        private static AddInId _mAppId = new(new Guid("356CDA5A-E6C5-4c2f-A9EF-B3222116B8C8"));
-
         private AppDocEvents _mAppDocEvents;
 
         public Result OnStartup(UIControlledApplication application)
