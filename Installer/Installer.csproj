@@ -18,7 +18,4 @@
             <Version>3.11.2</Version>
         </PackageReference>
     </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\RevitLookup\RevitLookup.csproj" />
-    </ItemGroup>
 </Project>

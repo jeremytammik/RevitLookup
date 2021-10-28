@@ -49,7 +49,7 @@ namespace RevitLookup
         {
             var a = Assembly.GetExecutingAssembly();
             var helloDlg = new TaskDialog("Autodesk Revit");
-            helloDlg.MainContent = "Hello World from " + a.Location + " v" + App.Version;
+            helloDlg.MainContent = "Hello World from " + a.Location + " v" + a.GetName().Version;
             helloDlg.Show();
             return Result.Cancelled;
         }

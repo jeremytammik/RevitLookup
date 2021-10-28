@@ -34,7 +34,6 @@ namespace RevitLookup
 {
     public class App : IExternalApplication
     {
-        public const string Version = "22.0.1.5";
         private AppDocEvents _mAppDocEvents;
 
         public Result OnStartup(UIControlledApplication application)
