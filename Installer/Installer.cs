@@ -16,7 +16,7 @@ namespace Installer
         private const string ProjectName = "RevitLookup";
         private const string OutputName = "RevitLookup";
         private const string OutputDir = "output";
-        private const string Version = "22.0.1.3";
+        private const string Version = "22.0.1.4";
 
         public static void Main(string[] args)
         {
