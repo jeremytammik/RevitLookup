@@ -27,6 +27,7 @@ If you are interested in an earlier release of Revit, please grab the latest app
 - [2016.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2016.0.0.13) for Revit 2016
 - [2015.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2015.0.0.8) for Revit 2015
 
+Please refer to the [changelog](Changelog.md) for details.
 
 ## Installation
 
