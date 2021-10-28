@@ -51,7 +51,7 @@ namespace RevitLookup
             ElementSet elems)
         {
             var a = Assembly.GetExecutingAssembly();
-            var version = a.GetName().Version.ToString();
+            const string version = Installer.Installer.Version;
             var helloDlg = new TaskDialog("Autodesk Revit");
             helloDlg.MainContent = "Hello World from " + a.Location + " v" + version;
             helloDlg.Show();
