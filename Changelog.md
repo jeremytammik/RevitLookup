@@ -111,4 +111,5 @@
 - 2021-10-28 2022.0.1.3 integrated pull request [#104](https://github.com/jeremytammik/RevitLookup/pull/104) by Roman @Nice3point to fix snoop db exception due to tag and enum mismatch
 - 2021-10-28 2022.0.1.4 integrated pull request [#105](https://github.com/jeremytammik/RevitLookup/pull/105) by Roman @Nice3point to update badges, consolidate version number management, clean up builder and remove gitlab CI
 - 2021-10-28 2022.0.1.6 integrated pull request [#107](https://github.com/jeremytammik/RevitLookup/pull/107) by Roman @Nice3point to rename Build, fix hello world version and move version number into csproj
+- 2021-10-29 2022.0.2.0 integrated pull request [#108](https://github.com/jeremytammik/RevitLookup/pull/108) by Roman @Nice3point to include previous versions in the installer
 
