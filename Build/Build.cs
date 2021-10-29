@@ -10,6 +10,10 @@ using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.VSWhere;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
+/// <summary>
+/// Documentation:
+/// https://github.com/Nice3point/RevitTemplates/wiki
+/// </summary>
 partial class Build : NukeBuild
 {
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / ArtifactsFolder;
