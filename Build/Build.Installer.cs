@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,10 +18,13 @@ partial class Build
             var buildDirectories = GetBuildDirectories();
             var configurations = GetConfigurations(InstallerConfiguration);
 
+            var releasesDirectory = Solution.Directory / "Releases";
+            var releasesInfos = new DirectoryInfo(releasesDirectory).EnumerateDirectories().Select(info => info.FullName).ToList();
+
             foreach (var directoryGroup in buildDirectories)
             {
                 var directories = directoryGroup.ToList();
-                var exeArguments = BuildExeArguments(directories.Select(info => info.FullName).ToList());
+                var exeArguments = BuildExeArguments(directories.Select(info => info.FullName).Concat(releasesInfos).ToList());
                 var exeFile = installerProject.GetExecutableFile(configurations, directories);
                 if (string.IsNullOrEmpty(exeFile))
                 {
@@ -32,9 +36,7 @@ partial class Build
                 proc.StartInfo.FileName = exeFile;
                 proc.StartInfo.Arguments = exeArguments;
                 proc.Start();
-
-                Logger.Normal($"Waiting {InstallerCreationTime} seconds to create installer on another thread");
-                Thread.Sleep(TimeSpan.FromSeconds(InstallerCreationTime));
+                proc.WaitForExit();
             }
         });
 

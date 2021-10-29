@@ -3,6 +3,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net48</TargetFramework>
         <LangVersion>9</LangVersion>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <Configurations>Release</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

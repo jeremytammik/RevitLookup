@@ -19,8 +19,4 @@ partial class Build
 
     //Specify the path to the MSBuild.exe file here if you are not using VisualStudio
     const string CustomMsBuildPath = @"C:\Program Files\JetBrains\JetBrains Rider\tools\MSBuild\Current\Bin\MSBuild.exe";
-
-    //The Wix installer is created in a different thread
-    //Increase this value if your installer does not have time to build
-    readonly int InstallerCreationTime = IsServerBuild ? 15 : 7;
 }

@@ -32,8 +32,17 @@ partial class Build : NukeBuild
             if (Directory.Exists(ArtifactsDirectory))
             {
                 var directoryInfo = new DirectoryInfo(ArtifactsDirectory);
-                foreach (var file in directoryInfo.GetFiles()) file.Delete();
-                foreach (var dir in directoryInfo.GetDirectories()) dir.Delete(true);
+                foreach (var file in directoryInfo.GetFiles())
+                {
+                    Logger.Normal($"Deleting file: {file.FullName}");
+                    file.Delete();
+                }
+
+                foreach (var dir in directoryInfo.GetDirectories())
+                {
+                    Logger.Normal($"Deleting directory: {dir.FullName}");
+                    dir.Delete(true);
+                }
             }
             else
             {
@@ -42,6 +51,7 @@ partial class Build : NukeBuild
 
             var wixTargetPath = Environment.ExpandEnvironmentVariables(WixTargetPath);
 
+            Logger.Normal("Updating target: WixSharp");
             if (File.Exists(wixTargetPath)) ReplaceFileText("<Target Name=\"MSIAuthoring\">", wixTargetPath, 3);
 
             if (IsServerBuild) return;
@@ -53,6 +63,7 @@ partial class Build : NukeBuild
                 var addInDirectories = binDirectory.EnumerateDirectories().Where(info => info.Name.StartsWith(AddInBinPrefix)).ToList();
                 foreach (var addInDirectory in addInDirectories)
                 {
+                    Logger.Normal($"Deleting directory: {addInDirectory.FullName}");
                     foreach (var file in addInDirectory.GetFiles()) file.Delete();
                     addInDirectory.Delete(true);
                 }
