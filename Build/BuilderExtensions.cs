@@ -13,16 +13,9 @@ public static class BuilderExtensions
 
     public static AbsolutePath GetBinDirectory(this Project project) => project.Directory / "bin";
 
-    public static AbsolutePath GetBundleDirectory(this Solution solution, AbsolutePath basePath) => basePath / $"{solution.Name}.bundle";
-
     static AbsolutePath GetInstallerPath(this Project project, string configuration)
     {
-        var configurationDirectory = project.GetBinDirectory() / configuration;
-        var netDirectory = Directory.GetDirectories(configurationDirectory).FirstOrDefault();
-        if (netDirectory is null) throw new DirectoryNotFoundException($"Missing .Net subdirectories in: {configurationDirectory}");
-
-        var directoryInfo = new DirectoryInfo(netDirectory);
-        return configurationDirectory / directoryInfo.Name / $"{project.Name}.exe";
+        return project.GetBinDirectory() / configuration / $"{project.Name}.exe";
     }
 
     public static AbsolutePath GetExecutableFile(this Project project, IEnumerable<string> configurations, List<DirectoryInfo> directories)
