@@ -43,7 +43,7 @@ The installer contains all the latest versions starting from the 2015 version of
 * Run `nuke` command.
 * The generated package will be in the **output** folder.
 * To debug, run the build or Run configuration of your IDE. For Visual Studio and JetBrains Rider, the required configurations have been added. All required files will be automatically copied to the Revit plugins folder.
-* For more information on building, see the [**RevitTemplates**](https://github.com/Nice3point/RevitTemplates) project page
+* For more information on building, see the [**RevitTemplates**](https://github.com/Nice3point/RevitTemplates) Wiki page.
 
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
 
