@@ -13,7 +13,7 @@ Interactive Revit BIM database exploration tool to view and navigate BIM element
 Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information.
 
 
-## <a name="versions"></a> Versions
+## Versions
 
 The project currently supports the 2022 version of Revit.
 You can find the source code of previous versions at the links below:
@@ -36,6 +36,14 @@ Please refer to the [changelog](Doc/Changelog.md) for details.
 * Run the MSI package.
 
 The installer contains all the latest versions starting from the 2015 version of Revit.
+
+## Build
+
+* To build the package on your local computer, open the terminal of your IDE.
+* Run `nuke` command.
+* The generated package will be in the **output** folder.
+* To debug, run the build or Run configuration of your IDE. For Visual Studio and JetBrains Rider, the required configurations have been added. All required files will be automatically copied to the Revit plugins folder.
+* For more information on building, see the [**RevitTemplates**](https://github.com/Nice3point/RevitTemplates) project page
 
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
 
