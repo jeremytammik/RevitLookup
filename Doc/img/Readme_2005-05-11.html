@@ -1,0 +1,1340 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=utf-8">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 15">
+<meta name=Originator content="Microsoft Word 15">
+<link rel=File-List href="Readme_2005-05-11.fld/filelist.xml">
+<link rel=Edit-Time-Data href="Readme_2005-05-11.fld/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>MgdDbg</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Jim Awe</o:Author>
+  <o:LastAuthor>Jeremy Tammik</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>1668</o:TotalTime>
+  <o:Created>2021-10-29T17:38:00Z</o:Created>
+  <o:LastSaved>2021-10-29T17:38:00Z</o:LastSaved>
+  <o:Pages>7</o:Pages>
+  <o:Words>940</o:Words>
+  <o:Characters>5361</o:Characters>
+  <o:Company>Autodesk, Inc.</o:Company>
+  <o:Lines>44</o:Lines>
+  <o:Paragraphs>12</o:Paragraphs>
+  <o:CharactersWithSpaces>6289</o:CharactersWithSpaces>
+  <o:Version>16.00</o:Version>
+ </o:DocumentProperties>
+ <o:OfficeDocumentSettings>
+  <o:TargetScreenSize>800x600</o:TargetScreenSize>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+<link rel=themeData href="Readme_2005-05-11.fld/themedata.thmx">
+<link rel=colorSchemeMapping href="Readme_2005-05-11.fld/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>en-CH</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:SelectEntireFieldWithStartOrEnd/>
+   <w:UseWord2002TableStyleRules/>
+   <w:UseWord2010TableStyleRules/>
+   <w:DontUseIndentAsNumberingTabStop/>
+   <w:FELineBreak11/>
+   <w:WW11IndentRules/>
+   <w:DontAutofitConstrainedTables/>
+   <w:AutofitLikeWW11/>
+   <w:HangulWidthLikeWW11/>
+   <w:UseNormalStyleForList/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="false"
+  DefSemiHidden="false" DefQFormat="false" LatentStyleCount="376">
+  <w:LsdException Locked="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" SemiHidden="true" UnhideWhenUsed="true"
+   QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" QFormat="true"
+   Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" QFormat="true"
+   Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="TOC Heading"/>
+  <w:LsdException Locked="false" Priority="72" Name="Plain Table 1"/>
+  <w:LsdException Locked="false" Priority="73" Name="Plain Table 2"/>
+  <w:LsdException Locked="false" Priority="19" QFormat="true"
+   Name="Plain Table 3"/>
+  <w:LsdException Locked="false" Priority="21" QFormat="true"
+   Name="Plain Table 4"/>
+  <w:LsdException Locked="false" Priority="31" QFormat="true"
+   Name="Plain Table 5"/>
+  <w:LsdException Locked="false" Priority="32" QFormat="true"
+   Name="Grid Table Light"/>
+  <w:LsdException Locked="false" Priority="33" QFormat="true"
+   Name="Grid Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="37" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Grid Table 2"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="true"
+   UnhideWhenUsed="true" QFormat="true" Name="Grid Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="Grid Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="Grid Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="Grid Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="Grid Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="Grid Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="Grid Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="Grid Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="Grid Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="Grid Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="46" Name="List Table 1 Light"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark"/>
+  <w:LsdException Locked="false" Priority="51" Name="List Table 6 Colorful"/>
+  <w:LsdException Locked="false" Priority="52" Name="List Table 7 Colorful"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 1"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 1"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 1"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 1"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 2"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 2"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 2"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 2"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 3"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 3"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 3"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 3"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 4"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 4"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 4"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 4"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 5"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 5"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 5"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 5"/>
+  <w:LsdException Locked="false" Priority="46"
+   Name="List Table 1 Light Accent 6"/>
+  <w:LsdException Locked="false" Priority="47" Name="List Table 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="48" Name="List Table 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="49" Name="List Table 4 Accent 6"/>
+  <w:LsdException Locked="false" Priority="50" Name="List Table 5 Dark Accent 6"/>
+  <w:LsdException Locked="false" Priority="51"
+   Name="List Table 6 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="52"
+   Name="List Table 7 Colorful Accent 6"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Mention"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Smart Hyperlink"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Hashtag"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Unresolved Mention"/>
+  <w:LsdException Locked="false" Priority="99" SemiHidden="true"
+   UnhideWhenUsed="true" Name="Smart Link"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:77;
+	mso-generic-font-family:decorative;
+	mso-font-pitch:variable;
+	mso-font-signature:3 0 0 0 -2147483647 0;}
+@font-face
+	{font-family:"MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;
+	mso-font-alt:"ＭＳ 明朝";
+	mso-font-charset:128;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-536870145 1791491579 134217746 0 131231 0;}
+@font-face
+	{font-family:SimSun;
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-alt:宋体;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 680460288 22 0 262145 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-536870145 1107305727 0 0 415 0;}
+@font-face
+	{font-family:Verdana;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-1593833729 1073750107 16 0 415 0;}
+@font-face
+	{font-family:"\@MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;
+	mso-font-charset:128;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-536870145 1791491579 134217746 0 131231 0;}
+@font-face
+	{font-family:"\@SimSun";
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 680460288 22 0 262145 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"MS Mincho";
+	mso-ansi-language:EN-US;
+	mso-fareast-language:JA;}
+p.MsoDate, li.MsoDate, div.MsoDate
+	{mso-style-unhide:no;
+	mso-style-next:Normal;
+	margin:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;
+	mso-fareast-font-family:"MS Mincho";
+	mso-ansi-language:EN-US;
+	mso-fareast-language:JA;}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	mso-fareast-font-family:"MS Mincho";}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;
+	mso-header-margin:36.0pt;
+	mso-footer-margin:36.0pt;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:-227;
+	mso-list-template-ids:-1283794914;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:"";
+	mso-level-tab-stop:0cm;
+	mso-level-number-position:left;
+	margin-left:0cm;
+	text-indent:0cm;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	margin-left:54.0pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	margin-left:90.0pt;
+	text-indent:-18.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	margin-left:126.0pt;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	margin-left:162.0pt;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	margin-left:198.0pt;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	margin-left:234.0pt;
+	text-indent:-18.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	margin-left:270.0pt;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	margin-left:306.0pt;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:353728882;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-2072237852 67698705 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l1:level1
+	{mso-level-text:"%1\)";
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2
+	{mso-list-id:830171452;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1649111788 67698705 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l2:level1
+	{mso-level-text:"%1\)";
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level2
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level3
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:108.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level5
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level6
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:216.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l2:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level8
+	{mso-level-number-format:alpha-lower;
+	mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l2:level9
+	{mso-level-number-format:roman-lower;
+	mso-level-tab-stop:324.0pt;
+	mso-level-number-position:right;
+	text-indent:-9.0pt;}
+@list l3
+	{mso-list-id:1016078111;
+	mso-list-type:hybrid;
+	mso-list-template-ids:978749058 67698691 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:1944148951;
+	mso-list-type:hybrid;
+	mso-list-template-ids:795883042 67698691 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Symbol;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:"Courier New";}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:;
+	mso-level-tab-stop:none;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-unhide:no;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman",serif;}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1026"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=en-CH style='tab-interval:36.0pt;word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:18.0pt'>Revit Lookup (Formerly
+known as RvtMgdDbg)<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.0pt'>Jim Awe<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.0pt'>Autodesk, Inc.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:10.0pt'>05/11/2005</span><span
+lang=EN-US style='font-size:10.0pt;mso-fareast-font-family:SimSun;mso-fareast-language:
+ZH-CN'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'>Warning, this document is currently
+obsolete.<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'><o:p>&nbsp;</o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'>08808006 [Revit SDK documentation
+outdated...]<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'><o:p>&nbsp;</o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'>Contains outdated or non-functional
+information regarding creating the 'RevitLookup.addin' file and the associated
+file which belong in the addins folder. (If you cut and paste the suggested
+text as from RevitLookup.doc to create RevitLookup.addin it will fail when
+Revit starts)<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'><o:p>&nbsp;</o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'>In 2012 SDK, there is a compiled DLL file,
+and a working Addin file.<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'><o:p>&nbsp;</o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'>In the 2013 SDK, there is no compiled DLL
+file (or instructions on compiling DLL), and there is no Addin file.<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'><o:p>&nbsp;</o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'>In the 2014 SDK there is no compiled DLL
+file (or instructions on compiling DLL), but there is an Addin file.<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'><o:p>&nbsp;</o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US
+style='font-size:10.0pt;color:red'>In all three cases, the date listed for the
+Documentation (Word Doc) is 05/11/2005, and much of the information is out of
+date.<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>Revit Lookup is a program designed with
+several goals:</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l2 level1 lfo1;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+"Times New Roman"'><span style='mso-list:Ignore'>1)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US>To provide a comprehensive test
+of the Managed API of Revit</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l2 level1 lfo1;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+"Times New Roman"'><span style='mso-list:Ignore'>2)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US>To provide sample code and utility
+classes for 3<sup>rd</sup> Party developers</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l2 level1 lfo1;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+"Times New Roman"'><span style='mso-list:Ignore'>3)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US>To provide “scaffolding” for
+quick tests of issues when they arise</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l2 level1 lfo1;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+"Times New Roman"'><span style='mso-list:Ignore'>4)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US>To aid my own learning
+experience on the Revit API</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>Currently, the following commands exist
+(all accessed from the “External Tools” menu):</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-no-proof:yes'><!--[if gte vml 1]><v:shapetype
+ id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
+ path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="_x0000_i1030" type="#_x0000_t75" alt="" style='width:422pt;
+ height:183pt;mso-width-percent:0;mso-height-percent:0;mso-width-percent:0;
+ mso-height-percent:0'>
+ <v:imagedata src="Readme_2005-05-11.fld/image001.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=422 height=183
+src="Readme_2005-05-11.fld/image002.jpg" v:shapes="_x0000_i1030"><![endif]></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US>Hello
+World…<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US>The classic bare-bones test.<span
+style='mso-spacerun:yes'>  </span>Just brings up an <span class=GramE>Alert</span>
+box to show that the connection to the external module is working.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US>Snoop
+DB…<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape
+ id="_x0000_i1029" type="#_x0000_t75" alt="" style='width:431pt;height:273pt;
+ mso-width-percent:0;mso-height-percent:0;mso-width-percent:0;
+ mso-height-percent:0'>
+ <v:imagedata src="Readme_2005-05-11.fld/image003.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=431 height=273
+src="Readme_2005-05-11.fld/image004.jpg" v:shapes="_x0000_i1029"><![endif]></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>This command allows you to browse all of
+the Elements within the current document and view their exposed properties.<span
+style='mso-spacerun:yes'>  </span>There has to be code written to extract all
+the individual properties of an object.<span style='mso-spacerun:yes'> 
+</span>As a result, when new classes or methods are added to the system, they
+will not be visible until code is explicitly written to display them.<span
+style='mso-spacerun:yes'>  </span>Because, the properties of an object are
+obtained in a top-down manner, all object types will at least be able to
+display common base class properties, even when newly added.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>When an item in the data list appears in
+bold typeface, it means that there is “Drill down” information.<span
+style='mso-spacerun:yes'>  </span>Click on that row and a nested Form (Dialog
+Box) will bring up more detailed information about that data item.<span
+style='mso-spacerun:yes'>  </span>For instance, clicking on any item that lists
+a ParameterSet will bring up a nested Form displaying the contents of the set.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US>NOTE:
+when “Drilling down”, the Forms will stack on top of each other.<span
+style='mso-spacerun:yes'>  </span>You could keep drilling down a long way if
+you aren’t paying attention.<span style='mso-spacerun:yes'>  </span>It is up to
+you to make sure you don’t get lost in all of the stacked up Forms.<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></i></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>The DrillDown information on a Class Separator
+(the light blue lines), will allow you to view information about the given
+class.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape
+ id="_x0000_i1028" type="#_x0000_t75" alt="" style='width:4in;height:275pt;
+ mso-width-percent:0;mso-height-percent:0;mso-width-percent:0;
+ mso-height-percent:0'>
+ <v:imagedata src="Readme_2005-05-11.fld/image005.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=288 height=275
+src="Readme_2005-05-11.fld/image006.jpg" v:shapes="_x0000_i1028"><![endif]></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>Also, in the left-hand pane, you can
+right-click on a particular object and get additional information.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape
+ id="_x0000_i1027" type="#_x0000_t75" alt="" style='width:431pt;height:273pt;
+ mso-width-percent:0;mso-height-percent:0;mso-width-percent:0;
+ mso-height-percent:0'>
+ <v:imagedata src="Readme_2005-05-11.fld/image007.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=431 height=273
+src="Readme_2005-05-11.fld/image008.jpg" v:shapes="_x0000_i1027"><![endif]></span></p>
+
+<p class=MsoNormal><span lang=EN-US>Choosing “Browse Using Reflection…” will
+bring up a Generic PropertyGrid Form that uses .NET Reflection to browse all
+the properties.<span style='mso-spacerun:yes'>  </span>Here, there is no code
+written specifically in Revit Lookup to retrieve, format, and display the
+properties.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape
+ id="_x0000_i1026" type="#_x0000_t75" alt="" style='width:4in;height:275pt;
+ mso-width-percent:0;mso-height-percent:0;mso-width-percent:0;
+ mso-height-percent:0'>
+ <v:imagedata src="Readme_2005-05-11.fld/image009.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=288 height=275
+src="Readme_2005-05-11.fld/image010.jpg" v:shapes="_x0000_i1026"><![endif]></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><i style='mso-bidi-font-style:normal'><span lang=EN-US>NOTE:
+Because we have no control over how items are displayed, read-only values
+appear in Grey, and editable values appear in Bold.<span
+style='mso-spacerun:yes'>  </span>This form is not setup to correctly handle
+edits, so making changes is completely at your own risk.<o:p></o:p></span></i></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>You can continue to browse generically
+using Reflection if you right-click on one of the items in the
+PropertyGrid.<span style='mso-spacerun:yes'>  </span>You get options to see
+either the Class info or the Object info.</span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US>Snoop
+Current Selection…<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>Same as the above command, except that it
+starts you off Snooping only the elements that were part of the current
+selection set.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US>Snoop
+Application…<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>Same as above, except that you start out at
+the <span class=GramE>Autodesk.Revit.Application</span> object which is
+originally passed to the command.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US>Test
+Framework …<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>This command packages a set of individual
+tests into a single location.<span style='mso-spacerun:yes'>  </span>As new
+tests are written, they are plugged into this same Form without the need to
+define new external commands and hook them up to the system.<span
+style='mso-spacerun:yes'>  </span>The black “CLS” nodes of the tree represent
+which Class the tests concern.<span style='mso-spacerun:yes'>  </span>The grey
+check mark nodes represent an individual test.<span style='mso-spacerun:yes'> 
+</span>To run a test, simply choose a check mark node and press OK.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>As of now, there are only a few tests, but
+more will be added over time.</span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='mso-no-proof:yes'><!--[if gte vml 1]><v:shape id="_x0000_i1025" type="#_x0000_t75"
+ alt="" style='width:261pt;height:279pt;mso-width-percent:0;
+ mso-height-percent:0;mso-width-percent:0;mso-height-percent:0'>
+ <v:imagedata src="Readme_2005-05-11.fld/image011.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=261 height=279
+src="Readme_2005-05-11.fld/image012.jpg" v:shapes="_x0000_i1025"><![endif]></span><span
+lang=EN-US><o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US>Set
+Up<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US>The Revit API now offers the ability to
+register API applications via an .addin manifest file.</span></p>
+
+<p class=MsoNormal><span lang=EN-US>Manifest files will be read automatically
+by Revit when they are places in one of two locations on a user's system:</span></p>
+
+<p class=MsoNormal><span lang=EN-US>•<span style='mso-tab-count:1'>           </span>In
+a non-user specific location in &quot;application data&quot;</span></p>
+
+<ul style='margin-top:0cm' type=circle>
+ <li class=MsoNormal style='mso-list:l4 level1 lfo3'><span lang=EN-US>For
+     Windows XP - C:\Documents and Settings\All Users\Application
+     Data\Autodesk\Revit\Addins\2012\</span></li>
+ <li class=MsoNormal style='mso-list:l4 level1 lfo3'><span lang=EN-US>For
+     Vista/Windows 7 - C:\ProgramData\Autodesk\Revit\Addins\2012\</span></li>
+</ul>
+
+<p class=MsoNormal><span lang=EN-US>•<span style='mso-tab-count:1'>           </span>In
+a user specific location in &quot;application data&quot;</span></p>
+
+<ul style='margin-top:0cm' type=circle>
+ <li class=MsoNormal style='mso-list:l3 level1 lfo4'><span lang=EN-US>For
+     Windows XP - C:\Documents and Settings\&lt;user&gt;\Application
+     Data\Autodesk\Revit\Addins\2012\</span></li>
+ <li class=MsoNormal style='mso-list:l3 level1 lfo4'><span lang=EN-US>For
+     Vista/Windows 7 - C:\Users\&lt;user&gt;\AppData\Roaming\Autodesk\Revit\Addins\2012\</span></li>
+</ul>
+
+<p class=MsoNormal><span lang=EN-US>All files named .addin in these locations
+will be read and processed by Revit during startup.</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>The content of RevitLookup.addin:</span></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>&lt;?</span><span lang=EN-US style='font-family:"Verdana",sans-serif;
+color:#A31515;mso-fareast-language:ZH-CN;mso-no-proof:yes'>xml</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'> </span><span lang=EN-US style='font-family:"Verdana",sans-serif;
+color:red;mso-fareast-language:ZH-CN;mso-no-proof:yes'>version</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>=</span><span lang=EN-US style='font-family:"Verdana",sans-serif;
+mso-fareast-language:ZH-CN;mso-no-proof:yes'>&quot;<span style='color:blue'>1.0</span>&quot;<span
+style='color:blue'> </span><span style='color:red'>encoding</span><span
+style='color:blue'>=</span>&quot;<span style='color:blue'>utf-16</span>&quot;<span
+style='color:blue'> </span><span style='color:red'>standalone</span><span
+style='color:blue'>=</span>&quot;<span style='color:blue'>no</span>&quot;<span
+style='color:blue'>?&gt;<o:p></o:p></span></span></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>&lt;</span><span lang=EN-US style='font-family:"Verdana",sans-serif;
+color:#A31515;mso-fareast-language:ZH-CN;mso-no-proof:yes'>RevitAddIns</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'><span style='mso-spacerun:yes'>  </span>&lt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:#A31515;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>AddIn</span><span lang=EN-US style='font-family:"Verdana",sans-serif;
+color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'> </span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:red;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>Type</span><span lang=EN-US style='font-family:"Verdana",sans-serif;
+color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'>=</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;mso-fareast-language:ZH-CN;
+mso-no-proof:yes'>&quot;<span style='color:blue'>Application</span>&quot;<span
+style='color:blue'>&gt;<o:p></o:p></span></span></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'><span style='mso-spacerun:yes'>    </span>&lt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:#A31515;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>Name</span><span lang=EN-US style='font-family:"Verdana",sans-serif;
+color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'>&gt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;mso-fareast-language:ZH-CN;
+mso-no-proof:yes'>RevitLookup<span style='color:blue'>&lt;/</span><span
+style='color:#A31515'>Name</span><span style='color:blue'>&gt;<o:p></o:p></span></span></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'><span style='mso-spacerun:yes'>    </span>&lt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:#A31515;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>Assembly</span><span lang=EN-US style='font-family:
+"Verdana",sans-serif;color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'>&gt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;mso-fareast-language:ZH-CN;
+mso-no-proof:yes'>RevitLookup.dll<span style='color:blue'>&lt;/</span><span
+style='color:#A31515'>Assembly</span><span style='color:blue'>&gt;<o:p></o:p></span></span></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'><span style='mso-spacerun:yes'>    </span>&lt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:#A31515;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>ClientId</span><span lang=EN-US style='font-family:
+"Verdana",sans-serif;color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'>&gt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;mso-fareast-language:ZH-CN;
+mso-no-proof:yes'>6066CBF6-9034-41dd-A2A6-B3761C1362FF<span style='color:blue'>&lt;/</span><span
+style='color:#A31515'>ClientId</span><span style='color:blue'>&gt;<o:p></o:p></span></span></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'><span style='mso-spacerun:yes'>    </span>&lt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:#A31515;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>FullClassName</span><span lang=EN-US style='font-family:
+"Verdana",sans-serif;color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'>&gt;</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;mso-fareast-language:ZH-CN;
+mso-no-proof:yes'>RevitLookup.App<span style='color:blue'>&lt;/</span><span
+style='color:#A31515'>FullClassName</span><span style='color:blue'>&gt;<o:p></o:p></span></span></p>
+
+<p class=MsoNormal style='mso-layout-grid-align:none;text-autospace:none'><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:blue;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'><span style='mso-spacerun:yes'>  </span>&lt;/</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:#A31515;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>AddIn</span><span lang=EN-US style='font-family:"Verdana",sans-serif;
+color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'>&gt;<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-family:"Verdana",sans-serif;
+color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'>&lt;/</span><span
+lang=EN-US style='font-family:"Verdana",sans-serif;color:#A31515;mso-fareast-language:
+ZH-CN;mso-no-proof:yes'>RevitAddIns</span><span lang=EN-US style='font-family:
+"Verdana",sans-serif;color:blue;mso-fareast-language:ZH-CN;mso-no-proof:yes'>&gt;</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US>Known
+Issues<o:p></o:p></span></b></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US>As of this date, there are a few known
+issues:</span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l1 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+"Times New Roman"'><span style='mso-list:Ignore'>1)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US>Random exceptions when browsing
+Forms.<span style='mso-spacerun:yes'>  </span>There is a strange work-around in
+some of the Form constructors that seems to get around a lot of the exceptions,
+but there is still the occasional problem.<span style='mso-spacerun:yes'> 
+</span>Usually, they give the exception message “Overflow or underflow
+operation”.<span style='mso-spacerun:yes'>  </span>The exceptions are <span
+class=GramE>caught</span> and you will be returned to the editor window and can
+continue.</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l1 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+"Times New Roman"'><span style='mso-list:Ignore'>2)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US>The Snoop XML Form seems to be
+especially flaky.<span style='mso-spacerun:yes'>  </span>This was ported
+directly over from the AutoCAD version of MgdDbg, so I’m not sure what the deal
+is yet because it seems much more stable over there.</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l1 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+"Times New Roman"'><span style='mso-list:Ignore'>3)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US>Trying to get the Analytical
+model of walls if they aren’t a load-bearing wall causes an Assert.<span
+style='mso-spacerun:yes'>  </span>Simply click on “Ignore All” and it won’t
+bother you anymore.</span></p>
+
+<p class=MsoNormal style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:l1 level1 lfo2;
+tab-stops:list 36.0pt'><![if !supportLists]><span lang=EN-US style='mso-fareast-font-family:
+"Times New Roman"'><span style='mso-list:Ignore'>4)<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span lang=EN-US>Trying to get the Room or
+analytical model of a FamilyInstance asserts that the TopologyId is
+incorrect.<span style='mso-spacerun:yes'>  </span>Simply click on “Ignore All”
+and it won’t bother you anymore. </span></p>
+
+</div>
+
+</body>
+
+</html>
