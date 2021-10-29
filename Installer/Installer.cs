@@ -11,6 +11,10 @@ using WixSharp.Controls;
 
 namespace Installer
 {
+    /// <summary>
+    /// Documentation:
+    /// https://github.com/Nice3point/RevitTemplates/wiki
+    /// </summary>
     public static class Installer
     {
         private const string InstallationDir = @"%AppDataFolder%\Autodesk\Revit\Addins\";
@@ -20,7 +24,6 @@ namespace Installer
 
         public static void Main(string[] args)
         {
-
             var version = GetAssemblyVersion(args);
             var outFileNameBuilder = new StringBuilder().Append(OutputName).Append("-").Append(version);
             //Additional suffixes for unique configurations add here
@@ -49,7 +52,7 @@ namespace Installer
                     new InstallDir(InstallationDir, GetOutputFolders(args))
                 }
             };
-            
+
             MajorUpgrade.Default.AllowSameVersionUpgrades = true;
             project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
             project.BuildMsi();
@@ -85,10 +88,7 @@ namespace Installer
             foreach (var directory in directories)
             {
                 var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
-                if (assemblies.Length == 0)
-                {
-                    continue;
-                }
+                if (assemblies.Length == 0) continue;
                 var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
                 return fileVersionInfo.ProductVersion;
             }
