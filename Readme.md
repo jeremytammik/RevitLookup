@@ -80,6 +80,18 @@ the entire Revit add-in developer community.
 
 Thank you, guys!
 
+## Contributing
+
+* Create, or update, a fork under your GitHub account.
+* Checkout to dev branch.
+* In the branch you do work specific to the feature.
+* Build the project and make sure everything works.
+* Create commits of your changes.
+* Push pull request to origin:dev branch.
+
+* Please also observe the following:
+    * No reformatting.
+    * No changing files that are not specific to the feature.
 
 ## License
 
