@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AssemblyName>RevitLookup</AssemblyName>
+        <TargetFramework>net48</TargetFramework>
+        <OutputType>Library</OutputType>
+        <UseWpf>true</UseWpf>
+        <Version>22.0.2.0</Version>
+        <UseWindowsForms>true</UseWindowsForms>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Revit_API_x64" Version="2022.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Resource Include="Resources\RLookup-16.ico" />
+        <Resource Include="Resources\RLookup-16.png" />
+        <Resource Include="Resources\RLookup-32.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="RevitLookup.addin">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <AddinDll Include="$(TargetDir)$(AssemblyName).dll" />
+    </ItemGroup>
+    
+    <Target Name="AfterBuildTarget" AfterTargets="CoreBuild">
+        <PropertyGroup>
+            <AddinDir>bin\AddIn 2022 $(Configuration)\</AddinDir>
+            <OutAddinDir>$(AddinDir)$(AssemblyName)\</OutAddinDir>
+        </PropertyGroup>
+        
+        <Copy SourceFiles="$(TargetDir)$(AssemblyName).addin" DestinationFolder="$(AddinDir)" />
+        <Copy SourceFiles="@(AddinDll)" DestinationFolder="$(OutAddinDir)" />
+
+        <ItemGroup>
+            <OutLibPath Include="$(AddinDir)**\*.*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(OutLibPath)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\2022\%(RecursiveDir)" />
+    </Target>
+</Project>

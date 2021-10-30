@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net48</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <Configurations>Release</Configurations>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <Optimize>true</Optimize>
+        <PlatformTarget>x64</PlatformTarget>
+        <DebugType>none</DebugType>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="WixSharp">
+            <Version>1.18.1</Version>
+        </PackageReference>
+        <PackageReference Include="WixSharp.wix.bin">
+            <Version>3.11.2</Version>
+        </PackageReference>
+    </ItemGroup>
+</Project>
