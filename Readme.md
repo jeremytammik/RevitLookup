@@ -30,20 +30,20 @@ Please refer to the [changelog](Doc/Changelog.md) for details.
 
 ## Installation
 
-* Go to the [**Git Actions**](https://github.com/jeremytammik/RevitLookup/actions/workflows/CreatePackage.yml) section on the project page.
-* Open the most recent successful workflow.
-* Download and open **RevitLookup.zip** from the **Artifacts** section.
-* Run the MSI package.
+- Go to the [**Git Actions**](https://github.com/jeremytammik/RevitLookup/actions/workflows/CreatePackage.yml) section on the project page.
+- Open the most recent successful workflow.
+- Download and open **RevitLookup.zip** from the **Artifacts** section.
+- Run the MSI package.
 
 The installer contains all the latest versions starting from the 2015 version of Revit.
 
 ## Build
 
-* To build the package on your local computer, open the terminal of your IDE.
-* Install Nuke global tools `dotnet tool install Nuke.GlobalTool --global`.
-* Run `nuke` command.
-* The generated package will be in the **output** folder.
-* For debugging, run the build or Run configuration of your IDE. For Visual Studio and JetBrains Rider, the required configurations have been added. All required files will be automatically copied to the Revit plugins folder.
+- To build the package on your local computer, open the terminal of your IDE.
+- Install Nuke global tools `dotnet tool install Nuke.GlobalTool --global`.
+- Run `nuke` command.
+- The generated package will be in the **output** folder.
+- For debugging, run the build or Run configuration of your IDE. For Visual Studio and JetBrains Rider, the required configurations have been added. All required files will be automatically copied to the Revit plugins folder.
 
 For more information on building, see the [**RevitTemplates**](https://github.com/Nice3point/RevitTemplates) Wiki page.
 
@@ -63,6 +63,22 @@ How is RevitLookup supposed to be able to guess what view you are interested in?
 
 For methods requiring dynamic input that cannot be automatically determined, you can [make use of more intimate interactive database exploration tools, e.g. RevitPythonShell](http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html).
 
+## Contributing
+
+Contribuitions are more than welcome! Please work in the `dev` branch to do so:
+
+- Create or update your own fork of RevitLookup under your GitHub account
+- Checkout to the `dev` branch
+- In the `dev` branch, implement and test you changes specific to the feature
+- Build the project and make sure everything works
+- Create well-documented commits of your changes
+- Submit a pull request to the `origin:dev` branch
+
+- Please avoid:
+
+- Reformatting
+- Modifying files that are not directly related to the feature you implement
+
 
 ## Author
 
@@ -79,19 +95,6 @@ with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/grap
 the entire Revit add-in developer community.
 
 Thank you, guys!
-
-## Contributing
-
-* Create, or update, a fork under your GitHub account.
-* Checkout to dev branch.
-* In the branch you do work specific to the feature.
-* Build the project and make sure everything works.
-* Create commits of your changes.
-* Push pull request to origin:dev branch.
-
-* Please also observe the following:
-    * No reformatting.
-    * No changing files that are not specific to the feature.
 
 ## License
 
