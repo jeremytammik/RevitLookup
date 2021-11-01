@@ -74,7 +74,7 @@ Contribuitions are more than welcome! Please work in the `dev` branch to do so:
 - Create well-documented commits of your changes
 - Submit a pull request to the `origin:dev` branch
 
-- Please avoid:
+Please avoid:
 
 - Reformatting
 - Modifying files that are not directly related to the feature you implement
