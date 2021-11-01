@@ -82,7 +82,7 @@ Please avoid:
 
 ## Author
 
-Implemented by Jim Awe and the Revit API development team at Autodesk.
+Originally implemented by Jim Awe and the Revit API development team at Autodesk.
 
 Maintained by Jeremy Tammik,
 [The Building Coder](http://thebuildingcoder.typepad.com) and
