@@ -31,7 +31,7 @@ namespace RevitLookup.Snoop.Data
             for (var i = 0; i < _scheduleDefinition.GetFieldCount(); i++)
             {
                 var field = _scheduleDefinition.GetField(i);
-                scheduleFieldObjects.Add(new SnoopableObjectWrapper("[" + i + "] " + field.GetName(), field));
+                scheduleFieldObjects.Add(new SnoopableObjectWrapper($"[{i}] {field.GetName()}", field));
             }
 
             if (!scheduleFieldObjects.Any()) return null;

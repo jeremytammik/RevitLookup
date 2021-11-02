@@ -29,7 +29,7 @@ namespace RevitLookup.Snoop.Data
             var cropRegionOffsetObjects = new List<SnoopableObjectWrapper>();
 
             for (var i = 0; i < _viewCropRegionShapeManager.NumberOfSplitRegions; i++)
-                cropRegionOffsetObjects.Add(new SnoopableObjectWrapper("[" + i + "]", _viewCropRegionShapeManager.GetSplitRegionOffset(i)));
+                cropRegionOffsetObjects.Add(new SnoopableObjectWrapper($"[{i}]", _viewCropRegionShapeManager.GetSplitRegionOffset(i)));
 
             if (!cropRegionOffsetObjects.Any()) return null;
 

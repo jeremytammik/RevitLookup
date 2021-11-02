@@ -132,7 +132,7 @@ namespace RevitLookup.Snoop.CollectorExts
 
             foreach (var schema in schemas)
             {
-                var objectName = "Entity with Schema [" + schema.SchemaName + "]";
+                var objectName = $"Entity with Schema [{schema.SchemaName}]";
                 try
                 {
                     var entity = elem.GetEntity(schema);

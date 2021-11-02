@@ -67,7 +67,7 @@ namespace RevitLookup.Snoop.Forms
             curNodes.Add(rootNode1);
             foreach (ViewDetailLevel viewDetailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
             {
-                tmpNode = new TreeNode("Detail Level = " + viewDetailLevel);
+                tmpNode = new TreeNode($"Detail Level = {viewDetailLevel}");
                 // IMPORTANT!!! Need to create options each time when you are 
                 // getting geometry. In other case, all the geometry you got at the 
                 // previous step will be owerriten according with the latest DetailLevel
@@ -84,7 +84,7 @@ namespace RevitLookup.Snoop.Forms
             curNodes.Add(rootNode);
             foreach (ViewDetailLevel viewDetailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
             {
-                tmpNode = new TreeNode("Detail Level = " + viewDetailLevel);
+                tmpNode = new TreeNode($"Detail Level = {viewDetailLevel}");
                 // IMPORTANT!!! Need to create options each time when you are 
                 // getting geometry. In other case, all the geometry you got at the 
                 // previous step will be owerriten according with the latest DetailLevel
