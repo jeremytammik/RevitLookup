@@ -62,14 +62,12 @@ namespace RevitLookup.Snoop
                 // and don't add a SubItem for the "Field" value
                 if (tmpSnoopData.IsSeparator)
                 {
-                    var lvItem = new ListViewItem(tmpSnoopData.StrValue());
+                    var lvItem = new ListViewItem(tmpSnoopData.StrValue())
+                    {
+                        BackColor = tmpSnoopData is ClassSeparator ? Color.LightBlue : Color.WhiteSmoke,
+                        Tag = tmpSnoopData
+                    };
 
-                    if (tmpSnoopData is ClassSeparator)
-                        lvItem.BackColor = Color.LightBlue;
-                    else
-                        lvItem.BackColor = Color.WhiteSmoke;
-
-                    lvItem.Tag = tmpSnoopData;
                     lvCur.Items.Add(lvItem);
                 }
                 else

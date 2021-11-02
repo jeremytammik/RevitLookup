@@ -94,26 +94,17 @@ namespace RevitLookup
 
             if (axis.Equals(XAxis))
             {
-                if (pt1.X > pt2.X)
-                    pt = pt1;
-                else
-                    pt = pt2;
+                pt = pt1.X > pt2.X ? pt1 : pt2;
             }
 
             if (axis.Equals(YAxis))
             {
-                if (pt1.Y > pt2.Y)
-                    pt = pt1;
-                else
-                    pt = pt2;
+                pt = pt1.Y > pt2.Y ? pt1 : pt2;
             }
 
             if (axis.Equals(ZAxis))
             {
-                if (pt1.Z > pt2.Z)
-                    pt = pt1;
-                else
-                    pt = pt2;
+                pt = pt1.Z > pt2.Z ? pt1 : pt2;
             }
 
             return pt;
@@ -134,8 +125,7 @@ namespace RevitLookup
             foreach (var ptTemp in pts)
             {
                 /// don't consider the pt itself
-                if (pt.Equals(ptTemp))
-                    continue;
+                if (pt.Equals(ptTemp)) continue;
 
                 var dist = Math.Sqrt(Math.Pow(pt.X - ptTemp.X, 2.0) +
                                      Math.Pow(pt.Y - ptTemp.Y, 2.0) +
