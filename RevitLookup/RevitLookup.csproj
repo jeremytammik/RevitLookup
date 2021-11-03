@@ -16,9 +16,12 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
+    <PropertyGroup>
+        <RevitVersion>2022</RevitVersion>
+    </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Revit_API_x64" Version="2022.0.0" />
+        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).0.0" />
     </ItemGroup>
     
     <ItemGroup>
@@ -39,7 +42,7 @@
     
     <Target Name="AfterBuildTarget" AfterTargets="CoreBuild">
         <PropertyGroup>
-            <AddinDir>bin\AddIn 2022 $(Configuration)\</AddinDir>
+            <AddinDir>bin\AddIn $(RevitVersion) $(Configuration)\</AddinDir>
             <OutAddinDir>$(AddinDir)$(AssemblyName)\</OutAddinDir>
         </PropertyGroup>
         
@@ -49,6 +52,6 @@
         <ItemGroup>
             <OutLibPath Include="$(AddinDir)**\*.*" />
         </ItemGroup>
-        <Copy SourceFiles="@(OutLibPath)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\2022\%(RecursiveDir)" />
+        <Copy SourceFiles="@(OutLibPath)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" />
     </Target>
 </Project>

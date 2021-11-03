@@ -67,10 +67,12 @@ namespace RevitLookup.Snoop
             var document = activeUiDocument.Document;
 
             var ids = activeUiDocument.Selection.GetElementIds();
+
             if (ids.Any())
             { 
                 return (new FilteredElementCollector(document, ids).WherePasses(new LogicalOrFilter(new ElementIsElementTypeFilter(inverted: false), new ElementIsElementTypeFilter(inverted : true))).ToElements(), document);                
             }
+          
             return (new FilteredElementCollector(document, document.ActiveView.Id).WhereElementIsNotElementType().ToElements(), document);
         }
 
