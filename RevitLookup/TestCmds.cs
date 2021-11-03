@@ -39,10 +39,10 @@ namespace RevitLookup
 {
 #pragma warning disable CS4014 // Because calls to SnoopAndShow method, which is async, are not awaited, execution of the commands continues before the calls are completed
 
-  /// <summary>
-  ///     The classic bare-bones test.  Just brings up an Alert box to show that the connection to the external module is working.
-  /// </summary>
-  [Transaction(TransactionMode.Manual)]
+    /// <summary>
+    ///     The classic bare-bones test.  Just brings up an Alert box to show that the connection to the external module is working.
+    /// </summary>
+    [Transaction(TransactionMode.Manual)]
     public class HelloWorld : IExternalCommand
     {
         public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
@@ -55,10 +55,10 @@ namespace RevitLookup
         }
     }
 
-  /// <summary>
-  ///     SnoopDB command:  Browse all Elements in the current Document
-  /// </summary>
-  [Transaction(TransactionMode.Manual)]
+    /// <summary>
+    ///     SnoopDB command:  Browse all Elements in the current Document
+    /// </summary>
+    [Transaction(TransactionMode.Manual)]
     public class CmdSnoopDb : IExternalCommand
     {
         public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
