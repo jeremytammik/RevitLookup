@@ -5,7 +5,7 @@
         <TargetFramework>net48</TargetFramework>
         <OutputType>Library</OutputType>
         <UseWpf>true</UseWpf>
-        <Version>22.0.2.2</Version>
+        <Version>22.0.2.3</Version>
         <UseWindowsForms>true</UseWindowsForms>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <LangVersion>9</LangVersion>
