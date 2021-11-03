@@ -37,6 +37,7 @@ partial class Build
                 proc.StartInfo.Arguments = exeArguments;
                 proc.Start();
                 proc.WaitForExit();
+                if (proc.ExitCode != 0) throw new Exception("The installer creation failed.");
             }
         });
 
