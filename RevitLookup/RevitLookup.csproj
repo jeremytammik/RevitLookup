@@ -25,9 +25,9 @@
     </ItemGroup>
     
     <ItemGroup>
-        <Resource Include="Resources\RLookup-16.ico" />
-        <Resource Include="Resources\RLookup-16.png" />
-        <Resource Include="Resources\RLookup-32.png" />
+        <Resource Include="Resources\Images\RLookup-16.ico" />
+        <Resource Include="Resources\Images\RLookup-16.png" />
+        <Resource Include="Resources\Images\RLookup-32.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -38,6 +38,49 @@
 
     <ItemGroup>
         <AddinDll Include="$(TargetDir)$(AssemblyName).dll" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Xml\Dom.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\BindingMap.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\Categories.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\GenericPropGrid.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\Geometry.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\Objects.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\ObjTreeBase.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\ParamEnum.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\ParamEnumSnoop.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\Parameters.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="View\SearchBy.cs">
+        <SubType>Form</SubType>
+      </Compile>
+      <Compile Update="Forms\EventsForm.cs">
+        <SubType>Form</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Core" />
     </ItemGroup>
     
     <Target Name="AfterBuildTarget" AfterTargets="CoreBuild">
