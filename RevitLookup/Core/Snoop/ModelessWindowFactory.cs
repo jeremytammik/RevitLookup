@@ -41,7 +41,7 @@ namespace RevitLookup.Core.Snoop
             newForm.FormClosed += (s, e) =>
             {
                 ModelessWindowHandle.BringRevitToFront();
-                FocusOwner(s as Form);
+                FocusOwner((Form) s);
             };
         }
 
@@ -50,13 +50,13 @@ namespace RevitLookup.Core.Snoop
             parentForm.KeyPreview = true;
             parentForm.KeyDown += (s, e) =>
             {
-                if (e.KeyCode == Keys.Escape) (s as Form).Close();
+                if (e.KeyCode == Keys.Escape) ((Form) s).Close();
             };
         }
 
         private static void FocusOwner(Form form)
         {
-            if (form.Owner is Form owner) owner.Focus();
+            if (form.Owner is { } owner) owner.Focus();
         }
     }
 }
