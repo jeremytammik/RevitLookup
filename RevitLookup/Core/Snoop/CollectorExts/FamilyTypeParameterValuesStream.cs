@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Linq;
 using Autodesk.Revit.DB;
-using Enumerable = RevitLookup.Snoop.Data.Enumerable;
+using Enumerable = RevitLookup.Core.Snoop.Data.Enumerable;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     public class FamilyTypeParameterValuesStream : IElementStream
     {

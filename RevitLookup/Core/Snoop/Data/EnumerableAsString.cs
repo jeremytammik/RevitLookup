@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
     /// <summary>
     ///     Returns the INumeragle as string, separated by semicolon

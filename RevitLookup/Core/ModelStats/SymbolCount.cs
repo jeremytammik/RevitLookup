@@ -27,12 +27,12 @@
 using System.Collections;
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.ModelStats
+namespace RevitLookup.Core.ModelStats
 {
-	/// <summary>
-	///     Summary description for SymbolCount.
-	/// </summary>
-	public class SymbolCount
+    /// <summary>
+    ///     Summary description for SymbolCount.
+    /// </summary>
+    public class SymbolCount
     {
         public ArrayList MRefs = new();
 

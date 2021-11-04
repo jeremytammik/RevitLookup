@@ -11,23 +11,23 @@
         <LangVersion>9</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <PlatformTarget>x64</PlatformTarget>
+        <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <PlatformTarget>x64</PlatformTarget>
+        <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
     <PropertyGroup>
         <RevitVersion>2022</RevitVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).0.0" />
+        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).0.0"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-        <Resource Include="Resources\Images\RLookup-16.ico" />
-        <Resource Include="Resources\Images\RLookup-16.png" />
-        <Resource Include="Resources\Images\RLookup-32.png" />
+        <Resource Include="Resources\Images\RLookup-16.ico"/>
+        <Resource Include="Resources\Images\RLookup-16.png"/>
+        <Resource Include="Resources\Images\RLookup-32.png"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -37,64 +37,64 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AddinDll Include="$(TargetDir)$(AssemblyName).dll" />
+        <AddinDll Include="$(TargetDir)$(AssemblyName).dll"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Xml\Dom.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\BindingMap.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\Categories.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\GenericPropGrid.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\Geometry.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\Objects.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\ObjTreeBase.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\ParamEnum.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\ParamEnumSnoop.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\Parameters.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="View\SearchBy.cs">
-        <SubType>Form</SubType>
-      </Compile>
-      <Compile Update="Forms\EventsForm.cs">
-        <SubType>Form</SubType>
-      </Compile>
+        <Compile Update="Xml\Dom.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\BindingMap.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\Categories.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\GenericPropGrid.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\Geometry.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\Objects.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\ObjTreeBase.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\ParamEnum.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\ParamEnumSnoop.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\Parameters.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="View\SearchBy.cs">
+            <SubType>Form</SubType>
+        </Compile>
+        <Compile Update="Forms\EventsForm.cs">
+            <SubType>Form</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Core" />
+        <Folder Include="Core"/>
     </ItemGroup>
-    
+
     <Target Name="AfterBuildTarget" AfterTargets="CoreBuild">
         <PropertyGroup>
             <AddinDir>bin\AddIn $(RevitVersion) $(Configuration)\</AddinDir>
             <OutAddinDir>$(AddinDir)$(AssemblyName)\</OutAddinDir>
         </PropertyGroup>
-        
-        <Copy SourceFiles="$(TargetDir)$(AssemblyName).addin" DestinationFolder="$(AddinDir)" />
-        <Copy SourceFiles="@(AddinDll)" DestinationFolder="$(OutAddinDir)" />
+
+        <Copy SourceFiles="$(TargetDir)$(AssemblyName).addin" DestinationFolder="$(AddinDir)"/>
+        <Copy SourceFiles="@(AddinDll)" DestinationFolder="$(OutAddinDir)"/>
 
         <ItemGroup>
-            <OutLibPath Include="$(AddinDir)**\*.*" />
+            <OutLibPath Include="$(AddinDir)**\*.*"/>
         </ItemGroup>
-        <Copy SourceFiles="@(OutLibPath)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" />
+        <Copy SourceFiles="@(OutLibPath)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)"/>
     </Target>
 </Project>

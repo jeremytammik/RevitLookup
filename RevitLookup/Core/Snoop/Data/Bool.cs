@@ -24,12 +24,12 @@
 
 #endregion // Header
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format a Bool value.
-	/// </summary>
-	public class Bool : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format a Bool value.
+    /// </summary>
+    public class Bool : Data
     {
         protected bool MVal;
 

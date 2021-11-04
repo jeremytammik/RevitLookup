@@ -25,14 +25,14 @@
 #endregion // Header
 
 using Autodesk.Revit.DB;
-using RevitLookup.Snoop.Collectors;
+using RevitLookup.Core.Snoop.Collectors;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
-	/// <summary>
-	///     Base class for CollectorExt objects.
-	/// </summary>
-	public abstract class CollectorExt
+    /// <summary>
+    ///     Base class for CollectorExt objects.
+    /// </summary>
+    public abstract class CollectorExt
     {
         protected readonly Document MDoc;
 

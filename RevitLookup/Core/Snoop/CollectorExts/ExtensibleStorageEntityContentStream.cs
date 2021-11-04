@@ -5,15 +5,15 @@ using System.Linq;
 using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
-using RevitLookup.Snoop.Data;
-using Double = RevitLookup.Snoop.Data.Double;
+using RevitLookup.Core.Snoop.Data;
+using Double = RevitLookup.Core.Snoop.Data.Double;
 using ElementId = Autodesk.Revit.DB.ElementId;
-using Enumerable = RevitLookup.Snoop.Data.Enumerable;
+using Enumerable = RevitLookup.Core.Snoop.Data.Enumerable;
 using Exception = System.Exception;
-using Object = RevitLookup.Snoop.Data.Object;
-using String = RevitLookup.Snoop.Data.String;
+using Object = RevitLookup.Core.Snoop.Data.Object;
+using String = RevitLookup.Core.Snoop.Data.String;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     public class ExtensibleStorageEntityContentStream : IElementStream
     {

@@ -3,7 +3,7 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace RevitLookup
+namespace RevitLookup.Commands
 {
     /// <summary>
     ///     The classic bare-bones test.  Just brings up an Alert box to show that the connection to the external module is working.

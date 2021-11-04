@@ -27,7 +27,7 @@
 using System.Collections;
 using System.Windows.Forms;
 
-namespace RevitLookup
+namespace RevitLookup.Forms.Utils
 {
     /// <summary>
     ///     This class is an implementation of the 'IComparer' interface.

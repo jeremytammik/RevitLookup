@@ -24,12 +24,12 @@
 
 #endregion // Header
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format a CategorySeparator value.
-	/// </summary>
-	public class CategorySeparator : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format a CategorySeparator value.
+    /// </summary>
+    public class CategorySeparator : Data
     {
         protected string MVal;
 

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autodesk.Revit.DB;
-using RevitLookup.Snoop.Data;
-using Exception = RevitLookup.Snoop.Data.Exception;
+using RevitLookup.Core.Snoop.Data;
+using Exception = RevitLookup.Core.Snoop.Data.Exception;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     public class ElementMethodsStream : IElementStream
     {

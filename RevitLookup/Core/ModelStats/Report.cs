@@ -33,12 +33,12 @@ using System.Text;
 using System.Xml;
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.ModelStats
+namespace RevitLookup.Core.ModelStats
 {
-  /// <summary>
-  ///     Summary description for Report.
-  /// </summary>
-  public class Report
+    /// <summary>
+    ///     Summary description for Report.
+    /// </summary>
+    public class Report
     {
         private readonly ArrayList _mCategoryCounts = new();
 

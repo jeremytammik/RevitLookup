@@ -27,8 +27,8 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitLookup.Core.Snoop;
 using RevitLookup.Forms;
-using RevitLookup.Snoop;
 
 // Each command is implemented as a class that provides the IExternalCommand Interface
 

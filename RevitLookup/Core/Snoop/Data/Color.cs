@@ -1,4 +1,4 @@
-﻿namespace RevitLookup.Snoop.Data
+﻿namespace RevitLookup.Core.Snoop.Data
 {
     public class Color : Data
     {

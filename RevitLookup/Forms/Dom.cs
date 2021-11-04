@@ -31,8 +31,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
-using RevitLookup.Snoop;
-using RevitLookup.Snoop.Collectors;
+using RevitLookup.Core.Snoop;
+using RevitLookup.Core.Snoop.Collectors;
 
 namespace RevitLookup.Forms
 {
@@ -87,10 +87,7 @@ namespace RevitLookup.Forms
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                components?.Dispose();
-            }
+            if (disposing) components?.Dispose();
 
             base.Dispose(disposing);
         }
@@ -628,7 +625,7 @@ namespace RevitLookup.Forms
             SetButtonModes(node);
 
             _mSnoopCollector.Collect(node);
-            Utils.Display(_mLvData, _mSnoopCollector);
+            Core.Snoop.Utils.Display(_mLvData, _mSnoopCollector);
         }
 
         /// <summary>
@@ -816,7 +813,7 @@ namespace RevitLookup.Forms
         private void
             DataItemSelected(object sender, EventArgs e)
         {
-            Utils.DataItemSelected(_mLvData, new ModelessWindowFactory(this, null));
+            Core.Snoop.Utils.DataItemSelected(_mLvData, new ModelessWindowFactory(this, null));
         }
 
         /// <summary>

@@ -29,8 +29,8 @@ using System.Windows.Media.Imaging;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.UI;
 using RevitLookup.Commands;
+using RevitLookup.Core.Snoop;
 using RevitLookup.RevitUtils;
-using RevitLookup.Snoop;
 
 namespace RevitLookup
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
-using RevitLookup.Snoop;
+using RevitLookup.Core.Snoop;
 using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Forms

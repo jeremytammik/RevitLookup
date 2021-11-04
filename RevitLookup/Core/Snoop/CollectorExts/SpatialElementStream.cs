@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Linq;
 using Autodesk.Revit.DB;
-using Object = RevitLookup.Snoop.Data.Object;
+using Object = RevitLookup.Core.Snoop.Data.Object;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     public class SpatialElementStream : IElementStream
     {

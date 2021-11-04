@@ -1,7 +1,7 @@
 ﻿using System;
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Snoop.Data.PlaceHolders
+namespace RevitLookup.Core.Snoop.Data.PlaceHolders
 {
     internal class PlanTopologyPlaceholder : IObjectToSnoopPlaceholder
     {

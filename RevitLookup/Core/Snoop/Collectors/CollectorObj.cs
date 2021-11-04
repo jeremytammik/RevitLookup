@@ -27,10 +27,10 @@
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using RevitLookup.Snoop.CollectorExts;
-using RevitLookup.Snoop.Data.PlaceHolders;
+using RevitLookup.Core.Snoop.CollectorExts;
+using RevitLookup.Core.Snoop.Data.PlaceHolders;
 
-namespace RevitLookup.Snoop.Collectors
+namespace RevitLookup.Core.Snoop.Collectors
 {
     /// <summary>
     ///     This is really a collector for any object of type System.Object.  In non .NET environments, you need

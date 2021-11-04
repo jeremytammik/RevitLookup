@@ -30,16 +30,16 @@ using System.ComponentModel;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
-using RevitLookup.Snoop;
-using RevitLookup.Snoop.Collectors;
+using RevitLookup.Core.Snoop;
+using RevitLookup.Core.Snoop.Collectors;
 using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Forms
 {
-	/// <summary>
-	///     Summary description for Object form.
-	/// </summary>
-	public class ParamEnumSnoop : Form, IHaveCollector
+    /// <summary>
+    ///     Summary description for Object form.
+    /// </summary>
+    public class ParamEnumSnoop : Form, IHaveCollector
     {
         private readonly Hashtable _mEnumMap;
         private ToolStripMenuItem _copyToolStripMenuItem;
@@ -75,7 +75,7 @@ namespace RevitLookup.Forms
             InitializeComponent();
 
             // Add Load to update ListView Width
-            Utils.AddOnLoadForm(this);
+            Core.Snoop.Utils.AddOnLoadForm(this);
 
             MTvObjs.BeginUpdate();
 
@@ -96,10 +96,7 @@ namespace RevitLookup.Forms
         protected override void
             Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                components?.Dispose();
-            }
+            if (disposing) components?.Dispose();
 
             base.Dispose(disposing);
         }
@@ -355,7 +352,7 @@ namespace RevitLookup.Forms
         {
             MCurObj = e.Node.Tag;
             await MSnoopCollector.Collect(MCurObj);
-            Utils.Display(MLvData, MSnoopCollector);
+            Core.Snoop.Utils.Display(MLvData, MSnoopCollector);
         }
 
         /// <summary>
@@ -365,7 +362,7 @@ namespace RevitLookup.Forms
         protected void
             DataItemSelected(object sender, EventArgs e)
         {
-            Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
+            Core.Snoop.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
 
 
@@ -376,7 +373,7 @@ namespace RevitLookup.Forms
         private void
             ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (MTvObjs.SelectedNode != null) Utils.CopyToClipboard(MLvData);
+            if (MTvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(MLvData);
         }
 
 
@@ -387,7 +384,7 @@ namespace RevitLookup.Forms
         private void
             ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
-            Utils.BrowseReflection(MCurObj);
+            Core.Snoop.Utils.BrowseReflection(MCurObj);
         }
 
 
@@ -399,7 +396,7 @@ namespace RevitLookup.Forms
             CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MLvData.SelectedItems.Count > 0)
-                Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
+                Core.Snoop.Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
             else
                 Clipboard.Clear();
         }
@@ -411,8 +408,8 @@ namespace RevitLookup.Forms
         private void
             PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
+            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
+            Core.Snoop.Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
         }
 
 
@@ -423,8 +420,8 @@ namespace RevitLookup.Forms
         private void
             PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
+            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
+            Core.Snoop.Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
         }
 
 
@@ -435,7 +432,7 @@ namespace RevitLookup.Forms
         private void
             PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _mCurrentPrintItem = Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
+            _mCurrentPrintItem = Core.Snoop.Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
         }
 
         #endregion

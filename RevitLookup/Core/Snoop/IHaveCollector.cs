@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 
-namespace RevitLookup.Snoop
+namespace RevitLookup.Core.Snoop
 {
     internal interface IHaveCollector
     {

@@ -26,12 +26,12 @@
 
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format a UV value.
-	/// </summary>
-	public class Uv : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format a UV value.
+    /// </summary>
+    public class Uv : Data
     {
         protected UV MVal;
 

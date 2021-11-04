@@ -4,22 +4,22 @@ using System.Linq;
 using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
-using RevitLookup.Snoop.Data;
-using RevitLookup.Snoop.Data.PlaceHolders;
+using RevitLookup.Core.Snoop.Data;
+using RevitLookup.Core.Snoop.Data.PlaceHolders;
 using AssetProperty = Autodesk.Revit.DB.Visual.AssetProperty;
 using CategoryNameMap = Autodesk.Revit.DB.CategoryNameMap;
 using Color = Autodesk.Revit.DB.Color;
-using Double = RevitLookup.Snoop.Data.Double;
+using Double = RevitLookup.Core.Snoop.Data.Double;
 using DoubleArray = Autodesk.Revit.DB.DoubleArray;
 using ElementId = Autodesk.Revit.DB.ElementId;
 using ElementSet = Autodesk.Revit.DB.ElementSet;
-using Enumerable = RevitLookup.Snoop.Data.Enumerable;
+using Enumerable = RevitLookup.Core.Snoop.Data.Enumerable;
 using Exception = System.Exception;
-using Object = RevitLookup.Snoop.Data.Object;
+using Object = RevitLookup.Core.Snoop.Data.Object;
 using ParameterSet = Autodesk.Revit.DB.ParameterSet;
-using String = RevitLookup.Snoop.Data.String;
+using String = RevitLookup.Core.Snoop.Data.String;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     public static class DataTypeInfoHelper
     {

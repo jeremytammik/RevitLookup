@@ -29,15 +29,14 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
-using Application = Autodesk.Revit.ApplicationServices.Application;
 using Color = System.Drawing.Color;
 
 namespace RevitLookup.Forms
 {
-  /// <summary>
-  ///     Summary description for BindingMap form.
-  /// </summary>
-  public class Geometry : ObjTreeBase
+    /// <summary>
+    ///     Summary description for BindingMap form.
+    /// </summary>
+    public class Geometry : ObjTreeBase
     {
         protected Autodesk.Revit.ApplicationServices.Application MApp;
         protected Element MElem;

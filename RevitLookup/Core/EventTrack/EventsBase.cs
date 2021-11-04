@@ -26,7 +26,7 @@
 
 using System.Diagnostics;
 
-namespace RevitLookup.EventTrack
+namespace RevitLookup.Core.EventTrack
 {
     public abstract class EventsBase
     {

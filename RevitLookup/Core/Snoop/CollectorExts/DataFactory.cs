@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
 using Autodesk.Revit.DB;
-using RevitLookup.Snoop.Data;
+using RevitLookup.Core.Snoop.Data;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     public class DataFactory
     {

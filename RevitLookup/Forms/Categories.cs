@@ -32,10 +32,10 @@ using Color = System.Drawing.Color;
 
 namespace RevitLookup.Forms
 {
-	/// <summary>
-	///     Summary description for Categories form.
-	/// </summary>
-	public class Categories : ObjTreeBase
+    /// <summary>
+    ///     Summary description for Categories form.
+    /// </summary>
+    public class Categories : ObjTreeBase
     {
         public
             Categories(CategoryNameMap map)

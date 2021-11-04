@@ -31,14 +31,14 @@ using System.IO;
 using System.Linq;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
-using RevitLookup.Snoop.Collectors;
-using RevitLookup.Snoop.Data;
-using Enumerable = RevitLookup.Snoop.Data.Enumerable;
+using RevitLookup.Core.Snoop.Collectors;
+using RevitLookup.Core.Snoop.Data;
+using Enumerable = RevitLookup.Core.Snoop.Data.Enumerable;
 using Exception = System.Exception;
-using Object = RevitLookup.Snoop.Data.Object;
-using String = RevitLookup.Snoop.Data.String;
+using Object = RevitLookup.Core.Snoop.Data.Object;
+using String = RevitLookup.Core.Snoop.Data.String;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     /// <summary>
     ///     Provide Snoop.Data for any classes related to an Element.

@@ -27,12 +27,12 @@
 using System;
 using System.Collections;
 
-namespace RevitLookup.ModelStats
+namespace RevitLookup.Core.ModelStats
 {
-	/// <summary>
-	///     Summary description for RawObjCount.
-	/// </summary>
-	public class RawObjCount
+    /// <summary>
+    ///     Summary description for RawObjCount.
+    /// </summary>
+    public class RawObjCount
     {
         // data members
         public Type MClassType; // raw class type of object we are counting

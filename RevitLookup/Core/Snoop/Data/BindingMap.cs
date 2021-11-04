@@ -26,12 +26,12 @@
 
 using System.Windows.Forms;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format a BindingMap value.
-	/// </summary>
-	public class BindingMap : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format a BindingMap value.
+    /// </summary>
+    public class BindingMap : Data
     {
         protected Autodesk.Revit.DB.BindingMap MVal;
 

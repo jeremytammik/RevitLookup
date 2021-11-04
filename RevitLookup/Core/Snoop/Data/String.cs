@@ -24,12 +24,12 @@
 
 #endregion // Header
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format a String value.
-	/// </summary>
-	public class String : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format a String value.
+    /// </summary>
+    public class String : Data
     {
         protected string MVal;
 

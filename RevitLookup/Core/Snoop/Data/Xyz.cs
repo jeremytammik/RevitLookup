@@ -26,12 +26,12 @@
 
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format an XYZ value.
-	/// </summary>
-	public class Xyz : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format an XYZ value.
+    /// </summary>
+    public class Xyz : Data
     {
         protected XYZ MVal;
 

@@ -30,7 +30,7 @@ using System.Diagnostics;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
-namespace RevitLookup.Graphics
+namespace RevitLookup.Core.Streams
 {
     public abstract class GraphicsStream
     {

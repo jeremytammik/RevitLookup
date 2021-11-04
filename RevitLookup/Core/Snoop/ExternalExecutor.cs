@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Autodesk.Revit.UI;
 
-namespace RevitLookup.Snoop
+namespace RevitLookup.Core.Snoop
 {
     internal static class ExternalExecutor
     {

@@ -92,20 +92,11 @@ namespace RevitLookup.RevitUtils
         {
             var pt = new XYZ();
 
-            if (axis.Equals(XAxis))
-            {
-                pt = pt1.X > pt2.X ? pt1 : pt2;
-            }
+            if (axis.Equals(XAxis)) pt = pt1.X > pt2.X ? pt1 : pt2;
 
-            if (axis.Equals(YAxis))
-            {
-                pt = pt1.Y > pt2.Y ? pt1 : pt2;
-            }
+            if (axis.Equals(YAxis)) pt = pt1.Y > pt2.Y ? pt1 : pt2;
 
-            if (axis.Equals(ZAxis))
-            {
-                pt = pt1.Z > pt2.Z ? pt1 : pt2;
-            }
+            if (axis.Equals(ZAxis)) pt = pt1.Z > pt2.Z ? pt1 : pt2;
 
             return pt;
         }

@@ -28,12 +28,12 @@ using System.Collections;
 using System.Windows.Forms;
 using RevitLookup.Forms;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format an Object value.
-	/// </summary>
-	public class Object : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format an Object value.
+    /// </summary>
+    public class Object : Data
     {
         private readonly string _mStrValue;
 

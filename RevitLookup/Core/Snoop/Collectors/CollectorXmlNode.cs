@@ -25,9 +25,9 @@
 #endregion // Header
 
 using System.Xml;
-using RevitLookup.Snoop.Data;
+using RevitLookup.Core.Snoop.Data;
 
-namespace RevitLookup.Snoop.Collectors
+namespace RevitLookup.Core.Snoop.Collectors
 {
     /// <summary>
     ///     Collect data about an CollectorXmlNode.  Since everything we encounter

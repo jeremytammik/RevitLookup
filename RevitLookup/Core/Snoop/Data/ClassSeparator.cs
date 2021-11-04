@@ -28,12 +28,12 @@ using System;
 using System.Windows.Forms;
 using RevitLookup.Forms;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format a ClassSeparator value.
-	/// </summary>
-	public class ClassSeparator : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format a ClassSeparator value.
+    /// </summary>
+    public class ClassSeparator : Data
     {
         protected Type MVal;
 

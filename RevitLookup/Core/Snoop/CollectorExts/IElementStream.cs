@@ -1,6 +1,6 @@
 using System;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     public interface IElementStream
     {

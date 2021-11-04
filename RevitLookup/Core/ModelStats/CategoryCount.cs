@@ -27,12 +27,12 @@
 using System.Collections;
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.ModelStats
+namespace RevitLookup.Core.ModelStats
 {
-	/// <summary>
-	///     Summary description for CategoryCount.
-	/// </summary>
-	public class CategoryCount
+    /// <summary>
+    ///     Summary description for CategoryCount.
+    /// </summary>
+    public class CategoryCount
     {
         // data members
         public Category MCategory;

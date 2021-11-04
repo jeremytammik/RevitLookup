@@ -27,7 +27,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RevitLookup.Snoop.Collectors
+namespace RevitLookup.Core.Snoop.Collectors
 {
     public class CollectorEventArgs : EventArgs
     {

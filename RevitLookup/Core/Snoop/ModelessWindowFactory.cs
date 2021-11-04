@@ -3,7 +3,7 @@ using Autodesk.Revit.DB;
 using Form = System.Windows.Forms.Form;
 using Point = System.Drawing.Point;
 
-namespace RevitLookup.Snoop
+namespace RevitLookup.Core.Snoop
 {
     public class ModelessWindowFactory
     {

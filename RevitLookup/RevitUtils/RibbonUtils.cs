@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autodesk.Revit.UI;
-using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
 
 namespace RevitLookup.RevitUtils
 {

@@ -26,17 +26,16 @@
 
 using System;
 using System.Linq;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using RevitLookup.Forms;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format an Object value.
-	/// </summary>
-	public class ElementGeometry : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format an Object value.
+    /// </summary>
+    public class ElementGeometry : Data
     {
         protected Autodesk.Revit.ApplicationServices.Application MApp;
         protected bool MHasGeometry;

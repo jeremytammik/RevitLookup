@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 
-namespace RevitLookup.Snoop
+namespace RevitLookup.Core.Snoop
 {
     public enum Selector
     {
@@ -69,11 +68,9 @@ namespace RevitLookup.Snoop
             var ids = activeUiDocument.Selection.GetElementIds();
 
             if (ids.Count > 0)
-            {
                 return (new FilteredElementCollector(document, ids)
                     .WherePasses(new LogicalOrFilter(new ElementIsElementTypeFilter(false), new ElementIsElementTypeFilter(true)))
                     .ToElements(), document);
-            }
 
             return (new FilteredElementCollector(document, document.ActiveView.Id)
                 .WhereElementIsNotElementType()

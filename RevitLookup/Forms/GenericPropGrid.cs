@@ -27,23 +27,22 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using RevitLookup.Snoop;
 
 namespace RevitLookup.Forms
 {
-	/// <summary>
-	///     This Form makes use of the built-in abilities of Reflection and the PropertyGrid
-	///     class to automatically list out the data of an object.  Because we don't have much
-	///     control, it will get output in the order that it chooses (or alphabetical) and
-	///     most of the items will appear as Greyed-out, read-only items.  But, we don't have
-	///     to go write a SnoopCollector for every item in the .NET system.
-	/// </summary>
-	public class GenericPropGrid : Form
+    /// <summary>
+    ///     This Form makes use of the built-in abilities of Reflection and the PropertyGrid
+    ///     class to automatically list out the data of an object.  Because we don't have much
+    ///     control, it will get output in the order that it chooses (or alphabetical) and
+    ///     most of the items will appear as Greyed-out, read-only items.  But, we don't have
+    ///     to go write a SnoopCollector for every item in the .NET system.
+    /// </summary>
+    public class GenericPropGrid : Form
     {
-	    /// <summary>
-	    ///     Required designer variable.
-	    /// </summary>
-	    private readonly Container _components = null;
+        /// <summary>
+        ///     Required designer variable.
+        /// </summary>
+        private readonly Container _components = null;
 
         private Button _mBnCancel;
         private Button _mBnOk;
@@ -59,7 +58,7 @@ namespace RevitLookup.Forms
             InitializeComponent();
 
             // Add Load to update ListView Width
-            Utils.AddOnLoadForm(this);
+            Core.Snoop.Utils.AddOnLoadForm(this);
 
             _mPgProps.SelectedObject = obj; // This all we need to do for Reflection to kick in
         }
@@ -70,10 +69,7 @@ namespace RevitLookup.Forms
         protected override void
             Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                _components?.Dispose();
-            }
+            if (disposing) _components?.Dispose();
 
             base.Dispose(disposing);
         }

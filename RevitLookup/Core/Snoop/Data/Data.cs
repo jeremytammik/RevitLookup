@@ -26,14 +26,14 @@
 
 using System.Windows.Forms;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     This is the base class for all types of "Snoop.Data".  Basically, we
-	///     want something smarter than the original data type so that we can
-	///     hook it up to an editor and allow its output to go different places.
-	/// </summary>
-	public abstract class Data
+    /// <summary>
+    ///     This is the base class for all types of "Snoop.Data".  Basically, we
+    ///     want something smarter than the original data type so that we can
+    ///     hook it up to an editor and allow its output to go different places.
+    /// </summary>
+    public abstract class Data
     {
         private string _mLabel;
 

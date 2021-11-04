@@ -26,7 +26,7 @@
 
 using System.Collections;
 
-namespace RevitLookup.Snoop.Collectors
+namespace RevitLookup.Core.Snoop.Collectors
 {
     public abstract class Collector
     {

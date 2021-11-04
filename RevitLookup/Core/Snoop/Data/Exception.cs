@@ -24,12 +24,12 @@
 
 #endregion // Header
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-   /// <summary>
-   ///     Snoop.Data class to hold and format a Exception value.
-   /// </summary>
-   public class Exception : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format a Exception value.
+    /// </summary>
+    public class Exception : Data
     {
         protected System.Exception MVal;
 

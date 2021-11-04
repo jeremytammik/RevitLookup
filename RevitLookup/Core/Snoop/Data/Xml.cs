@@ -28,7 +28,7 @@ using System.Windows.Forms;
 using System.Xml;
 using RevitLookup.Forms;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
     /// <summary>
     ///     Snoop.Data class to hold and format a chunk of XML.

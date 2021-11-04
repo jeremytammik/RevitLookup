@@ -27,9 +27,8 @@
 using System.Windows.Forms;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI.Events;
-using Application = Autodesk.Revit.ApplicationServices.Application;
 
-namespace RevitLookup.EventTrack
+namespace RevitLookup.Core.EventTrack
 {
     /// <summary>
     ///     Bring up a simple MessageBox to show that we trapped a given event.

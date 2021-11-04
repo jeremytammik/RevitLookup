@@ -29,12 +29,12 @@ using Autodesk.Revit.DB;
 using RevitLookup.Forms;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format an ElementSet value.
-	/// </summary>
-	public class ElementSet : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format an ElementSet value.
+    /// </summary>
+    public class ElementSet : Data
     {
         protected Autodesk.Revit.DB.ElementSet MVal;
 

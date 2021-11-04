@@ -33,15 +33,15 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
+using RevitLookup.Core.Snoop.Collectors;
+using RevitLookup.Core.Snoop.Data;
+using RevitLookup.Core.Snoop.Data.PlaceHolders;
 using RevitLookup.Forms;
-using RevitLookup.Snoop.Collectors;
-using RevitLookup.Snoop.Data;
-using RevitLookup.Snoop.Data.PlaceHolders;
 using Color = System.Drawing.Color;
 using Exception = System.Exception;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Snoop
+namespace RevitLookup.Core.Snoop
 {
     public class Utils
     {

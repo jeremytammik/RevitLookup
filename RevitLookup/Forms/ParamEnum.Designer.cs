@@ -1,3 +1,5 @@
+using RevitLookup.Forms.Utils;
+
 namespace RevitLookup.Forms {
     partial class ParamEnum {
         /// <summary>

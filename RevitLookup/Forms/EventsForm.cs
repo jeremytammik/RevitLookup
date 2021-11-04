@@ -26,13 +26,13 @@
 
 using System;
 using System.Windows.Forms;
-using RevitLookup.EventTrack;
+using RevitLookup.Core.EventTrack;
 
 namespace RevitLookup.Forms
 {
     public partial class EventsForm : Form
     {
-        public static EventTrack.ApplicationEvents MAppEvents = new();
+        public static Core.EventTrack.ApplicationEvents MAppEvents = new();
         public static DocEvents MDocEvents = new();
 
         public EventsForm()

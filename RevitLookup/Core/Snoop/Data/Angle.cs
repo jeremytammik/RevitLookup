@@ -26,12 +26,12 @@
 
 using RevitLookup.RevitUtils;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format an Angle value.
-	/// </summary>
-	public class Angle : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format an Angle value.
+    /// </summary>
+    public class Angle : Data
     {
         protected double MVal;
 

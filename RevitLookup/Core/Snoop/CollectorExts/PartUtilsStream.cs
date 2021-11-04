@@ -2,13 +2,13 @@ using System;
 using System.Collections;
 using System.Linq;
 using Autodesk.Revit.DB;
-using RevitLookup.Snoop.Data;
+using RevitLookup.Core.Snoop.Data;
 using ElementId = Autodesk.Revit.DB.ElementId;
-using Enumerable = RevitLookup.Snoop.Data.Enumerable;
-using Object = RevitLookup.Snoop.Data.Object;
-using String = RevitLookup.Snoop.Data.String;
+using Enumerable = RevitLookup.Core.Snoop.Data.Enumerable;
+using Object = RevitLookup.Core.Snoop.Data.Object;
+using String = RevitLookup.Core.Snoop.Data.String;
 
-namespace RevitLookup.Snoop.CollectorExts
+namespace RevitLookup.Core.Snoop.CollectorExts
 {
     public class PartUtilsStream : IElementStream
     {

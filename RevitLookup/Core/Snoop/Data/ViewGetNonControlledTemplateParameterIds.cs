@@ -3,7 +3,7 @@ using Autodesk.Revit.DB;
 using RevitLookup.Forms;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
     public class ViewGetNonControlledTemplateParameterIds : Data
     {

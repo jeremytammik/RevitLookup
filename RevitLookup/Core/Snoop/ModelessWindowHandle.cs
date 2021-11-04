@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace RevitLookup.Snoop
+namespace RevitLookup.Core.Snoop
 {
     internal class ModelessWindowHandle : IWin32Window
     {

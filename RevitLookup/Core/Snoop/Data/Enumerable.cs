@@ -29,16 +29,16 @@ using Autodesk.Revit.DB;
 using RevitLookup.Forms;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format an Enumerable value.  This class can be used
-	///     for any object that supports the IEnumerable interface.  However, some classes,
-	///     such as a Map, are better seen visually in Key/Value pairs vs a straight list of
-	///     enumerated objects.  Use this when it works well, but write your own Snoop.Data object
-	///     for Enumerable cases that need better feedback to the user.
-	/// </summary>
-	public class Enumerable : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format an Enumerable value.  This class can be used
+    ///     for any object that supports the IEnumerable interface.  However, some classes,
+    ///     such as a Map, are better seen visually in Key/Value pairs vs a straight list of
+    ///     enumerated objects.  Use this when it works well, but write your own Snoop.Data object
+    ///     for Enumerable cases that need better feedback to the user.
+    /// </summary>
+    public class Enumerable : Data
     {
         protected ArrayList MObjs = new();
         protected IEnumerable MVal;

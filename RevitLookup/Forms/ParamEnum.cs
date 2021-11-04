@@ -28,7 +28,7 @@ using System;
 using System.Collections;
 using System.Drawing.Printing;
 using System.Windows.Forms;
-using RevitLookup.Snoop;
+using RevitLookup.Forms.Utils;
 
 namespace RevitLookup.Forms
 {
@@ -44,7 +44,7 @@ namespace RevitLookup.Forms
             InitializeComponent();
 
             // Add Load to update ListView Width
-            Utils.AddOnLoadForm(this);
+            Core.Snoop.Utils.AddOnLoadForm(this);
 
             // Set the column sorter for the list view
             m_colSorter = new ListViewColumnSorter();
@@ -112,7 +112,7 @@ namespace RevitLookup.Forms
             CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (m_listView.SelectedItems.Count > 0)
-                Utils.CopyToClipboard(m_listView.SelectedItems[0], true);
+                Core.Snoop.Utils.CopyToClipboard(m_listView.SelectedItems[0], true);
             else
                 Clipboard.Clear();
         }
@@ -125,7 +125,7 @@ namespace RevitLookup.Forms
         private void
             PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _mCurrentPrintItem = Utils.Print("", m_listView, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
+            _mCurrentPrintItem = Core.Snoop.Utils.Print("", m_listView, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
         }
 
 
@@ -136,8 +136,8 @@ namespace RevitLookup.Forms
         private void
             PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Utils.UpdatePrintSettings(m_listView, ref _mMaxWidths);
-            Utils.PrintMenuItemClick(m_printDialog);
+            Core.Snoop.Utils.UpdatePrintSettings(m_listView, ref _mMaxWidths);
+            Core.Snoop.Utils.PrintMenuItemClick(m_printDialog);
         }
 
 
@@ -148,8 +148,8 @@ namespace RevitLookup.Forms
         private void
             PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Utils.UpdatePrintSettings(m_listView, ref _mMaxWidths);
-            Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, m_listView);
+            Core.Snoop.Utils.UpdatePrintSettings(m_listView, ref _mMaxWidths);
+            Core.Snoop.Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, m_listView);
         }
 
         #endregion

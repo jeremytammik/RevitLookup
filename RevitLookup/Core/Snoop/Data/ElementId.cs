@@ -28,7 +28,7 @@ using Autodesk.Revit.DB;
 using RevitLookup.Forms;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
     /// <summary>
     ///     Snoop.Data class to hold and format an ElementId value.

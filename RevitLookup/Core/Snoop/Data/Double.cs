@@ -24,12 +24,12 @@
 
 #endregion // Header
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
-	/// <summary>
-	///     Snoop.Data class to hold and format a Double value.
-	/// </summary>
-	public class Double : Data
+    /// <summary>
+    ///     Snoop.Data class to hold and format a Double value.
+    /// </summary>
+    public class Double : Data
     {
         protected double MVal;
 

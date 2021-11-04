@@ -1,7 +1,7 @@
 ﻿using System;
-using RevitLookup.Snoop.Data.PlaceHolders;
+using RevitLookup.Core.Snoop.Data.PlaceHolders;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
     public class SnoopableObjectWrapper
     {
@@ -18,7 +18,7 @@ namespace RevitLookup.Snoop.Data
 
         public static SnoopableObjectWrapper Create(object obj)
         {
-            return new(Utils.ObjToLabelStr(obj), obj);
+            return new SnoopableObjectWrapper(Utils.ObjToLabelStr(obj), obj);
         }
 
         public Type GetUnderlyingType()

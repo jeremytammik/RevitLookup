@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace RevitLookup.Snoop.Data
+namespace RevitLookup.Core.Snoop.Data
 {
     /// <summary>
     ///     Snoop.Data class to hold and format a ClassSeparator value.
