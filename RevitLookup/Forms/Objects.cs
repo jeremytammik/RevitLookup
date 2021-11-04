@@ -117,7 +117,7 @@ namespace RevitLookup.Forms
             MSnoopCollector.SourceDocument = document;
         }
 
-        public async Task SnoopAndShow(Selector selector)
+        public async void SnoopAndShow(Selector selector)
         {
             await SelectElements(selector);
             ModelessWindowFactory.Show(this);
