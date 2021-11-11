@@ -1,3 +1,4 @@
+# noinspection EditorConfigKeyCorrectness
 [*.cs]
 dotnet_style_qualification_for_field = false:warning
 dotnet_style_qualification_for_property = false:warning
@@ -9,3 +10,8 @@ csharp_style_expression_bodied_methods = true:silent
 csharp_style_expression_bodied_properties = true:warning
 csharp_style_expression_bodied_indexers = true:warning
 csharp_style_expression_bodied_accessors = true:warning
+
+dotnet_naming_rule.private_instance_fields_rule.style = upper_camel_case_style
+
+resharper_check_namespace_highlighting = none
+resharper_class_never_instantiated_global_highlighting = none
