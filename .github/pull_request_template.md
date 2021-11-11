@@ -6,13 +6,6 @@
 
 ## Quality Checklist
 
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Documentation
-- [x] Other
-
-## Quality Checklist
-
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my own code
 - [ ] I have made corresponding changes to the documentation
