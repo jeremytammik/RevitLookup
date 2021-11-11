@@ -25,7 +25,7 @@ namespace Installer
         public static void Main(string[] args)
         {
             var version = GetAssemblyVersion(args);
-            var outFileNameBuilder = new StringBuilder().Append(OutputName).Append("-").Append(version);
+            var outFileNameBuilder = new StringBuilder().Append(OutputName).Append("-").Append("20").Append(version);
             //Additional suffixes for unique configurations add here
             var outFileName = outFileNameBuilder.ToString();
 
