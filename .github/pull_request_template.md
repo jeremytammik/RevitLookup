@@ -4,7 +4,7 @@
 
 **Description:** 
 
-## Quality Checklist
+## Issue type
 
 - [ ] Bug fix
 - [ ] New feature
