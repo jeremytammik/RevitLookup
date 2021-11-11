@@ -4,26 +4,18 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   windows-latest:
     name: windows-latest
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Cache .nuke/temp, ~/.nuget/packages
-        uses: actions/cache@v2
-        with:
-          path: |
-            .nuke/temp
-            ~/.nuget/packages
-          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-      - name: Run './Build/Build.cmd'
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run Nuke
         run: ./Build/Build.cmd
-      - uses: actions/upload-artifact@v1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
         with:
           name: RevitLookup
           path: output
