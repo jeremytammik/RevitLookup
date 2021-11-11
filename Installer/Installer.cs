@@ -90,7 +90,10 @@ namespace Installer
                 var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
                 if (assemblies.Length == 0) continue;
                 var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
-                return fileVersionInfo.ProductVersion;
+                var versionGroups = fileVersionInfo.ProductVersion.Split('.');
+                var majorVersion = versionGroups[0];
+                if (majorVersion.Length > 2) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
+                return string.Join(".", versionGroups);
             }
 
             throw new Exception("Cant find RevitLookup.dll file");
