@@ -11,8 +11,8 @@ using Nuke.Common.Tools.VSWhere;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
 /// <summary>
-/// Documentation:
-/// https://github.com/Nice3point/RevitTemplates/wiki
+///     Documentation:
+///     https://github.com/Nice3point/RevitTemplates/wiki
 /// </summary>
 partial class Build : NukeBuild
 {

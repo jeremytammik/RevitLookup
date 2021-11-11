@@ -12,8 +12,8 @@ using WixSharp.Controls;
 namespace Installer
 {
     /// <summary>
-    /// Documentation:
-    /// https://github.com/Nice3point/RevitTemplates/wiki
+    ///     Documentation:
+    ///     https://github.com/Nice3point/RevitTemplates/wiki
     /// </summary>
     public static class Installer
     {
@@ -74,10 +74,7 @@ namespace Installer
                     versionStorages.Add(version, new List<WixEntity> {files});
 
                 var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
-                foreach (var assembly in assemblies)
-                {
-                    Console.WriteLine($"Added {version} version file: {assembly}");
-                }
+                foreach (var assembly in assemblies) Console.WriteLine($"Added {version} version file: {assembly}");
             }
 
             return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
