@@ -24,6 +24,7 @@ partial class Build
         .Requires(() => GitRepository)
         .Requires(() => GitVersion)
         .OnlyWhenStatic(() => GitRepository.IsOnMasterBranch())
+        .OnlyWhenStatic(() => IsServerBuild)
         .Executes(() =>
         {
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(Solution.Name))
