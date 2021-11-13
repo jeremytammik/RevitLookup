@@ -24,8 +24,8 @@ namespace Installer
 
         public static void Main(string[] args)
         {
-            var version = GetAssemblyVersion(args);
-            var outFileNameBuilder = new StringBuilder().Append(OutputName).Append("-").Append("20").Append(version);
+            var version = GetAssemblyVersion(args, out var dllVersion);
+            var outFileNameBuilder = new StringBuilder().Append(OutputName).Append("-").Append(dllVersion);
             //Additional suffixes for unique configurations add here
             var outFileName = outFileNameBuilder.ToString();
 
@@ -80,8 +80,9 @@ namespace Installer
             return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
         }
 
-        private static string GetAssemblyVersion(string[] directories)
+        private static string GetAssemblyVersion(IEnumerable<string> directories, out string dllVersion)
         {
+            dllVersion = string.Empty;
             foreach (var directory in directories)
             {
                 var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
@@ -89,12 +90,11 @@ namespace Installer
                 var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
                 var versionGroups = fileVersionInfo.ProductVersion.Split('.');
                 var majorVersion = versionGroups[0];
-                var minorVersion = versionGroups[1];
-                var buildVersion = versionGroups[2];
                 if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
-                if (int.Parse(minorVersion) > 255) versionGroups[1] = minorVersion.Substring(majorVersion.Length - 2);
-                if (int.Parse(buildVersion) > 65535) versionGroups[1] = buildVersion.Substring(majorVersion.Length - 4);
-                return string.Join(".", versionGroups);
+                dllVersion = fileVersionInfo.ProductVersion;
+                var version = string.Join(".", versionGroups);
+                if (!dllVersion.Equals(version)) Console.WriteLine($"Installer version trimmed from {dllVersion} to {version}");
+                return version;
             }
 
             throw new Exception("Cant find RevitLookup.dll file");
