@@ -89,7 +89,9 @@ namespace Installer
                 var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
                 var versionGroups = fileVersionInfo.ProductVersion.Split('.');
                 var majorVersion = versionGroups[0];
-                if (majorVersion.Length > 2) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
+                var minorVersion = versionGroups[1];
+                if (double.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
+                if (double.Parse(minorVersion) > 255) versionGroups[1] = minorVersion.Substring(majorVersion.Length - 2);
                 return string.Join(".", versionGroups);
             }
 
