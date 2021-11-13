@@ -12,7 +12,7 @@ partial class Build
     Target CreateInstaller => _ => _
         .TriggeredBy(Compile)
         .Produces(ArtifactsDirectory / "*.msi")
-        .OnlyWhenStatic(() => GitRepository.IsOnMasterBranch())
+        .OnlyWhenStatic(() => IsLocalBuild || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
             var installerProject = BuilderExtensions.GetProject(Solution, InstallerProject);
