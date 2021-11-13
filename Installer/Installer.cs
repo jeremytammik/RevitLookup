@@ -90,8 +90,10 @@ namespace Installer
                 var versionGroups = fileVersionInfo.ProductVersion.Split('.');
                 var majorVersion = versionGroups[0];
                 var minorVersion = versionGroups[1];
-                if (double.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
-                if (double.Parse(minorVersion) > 255) versionGroups[1] = minorVersion.Substring(majorVersion.Length - 2);
+                var buildVersion = versionGroups[2];
+                if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
+                if (int.Parse(minorVersion) > 255) versionGroups[1] = minorVersion.Substring(majorVersion.Length - 2);
+                if (int.Parse(buildVersion) > 65535) versionGroups[1] = buildVersion.Substring(majorVersion.Length - 4);
                 return string.Join(".", versionGroups);
             }
 
