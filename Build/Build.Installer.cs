@@ -5,12 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Nuke.Common;
+using Nuke.Common.Git;
 
 partial class Build
 {
     Target CreateInstaller => _ => _
         .TriggeredBy(Compile)
         .Produces(ArtifactsDirectory / "*.msi")
+        .OnlyWhenStatic(() => GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
             var installerProject = BuilderExtensions.GetProject(Solution, InstallerProject);

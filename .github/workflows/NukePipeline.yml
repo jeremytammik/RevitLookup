@@ -1,0 +1,19 @@
+name: NukePipeline.yml
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '!master'
+
+jobs:
+  windows-latest:
+    name: windows-latest
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Run Nuke Build
+        run: ./Build/Build.cmd --GitHubToken ${{ secrets.GITHUB_TOKEN }}

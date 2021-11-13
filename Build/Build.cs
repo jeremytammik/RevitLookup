@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Nuke.Common;
+using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
@@ -17,6 +18,7 @@ using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 partial class Build : NukeBuild
 {
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / ArtifactsFolder;
+    [GitRepository] readonly GitRepository GitRepository;
 
     [Solution] public readonly Solution Solution;
     string ProcessToolPath;
