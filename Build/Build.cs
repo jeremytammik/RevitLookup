@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Nuke.Common;
+using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
@@ -11,12 +12,13 @@ using Nuke.Common.Tools.VSWhere;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
 /// <summary>
-/// Documentation:
-/// https://github.com/Nice3point/RevitTemplates/wiki
+///     Documentation:
+///     https://github.com/Nice3point/RevitTemplates/wiki
 /// </summary>
 partial class Build : NukeBuild
 {
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / ArtifactsFolder;
+    [GitRepository] readonly GitRepository GitRepository;
 
     [Solution] public readonly Solution Solution;
     string ProcessToolPath;

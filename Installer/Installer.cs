@@ -12,8 +12,8 @@ using WixSharp.Controls;
 namespace Installer
 {
     /// <summary>
-    /// Documentation:
-    /// https://github.com/Nice3point/RevitTemplates/wiki
+    ///     Documentation:
+    ///     https://github.com/Nice3point/RevitTemplates/wiki
     /// </summary>
     public static class Installer
     {
@@ -24,8 +24,8 @@ namespace Installer
 
         public static void Main(string[] args)
         {
-            var version = GetAssemblyVersion(args);
-            var outFileNameBuilder = new StringBuilder().Append(OutputName).Append("-").Append(version);
+            var version = GetAssemblyVersion(args, out var dllVersion);
+            var outFileNameBuilder = new StringBuilder().Append(OutputName).Append("-").Append(dllVersion);
             //Additional suffixes for unique configurations add here
             var outFileName = outFileNameBuilder.ToString();
 
@@ -74,23 +74,27 @@ namespace Installer
                     versionStorages.Add(version, new List<WixEntity> {files});
 
                 var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
-                foreach (var assembly in assemblies)
-                {
-                    Console.WriteLine($"Added {version} version file: {assembly}");
-                }
+                foreach (var assembly in assemblies) Console.WriteLine($"Added {version} version file: {assembly}");
             }
 
             return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
         }
 
-        private static string GetAssemblyVersion(string[] directories)
+        private static string GetAssemblyVersion(IEnumerable<string> directories, out string dllVersion)
         {
+            dllVersion = string.Empty;
             foreach (var directory in directories)
             {
                 var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
                 if (assemblies.Length == 0) continue;
                 var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
-                return fileVersionInfo.ProductVersion;
+                var versionGroups = fileVersionInfo.ProductVersion.Split('.');
+                var majorVersion = versionGroups[0];
+                if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
+                dllVersion = fileVersionInfo.ProductVersion;
+                var version = string.Join(".", versionGroups);
+                if (!dllVersion.Equals(version)) Console.WriteLine($"Installer version trimmed from {dllVersion} to {version}");
+                return version;
             }
 
             throw new Exception("Cant find RevitLookup.dll file");

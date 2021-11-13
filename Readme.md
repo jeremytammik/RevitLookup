@@ -29,10 +29,8 @@ Please refer to the [changelog](Doc/Changelog.md) for details.
 
 ## Installation
 
-- Go to the [**Git Actions**](https://github.com/jeremytammik/RevitLookup/actions/workflows/CreatePackage.yml) section on the project page.
-- Open the most recent successful workflow.
-- Download and open **RevitLookup.zip** from the **Artifacts** section.
-- Run the MSI package.
+- Go to the [**Releases**](https://github.com/jeremytammik/RevitLookup/releases/latest) section.
+- Download and run MSI file.
 
 The installer contains all the latest versions starting from the 2015 version of Revit.
 
