@@ -38,7 +38,7 @@ partial class Build
             var version = GetMsiVersion(msiFiles);
 
             CheckTags(gitHubOwner, gitHubName, version);
-            Logger.Normal($"Detected tag: {version}");
+            Logger.Normal($"Detected Tag: {version}");
 
             var newRelease = new NewRelease(version)
             {

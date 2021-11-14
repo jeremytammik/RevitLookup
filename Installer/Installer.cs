@@ -45,6 +45,7 @@ namespace Installer
                 ControlPanelInfo =
                 {
                     Manufacturer = "Jeremy Tammik",
+                    HelpLink = "https://github.com/jeremytammik/RevitLookup/issues",
                     ProductIcon = @"Installer\Resources\Icons\ShellIcon.ico"
                 },
                 Dirs = new Dir[]

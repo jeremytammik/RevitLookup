@@ -1,4 +1,4 @@
-name: NukePipeline.yml
+name: Pipeline
 
 on:
   push:
