@@ -44,7 +44,7 @@ namespace Installer
                 BannerImage = @"Installer\Resources\Icons\BannerImage.png",
                 ControlPanelInfo =
                 {
-                    Manufacturer = "Jeremy Tammik",
+                    Manufacturer = "Autodesk",
                     HelpLink = "https://github.com/jeremytammik/RevitLookup/issues",
                     ProductIcon = @"Installer\Resources\Icons\ShellIcon.ico"
                 },

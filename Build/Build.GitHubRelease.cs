@@ -76,7 +76,7 @@ partial class Build
             if (!match.Success) continue;
             if (match.Value.Equals(version))
             {
-                var truncatedLine = Regex.Replace(line, $"^.*{version} ?", string.Empty);
+                var truncatedLine = Regex.Replace(line, $"^.*{version}.* ", string.Empty);
                 logBuilder.AppendLine(truncatedLine);
             }
         }
