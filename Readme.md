@@ -12,21 +12,6 @@ Interactive Revit BIM database exploration tool to view and navigate BIM element
 
 Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information.
 
-## Versions
-
-The project currently supports the 2022 version of Revit. You can find the source code of previous versions at the links below:
-
-- [latest release](https://github.com/jeremytammik/RevitLookup/releases/latest) for Revit 2022
-- [2021.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2021.0.0.13) for Revit 2021
-- [2020.0.0.4](https://github.com/jeremytammik/RevitLookup/releases/tag/2020.0.0.4) for Revit 2020
-- [2019.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2019.0.0.13) for Revit 2019
-- [2018.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2018.0.0.8) for Revit 2018
-- [2017.0.0.24](https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.24) for Revit 2017
-- [2016.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2016.0.0.13) for Revit 2016
-- [2015.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2015.0.0.8) for Revit 2015
-
-Please refer to the [changelog](Doc/Changelog.md) for details.
-
 ## Installation
 
 - Go to the [**Releases**](https://github.com/jeremytammik/RevitLookup/releases/latest) section.
@@ -49,6 +34,19 @@ Creating a package:
 - The generated package will be in the **output** folder.
 
 For more information on building, see the [**RevitTemplates**](https://github.com/Nice3point/RevitTemplates) Wiki page.
+
+The project currently supports the 2022 version of Revit. You can find the source code of previous versions at the links below:
+
+- [latest release](https://github.com/jeremytammik/RevitLookup/releases/latest) for Revit 2022
+- [2021.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2021.0.0.13) for Revit 2021
+- [2020.0.0.4](https://github.com/jeremytammik/RevitLookup/releases/tag/2020.0.0.4) for Revit 2020
+- [2019.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2019.0.0.13) for Revit 2019
+- [2018.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2018.0.0.8) for Revit 2018
+- [2017.0.0.24](https://github.com/jeremytammik/RevitLookup/releases/tag/2017.0.0.24) for Revit 2017
+- [2016.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2016.0.0.13) for Revit 2016
+- [2015.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2015.0.0.8) for Revit 2015
+
+Please refer to the [changelog](Doc/Changelog.md) for details.
 
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
 
@@ -99,7 +97,7 @@ Thank you, guys!
 
 ## License
 
-This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](License.md) file for full details.
+This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [License](License.md) file for full details.
 
 Credit to [icons8.com](https://icons8.com) for the RevitLookup icons.
 
