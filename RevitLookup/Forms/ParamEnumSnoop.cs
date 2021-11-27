@@ -41,15 +41,15 @@ namespace RevitLookup.Forms
     /// </summary>
     public class ParamEnumSnoop : Form, IHaveCollector
     {
-        private readonly Hashtable _mEnumMap;
+        private readonly Hashtable _enumMap;
         private ToolStripMenuItem _copyToolStripMenuItem;
+        private int _currentPrintItem;
         private ContextMenuStrip _listViewContextMenuStrip;
-        private int _mCurrentPrintItem;
-        private int[] _mMaxWidths;
-        private MenuItem _mMnuItemCopy;
-        private PrintDialog _mPrintDialog;
-        private PrintDocument _mPrintDocument;
-        private PrintPreviewDialog _mPrintPreviewDialog;
+        private int[] _maxWidths;
+        private MenuItem _mnuItemCopy;
+        private PrintDialog _printDialog;
+        private PrintDocument _printDocument;
+        private PrintPreviewDialog _printPreviewDialog;
         private ToolStrip _toolStrip1;
         private ToolStripButton _toolStripButton1;
         private ToolStripButton _toolStripButton2;
@@ -64,12 +64,11 @@ namespace RevitLookup.Forms
         protected MenuItem MMnuItemBrowseReflection;
 
         protected CollectorObj MSnoopCollector = new();
-        protected TreeView MTvObjs;
+        protected TreeView TvObjs;
 
-        public
-            ParamEnumSnoop(Hashtable enumMap)
+        public ParamEnumSnoop(Hashtable enumMap)
         {
-            _mEnumMap = enumMap;
+            _enumMap = enumMap;
 
             // this constructor is for derived classes to call
             InitializeComponent();
@@ -77,12 +76,12 @@ namespace RevitLookup.Forms
             // Add Load to update ListView Width
             Core.Snoop.Utils.AddOnLoadForm(this);
 
-            MTvObjs.BeginUpdate();
+            TvObjs.BeginUpdate();
 
             AddParametersToTree();
 
-            MTvObjs.ExpandAll();
-            MTvObjs.EndUpdate();
+            TvObjs.ExpandAll();
+            TvObjs.EndUpdate();
         }
 
         public void SetDocument(Document document)
@@ -93,8 +92,7 @@ namespace RevitLookup.Forms
         /// <summary>
         ///     Clean up any resources being used.
         /// </summary>
-        protected override void
-            Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing) components?.Dispose();
 
@@ -112,9 +110,9 @@ namespace RevitLookup.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamEnumSnoop));
-            this.MTvObjs = new System.Windows.Forms.TreeView();
+            this.TvObjs = new System.Windows.Forms.TreeView();
             this.MCntxMenuObjId = new System.Windows.Forms.ContextMenu();
-            this._mMnuItemCopy = new System.Windows.Forms.MenuItem();
+            this._mnuItemCopy = new System.Windows.Forms.MenuItem();
             this.MMnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
             this.MBnOk = new System.Windows.Forms.Button();
             this.MLvData = new System.Windows.Forms.ListView();
@@ -126,38 +124,38 @@ namespace RevitLookup.Forms
             this._toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this._toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this._toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this._mPrintDialog = new System.Windows.Forms.PrintDialog();
-            this._mPrintDocument = new System.Drawing.Printing.PrintDocument();
-            this._mPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this._printDialog = new System.Windows.Forms.PrintDialog();
+            this._printDocument = new System.Drawing.Printing.PrintDocument();
+            this._printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
             this._listViewContextMenuStrip.SuspendLayout();
             this._toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // m_tvObjs
             // 
-            this.MTvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.MTvObjs.ContextMenu = this.MCntxMenuObjId;
-            this.MTvObjs.HideSelection = false;
-            this.MTvObjs.Location = new System.Drawing.Point(11, 38);
-            this.MTvObjs.Name = "MTvObjs";
-            this.MTvObjs.Size = new System.Drawing.Size(248, 415);
-            this.MTvObjs.TabIndex = 0;
-            this.MTvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
+            this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.TvObjs.ContextMenu = this.MCntxMenuObjId;
+            this.TvObjs.HideSelection = false;
+            this.TvObjs.Location = new System.Drawing.Point(11, 38);
+            this.TvObjs.Name = "TvObjs";
+            this.TvObjs.Size = new System.Drawing.Size(248, 415);
+            this.TvObjs.TabIndex = 0;
+            this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
             // 
             // m_cntxMenuObjId
             // 
             this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
             {
-                this._mMnuItemCopy,
+                this._mnuItemCopy,
                 this.MMnuItemBrowseReflection
             });
             // 
             // m_mnuItemCopy
             // 
-            this._mMnuItemCopy.Index = 0;
-            this._mMnuItemCopy.Text = "Copy";
-            this._mMnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
+            this._mnuItemCopy.Index = 0;
+            this._mnuItemCopy.Text = "Copy";
+            this._mnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
             // 
             // m_mnuItemBrowseReflection
             // 
@@ -273,23 +271,23 @@ namespace RevitLookup.Forms
             // 
             // m_printDialog
             // 
-            this._mPrintDialog.Document = this._mPrintDocument;
-            this._mPrintDialog.UseEXDialog = true;
+            this._printDialog.Document = this._printDocument;
+            this._printDialog.UseEXDialog = true;
             // 
             // m_printDocument
             // 
-            this._mPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
+            this._printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
             // 
             // m_printPreviewDialog
             // 
-            this._mPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this._mPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this._mPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-            this._mPrintPreviewDialog.Document = this._mPrintDocument;
-            this._mPrintPreviewDialog.Enabled = true;
-            this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
-            this._mPrintPreviewDialog.Name = "_mPrintPreviewDialog";
-            this._mPrintPreviewDialog.Visible = false;
+            this._printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this._printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this._printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+            this._printPreviewDialog.Document = this._printDocument;
+            this._printPreviewDialog.Enabled = true;
+            this._printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
+            this._printPreviewDialog.Name = "_printPreviewDialog";
+            this._printPreviewDialog.Visible = false;
             // 
             // ParamEnumSnoop
             // 
@@ -299,7 +297,7 @@ namespace RevitLookup.Forms
             this.ClientSize = new System.Drawing.Size(800, 489);
             this.Controls.Add(this._toolStrip1);
             this.Controls.Add(this.MBnOk);
-            this.Controls.Add(this.MTvObjs);
+            this.Controls.Add(this.TvObjs);
             this.Controls.Add(this.MLvData);
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -318,12 +316,11 @@ namespace RevitLookup.Forms
 
         #endregion
 
-        protected void
-            AddParametersToTree()
+        protected void AddParametersToTree()
         {
-            MTvObjs.Sorted = true;
+            TvObjs.Sorted = true;
 
-            foreach (DictionaryEntry de in _mEnumMap)
+            foreach (DictionaryEntry de in _enumMap)
             {
                 var tmpObj = (Parameter) de.Value;
                 var tmpNode = new TreeNode(de.Key.ToString())
@@ -331,7 +328,7 @@ namespace RevitLookup.Forms
                     Tag = de.Value
                 };
 
-                MTvObjs.Nodes.Add(tmpNode);
+                TvObjs.Nodes.Add(tmpNode);
             }
         }
 
@@ -359,8 +356,7 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void
-            DataItemSelected(object sender, EventArgs e)
+        protected void DataItemSelected(object sender, EventArgs e)
         {
             Core.Snoop.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
@@ -370,10 +366,9 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            ContextMenuClick_Copy(object sender, EventArgs e)
+        private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (MTvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(MLvData);
+            if (TvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(MLvData);
         }
 
 
@@ -381,8 +376,7 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            ContextMenuClick_BrowseReflection(object sender, EventArgs e)
+        private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
             Core.Snoop.Utils.BrowseReflection(MCurObj);
         }
@@ -392,8 +386,7 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            CopyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MLvData.SelectedItems.Count > 0)
                 Core.Snoop.Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
@@ -405,11 +398,10 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintMenuItem_Click(object sender, EventArgs e)
+        private void PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Core.Snoop.Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
+            Core.Snoop.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
+            Core.Snoop.Utils.PrintMenuItemClick(_printDialog, TvObjs);
         }
 
 
@@ -417,11 +409,10 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintPreviewMenuItem_Click(object sender, EventArgs e)
+        private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Core.Snoop.Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
+            Core.Snoop.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
+            Core.Snoop.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
         }
 
 
@@ -429,10 +420,9 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _mCurrentPrintItem = Core.Snoop.Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
+            _currentPrintItem = Core.Snoop.Utils.Print(TvObjs.SelectedNode.Text, MLvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
         }
 
         #endregion

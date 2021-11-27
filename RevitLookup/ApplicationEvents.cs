@@ -32,43 +32,43 @@ namespace RevitLookup
 {
     public class ApplicationEvents
     {
-        private readonly ControlledApplication _mApp;
+        private readonly ControlledApplication _application;
 
         public ApplicationEvents(ControlledApplication app)
         {
-            _mApp = app;
+            _application = app;
         }
 
         public void EnableEvents()
         {
-            _mApp.DocumentClosed += m_app_DocumentClosed;
-            _mApp.DocumentOpened += m_app_DocumentOpened;
-            _mApp.DocumentSaved += m_app_DocumentSaved;
-            _mApp.DocumentSavedAs += m_app_DocumentSavedAs;
+            _application.DocumentClosed += DocumentClosed;
+            _application.DocumentOpened += DocumentOpened;
+            _application.DocumentSaved += DocumentSaved;
+            _application.DocumentSavedAs += DocumentSavedAs;
         }
 
         public void DisableEvents()
         {
-            _mApp.DocumentClosed -= m_app_DocumentClosed;
-            _mApp.DocumentOpened -= m_app_DocumentOpened;
-            _mApp.DocumentSaved -= m_app_DocumentSaved;
-            _mApp.DocumentSavedAs -= m_app_DocumentSavedAs;
+            _application.DocumentClosed -= DocumentClosed;
+            _application.DocumentOpened -= DocumentOpened;
+            _application.DocumentSaved -= DocumentSaved;
+            _application.DocumentSavedAs -= DocumentSavedAs;
         }
 
-        private void m_app_DocumentSavedAs(object sender, DocumentSavedAsEventArgs e)
+        private void DocumentSavedAs(object sender, DocumentSavedAsEventArgs e)
         {
         }
 
-        private void m_app_DocumentSaved(object sender, DocumentSavedEventArgs e)
+        private void DocumentSaved(object sender, DocumentSavedEventArgs e)
         {
         }
 
-        private void m_app_DocumentOpened(object sender, DocumentOpenedEventArgs e)
+        private void DocumentOpened(object sender, DocumentOpenedEventArgs e)
         {
             if (EventsForm.MDocEvents.AreEventsEnabled) EventsForm.MDocEvents.EnableEvents(e.Document);
         }
 
-        private void m_app_DocumentClosed(object sender, DocumentClosedEventArgs e)
+        private void DocumentClosed(object sender, DocumentClosedEventArgs e)
         {
         }
     }

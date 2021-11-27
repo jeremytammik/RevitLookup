@@ -34,9 +34,8 @@ namespace RevitLookup.Core.ModelStats
     /// </summary>
     public class SymbolCount
     {
-        public ArrayList MRefs = new();
-
         // data members
         public ElementType MSymbol;
+        public ArrayList Refs = new();
     }
 }

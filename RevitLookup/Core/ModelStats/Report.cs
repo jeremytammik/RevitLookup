@@ -40,11 +40,11 @@ namespace RevitLookup.Core.ModelStats
     /// </summary>
     public class Report
     {
-        private readonly ArrayList _mCategoryCounts = new();
+        private readonly ArrayList _categoryCounts = new();
 
         // data members
-        private readonly ArrayList _mRawObjCounts = new();
-        private readonly ArrayList _mSymRefCounts = new();
+        private readonly ArrayList _rawObjCounts = new();
+        private readonly ArrayList _symRefCounts = new();
 
         /// <summary>
         ///     Find a RawObjCount node for the the given type of object.
@@ -53,10 +53,9 @@ namespace RevitLookup.Core.ModelStats
         /// <returns></returns>
         private RawObjCount FindRawObjNode(Type objType)
         {
-            foreach (RawObjCount tmpNode in _mRawObjCounts)
-                if (tmpNode.MClassType == objType)
-                    return tmpNode;
-            return null;
+            return _rawObjCounts
+                .Cast<RawObjCount>()
+                .FirstOrDefault(tmpNode => tmpNode.MClassType == objType);
         }
 
         private void RawObjStats(object obj)
@@ -68,17 +67,17 @@ namespace RevitLookup.Core.ModelStats
                 {
                     MClassType = obj.GetType()
                 };
-                _mRawObjCounts.Add(tmpNode);
+                _rawObjCounts.Add(tmpNode);
             }
 
-            tmpNode.MObjs.Add(obj);
+            tmpNode.Objs.Add(obj);
         }
 
         private CategoryCount FindCategoryNode(Category cat)
         {
             Debug.Assert(cat != null); // don't call unless you've already checked this
 
-            return _mCategoryCounts
+            return _categoryCounts
                 .Cast<CategoryCount>()
                 .FirstOrDefault(tmpNode => tmpNode.MCategory == cat);
         }
@@ -95,15 +94,15 @@ namespace RevitLookup.Core.ModelStats
                 {
                     MCategory = elem.Category
                 };
-                _mCategoryCounts.Add(tmpNode);
+                _categoryCounts.Add(tmpNode);
             }
 
-            tmpNode.MObjs.Add(elem);
+            tmpNode.Objs.Add(elem);
         }
 
         private SymbolCount FindSymbolNode(ElementType sym)
         {
-            return _mSymRefCounts
+            return _symRefCounts
                 .Cast<SymbolCount>()
                 .FirstOrDefault(tmpNode => tmpNode.MSymbol.Id.IntegerValue == sym.Id.IntegerValue);
         }
@@ -138,7 +137,7 @@ namespace RevitLookup.Core.ModelStats
                     {
                         MSymbol = sym
                     };
-                    _mSymRefCounts.Add(tmpNode);
+                    _symRefCounts.Add(tmpNode);
                 }
 
                 return;
@@ -156,10 +155,10 @@ namespace RevitLookup.Core.ModelStats
                     {
                         MSymbol = sym
                     };
-                    _mSymRefCounts.Add(tmpNode);
+                    _symRefCounts.Add(tmpNode);
                 }
 
-                tmpNode.MRefs.Add(elem);
+                tmpNode.Refs.Add(elem);
             }
         }
 
@@ -169,8 +168,7 @@ namespace RevitLookup.Core.ModelStats
             var fec = new FilteredElementCollector(doc);
             var elementsAreWanted = new ElementClassFilter(typeof(Element));
             fec.WherePasses(elementsAreWanted);
-            var elements = fec.ToElements() as List<Element>;
-
+            if (fec.ToElements() is not List<Element> elements) return;
             foreach (var element in elements)
             {
                 RawObjStats(element);
@@ -217,15 +215,15 @@ namespace RevitLookup.Core.ModelStats
         {
             stream.WriteStartElement("RawCounts");
 
-            foreach (RawObjCount tmpNode in _mRawObjCounts)
+            foreach (RawObjCount tmpNode in _rawObjCounts)
             {
                 // write summary stats for this class type
                 stream.WriteStartElement("ClassType");
                 stream.WriteAttributeString("name", tmpNode.MClassType.Name);
                 stream.WriteAttributeString("fullName", tmpNode.MClassType.FullName);
-                stream.WriteAttributeString("count", tmpNode.MObjs.Count.ToString());
+                stream.WriteAttributeString("count", tmpNode.Objs.Count.ToString());
                 // list a reference to each element of this type
-                foreach (var tmpObj in tmpNode.MObjs)
+                foreach (var tmpObj in tmpNode.Objs)
                     if (tmpObj is Element tmpElem)
                     {
                         stream.WriteStartElement("ElementRef");
@@ -243,14 +241,14 @@ namespace RevitLookup.Core.ModelStats
         {
             stream.WriteStartElement("Categories");
 
-            foreach (CategoryCount tmpNode in _mCategoryCounts)
+            foreach (CategoryCount tmpNode in _categoryCounts)
             {
                 // write summary stats for this category
                 stream.WriteStartElement("Category");
                 stream.WriteAttributeString("name", tmpNode.MCategory.Name);
-                stream.WriteAttributeString("count", tmpNode.MObjs.Count.ToString());
+                stream.WriteAttributeString("count", tmpNode.Objs.Count.ToString());
                 // list a reference to each element of this type
-                foreach (Element tmpElem in tmpNode.MObjs)
+                foreach (Element tmpElem in tmpNode.Objs)
                 {
                     stream.WriteStartElement("ElementRef");
                     stream.WriteAttributeString("idRef", tmpElem.Id.IntegerValue.ToString());
@@ -267,15 +265,15 @@ namespace RevitLookup.Core.ModelStats
         {
             stream.WriteStartElement("Symbols");
 
-            foreach (SymbolCount tmpNode in _mSymRefCounts)
+            foreach (SymbolCount tmpNode in _symRefCounts)
             {
                 // write summary stats for this Symbol
                 stream.WriteStartElement("Symbol");
                 stream.WriteAttributeString("name", tmpNode.MSymbol.Name);
                 stream.WriteAttributeString("symbolType", tmpNode.MSymbol.GetType().Name);
-                stream.WriteAttributeString("refCount", tmpNode.MRefs.Count.ToString());
+                stream.WriteAttributeString("refCount", tmpNode.Refs.Count.ToString());
                 // list a reference to each element of this type
-                foreach (Element tmpElem in tmpNode.MRefs)
+                foreach (Element tmpElem in tmpNode.Refs)
                 {
                     stream.WriteStartElement("ElementRef");
                     stream.WriteAttributeString("idRef", tmpElem.Id.IntegerValue.ToString());

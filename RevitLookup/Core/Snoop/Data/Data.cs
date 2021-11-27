@@ -35,24 +35,16 @@ namespace RevitLookup.Core.Snoop.Data
     /// </summary>
     public abstract class Data
     {
-        private string _mLabel;
-
-        public
-            Data(string label)
+        public Data(string label)
         {
-            _mLabel = label;
+            Label = label;
         }
 
         /// <summary>
         ///     The Label value for the property (e.g. "Radius" for a Circle
         /// </summary>
 
-        public virtual string
-            Label
-        {
-            get => _mLabel;
-            set => _mLabel = value;
-        }
+        public string Label { get; set; }
 
         /// <summary>
         ///     Is there more information available about this property.  For instance,
@@ -60,25 +52,19 @@ namespace RevitLookup.Core.Snoop.Data
         ///     can bring up a nested dialog showing all those objects.
         /// </summary>
 
-        public virtual bool
-            HasDrillDown =>
-            false;
+        public virtual bool HasDrillDown => false;
 
         /// <summary>
         ///     Is this real data, or just a logical category separator?
         /// </summary>
 
-        public virtual bool
-            IsSeparator =>
-            false;
+        public virtual bool IsSeparator => false;
 
         /// <summary>
         ///     Is this an error condition
         /// </summary>
 
-        public virtual bool
-            IsError =>
-            false;
+        public virtual bool IsError => false;
 
         /// <summary>
         ///     The value for the Property, expressed as a string
@@ -94,7 +80,7 @@ namespace RevitLookup.Core.Snoop.Data
         /// <returns>Label/Value pair as a string</returns>
         public override string ToString()
         {
-            return $"{_mLabel}: {StrValue()}";
+            return $"{Label}: {StrValue()}";
         }
 
         /// <summary>

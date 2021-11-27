@@ -28,6 +28,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
@@ -44,41 +45,38 @@ namespace RevitLookup.Forms
         private readonly CollectorXmlNode _mSnoopCollector = new();
 
         private readonly XmlDocument _mXmlDoc;
-        private Button _mBnDocElem;
-        private Button _mBnFirstChild;
-        private Button _mBnLastChild;
-        private Button _mBnNextSibling;
-        private Button _mBnOk;
-        private Button _mBnOwnerDoc;
-        private Button _mBnParent;
-        private Button _mBnPrevSibling;
-        private Button _mBnSelectNodes;
-        private Button _mBnSelectSingleNode;
-        private Button _mBnXpathClear;
-        private CheckBox _mCbHideCommentNodes;
-        private CheckBox _mCbHideTextNodes;
-        private TextBox _mEbXpathPattern;
-        private GroupBox _mGrpLabelDisplay;
-        private GroupBox _mGrpNodeDisplay;
-        private GroupBox _mGrpXpath;
-        private ImageList _mImgListTree;
-        private ColumnHeader _mLvColLabel;
-        private ColumnHeader _mLvColValue;
-        private ListView _mLvData;
-        private RadioButton _mRbNodeAndText;
-        private RadioButton _mRbNodeNameOnly;
-        private TreeView _mTvDom;
-        private Label _mTxtXpathPattern;
+        private Button _bnDocElem;
+        private Button _bnFirstChild;
+        private Button _bnLastChild;
+        private Button _bnNextSibling;
+        private Button _bnOk;
+        private Button _bnOwnerDoc;
+        private Button _bnParent;
+        private Button _bnPrevSibling;
+        private Button _bnSelectNodes;
+        private Button _bnSelectSingleNode;
+        private Button _bnXpathClear;
+        private CheckBox _cbHideCommentNodes;
+        private CheckBox _cbHideTextNodes;
+        private TextBox _ebXpathPattern;
+        private GroupBox _grpLabelDisplay;
+        private GroupBox _grpNodeDisplay;
+        private GroupBox _grpXpath;
+        private ImageList _imgListTree;
+        private ColumnHeader _lvColLabel;
+        private ColumnHeader _lvColValue;
+        private ListView _lvData;
+        private RadioButton _rbNodeAndText;
+        private RadioButton _rbNodeNameOnly;
+        private TreeView _tvDom;
+        private Label _txtXpathPattern;
 
         private IContainer components;
 
-        public
-            Dom(XmlDocument xmlDoc)
+        public Dom(XmlDocument xmlDoc)
         {
             _mXmlDoc = xmlDoc;
-
             InitializeComponent();
-
             LoadTree();
         }
 
@@ -88,7 +86,6 @@ namespace RevitLookup.Forms
         protected override void Dispose(bool disposing)
         {
             if (disposing) components?.Dispose();
-
             base.Dispose(disposing);
         }
 
@@ -102,341 +99,341 @@ namespace RevitLookup.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(Dom));
-            this._mTvDom = new System.Windows.Forms.TreeView();
-            this._mImgListTree = new System.Windows.Forms.ImageList(this.components);
-            this._mLvData = new System.Windows.Forms.ListView();
-            this._mLvColLabel = new System.Windows.Forms.ColumnHeader();
-            this._mLvColValue = new System.Windows.Forms.ColumnHeader();
-            this._mRbNodeNameOnly = new System.Windows.Forms.RadioButton();
-            this._mRbNodeAndText = new System.Windows.Forms.RadioButton();
-            this._mGrpLabelDisplay = new System.Windows.Forms.GroupBox();
-            this._mGrpNodeDisplay = new System.Windows.Forms.GroupBox();
-            this._mCbHideTextNodes = new System.Windows.Forms.CheckBox();
-            this._mCbHideCommentNodes = new System.Windows.Forms.CheckBox();
-            this._mBnParent = new System.Windows.Forms.Button();
-            this._mBnOwnerDoc = new System.Windows.Forms.Button();
-            this._mBnPrevSibling = new System.Windows.Forms.Button();
-            this._mBnNextSibling = new System.Windows.Forms.Button();
-            this._mBnFirstChild = new System.Windows.Forms.Button();
-            this._mBnLastChild = new System.Windows.Forms.Button();
-            this._mTxtXpathPattern = new System.Windows.Forms.Label();
-            this._mEbXpathPattern = new System.Windows.Forms.TextBox();
-            this._mBnSelectSingleNode = new System.Windows.Forms.Button();
-            this._mBnSelectNodes = new System.Windows.Forms.Button();
-            this._mBnOk = new System.Windows.Forms.Button();
-            this._mBnXpathClear = new System.Windows.Forms.Button();
-            this._mGrpXpath = new System.Windows.Forms.GroupBox();
-            this._mBnDocElem = new System.Windows.Forms.Button();
-            this._mGrpNodeDisplay.SuspendLayout();
-            this._mGrpXpath.SuspendLayout();
+            this._tvDom = new System.Windows.Forms.TreeView();
+            this._imgListTree = new System.Windows.Forms.ImageList(this.components);
+            this._lvData = new System.Windows.Forms.ListView();
+            this._lvColLabel = new System.Windows.Forms.ColumnHeader();
+            this._lvColValue = new System.Windows.Forms.ColumnHeader();
+            this._rbNodeNameOnly = new System.Windows.Forms.RadioButton();
+            this._rbNodeAndText = new System.Windows.Forms.RadioButton();
+            this._grpLabelDisplay = new System.Windows.Forms.GroupBox();
+            this._grpNodeDisplay = new System.Windows.Forms.GroupBox();
+            this._cbHideTextNodes = new System.Windows.Forms.CheckBox();
+            this._cbHideCommentNodes = new System.Windows.Forms.CheckBox();
+            this._bnParent = new System.Windows.Forms.Button();
+            this._bnOwnerDoc = new System.Windows.Forms.Button();
+            this._bnPrevSibling = new System.Windows.Forms.Button();
+            this._bnNextSibling = new System.Windows.Forms.Button();
+            this._bnFirstChild = new System.Windows.Forms.Button();
+            this._bnLastChild = new System.Windows.Forms.Button();
+            this._txtXpathPattern = new System.Windows.Forms.Label();
+            this._ebXpathPattern = new System.Windows.Forms.TextBox();
+            this._bnSelectSingleNode = new System.Windows.Forms.Button();
+            this._bnSelectNodes = new System.Windows.Forms.Button();
+            this._bnOk = new System.Windows.Forms.Button();
+            this._bnXpathClear = new System.Windows.Forms.Button();
+            this._grpXpath = new System.Windows.Forms.GroupBox();
+            this._bnDocElem = new System.Windows.Forms.Button();
+            this._grpNodeDisplay.SuspendLayout();
+            this._grpXpath.SuspendLayout();
             this.SuspendLayout();
             // 
             // m_tvDom
             // 
-            this._mTvDom.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                    | System.Windows.Forms.AnchorStyles.Left)
-                                   | System.Windows.Forms.AnchorStyles.Right);
-            this._mTvDom.HideSelection = false;
-            this._mTvDom.ImageList = this._mImgListTree;
-            this._mTvDom.Location = new System.Drawing.Point(16, 16);
-            this._mTvDom.Name = "_mTvDom";
-            this._mTvDom.Size = new System.Drawing.Size(336, 416);
-            this._mTvDom.TabIndex = 0;
-            this._mTvDom.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
+            this._tvDom.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                   | System.Windows.Forms.AnchorStyles.Left)
+                                  | System.Windows.Forms.AnchorStyles.Right);
+            this._tvDom.HideSelection = false;
+            this._tvDom.ImageList = this._imgListTree;
+            this._tvDom.Location = new System.Drawing.Point(16, 16);
+            this._tvDom.Name = "_tvDom";
+            this._tvDom.Size = new System.Drawing.Size(336, 416);
+            this._tvDom.TabIndex = 0;
+            this._tvDom.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
             // 
             // m_imgListTree
             // 
-            this._mImgListTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this._mImgListTree.ImageSize = new System.Drawing.Size(16, 16);
-            this._mImgListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer) (resources.GetObject("m_imgListTree.ImageStream")));
-            this._mImgListTree.TransparentColor = System.Drawing.Color.Transparent;
+            this._imgListTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this._imgListTree.ImageSize = new System.Drawing.Size(16, 16);
+            this._imgListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer) (resources.GetObject("m_imgListTree.ImageStream")));
+            this._imgListTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // m_lvData
             // 
-            this._mLvData.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                    | System.Windows.Forms.AnchorStyles.Right);
-            this._mLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
+            this._lvData.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                   | System.Windows.Forms.AnchorStyles.Right);
+            this._lvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
             {
-                this._mLvColLabel,
-                this._mLvColValue
+                this._lvColLabel,
+                this._lvColValue
             });
-            this._mLvData.FullRowSelect = true;
-            this._mLvData.GridLines = true;
-            this._mLvData.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this._mLvData.Location = new System.Drawing.Point(368, 16);
-            this._mLvData.MultiSelect = false;
-            this._mLvData.Name = "_mLvData";
-            this._mLvData.Size = new System.Drawing.Size(416, 328);
-            this._mLvData.TabIndex = 1;
-            this._mLvData.View = System.Windows.Forms.View.Details;
-            this._mLvData.Click += new System.EventHandler(this.DataItemSelected);
+            this._lvData.FullRowSelect = true;
+            this._lvData.GridLines = true;
+            this._lvData.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this._lvData.Location = new System.Drawing.Point(368, 16);
+            this._lvData.MultiSelect = false;
+            this._lvData.Name = "_lvData";
+            this._lvData.Size = new System.Drawing.Size(416, 328);
+            this._lvData.TabIndex = 1;
+            this._lvData.View = System.Windows.Forms.View.Details;
+            this._lvData.Click += new System.EventHandler(this.DataItemSelected);
             // 
             // m_lvColLabel
             // 
-            this._mLvColLabel.Text = "Field";
-            this._mLvColLabel.Width = 200;
+            this._lvColLabel.Text = "Field";
+            this._lvColLabel.Width = 200;
             // 
             // m_lvColValue
             // 
-            this._mLvColValue.Text = "Value";
-            this._mLvColValue.Width = 750;
+            this._lvColValue.Text = "Value";
+            this._lvColValue.Width = 750;
             // 
             // m_rbNodeNameOnly
             // 
-            this._mRbNodeNameOnly.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-            this._mRbNodeNameOnly.Checked = true;
-            this._mRbNodeNameOnly.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mRbNodeNameOnly.Location = new System.Drawing.Point(384, 376);
-            this._mRbNodeNameOnly.Name = "_mRbNodeNameOnly";
-            this._mRbNodeNameOnly.Size = new System.Drawing.Size(152, 24);
-            this._mRbNodeNameOnly.TabIndex = 2;
-            this._mRbNodeNameOnly.TabStop = true;
-            this._mRbNodeNameOnly.Text = "Node Name Only";
-            this._mRbNodeNameOnly.CheckedChanged += new System.EventHandler(this.OnRbChanged_LabelDisplay);
+            this._rbNodeNameOnly.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this._rbNodeNameOnly.Checked = true;
+            this._rbNodeNameOnly.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._rbNodeNameOnly.Location = new System.Drawing.Point(384, 376);
+            this._rbNodeNameOnly.Name = "_rbNodeNameOnly";
+            this._rbNodeNameOnly.Size = new System.Drawing.Size(152, 24);
+            this._rbNodeNameOnly.TabIndex = 2;
+            this._rbNodeNameOnly.TabStop = true;
+            this._rbNodeNameOnly.Text = "Node Name Only";
+            this._rbNodeNameOnly.CheckedChanged += new System.EventHandler(this.OnRbChanged_LabelDisplay);
             // 
             // m_rbNodeAndText
             // 
-            this._mRbNodeAndText.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-            this._mRbNodeAndText.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mRbNodeAndText.Location = new System.Drawing.Point(384, 400);
-            this._mRbNodeAndText.Name = "_mRbNodeAndText";
-            this._mRbNodeAndText.Size = new System.Drawing.Size(168, 24);
-            this._mRbNodeAndText.TabIndex = 4;
-            this._mRbNodeAndText.Text = "Node Name and Value";
-            this._mRbNodeAndText.CheckedChanged += new System.EventHandler(this.OnRbChanged_LabelDisplay);
+            this._rbNodeAndText.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this._rbNodeAndText.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._rbNodeAndText.Location = new System.Drawing.Point(384, 400);
+            this._rbNodeAndText.Name = "_rbNodeAndText";
+            this._rbNodeAndText.Size = new System.Drawing.Size(168, 24);
+            this._rbNodeAndText.TabIndex = 4;
+            this._rbNodeAndText.Text = "Node Name and Value";
+            this._rbNodeAndText.CheckedChanged += new System.EventHandler(this.OnRbChanged_LabelDisplay);
             // 
             // m_grpLabelDisplay
             // 
-            this._mGrpLabelDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-            this._mGrpLabelDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mGrpLabelDisplay.Location = new System.Drawing.Point(368, 360);
-            this._mGrpLabelDisplay.Name = "_mGrpLabelDisplay";
-            this._mGrpLabelDisplay.Size = new System.Drawing.Size(200, 72);
-            this._mGrpLabelDisplay.TabIndex = 5;
-            this._mGrpLabelDisplay.TabStop = false;
-            this._mGrpLabelDisplay.Text = "Label Display";
+            this._grpLabelDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this._grpLabelDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._grpLabelDisplay.Location = new System.Drawing.Point(368, 360);
+            this._grpLabelDisplay.Name = "_grpLabelDisplay";
+            this._grpLabelDisplay.Size = new System.Drawing.Size(200, 72);
+            this._grpLabelDisplay.TabIndex = 5;
+            this._grpLabelDisplay.TabStop = false;
+            this._grpLabelDisplay.Text = "Label Display";
             // 
             // m_grpNodeDisplay
             // 
-            this._mGrpNodeDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-            this._mGrpNodeDisplay.Controls.AddRange(new System.Windows.Forms.Control[]
+            this._grpNodeDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this._grpNodeDisplay.Controls.AddRange(new System.Windows.Forms.Control[]
             {
-                this._mCbHideTextNodes,
-                this._mCbHideCommentNodes
+                this._cbHideTextNodes,
+                this._cbHideCommentNodes
             });
-            this._mGrpNodeDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mGrpNodeDisplay.Location = new System.Drawing.Point(584, 360);
-            this._mGrpNodeDisplay.Name = "_mGrpNodeDisplay";
-            this._mGrpNodeDisplay.Size = new System.Drawing.Size(200, 72);
-            this._mGrpNodeDisplay.TabIndex = 6;
-            this._mGrpNodeDisplay.TabStop = false;
-            this._mGrpNodeDisplay.Text = "Node Display";
+            this._grpNodeDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._grpNodeDisplay.Location = new System.Drawing.Point(584, 360);
+            this._grpNodeDisplay.Name = "_grpNodeDisplay";
+            this._grpNodeDisplay.Size = new System.Drawing.Size(200, 72);
+            this._grpNodeDisplay.TabIndex = 6;
+            this._grpNodeDisplay.TabStop = false;
+            this._grpNodeDisplay.Text = "Node Display";
             // 
             // m_cbHideTextNodes
             // 
-            this._mCbHideTextNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-            this._mCbHideTextNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mCbHideTextNodes.Location = new System.Drawing.Point(16, 40);
-            this._mCbHideTextNodes.Name = "_mCbHideTextNodes";
-            this._mCbHideTextNodes.Size = new System.Drawing.Size(176, 24);
-            this._mCbHideTextNodes.TabIndex = 1;
-            this._mCbHideTextNodes.Text = "Hide Text Nodes";
-            this._mCbHideTextNodes.CheckedChanged += new System.EventHandler(this.OnCbChanged_NodeDisplay);
+            this._cbHideTextNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this._cbHideTextNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._cbHideTextNodes.Location = new System.Drawing.Point(16, 40);
+            this._cbHideTextNodes.Name = "_cbHideTextNodes";
+            this._cbHideTextNodes.Size = new System.Drawing.Size(176, 24);
+            this._cbHideTextNodes.TabIndex = 1;
+            this._cbHideTextNodes.Text = "Hide Text Nodes";
+            this._cbHideTextNodes.CheckedChanged += new System.EventHandler(this.OnCbChanged_NodeDisplay);
             // 
             // m_cbHideCommentNodes
             // 
-            this._mCbHideCommentNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-            this._mCbHideCommentNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mCbHideCommentNodes.Location = new System.Drawing.Point(16, 16);
-            this._mCbHideCommentNodes.Name = "_mCbHideCommentNodes";
-            this._mCbHideCommentNodes.Size = new System.Drawing.Size(176, 24);
-            this._mCbHideCommentNodes.TabIndex = 0;
-            this._mCbHideCommentNodes.Text = "Hide Comment Nodes";
-            this._mCbHideCommentNodes.CheckedChanged += new System.EventHandler(this.OnCbChanged_NodeDisplay);
+            this._cbHideCommentNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this._cbHideCommentNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._cbHideCommentNodes.Location = new System.Drawing.Point(16, 16);
+            this._cbHideCommentNodes.Name = "_cbHideCommentNodes";
+            this._cbHideCommentNodes.Size = new System.Drawing.Size(176, 24);
+            this._cbHideCommentNodes.TabIndex = 0;
+            this._cbHideCommentNodes.Text = "Hide Comment Nodes";
+            this._cbHideCommentNodes.CheckedChanged += new System.EventHandler(this.OnCbChanged_NodeDisplay);
             // 
             // m_bnParent
             // 
-            this._mBnParent.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnParent.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnParent.Location = new System.Drawing.Point(16, 448);
-            this._mBnParent.Name = "_mBnParent";
-            this._mBnParent.TabIndex = 7;
-            this._mBnParent.Text = "Parent";
-            this._mBnParent.Click += new System.EventHandler(this.OnBnParent);
+            this._bnParent.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnParent.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnParent.Location = new System.Drawing.Point(16, 448);
+            this._bnParent.Name = "_bnParent";
+            this._bnParent.TabIndex = 7;
+            this._bnParent.Text = "Parent";
+            this._bnParent.Click += new System.EventHandler(this.OnBnParent);
             // 
             // m_bnOwnerDoc
             // 
-            this._mBnOwnerDoc.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnOwnerDoc.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnOwnerDoc.Location = new System.Drawing.Point(104, 448);
-            this._mBnOwnerDoc.Name = "_mBnOwnerDoc";
-            this._mBnOwnerDoc.TabIndex = 8;
-            this._mBnOwnerDoc.Text = "Owner Doc";
-            this._mBnOwnerDoc.Click += new System.EventHandler(this.OnBnOwnerDoc);
+            this._bnOwnerDoc.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnOwnerDoc.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnOwnerDoc.Location = new System.Drawing.Point(104, 448);
+            this._bnOwnerDoc.Name = "_bnOwnerDoc";
+            this._bnOwnerDoc.TabIndex = 8;
+            this._bnOwnerDoc.Text = "Owner Doc";
+            this._bnOwnerDoc.Click += new System.EventHandler(this.OnBnOwnerDoc);
             // 
             // m_bnPrevSibling
             // 
-            this._mBnPrevSibling.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnPrevSibling.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnPrevSibling.Location = new System.Drawing.Point(192, 448);
-            this._mBnPrevSibling.Name = "_mBnPrevSibling";
-            this._mBnPrevSibling.TabIndex = 9;
-            this._mBnPrevSibling.Text = "Prev Sibling";
-            this._mBnPrevSibling.Click += new System.EventHandler(this.OnBnPrevSibling);
+            this._bnPrevSibling.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnPrevSibling.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnPrevSibling.Location = new System.Drawing.Point(192, 448);
+            this._bnPrevSibling.Name = "_bnPrevSibling";
+            this._bnPrevSibling.TabIndex = 9;
+            this._bnPrevSibling.Text = "Prev Sibling";
+            this._bnPrevSibling.Click += new System.EventHandler(this.OnBnPrevSibling);
             // 
             // m_bnNextSibling
             // 
-            this._mBnNextSibling.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnNextSibling.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnNextSibling.Location = new System.Drawing.Point(280, 448);
-            this._mBnNextSibling.Name = "_mBnNextSibling";
-            this._mBnNextSibling.TabIndex = 10;
-            this._mBnNextSibling.Text = "Next Sibling";
-            this._mBnNextSibling.Click += new System.EventHandler(this.OnBnNextSibling);
+            this._bnNextSibling.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnNextSibling.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnNextSibling.Location = new System.Drawing.Point(280, 448);
+            this._bnNextSibling.Name = "_bnNextSibling";
+            this._bnNextSibling.TabIndex = 10;
+            this._bnNextSibling.Text = "Next Sibling";
+            this._bnNextSibling.Click += new System.EventHandler(this.OnBnNextSibling);
             // 
             // m_bnFirstChild
             // 
-            this._mBnFirstChild.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnFirstChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnFirstChild.Location = new System.Drawing.Point(368, 448);
-            this._mBnFirstChild.Name = "_mBnFirstChild";
-            this._mBnFirstChild.TabIndex = 11;
-            this._mBnFirstChild.Text = "First Child";
-            this._mBnFirstChild.Click += new System.EventHandler(this.OnBnFirstChild);
+            this._bnFirstChild.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnFirstChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnFirstChild.Location = new System.Drawing.Point(368, 448);
+            this._bnFirstChild.Name = "_bnFirstChild";
+            this._bnFirstChild.TabIndex = 11;
+            this._bnFirstChild.Text = "First Child";
+            this._bnFirstChild.Click += new System.EventHandler(this.OnBnFirstChild);
             // 
             // m_bnLastChild
             // 
-            this._mBnLastChild.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnLastChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnLastChild.Location = new System.Drawing.Point(456, 448);
-            this._mBnLastChild.Name = "_mBnLastChild";
-            this._mBnLastChild.TabIndex = 12;
-            this._mBnLastChild.Text = "Last Child";
-            this._mBnLastChild.Click += new System.EventHandler(this.OnBnLastChild);
+            this._bnLastChild.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnLastChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnLastChild.Location = new System.Drawing.Point(456, 448);
+            this._bnLastChild.Name = "_bnLastChild";
+            this._bnLastChild.TabIndex = 12;
+            this._bnLastChild.Text = "Last Child";
+            this._bnLastChild.Click += new System.EventHandler(this.OnBnLastChild);
             // 
             // m_txtXpathPattern
             // 
-            this._mTxtXpathPattern.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mTxtXpathPattern.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mTxtXpathPattern.Location = new System.Drawing.Point(32, 512);
-            this._mTxtXpathPattern.Name = "_mTxtXpathPattern";
-            this._mTxtXpathPattern.Size = new System.Drawing.Size(64, 23);
-            this._mTxtXpathPattern.TabIndex = 14;
-            this._mTxtXpathPattern.Text = "Expression:";
+            this._txtXpathPattern.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._txtXpathPattern.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._txtXpathPattern.Location = new System.Drawing.Point(32, 512);
+            this._txtXpathPattern.Name = "_txtXpathPattern";
+            this._txtXpathPattern.Size = new System.Drawing.Size(64, 23);
+            this._txtXpathPattern.TabIndex = 14;
+            this._txtXpathPattern.Text = "Expression:";
             // 
             // m_ebXpathPattern
             // 
-            this._mEbXpathPattern.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mEbXpathPattern.Location = new System.Drawing.Point(88, 24);
-            this._mEbXpathPattern.Name = "_mEbXpathPattern";
-            this._mEbXpathPattern.Size = new System.Drawing.Size(424, 20);
-            this._mEbXpathPattern.TabIndex = 15;
-            this._mEbXpathPattern.Text = "";
+            this._ebXpathPattern.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._ebXpathPattern.Location = new System.Drawing.Point(88, 24);
+            this._ebXpathPattern.Name = "_ebXpathPattern";
+            this._ebXpathPattern.Size = new System.Drawing.Size(424, 20);
+            this._ebXpathPattern.TabIndex = 15;
+            this._ebXpathPattern.Text = "";
             // 
             // m_bnSelectSingleNode
             // 
-            this._mBnSelectSingleNode.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnSelectSingleNode.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnSelectSingleNode.Location = new System.Drawing.Point(128, 56);
-            this._mBnSelectSingleNode.Name = "_mBnSelectSingleNode";
-            this._mBnSelectSingleNode.Size = new System.Drawing.Size(120, 23);
-            this._mBnSelectSingleNode.TabIndex = 16;
-            this._mBnSelectSingleNode.Text = "Select Single Node";
-            this._mBnSelectSingleNode.Click += new System.EventHandler(this.OnBnSelectSingleNode);
+            this._bnSelectSingleNode.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnSelectSingleNode.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnSelectSingleNode.Location = new System.Drawing.Point(128, 56);
+            this._bnSelectSingleNode.Name = "_bnSelectSingleNode";
+            this._bnSelectSingleNode.Size = new System.Drawing.Size(120, 23);
+            this._bnSelectSingleNode.TabIndex = 16;
+            this._bnSelectSingleNode.Text = "Select Single Node";
+            this._bnSelectSingleNode.Click += new System.EventHandler(this.OnBnSelectSingleNode);
             // 
             // m_bnSelectNodes
             // 
-            this._mBnSelectNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnSelectNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnSelectNodes.Location = new System.Drawing.Point(256, 56);
-            this._mBnSelectNodes.Name = "_mBnSelectNodes";
-            this._mBnSelectNodes.Size = new System.Drawing.Size(120, 23);
-            this._mBnSelectNodes.TabIndex = 17;
-            this._mBnSelectNodes.Text = "Select Nodes";
-            this._mBnSelectNodes.Click += new System.EventHandler(this.OnBnSelectNodes);
+            this._bnSelectNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnSelectNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnSelectNodes.Location = new System.Drawing.Point(256, 56);
+            this._bnSelectNodes.Name = "_bnSelectNodes";
+            this._bnSelectNodes.Size = new System.Drawing.Size(120, 23);
+            this._bnSelectNodes.TabIndex = 17;
+            this._bnSelectNodes.Text = "Select Nodes";
+            this._bnSelectNodes.Click += new System.EventHandler(this.OnBnSelectNodes);
             // 
             // m_bnOk
             // 
-            this._mBnOk.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-            this._mBnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this._mBnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnOk.Location = new System.Drawing.Point(704, 544);
-            this._mBnOk.Name = "_mBnOk";
-            this._mBnOk.TabIndex = 18;
-            this._mBnOk.Text = "OK";
+            this._bnOk.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            this._bnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this._bnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnOk.Location = new System.Drawing.Point(704, 544);
+            this._bnOk.Name = "_bnOk";
+            this._bnOk.TabIndex = 18;
+            this._bnOk.Text = "OK";
             // 
             // m_bnXpathClear
             // 
-            this._mBnXpathClear.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnXpathClear.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnXpathClear.Location = new System.Drawing.Point(384, 56);
-            this._mBnXpathClear.Name = "_mBnXpathClear";
-            this._mBnXpathClear.Size = new System.Drawing.Size(120, 23);
-            this._mBnXpathClear.TabIndex = 19;
-            this._mBnXpathClear.Text = "Clear";
-            this._mBnXpathClear.Click += new System.EventHandler(this.OnBnClear);
+            this._bnXpathClear.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnXpathClear.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnXpathClear.Location = new System.Drawing.Point(384, 56);
+            this._bnXpathClear.Name = "_bnXpathClear";
+            this._bnXpathClear.Size = new System.Drawing.Size(120, 23);
+            this._bnXpathClear.TabIndex = 19;
+            this._bnXpathClear.Text = "Clear";
+            this._bnXpathClear.Click += new System.EventHandler(this.OnBnClear);
             // 
             // m_grpXpath
             // 
-            this._mGrpXpath.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mGrpXpath.Controls.AddRange(new System.Windows.Forms.Control[]
+            this._grpXpath.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._grpXpath.Controls.AddRange(new System.Windows.Forms.Control[]
             {
-                this._mEbXpathPattern,
-                this._mBnXpathClear,
-                this._mBnSelectNodes,
-                this._mBnSelectSingleNode
+                this._ebXpathPattern,
+                this._bnXpathClear,
+                this._bnSelectNodes,
+                this._bnSelectSingleNode
             });
-            this._mGrpXpath.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mGrpXpath.Location = new System.Drawing.Point(16, 488);
-            this._mGrpXpath.Name = "_mGrpXpath";
-            this._mGrpXpath.Size = new System.Drawing.Size(520, 88);
-            this._mGrpXpath.TabIndex = 20;
-            this._mGrpXpath.TabStop = false;
-            this._mGrpXpath.Text = "XPath Expressions";
+            this._grpXpath.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._grpXpath.Location = new System.Drawing.Point(16, 488);
+            this._grpXpath.Name = "_grpXpath";
+            this._grpXpath.Size = new System.Drawing.Size(520, 88);
+            this._grpXpath.TabIndex = 20;
+            this._grpXpath.TabStop = false;
+            this._grpXpath.Text = "XPath Expressions";
             // 
             // m_bnDocElem
             // 
-            this._mBnDocElem.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-            this._mBnDocElem.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this._mBnDocElem.Location = new System.Drawing.Point(544, 448);
-            this._mBnDocElem.Name = "_mBnDocElem";
-            this._mBnDocElem.Size = new System.Drawing.Size(80, 23);
-            this._mBnDocElem.TabIndex = 21;
-            this._mBnDocElem.Text = "Doc Element";
-            this._mBnDocElem.Click += new System.EventHandler(this.OnBnDocElement);
+            this._bnDocElem.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this._bnDocElem.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this._bnDocElem.Location = new System.Drawing.Point(544, 448);
+            this._bnDocElem.Name = "_bnDocElem";
+            this._bnDocElem.Size = new System.Drawing.Size(80, 23);
+            this._bnDocElem.TabIndex = 21;
+            this._bnDocElem.Text = "Doc Element";
+            this._bnDocElem.Click += new System.EventHandler(this.OnBnDocElement);
             // 
             // Dom
             // 
-            this.AcceptButton = this._mBnOk;
+            this.AcceptButton = this._bnOk;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.CancelButton = this._mBnOk;
+            this.CancelButton = this._bnOk;
             this.ClientSize = new System.Drawing.Size(800, 591);
             this.Controls.AddRange(new System.Windows.Forms.Control[]
             {
-                this._mBnDocElem,
-                this._mBnOk,
-                this._mTxtXpathPattern,
-                this._mBnLastChild,
-                this._mBnFirstChild,
-                this._mBnNextSibling,
-                this._mBnPrevSibling,
-                this._mBnOwnerDoc,
-                this._mBnParent,
-                this._mGrpNodeDisplay,
-                this._mRbNodeAndText,
-                this._mRbNodeNameOnly,
-                this._mLvData,
-                this._mTvDom,
-                this._mGrpLabelDisplay,
-                this._mGrpXpath
+                this._bnDocElem,
+                this._bnOk,
+                this._txtXpathPattern,
+                this._bnLastChild,
+                this._bnFirstChild,
+                this._bnNextSibling,
+                this._bnPrevSibling,
+                this._bnOwnerDoc,
+                this._bnParent,
+                this._grpNodeDisplay,
+                this._rbNodeAndText,
+                this._rbNodeNameOnly,
+                this._lvData,
+                this._tvDom,
+                this._grpLabelDisplay,
+                this._grpXpath
             });
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(650, 400);
             this.Name = "Dom";
             this.Text = "XML DOM Tree";
-            this._mGrpNodeDisplay.ResumeLayout(false);
-            this._mGrpXpath.ResumeLayout(false);
+            this._grpNodeDisplay.ResumeLayout(false);
+            this._grpXpath.ResumeLayout(false);
             this.ResumeLayout(false);
         }
 
@@ -445,19 +442,18 @@ namespace RevitLookup.Forms
         /// <summary>
         ///     This will populate the UI TreeView with all the nodes from the DOM tree
         /// </summary>
-        private void
-            LoadTree()
+        private void LoadTree()
         {
-            _mTvDom.BeginUpdate(); // suppress redraw events
-            _mTvDom.Nodes.Clear();
+            _tvDom.BeginUpdate(); // suppress redraw events
+            _tvDom.Nodes.Clear();
 
             MakeTree(_mXmlDoc, null);
 
-            _mTvDom.ExpandAll();
-            if (_mTvDom.Nodes.Count > 0)
-                _mTvDom.SelectedNode = _mTvDom.Nodes[0]; // make first one selected
+            _tvDom.ExpandAll();
+            if (_tvDom.Nodes.Count > 0)
+                _tvDom.SelectedNode = _tvDom.Nodes[0]; // make first one selected
 
-            _mTvDom.EndUpdate(); // flushes redraw events
+            _tvDom.EndUpdate(); // flushes redraw events
         }
 
         /// <summary>
@@ -465,14 +461,13 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="xmlNode">The "root" of this portion of the tree</param>
         /// <param name="parentNode">The parent node to attach to or null for the root</param>
-        private void
-            MakeTree(XmlNode xmlNode, TreeNode parentNode)
+        private void MakeTree(XmlNode xmlNode, TreeNode parentNode)
         {
             var nType = xmlNode.NodeType;
 
             // bail early if user doesn't want this type of node displayed
-            if (nType == XmlNodeType.Comment && _mCbHideCommentNodes.Checked ||
-                nType == XmlNodeType.Text && _mCbHideTextNodes.Checked)
+            if (nType == XmlNodeType.Comment && _cbHideCommentNodes.Checked ||
+                nType == XmlNodeType.Text && _cbHideTextNodes.Checked)
                 return;
 
             // get image index and label to use in the TreeNode
@@ -487,7 +482,7 @@ namespace RevitLookup.Forms
             };
 
             if (parentNode == null)
-                _mTvDom.Nodes.Add(treeNode); // This is the root node
+                _tvDom.Nodes.Add(treeNode); // This is the root node
             else
                 parentNode.Nodes.Add(treeNode);
 
@@ -508,11 +503,9 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="nType">The node type</param>
         /// <returns>index into the ImageList assigned to the TreeView</returns>
-        private int
-            GetImageIndex(XmlNodeType nType)
+        private int GetImageIndex(XmlNodeType nType)
         {
-            var imageIndex = 0;
-
+            int imageIndex;
             switch (nType)
             {
                 // associate the correct image with this type of node
@@ -576,16 +569,15 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="node">The node to format</param>
         /// <returns>formatted string according to user preferences</returns>
-        private string
-            FormatLabel(XmlNode node)
+        private string FormatLabel(XmlNode node)
         {
             string labelStr;
 
-            if (_mRbNodeNameOnly.Checked)
+            if (_rbNodeNameOnly.Checked)
             {
                 labelStr = node.Name;
             }
-            else if (_mRbNodeAndText.Checked)
+            else if (_rbNodeAndText.Checked)
             {
                 if (node.NodeType == XmlNodeType.Element || node.NodeType == XmlNodeType.Attribute)
                     labelStr = $"{node.Name} ({GetTextLabelValue(node)})";
@@ -606,8 +598,7 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="node">Node to look at</param>
         /// <returns>Text value of the node (the XmlText Child Node of the one passed in)</returns>
-        private string
-            GetTextLabelValue(XmlNode node)
+        private string GetTextLabelValue(XmlNode node)
         {
             var txtNode = node.FirstChild;
             if (txtNode is {NodeType: XmlNodeType.Text})
@@ -619,13 +610,12 @@ namespace RevitLookup.Forms
         ///     Display the data values associated with a selected node in the tree.
         /// </summary>
         /// <param name="node">Currently selected node</param>
-        private void
-            Display(XmlNode node)
+        private void Display(XmlNode node)
         {
             SetButtonModes(node);
 
             _mSnoopCollector.Collect(node);
-            Core.Snoop.Utils.Display(_mLvData, _mSnoopCollector);
+            Core.Snoop.Utils.Display(_lvData, _mSnoopCollector);
         }
 
         /// <summary>
@@ -633,28 +623,27 @@ namespace RevitLookup.Forms
         ///     the ones that will not.
         /// </summary>
         /// <param name="node">Currently selected node</param>
-        private void
-            SetButtonModes(XmlNode node)
+        private void SetButtonModes(XmlNode node)
         {
             XmlNode tmpNode;
 
             tmpNode = node.ParentNode;
-            _mBnParent.Enabled = tmpNode != null;
+            _bnParent.Enabled = tmpNode != null;
 
             tmpNode = node.OwnerDocument;
-            _mBnOwnerDoc.Enabled = tmpNode != null;
+            _bnOwnerDoc.Enabled = tmpNode != null;
 
             tmpNode = node.PreviousSibling;
-            _mBnPrevSibling.Enabled = tmpNode != null;
+            _bnPrevSibling.Enabled = tmpNode != null;
 
             tmpNode = node.NextSibling;
-            _mBnNextSibling.Enabled = tmpNode != null;
+            _bnNextSibling.Enabled = tmpNode != null;
 
             tmpNode = node.FirstChild;
-            _mBnFirstChild.Enabled = tmpNode != null;
+            _bnFirstChild.Enabled = tmpNode != null;
 
             tmpNode = node.LastChild;
-            _mBnLastChild.Enabled = tmpNode != null;
+            _bnLastChild.Enabled = tmpNode != null;
         }
 
         /// <summary>
@@ -662,8 +651,7 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            TreeNodeSelected(object sender, TreeViewEventArgs e)
+        private void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
             var curNode = (XmlNode) e.Node.Tag;
             Display(curNode);
@@ -671,50 +659,44 @@ namespace RevitLookup.Forms
 
         // UI Callbacks when buttons in the Form are pressed
 
-        private void
-            OnBnParent(object sender, EventArgs e)
+        private void OnBnParent(object sender, EventArgs e)
         {
-            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.ParentNode);
         }
 
-        private void
-            OnBnOwnerDoc(object sender, EventArgs e)
+        private void OnBnOwnerDoc(object sender, EventArgs e)
         {
-            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.OwnerDocument);
         }
 
         private void
             OnBnPrevSibling(object sender, EventArgs e)
         {
-            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.PreviousSibling);
         }
 
-        private void
-            OnBnNextSibling(object sender, EventArgs e)
+        private void OnBnNextSibling(object sender, EventArgs e)
         {
-            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.NextSibling);
         }
 
-        private void
-            OnBnFirstChild(object sender, EventArgs e)
+        private void OnBnFirstChild(object sender, EventArgs e)
         {
-            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.FirstChild);
         }
 
-        private void
-            OnBnLastChild(object sender, EventArgs e)
+        private void OnBnLastChild(object sender, EventArgs e)
         {
-            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.LastChild);
         }
 
-        private void
-            OnBnDocElement(object sender, EventArgs e)
+        private void OnBnDocElement(object sender, EventArgs e)
         {
             var elem = _mXmlDoc.DocumentElement;
             MoveToNewNodeInTree(elem);
@@ -727,23 +709,22 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            OnBnSelectSingleNode(object sender, EventArgs e)
+        private void OnBnSelectSingleNode(object sender, EventArgs e)
         {
-            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
 
             try
             {
-                var newNode = curNode.SelectSingleNode(_mEbXpathPattern.Text);
+                var newNode = curNode.SelectSingleNode(_ebXpathPattern.Text);
 
                 if (newNode != null)
                 {
-                    _mTvDom.BeginUpdate();
+                    _tvDom.BeginUpdate();
 
-                    SetSelectedNode(_mTvDom.Nodes, newNode);
+                    SetSelectedNode(_tvDom.Nodes, newNode);
                     MoveToNewNodeInTree(newNode);
 
-                    _mTvDom.EndUpdate();
+                    _tvDom.EndUpdate();
                 }
                 else
                 {
@@ -763,22 +744,21 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            OnBnSelectNodes(object sender, EventArgs e)
+        private void OnBnSelectNodes(object sender, EventArgs e)
         {
-            var curNode = (XmlNode) _mTvDom.SelectedNode.Tag;
+            var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
 
             try
             {
-                var selNodes = curNode.SelectNodes(_mEbXpathPattern.Text);
+                var selNodes = curNode.SelectNodes(_ebXpathPattern.Text);
                 if (selNodes is {Count: > 0})
                 {
-                    _mTvDom.BeginUpdate();
+                    _tvDom.BeginUpdate();
 
-                    SetSelectedNodes(_mTvDom.Nodes, selNodes);
+                    SetSelectedNodes(_tvDom.Nodes, selNodes);
                     MoveToNewNodeInTree(selNodes[0]);
 
-                    _mTvDom.EndUpdate();
+                    _tvDom.EndUpdate();
                 }
                 else
                 {
@@ -791,29 +771,25 @@ namespace RevitLookup.Forms
             }
         }
 
-        private void
-            OnBnClear(object sender, EventArgs e)
+        private void OnBnClear(object sender, EventArgs e)
         {
-            _mEbXpathPattern.Text = string.Empty;
-            ClearSelectedNodes(_mTvDom.Nodes);
+            _ebXpathPattern.Text = string.Empty;
+            ClearSelectedNodes(_tvDom.Nodes);
         }
 
-        private void
-            OnRbChanged_LabelDisplay(object sender, EventArgs e)
+        private void OnRbChanged_LabelDisplay(object sender, EventArgs e)
         {
             LoadTree(); // reload the tree with our new display preference set
         }
 
-        private void
-            OnCbChanged_NodeDisplay(object sender, EventArgs e)
+        private void OnCbChanged_NodeDisplay(object sender, EventArgs e)
         {
             LoadTree(); // reload the tree with our new display preference set
         }
 
-        private void
-            DataItemSelected(object sender, EventArgs e)
+        private void DataItemSelected(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.DataItemSelected(_mLvData, new ModelessWindowFactory(this, null));
+            Core.Snoop.Utils.DataItemSelected(_lvData, new ModelessWindowFactory(this, null));
         }
 
         /// <summary>
@@ -822,14 +798,13 @@ namespace RevitLookup.Forms
         ///     the currently selected one.
         /// </summary>
         /// <param name="newXmlNode">The XmlNode that should now be selected</param>
-        private void
-            MoveToNewNodeInTree(XmlNode newXmlNode)
+        private void MoveToNewNodeInTree(XmlNode newXmlNode)
         {
             Debug.Assert(newXmlNode != null); // we should have checked out OK in SetButtonModes()
 
-            var newTreeNode = FindTreeNodeFromXmlNodeTag(_mTvDom.Nodes, newXmlNode);
+            var newTreeNode = FindTreeNodeFromXmlNodeTag(_tvDom.Nodes, newXmlNode);
             if (newTreeNode != null)
-                _mTvDom.SelectedNode = newTreeNode;
+                _tvDom.SelectedNode = newTreeNode;
             else
                 MessageBox.Show("The node exist in the XML DOM, but not in the UI tree.\nPerhaps you have Text or Comment nodes turned off?",
                     "MgdDbg", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -844,8 +819,7 @@ namespace RevitLookup.Forms
         /// <param name="treeNodes">The current collection of nodes to look through</param>
         /// <param name="xmlNode">The XmlNode we are searching for.</param>
         /// <returns>The found TreeNode or null, if not found</returns>
-        private TreeNode
-            FindTreeNodeFromXmlNodeTag(TreeNodeCollection treeNodes, XmlNode xmlNode)
+        private TreeNode FindTreeNodeFromXmlNodeTag(TreeNodeCollection treeNodes, XmlNode xmlNode)
         {
             XmlNode tmpXmlNode = null;
 
@@ -879,8 +853,7 @@ namespace RevitLookup.Forms
         ///     one level of the tree at a time and then goes recursive.
         /// </summary>
         /// <param name="treeNodes">The "root" of this protion of the tree</param>
-        private void
-            ClearSelectedNodes(TreeNodeCollection treeNodes)
+        private void ClearSelectedNodes(TreeNodeCollection treeNodes)
         {
             foreach (TreeNode tNode in treeNodes)
             {
@@ -894,8 +867,7 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="treeNodes">The "root" of this section of the tree</param>
         /// <param name="selNode">The XmlNode we are trying to find</param>
-        private void
-            SetSelectedNode(TreeNodeCollection treeNodes, XmlNode selNode)
+        private void SetSelectedNode(TreeNodeCollection treeNodes, XmlNode selNode)
         {
             foreach (TreeNode tNode in treeNodes)
             {
@@ -915,16 +887,11 @@ namespace RevitLookup.Forms
         /// </summary>
         /// <param name="treeNodes"></param>
         /// <param name="selNodes"></param>
-        private void
-            SetSelectedNodes(TreeNodeCollection treeNodes, XmlNodeList selNodes)
+        private void SetSelectedNodes(TreeNodeCollection treeNodes, XmlNodeList selNodes)
         {
             foreach (TreeNode tNode in treeNodes)
             {
-                if (NodeListContains(selNodes, (XmlNode) tNode.Tag))
-                    tNode.BackColor = Color.LightSkyBlue;
-                else
-                    tNode.BackColor = Color.Empty;
-
+                tNode.BackColor = NodeListContains(selNodes, (XmlNode) tNode.Tag) ? Color.LightSkyBlue : Color.Empty;
                 if (tNode.Nodes.Count > 0) SetSelectedNodes(tNode.Nodes, selNodes);
             }
         }
@@ -935,14 +902,11 @@ namespace RevitLookup.Forms
         /// <param name="nodeSet">Set of nodes to search</param>
         /// <param name="findNode">Node we are searching for</param>
         /// <returns>true if found, false if not</returns>
-        private bool
-            NodeListContains(XmlNodeList nodeSet, XmlNode findNode)
+        private bool NodeListContains(XmlNodeList nodeSet, XmlNode findNode)
         {
-            foreach (XmlNode tmpNode in nodeSet)
-                if (tmpNode == findNode)
-                    return true;
-
-            return false;
+            return nodeSet
+                .Cast<XmlNode>()
+                .Any(tmpNode => tmpNode == findNode);
         }
     }
 }

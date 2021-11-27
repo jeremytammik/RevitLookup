@@ -36,6 +36,6 @@ namespace RevitLookup.Core.ModelStats
     {
         // data members
         public Category MCategory;
-        public ArrayList MObjs = new();
+        public ArrayList Objs = new();
     }
 }

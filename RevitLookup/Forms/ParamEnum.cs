@@ -34,9 +34,9 @@ namespace RevitLookup.Forms
 {
     public partial class ParamEnum : Form
     {
-        private int _mCurrentPrintItem;
+        private int _currentPrintItem;
 
-        private int[] _mMaxWidths;
+        private int[] _maxWidths;
 
         public
             ParamEnum(ArrayList labelStrs, ArrayList valueStrs)
@@ -47,10 +47,10 @@ namespace RevitLookup.Forms
             Core.Snoop.Utils.AddOnLoadForm(this);
 
             // Set the column sorter for the list view
-            m_colSorter = new ListViewColumnSorter();
-            m_listView.ListViewItemSorter = m_colSorter;
+            colSorter = new ListViewColumnSorter();
+            listView.ListViewItemSorter = colSorter;
 
-            m_listView.BeginUpdate();
+            listView.BeginUpdate();
 
             //Debug.Assert(labelStrs.Count == valueStrs.Count);
 
@@ -59,13 +59,13 @@ namespace RevitLookup.Forms
             {
                 var lvItem = new ListViewItem((string) labelStrs[i]);
                 lvItem.SubItems.Add((string) valueStrs[i]);
-                m_listView.Items.Add(lvItem);
+                listView.Items.Add(lvItem);
             }
 
-            m_listView.EndUpdate();
+            listView.EndUpdate();
         }
 
-        private void m_bnOk_Click(object sender, EventArgs e)
+        private void ButtonOk_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
@@ -84,23 +84,23 @@ namespace RevitLookup.Forms
             OnColumnClick(object sender, ColumnClickEventArgs e)
         {
             // Determine if clicked column is already the column that is being sorted.
-            if (e.Column == m_colSorter.SortColumn)
+            if (e.Column == colSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (m_colSorter.Order == SortOrder.Ascending)
-                    m_colSorter.Order = SortOrder.Descending;
+                if (colSorter.Order == SortOrder.Ascending)
+                    colSorter.Order = SortOrder.Descending;
                 else
-                    m_colSorter.Order = SortOrder.Ascending;
+                    colSorter.Order = SortOrder.Ascending;
             }
             else
             {
                 // Set the column number that is to be sorted; default to ascending.
-                m_colSorter.SortColumn = e.Column;
-                m_colSorter.Order = SortOrder.Ascending;
+                colSorter.SortColumn = e.Column;
+                colSorter.Order = SortOrder.Ascending;
             }
 
             // Perform the sort with these new sort options.
-            m_listView.Sort();
+            listView.Sort();
         }
 
 
@@ -111,8 +111,8 @@ namespace RevitLookup.Forms
         private void
             CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (m_listView.SelectedItems.Count > 0)
-                Core.Snoop.Utils.CopyToClipboard(m_listView.SelectedItems[0], true);
+            if (listView.SelectedItems.Count > 0)
+                Core.Snoop.Utils.CopyToClipboard(listView.SelectedItems[0], true);
             else
                 Clipboard.Clear();
         }
@@ -125,7 +125,7 @@ namespace RevitLookup.Forms
         private void
             PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _mCurrentPrintItem = Core.Snoop.Utils.Print("", m_listView, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
+            _currentPrintItem = Core.Snoop.Utils.Print("", listView, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
         }
 
 
@@ -136,7 +136,7 @@ namespace RevitLookup.Forms
         private void
             PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(m_listView, ref _mMaxWidths);
+            Core.Snoop.Utils.UpdatePrintSettings(listView, ref _maxWidths);
             Core.Snoop.Utils.PrintMenuItemClick(m_printDialog);
         }
 
@@ -148,8 +148,8 @@ namespace RevitLookup.Forms
         private void
             PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(m_listView, ref _mMaxWidths);
-            Core.Snoop.Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, m_listView);
+            Core.Snoop.Utils.UpdatePrintSettings(listView, ref _maxWidths);
+            Core.Snoop.Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, listView);
         }
 
         #endregion

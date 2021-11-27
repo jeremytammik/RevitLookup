@@ -35,43 +35,29 @@ namespace RevitLookup.Core.Snoop.Data
     /// </summary>
     public class Object : Data
     {
-        private readonly string _mStrValue;
+        private readonly string _stringValue;
 
-        protected object MVal;
+        private readonly object _value;
 
-        public
-            Object(string label, object val)
-            : base(label)
+        public Object(string label, object val) : base(label)
         {
-            MVal = val;
-            _mStrValue = Utils.ObjToLabelStr(MVal);
+            _value = val;
+            _stringValue = Utils.ObjToLabelStr(_value);
         }
 
-        public override bool
-            HasDrillDown
-        {
-            get
-            {
-                if (MVal == null)
-                    return false;
-                return true;
-            }
-        }
+        public override bool HasDrillDown => _value != null;
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            return _mStrValue;
+            return _stringValue;
         }
 
         public override Form DrillDown()
         {
-            if (MVal != null)
+            if (_value != null)
             {
-                var objs = new ArrayList();
-                objs.Add(MVal);
-
-                var form = new Objects(objs);
+                var objects = new ArrayList {_value};
+                var form = new Objects(objects);
                 return form;
             }
 
