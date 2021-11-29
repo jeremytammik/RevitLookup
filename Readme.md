@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/platform-Windows-lightgray.svg?style=for-the-badge">
   <img src="https://img.shields.io/badge/.NET-4.8-blue.svg?style=for-the-badge">
   <a href="http://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/jeremytammik/RevitLookup?style=for-the-badge"></a>
-  <a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge&style=for-the-badge"></a>
+  <a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto?ref=master"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge%3Fref%3Dmaster&style=for-the-badge"></a>
 </p>
 
 Interactive Revit `RFA` and `RVT` project database exploration tool to view and navigate BIM element parameters, properties and relationships.
@@ -29,10 +29,8 @@ Please refer to the [changelog](Doc/Changelog.md) for details.
 
 ## Installation
 
-- Go to the [**Git Actions**](https://github.com/jeremytammik/RevitLookup/actions/workflows/CreatePackage.yml) section on the project page.
-- Open the most recent successful workflow.
-- Download and open **RevitLookup.zip** from the **Artifacts** section.
-- Run the MSI package.
+- Go to the [**Releases**](https://github.com/jeremytammik/RevitLookup/releases/latest) section.
+- Download and run MSI file.
 
 The installer contains all the latest versions starting from the 2015 version of Revit.
 
