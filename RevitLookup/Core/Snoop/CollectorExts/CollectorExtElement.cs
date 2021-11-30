@@ -125,8 +125,7 @@ namespace RevitLookup.Core.Snoop.CollectorExts
         {
             var schemas = Schema.ListSchemas();
 
-            if (elem == null || !schemas.Any())
-                return;
+            if (elem == null || !schemas.Any()) return;
 
             data.Add(new ExtensibleStorageSeparator());
 
@@ -136,10 +135,7 @@ namespace RevitLookup.Core.Snoop.CollectorExts
                 try
                 {
                     var entity = elem.GetEntity(schema);
-
-                    if (!entity.IsValid())
-                        continue;
-
+                    if (!entity.IsValid()) continue;
                     data.Add(new Object(objectName, entity));
                 }
                 catch (Exception ex)

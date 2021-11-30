@@ -38,7 +38,7 @@ partial class Build
             var version = GetMsiVersion(msiFiles);
 
             CheckTags(gitHubOwner, gitHubName, version);
-            Logger.Normal($"Detected tag: {version}");
+            Logger.Normal($"Detected Tag: {version}");
 
             var newRelease = new NewRelease(version)
             {
@@ -76,7 +76,7 @@ partial class Build
             if (!match.Success) continue;
             if (match.Value.Equals(version))
             {
-                var truncatedLine = Regex.Replace(line, $"^.*{version} ?", string.Empty);
+                var truncatedLine = Regex.Replace(line, $"^.*{version}.* ", string.Empty);
                 logBuilder.AppendLine(truncatedLine);
             }
         }

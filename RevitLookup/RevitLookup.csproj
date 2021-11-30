@@ -1,28 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <AssemblyName>RevitLookup</AssemblyName>
-        <TargetFramework>net48</TargetFramework>
-        <OutputType>Library</OutputType>
-        <UseWpf>true</UseWpf>
-        <Version>2022.0.2.5</Version>
-        <UseWindowsForms>true</UseWindowsForms>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <UseWPF>true</UseWPF>
         <LangVersion>9</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
-    </PropertyGroup>
-    <PropertyGroup>
+        <UseWindowsForms>true</UseWindowsForms>
+        <TargetFramework>net48</TargetFramework>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RevitVersion>2022</RevitVersion>
+        <Version>$(RevitVersion).0.2.6</Version>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Configuration.Contains('Release'))">
+        <Optimize>true</Optimize>
+        <DebugType>none</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).0.0" />
+        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\Images\RLookup-16.ico" />
-        <Resource Include="Resources\Images\RLookup-16.png" />
-        <Resource Include="Resources\Images\RLookup-32.png" />
+        <Resource Include="Resources\Images\RLookup-16.ico"/>
+        <Resource Include="Resources\Images\RLookup-16.png"/>
+        <Resource Include="Resources\Images\RLookup-32.png"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -32,21 +38,24 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AddinDll Include="$(TargetDir)$(AssemblyName).dll" />
+        <AddinItem Include="$(TargetDir)$(AssemblyName).dll"/>
+        <!--Files to copy to Revit add-ins folder-->
+        <!--<AddinItem Include="$(TargetDir)Simple.dll" />-->
     </ItemGroup>
 
     <Target Name="AfterBuildTarget" AfterTargets="CoreBuild">
         <PropertyGroup>
             <AddinDir>bin\AddIn $(RevitVersion) $(Configuration)\</AddinDir>
-            <OutAddinDir>$(AddinDir)$(AssemblyName)\</OutAddinDir>
+            <AddinFilesDir>$(AddinDir)$(AssemblyName)\</AddinFilesDir>
         </PropertyGroup>
 
-        <Copy SourceFiles="$(TargetDir)$(AssemblyName).addin" DestinationFolder="$(AddinDir)" />
-        <Copy SourceFiles="@(AddinDll)" DestinationFolder="$(OutAddinDir)" />
+        <Copy SourceFiles="$(TargetDir)$(AssemblyName).addin" DestinationFolder="$(AddinDir)"/>
+        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinFilesDir)"/>
 
         <ItemGroup>
-            <OutLibPath Include="$(AddinDir)**\*.*" />
+            <AddinFiles Include="$(AddinDir)**\*.*"/>
         </ItemGroup>
-        <Copy SourceFiles="@(OutLibPath)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" />
+
+        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))"/>
     </Target>
 </Project>

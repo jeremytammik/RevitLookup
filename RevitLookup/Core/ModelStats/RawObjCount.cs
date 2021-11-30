@@ -36,6 +36,6 @@ namespace RevitLookup.Core.ModelStats
     {
         // data members
         public Type MClassType; // raw class type of object we are counting
-        public ArrayList MObjs = new();
+        public ArrayList Objs = new();
     }
 }

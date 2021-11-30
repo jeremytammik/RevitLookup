@@ -35,89 +35,89 @@ namespace RevitLookup.Core.EventTrack
     /// </summary>
     public class DocEvents : EventsBase
     {
-        public static DocumentSet MDocSet = null;
+        public static readonly DocumentSet DocSet = null;
 
         protected override void EnableEventsImp()
         {
             MessageBox.Show("Document Events Turned On ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            foreach (Document doc in MDocSet) EnableEvents(doc);
+            foreach (Document doc in DocSet) EnableEvents(doc);
         }
 
         public void EnableEvents(Document doc)
         {
-            doc.DocumentClosing += doc_DocumentClosing;
-            doc.DocumentPrinted += doc_DocumentPrinted;
-            doc.DocumentPrinting += doc_DocumentPrinting;
-            doc.DocumentSaved += doc_DocumentSaved;
-            doc.DocumentSavedAs += doc_DocumentSavedAs;
-            doc.DocumentSaving += doc_DocumentSaving;
-            doc.DocumentSavingAs += doc_DocumentSavingAs;
-            doc.ViewPrinted += doc_ViewPrinted;
-            doc.ViewPrinting += doc_ViewPrinting;
+            doc.DocumentClosing += DocumentClosing;
+            doc.DocumentPrinted += DocumentPrinted;
+            doc.DocumentPrinting += DocumentPrinting;
+            doc.DocumentSaved += DocumentSaved;
+            doc.DocumentSavedAs += DocumentSavedAs;
+            doc.DocumentSaving += DocumentSaving;
+            doc.DocumentSavingAs += DocumentSavingAs;
+            doc.ViewPrinted += ViewPrinted;
+            doc.ViewPrinting += ViewPrinting;
         }
 
         protected override void DisableEventsImp()
         {
             MessageBox.Show("Document Events Turned Off ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            foreach (Document doc in MDocSet) DisableEvents(doc);
+            foreach (Document doc in DocSet) DisableEvents(doc);
         }
 
         public void DisableEvents(Document doc)
         {
-            doc.DocumentClosing -= doc_DocumentClosing;
-            doc.DocumentPrinted -= doc_DocumentPrinted;
-            doc.DocumentPrinting -= doc_DocumentPrinting;
-            doc.DocumentSaved -= doc_DocumentSaved;
-            doc.DocumentSavedAs -= doc_DocumentSavedAs;
-            doc.DocumentSaving -= doc_DocumentSaving;
-            doc.DocumentSavingAs -= doc_DocumentSavingAs;
-            doc.ViewPrinted -= doc_ViewPrinted;
-            doc.ViewPrinting -= doc_ViewPrinting;
+            doc.DocumentClosing -= DocumentClosing;
+            doc.DocumentPrinted -= DocumentPrinted;
+            doc.DocumentPrinting -= DocumentPrinting;
+            doc.DocumentSaved -= DocumentSaved;
+            doc.DocumentSavedAs -= DocumentSavedAs;
+            doc.DocumentSaving -= DocumentSaving;
+            doc.DocumentSavingAs -= DocumentSavingAs;
+            doc.ViewPrinted -= ViewPrinted;
+            doc.ViewPrinting -= ViewPrinting;
         }
 
-        private void doc_ViewPrinting(object sender, ViewPrintingEventArgs e)
+        private void ViewPrinting(object sender, ViewPrintingEventArgs e)
         {
             DisplayEvent("View printing");
         }
 
-        private void doc_ViewPrinted(object sender, ViewPrintedEventArgs e)
+        private void ViewPrinted(object sender, ViewPrintedEventArgs e)
         {
             DisplayEvent("View printed");
         }
 
-        private void doc_DocumentSavingAs(object sender, DocumentSavingAsEventArgs e)
+        private void DocumentSavingAs(object sender, DocumentSavingAsEventArgs e)
         {
             DisplayEvent("Document saving as");
         }
 
-        private void doc_DocumentSaving(object sender, DocumentSavingEventArgs e)
+        private void DocumentSaving(object sender, DocumentSavingEventArgs e)
         {
             DisplayEvent("Document saving");
         }
 
-        private void doc_DocumentSavedAs(object sender, DocumentSavedAsEventArgs e)
+        private void DocumentSavedAs(object sender, DocumentSavedAsEventArgs e)
         {
             DisplayEvent("Document saved as");
         }
 
-        private void doc_DocumentSaved(object sender, DocumentSavedEventArgs e)
+        private void DocumentSaved(object sender, DocumentSavedEventArgs e)
         {
             DisplayEvent("Document saved");
         }
 
-        private void doc_DocumentPrinting(object sender, DocumentPrintingEventArgs e)
+        private void DocumentPrinting(object sender, DocumentPrintingEventArgs e)
         {
             DisplayEvent("Document printing");
         }
 
-        private void doc_DocumentPrinted(object sender, DocumentPrintedEventArgs e)
+        private void DocumentPrinted(object sender, DocumentPrintedEventArgs e)
         {
             DisplayEvent("Document printed");
         }
 
-        private void doc_DocumentClosing(object sender, DocumentClosingEventArgs e)
+        private void DocumentClosing(object sender, DocumentClosingEventArgs e)
         {
             DisplayEvent("Document closing");
         }

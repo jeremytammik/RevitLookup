@@ -35,163 +35,161 @@ namespace RevitLookup.Core.EventTrack
     /// </summary>
     public class ApplicationEvents : EventsBase
     {
-        public static Autodesk.Revit.ApplicationServices.Application MApp = null;
+        public static readonly Autodesk.Revit.ApplicationServices.Application Application = null;
 
-        protected override void
-            EnableEventsImp()
+        protected override void EnableEventsImp()
         {
             MessageBox.Show("Application Events Turned On ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            MApp.DocumentClosed += m_app_DocumentClosed;
-            MApp.DocumentClosing += m_app_DocumentClosing;
-            MApp.DocumentOpened += m_app_DocumentOpened;
-            MApp.DocumentOpening += m_app_DocumentOpening;
-            MApp.DocumentCreated += m_app_DocumentCreated;
-            MApp.DocumentCreating += m_app_DocumentCreating;
-            MApp.DocumentSaved += m_app_DocumentSaved;
-            MApp.DocumentSaving += m_app_DocumentSaving;
-            MApp.DocumentSavedAs += m_app_DocumentSavedAs;
-            MApp.DocumentSavingAs += m_app_DocumentSavingAs;
-            MApp.DocumentPrinted += m_app_DocumentPrinted;
-            MApp.DocumentPrinting += m_app_DocumentPrinting;
-            MApp.DocumentSynchronizedWithCentral += m_app_DocumentSavedToCentral;
-            MApp.DocumentSynchronizingWithCentral += m_app_DocumentSavingToCentral;
-            MApp.FileExported += m_app_FileExported;
-            MApp.FileExporting += m_app_FileExporting;
-            MApp.FileImported += m_app_FileImported;
-            MApp.FileImporting += m_app_FileImporting;
-            MApp.ViewPrinted += m_app_ViewPrinted;
-            MApp.ViewPrinting += m_app_ViewPrinting;
+            Application.DocumentClosed += DocumentClosed;
+            Application.DocumentClosing += DocumentClosing;
+            Application.DocumentOpened += DocumentOpened;
+            Application.DocumentOpening += DocumentOpening;
+            Application.DocumentCreated += DocumentCreated;
+            Application.DocumentCreating += DocumentCreating;
+            Application.DocumentSaved += DocumentSaved;
+            Application.DocumentSaving += DocumentSaving;
+            Application.DocumentSavedAs += DocumentSavedAs;
+            Application.DocumentSavingAs += DocumentSavingAs;
+            Application.DocumentPrinted += DocumentPrinted;
+            Application.DocumentPrinting += DocumentPrinting;
+            Application.DocumentSynchronizedWithCentral += DocumentSavedToCentral;
+            Application.DocumentSynchronizingWithCentral += DocumentSavingToCentral;
+            Application.FileExported += FileExported;
+            Application.FileExporting += FileExporting;
+            Application.FileImported += FileImported;
+            Application.FileImporting += FileImporting;
+            Application.ViewPrinted += ViewPrinted;
+            Application.ViewPrinting += ViewPrinting;
         }
 
-        protected override void
-            DisableEventsImp()
+        protected override void DisableEventsImp()
         {
             MessageBox.Show("Application Events Turned Off ...", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            MApp.DocumentClosed -= m_app_DocumentClosed;
-            MApp.DocumentClosing -= m_app_DocumentClosing;
-            MApp.DocumentOpened -= m_app_DocumentOpened;
-            MApp.DocumentOpening -= m_app_DocumentOpening;
-            MApp.DocumentCreated -= m_app_DocumentCreated;
-            MApp.DocumentCreating -= m_app_DocumentCreating;
-            MApp.DocumentSaved -= m_app_DocumentSaved;
-            MApp.DocumentSaving -= m_app_DocumentSaving;
-            MApp.DocumentSavedAs -= m_app_DocumentSavedAs;
-            MApp.DocumentSavingAs -= m_app_DocumentSavingAs;
-            MApp.DocumentPrinted -= m_app_DocumentPrinted;
-            MApp.DocumentPrinting -= m_app_DocumentPrinting;
-            MApp.DocumentSynchronizedWithCentral -= m_app_DocumentSavedToCentral;
-            MApp.DocumentSynchronizingWithCentral -= m_app_DocumentSavingToCentral;
-            MApp.FileExported -= m_app_FileExported;
-            MApp.FileExporting -= m_app_FileExporting;
-            MApp.FileImported -= m_app_FileImported;
-            MApp.FileImporting -= m_app_FileImporting;
-            MApp.ViewPrinted -= m_app_ViewPrinted;
-            MApp.ViewPrinting -= m_app_ViewPrinting;
+            Application.DocumentClosed -= DocumentClosed;
+            Application.DocumentClosing -= DocumentClosing;
+            Application.DocumentOpened -= DocumentOpened;
+            Application.DocumentOpening -= DocumentOpening;
+            Application.DocumentCreated -= DocumentCreated;
+            Application.DocumentCreating -= DocumentCreating;
+            Application.DocumentSaved -= DocumentSaved;
+            Application.DocumentSaving -= DocumentSaving;
+            Application.DocumentSavedAs -= DocumentSavedAs;
+            Application.DocumentSavingAs -= DocumentSavingAs;
+            Application.DocumentPrinted -= DocumentPrinted;
+            Application.DocumentPrinting -= DocumentPrinting;
+            Application.DocumentSynchronizedWithCentral -= DocumentSavedToCentral;
+            Application.DocumentSynchronizingWithCentral -= DocumentSavingToCentral;
+            Application.FileExported -= FileExported;
+            Application.FileExporting -= FileExporting;
+            Application.FileImported -= FileImported;
+            Application.FileImporting -= FileImporting;
+            Application.ViewPrinted -= ViewPrinted;
+            Application.ViewPrinting -= ViewPrinting;
         }
 
-        private void m_app_ViewPrinting(object sender, ViewPrintingEventArgs e)
+        private void ViewPrinting(object sender, ViewPrintingEventArgs e)
         {
             DisplayEvent("View printing");
         }
 
-        private void m_app_ViewPrinted(object sender, ViewPrintedEventArgs e)
+        private void ViewPrinted(object sender, ViewPrintedEventArgs e)
         {
             DisplayEvent("View printed");
         }
 
-        private void m_app_DocumentOpening(object sender, DocumentOpeningEventArgs e)
+        private void DocumentOpening(object sender, DocumentOpeningEventArgs e)
         {
             DisplayEvent("Document opening");
         }
 
-        private void m_app_DocumentCreating(object sender, DocumentCreatingEventArgs e)
+        private void DocumentCreating(object sender, DocumentCreatingEventArgs e)
         {
             DisplayEvent("Document creating");
         }
 
-        private void m_app_DocumentClosing(object sender, DocumentClosingEventArgs e)
+        private void DocumentClosing(object sender, DocumentClosingEventArgs e)
         {
             DisplayEvent("Document closing");
         }
 
-        private void m_app_FileImporting(object sender, FileImportingEventArgs e)
+        private void FileImporting(object sender, FileImportingEventArgs e)
         {
             DisplayEvent("File importing");
         }
 
-        private void m_app_FileImported(object sender, FileImportedEventArgs e)
+        private void FileImported(object sender, FileImportedEventArgs e)
         {
             DisplayEvent("File imported");
         }
 
-        private void m_app_FileExporting(object sender, FileExportingEventArgs e)
+        private void FileExporting(object sender, FileExportingEventArgs e)
         {
             DisplayEvent("File exporting");
         }
 
-        private void m_app_FileExported(object sender, FileExportedEventArgs e)
+        private void FileExported(object sender, FileExportedEventArgs e)
         {
             DisplayEvent("File exported");
         }
 
-        private void m_app_DocumentSavingToCentral(object sender, DocumentSynchronizingWithCentralEventArgs e)
+        private void DocumentSavingToCentral(object sender, DocumentSynchronizingWithCentralEventArgs e)
         {
             DisplayEvent("Document saving to central");
         }
 
-        private void m_app_DocumentSavingAs(object sender, DocumentSavingAsEventArgs e)
+        private void DocumentSavingAs(object sender, DocumentSavingAsEventArgs e)
         {
             DisplayEvent("Document saving as");
         }
 
-        private void m_app_DocumentSaving(object sender, DocumentSavingEventArgs e)
+        private void DocumentSaving(object sender, DocumentSavingEventArgs e)
         {
             DisplayEvent("Document saving");
         }
 
-        private void m_app_DocumentSavedToCentral(object sender, DocumentSynchronizedWithCentralEventArgs e)
+        private void DocumentSavedToCentral(object sender, DocumentSynchronizedWithCentralEventArgs e)
         {
             DisplayEvent("Document saved to central");
         }
 
-        private void m_app_DocumentPrinting(object sender, DocumentPrintingEventArgs e)
+        private void DocumentPrinting(object sender, DocumentPrintingEventArgs e)
         {
             DisplayEvent("Document printing");
         }
 
-        private void m_app_DocumentPrinted(object sender, DocumentPrintedEventArgs e)
+        private void DocumentPrinted(object sender, DocumentPrintedEventArgs e)
         {
             DisplayEvent("Document printed");
         }
 
-        private void m_app_DocumentCreated(object sender, DocumentCreatedEventArgs e)
+        private void DocumentCreated(object sender, DocumentCreatedEventArgs e)
         {
             DisplayEvent("Document created");
         }
 
-        private void m_app_DocumentSavedAs(object sender, DocumentSavedAsEventArgs e)
+        private void DocumentSavedAs(object sender, DocumentSavedAsEventArgs e)
         {
             DisplayEvent("Document saved as");
         }
 
-        private void m_app_DocumentSaved(object sender, DocumentSavedEventArgs e)
+        private void DocumentSaved(object sender, DocumentSavedEventArgs e)
         {
             DisplayEvent("Document saved");
         }
 
-        private void m_app_DocumentOpened(object sender, DocumentOpenedEventArgs e)
+        private void DocumentOpened(object sender, DocumentOpenedEventArgs e)
         {
             DisplayEvent("Document opened");
         }
 
-        private void m_app_DialogBoxShowing(object sender, DialogBoxShowingEventArgs e)
+        private void DialogBoxShowing(object sender, DialogBoxShowingEventArgs e)
         {
             DisplayEvent("Dialog Box");
         }
 
-        private void m_app_DocumentClosed(object sender, DocumentClosedEventArgs e)
+        private void DocumentClosed(object sender, DocumentClosedEventArgs e)
         {
             DisplayEvent("Document closed");
         }

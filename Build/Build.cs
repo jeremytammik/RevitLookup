@@ -21,18 +21,8 @@ partial class Build : NukeBuild
     [GitRepository] readonly GitRepository GitRepository;
 
     [Solution] public readonly Solution Solution;
-    string ProcessToolPath;
-
-    Target Restore => _ => _
-        .Executes(() =>
-        {
-            ProcessToolPath = GetMsBuildPath();
-            var releaseConfigurations = GetConfigurations(BuildConfiguration, InstallerConfiguration);
-            foreach (var configuration in releaseConfigurations) RestoreProject(configuration);
-        });
 
     Target Cleaning => _ => _
-        .TriggeredBy(Restore)
         .Executes(() =>
         {
             if (Directory.Exists(ArtifactsDirectory))
@@ -52,13 +42,9 @@ partial class Build : NukeBuild
             }
             else
             {
+                Logger.Normal($"Creating directory: {ArtifactsDirectory}");
                 Directory.CreateDirectory(ArtifactsDirectory);
             }
-
-            var wixTargetPath = Environment.ExpandEnvironmentVariables(WixTargetPath);
-
-            Logger.Normal("Updating target: WixSharp");
-            if (File.Exists(wixTargetPath)) ReplaceFileText("<Target Name=\"MSIAuthoring\">", wixTargetPath, 3);
 
             if (IsServerBuild) return;
             foreach (var projectName in Projects)
@@ -84,7 +70,7 @@ partial class Build : NukeBuild
             foreach (var configuration in configurations) BuildProject(configuration);
         });
 
-    public static int Main() => Execute<Build>(x => x.Restore);
+    public static int Main() => Execute<Build>(x => x.Cleaning);
 
     List<string> GetConfigurations(params string[] startPatterns)
     {
@@ -121,15 +107,6 @@ partial class Build : NukeBuild
         return addInsDirectory;
     }
 
-    static void ReplaceFileText(string newText, string fileName, int lineNumber)
-    {
-        var arrLine = File.ReadAllLines(fileName);
-        var lineText = arrLine[lineNumber - 1];
-        if (lineText.Equals(newText)) return;
-        arrLine[lineNumber - 1] = newText;
-        File.WriteAllLines(fileName, arrLine);
-    }
-
     string GetMsBuildPath()
     {
         if (IsServerBuild) return null;
@@ -145,24 +122,13 @@ partial class Build : NukeBuild
         return CustomMsBuildPath;
     }
 
-    void RestoreProject(string configuration)
-    {
-        MSBuild(s => s
-            .SetTargets("Restore")
-            .SetTargetPath(Solution)
-            .SetConfiguration(configuration)
-            .SetProcessToolPath(ProcessToolPath)
-            .SetVerbosity(MSBuildVerbosity.Minimal)
-        );
-    }
-
     void BuildProject(string configuration)
     {
         MSBuild(s => s
             .SetTargets("Rebuild")
             .SetTargetPath(Solution)
             .SetConfiguration(configuration)
-            .SetProcessToolPath(ProcessToolPath)
+            .SetProcessToolPath(GetMsBuildPath())
             .SetVerbosity(MSBuildVerbosity.Minimal)
             .SetMSBuildPlatform(MSBuildPlatform.x64)
             .SetMaxCpuCount(Environment.ProcessorCount)

@@ -29,7 +29,7 @@ namespace RevitLookup.Forms {
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamEnum));
-            this.m_listView = new System.Windows.Forms.ListView();
+            this.listView = new System.Windows.Forms.ListView();
             this.m_colEnum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.m_colVal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -47,25 +47,25 @@ namespace RevitLookup.Forms {
             // 
             // m_listView
             // 
-            this.m_listView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.m_listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.m_colEnum,
             this.m_colVal});
-            this.m_listView.ContextMenuStrip = this.listViewContextMenuStrip;
-            this.m_listView.FullRowSelect = true;
-            this.m_listView.GridLines = true;
-            this.m_listView.HideSelection = false;
-            this.m_listView.Location = new System.Drawing.Point(12, 33);
-            this.m_listView.Name = "m_listView";
-            this.m_listView.ShowItemToolTips = true;
-            this.m_listView.Size = new System.Drawing.Size(587, 409);
-            this.m_listView.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.m_listView.TabIndex = 0;
-            this.m_listView.UseCompatibleStateImageBehavior = false;
-            this.m_listView.View = System.Windows.Forms.View.Details;
-            this.m_listView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.OnColumnClick);
+            this.listView.ContextMenuStrip = this.listViewContextMenuStrip;
+            this.listView.FullRowSelect = true;
+            this.listView.GridLines = true;
+            this.listView.HideSelection = false;
+            this.listView.Location = new System.Drawing.Point(12, 33);
+            this.listView.Name = "listView";
+            this.listView.ShowItemToolTips = true;
+            this.listView.Size = new System.Drawing.Size(587, 409);
+            this.listView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.listView.TabIndex = 0;
+            this.listView.UseCompatibleStateImageBehavior = false;
+            this.listView.View = System.Windows.Forms.View.Details;
+            this.listView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.OnColumnClick);
             // 
             // m_colEnum
             // 
@@ -103,7 +103,7 @@ namespace RevitLookup.Forms {
             this.m_bnOk.TabIndex = 1;
             this.m_bnOk.Text = "OK";
             this.m_bnOk.UseVisualStyleBackColor = true;
-            this.m_bnOk.Click += new System.EventHandler(this.m_bnOk_Click);
+            this.m_bnOk.Click += new System.EventHandler(this.ButtonOk_Click);
             // 
             // m_printDialog
             // 
@@ -164,7 +164,7 @@ namespace RevitLookup.Forms {
             this.ClientSize = new System.Drawing.Size(613, 483);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.m_bnOk);
-            this.Controls.Add(this.m_listView);
+            this.Controls.Add(this.listView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -181,12 +181,12 @@ namespace RevitLookup.Forms {
 
         #endregion
 
-        private System.Windows.Forms.ListView           m_listView;
+        private System.Windows.Forms.ListView           listView;
         private System.Windows.Forms.ColumnHeader       m_colEnum;
         private System.Windows.Forms.ColumnHeader       m_colVal;
         private System.Windows.Forms.Button             m_bnOk;
         
-        private ListViewColumnSorter    m_colSorter;
+        private ListViewColumnSorter    colSorter;
         private System.Windows.Forms.ContextMenuStrip   listViewContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem  copyToolStripMenuItem;
         private System.Windows.Forms.PrintDialog        m_printDialog;
