@@ -113,4 +113,5 @@
 - 2021-10-28 2022.0.1.6 integrated pull request [#107](https://github.com/jeremytammik/RevitLookup/pull/107) by Roman @Nice3point to rename Build, fix hello world version and move version number into csproj
 - 2021-10-29 2022.0.2.0 integrated pull request [#108](https://github.com/jeremytammik/RevitLookup/pull/108) by Roman @Nice3point to include previous versions in the installer
 - 2021-11-13 2022.0.2.5 Added automatic generation of a release for the master branch
+- 2021-11-30 2022.0.2.6 mention RFA and RVT project in the project description in readme.md and repository summary
 
