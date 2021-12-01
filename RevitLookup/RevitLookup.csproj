@@ -34,7 +34,7 @@
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
             <RootItem Include="$(ProjectDir)*.addin"/>
-            <AddinItem Include="$(TargetDir)$(AssemblyName).dll"/>
+            <AddinItem Include="$(TargetDir)$(AssemblyName).*"/>
             <!--Files to copy to Revit add-ins folder-->
             <!--<AddinItem Include="$(TargetDir)Simple.dll" />-->
         </ItemGroup>
