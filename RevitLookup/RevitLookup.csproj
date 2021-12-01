@@ -8,7 +8,7 @@
         <TargetFramework>net48</TargetFramework>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RevitVersion>2022</RevitVersion>
-        <Version>$(RevitVersion).0.2.5</Version>
+        <Version>$(RevitVersion).0.2.6</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">

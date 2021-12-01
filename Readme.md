@@ -8,7 +8,7 @@
   <a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto?ref=master"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge%3Fref%3Dmaster&style=for-the-badge"></a>
 </p>
 
-Interactive Revit BIM database exploration tool to view and navigate BIM element parameters, properties and relationships.
+Interactive Revit `RFA` and `RVT` project database exploration tool to view and navigate BIM element parameters, properties and relationships.
 
 Please refer to [The Building Coder](http://thebuildingcoder.typepad.com) for more information.
 
