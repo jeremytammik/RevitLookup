@@ -22,7 +22,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).0.0"/>
+        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).*"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -31,31 +31,28 @@
         <Resource Include="Resources\Images\RLookup-32.png"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <None Update="RevitLookup.addin">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <AddinItem Include="$(TargetDir)$(AssemblyName).dll"/>
-        <!--Files to copy to Revit add-ins folder-->
-        <!--<AddinItem Include="$(TargetDir)Simple.dll" />-->
-    </ItemGroup>
-
-    <Target Name="AfterBuildTarget" AfterTargets="CoreBuild">
-        <PropertyGroup>
-            <AddinDir>bin\AddIn $(RevitVersion) $(Configuration)\</AddinDir>
-            <AddinFilesDir>$(AddinDir)$(AssemblyName)\</AddinFilesDir>
-        </PropertyGroup>
-
-        <Copy SourceFiles="$(TargetDir)$(AssemblyName).addin" DestinationFolder="$(AddinDir)"/>
-        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinFilesDir)"/>
-
+    <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
-            <AddinFiles Include="$(AddinDir)**\*.*"/>
+            <RootItem Include="$(ProjectDir)*.addin"/>
+            <AddinItem Include="$(TargetDir)$(AssemblyName).dll"/>
+            <!--Files to copy to Revit add-ins folder-->
+            <!--<AddinItem Include="$(TargetDir)Simple.dll" />-->
         </ItemGroup>
 
-        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))"/>
+        <PropertyGroup>
+            <RootDir>bin\AddIn $(RevitVersion) $(Configuration)\</RootDir>
+            <AddinDir>$(RootDir)$(AssemblyName)\</AddinDir>
+        </PropertyGroup>
+
+        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)"/>
+        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)"/>
+
+        <ItemGroup>
+            <AddinFiles Include="$(RootDir)**\*.*"/>
+        </ItemGroup>
+
+        <Copy SourceFiles="@(AddinFiles)"
+              DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)"
+              Condition="$(Configuration.Contains('Debug'))"/>
     </Target>
 </Project>

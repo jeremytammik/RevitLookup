@@ -54,20 +54,20 @@ namespace RevitLookup
 
         private void CreateRibbonPanel(UIControlledApplication application)
         {
-            var ribbonPanel = RibbonUtils.CreateRibbonPanel(application, "Revit Lookup");
+            var ribbonPanel = application.CreatePanel("Revit Lookup");
             var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
             pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RLookup-16.png");
             pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RLookup-32.png");
-            pullDownButton.AddPushButton(typeof(HelloWorldCommand), "HelloWorld", "Hello World...");
-            pullDownButton.AddPushButton(typeof(SnoopDbCommand), "Snoop Db..", "Snoop DB...");
-            pullDownButton.AddPushButton(typeof(SnoopSelectionCommand), "Snoop Current Selection...", "Snoop Current Selection...");
-            pullDownButton.AddPushButton(typeof(SnoopSurfaceCommand), "Snoop Pick Face...", "Snoop Pick Face...");
-            pullDownButton.AddPushButton(typeof(SnoopPickEdgeCommand), "Snoop Pick Edge...", "Snoop Pick Edge...");
-            pullDownButton.AddPushButton(typeof(SnoopLinkedElementCommand), "Snoop Pick Linked Element...", "Snoop Linked Element...");
-            pullDownButton.AddPushButton(typeof(SnoopDependentsCommand), "Snoop Dependent Elements...", "Snoop Dependent Elements...");
-            pullDownButton.AddPushButton(typeof(SnoopActiveViewCommand), "Snoop Active View...", "Snoop Active View...");
-            pullDownButton.AddPushButton(typeof(SnoopApplicationCommand), "Snoop Application...", "Snoop Application...");
-            pullDownButton.AddPushButton(typeof(SearchCommand), "Search and Snoop...", "Search and Snoop...");
+            pullDownButton.AddPushButton(typeof(HelloWorldCommand), "Hello World...");
+            pullDownButton.AddPushButton(typeof(SnoopDbCommand), "Snoop DB...");
+            pullDownButton.AddPushButton(typeof(SnoopSelectionCommand), "Snoop Current Selection...");
+            pullDownButton.AddPushButton(typeof(SnoopSurfaceCommand), "Snoop Pick Face...");
+            pullDownButton.AddPushButton(typeof(SnoopPickEdgeCommand), "Snoop Pick Edge...");
+            pullDownButton.AddPushButton(typeof(SnoopLinkedElementCommand), "Snoop Linked Element...");
+            pullDownButton.AddPushButton(typeof(SnoopDependentsCommand), "Snoop Dependent Elements...");
+            pullDownButton.AddPushButton(typeof(SnoopActiveViewCommand), "Snoop Active View...");
+            pullDownButton.AddPushButton(typeof(SnoopApplicationCommand), "Snoop Application...");
+            pullDownButton.AddPushButton(typeof(SearchCommand), "Search and Snoop...");
         }
 
         private void AddAppDocEvents(ControlledApplication app)

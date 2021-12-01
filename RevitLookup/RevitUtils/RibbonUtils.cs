@@ -18,16 +18,19 @@ namespace RevitLookup.RevitUtils
             return (PulldownButton) panel.AddItem(pushButtonData);
         }
 
-        public static PushButton AddPushButton(this PulldownButton pullDownButton, Type command, string commandName, string buttonText)
+        /// <summary>
+        ///     Adds a button to the pullDown button
+        /// </summary>
+        public static PushButton AddPushButton(this PulldownButton pullDownButton, Type command, string buttonText)
         {
-            var pushButtonData = new PushButtonData(commandName, buttonText, Assembly.GetAssembly(command).Location, command.FullName);
+            var pushButtonData = new PushButtonData(command.Name, buttonText, Assembly.GetAssembly(command).Location, command.FullName);
             return pullDownButton.AddPushButton(pushButtonData);
         }
 
         /// <summary>
         ///     Creates a panel in the Add-ins tab.
         /// </summary>
-        public static RibbonPanel CreateRibbonPanel(UIControlledApplication application, string panelName)
+        public static RibbonPanel CreatePanel(this UIControlledApplication application, string panelName)
         {
             var ribbonPanels = application.GetRibbonPanels(Tab.AddIns);
             return CreateRibbonPanel(application, panelName, ribbonPanels);
