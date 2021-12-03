@@ -27,7 +27,7 @@
 using System.Collections;
 using System.Windows.Forms;
 
-namespace RevitLookup.Forms.Utils
+namespace RevitLookup.Views.Utils
 {
     /// <summary>
     ///     This class is an implementation of the 'IComparer' interface.
@@ -40,21 +40,11 @@ namespace RevitLookup.Forms.Utils
         private readonly CaseInsensitiveComparer _objectCompare;
 
         /// <summary>
-        ///     Specifies the column to be sorted
-        /// </summary>
-        private int _columnToSort;
-
-        /// <summary>
-        ///     Specifies the order in which to sort (i.e. 'Ascending').
-        /// </summary>
-        private SortOrder _orderOfSort;
-
-        /// <summary>
         /// </summary>
         public ListViewColumnSorter()
         {
-            _columnToSort = 0;
-            _orderOfSort = SortOrder.None;
+            SortColumn = 0;
+            Order = SortOrder.None;
             _objectCompare = new CaseInsensitiveComparer();
         }
 
@@ -62,21 +52,13 @@ namespace RevitLookup.Forms.Utils
         ///     Gets or sets the number of the column
         ///     to which to apply the sorting operation (Defaults to '0').
         /// </summary>
-        public int SortColumn
-        {
-            set => _columnToSort = value;
-            get => _columnToSort;
-        }
+        public int SortColumn { set; get; }
 
         /// <summary>
         ///     Gets or sets the order of sorting
         ///     to apply (for example, 'Ascending' or 'Descending').
         /// </summary>
-        public SortOrder Order
-        {
-            set => _orderOfSort = value;
-            get => _orderOfSort;
-        }
+        public SortOrder Order { set; get; }
 
         /// <summary>
         ///     This method is inherited from the IComparer interface.
@@ -94,9 +76,9 @@ namespace RevitLookup.Forms.Utils
             var listviewX = (ListViewItem) x;
             var listviewY = (ListViewItem) y;
 
-            var compareResult = _objectCompare.Compare(listviewX.SubItems[_columnToSort].Text, listviewY.SubItems[_columnToSort].Text);
+            var compareResult = _objectCompare.Compare(listviewX.SubItems[SortColumn].Text, listviewY.SubItems[SortColumn].Text);
 
-            switch (_orderOfSort)
+            switch (Order)
             {
                 case SortOrder.Ascending:
                     return compareResult;

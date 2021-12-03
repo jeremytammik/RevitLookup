@@ -35,7 +35,7 @@ using System.Xml.XPath;
 using RevitLookup.Core.Snoop;
 using RevitLookup.Core.Snoop.Collectors;
 
-namespace RevitLookup.Forms
+namespace RevitLookup.Views
 {
     /// <summary>
     ///     UI Test for navigating the XML Dom

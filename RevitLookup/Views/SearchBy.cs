@@ -4,7 +4,7 @@ using Autodesk.Revit.DB;
 using RevitLookup.Core.Snoop;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Forms
+namespace RevitLookup.Views
 {
     public partial class SearchBy : Form
     {

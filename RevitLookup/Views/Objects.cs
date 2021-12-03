@@ -39,7 +39,7 @@ using RevitLookup.Core.Snoop.Data;
 using Exception = System.Exception;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Forms
+namespace RevitLookup.Views
 {
     /// <summary>
     ///     Summary description for Object form.

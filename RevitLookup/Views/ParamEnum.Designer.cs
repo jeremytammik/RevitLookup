@@ -1,6 +1,6 @@
-using RevitLookup.Forms.Utils;
+using RevitLookup.Views.Utils;
 
-namespace RevitLookup.Forms {
+namespace RevitLookup.Views {
     partial class ParamEnum {
         /// <summary>
         /// Required designer variable.

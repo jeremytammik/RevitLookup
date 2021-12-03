@@ -28,7 +28,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace RevitLookup.Forms
+namespace RevitLookup.Views
 {
     /// <summary>
     ///     This Form makes use of the built-in abilities of Reflection and the PropertyGrid

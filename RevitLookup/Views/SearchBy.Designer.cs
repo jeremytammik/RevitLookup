@@ -1,4 +1,4 @@
-﻿namespace RevitLookup.Forms
+﻿namespace RevitLookup.Views
 {
     partial class SearchBy
     {

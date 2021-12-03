@@ -28,9 +28,9 @@ using System;
 using System.Collections;
 using System.Drawing.Printing;
 using System.Windows.Forms;
-using RevitLookup.Forms.Utils;
+using RevitLookup.Views.Utils;
 
-namespace RevitLookup.Forms
+namespace RevitLookup.Views
 {
     public partial class ParamEnum : Form
     {

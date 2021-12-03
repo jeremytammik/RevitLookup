@@ -63,7 +63,7 @@ namespace RevitLookup.Core.Snoop.Data
         {
             if (MVal is {IsEmpty: false})
             {
-                var form = new Forms.BindingMap(MVal);
+                var form = new Views.BindingMap(MVal);
                 return form;
             }
 

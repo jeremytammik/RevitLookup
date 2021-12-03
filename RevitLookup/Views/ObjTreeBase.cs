@@ -33,7 +33,7 @@ using RevitLookup.Core.Snoop;
 using RevitLookup.Core.Snoop.Collectors;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Forms
+namespace RevitLookup.Views
 {
     /// <summary>
     ///     Summary description for ObjTreeBase form.

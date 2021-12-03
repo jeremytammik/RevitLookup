@@ -25,7 +25,7 @@
 #endregion // Header
 
 using System.Windows.Forms;
-using RevitLookup.Forms;
+using RevitLookup.Views;
 
 namespace RevitLookup.Core.Snoop.Data
 {

@@ -31,7 +31,7 @@ using System.Windows.Forms;
 using Autodesk.Revit.DB;
 using Color = System.Drawing.Color;
 
-namespace RevitLookup.Forms
+namespace RevitLookup.Views
 {
     /// <summary>
     ///     Summary description for BindingMap form.

@@ -36,7 +36,7 @@ using Autodesk.Revit.DB;
 using RevitLookup.Core.Snoop.Collectors;
 using RevitLookup.Core.Snoop.Data;
 using RevitLookup.Core.Snoop.Data.PlaceHolders;
-using RevitLookup.Forms;
+using RevitLookup.Views;
 using Color = System.Drawing.Color;
 using Exception = System.Exception;
 using Form = System.Windows.Forms.Form;
