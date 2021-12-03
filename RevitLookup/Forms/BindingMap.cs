@@ -44,9 +44,9 @@ namespace RevitLookup.Forms
         {
             Text = "Snoop Binding Map";
 
-            MTvObjs.BeginUpdate();
-            AddObjectsToTree(map, MTvObjs.Nodes);
-            MTvObjs.EndUpdate();
+            TvObjs.BeginUpdate();
+            AddObjectsToTree(map, TvObjs.Nodes);
+            TvObjs.EndUpdate();
         }
 
         protected void AddObjectsToTree(Autodesk.Revit.DB.BindingMap map, TreeNodeCollection curNodes)
@@ -99,7 +99,7 @@ namespace RevitLookup.Forms
             // 
             // m_tvObjs
             // 
-            MTvObjs.LineColor = Color.Black;
+            TvObjs.LineColor = Color.Black;
             // 
             // BindingMap
             // 

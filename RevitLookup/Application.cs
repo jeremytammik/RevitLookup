@@ -24,7 +24,6 @@
 
 #endregion // Header
 
-using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.UI;
 using RevitLookup.Commands;
 using RevitLookup.Core.Snoop;
@@ -34,21 +33,17 @@ namespace RevitLookup
 {
     public class Application : IExternalApplication
     {
-        private ApplicationEvents _applicationEvents;
-
         public Result OnStartup(UIControlledApplication application)
         {
-            ModelessWindowHandle.RevitMainWindowHandle = application.MainWindowHandle;
-            ExternalExecutor.CreateExternalEvent();
             CreateRibbonPanel(application);
-            AddAppDocEvents(application.ControlledApplication);
+            ModelessWindowHandle.SetHandler(application.MainWindowHandle);
+            ExternalExecutor.CreateExternalEvent();
 
             return Result.Succeeded;
         }
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            RemoveAppDocEvents();
             return Result.Succeeded;
         }
 
@@ -68,17 +63,6 @@ namespace RevitLookup
             pullDownButton.AddPushButton(typeof(SnoopActiveViewCommand), "Snoop Active View...");
             pullDownButton.AddPushButton(typeof(SnoopApplicationCommand), "Snoop Application...");
             pullDownButton.AddPushButton(typeof(SearchCommand), "Search and Snoop...");
-        }
-
-        private void AddAppDocEvents(ControlledApplication app)
-        {
-            _applicationEvents = new ApplicationEvents(app);
-            _applicationEvents.EnableEvents();
-        }
-
-        private void RemoveAppDocEvents()
-        {
-            _applicationEvents.DisableEvents();
         }
     }
 }

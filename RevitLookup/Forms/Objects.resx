@@ -147,7 +147,7 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <metadata name="MCntxMenuObjId.TrayLocation"
+    <metadata name="CntxMenuObjId.TrayLocation"
               type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
         <value>17, 17</value>
     </metadata>
@@ -155,21 +155,21 @@
               type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
         <value>160, 17</value>
     </metadata>
-    <metadata name="_mPrintDialog.TrayLocation"
+    <metadata name="_printDialog.TrayLocation"
               type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
         <value>437, 17</value>
     </metadata>
-    <metadata name="_mPrintDocument.TrayLocation"
+    <metadata name="_printDocument.TrayLocation"
               type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
         <value>564, 17</value>
     </metadata>
-    <metadata name="_mPrintPreviewDialog.TrayLocation"
+    <metadata name="_printPreviewDialog.TrayLocation"
               type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
         <value>695, 17</value>
     </metadata>
     <assembly alias="System.Drawing"
               name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
-    <data name="_mPrintPreviewDialog.Icon"
+    <data name="_printPreviewDialog.Icon"
           type="System.Drawing.Icon, System.Drawing"
           mimetype="application/x-microsoft.net.object.bytearray.base64">
         <value>

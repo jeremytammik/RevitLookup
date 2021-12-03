@@ -51,8 +51,7 @@ namespace RevitLookup.Forms
         private MenuItem _mnuItemShowObjInfo;
         private PropertyGrid _pgProps;
 
-        public
-            GenericPropGrid(object obj)
+        public GenericPropGrid(object obj)
         {
             // Required for Windows Form Designer support
             InitializeComponent();

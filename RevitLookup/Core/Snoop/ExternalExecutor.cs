@@ -18,7 +18,7 @@ namespace RevitLookup.Core.Snoop
         {
             var request = new Request(command);
             ExternalEventHandler.Queue.Enqueue(request);
-            var result = _externalEvent.Raise();
+            _externalEvent.Raise();
             return request.Tcs.Task;
         }
 

@@ -23,7 +23,7 @@ namespace RevitLookup.RevitUtils
         /// </summary>
         public static PushButton AddPushButton(this PulldownButton pullDownButton, Type command, string buttonText)
         {
-            var pushButtonData = new PushButtonData(command.Name, buttonText, Assembly.GetAssembly(command).Location, command.FullName);
+            var pushButtonData = new PushButtonData(command.FullName, buttonText, Assembly.GetAssembly(command).Location, command.FullName);
             return pullDownButton.AddPushButton(pushButtonData);
         }
 

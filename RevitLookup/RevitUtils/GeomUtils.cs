@@ -115,7 +115,7 @@ namespace RevitLookup.RevitUtils
 
             foreach (var ptTemp in pts)
             {
-                /// don't consider the pt itself
+                // don't consider the pt itself
                 if (pt.Equals(ptTemp)) continue;
 
                 var dist = Math.Sqrt(Math.Pow(pt.X - ptTemp.X, 2.0) +

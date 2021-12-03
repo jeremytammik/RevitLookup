@@ -78,11 +78,11 @@ namespace RevitLookup.Core.Snoop.CollectorExts
 
             var streams = new IElementStream[]
             {
-                new ElementPropertiesStream(MDoc, data, elem),
-                new ElementMethodsStream(MDoc, data, elem),
+                new ElementPropertiesStream(Document, data, elem),
+                new ElementMethodsStream(Document, data, elem),
                 new SpatialElementStream(data, elem),
                 new FamilyTypeParameterValuesStream(data, elem),
-                new ExtensibleStorageEntityContentStream(MDoc, data, elem),
+                new ExtensibleStorageEntityContentStream(Document, data, elem),
                 new PartUtilsStream(data, elem)
             };
 

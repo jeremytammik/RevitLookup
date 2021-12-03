@@ -37,20 +37,18 @@ namespace RevitLookup.Forms
     /// </summary>
     public class Categories : ObjTreeBase
     {
-        public
-            Categories(CategoryNameMap map)
+        public Categories(CategoryNameMap map)
         {
             Text = "Snoop Categories";
 
-            MTvObjs.BeginUpdate();
-            AddObjectsToTree(map, MTvObjs.Nodes);
-            MTvObjs.EndUpdate();
+            TvObjs.BeginUpdate();
+            AddObjectsToTree(map, TvObjs.Nodes);
+            TvObjs.EndUpdate();
         }
 
-        protected void
-            AddObjectsToTree(CategoryNameMap map, TreeNodeCollection curNodes)
+        protected void AddObjectsToTree(CategoryNameMap map, TreeNodeCollection curNodes)
         {
-            MTvObjs.Sorted = true;
+            TvObjs.Sorted = true;
 
             if (map.IsEmpty)
                 return; // nothing to add
@@ -78,7 +76,7 @@ namespace RevitLookup.Forms
             // 
             // m_tvObjs
             // 
-            MTvObjs.LineColor = Color.Black;
+            TvObjs.LineColor = Color.Black;
             // 
             // Categories
             // 

@@ -6,26 +6,26 @@ namespace RevitLookup.Core.Snoop
 {
     internal class ModelessWindowHandle : IWin32Window
     {
+        private static IntPtr _revitMainWindowHandle;
+
         public ModelessWindowHandle()
         {
-            Handle = RevitMainWindowHandle;
+            Handle = _revitMainWindowHandle;
         }
 
-        public ModelessWindowHandle(Form form) : this()
-        {
-            // That does not work very well
-            //Handle = form.Handle;
-        }
-
-        public static IntPtr RevitMainWindowHandle { get; set; }
         public IntPtr Handle { get; }
 
+        public static void SetHandler(IntPtr handler)
+        {
+            _revitMainWindowHandle = handler;
+        }
+
         [DllImport("USER32.DLL")]
-        internal static extern bool SetForegroundWindow(IntPtr hWnd);
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         public static void BringRevitToFront()
         {
-            SetForegroundWindow(RevitMainWindowHandle);
+            SetForegroundWindow(_revitMainWindowHandle);
         }
     }
 }

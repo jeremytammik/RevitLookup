@@ -51,8 +51,6 @@
             <AddinFiles Include="$(RootDir)**\*.*"/>
         </ItemGroup>
 
-        <Copy SourceFiles="@(AddinFiles)"
-              DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)"
-              Condition="$(Configuration.Contains('Debug'))"/>
+        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))"/>
     </Target>
 </Project>

@@ -62,7 +62,7 @@ namespace RevitLookup.Forms
         protected MenuItem MMnuItemBrowseReflection;
 
         protected CollectorObj MSnoopCollector = new();
-        protected TreeView MTvObjs;
+        protected TreeView TvObjs;
 
 
         public
@@ -103,7 +103,7 @@ namespace RevitLookup.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjTreeBase));
-            this.MTvObjs = new System.Windows.Forms.TreeView();
+            this.TvObjs = new System.Windows.Forms.TreeView();
             this.MCntxMenuObjId = new System.Windows.Forms.ContextMenu();
             this._mMnuItemCopy = new System.Windows.Forms.MenuItem();
             this.MMnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
@@ -126,16 +126,16 @@ namespace RevitLookup.Forms
             // 
             // m_tvObjs
             // 
-            this.MTvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.MTvObjs.ContextMenu = this.MCntxMenuObjId;
-            this.MTvObjs.HideSelection = false;
-            this.MTvObjs.Location = new System.Drawing.Point(12, 28);
-            this.MTvObjs.Name = "MTvObjs";
-            this.MTvObjs.Size = new System.Drawing.Size(248, 416);
-            this.MTvObjs.Sorted = true;
-            this.MTvObjs.TabIndex = 0;
-            this.MTvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
+            this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.TvObjs.ContextMenu = this.MCntxMenuObjId;
+            this.TvObjs.HideSelection = false;
+            this.TvObjs.Location = new System.Drawing.Point(12, 28);
+            this.TvObjs.Name = "TvObjs";
+            this.TvObjs.Size = new System.Drawing.Size(248, 416);
+            this.TvObjs.Sorted = true;
+            this.TvObjs.TabIndex = 0;
+            this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
             // 
             // m_cntxMenuObjId
             // 
@@ -293,7 +293,7 @@ namespace RevitLookup.Forms
             this.Controls.Add(this._toolStrip1);
             this.Controls.Add(this.MLvData);
             this.Controls.Add(this.MBnOk);
-            this.Controls.Add(this.MTvObjs);
+            this.Controls.Add(this.TvObjs);
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -348,7 +348,7 @@ namespace RevitLookup.Forms
         private void
             ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (MTvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(MLvData);
+            if (TvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(MLvData);
         }
 
 
@@ -383,7 +383,7 @@ namespace RevitLookup.Forms
         private void
             PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _mCurrentPrintItem = Core.Snoop.Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
+            _mCurrentPrintItem = Core.Snoop.Utils.Print(TvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
         }
 
 
@@ -394,8 +394,8 @@ namespace RevitLookup.Forms
         private void
             PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Core.Snoop.Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
+            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, TvObjs, MLvData, ref _mMaxWidths);
+            Core.Snoop.Utils.PrintMenuItemClick(_mPrintDialog, TvObjs);
         }
 
         /// <summary>
@@ -405,8 +405,8 @@ namespace RevitLookup.Forms
         private void
             PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Core.Snoop.Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
+            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, TvObjs, MLvData, ref _mMaxWidths);
+            Core.Snoop.Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, TvObjs);
         }
 
         #endregion

@@ -38,8 +38,7 @@ namespace RevitLookup.Forms
 
         private int[] _maxWidths;
 
-        public
-            ParamEnum(ArrayList labelStrs, ArrayList valueStrs)
+        public ParamEnum(ArrayList labelStrs, ArrayList valueStrs)
         {
             InitializeComponent();
 

@@ -37,7 +37,7 @@ namespace RevitLookup.Core.Snoop
             }
 
             if (targetDocument != null && newForm is IHaveCollector formWithCollector) formWithCollector.SetDocument(targetDocument);
-            newForm.Show(new ModelessWindowHandle(parentForm));
+            newForm.Show(new ModelessWindowHandle());
             newForm.FormClosed += (s, e) =>
             {
                 ModelessWindowHandle.BringRevitToFront();

@@ -38,27 +38,24 @@ namespace RevitLookup.Forms
     /// </summary>
     public class Geometry : ObjTreeBase
     {
-        protected Autodesk.Revit.ApplicationServices.Application MApp;
-        protected Element MElem;
+        protected Autodesk.Revit.ApplicationServices.Application App;
+        protected Element Elem;
 
-        public
-            Geometry(Element elem, Autodesk.Revit.ApplicationServices.Application app)
+        public Geometry(Element elem, Autodesk.Revit.ApplicationServices.Application app)
         {
             Text = "Element Geometry";
 
-            MElem = elem;
-            MApp = app;
+            Elem = elem;
+            App = app;
 
-            MTvObjs.BeginUpdate();
-            AddObjectsToTree(elem, MTvObjs.Nodes);
-            MTvObjs.EndUpdate();
+            TvObjs.BeginUpdate();
+            AddObjectsToTree(elem, TvObjs.Nodes);
+            TvObjs.EndUpdate();
         }
 
-        protected void
-            AddObjectsToTree(Element elem, TreeNodeCollection curNodes)
+        protected void AddObjectsToTree(Element elem, TreeNodeCollection curNodes)
         {
             Options geomOp;
-
             TreeNode tmpNode;
 
             // add geometry with the View set to null.
@@ -70,7 +67,7 @@ namespace RevitLookup.Forms
                 // IMPORTANT!!! Need to create options each time when you are 
                 // getting geometry. In other case, all the geometry you got at the 
                 // previous step will be owerriten according with the latest DetailLevel
-                geomOp = MApp.Create.NewGeometryOptions();
+                geomOp = App.Create.NewGeometryOptions();
                 geomOp.ComputeReferences = true;
                 geomOp.DetailLevel = viewDetailLevel;
                 tmpNode.Tag = elem.get_Geometry(geomOp);
@@ -87,7 +84,7 @@ namespace RevitLookup.Forms
                 // IMPORTANT!!! Need to create options each time when you are 
                 // getting geometry. In other case, all the geometry you got at the 
                 // previous step will be owerriten according with the latest DetailLevel
-                geomOp = MApp.Create.NewGeometryOptions();
+                geomOp = App.Create.NewGeometryOptions();
                 geomOp.ComputeReferences = true;
                 geomOp.IncludeNonVisibleObjects = true;
                 geomOp.DetailLevel = viewDetailLevel;
@@ -98,7 +95,7 @@ namespace RevitLookup.Forms
             // now add geometry with the View set to the current view
             if (elem.Document.ActiveView != null)
             {
-                var geomOp2 = MApp.Create.NewGeometryOptions();
+                var geomOp2 = App.Create.NewGeometryOptions();
                 geomOp2.ComputeReferences = true;
                 geomOp2.View = elem.Document.ActiveView;
 
@@ -111,7 +108,7 @@ namespace RevitLookup.Forms
                 // SOFiSTiK FS
                 // add model geometry including geometry objects not set as Visible.
                 {
-                    var opts = MApp.Create.NewGeometryOptions();
+                    var opts = App.Create.NewGeometryOptions();
                     opts.ComputeReferences = true;
                     opts.IncludeNonVisibleObjects = true;
                     opts.View = elem.Document.ActiveView;
@@ -128,13 +125,7 @@ namespace RevitLookup.Forms
         {
             var resources = new ComponentResourceManager(typeof(Geometry));
             SuspendLayout();
-            // 
-            // m_tvObjs
-            // 
-            MTvObjs.LineColor = Color.Black;
-            // 
-            // Geometry
-            // 
+            TvObjs.LineColor = Color.Black;
             ClientSize = new Size(800, 478);
             Icon = (Icon) resources.GetObject("$this.Icon");
             Name = "Geometry";
@@ -160,9 +151,9 @@ namespace RevitLookup.Forms
             MElem = elem;
             MApp = app;
 
-            MTvObjs.BeginUpdate();
-            AddObjectsToTree(elem, MTvObjs.Nodes);
-            MTvObjs.EndUpdate();
+            TvObjs.BeginUpdate();
+            AddObjectsToTree(elem, TvObjs.Nodes);
+            TvObjs.EndUpdate();
         }
 
         protected void

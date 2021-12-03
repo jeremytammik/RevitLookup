@@ -47,13 +47,13 @@ namespace RevitLookup.Forms
     public class Objects : Form, IHaveCollector
     {
         private ToolStripMenuItem _copyToolStripMenuItem;
+        private int _currentPrintItem;
         private ContextMenuStrip _listViewContextMenuStrip;
-        private int _mCurrentPrintItem;
-        private int[] _mMaxWidths;
-        private MenuItem _mMnuItemCopy;
-        private PrintDialog _mPrintDialog;
-        private PrintDocument _mPrintDocument;
-        private PrintPreviewDialog _mPrintPreviewDialog;
+        private int[] _maxWidths;
+        private MenuItem _mnuItemCopy;
+        private PrintDialog _printDialog;
+        private PrintDocument _printDocument;
+        private PrintPreviewDialog _printPreviewDialog;
         private TableLayoutPanel _tableLayoutPanel1;
         private ToolStrip _toolStrip1;
         private ToolStripButton _toolStripButton1;
@@ -70,19 +70,19 @@ namespace RevitLookup.Forms
         private ToolStripButton _toolStripButtonSnoopPickFace;
         private ToolStrip _toolStripListView;
         private ToolStrip _toolStripSelectors;
+        protected Button BnOk;
+        protected ContextMenu CntxMenuObjId;
         private IContainer components;
-        protected Button MBnOk;
-        protected ContextMenu MCntxMenuObjId;
-        protected object MCurObj;
-        protected ColumnHeader MLvColLabel;
-        protected ColumnHeader MLvColValue;
-        protected ListView MLvData;
-        protected MenuItem MMnuItemBrowseReflection;
+        protected object CurObj;
+        protected ColumnHeader LvColLabel;
+        protected ColumnHeader LvColValue;
+        protected ListView LvData;
+        protected MenuItem MnuItemBrowseReflection;
 
-        protected CollectorObj MSnoopCollector = new();
-        protected ArrayList MTreeTypeNodes = new();
-        protected TreeView MTvObjs;
-        protected ArrayList MTypes = new();
+        protected CollectorObj SnoopCollector = new();
+        protected ArrayList TreeTypeNodes = new();
+        protected TreeView TvObjs;
+        protected ArrayList Types = new();
 
         public Objects()
         {
@@ -114,7 +114,7 @@ namespace RevitLookup.Forms
 
         public void SetDocument(Document document)
         {
-            MSnoopCollector.SourceDocument = document;
+            SnoopCollector.SourceDocument = document;
         }
 
         public async void SnoopAndShow(Selector selector)
@@ -125,29 +125,29 @@ namespace RevitLookup.Forms
 
         protected void CommonInit(IEnumerable<SnoopableObjectWrapper> objs)
         {
-            MTvObjs.Nodes.Clear();
-            MLvData.Items.Clear();
-            MCurObj = null;
-            MTreeTypeNodes = new ArrayList();
-            MTypes = new ArrayList();
+            TvObjs.Nodes.Clear();
+            LvData.Items.Clear();
+            CurObj = null;
+            TreeTypeNodes = new ArrayList();
+            Types = new ArrayList();
 
-            MTvObjs.BeginUpdate();
+            TvObjs.BeginUpdate();
 
             AddObjectsToTree(objs);
 
             // if the tree isn't well populated, expand it and select the first item
             // so its not a pain for the user when there is only one relevant item in the tree
-            if (MTvObjs.Nodes.Count == 1)
+            if (TvObjs.Nodes.Count == 1)
             {
-                MTvObjs.Nodes[0].Expand();
-                if (MTvObjs.Nodes[0].Nodes.Count == 0)
-                    MTvObjs.SelectedNode = MTvObjs.Nodes[0];
+                TvObjs.Nodes[0].Expand();
+                if (TvObjs.Nodes[0].Nodes.Count == 0)
+                    TvObjs.SelectedNode = TvObjs.Nodes[0];
                 else
-                    MTvObjs.SelectedNode = MTvObjs.Nodes[0].Nodes[0];
+                    TvObjs.SelectedNode = TvObjs.Nodes[0].Nodes[0];
             }
 
-            MTvObjs.EndUpdate();
-            MTvObjs.Focus();
+            TvObjs.EndUpdate();
+            TvObjs.Focus();
 
             // Add Load to update ListView Width
             Core.Snoop.Utils.AddOnLoadForm(this);
@@ -189,19 +189,19 @@ namespace RevitLookup.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Objects));
-            this.MTvObjs = new System.Windows.Forms.TreeView();
-            this.MCntxMenuObjId = new System.Windows.Forms.ContextMenu();
-            this._mMnuItemCopy = new System.Windows.Forms.MenuItem();
-            this.MMnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
-            this.MBnOk = new System.Windows.Forms.Button();
-            this.MLvData = new System.Windows.Forms.ListView();
-            this.MLvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
-            this.MLvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+            this.TvObjs = new System.Windows.Forms.TreeView();
+            this.CntxMenuObjId = new System.Windows.Forms.ContextMenu();
+            this._mnuItemCopy = new System.Windows.Forms.MenuItem();
+            this.MnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
+            this.BnOk = new System.Windows.Forms.Button();
+            this.LvData = new System.Windows.Forms.ListView();
+            this.LvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+            this.LvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
             this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this._mPrintDialog = new System.Windows.Forms.PrintDialog();
-            this._mPrintDocument = new System.Drawing.Printing.PrintDocument();
-            this._mPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+            this._printDialog = new System.Windows.Forms.PrintDialog();
+            this._printDocument = new System.Drawing.Printing.PrintDocument();
+            this._printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
             this._tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this._toolStrip1 = new System.Windows.Forms.ToolStrip();
             this._toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -227,81 +227,81 @@ namespace RevitLookup.Forms
             // 
             // m_tvObjs
             // 
-            this.MTvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.MTvObjs.ContextMenu = this.MCntxMenuObjId;
-            this.MTvObjs.HideSelection = false;
-            this.MTvObjs.Location = new System.Drawing.Point(12, 32);
-            this.MTvObjs.Name = "MTvObjs";
-            this.MTvObjs.Size = new System.Drawing.Size(248, 430);
-            this.MTvObjs.TabIndex = 0;
-            this.MTvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
+            this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.TvObjs.ContextMenu = this.CntxMenuObjId;
+            this.TvObjs.HideSelection = false;
+            this.TvObjs.Location = new System.Drawing.Point(12, 32);
+            this.TvObjs.Name = "TvObjs";
+            this.TvObjs.Size = new System.Drawing.Size(248, 430);
+            this.TvObjs.TabIndex = 0;
+            this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
             // 
             // m_cntxMenuObjId
             // 
-            this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
+            this.CntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
             {
-                this._mMnuItemCopy,
-                this.MMnuItemBrowseReflection
+                this._mnuItemCopy,
+                this.MnuItemBrowseReflection
             });
             // 
             // m_mnuItemCopy
             // 
-            this._mMnuItemCopy.Index = 0;
-            this._mMnuItemCopy.Text = "Copy";
-            this._mMnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
+            this._mnuItemCopy.Index = 0;
+            this._mnuItemCopy.Text = "Copy";
+            this._mnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
             // 
             // m_mnuItemBrowseReflection
             // 
-            this.MMnuItemBrowseReflection.Index = 1;
-            this.MMnuItemBrowseReflection.Text = "Browse Using Reflection...";
-            this.MMnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
+            this.MnuItemBrowseReflection.Index = 1;
+            this.MnuItemBrowseReflection.Text = "Browse Using Reflection...";
+            this.MnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
             // 
             // m_bnOK
             // 
-            this.MBnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.MBnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.MBnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.MBnOk.Location = new System.Drawing.Point(284, 464);
-            this.MBnOk.Name = "MBnOk";
-            this.MBnOk.Size = new System.Drawing.Size(504, 23);
-            this.MBnOk.TabIndex = 4;
-            this.MBnOk.Text = "OK";
-            this.MBnOk.Click += new System.EventHandler(this.m_bnOK_Click);
+            this.BnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.BnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.BnOk.Location = new System.Drawing.Point(284, 464);
+            this.BnOk.Name = "BnOk";
+            this.BnOk.Size = new System.Drawing.Size(504, 23);
+            this.BnOk.TabIndex = 4;
+            this.BnOk.Text = "OK";
+            this.BnOk.Click += new System.EventHandler(this.m_bnOK_Click);
             // 
             // m_lvData
             // 
-            this.MLvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                          | System.Windows.Forms.AnchorStyles.Left)
-                                                                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
+            this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                         | System.Windows.Forms.AnchorStyles.Left)
+                                                                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
             {
-                this.MLvColLabel,
-                this.MLvColValue
+                this.LvColLabel,
+                this.LvColValue
             });
-            this.MLvData.ContextMenuStrip = this._listViewContextMenuStrip;
-            this.MLvData.FullRowSelect = true;
-            this.MLvData.GridLines = true;
-            this.MLvData.HideSelection = false;
-            this.MLvData.Location = new System.Drawing.Point(284, 32);
-            this.MLvData.Name = "MLvData";
-            this.MLvData.ShowItemToolTips = true;
-            this.MLvData.Size = new System.Drawing.Size(504, 430);
-            this.MLvData.TabIndex = 3;
-            this.MLvData.UseCompatibleStateImageBehavior = false;
-            this.MLvData.View = System.Windows.Forms.View.Details;
-            this.MLvData.Click += new System.EventHandler(this.DataItemSelected);
-            this.MLvData.DoubleClick += new System.EventHandler(this.DataItemSelected);
+            this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
+            this.LvData.FullRowSelect = true;
+            this.LvData.GridLines = true;
+            this.LvData.HideSelection = false;
+            this.LvData.Location = new System.Drawing.Point(284, 32);
+            this.LvData.Name = "LvData";
+            this.LvData.ShowItemToolTips = true;
+            this.LvData.Size = new System.Drawing.Size(504, 430);
+            this.LvData.TabIndex = 3;
+            this.LvData.UseCompatibleStateImageBehavior = false;
+            this.LvData.View = System.Windows.Forms.View.Details;
+            this.LvData.Click += new System.EventHandler(this.DataItemSelected);
+            this.LvData.DoubleClick += new System.EventHandler(this.DataItemSelected);
             // 
             // m_lvCol_label
             // 
-            this.MLvColLabel.Text = "Field";
-            this.MLvColLabel.Width = 200;
+            this.LvColLabel.Text = "Field";
+            this.LvColLabel.Width = 200;
             // 
             // m_lvCol_value
             // 
-            this.MLvColValue.Text = "Value";
-            this.MLvColValue.Width = 800;
+            this.LvColValue.Text = "Value";
+            this.LvColValue.Width = 800;
             // 
             // listViewContextMenuStrip
             // 
@@ -322,23 +322,23 @@ namespace RevitLookup.Forms
             // 
             // m_printDialog
             // 
-            this._mPrintDialog.Document = this._mPrintDocument;
-            this._mPrintDialog.UseEXDialog = true;
+            this._printDialog.Document = this._printDocument;
+            this._printDialog.UseEXDialog = true;
             // 
             // m_printDocument
             // 
-            this._mPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
+            this._printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
             // 
             // m_printPreviewDialog
             // 
-            this._mPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-            this._mPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-            this._mPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-            this._mPrintPreviewDialog.Document = this._mPrintDocument;
-            this._mPrintPreviewDialog.Enabled = true;
-            this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
-            this._mPrintPreviewDialog.Name = "_mPrintPreviewDialog";
-            this._mPrintPreviewDialog.Visible = false;
+            this._printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this._printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this._printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+            this._printPreviewDialog.Document = this._printDocument;
+            this._printPreviewDialog.Enabled = true;
+            this._printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
+            this._printPreviewDialog.Name = "_printPreviewDialog";
+            this._printPreviewDialog.Visible = false;
             // 
             // tableLayoutPanel1
             // 
@@ -547,12 +547,12 @@ namespace RevitLookup.Forms
             // Objects
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.CancelButton = this.MBnOk;
+            this.CancelButton = this.BnOk;
             this.ClientSize = new System.Drawing.Size(800, 492);
             this.Controls.Add(this._tableLayoutPanel1);
-            this.Controls.Add(this.MLvData);
-            this.Controls.Add(this.MTvObjs);
-            this.Controls.Add(this.MBnOk);
+            this.Controls.Add(this.LvData);
+            this.Controls.Add(this.TvObjs);
+            this.Controls.Add(this.BnOk);
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -577,7 +577,7 @@ namespace RevitLookup.Forms
 
         protected void AddObjectsToTree(IEnumerable<SnoopableObjectWrapper> snoopableObjects)
         {
-            MTvObjs.Sorted = true;
+            TvObjs.Sorted = true;
 
             // initialize the tree control
             foreach (var snoopableObject in snoopableObjects)
@@ -587,11 +587,11 @@ namespace RevitLookup.Forms
                 if (parentNode == null)
                 {
                     parentNode = new TreeNode(snoopableObject.GetUnderlyingType().Name);
-                    MTvObjs.Nodes.Add(parentNode);
+                    TvObjs.Nodes.Add(parentNode);
 
                     // record that we've seen this one
-                    MTreeTypeNodes.Add(parentNode);
-                    MTypes.Add(snoopableObject.GetUnderlyingType());
+                    TreeTypeNodes.Add(parentNode);
+                    Types.Add(snoopableObject.GetUnderlyingType());
                 }
 
                 // add the new node for this element
@@ -607,10 +607,10 @@ namespace RevitLookup.Forms
         /// <returns>The existing TreeNode or NULL</returns>
         protected TreeNode GetExistingNodeForType(Type objType)
         {
-            var len = MTypes.Count;
+            var len = Types.Count;
             for (var i = 0; i < len; i++)
-                if ((Type) MTypes[i] == objType)
-                    return (TreeNode) MTreeTypeNodes[i];
+                if ((Type) Types[i] == objType)
+                    return (TreeNode) TreeTypeNodes[i];
 
             return null;
         }
@@ -620,10 +620,10 @@ namespace RevitLookup.Forms
             try
             {
                 // collect the data about this object
-                await MSnoopCollector.Collect(MCurObj);
+                await SnoopCollector.Collect(CurObj);
 
                 // display it
-                Core.Snoop.Utils.Display(MLvData, MSnoopCollector);
+                Core.Snoop.Utils.Display(LvData, SnoopCollector);
             }
             catch (Exception ex)
             {
@@ -636,16 +636,16 @@ namespace RevitLookup.Forms
             await ExternalExecutor.ExecuteInRevitContextAsync(x =>
             {
                 _tableLayoutPanel1.Enabled = false;
-                MTvObjs.Enabled = false;
-                MLvData.Enabled = false;
-                MBnOk.Enabled = false;
+                TvObjs.Enabled = false;
+                LvData.Enabled = false;
+                BnOk.Enabled = false;
 
                 var selected = Selectors.Snoop(x, selector);
 
                 _tableLayoutPanel1.Enabled = true;
-                MTvObjs.Enabled = true;
-                MLvData.Enabled = true;
-                MBnOk.Enabled = true;
+                TvObjs.Enabled = true;
+                LvData.Enabled = true;
+                BnOk.Enabled = true;
 
                 SetDocument(selected.Item2);
                 CommonInit(selected.Item1);
@@ -656,48 +656,48 @@ namespace RevitLookup.Forms
 
         protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
-            MCurObj = e.Node.Tag;
+            CurObj = e.Node.Tag;
             await CollectAndDispalyData();
         }
 
         protected void DataItemSelected(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
+            Core.Snoop.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, SnoopCollector.SourceDocument));
         }
 
         private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (MTvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(MLvData);
+            if (TvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(LvData);
         }
 
         private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.BrowseReflection(MCurObj);
+            Core.Snoop.Utils.BrowseReflection(CurObj);
         }
 
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MLvData.SelectedItems.Count > 0)
-                Core.Snoop.Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
+            if (LvData.SelectedItems.Count > 0)
+                Core.Snoop.Utils.CopyToClipboard(LvData.SelectedItems[0], false);
             else
                 Clipboard.Clear();
         }
 
         private void PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Core.Snoop.Utils.PrintMenuItemClick(_mPrintDialog, MTvObjs);
+            Core.Snoop.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
+            Core.Snoop.Utils.PrintMenuItemClick(_printDialog, TvObjs);
         }
 
         private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, MTvObjs, MLvData, ref _mMaxWidths);
-            Core.Snoop.Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, MTvObjs);
+            Core.Snoop.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
+            Core.Snoop.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
         }
 
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _mCurrentPrintItem = Core.Snoop.Utils.Print(MTvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
+            _currentPrintItem = Core.Snoop.Utils.Print(TvObjs.SelectedNode.Text, LvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
         }
 
         private async void toolStripButton_RefreshListView_Click(object sender, EventArgs e)
