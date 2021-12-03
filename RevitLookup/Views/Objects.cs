@@ -381,6 +381,7 @@ namespace RevitLookup.Views
             this._toolStripButton1.Name = "_toolStripButton1";
             this._toolStripButton1.Size = new System.Drawing.Size(24, 23);
             this._toolStripButton1.Text = "Print";
+            this._toolStripButton1.Click += new System.EventHandler(this.PrintMenuItem_Click);
             // 
             // toolStripButton2
             // 
@@ -390,6 +391,7 @@ namespace RevitLookup.Views
             this._toolStripButton2.Name = "_toolStripButton2";
             this._toolStripButton2.Size = new System.Drawing.Size(24, 23);
             this._toolStripButton2.Text = "Print Preview";
+            this._toolStripButton2.Click += new System.EventHandler(this.PrintPreviewMenuItem_Click);
             // 
             // toolStripButton3
             // 
@@ -399,6 +401,7 @@ namespace RevitLookup.Views
             this._toolStripButton3.Name = "_toolStripButton3";
             this._toolStripButton3.Size = new System.Drawing.Size(24, 23);
             this._toolStripButton3.Text = "Copy To Clipboard";
+            this._toolStripButton3.Click += new System.EventHandler(this.ContextMenuClick_Copy);
             // 
             // toolStrip_ListView
             // 

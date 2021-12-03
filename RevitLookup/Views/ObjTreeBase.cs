@@ -380,8 +380,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
             _mCurrentPrintItem = Core.Snoop.Utils.Print(TvObjs.SelectedNode.Text, MLvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
         }
@@ -391,8 +390,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintMenuItem_Click(object sender, EventArgs e)
+        private void PrintMenuItem_Click(object sender, EventArgs e)
         {
             Core.Snoop.Utils.UpdatePrintSettings(_mPrintDocument, TvObjs, MLvData, ref _mMaxWidths);
             Core.Snoop.Utils.PrintMenuItemClick(_mPrintDialog, TvObjs);

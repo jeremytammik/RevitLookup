@@ -107,8 +107,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            CopyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listView.SelectedItems.Count > 0)
                 Core.Snoop.Utils.CopyToClipboard(listView.SelectedItems[0], true);
@@ -121,8 +120,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
             _currentPrintItem = Core.Snoop.Utils.Print("", listView, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
         }
@@ -144,8 +142,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintPreviewMenuItem_Click(object sender, EventArgs e)
+        private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
             Core.Snoop.Utils.UpdatePrintSettings(listView, ref _maxWidths);
             Core.Snoop.Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, listView);
