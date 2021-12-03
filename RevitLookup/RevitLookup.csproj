@@ -26,9 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\Images\RLookup-16.ico"/>
-        <Resource Include="Resources\Images\RLookup-16.png"/>
-        <Resource Include="Resources\Images\RLookup-32.png"/>
+        <Resource Include="Resources\Images\RibbonIcon16.png"/>
+        <Resource Include="Resources\Images\RibbonIcon32.png"/>
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">

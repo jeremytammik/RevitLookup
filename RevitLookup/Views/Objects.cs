@@ -33,9 +33,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
-using RevitLookup.Core.Snoop;
-using RevitLookup.Core.Snoop.Collectors;
-using RevitLookup.Core.Snoop.Data;
+using RevitLookup.Core;
+using RevitLookup.Core.Collectors;
+using RevitLookup.Core.Data;
 using Exception = System.Exception;
 using Form = System.Windows.Forms.Form;
 
@@ -150,7 +150,7 @@ namespace RevitLookup.Views
             TvObjs.Focus();
 
             // Add Load to update ListView Width
-            Core.Snoop.Utils.AddOnLoadForm(this);
+            Core.Utils.AddOnLoadForm(this);
         }
 
         protected void CommonInit(object obj)
@@ -626,7 +626,7 @@ namespace RevitLookup.Views
                 await SnoopCollector.Collect(CurObj);
 
                 // display it
-                Core.Snoop.Utils.Display(LvData, SnoopCollector);
+                Core.Utils.Display(LvData, SnoopCollector);
             }
             catch (Exception ex)
             {
@@ -665,42 +665,42 @@ namespace RevitLookup.Views
 
         protected void DataItemSelected(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, SnoopCollector.SourceDocument));
+            Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, SnoopCollector.SourceDocument));
         }
 
         private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (TvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(LvData);
+            if (TvObjs.SelectedNode != null) Core.Utils.CopyToClipboard(LvData);
         }
 
         private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.BrowseReflection(CurObj);
+            Core.Utils.BrowseReflection(CurObj);
         }
 
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (LvData.SelectedItems.Count > 0)
-                Core.Snoop.Utils.CopyToClipboard(LvData.SelectedItems[0], false);
+                Core.Utils.CopyToClipboard(LvData.SelectedItems[0], false);
             else
                 Clipboard.Clear();
         }
 
         private void PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
-            Core.Snoop.Utils.PrintMenuItemClick(_printDialog, TvObjs);
+            Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
+            Core.Utils.PrintMenuItemClick(_printDialog, TvObjs);
         }
 
         private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
-            Core.Snoop.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
+            Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
+            Core.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
         }
 
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _currentPrintItem = Core.Snoop.Utils.Print(TvObjs.SelectedNode.Text, LvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
+            _currentPrintItem = Core.Utils.Print(TvObjs.SelectedNode.Text, LvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
         }
 
         private async void toolStripButton_RefreshListView_Click(object sender, EventArgs e)

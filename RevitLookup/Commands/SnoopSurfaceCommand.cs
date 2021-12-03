@@ -1,7 +1,7 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using RevitLookup.Core.Snoop;
+using RevitLookup.Core;
 using RevitLookup.Views;
 
 namespace RevitLookup.Commands

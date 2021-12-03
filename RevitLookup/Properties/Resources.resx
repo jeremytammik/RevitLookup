@@ -151,14 +151,14 @@
               name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
     <data name="Print"
           type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Resources\Images\Print.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+        <value>..\Resources\Images\PrintIcon.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="Preview"
           type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Resources\Images\Preview.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+        <value>..\Resources\Images\PreviewIcon.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="Copy"
           type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Resources\Images\COPY.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+        <value>..\Resources\Images\CopyIcon.ico;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
 </root>

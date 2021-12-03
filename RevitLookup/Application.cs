@@ -26,7 +26,7 @@
 
 using Autodesk.Revit.UI;
 using RevitLookup.Commands;
-using RevitLookup.Core.Snoop;
+using RevitLookup.Core;
 using RevitLookup.RevitUtils;
 
 namespace RevitLookup
@@ -51,8 +51,8 @@ namespace RevitLookup
         {
             var ribbonPanel = application.CreatePanel("Revit Lookup");
             var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
-            pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RLookup-16.png");
-            pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RLookup-32.png");
+            pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+            pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
             pullDownButton.AddPushButton(typeof(HelloWorldCommand), "Hello World...");
             pullDownButton.AddPushButton(typeof(SnoopDbCommand), "Snoop DB...");
             pullDownButton.AddPushButton(typeof(SnoopSelectionCommand), "Snoop Current Selection...");

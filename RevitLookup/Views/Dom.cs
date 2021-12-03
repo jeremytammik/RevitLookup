@@ -32,8 +32,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
-using RevitLookup.Core.Snoop;
-using RevitLookup.Core.Snoop.Collectors;
+using RevitLookup.Core;
+using RevitLookup.Core.Collectors;
 
 namespace RevitLookup.Views
 {
@@ -615,7 +615,7 @@ namespace RevitLookup.Views
             SetButtonModes(node);
 
             _mSnoopCollector.Collect(node);
-            Core.Snoop.Utils.Display(_lvData, _mSnoopCollector);
+            Core.Utils.Display(_lvData, _mSnoopCollector);
         }
 
         /// <summary>
@@ -789,7 +789,7 @@ namespace RevitLookup.Views
 
         private void DataItemSelected(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.DataItemSelected(_lvData, new ModelessWindowFactory(this, null));
+            Core.Utils.DataItemSelected(_lvData, new ModelessWindowFactory(this, null));
         }
 
         /// <summary>

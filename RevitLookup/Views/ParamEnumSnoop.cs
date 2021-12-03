@@ -30,8 +30,8 @@ using System.ComponentModel;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
-using RevitLookup.Core.Snoop;
-using RevitLookup.Core.Snoop.Collectors;
+using RevitLookup.Core;
+using RevitLookup.Core.Collectors;
 using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Views
@@ -74,7 +74,7 @@ namespace RevitLookup.Views
             InitializeComponent();
 
             // Add Load to update ListView Width
-            Core.Snoop.Utils.AddOnLoadForm(this);
+            Core.Utils.AddOnLoadForm(this);
 
             TvObjs.BeginUpdate();
 
@@ -349,7 +349,7 @@ namespace RevitLookup.Views
         {
             MCurObj = e.Node.Tag;
             await MSnoopCollector.Collect(MCurObj);
-            Core.Snoop.Utils.Display(MLvData, MSnoopCollector);
+            Core.Utils.Display(MLvData, MSnoopCollector);
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         protected void DataItemSelected(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
+            Core.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
 
 
@@ -368,7 +368,7 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (TvObjs.SelectedNode != null) Core.Snoop.Utils.CopyToClipboard(MLvData);
+            if (TvObjs.SelectedNode != null) Core.Utils.CopyToClipboard(MLvData);
         }
 
 
@@ -378,7 +378,7 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.BrowseReflection(MCurObj);
+            Core.Utils.BrowseReflection(MCurObj);
         }
 
 
@@ -389,7 +389,7 @@ namespace RevitLookup.Views
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MLvData.SelectedItems.Count > 0)
-                Core.Snoop.Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
+                Core.Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
             else
                 Clipboard.Clear();
         }
@@ -400,8 +400,8 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
-            Core.Snoop.Utils.PrintMenuItemClick(_printDialog, TvObjs);
+            Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
+            Core.Utils.PrintMenuItemClick(_printDialog, TvObjs);
         }
 
 
@@ -411,8 +411,8 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
-            Core.Snoop.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
+            Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
+            Core.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
         }
 
 
@@ -422,7 +422,7 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _currentPrintItem = Core.Snoop.Utils.Print(TvObjs.SelectedNode.Text, MLvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
+            _currentPrintItem = Core.Utils.Print(TvObjs.SelectedNode.Text, MLvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
         }
 
         #endregion

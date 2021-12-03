@@ -43,7 +43,7 @@ namespace RevitLookup.Views
             InitializeComponent();
 
             // Add Load to update ListView Width
-            Core.Snoop.Utils.AddOnLoadForm(this);
+            Core.Utils.AddOnLoadForm(this);
 
             // Set the column sorter for the list view
             colSorter = new ListViewColumnSorter();
@@ -110,7 +110,7 @@ namespace RevitLookup.Views
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listView.SelectedItems.Count > 0)
-                Core.Snoop.Utils.CopyToClipboard(listView.SelectedItems[0], true);
+                Core.Utils.CopyToClipboard(listView.SelectedItems[0], true);
             else
                 Clipboard.Clear();
         }
@@ -122,7 +122,7 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
-            _currentPrintItem = Core.Snoop.Utils.Print("", listView, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
+            _currentPrintItem = Core.Utils.Print("", listView, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
         }
 
 
@@ -133,8 +133,8 @@ namespace RevitLookup.Views
         private void
             PrintMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(listView, ref _maxWidths);
-            Core.Snoop.Utils.PrintMenuItemClick(m_printDialog);
+            Core.Utils.UpdatePrintSettings(listView, ref _maxWidths);
+            Core.Utils.PrintMenuItemClick(m_printDialog);
         }
 
 
@@ -144,8 +144,8 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
         {
-            Core.Snoop.Utils.UpdatePrintSettings(listView, ref _maxWidths);
-            Core.Snoop.Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, listView);
+            Core.Utils.UpdatePrintSettings(listView, ref _maxWidths);
+            Core.Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, listView);
         }
 
         #endregion

@@ -57,7 +57,7 @@ namespace RevitLookup.Views
             InitializeComponent();
 
             // Add Load to update ListView Width
-            Core.Snoop.Utils.AddOnLoadForm(this);
+            Core.Utils.AddOnLoadForm(this);
 
             _pgProps.SelectedObject = obj; // This all we need to do for Reflection to kick in
         }
