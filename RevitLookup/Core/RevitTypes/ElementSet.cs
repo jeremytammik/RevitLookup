@@ -24,10 +24,8 @@
 
 #endregion // Header
 
-using System.Collections.Generic;
-using Autodesk.Revit.DB;
+using System.Windows.Forms;
 using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes
 {
@@ -36,56 +34,25 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class ElementSet : Data
     {
-        protected Autodesk.Revit.DB.ElementSet MVal;
+        private readonly Autodesk.Revit.DB.ElementSet _value;
 
-        public
-            ElementSet(string label, Autodesk.Revit.DB.ElementSet val)
-            : base(label)
+        public ElementSet(string label, Autodesk.Revit.DB.ElementSet val) : base(label)
         {
-            MVal = val;
+            _value = val;
         }
 
-        public
-            ElementSet(string label, ICollection<Autodesk.Revit.DB.ElementId> val, Document doc)
-            : base(label)
-        {
-            MVal = new Autodesk.Revit.DB.ElementSet();
-            foreach (var elemId in val)
-            {
-                if (Autodesk.Revit.DB.ElementId.InvalidElementId == elemId)
-                    continue;
-                var elem = doc.GetElement(elemId);
-                if (null != elem)
-                    MVal.Insert(elem);
-            }
-        }
+        public override bool HasDrillDown => _value is {IsEmpty: false};
 
-        public override bool
-            HasDrillDown
+        public override string StrValue()
         {
-            get
-            {
-                if (MVal == null || MVal.IsEmpty)
-                    return false;
-                return true;
-            }
-        }
-
-        public override string
-            StrValue()
-        {
-            return Utils.ObjToLabelStr(MVal);
+            return Utils.ObjToLabelStr(_value);
         }
 
         public override Form DrillDown()
         {
-            if (MVal is {IsEmpty: false})
-            {
-                var form = new Objects(MVal);
-                return form;
-            }
-
-            return null;
+            if (_value is not {IsEmpty: false}) return null;
+            var form = new Objects(_value);
+            return form;
         }
     }
 }

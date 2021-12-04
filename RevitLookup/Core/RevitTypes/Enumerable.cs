@@ -40,83 +40,51 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class Enumerable : Data
     {
-        protected ArrayList MObjs = new();
-        protected IEnumerable MVal;
+        private readonly ArrayList _objects = new();
+        private readonly IEnumerable _value;
 
-        public
-            Enumerable(string label, IEnumerable val)
-            : base(label)
+        public Enumerable(string label, IEnumerable val) : base(label)
         {
-            MVal = val;
-
-            // iterate over the collection and put them in an ArrayList so we can pass on
-            // to our Form
-            if (MVal != null)
-            {
-                var iter = MVal.GetEnumerator();
-                while (iter.MoveNext())
-                    MObjs.Add(iter.Current);
-            }
+            _value = val;
+            if (_value == null) return;
+            foreach (var value in _value) _objects.Add(value);
         }
 
-        public
-            Enumerable(string label, IEnumerable val, Document doc)
-            : base(label)
+        public Enumerable(string label, IEnumerable val, Document doc) : base(label)
         {
-            MVal = val;
+            _value = val;
+            if (_value == null) return;
 
-            // iterate over the collection and put them in an ArrayList so we can pass on
-            // to our Form
-            if (MVal != null)
+            foreach (var value in _value)
             {
-                var iter = MVal.GetEnumerator();
-                while (iter.MoveNext())
+                var elementId = value as Autodesk.Revit.DB.ElementId;
+                if (elementId != null && doc != null)
                 {
-                    var elementId = iter.Current as Autodesk.Revit.DB.ElementId;
-
-                    if (elementId != null && doc != null)
-                    {
-                        var elem = doc.GetElement(elementId);
-                        if (elem == null) // Likely a category
-                            MObjs.Add(Category.GetCategory(doc, elementId));
-                        else
-                            MObjs.Add(elem); // it's more useful for user to view element rather than element id.
-                    }
+                    var elem = doc.GetElement(elementId);
+                    if (elem == null) // Likely a category
+                        _objects.Add(Category.GetCategory(doc, elementId));
                     else
-                    {
-                        MObjs.Add(iter.Current);
-                    }
+                        _objects.Add(elem); // it's more useful for user to view element rather than element id.
+                }
+                else
+                {
+                    _objects.Add(value);
                 }
             }
         }
 
-        public override bool
-            HasDrillDown
-        {
-            get
-            {
-                if (MVal == null || MObjs.Count == 0)
-                    return false;
-                return true;
-            }
-        }
+        public override bool HasDrillDown => _value != null && _objects.Count != 0;
 
-
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            return Utils.ObjToLabelStr(MVal);
+            return Utils.ObjToLabelStr(_value);
         }
 
         public override Form DrillDown()
         {
-            if (MVal != null && MObjs.Count != 0)
-            {
-                var form = new Objects(MObjs);
-                return form;
-            }
-
-            return null;
+            if (_value == null || _objects.Count == 0) return null;
+            var form = new Objects(_objects);
+            return form;
         }
     }
 }

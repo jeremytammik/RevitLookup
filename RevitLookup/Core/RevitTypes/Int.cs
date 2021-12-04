@@ -31,19 +31,16 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class Int : Data
     {
-        protected double MVal;
+        private readonly double _value;
 
-        public
-            Int(string label, int val)
-            : base(label)
+        public Int(string label, int val) : base(label)
         {
-            MVal = val;
+            _value = val;
         }
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            return MVal.ToString();
+            return _value.ToString();
         }
     }
 }

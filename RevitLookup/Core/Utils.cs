@@ -43,7 +43,7 @@ using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core
 {
-    public class Utils
+    public static class Utils
     {
         public static void Display(ListView lvCur, Collector snoopCollector)
         {
@@ -98,13 +98,11 @@ namespace RevitLookup.Core
         public static void DataItemSelected(ListView lvCur, ModelessWindowFactory windowFactory)
         {
             Debug.Assert(lvCur.SelectedItems.Count > 1 == false);
+            if (lvCur.SelectedItems.Count == 0) return;
 
-            if (lvCur.SelectedItems.Count != 0)
-            {
-                var tmpSnoopData = (Data) lvCur.SelectedItems[0].Tag;
-                var newForm = tmpSnoopData.DrillDown();
-                if (newForm != null) windowFactory.Show(newForm);
-            }
+            var tmpSnoopData = (Data) lvCur.SelectedItems[0].Tag;
+            var newForm = tmpSnoopData.DrillDown();
+            if (newForm != null) windowFactory.Show(newForm);
         }
 
         private static void UpdateLastColumnWidth(ListView lvCur)

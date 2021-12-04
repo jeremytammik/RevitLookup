@@ -31,19 +31,16 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class Bool : Data
     {
-        protected bool MVal;
+        private readonly bool _value;
 
-        public
-            Bool(string label, bool val)
-            : base(label)
+        public Bool(string label, bool val) : base(label)
         {
-            MVal = val;
+            _value = val;
         }
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            return MVal.ToString();
+            return _value.ToString();
         }
     }
 }

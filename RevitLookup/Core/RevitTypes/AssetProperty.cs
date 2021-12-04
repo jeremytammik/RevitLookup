@@ -1,46 +1,29 @@
 ﻿using System.Collections;
-using Autodesk.Revit.DB;
+using System.Windows.Forms;
 using Autodesk.Revit.DB.Visual;
 using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes
 {
     public class AssetProperty : Data
     {
-        protected AssetProperties MAssetProperties;
-        protected Element MElem;
-        protected Autodesk.Revit.DB.Visual.AssetProperty MVal;
+        private readonly AssetProperties _assetProperties;
 
-        public AssetProperty(string label,
-            AssetProperties assetProperties,
-            Autodesk.Revit.DB.Visual.AssetProperty val) : base(label)
+        public AssetProperty(string label, AssetProperties assetProperties) : base(label)
         {
-            MVal = val;
-            MAssetProperties = assetProperties;
+            _assetProperties = assetProperties;
         }
 
-
-        public override bool
-            HasDrillDown =>
-            MAssetProperties is {Size: > 0};
-
+        public override bool HasDrillDown => _assetProperties is {Size: > 0};
 
         public override Form DrillDown()
         {
-            if (MAssetProperties != null)
-            {
-                var objs = new ArrayList();
-                for (var i = 0; i < MAssetProperties.Size; i++) objs.Add(MAssetProperties.Get(i));
-
-
-                var form = new Objects(objs);
-                return form;
-            }
-
-            return null;
+            if (_assetProperties == null) return null;
+            var objects = new ArrayList();
+            for (var i = 0; i < _assetProperties.Size; i++) objects.Add(_assetProperties.Get(i));
+            var form = new Objects(objects);
+            return form;
         }
-
 
         public override string StrValue()
         {

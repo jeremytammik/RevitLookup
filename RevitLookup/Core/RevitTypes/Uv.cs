@@ -33,21 +33,18 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class Uv : Data
     {
-        protected UV MVal;
+        private readonly UV _value;
 
-        public
-            Uv(string label, UV val)
-            : base(label)
+        public Uv(string label, UV val) : base(label)
         {
-            MVal = val;
+            _value = val;
         }
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            if (MVal != null)
-                return $"({MVal.U}, {MVal.V})";
-            return "< null >";
+            return _value != null
+                ? $"({_value.U}, {_value.V})"
+                : "< null >";
         }
     }
 }

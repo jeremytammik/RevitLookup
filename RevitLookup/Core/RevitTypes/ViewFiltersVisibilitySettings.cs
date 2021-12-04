@@ -30,13 +30,9 @@ namespace RevitLookup.Core.RevitTypes
                 .Select(x => new SnoopableObjectWrapper(_view.Document.GetElement(x).Name, _view.GetFilterVisibility(x)))
                 .ToList();
 
-            if (filtersVisibility.Count > 0)
-            {
-                var form = new Objects(filtersVisibility);
-                return form;
-            }
-
-            return null;
+            if (filtersVisibility.Count == 0) return null;
+            var form = new Objects(filtersVisibility);
+            return form;
         }
     }
 }

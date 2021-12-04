@@ -36,7 +36,6 @@ namespace RevitLookup.Core.RevitTypes
     public class Object : Data
     {
         private readonly string _stringValue;
-
         private readonly object _value;
 
         public Object(string label, object val) : base(label)
@@ -54,14 +53,10 @@ namespace RevitLookup.Core.RevitTypes
 
         public override Form DrillDown()
         {
-            if (_value != null)
-            {
-                var objects = new ArrayList {_value};
-                var form = new Objects(objects);
-                return form;
-            }
-
-            return null;
+            if (_value == null) return null;
+            var objects = new ArrayList {_value};
+            var form = new Objects(objects);
+            return form;
         }
     }
 }

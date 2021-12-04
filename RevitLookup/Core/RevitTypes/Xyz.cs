@@ -33,21 +33,18 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class Xyz : Data
     {
-        protected XYZ MVal;
+        private readonly XYZ _value;
 
-        public
-            Xyz(string label, XYZ val)
-            : base(label)
+        public Xyz(string label, XYZ val) : base(label)
         {
-            MVal = val;
+            _value = val;
         }
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            if (MVal != null)
-                return $"({MVal.X}, {MVal.Y}, {MVal.Z})";
-            return "< null >";
+            return _value != null
+                ? $"({_value.X}, {_value.Y}, {_value.Z})"
+                : "< null >";
         }
     }
 }

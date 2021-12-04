@@ -39,7 +39,7 @@ namespace RevitLookup.Core.Collectors
     {
         public void Collect(XmlNode node)
         {
-            MDataObjs.Clear();
+            DataObjects.Clear();
             Stream(node);
 
             // now that we've collected all the data that we know about,
@@ -51,24 +51,22 @@ namespace RevitLookup.Core.Collectors
         //  main branch for anything derived from System.Xml.XmlNode
         private void Stream(XmlNode node)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlNode)));
-
-            MDataObjs.Add(new String("Node type", node.NodeType.ToString()));
-            MDataObjs.Add(new String("Name", node.Name));
-            MDataObjs.Add(new String("Local name", node.LocalName));
-            MDataObjs.Add(new String("Value", node.Value));
-            MDataObjs.Add(new Bool("Has child nodes", node.HasChildNodes));
-            MDataObjs.Add(new String("Inner text", node.InnerText));
-            MDataObjs.Add(new Xml("Inner XML", node.InnerXml, false));
-            MDataObjs.Add(new Xml("Outer XML", node.OuterXml, false));
-            MDataObjs.Add(new Bool("Is read only", node.IsReadOnly));
-            MDataObjs.Add(new String("BaseURI", node.BaseURI));
-            MDataObjs.Add(new String("Namespace URI", node.NamespaceURI));
-            MDataObjs.Add(new String("Prefix", node.Prefix));
+            DataObjects.Add(new ClassSeparator(typeof(XmlNode)));
+            DataObjects.Add(new String("Node type", node.NodeType.ToString()));
+            DataObjects.Add(new String("Name", node.Name));
+            DataObjects.Add(new String("Local name", node.LocalName));
+            DataObjects.Add(new String("Value", node.Value));
+            DataObjects.Add(new Bool("Has child nodes", node.HasChildNodes));
+            DataObjects.Add(new String("Inner text", node.InnerText));
+            DataObjects.Add(new Xml("Inner XML", node.InnerXml, false));
+            DataObjects.Add(new Xml("Outer XML", node.OuterXml, false));
+            DataObjects.Add(new Bool("Is read only", node.IsReadOnly));
+            DataObjects.Add(new String("BaseURI", node.BaseURI));
+            DataObjects.Add(new String("Namespace URI", node.NamespaceURI));
+            DataObjects.Add(new String("Prefix", node.Prefix));
 
             switch (node)
             {
-                // branch to all known major sub-classes
                 case XmlAttribute att:
                     Stream(att);
                     return;
@@ -92,17 +90,13 @@ namespace RevitLookup.Core.Collectors
 
         private void Stream(XmlAttribute att)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlAttribute)));
-
-            MDataObjs.Add(new Bool("Specified", att.Specified));
+            DataObjects.Add(new ClassSeparator(typeof(XmlAttribute)));
+            DataObjects.Add(new Bool("Specified", att.Specified));
         }
 
         private void Stream(XmlLinkedNode lnkNode)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlLinkedNode)));
-
-            // No data to show at this level, but we want to explicitly
-            // show that there is an intermediate class.
+            DataObjects.Add(new ClassSeparator(typeof(XmlLinkedNode)));
 
             switch (lnkNode)
             {
@@ -130,18 +124,16 @@ namespace RevitLookup.Core.Collectors
 
         private void Stream(XmlElement elem)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlElement)));
-
-            MDataObjs.Add(new Bool("Has attributes", elem.HasAttributes));
-            MDataObjs.Add(new Bool("Is empty", elem.IsEmpty));
+            DataObjects.Add(new ClassSeparator(typeof(XmlElement)));
+            DataObjects.Add(new Bool("Has attributes", elem.HasAttributes));
+            DataObjects.Add(new Bool("Is empty", elem.IsEmpty));
         }
 
         private void Stream(XmlCharacterData charData)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlCharacterData)));
-
-            MDataObjs.Add(new Int("Length", charData.Length));
-            MDataObjs.Add(new String("Data", charData.Data));
+            DataObjects.Add(new ClassSeparator(typeof(XmlCharacterData)));
+            DataObjects.Add(new Int("Length", charData.Length));
+            DataObjects.Add(new String("Data", charData.Data));
 
             switch (charData)
             {
@@ -165,101 +157,80 @@ namespace RevitLookup.Core.Collectors
 
         private void Stream(XmlCDataSection cDataSection)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlCDataSection)));
-
-            // do data to display at this level
+            DataObjects.Add(new ClassSeparator(typeof(XmlCDataSection)));
         }
 
-        private void
-            Stream(XmlComment comment)
+        private void Stream(XmlComment comment)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlComment)));
-
-            // no data to display at this level
+            DataObjects.Add(new ClassSeparator(typeof(XmlComment)));
         }
 
         private void Stream(XmlDeclaration decl)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlDeclaration)));
-
-            MDataObjs.Add(new String("Encoding", decl.Encoding));
-            MDataObjs.Add(new String("Standalone", decl.Standalone));
-            MDataObjs.Add(new String("Version", decl.Version));
+            DataObjects.Add(new ClassSeparator(typeof(XmlDeclaration)));
+            DataObjects.Add(new String("Encoding", decl.Encoding));
+            DataObjects.Add(new String("Standalone", decl.Standalone));
+            DataObjects.Add(new String("Version", decl.Version));
         }
 
         private void Stream(XmlDocument doc)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlDocument)));
-
-            MDataObjs.Add(new Bool("Preserve whitespace", doc.PreserveWhitespace));
+            DataObjects.Add(new ClassSeparator(typeof(XmlDocument)));
+            DataObjects.Add(new Bool("Preserve whitespace", doc.PreserveWhitespace));
         }
 
         private void Stream(XmlDocumentFragment doc)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlDocumentFragment)));
-
-            // no data to display at this level
+            DataObjects.Add(new ClassSeparator(typeof(XmlDocumentFragment)));
         }
 
         private void Stream(XmlDocumentType dType)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlDocumentType)));
-
-            MDataObjs.Add(new String("Internal subset", dType.InternalSubset));
-            MDataObjs.Add(new String("Public ID", dType.PublicId));
-            MDataObjs.Add(new String("System ID", dType.SystemId));
+            DataObjects.Add(new ClassSeparator(typeof(XmlDocumentType)));
+            DataObjects.Add(new String("Internal subset", dType.InternalSubset));
+            DataObjects.Add(new String("Public ID", dType.PublicId));
+            DataObjects.Add(new String("System ID", dType.SystemId));
         }
 
         private void Stream(XmlEntity ent)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlEntity)));
-
-            MDataObjs.Add(new String("Notation name", ent.NotationName));
-            MDataObjs.Add(new String("Public ID", ent.PublicId));
-            MDataObjs.Add(new String("System ID", ent.SystemId));
+            DataObjects.Add(new ClassSeparator(typeof(XmlEntity)));
+            DataObjects.Add(new String("Notation name", ent.NotationName));
+            DataObjects.Add(new String("Public ID", ent.PublicId));
+            DataObjects.Add(new String("System ID", ent.SystemId));
         }
 
         private void Stream(XmlEntityReference entRef)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlEntityReference)));
-
-            // no data to display at this level
+            DataObjects.Add(new ClassSeparator(typeof(XmlEntityReference)));
         }
 
         private void Stream(XmlNotation notation)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlNotation)));
-
-            MDataObjs.Add(new String("Public ID", notation.PublicId));
-            MDataObjs.Add(new String("System ID", notation.SystemId));
+            DataObjects.Add(new ClassSeparator(typeof(XmlNotation)));
+            DataObjects.Add(new String("Public ID", notation.PublicId));
+            DataObjects.Add(new String("System ID", notation.SystemId));
         }
 
         private void Stream(XmlProcessingInstruction pi)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlProcessingInstruction)));
-
-            MDataObjs.Add(new String("Target", pi.Target));
+            DataObjects.Add(new ClassSeparator(typeof(XmlProcessingInstruction)));
+            DataObjects.Add(new String("Target", pi.Target));
         }
 
         private void Stream(XmlSignificantWhitespace swSpace)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlSignificantWhitespace)));
-
-            // no data to display at this level
+            DataObjects.Add(new ClassSeparator(typeof(XmlSignificantWhitespace)));
         }
 
         private void Stream(XmlText text)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlText)));
-
-            // no data to display at this level
+            DataObjects.Add(new ClassSeparator(typeof(XmlText)));
         }
 
         private void Stream(XmlWhitespace wSpace)
         {
-            MDataObjs.Add(new ClassSeparator(typeof(XmlWhitespace)));
-
-            // no data to display at this level
+            DataObjects.Add(new ClassSeparator(typeof(XmlWhitespace)));
         }
     }
 }

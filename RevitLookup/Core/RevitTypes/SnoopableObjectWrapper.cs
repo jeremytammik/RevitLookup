@@ -8,12 +8,10 @@ namespace RevitLookup.Core.RevitTypes
         public SnoopableObjectWrapper(string title, object obj)
         {
             Title = title;
-
             Object = obj;
         }
 
         public string Title { get; }
-
         public object Object { get; }
 
         public static SnoopableObjectWrapper Create(object obj)
@@ -24,7 +22,6 @@ namespace RevitLookup.Core.RevitTypes
         public Type GetUnderlyingType()
         {
             if (Object is IObjectToSnoopPlaceholder placeholder) return placeholder.GetUnderlyingType();
-
             return Object.GetType();
         }
     }

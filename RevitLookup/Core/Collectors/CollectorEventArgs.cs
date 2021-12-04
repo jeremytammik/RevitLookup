@@ -25,18 +25,14 @@
 #endregion // Header
 
 using System;
-using System.Collections.Generic;
 
 namespace RevitLookup.Core.Collectors
 {
     public class CollectorEventArgs : EventArgs
     {
-        private List<Type> _seenTypes;
-
         public CollectorEventArgs(object objToSnoop)
         {
             ObjToSnoop = objToSnoop;
-            _seenTypes = new List<Type>();
         }
 
         public object ObjToSnoop { get; }

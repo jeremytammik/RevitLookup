@@ -69,7 +69,7 @@ namespace RevitLookup.Core.CollectorExtensions
                     return new RevitTypes.ElementSet(info.Name, returnValue as ElementSet);
 
                 if (expectedType == typeof(AssetProperty))
-                    return new RevitTypes.AssetProperty(info.Name, elem as AssetProperties, returnValue as AssetProperty);
+                    return new RevitTypes.AssetProperty(info.Name, elem as AssetProperties);
 
                 if (expectedType == typeof(Color))
                     return new RevitTypes.Color(info.Name, returnValue as Color);

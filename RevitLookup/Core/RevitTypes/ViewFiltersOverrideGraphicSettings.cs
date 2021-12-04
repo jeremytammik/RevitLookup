@@ -18,7 +18,7 @@ namespace RevitLookup.Core.RevitTypes
 
         public override string StrValue()
         {
-            return "< view filters ovverride graphic settings >";
+            return "< view filters override graphic settings >";
         }
 
         public override Form DrillDown()

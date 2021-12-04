@@ -13,7 +13,7 @@ using Exception = System.Exception;
 using Object = RevitLookup.Core.RevitTypes.Object;
 using String = RevitLookup.Core.RevitTypes.String;
 
-namespace RevitLookup.Core.CollectorExtensions
+namespace RevitLookup.Core.Streams
 {
     public class ExtensibleStorageEntityContentStream : IElementStream
     {

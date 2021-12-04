@@ -4,7 +4,7 @@ using System.Linq;
 using Autodesk.Revit.DB;
 using Object = RevitLookup.Core.RevitTypes.Object;
 
-namespace RevitLookup.Core.CollectorExtensions
+namespace RevitLookup.Core.Streams
 {
     public class SpatialElementStream : IElementStream
     {

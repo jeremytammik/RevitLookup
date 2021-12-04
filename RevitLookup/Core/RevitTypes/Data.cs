@@ -35,7 +35,7 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public abstract class Data
     {
-        public Data(string label)
+        protected Data(string label)
         {
             Label = label;
         }

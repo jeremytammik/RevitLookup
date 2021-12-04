@@ -8,7 +8,7 @@ using Enumerable = RevitLookup.Core.RevitTypes.Enumerable;
 using Object = RevitLookup.Core.RevitTypes.Object;
 using String = RevitLookup.Core.RevitTypes.String;
 
-namespace RevitLookup.Core.CollectorExtensions
+namespace RevitLookup.Core.Streams
 {
     public class PartUtilsStream : IElementStream
     {

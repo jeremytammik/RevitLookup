@@ -76,7 +76,7 @@ namespace RevitLookup.Views.Utils
             var listviewX = (ListViewItem) x;
             var listviewY = (ListViewItem) y;
 
-            var compareResult = _objectCompare.Compare(listviewX.SubItems[SortColumn].Text, listviewY.SubItems[SortColumn].Text);
+            var compareResult = _objectCompare.Compare(listviewX!.SubItems[SortColumn].Text, listviewY!.SubItems[SortColumn].Text);
 
             switch (Order)
             {

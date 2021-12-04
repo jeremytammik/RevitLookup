@@ -35,32 +35,20 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class Xml : Data
     {
-        protected bool MIsFileName;
-        protected string MVal;
+        private readonly bool _isFileName;
+        private readonly string _value;
 
-        public
-            Xml(string label, string val, bool isFileName)
-            : base(label)
+        public Xml(string label, string val, bool isFileName) : base(label)
         {
-            MVal = val;
-            MIsFileName = isFileName;
+            _value = val;
+            _isFileName = isFileName;
         }
 
-        public override bool
-            HasDrillDown
-        {
-            get
-            {
-                if (MVal == string.Empty)
-                    return false;
-                return true;
-            }
-        }
+        public override bool HasDrillDown => _value != string.Empty;
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            return MVal;
+            return _value;
         }
 
         public override Form DrillDown()
@@ -68,10 +56,10 @@ namespace RevitLookup.Core.RevitTypes
             try
             {
                 var xmlDoc = new XmlDocument();
-                if (MIsFileName)
-                    xmlDoc.Load(MVal);
+                if (_isFileName)
+                    xmlDoc.Load(_value);
                 else
-                    xmlDoc.LoadXml(MVal);
+                    xmlDoc.LoadXml(_value);
 
                 var form = new Dom(xmlDoc);
                 form.ShowDialog();

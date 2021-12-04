@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autodesk.Revit.DB;
+using RevitLookup.Core.CollectorExtensions;
 using RevitLookup.Core.RevitTypes;
 using Exception = RevitLookup.Core.RevitTypes.Exception;
 
-namespace RevitLookup.Core.CollectorExtensions
+namespace RevitLookup.Core.Streams
 {
     public class ElementMethodsStream : IElementStream
     {

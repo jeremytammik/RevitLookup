@@ -37,42 +37,30 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class ElementGeometry : Data
     {
-        protected Autodesk.Revit.ApplicationServices.Application MApp;
-        protected bool MHasGeometry;
-        protected Element MVal;
+        private readonly Autodesk.Revit.ApplicationServices.Application _app;
+        private readonly bool _hasGeometry;
+        private readonly Element _value;
 
-        public
-            ElementGeometry(string label, Element val, Autodesk.Revit.ApplicationServices.Application app)
-            : base(label)
+        public ElementGeometry(string label, Element val, Autodesk.Revit.ApplicationServices.Application app) : base(label)
         {
-            MVal = val;
-            MApp = app;
-
-            MHasGeometry = false;
-
-            if (MVal != null && MApp != null)
-                MHasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
+            _value = val;
+            _app = app;
+            _hasGeometry = false;
+            if (_value != null && _app != null) _hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
         }
 
-        public override bool
-            HasDrillDown =>
-            MHasGeometry;
+        public override bool HasDrillDown => _hasGeometry;
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
             return "<Geometry.Element>";
         }
 
         public override Form DrillDown()
         {
-            if (MHasGeometry)
-            {
-                var form = new Geometry(MVal, MApp);
-                return form;
-            }
-
-            return null;
+            if (!_hasGeometry) return null;
+            var form = new Geometry(_value, _app);
+            return form;
         }
 
         private bool HasModelGeometry()
@@ -81,15 +69,13 @@ namespace RevitLookup.Core.RevitTypes
                 .GetValues(typeof(ViewDetailLevel))
                 .Cast<ViewDetailLevel>()
                 .Select(x => new Options {DetailLevel = x})
-                .Any(x => MVal.get_Geometry(x) != null);
+                .Any(x => _value.get_Geometry(x) != null);
         }
 
         private bool HasViewSpecificGeometry()
         {
-            var view = MVal.Document.ActiveView;
-
-            if (view == null)
-                return false;
+            var view = _value.Document.ActiveView;
+            if (view == null) return false;
 
             var options = new Options
             {
@@ -97,62 +83,7 @@ namespace RevitLookup.Core.RevitTypes
                 IncludeNonVisibleObjects = true
             };
 
-            return MVal.get_Geometry(options) != null;
-        }
-    }
-
-
-    // SOFiSTiK FS
-    public class OriginalInstanceGeometry : Data
-    {
-        protected Autodesk.Revit.ApplicationServices.Application MApp;
-        protected bool MHasGeometry;
-        protected FamilyInstance MVal;
-
-        public
-            OriginalInstanceGeometry(string label, FamilyInstance val, Autodesk.Revit.ApplicationServices.Application app)
-            : base(label)
-        {
-            MVal = val;
-            MApp = app;
-
-            MHasGeometry = false;
-
-            if (MVal != null && MApp != null)
-            {
-                var geomOp = MApp.Create.NewGeometryOptions();
-                geomOp.DetailLevel = ViewDetailLevel.Undefined;
-                if (MVal.GetOriginalGeometry(geomOp) != null)
-                    MHasGeometry = true;
-            }
-        }
-
-        public override bool
-            HasDrillDown
-        {
-            get
-            {
-                if (MHasGeometry)
-                    return true;
-                return false;
-            }
-        }
-
-        public override string
-            StrValue()
-        {
-            return "<Geometry.Element>";
-        }
-
-        public override Form DrillDown()
-        {
-            if (MHasGeometry)
-            {
-                var form = new OriginalGeometry(MVal, MApp);
-                return form;
-            }
-
-            return null;
+            return _value.get_Geometry(options) != null;
         }
     }
 }

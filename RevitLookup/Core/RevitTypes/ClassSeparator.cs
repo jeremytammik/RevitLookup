@@ -35,33 +35,26 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class ClassSeparator : Data
     {
-        protected Type MVal;
+        private readonly Type _value;
 
-        public ClassSeparator(Type val)
-            : base("------- CLASS -------")
+        public ClassSeparator(Type val) : base("------- CLASS -------")
         {
-            MVal = val;
+            _value = val;
         }
 
-        public override bool
-            IsSeparator =>
-            true;
+        public override bool IsSeparator => true;
+        public override bool HasDrillDown => true;
 
-        public override bool
-            HasDrillDown =>
-            true;
-
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            return $"--- {MVal.Name} ---";
+            return $"--- {_value.Name} ---";
         }
 
         public override Form DrillDown()
         {
             // DrillDown on a ClassType will just browse it using Reflection
-            var pgForm = new GenericPropGrid(MVal);
-            pgForm.Text = $"System.Type = {MVal.FullName}";
+            var pgForm = new GenericPropGrid(_value);
+            pgForm.Text = $"System.Type = {_value.FullName}";
             pgForm.ShowDialog();
             return null;
         }

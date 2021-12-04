@@ -26,7 +26,6 @@
 
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
 using RevitLookup.Core.RevitTypes.PlaceHolders;
 
 namespace RevitLookup.Core.Collectors
@@ -40,7 +39,6 @@ namespace RevitLookup.Core.Collectors
     {
         public Document SourceDocument { get; set; }
 
-
         /// <summary>
         ///     This is the point where the ball starts rolling.  We'll walk down the object's class hierarchy,
         ///     continually trying to cast it to objects we know about.  NOTE: this is intentionally not Reflection.
@@ -50,15 +48,14 @@ namespace RevitLookup.Core.Collectors
         /// <param name="obj">Object to collect data for</param>
         public Task Collect(object obj)
         {
-            MDataObjs.Clear();
+            DataObjects.Clear();
 
-            if (obj == null)
-                return Task.CompletedTask;
-
-            return ExternalExecutor.ExecuteInRevitContextAsync(app => Collect(app, SourceDocument, this, obj));
+            return obj == null
+                ? Task.CompletedTask
+                : ExternalExecutor.ExecuteInRevitContextAsync(_ => Collect(SourceDocument, this, obj));
         }
 
-        private void Collect(UIApplication app, Document document, CollectorObj collector, object objectToSnoop)
+        private void Collect(Document document, CollectorObj collector, object objectToSnoop)
         {
             var transaction = document is {IsModifiable: false} ? new Transaction(document, GetType().Name) : null;
             transaction?.Start();

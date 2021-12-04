@@ -31,19 +31,18 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class Exception : Data
     {
-        protected System.Exception MVal;
+        private readonly System.Exception _value;
 
-        public Exception(string label, System.Exception val)
-            : base(label)
+        public Exception(string label, System.Exception val) : base(label)
         {
-            MVal = val;
+            _value = val;
         }
 
         public override bool IsError => true;
 
         public override string StrValue()
         {
-            return MVal.Message;
+            return _value.Message;
         }
     }
 }

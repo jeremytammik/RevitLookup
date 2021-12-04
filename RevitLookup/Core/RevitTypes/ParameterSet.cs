@@ -35,43 +35,27 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class ParameterSet : Data
     {
-        protected Element MElem;
-        protected Autodesk.Revit.DB.ParameterSet MVal;
+        private readonly Element _element;
+        private readonly Autodesk.Revit.DB.ParameterSet _value;
 
-        public
-            ParameterSet(string label, Element elem, Autodesk.Revit.DB.ParameterSet val)
-            : base(label)
+        public ParameterSet(string label, Element elem, Autodesk.Revit.DB.ParameterSet val) : base(label)
         {
-            MVal = val;
-            MElem = elem;
+            _value = val;
+            _element = elem;
         }
 
-        public override bool
-            HasDrillDown
-        {
-            get
-            {
-                if (MVal == null || MVal.IsEmpty)
-                    return false;
-                return true;
-            }
-        }
+        public override bool HasDrillDown => _value is {IsEmpty: false};
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            return Utils.ObjToLabelStr(MVal);
+            return Utils.ObjToLabelStr(_value);
         }
 
         public override Form DrillDown()
         {
-            if (MVal is {IsEmpty: false})
-            {
-                var form = new Parameters(MElem, MVal);
-                return form;
-            }
-
-            return null;
+            if (_value is not {IsEmpty: false}) return null;
+            var form = new Parameters(_element, _value);
+            return form;
         }
     }
 }

@@ -35,32 +35,28 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class ElementId : Data
     {
-        protected Element MElem;
-        protected Autodesk.Revit.DB.ElementId MVal;
+        private readonly Element _element;
+        private readonly Autodesk.Revit.DB.ElementId _value;
 
         public ElementId(string label, Autodesk.Revit.DB.ElementId val, Document doc) : base(label)
         {
-            MVal = val;
-
-            MElem = doc.GetElement(val);
+            _value = val;
+            _element = doc.GetElement(val);
         }
 
-        public override bool HasDrillDown => MElem != null;
+        public override bool HasDrillDown => _element != null;
 
         public override string StrValue()
         {
-            if (MElem != null)
-                return Utils.ObjToLabelStr(MElem);
-
-            return MVal != Autodesk.Revit.DB.ElementId.InvalidElementId ? MVal.ToString() : Utils.ObjToLabelStr(null);
+            if (_element != null) return Utils.ObjToLabelStr(_element);
+            return _value != Autodesk.Revit.DB.ElementId.InvalidElementId ? _value.ToString() : Utils.ObjToLabelStr(null);
         }
 
         public override Form DrillDown()
         {
-            if (MElem == null)
-                return null;
+            if (_element == null) return null;
 
-            var form = new Objects(MElem);
+            var form = new Objects(_element);
             return form;
         }
     }

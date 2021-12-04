@@ -31,19 +31,16 @@ namespace RevitLookup.Core.RevitTypes
     /// </summary>
     public class String : Data
     {
-        protected string MVal;
+        private readonly string _value;
 
-        public
-            String(string label, string val)
-            : base(label)
+        public String(string label, string val) : base(label)
         {
-            MVal = val;
+            _value = val;
         }
 
-        public override string
-            StrValue()
+        public override string StrValue()
         {
-            return MVal;
+            return _value;
         }
     }
 }

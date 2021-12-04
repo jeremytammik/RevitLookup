@@ -30,12 +30,11 @@ namespace RevitLookup.Core.Collectors
 {
     public abstract class Collector
     {
-        protected ArrayList MDataObjs = new();
-
+        protected readonly ArrayList DataObjects = new();
 
         public ArrayList Data()
         {
-            return MDataObjs;
+            return DataObjects;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using Autodesk.Revit.DB;
 using Enumerable = RevitLookup.Core.RevitTypes.Enumerable;
 
-namespace RevitLookup.Core.CollectorExtensions
+namespace RevitLookup.Core.Streams
 {
     public class FamilyTypeParameterValuesStream : IElementStream
     {
@@ -22,9 +22,9 @@ namespace RevitLookup.Core.CollectorExtensions
             if (type != typeof(Parameter)) return;
 
             var parameter = (Parameter) _elem;
-            var family = (parameter.Element as FamilyInstance)?.Symbol.Family ?? (parameter.Element as FamilySymbol)?.Family;
             if (!Category.IsBuiltInCategory(parameter.Definition.GetDataType())) return;
-
+            var family = (parameter.Element as FamilyInstance)?.Symbol.Family ?? (parameter.Element as FamilySymbol)?.Family;
+            if (family is null) return;
             var familyTypeParameterValues = family
                 .GetFamilyTypeParameterValues(parameter.Id)
                 .Select(family.Document.GetElement)

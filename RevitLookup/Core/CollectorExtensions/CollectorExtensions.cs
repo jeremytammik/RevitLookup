@@ -33,6 +33,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Collectors;
 using RevitLookup.Core.RevitTypes;
+using RevitLookup.Core.Streams;
 using Enumerable = RevitLookup.Core.RevitTypes.Enumerable;
 using Exception = System.Exception;
 using Object = RevitLookup.Core.RevitTypes.Object;
@@ -50,11 +51,9 @@ namespace RevitLookup.Core.CollectorExtensions
 
         static CollectorExtensions()
         {
-            var baseDirectory = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
-
             Types = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location))
-                .Where(x => Path.GetDirectoryName(x.Location) == baseDirectory)
+                .Where(x => Path.GetDirectoryName(x.Location) == Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory))
                 .Where(x => x.GetName().Name.ToLower().Contains("revit"))
                 .SelectMany(x => x.GetTypes())
                 .Union(new[] {typeof(KeyValuePair<,>)})

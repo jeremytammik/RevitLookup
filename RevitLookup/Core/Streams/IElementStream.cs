@@ -1,6 +1,6 @@
 using System;
 
-namespace RevitLookup.Core.CollectorExtensions
+namespace RevitLookup.Core.Streams
 {
     public interface IElementStream
     {
