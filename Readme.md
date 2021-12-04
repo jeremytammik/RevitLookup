@@ -2,7 +2,6 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Revit%20API-2022-blue.svg?style=for-the-badge">
-  <img src="https://img.shields.io/badge/.NET-4.8-blue.svg?style=for-the-badge">
   <a href="http://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/jeremytammik/RevitLookup?style=for-the-badge"></a>
   <a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/downloads/jeremytammik/RevitLookup/total?style=for-the-badge"></a>
   <a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto?ref=master"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge%3Fref%3Dmaster&style=for-the-badge"></a>
@@ -101,3 +100,8 @@ This sample is licensed under the terms of the [MIT License](http://opensource.o
 
 Credit to [icons8.com](https://icons8.com) for the RevitLookup icons.
 
+## Technology Sponsors
+
+Thanks to [JetBrains](https://jetbrains.com) for providing licenses for [Rider](https://jetbrains.com/rider), which both make open-source development a real pleasure!
+
+[<img src="https://user-images.githubusercontent.com/20504884/144722493-6fe08637-b5ef-4e71-aa19-faef9f45021f.png" height="120" al />](https://jetbrains.com/)
