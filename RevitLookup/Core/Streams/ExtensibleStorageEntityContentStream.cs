@@ -49,7 +49,7 @@ namespace RevitLookup.Core.Streams
                 var valueType = GetFieldValueType(field);
                 var genericGet = getEntityValueMethod.MakeGenericMethod(valueType);
                 var fieldSpecType = field.GetSpecTypeId();
-                var unit = UnitUtils.IsMeasurableSpec(fieldSpecType) ? UnitUtils.GetValidUnits(field.GetSpecTypeId()).First() : UnitTypeId.Custom;
+                var unit = UnitUtils.IsMeasurableSpec(fieldSpecType) ? UnitUtils.GetValidUnits(field.GetSpecTypeId())[0] : UnitTypeId.Custom;
 
                 var parameters = getEntityValueMethod.GetParameters().Length == 1
                     ? new object[] {field}
