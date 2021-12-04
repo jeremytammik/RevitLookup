@@ -25,7 +25,7 @@
 #endregion // Header
 
 using System.Xml;
-using RevitLookup.Core.Data;
+using RevitLookup.Core.RevitTypes;
 
 namespace RevitLookup.Core.Collectors
 {

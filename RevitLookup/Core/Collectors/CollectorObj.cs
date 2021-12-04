@@ -27,7 +27,7 @@
 using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using RevitLookup.Core.Data.PlaceHolders;
+using RevitLookup.Core.RevitTypes.PlaceHolders;
 
 namespace RevitLookup.Core.Collectors
 {
@@ -67,7 +67,7 @@ namespace RevitLookup.Core.Collectors
 
             try
             {
-                var collectorExtElement = new CollectorExts.CollectorExts(document);
+                var collectorExtElement = new CollectorExtensions.CollectorExtensions(document);
                 collectorExtElement.Collect(collector, new CollectorEventArgs(objectToSnoop));
             }
             finally

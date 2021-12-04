@@ -35,7 +35,7 @@ using System.Windows.Forms;
 using Autodesk.Revit.DB;
 using RevitLookup.Core;
 using RevitLookup.Core.Collectors;
-using RevitLookup.Core.Data;
+using RevitLookup.Core.RevitTypes;
 using Exception = System.Exception;
 using Form = System.Windows.Forms.Form;
 

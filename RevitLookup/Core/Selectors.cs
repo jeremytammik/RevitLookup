@@ -136,7 +136,7 @@ namespace RevitLookup.Core
             var idPickfirst = uidoc.Selection.GetElementIds();
             var doc = uidoc.Document;
 
-            if (idPickfirst.Any())
+            if (idPickfirst.Count > 0)
             {
                 var elemSet = new FilteredElementCollector(doc, idPickfirst).WhereElementIsNotElementType().ToElements();
                 ICollection<ElementId> ids = elemSet.SelectMany(t => t.GetDependentElements(null)).ToList();

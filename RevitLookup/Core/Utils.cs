@@ -34,8 +34,8 @@ using System.Text;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Collectors;
-using RevitLookup.Core.Data;
-using RevitLookup.Core.Data.PlaceHolders;
+using RevitLookup.Core.RevitTypes;
+using RevitLookup.Core.RevitTypes.PlaceHolders;
 using RevitLookup.Views;
 using Color = System.Drawing.Color;
 using Exception = System.Exception;
@@ -56,7 +56,7 @@ namespace RevitLookup.Core
 
             for (var i = 0; i < snoopCollector.Data().Count; i++)
             {
-                var tmpSnoopData = (Data.Data) snoopCollector.Data()[i];
+                var tmpSnoopData = (Data) snoopCollector.Data()[i];
 
                 // if it is a class separator, then color the background differently
                 // and don't add a SubItem for the "Field" value
@@ -101,7 +101,7 @@ namespace RevitLookup.Core
 
             if (lvCur.SelectedItems.Count != 0)
             {
-                var tmpSnoopData = (Data.Data) lvCur.SelectedItems[0].Tag;
+                var tmpSnoopData = (Data) lvCur.SelectedItems[0].Tag;
                 var newForm = tmpSnoopData.DrillDown();
                 if (newForm != null) windowFactory.Show(newForm);
             }

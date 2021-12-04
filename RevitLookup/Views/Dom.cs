@@ -839,8 +839,7 @@ namespace RevitLookup.Views
                     // otherwise continue searching at this level
                     TreeNode recursiveNode = null;
                     recursiveNode = FindTreeNodeFromXmlNodeTag(tNode.Nodes, xmlNode);
-                    if (recursiveNode != null)
-                        return recursiveNode;
+                    if (recursiveNode != null) return recursiveNode;
                 }
             }
 
@@ -871,10 +870,9 @@ namespace RevitLookup.Views
         {
             foreach (TreeNode tNode in treeNodes)
             {
-                if (selNode == (XmlNode) tNode.Tag)
-                    tNode.BackColor = Color.LightSkyBlue;
-                else
-                    tNode.BackColor = Color.Empty;
+                tNode.BackColor = selNode == (XmlNode) tNode.Tag
+                    ? Color.LightSkyBlue
+                    : Color.Empty;
 
                 if (tNode.Nodes.Count > 0) SetSelectedNode(tNode.Nodes, selNode);
             }
