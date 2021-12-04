@@ -22,6 +22,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0"/>
         <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).*"/>
     </ItemGroup>
 

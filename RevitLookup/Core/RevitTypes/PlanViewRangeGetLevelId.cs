@@ -17,7 +17,7 @@ namespace RevitLookup.Core.RevitTypes
             _document = doc;
         }
 
-        public override bool HasDrillDown => _planViewRange != null;
+        public override bool HasDrillDown => _planViewRange is not null;
 
         public override string StrValue()
         {
@@ -33,7 +33,7 @@ namespace RevitLookup.Core.RevitTypes
             foreach (PlanViewPlane type in Enum.GetValues(typeof(PlanViewPlane)))
             {
                 var levelId = _planViewRange.GetLevelId(type);
-                if (levelId != null && levelId != Autodesk.Revit.DB.ElementId.InvalidElementId)
+                if (levelId is not null && levelId != Autodesk.Revit.DB.ElementId.InvalidElementId)
                 {
                     var level = _document.GetElement(levelId) as Level;
                     sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), level));

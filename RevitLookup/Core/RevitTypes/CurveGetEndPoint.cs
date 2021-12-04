@@ -14,7 +14,7 @@ namespace RevitLookup.Core.RevitTypes
             _curve = curve;
         }
 
-        public override bool HasDrillDown => _curve != null && _curve.IsBound;
+        public override bool HasDrillDown => _curve is not null && _curve.IsBound;
 
         public override string StrValue()
         {

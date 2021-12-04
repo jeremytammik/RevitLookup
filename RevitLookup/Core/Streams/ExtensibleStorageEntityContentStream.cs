@@ -30,7 +30,7 @@ namespace RevitLookup.Core.Streams
 
         public void Stream(Type type)
         {
-            if (type != typeof(Entity) || _entity == null || !_entity.IsValid()) return;
+            if (type != typeof(Entity) || _entity is null || !_entity.IsValid()) return;
             if (!_entity.ReadAccessGranted())
                 _data.Add(new RevitTypes.Exception("<Extensible storage Fields>", new Exception("Doesn't have access to read extensible storage data")));
 

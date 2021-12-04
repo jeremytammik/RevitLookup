@@ -17,7 +17,7 @@ namespace RevitLookup.Core.RevitTypes
 
         public override string StrValue()
         {
-            if (_value == null) return "null";
+            if (_value is null) return "null";
 
             var stringList = _value
                 .Cast<object>()

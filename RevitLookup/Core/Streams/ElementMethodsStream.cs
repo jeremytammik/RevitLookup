@@ -38,7 +38,7 @@ namespace RevitLookup.Core.Streams
 
                 currentTypeMethods.Add(methodInfo.Name);
                 var methodData = GetMethodData(methodInfo);
-                if (methodData != null) _data.Add(methodData);
+                if (methodData is not null) _data.Add(methodData);
             }
 
             _seenMethods.AddRange(currentTypeMethods);

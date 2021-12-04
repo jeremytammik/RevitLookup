@@ -102,7 +102,7 @@ namespace RevitLookup.Core
 
             var tmpSnoopData = (Data) lvCur.SelectedItems[0].Tag;
             var newForm = tmpSnoopData.DrillDown();
-            if (newForm != null) windowFactory.Show(newForm);
+            if (newForm is not null) windowFactory.Show(newForm);
         }
 
         private static void UpdateLastColumnWidth(ListView lvCur)
@@ -125,9 +125,9 @@ namespace RevitLookup.Core
 
         public static void BrowseReflection(object obj)
         {
-            if (obj == null)
+            if (obj is null)
             {
-                MessageBox.Show("Object == null");
+                MessageBox.Show("Object is null");
                 return;
             }
 
@@ -142,7 +142,7 @@ namespace RevitLookup.Core
                 .GetType()
                 .GetProperty("Name", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-            if (nameProperty == null) return null;
+            if (nameProperty is null) return null;
             var propertyValue = nameProperty.GetValue(obj) as string;
             return $"< {obj.GetType().Name}  {(string.IsNullOrEmpty(propertyValue) ? "???" : propertyValue)} >";
         }
@@ -378,7 +378,7 @@ namespace RevitLookup.Core
 
         public static TreeNode GetRootNode(TreeNode node)
         {
-            if (node.Parent == null) return node;
+            if (node.Parent is null) return node;
             return GetRootNode(node.Parent);
         }
 
@@ -392,7 +392,7 @@ namespace RevitLookup.Core
 
         public static void UpdatePrintSettings(PrintDocument doc, TreeView tv, ListView lv, ref int[] widthArray)
         {
-            if (tv.SelectedNode == null) return;
+            if (tv.SelectedNode is null) return;
             doc.DocumentName = GetPrintDocumentName(tv.SelectedNode);
             widthArray = GetMaximumColumnWidths(lv);
         }
@@ -404,7 +404,7 @@ namespace RevitLookup.Core
 
         public static void PrintMenuItemClick(PrintDialog dlg, TreeView tv)
         {
-            if (tv.SelectedNode == null)
+            if (tv.SelectedNode is null)
             {
                 MessageBox.Show(tv.Parent, "Please select a node in the tree to print.", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -421,7 +421,7 @@ namespace RevitLookup.Core
         public static void
             PrintPreviewMenuItemClick(PrintPreviewDialog dlg, TreeView tv)
         {
-            if (tv.SelectedNode == null)
+            if (tv.SelectedNode is null)
             {
                 MessageBox.Show(tv.Parent, "Please select a node in the tree to print.", "RevitLookup", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;

@@ -45,7 +45,7 @@ namespace RevitLookup.Core.Streams
         {
             return type
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .Where(x => x.GetMethod != null)
+                .Where(x => x.GetMethod is not null)
                 .OrderBy(x => x.Name)
                 .ToArray();
         }
@@ -53,7 +53,7 @@ namespace RevitLookup.Core.Streams
         private void AddPropertyToData(PropertyInfo pi)
         {
             var propertyInfo = pi.PropertyType.ContainsGenericParameters ? _elem.GetType().GetProperty(pi.Name) : pi;
-            if (propertyInfo == null) return;
+            if (propertyInfo is null) return;
             var propertyType = propertyInfo.PropertyType;
 
             try

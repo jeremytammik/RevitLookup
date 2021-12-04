@@ -46,22 +46,22 @@ namespace RevitLookup.Core.RevitTypes
         public Enumerable(string label, IEnumerable val) : base(label)
         {
             _value = val;
-            if (_value == null) return;
+            if (_value is null) return;
             foreach (var value in _value) _objects.Add(value);
         }
 
         public Enumerable(string label, IEnumerable val, Document doc) : base(label)
         {
             _value = val;
-            if (_value == null) return;
+            if (_value is null) return;
 
             foreach (var value in _value)
             {
                 var elementId = value as Autodesk.Revit.DB.ElementId;
-                if (elementId != null && doc != null)
+                if (elementId is not null && doc is not null)
                 {
                     var elem = doc.GetElement(elementId);
-                    if (elem == null) // Likely a category
+                    if (elem is null) // Likely a category
                         _objects.Add(Category.GetCategory(doc, elementId));
                     else
                         _objects.Add(elem); // it's more useful for user to view element rather than element id.
@@ -73,7 +73,7 @@ namespace RevitLookup.Core.RevitTypes
             }
         }
 
-        public override bool HasDrillDown => _value != null && _objects.Count != 0;
+        public override bool HasDrillDown => _value is not null && _objects.Count != 0;
 
         public override string StrValue()
         {
@@ -82,7 +82,7 @@ namespace RevitLookup.Core.RevitTypes
 
         public override Form DrillDown()
         {
-            if (_value == null || _objects.Count == 0) return null;
+            if (_value is null || _objects.Count == 0) return null;
             var form = new Objects(_objects);
             return form;
         }

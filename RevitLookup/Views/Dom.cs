@@ -424,14 +424,14 @@ namespace RevitLookup.Views
                 SelectedImageIndex = imageIndex
             };
 
-            if (parentNode == null)
+            if (parentNode is null)
                 _tvDom.Nodes.Add(treeNode); // This is the root node
             else
                 parentNode.Nodes.Add(treeNode);
 
             // get attributes of this node
             var attributes = xmlNode.Attributes;
-            if (attributes != null)
+            if (attributes is not null)
                 foreach (XmlAttribute tmpAtt in attributes)
                     MakeTree(tmpAtt, treeNode);
             // now recursively go to the children of this node
@@ -566,22 +566,22 @@ namespace RevitLookup.Views
         private void SetButtonModes(XmlNode node)
         {
             var tmpNode = node.ParentNode;
-            _bnParent.Enabled = tmpNode != null;
+            _bnParent.Enabled = tmpNode is not null;
 
             tmpNode = node.OwnerDocument;
-            _bnOwnerDoc.Enabled = tmpNode != null;
+            _bnOwnerDoc.Enabled = tmpNode is not null;
 
             tmpNode = node.PreviousSibling;
-            _bnPrevSibling.Enabled = tmpNode != null;
+            _bnPrevSibling.Enabled = tmpNode is not null;
 
             tmpNode = node.NextSibling;
-            _bnNextSibling.Enabled = tmpNode != null;
+            _bnNextSibling.Enabled = tmpNode is not null;
 
             tmpNode = node.FirstChild;
-            _bnFirstChild.Enabled = tmpNode != null;
+            _bnFirstChild.Enabled = tmpNode is not null;
 
             tmpNode = node.LastChild;
-            _bnLastChild.Enabled = tmpNode != null;
+            _bnLastChild.Enabled = tmpNode is not null;
         }
 
         /// <summary>
@@ -654,7 +654,7 @@ namespace RevitLookup.Views
             {
                 var newNode = curNode.SelectSingleNode(_ebXpathPattern.Text);
 
-                if (newNode != null)
+                if (newNode is not null)
                 {
                     _tvDom.BeginUpdate();
 
@@ -737,10 +737,10 @@ namespace RevitLookup.Views
         /// <param name="newXmlNode">The XmlNode that should now be selected</param>
         private void MoveToNewNodeInTree(XmlNode newXmlNode)
         {
-            Debug.Assert(newXmlNode != null); // we should have checked out OK in SetButtonModes()
+            Debug.Assert(newXmlNode is not null); // we should have checked out OK in SetButtonModes()
 
             var newTreeNode = FindTreeNodeFromXmlNodeTag(_tvDom.Nodes, newXmlNode);
-            if (newTreeNode != null)
+            if (newTreeNode is not null)
                 _tvDom.SelectedNode = newTreeNode;
             else
                 MessageBox.Show("The node exist in the XML DOM, but not in the UI tree.\nPerhaps you have Text or Comment nodes turned off?",
@@ -776,7 +776,7 @@ namespace RevitLookup.Views
                     // otherwise continue searching at this level
                     TreeNode recursiveNode = null;
                     recursiveNode = FindTreeNodeFromXmlNodeTag(tNode.Nodes, xmlNode);
-                    if (recursiveNode != null) return recursiveNode;
+                    if (recursiveNode is not null) return recursiveNode;
                 }
             }
 

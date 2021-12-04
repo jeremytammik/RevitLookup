@@ -60,7 +60,7 @@ namespace RevitLookup.Views
                     .FirstOrDefault(tmpNode => tmpNode.Text == def.Name);
 
                 // this one doesn't exist in the tree yet, add it.
-                if (defNode == null)
+                if (defNode is null)
                 {
                     defNode = new TreeNode(def.Name)
                     {
@@ -69,7 +69,7 @@ namespace RevitLookup.Views
                     curNodes.Add(defNode);
                 }
 
-                if (elemBind != null)
+                if (elemBind is not null)
                 {
                     var cats = elemBind.Categories;
                     foreach (Category cat in cats)

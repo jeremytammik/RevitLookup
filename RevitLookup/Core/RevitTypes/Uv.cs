@@ -42,7 +42,7 @@ namespace RevitLookup.Core.RevitTypes
 
         public override string StrValue()
         {
-            return _value != null
+            return _value is not null
                 ? $"({_value.U}, {_value.V})"
                 : "< null >";
         }

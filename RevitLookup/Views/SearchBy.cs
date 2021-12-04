@@ -38,7 +38,7 @@ namespace RevitLookup.Views
             if (int.TryParse(m_tbSearchValue.Text, out id))
             {
                 var element = _doc.GetElement(new ElementId(id));
-                if (element != null)
+                if (element is not null)
                 {
                     var form = new Objects(element);
                     ModelessWindowFactory.Show(form, _doc, this);
@@ -57,7 +57,7 @@ namespace RevitLookup.Views
         private void SearchAndSnoopByUniqId()
         {
             var element = _doc.GetElement(m_tbSearchValue.Text);
-            if (element != null)
+            if (element is not null)
             {
                 var form = new Objects(element);
                 ModelessWindowFactory.Show(form, _doc, this);

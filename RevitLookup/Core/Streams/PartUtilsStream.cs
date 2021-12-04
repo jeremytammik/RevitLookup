@@ -34,7 +34,7 @@ namespace RevitLookup.Core.Streams
                 _data.Add(new Bool(nameof(PartUtils.IsValidForCreateParts), PartUtils.IsValidForCreateParts(element.Document, new LinkElementId(element.Id))));
             }
 
-            if (type == typeof(Part) && part != null)
+            if (type == typeof(Part) && part is not null)
             {
                 _data.Add(new MemberSeparatorWithOffset(nameof(PartUtils)));
                 _data.Add(new Bool(nameof(PartUtils.ArePartsValidForDivide), PartUtils.ArePartsValidForDivide(part.Document, new[] {part.Id})));

@@ -394,7 +394,7 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (TvObjs.SelectedNode != null) Core.Utils.CopyToClipboard(LvData);
+            if (TvObjs.SelectedNode is not null) Core.Utils.CopyToClipboard(LvData);
         }
 
 
@@ -430,7 +430,7 @@ namespace RevitLookup.Views
                 // see if this Element supports that parameter
                 var tmpParam = _elem.get_Parameter(paramEnum);
 
-                if (tmpParam != null) enumMap.Add(str, tmpParam);
+                if (tmpParam is not null) enumMap.Add(str, tmpParam);
             }
 
             var form = new ParamEnumSnoop(enumMap);
@@ -461,7 +461,7 @@ namespace RevitLookup.Views
 
                 // see if this Element supports that parameter
                 var tmpParam = _elem.get_Parameter(paramEnum);
-                if (tmpParam != null)
+                if (tmpParam is not null)
                 {
                     labelStrs.Add(str);
                     valueStrs.Add(Core.Utils.GetParameterObjectLabel(tmpParam));

@@ -579,7 +579,7 @@ namespace RevitLookup.Views
             {
                 // hook this up to the correct spot in the tree based on the object's type
                 var parentNode = GetExistingNodeForType(snoopableObject.GetUnderlyingType());
-                if (parentNode == null)
+                if (parentNode is null)
                 {
                     parentNode = new TreeNode(snoopableObject.GetUnderlyingType().Name);
                     TvObjs.Nodes.Add(parentNode);
@@ -662,7 +662,7 @@ namespace RevitLookup.Views
 
         private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (TvObjs.SelectedNode != null) Core.Utils.CopyToClipboard(LvData);
+            if (TvObjs.SelectedNode is not null) Core.Utils.CopyToClipboard(LvData);
         }
 
         private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)

@@ -14,7 +14,7 @@ namespace RevitLookup.Core.RevitTypes
             _scheduleDefinition = scheduleDefinition;
         }
 
-        public override bool HasDrillDown => _scheduleDefinition != null && _scheduleDefinition.GetFieldCount() > 0;
+        public override bool HasDrillDown => _scheduleDefinition is not null && _scheduleDefinition.GetFieldCount() > 0;
 
         public override string StrValue()
         {

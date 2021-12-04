@@ -30,7 +30,7 @@ namespace RevitLookup.Core.RevitTypes
                     .Cast<Parameter>()
                     .ToList()
                     .Find(q => q.Id.IntegerValue == id.IntegerValue))
-                .Where(p => p != null)
+                .Where(p => p is not null)
                 .Select(p => new SnoopableObjectWrapper(p.Definition.Name, p)).ToList();
 
             if (nonControlledTemplateParameterIds.Count == 0) return null;

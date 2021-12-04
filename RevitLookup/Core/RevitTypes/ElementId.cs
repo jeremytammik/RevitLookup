@@ -44,17 +44,17 @@ namespace RevitLookup.Core.RevitTypes
             _element = doc.GetElement(val);
         }
 
-        public override bool HasDrillDown => _element != null;
+        public override bool HasDrillDown => _element is not null;
 
         public override string StrValue()
         {
-            if (_element != null) return Utils.ObjToLabelStr(_element);
+            if (_element is not null) return Utils.ObjToLabelStr(_element);
             return _value != Autodesk.Revit.DB.ElementId.InvalidElementId ? _value.ToString() : Utils.ObjToLabelStr(null);
         }
 
         public override Form DrillDown()
         {
-            if (_element == null) return null;
+            if (_element is null) return null;
 
             var form = new Objects(_element);
             return form;

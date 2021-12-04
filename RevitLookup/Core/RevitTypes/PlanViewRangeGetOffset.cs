@@ -15,7 +15,7 @@ namespace RevitLookup.Core.RevitTypes
             _planViewRange = planViewRange;
         }
 
-        public override bool HasDrillDown => _planViewRange != null;
+        public override bool HasDrillDown => _planViewRange is not null;
 
         public override string StrValue()
         {

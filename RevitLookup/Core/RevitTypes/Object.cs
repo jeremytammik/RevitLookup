@@ -44,7 +44,7 @@ namespace RevitLookup.Core.RevitTypes
             _stringValue = Utils.ObjToLabelStr(_value);
         }
 
-        public override bool HasDrillDown => _value != null;
+        public override bool HasDrillDown => _value is not null;
 
         public override string StrValue()
         {
@@ -53,7 +53,7 @@ namespace RevitLookup.Core.RevitTypes
 
         public override Form DrillDown()
         {
-            if (_value == null) return null;
+            if (_value is null) return null;
             var objects = new ArrayList {_value};
             var form = new Objects(objects);
             return form;

@@ -23,10 +23,10 @@ namespace RevitLookup.Core.CollectorExtensions
                 ? _elem.GetType().GetMethod(mi.Name, mi.GetParameters().Select(x => x.ParameterType).ToArray())
                 : mi;
 
-            if (methodInfo == null) return null;
+            if (methodInfo is null) return null;
 
             var declaringType = methodInfo.DeclaringType;
-            if (methodInfo.IsSpecialName || declaringType == null) return null;
+            if (methodInfo.IsSpecialName || declaringType is null) return null;
 
             if (declaringType == typeof(Element) && methodInfo.Name == nameof(Element.GetDependentElements))
             {

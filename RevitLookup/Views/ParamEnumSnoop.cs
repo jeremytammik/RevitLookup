@@ -364,7 +364,7 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void ContextMenuClick_Copy(object sender, EventArgs e)
         {
-            if (TvObjs.SelectedNode != null) Core.Utils.CopyToClipboard(MLvData);
+            if (TvObjs.SelectedNode is not null) Core.Utils.CopyToClipboard(MLvData);
         }
 
         /// <summary>

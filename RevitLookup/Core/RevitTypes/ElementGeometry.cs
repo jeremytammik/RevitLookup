@@ -46,7 +46,7 @@ namespace RevitLookup.Core.RevitTypes
             _value = val;
             _app = app;
             _hasGeometry = false;
-            if (_value != null && _app != null) _hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
+            if (_value is not null && _app is not null) _hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
         }
 
         public override bool HasDrillDown => _hasGeometry;
@@ -69,13 +69,13 @@ namespace RevitLookup.Core.RevitTypes
                 .GetValues(typeof(ViewDetailLevel))
                 .Cast<ViewDetailLevel>()
                 .Select(x => new Options {DetailLevel = x})
-                .Any(x => _value.get_Geometry(x) != null);
+                .Any(x => _value.get_Geometry(x) is not null);
         }
 
         private bool HasViewSpecificGeometry()
         {
             var view = _value.Document.ActiveView;
-            if (view == null) return false;
+            if (view is null) return false;
 
             var options = new Options
             {
@@ -83,7 +83,7 @@ namespace RevitLookup.Core.RevitTypes
                 IncludeNonVisibleObjects = true
             };
 
-            return _value.get_Geometry(options) != null;
+            return _value.get_Geometry(options) is not null;
         }
     }
 }

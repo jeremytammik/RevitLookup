@@ -165,7 +165,7 @@ namespace RevitLookup.Views
         {
             var selObj = _pgProps.SelectedGridItem.Value;
 
-            if (selObj == null)
+            if (selObj is null)
             {
                 MessageBox.Show("Value is null.");
             }
@@ -187,7 +187,7 @@ namespace RevitLookup.Views
         {
             var selObj = _pgProps.SelectedGridItem.Value;
 
-            if (selObj == null)
+            if (selObj is null)
             {
                 MessageBox.Show("Value is null.");
             }
@@ -206,7 +206,7 @@ namespace RevitLookup.Views
         /// <param name="e"></param>
         private void OnMenuContextPopup(object sender, EventArgs e)
         {
-            var enabled = _pgProps.SelectedGridItem != null;
+            var enabled = _pgProps.SelectedGridItem is not null;
             _mnuItemShowObjInfo.Enabled = enabled;
             _mnuItemShowClassInfo.Enabled = enabled;
         }

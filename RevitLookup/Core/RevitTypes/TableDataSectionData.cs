@@ -31,7 +31,7 @@ namespace RevitLookup.Core.RevitTypes
             foreach (SectionType type in Enum.GetValues(typeof(SectionType)))
             {
                 var sectionData = _tableData.GetSectionData(type);
-                if (sectionData == null) continue;
+                if (sectionData is null) continue;
                 sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), sectionData));
             }
 

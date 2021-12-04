@@ -109,7 +109,7 @@ namespace RevitLookup.Core.CollectorExtensions
 
         private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
         {
-            while (toCheck != null && toCheck != typeof(object))
+            while (toCheck is not null && toCheck != typeof(object))
             {
                 var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
                 if (generic == cur) return true;
@@ -122,7 +122,7 @@ namespace RevitLookup.Core.CollectorExtensions
         private static void StreamElementExtensibleStorages(ArrayList data, Element elem)
         {
             var schemas = Schema.ListSchemas();
-            if (elem == null || schemas.Count == 0) return;
+            if (elem is null || schemas.Count == 0) return;
 
             data.Add(new ExtensibleStorageSeparator());
 

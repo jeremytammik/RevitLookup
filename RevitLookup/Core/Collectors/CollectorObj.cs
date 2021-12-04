@@ -50,7 +50,7 @@ namespace RevitLookup.Core.Collectors
         {
             DataObjects.Clear();
 
-            return obj == null
+            return obj is null
                 ? Task.CompletedTask
                 : ExternalExecutor.ExecuteInRevitContextAsync(_ => Collect(SourceDocument, this, obj));
         }

@@ -25,7 +25,7 @@ namespace RevitLookup.Core
         public static void Show(Form newForm, Document targetDocument = null, Form parentForm = null)
         {
             AddKeyEvents(newForm);
-            if (parentForm == null)
+            if (parentForm is null)
             {
                 newForm.StartPosition = FormStartPosition.CenterScreen;
             }
@@ -36,7 +36,7 @@ namespace RevitLookup.Core
                 newForm.Location = new Point(parentForm.Location.X + (parentForm.Width - newForm.Width) / 2, parentForm.Location.Y + (parentForm.Height - newForm.Height) / 2);
             }
 
-            if (targetDocument != null && newForm is IHaveCollector formWithCollector) formWithCollector.SetDocument(targetDocument);
+            if (targetDocument is not null && newForm is IHaveCollector formWithCollector) formWithCollector.SetDocument(targetDocument);
             newForm.Show(new ModelessWindowHandle());
             newForm.FormClosed += (s, e) =>
             {

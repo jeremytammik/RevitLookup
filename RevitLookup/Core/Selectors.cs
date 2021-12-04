@@ -148,7 +148,7 @@ namespace RevitLookup.Core
         private static (View, Document) SnoopActiveView(UIApplication app)
         {
             var doc = app.ActiveUIDocument.Document;
-            if (doc.ActiveView != null) return (doc.ActiveView, doc);
+            if (doc.ActiveView is not null) return (doc.ActiveView, doc);
 
             TaskDialog.Show("RevitLookup", "The document must have an active view!");
             return (null, null);

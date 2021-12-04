@@ -38,7 +38,7 @@ namespace RevitLookup.Core.Streams
                 "SpatialElement",
                 "Room"
             };
-            return _spatialElement != null && typeNames.Contains(type.Name);
+            return _spatialElement is not null && typeNames.Contains(type.Name);
         }
     }
 }

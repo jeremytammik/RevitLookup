@@ -86,7 +86,7 @@ namespace RevitLookup.Views
             }
 
             // now add geometry with the View set to the current view
-            if (elem.Document.ActiveView != null)
+            if (elem.Document.ActiveView is not null)
             {
                 var geomOp2 = _app.Create.NewGeometryOptions();
                 geomOp2.ComputeReferences = true;
