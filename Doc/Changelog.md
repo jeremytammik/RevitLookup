@@ -114,8 +114,8 @@
 - 2021-10-29 2022.0.2.0 integrated pull request [#108](https://github.com/jeremytammik/RevitLookup/pull/108) by Roman @Nice3point to include previous versions in the installer
 - 2021-11-13 2022.0.2.5 Added automatic generation of a release for the master branch
 - 2021-11-30 2022.0.2.6 mention RFA and RVT project in the project description in readme.md and repository summary
-- 2021-11-30 2022.0.3.0 The release contains minor changes under the hood.
-    - Removed unused code and resources
-    - Optimized collections and arrays
+- 2021-11-30 2022.0.3.0 This is patch release to fix a few items. This release will fix the issues below:
+    - Removed unused code and resources, reduced application size
+    - Optimized collections and arrays, updating the window just got a little faster
     - Fixed broken print and preview button
     - Reduced memory allocation
