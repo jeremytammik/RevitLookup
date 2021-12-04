@@ -102,7 +102,7 @@ namespace RevitLookup.Core
 
             var tmpSnoopData = (Data) lvCur.SelectedItems[0].Tag;
             var newForm = tmpSnoopData.DrillDown();
-            if (newForm is not null) windowFactory.Show(newForm);
+            if (newForm is not null) windowFactory.ShowForm(newForm);
         }
 
         private static void UpdateLastColumnWidth(ListView lvCur)

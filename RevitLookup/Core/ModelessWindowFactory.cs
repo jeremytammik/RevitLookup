@@ -16,11 +16,10 @@ namespace RevitLookup.Core
             _targetDocument = targetDocument;
         }
 
-        public void Show(Form newForm)
+        public void ShowForm(Form newForm)
         {
             Show(newForm, _targetDocument, _parentForm);
         }
-
 
         public static void Show(Form newForm, Document targetDocument = null, Form parentForm = null)
         {
