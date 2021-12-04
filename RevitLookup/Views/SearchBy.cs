@@ -20,8 +20,7 @@ namespace RevitLookup.Views
         private void m_bnFindAndSnoop_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(m_tbSearchValue.Text))
-                MessageBox.Show(@"You did not enter a value to search for", @"Attention!", MessageBoxButtons.OK,
-                    MessageBoxIcon.Stop);
+                MessageBox.Show(@"You did not enter a value to search for", @"Attention!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             switch (m_cbSearchByVariant.SelectedItem as string)
             {
                 case "ElementId": // by ElementId

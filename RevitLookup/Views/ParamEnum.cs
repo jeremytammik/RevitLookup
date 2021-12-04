@@ -35,7 +35,6 @@ namespace RevitLookup.Views
     public partial class ParamEnum : Form
     {
         private int _currentPrintItem;
-
         private int[] _maxWidths;
 
         public ParamEnum(ArrayList labelStrs, ArrayList valueStrs)
@@ -50,8 +49,6 @@ namespace RevitLookup.Views
             listView.ListViewItemSorter = colSorter;
 
             listView.BeginUpdate();
-
-            //Debug.Assert(labelStrs.Count == valueStrs.Count);
 
             var len = valueStrs.Count;
             for (var i = 0; i < len; i++)
@@ -79,17 +76,13 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            OnColumnClick(object sender, ColumnClickEventArgs e)
+        private void OnColumnClick(object sender, ColumnClickEventArgs e)
         {
             // Determine if clicked column is already the column that is being sorted.
             if (e.Column == colSorter.SortColumn)
             {
                 // Reverse the current sort direction for this column.
-                if (colSorter.Order == SortOrder.Ascending)
-                    colSorter.Order = SortOrder.Descending;
-                else
-                    colSorter.Order = SortOrder.Ascending;
+                colSorter.Order = colSorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
             }
             else
             {
@@ -130,8 +123,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            PrintMenuItem_Click(object sender, EventArgs e)
+        private void PrintMenuItem_Click(object sender, EventArgs e)
         {
             Core.Utils.UpdatePrintSettings(listView, ref _maxWidths);
             Core.Utils.PrintMenuItemClick(m_printDialog);

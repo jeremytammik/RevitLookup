@@ -31,7 +31,6 @@ namespace RevitLookup.Core.Streams
         public void Stream(Type type)
         {
             if (type != typeof(Entity) || _entity == null || !_entity.IsValid()) return;
-
             if (!_entity.ReadAccessGranted())
                 _data.Add(new RevitTypes.Exception("<Extensible storage Fields>", new Exception("Doesn't have access to read extensible storage data")));
 
@@ -50,7 +49,6 @@ namespace RevitLookup.Core.Streams
                 var genericGet = getEntityValueMethod.MakeGenericMethod(valueType);
                 var fieldSpecType = field.GetSpecTypeId();
                 var unit = UnitUtils.IsMeasurableSpec(fieldSpecType) ? UnitUtils.GetValidUnits(field.GetSpecTypeId())[0] : UnitTypeId.Custom;
-
                 var parameters = getEntityValueMethod.GetParameters().Length == 1
                     ? new object[] {field}
                     : new object[] {field, unit};
@@ -70,17 +68,12 @@ namespace RevitLookup.Core.Streams
             {
                 case ContainerType.Simple:
                     return field.ValueType;
-
                 case ContainerType.Array:
                     var generic = typeof(IList<>);
-
                     return generic.MakeGenericType(field.ValueType);
-
                 case ContainerType.Map:
                     var genericMap = typeof(IDictionary<,>);
-
                     return genericMap.MakeGenericType(field.KeyType, field.ValueType);
-
                 default:
                     throw new NotSupportedException();
             }

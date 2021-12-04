@@ -25,11 +25,8 @@
 #endregion // Header
 
 using System;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
-using Color = System.Drawing.Color;
 
 namespace RevitLookup.Views
 {
@@ -38,22 +35,18 @@ namespace RevitLookup.Views
     /// </summary>
     public class Geometry : ObjTreeBase
     {
-        protected Autodesk.Revit.ApplicationServices.Application App;
-        protected Element Elem;
+        private readonly Autodesk.Revit.ApplicationServices.Application _app;
 
         public Geometry(Element elem, Autodesk.Revit.ApplicationServices.Application app)
         {
             Text = "Element Geometry";
-
-            Elem = elem;
-            App = app;
-
+            _app = app;
             TvObjs.BeginUpdate();
             AddObjectsToTree(elem, TvObjs.Nodes);
             TvObjs.EndUpdate();
         }
 
-        protected void AddObjectsToTree(Element elem, TreeNodeCollection curNodes)
+        private void AddObjectsToTree(Element elem, TreeNodeCollection curNodes)
         {
             Options geomOp;
             TreeNode tmpNode;
@@ -67,7 +60,7 @@ namespace RevitLookup.Views
                 // IMPORTANT!!! Need to create options each time when you are 
                 // getting geometry. In other case, all the geometry you got at the 
                 // previous step will be owerriten according with the latest DetailLevel
-                geomOp = App.Create.NewGeometryOptions();
+                geomOp = _app.Create.NewGeometryOptions();
                 geomOp.ComputeReferences = true;
                 geomOp.DetailLevel = viewDetailLevel;
                 tmpNode.Tag = elem.get_Geometry(geomOp);
@@ -84,7 +77,7 @@ namespace RevitLookup.Views
                 // IMPORTANT!!! Need to create options each time when you are 
                 // getting geometry. In other case, all the geometry you got at the 
                 // previous step will be owerriten according with the latest DetailLevel
-                geomOp = App.Create.NewGeometryOptions();
+                geomOp = _app.Create.NewGeometryOptions();
                 geomOp.ComputeReferences = true;
                 geomOp.IncludeNonVisibleObjects = true;
                 geomOp.DetailLevel = viewDetailLevel;
@@ -95,7 +88,7 @@ namespace RevitLookup.Views
             // now add geometry with the View set to the current view
             if (elem.Document.ActiveView != null)
             {
-                var geomOp2 = App.Create.NewGeometryOptions();
+                var geomOp2 = _app.Create.NewGeometryOptions();
                 geomOp2.ComputeReferences = true;
                 geomOp2.View = elem.Document.ActiveView;
 
@@ -107,143 +100,14 @@ namespace RevitLookup.Views
 
                 // SOFiSTiK FS
                 // add model geometry including geometry objects not set as Visible.
-                {
-                    var opts = App.Create.NewGeometryOptions();
-                    opts.ComputeReferences = true;
-                    opts.IncludeNonVisibleObjects = true;
-                    opts.View = elem.Document.ActiveView;
-
-                    rootNode = new TreeNode("View = Document.ActiveView - Including geometry objects not set as Visible");
-                    curNodes.Add(rootNode);
-
-                    rootNode.Tag = elem.get_Geometry(opts);
-                }
-            }
-        }
-
-        private new void InitializeComponent()
-        {
-            var resources = new ComponentResourceManager(typeof(Geometry));
-            SuspendLayout();
-            TvObjs.LineColor = Color.Black;
-            ClientSize = new Size(800, 478);
-            Icon = (Icon) resources.GetObject("$this.Icon");
-            Name = "Geometry";
-            StartPosition = FormStartPosition.CenterParent;
-            ResumeLayout(false);
-            PerformLayout();
-        }
-    }
-
-
-    //SOFiSTiK FS
-
-    public class OriginalGeometry : ObjTreeBase
-    {
-        protected Autodesk.Revit.ApplicationServices.Application MApp;
-        protected Element MElem;
-
-        public
-            OriginalGeometry(FamilyInstance elem, Autodesk.Revit.ApplicationServices.Application app)
-        {
-            Text = "Element Original Geometry";
-
-            MElem = elem;
-            MApp = app;
-
-            TvObjs.BeginUpdate();
-            AddObjectsToTree(elem, TvObjs.Nodes);
-            TvObjs.EndUpdate();
-        }
-
-        protected void
-            AddObjectsToTree(FamilyInstance elem, TreeNodeCollection curNodes)
-        {
-            var geomOp = MApp.Create.NewGeometryOptions();
-            geomOp.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!
-            TreeNode tmpNode;
-
-            // add geometry with the View set to null.
-            var rootNode1 = new TreeNode("View = null");
-            curNodes.Add(rootNode1);
-
-            tmpNode = new TreeNode("Detail Level = Undefined");
-            geomOp.DetailLevel = ViewDetailLevel.Undefined;
-            tmpNode.Tag = elem.GetOriginalGeometry(geomOp);
-            rootNode1.Nodes.Add(tmpNode);
-
-            tmpNode = new TreeNode("Detail Level = Coarse");
-            geomOp.DetailLevel = ViewDetailLevel.Coarse;
-            tmpNode.Tag = elem.GetOriginalGeometry(geomOp);
-            rootNode1.Nodes.Add(tmpNode);
-
-            tmpNode = new TreeNode("Detail Level = Medium");
-            geomOp.DetailLevel = ViewDetailLevel.Medium;
-            tmpNode.Tag = elem.GetOriginalGeometry(geomOp);
-            rootNode1.Nodes.Add(tmpNode);
-
-            tmpNode = new TreeNode("Detail Level = Fine");
-            geomOp.DetailLevel = ViewDetailLevel.Fine;
-            tmpNode.Tag = elem.GetOriginalGeometry(geomOp);
-            rootNode1.Nodes.Add(tmpNode);
-
-            // SOFiSTiK FS
-            // add model geometry including geometry objects not set as Visible.
-            {
-                var opts = MApp.Create.NewGeometryOptions();
-                opts.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
+                var opts = _app.Create.NewGeometryOptions();
+                opts.ComputeReferences = true;
                 opts.IncludeNonVisibleObjects = true;
+                opts.View = elem.Document.ActiveView;
 
-                var rootNode = new TreeNode("View = null - Including geometry objects not set as Visible");
+                rootNode = new TreeNode("View = Document.ActiveView - Including geometry objects not set as Visible");
                 curNodes.Add(rootNode);
-
-                tmpNode = new TreeNode("Detail Level = Undefined");
-                opts.DetailLevel = ViewDetailLevel.Undefined;
-                tmpNode.Tag = elem.GetOriginalGeometry(opts);
-                rootNode.Nodes.Add(tmpNode);
-
-                tmpNode = new TreeNode("Detail Level = Coarse");
-                opts.DetailLevel = ViewDetailLevel.Coarse;
-                tmpNode.Tag = elem.GetOriginalGeometry(opts);
-                rootNode.Nodes.Add(tmpNode);
-
-                tmpNode = new TreeNode("Detail Level = Medium");
-                opts.DetailLevel = ViewDetailLevel.Medium;
-                tmpNode.Tag = elem.GetOriginalGeometry(opts);
-                rootNode.Nodes.Add(tmpNode);
-
-                tmpNode = new TreeNode("Detail Level = Fine");
-                opts.DetailLevel = ViewDetailLevel.Fine;
-                tmpNode.Tag = elem.GetOriginalGeometry(opts);
-                rootNode.Nodes.Add(tmpNode);
-            }
-
-            // now add geometry with the View set to the current view
-            if (elem.Document.ActiveView != null)
-            {
-                var geomOp2 = MApp.Create.NewGeometryOptions();
-                geomOp2.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
-                geomOp2.View = elem.Document.ActiveView;
-
-                var rootNode2 = new TreeNode("View = Document.ActiveView")
-                {
-                    Tag = elem.GetOriginalGeometry(geomOp2)
-                };
-                curNodes.Add(rootNode2);
-
-                // SOFiSTiK FS
-                // add model geometry including geometry objects not set as Visible.
-                {
-                    var opts = MApp.Create.NewGeometryOptions();
-                    opts.ComputeReferences = false; // Not allowed for GetOriginalGeometry()!;
-                    opts.IncludeNonVisibleObjects = true;
-                    opts.View = elem.Document.ActiveView;
-
-                    var rootNode = new TreeNode("View = Document.ActiveView - Including geometry objects not set as Visible");
-                    curNodes.Add(rootNode);
-
-                    rootNode.Tag = elem.GetOriginalGeometry(opts);
-                }
+                rootNode.Tag = elem.get_Geometry(opts);
             }
         }
     }

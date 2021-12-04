@@ -46,10 +46,15 @@ namespace RevitLookup.Views
     /// </summary>
     public class Objects : Form, IHaveCollector
     {
+        private readonly CollectorObj _snoopCollector = new();
         private ToolStripMenuItem _copyToolStripMenuItem;
+        private object _curObj;
         private int _currentPrintItem;
         private ContextMenuStrip _listViewContextMenuStrip;
+        private ColumnHeader _lvColLabel;
+        private ColumnHeader _lvColValue;
         private int[] _maxWidths;
+        private MenuItem _mnuItemBrowseReflection;
         private MenuItem _mnuItemCopy;
         private PrintDialog _printDialog;
         private PrintDocument _printDocument;
@@ -70,37 +75,28 @@ namespace RevitLookup.Views
         private ToolStripButton _toolStripButtonSnoopPickFace;
         private ToolStrip _toolStripListView;
         private ToolStrip _toolStripSelectors;
+        private ArrayList _treeTypeNodes = new();
+        private ArrayList _types = new();
         protected Button BnOk;
         protected ContextMenu CntxMenuObjId;
         private IContainer components;
-        protected object CurObj;
-        protected ColumnHeader LvColLabel;
-        protected ColumnHeader LvColValue;
         protected ListView LvData;
-        protected MenuItem MnuItemBrowseReflection;
-
-        protected CollectorObj SnoopCollector = new();
-        protected ArrayList TreeTypeNodes = new();
         protected TreeView TvObjs;
-        protected ArrayList Types = new();
 
         public Objects()
         {
-            // this constructor is for derived classes to call
             InitializeComponent();
         }
 
         public Objects(object obj)
         {
             InitializeComponent();
-
             CommonInit(new[] {SnoopableObjectWrapper.Create(obj)});
         }
 
         public Objects(ArrayList objs)
         {
             InitializeComponent();
-
             CommonInit(objs.Cast<object>().Select(SnoopableObjectWrapper.Create));
         }
 
@@ -108,13 +104,12 @@ namespace RevitLookup.Views
         public Objects(IEnumerable<SnoopableObjectWrapper> objs)
         {
             InitializeComponent();
-
             CommonInit(objs);
         }
 
         public void SetDocument(Document document)
         {
-            SnoopCollector.SourceDocument = document;
+            _snoopCollector.SourceDocument = document;
         }
 
         public async void SnoopAndShow(Selector selector)
@@ -123,16 +118,15 @@ namespace RevitLookup.Views
             ModelessWindowFactory.Show(this);
         }
 
-        protected void CommonInit(IEnumerable<SnoopableObjectWrapper> objs)
+        private void CommonInit(IEnumerable<SnoopableObjectWrapper> objs)
         {
             TvObjs.Nodes.Clear();
             LvData.Items.Clear();
-            CurObj = null;
-            TreeTypeNodes = new ArrayList();
-            Types = new ArrayList();
+            _curObj = null;
+            _treeTypeNodes = new ArrayList();
+            _types = new ArrayList();
 
             TvObjs.BeginUpdate();
-
             AddObjectsToTree(objs);
 
             // if the tree isn't well populated, expand it and select the first item
@@ -140,10 +134,9 @@ namespace RevitLookup.Views
             if (TvObjs.Nodes.Count == 1)
             {
                 TvObjs.Nodes[0].Expand();
-                if (TvObjs.Nodes[0].Nodes.Count == 0)
-                    TvObjs.SelectedNode = TvObjs.Nodes[0];
-                else
-                    TvObjs.SelectedNode = TvObjs.Nodes[0].Nodes[0];
+                TvObjs.SelectedNode = TvObjs.Nodes[0].Nodes.Count == 0
+                    ? TvObjs.Nodes[0]
+                    : TvObjs.Nodes[0].Nodes[0];
             }
 
             TvObjs.EndUpdate();
@@ -153,7 +146,7 @@ namespace RevitLookup.Views
             Core.Utils.AddOnLoadForm(this);
         }
 
-        protected void CommonInit(object obj)
+        private void CommonInit(object obj)
         {
             switch (obj)
             {
@@ -184,19 +177,18 @@ namespace RevitLookup.Views
         ///     Required method for Designer support - do not modify
         ///     the contents of this method with the code editor.
         /// </summary>
-        protected void
-            InitializeComponent()
+        protected void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Objects));
             this.TvObjs = new System.Windows.Forms.TreeView();
             this.CntxMenuObjId = new System.Windows.Forms.ContextMenu();
             this._mnuItemCopy = new System.Windows.Forms.MenuItem();
-            this.MnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
+            this._mnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
             this.BnOk = new System.Windows.Forms.Button();
             this.LvData = new System.Windows.Forms.ListView();
-            this.LvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
-            this.LvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+            this._lvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+            this._lvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
             this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._printDialog = new System.Windows.Forms.PrintDialog();
@@ -242,7 +234,7 @@ namespace RevitLookup.Views
             this.CntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
             {
                 this._mnuItemCopy,
-                this.MnuItemBrowseReflection
+                this._mnuItemBrowseReflection
             });
             // 
             // m_mnuItemCopy
@@ -253,9 +245,9 @@ namespace RevitLookup.Views
             // 
             // m_mnuItemBrowseReflection
             // 
-            this.MnuItemBrowseReflection.Index = 1;
-            this.MnuItemBrowseReflection.Text = "Browse Using Reflection...";
-            this.MnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
+            this._mnuItemBrowseReflection.Index = 1;
+            this._mnuItemBrowseReflection.Text = "Browse Using Reflection...";
+            this._mnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
             // 
             // m_bnOK
             // 
@@ -267,7 +259,7 @@ namespace RevitLookup.Views
             this.BnOk.Size = new System.Drawing.Size(504, 23);
             this.BnOk.TabIndex = 4;
             this.BnOk.Text = "OK";
-            this.BnOk.Click += new System.EventHandler(this.m_bnOK_Click);
+            this.BnOk.Click += new System.EventHandler(this.ButtonOK_Click);
             // 
             // m_lvData
             // 
@@ -276,8 +268,8 @@ namespace RevitLookup.Views
                                                                         | System.Windows.Forms.AnchorStyles.Right)));
             this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
             {
-                this.LvColLabel,
-                this.LvColValue
+                this._lvColLabel,
+                this._lvColValue
             });
             this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
             this.LvData.FullRowSelect = true;
@@ -295,13 +287,13 @@ namespace RevitLookup.Views
             // 
             // m_lvCol_label
             // 
-            this.LvColLabel.Text = "Field";
-            this.LvColLabel.Width = 200;
+            this._lvColLabel.Text = "Field";
+            this._lvColLabel.Width = 200;
             // 
             // m_lvCol_value
             // 
-            this.LvColValue.Text = "Value";
-            this.LvColValue.Width = 800;
+            this._lvColValue.Text = "Value";
+            this._lvColValue.Width = 800;
             // 
             // listViewContextMenuStrip
             // 
@@ -426,8 +418,8 @@ namespace RevitLookup.Views
             this._toolStripButtonRefreshListView.Size = new System.Drawing.Size(24, 23);
             this._toolStripButtonRefreshListView.Text = "toolStripButton4";
             this._toolStripButtonRefreshListView.ToolTipText = "Refresh selected element data in the list view";
-            this._toolStripButtonRefreshListView.Click += new System.EventHandler(this.toolStripButton_RefreshListView_Click);
-            this._toolStripButtonRefreshListView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonRefreshListView.Click += new System.EventHandler(this.ToolStripButton_RefreshListView_Click);
+            this._toolStripButtonRefreshListView.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // toolStrip_Selectors
             // 
@@ -459,8 +451,8 @@ namespace RevitLookup.Views
             this._toolStripButtonSnoopDb.Size = new System.Drawing.Size(24, 23);
             this._toolStripButtonSnoopDb.Tag = nameof(Selector.SnoopDb);
             this._toolStripButtonSnoopDb.Text = "Snoop DB";
-            this._toolStripButtonSnoopDb.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this._toolStripButtonSnoopDb.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopDb.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopDb.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopCurrentSelection
             // 
@@ -472,8 +464,8 @@ namespace RevitLookup.Views
             this._toolStripButtonSnoopCurrentSelection.Tag = nameof(Selector.SnoopCurrentSelection);
             this._toolStripButtonSnoopCurrentSelection.Text = "Snoop current selection";
             this._toolStripButtonSnoopCurrentSelection.ToolTipText = "Snoop current selection";
-            this._toolStripButtonSnoopCurrentSelection.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this._toolStripButtonSnoopCurrentSelection.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopCurrentSelection.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopCurrentSelection.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopPickFace
             // 
@@ -484,8 +476,8 @@ namespace RevitLookup.Views
             this._toolStripButtonSnoopPickFace.Size = new System.Drawing.Size(24, 23);
             this._toolStripButtonSnoopPickFace.Tag = nameof(Selector.SnoopPickFace);
             this._toolStripButtonSnoopPickFace.Text = "Snoop pick face";
-            this._toolStripButtonSnoopPickFace.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this._toolStripButtonSnoopPickFace.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopPickFace.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopPickFace.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopPickEdge
             // 
@@ -496,8 +488,8 @@ namespace RevitLookup.Views
             this._toolStripButtonSnoopPickEdge.Size = new System.Drawing.Size(24, 23);
             this._toolStripButtonSnoopPickEdge.Tag = nameof(Selector.SnoopPickEdge);
             this._toolStripButtonSnoopPickEdge.Text = "Snoop pick edge";
-            this._toolStripButtonSnoopPickEdge.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this._toolStripButtonSnoopPickEdge.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopPickEdge.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopPickEdge.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopLinkedElement
             // 
@@ -508,8 +500,8 @@ namespace RevitLookup.Views
             this._toolStripButtonSnoopLinkedElement.Size = new System.Drawing.Size(24, 23);
             this._toolStripButtonSnoopLinkedElement.Tag = nameof(Selector.SnoopLinkedElement);
             this._toolStripButtonSnoopLinkedElement.Text = "Snoop linked element";
-            this._toolStripButtonSnoopLinkedElement.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this._toolStripButtonSnoopLinkedElement.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopLinkedElement.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopLinkedElement.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopDependentElements
             // 
@@ -520,8 +512,8 @@ namespace RevitLookup.Views
             this._toolStripButtonSnoopDependentElements.Size = new System.Drawing.Size(24, 23);
             this._toolStripButtonSnoopDependentElements.Tag = nameof(Selector.SnoopDependentElements);
             this._toolStripButtonSnoopDependentElements.Text = "Snoop dependent elements";
-            this._toolStripButtonSnoopDependentElements.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this._toolStripButtonSnoopDependentElements.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopDependentElements.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopDependentElements.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopActiveView
             // 
@@ -532,8 +524,8 @@ namespace RevitLookup.Views
             this._toolStripButtonSnoopActiveView.Size = new System.Drawing.Size(24, 23);
             this._toolStripButtonSnoopActiveView.Tag = nameof(Selector.SnoopActiveView);
             this._toolStripButtonSnoopActiveView.Text = "Snoop active view";
-            this._toolStripButtonSnoopActiveView.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this._toolStripButtonSnoopActiveView.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopActiveView.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopActiveView.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // toolStripButton_SnoopApplication
             // 
@@ -544,8 +536,8 @@ namespace RevitLookup.Views
             this._toolStripButtonSnoopApplication.Size = new System.Drawing.Size(24, 23);
             this._toolStripButtonSnoopApplication.Tag = nameof(Selector.SnoopApplication);
             this._toolStripButtonSnoopApplication.Text = "Snoop application";
-            this._toolStripButtonSnoopApplication.Click += new System.EventHandler(this.toolStripButton_Snoop_Click);
-            this._toolStripButtonSnoopApplication.MouseEnter += new System.EventHandler(this.toolStrip_MouseEnter);
+            this._toolStripButtonSnoopApplication.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
+            this._toolStripButtonSnoopApplication.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
             // 
             // Objects
             // 
@@ -578,7 +570,7 @@ namespace RevitLookup.Views
 
         #endregion
 
-        protected void AddObjectsToTree(IEnumerable<SnoopableObjectWrapper> snoopableObjects)
+        private void AddObjectsToTree(IEnumerable<SnoopableObjectWrapper> snoopableObjects)
         {
             TvObjs.Sorted = true;
 
@@ -593,8 +585,8 @@ namespace RevitLookup.Views
                     TvObjs.Nodes.Add(parentNode);
 
                     // record that we've seen this one
-                    TreeTypeNodes.Add(parentNode);
-                    Types.Add(snoopableObject.GetUnderlyingType());
+                    _treeTypeNodes.Add(parentNode);
+                    _types.Add(snoopableObject.GetUnderlyingType());
                 }
 
                 // add the new node for this element
@@ -608,25 +600,25 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="objType">System.Type we're looking to find</param>
         /// <returns>The existing TreeNode or NULL</returns>
-        protected TreeNode GetExistingNodeForType(Type objType)
+        private TreeNode GetExistingNodeForType(Type objType)
         {
-            var len = Types.Count;
+            var len = _types.Count;
             for (var i = 0; i < len; i++)
-                if ((Type) Types[i] == objType)
-                    return (TreeNode) TreeTypeNodes[i];
+                if ((Type) _types[i] == objType)
+                    return (TreeNode) _treeTypeNodes[i];
 
             return null;
         }
 
-        private async Task CollectAndDispalyData()
+        private async Task CollectAndDisplayData()
         {
             try
             {
                 // collect the data about this object
-                await SnoopCollector.Collect(CurObj);
+                await _snoopCollector.Collect(_curObj);
 
                 // display it
-                Core.Utils.Display(LvData, SnoopCollector);
+                Core.Utils.Display(LvData, _snoopCollector);
             }
             catch (Exception ex)
             {
@@ -657,15 +649,15 @@ namespace RevitLookup.Views
 
         #region Events
 
-        protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
+        private async void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
-            CurObj = e.Node.Tag;
-            await CollectAndDispalyData();
+            _curObj = e.Node.Tag;
+            await CollectAndDisplayData();
         }
 
-        protected void DataItemSelected(object sender, EventArgs e)
+        private void DataItemSelected(object sender, EventArgs e)
         {
-            Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, SnoopCollector.SourceDocument));
+            Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, _snoopCollector.SourceDocument));
         }
 
         private void ContextMenuClick_Copy(object sender, EventArgs e)
@@ -675,7 +667,7 @@ namespace RevitLookup.Views
 
         private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
         {
-            Core.Utils.BrowseReflection(CurObj);
+            Core.Utils.BrowseReflection(_curObj);
         }
 
         private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -703,28 +695,27 @@ namespace RevitLookup.Views
             _currentPrintItem = Core.Utils.Print(TvObjs.SelectedNode.Text, LvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
         }
 
-        private async void toolStripButton_RefreshListView_Click(object sender, EventArgs e)
+        private async void ToolStripButton_RefreshListView_Click(object sender, EventArgs e)
         {
-            await CollectAndDispalyData();
+            await CollectAndDisplayData();
         }
 
-        private void toolStrip_MouseEnter(object sender, EventArgs e)
+        private void ToolStrip_MouseEnter(object sender, EventArgs e)
         {
             if (ActiveForm != this) Activate();
         }
 
-        private void m_bnOK_Click(object sender, EventArgs e)
+        private void ButtonOK_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
             Dispose();
         }
 
-        private async void toolStripButton_Snoop_Click(object sender, EventArgs e)
+        private async void ToolStripButton_Snoop_Click(object sender, EventArgs e)
         {
-            var btn = sender as ToolStripButton;
-            var selector = (Selector) Enum.Parse(typeof(Selector), btn.Tag as string);
-
+            var btn = (ToolStripButton) sender;
+            var selector = (Selector) Enum.Parse(typeof(Selector), btn.Tag as string ?? string.Empty);
             await SelectElements(selector);
         }
 

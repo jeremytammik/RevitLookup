@@ -95,7 +95,6 @@ namespace RevitLookup.Views
         protected override void Dispose(bool disposing)
         {
             if (disposing) components?.Dispose();
-
             base.Dispose(disposing);
         }
 
@@ -105,8 +104,7 @@ namespace RevitLookup.Views
         ///     Required method for Designer support - do not modify
         ///     the contents of this method with the code editor.
         /// </summary>
-        protected void
-            InitializeComponent()
+        protected void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamEnumSnoop));
@@ -316,13 +314,12 @@ namespace RevitLookup.Views
 
         #endregion
 
-        protected void AddParametersToTree()
+        private void AddParametersToTree()
         {
             TvObjs.Sorted = true;
 
             foreach (DictionaryEntry de in _enumMap)
             {
-                var tmpObj = (Parameter) de.Value;
                 var tmpNode = new TreeNode(de.Key.ToString())
                 {
                     Tag = de.Value
@@ -345,7 +342,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
+        private async void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
             MCurObj = e.Node.Tag;
             await MSnoopCollector.Collect(MCurObj);
@@ -356,11 +353,10 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void DataItemSelected(object sender, EventArgs e)
+        private void DataItemSelected(object sender, EventArgs e)
         {
             Core.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.SourceDocument));
         }
-
 
         /// <summary>
         /// </summary>
@@ -371,7 +367,6 @@ namespace RevitLookup.Views
             if (TvObjs.SelectedNode != null) Core.Utils.CopyToClipboard(MLvData);
         }
 
-
         /// <summary>
         /// </summary>
         /// <param name="sender"></param>
@@ -380,7 +375,6 @@ namespace RevitLookup.Views
         {
             Core.Utils.BrowseReflection(MCurObj);
         }
-
 
         /// <summary>
         /// </summary>
@@ -404,7 +398,6 @@ namespace RevitLookup.Views
             Core.Utils.PrintMenuItemClick(_printDialog, TvObjs);
         }
 
-
         /// <summary>
         /// </summary>
         /// <param name="sender"></param>
@@ -414,7 +407,6 @@ namespace RevitLookup.Views
             Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
             Core.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
         }
-
 
         /// <summary>
         /// </summary>

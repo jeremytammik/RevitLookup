@@ -43,7 +43,6 @@ namespace RevitLookup.Views
     public class Dom : Form
     {
         private readonly CollectorXmlNode _mSnoopCollector = new();
-
         private readonly XmlDocument _mXmlDoc;
         private Button _bnDocElem;
         private Button _bnFirstChild;
@@ -70,7 +69,6 @@ namespace RevitLookup.Views
         private RadioButton _rbNodeNameOnly;
         private TreeView _tvDom;
         private Label _txtXpathPattern;
-
         private IContainer components;
 
         public Dom(XmlDocument xmlDoc)
@@ -127,9 +125,7 @@ namespace RevitLookup.Views
             this._grpNodeDisplay.SuspendLayout();
             this._grpXpath.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // m_tvDom
-            // 
+
             this._tvDom.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                                    | System.Windows.Forms.AnchorStyles.Left)
                                   | System.Windows.Forms.AnchorStyles.Right);
@@ -140,18 +136,12 @@ namespace RevitLookup.Views
             this._tvDom.Size = new System.Drawing.Size(336, 416);
             this._tvDom.TabIndex = 0;
             this._tvDom.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
-            // 
-            // m_imgListTree
-            // 
+
             this._imgListTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this._imgListTree.ImageSize = new System.Drawing.Size(16, 16);
             this._imgListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer) (resources.GetObject("m_imgListTree.ImageStream")));
             this._imgListTree.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // m_lvData
-            // 
-            this._lvData.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                   | System.Windows.Forms.AnchorStyles.Right);
+            this._lvData.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right);
             this._lvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
             {
                 this._lvColLabel,
@@ -167,19 +157,13 @@ namespace RevitLookup.Views
             this._lvData.TabIndex = 1;
             this._lvData.View = System.Windows.Forms.View.Details;
             this._lvData.Click += new System.EventHandler(this.DataItemSelected);
-            // 
-            // m_lvColLabel
-            // 
+
             this._lvColLabel.Text = "Field";
             this._lvColLabel.Width = 200;
-            // 
-            // m_lvColValue
-            // 
+
             this._lvColValue.Text = "Value";
             this._lvColValue.Width = 750;
-            // 
-            // m_rbNodeNameOnly
-            // 
+
             this._rbNodeNameOnly.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
             this._rbNodeNameOnly.Checked = true;
             this._rbNodeNameOnly.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -190,9 +174,7 @@ namespace RevitLookup.Views
             this._rbNodeNameOnly.TabStop = true;
             this._rbNodeNameOnly.Text = "Node Name Only";
             this._rbNodeNameOnly.CheckedChanged += new System.EventHandler(this.OnRbChanged_LabelDisplay);
-            // 
-            // m_rbNodeAndText
-            // 
+
             this._rbNodeAndText.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
             this._rbNodeAndText.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._rbNodeAndText.Location = new System.Drawing.Point(384, 400);
@@ -201,9 +183,7 @@ namespace RevitLookup.Views
             this._rbNodeAndText.TabIndex = 4;
             this._rbNodeAndText.Text = "Node Name and Value";
             this._rbNodeAndText.CheckedChanged += new System.EventHandler(this.OnRbChanged_LabelDisplay);
-            // 
-            // m_grpLabelDisplay
-            // 
+
             this._grpLabelDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
             this._grpLabelDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._grpLabelDisplay.Location = new System.Drawing.Point(368, 360);
@@ -212,9 +192,7 @@ namespace RevitLookup.Views
             this._grpLabelDisplay.TabIndex = 5;
             this._grpLabelDisplay.TabStop = false;
             this._grpLabelDisplay.Text = "Label Display";
-            // 
-            // m_grpNodeDisplay
-            // 
+
             this._grpNodeDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
             this._grpNodeDisplay.Controls.AddRange(new System.Windows.Forms.Control[]
             {
@@ -228,9 +206,7 @@ namespace RevitLookup.Views
             this._grpNodeDisplay.TabIndex = 6;
             this._grpNodeDisplay.TabStop = false;
             this._grpNodeDisplay.Text = "Node Display";
-            // 
-            // m_cbHideTextNodes
-            // 
+
             this._cbHideTextNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
             this._cbHideTextNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._cbHideTextNodes.Location = new System.Drawing.Point(16, 40);
@@ -239,9 +215,7 @@ namespace RevitLookup.Views
             this._cbHideTextNodes.TabIndex = 1;
             this._cbHideTextNodes.Text = "Hide Text Nodes";
             this._cbHideTextNodes.CheckedChanged += new System.EventHandler(this.OnCbChanged_NodeDisplay);
-            // 
-            // m_cbHideCommentNodes
-            // 
+
             this._cbHideCommentNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
             this._cbHideCommentNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._cbHideCommentNodes.Location = new System.Drawing.Point(16, 16);
@@ -250,9 +224,7 @@ namespace RevitLookup.Views
             this._cbHideCommentNodes.TabIndex = 0;
             this._cbHideCommentNodes.Text = "Hide Comment Nodes";
             this._cbHideCommentNodes.CheckedChanged += new System.EventHandler(this.OnCbChanged_NodeDisplay);
-            // 
-            // m_bnParent
-            // 
+
             this._bnParent.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnParent.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnParent.Location = new System.Drawing.Point(16, 448);
@@ -260,9 +232,7 @@ namespace RevitLookup.Views
             this._bnParent.TabIndex = 7;
             this._bnParent.Text = "Parent";
             this._bnParent.Click += new System.EventHandler(this.OnBnParent);
-            // 
-            // m_bnOwnerDoc
-            // 
+
             this._bnOwnerDoc.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnOwnerDoc.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnOwnerDoc.Location = new System.Drawing.Point(104, 448);
@@ -270,9 +240,7 @@ namespace RevitLookup.Views
             this._bnOwnerDoc.TabIndex = 8;
             this._bnOwnerDoc.Text = "Owner Doc";
             this._bnOwnerDoc.Click += new System.EventHandler(this.OnBnOwnerDoc);
-            // 
-            // m_bnPrevSibling
-            // 
+
             this._bnPrevSibling.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnPrevSibling.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnPrevSibling.Location = new System.Drawing.Point(192, 448);
@@ -280,9 +248,7 @@ namespace RevitLookup.Views
             this._bnPrevSibling.TabIndex = 9;
             this._bnPrevSibling.Text = "Prev Sibling";
             this._bnPrevSibling.Click += new System.EventHandler(this.OnBnPrevSibling);
-            // 
-            // m_bnNextSibling
-            // 
+
             this._bnNextSibling.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnNextSibling.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnNextSibling.Location = new System.Drawing.Point(280, 448);
@@ -290,9 +256,7 @@ namespace RevitLookup.Views
             this._bnNextSibling.TabIndex = 10;
             this._bnNextSibling.Text = "Next Sibling";
             this._bnNextSibling.Click += new System.EventHandler(this.OnBnNextSibling);
-            // 
-            // m_bnFirstChild
-            // 
+
             this._bnFirstChild.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnFirstChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnFirstChild.Location = new System.Drawing.Point(368, 448);
@@ -300,9 +264,7 @@ namespace RevitLookup.Views
             this._bnFirstChild.TabIndex = 11;
             this._bnFirstChild.Text = "First Child";
             this._bnFirstChild.Click += new System.EventHandler(this.OnBnFirstChild);
-            // 
-            // m_bnLastChild
-            // 
+
             this._bnLastChild.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnLastChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnLastChild.Location = new System.Drawing.Point(456, 448);
@@ -310,9 +272,7 @@ namespace RevitLookup.Views
             this._bnLastChild.TabIndex = 12;
             this._bnLastChild.Text = "Last Child";
             this._bnLastChild.Click += new System.EventHandler(this.OnBnLastChild);
-            // 
-            // m_txtXpathPattern
-            // 
+
             this._txtXpathPattern.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._txtXpathPattern.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._txtXpathPattern.Location = new System.Drawing.Point(32, 512);
@@ -320,18 +280,14 @@ namespace RevitLookup.Views
             this._txtXpathPattern.Size = new System.Drawing.Size(64, 23);
             this._txtXpathPattern.TabIndex = 14;
             this._txtXpathPattern.Text = "Expression:";
-            // 
-            // m_ebXpathPattern
-            // 
+
             this._ebXpathPattern.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._ebXpathPattern.Location = new System.Drawing.Point(88, 24);
             this._ebXpathPattern.Name = "_ebXpathPattern";
             this._ebXpathPattern.Size = new System.Drawing.Size(424, 20);
             this._ebXpathPattern.TabIndex = 15;
             this._ebXpathPattern.Text = "";
-            // 
-            // m_bnSelectSingleNode
-            // 
+
             this._bnSelectSingleNode.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnSelectSingleNode.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnSelectSingleNode.Location = new System.Drawing.Point(128, 56);
@@ -340,9 +296,7 @@ namespace RevitLookup.Views
             this._bnSelectSingleNode.TabIndex = 16;
             this._bnSelectSingleNode.Text = "Select Single Node";
             this._bnSelectSingleNode.Click += new System.EventHandler(this.OnBnSelectSingleNode);
-            // 
-            // m_bnSelectNodes
-            // 
+
             this._bnSelectNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnSelectNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnSelectNodes.Location = new System.Drawing.Point(256, 56);
@@ -351,9 +305,7 @@ namespace RevitLookup.Views
             this._bnSelectNodes.TabIndex = 17;
             this._bnSelectNodes.Text = "Select Nodes";
             this._bnSelectNodes.Click += new System.EventHandler(this.OnBnSelectNodes);
-            // 
-            // m_bnOk
-            // 
+
             this._bnOk.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
             this._bnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._bnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -361,9 +313,7 @@ namespace RevitLookup.Views
             this._bnOk.Name = "_bnOk";
             this._bnOk.TabIndex = 18;
             this._bnOk.Text = "OK";
-            // 
-            // m_bnXpathClear
-            // 
+
             this._bnXpathClear.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnXpathClear.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnXpathClear.Location = new System.Drawing.Point(384, 56);
@@ -372,9 +322,7 @@ namespace RevitLookup.Views
             this._bnXpathClear.TabIndex = 19;
             this._bnXpathClear.Text = "Clear";
             this._bnXpathClear.Click += new System.EventHandler(this.OnBnClear);
-            // 
-            // m_grpXpath
-            // 
+
             this._grpXpath.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._grpXpath.Controls.AddRange(new System.Windows.Forms.Control[]
             {
@@ -390,9 +338,7 @@ namespace RevitLookup.Views
             this._grpXpath.TabIndex = 20;
             this._grpXpath.TabStop = false;
             this._grpXpath.Text = "XPath Expressions";
-            // 
-            // m_bnDocElem
-            // 
+
             this._bnDocElem.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
             this._bnDocElem.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this._bnDocElem.Location = new System.Drawing.Point(544, 448);
@@ -401,9 +347,7 @@ namespace RevitLookup.Views
             this._bnDocElem.TabIndex = 21;
             this._bnDocElem.Text = "Doc Element";
             this._bnDocElem.Click += new System.EventHandler(this.OnBnDocElement);
-            // 
-            // Dom
-            // 
+
             this.AcceptButton = this._bnOk;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this._bnOk;
@@ -466,8 +410,7 @@ namespace RevitLookup.Views
             var nType = xmlNode.NodeType;
 
             // bail early if user doesn't want this type of node displayed
-            if (nType == XmlNodeType.Comment && _cbHideCommentNodes.Checked ||
-                nType == XmlNodeType.Text && _cbHideTextNodes.Checked)
+            if (nType == XmlNodeType.Comment && _cbHideCommentNodes.Checked || nType == XmlNodeType.Text && _cbHideTextNodes.Checked)
                 return;
 
             // get image index and label to use in the TreeNode
@@ -487,9 +430,9 @@ namespace RevitLookup.Views
                 parentNode.Nodes.Add(treeNode);
 
             // get attributes of this node
-            var atts = xmlNode.Attributes;
-            if (atts != null)
-                foreach (XmlAttribute tmpAtt in atts)
+            var attributes = xmlNode.Attributes;
+            if (attributes != null)
+                foreach (XmlAttribute tmpAtt in attributes)
                     MakeTree(tmpAtt, treeNode);
             // now recursively go to the children of this node
             if (xmlNode.HasChildNodes)
@@ -601,9 +544,7 @@ namespace RevitLookup.Views
         private string GetTextLabelValue(XmlNode node)
         {
             var txtNode = node.FirstChild;
-            if (txtNode is {NodeType: XmlNodeType.Text})
-                return txtNode.Value;
-            return string.Empty;
+            return txtNode is {NodeType: XmlNodeType.Text} ? txtNode.Value : string.Empty;
         }
 
         /// <summary>
@@ -613,7 +554,6 @@ namespace RevitLookup.Views
         private void Display(XmlNode node)
         {
             SetButtonModes(node);
-
             _mSnoopCollector.Collect(node);
             Core.Utils.Display(_lvData, _mSnoopCollector);
         }
@@ -625,9 +565,7 @@ namespace RevitLookup.Views
         /// <param name="node">Currently selected node</param>
         private void SetButtonModes(XmlNode node)
         {
-            XmlNode tmpNode;
-
-            tmpNode = node.ParentNode;
+            var tmpNode = node.ParentNode;
             _bnParent.Enabled = tmpNode != null;
 
             tmpNode = node.OwnerDocument;
@@ -671,8 +609,7 @@ namespace RevitLookup.Views
             MoveToNewNodeInTree(curNode.OwnerDocument);
         }
 
-        private void
-            OnBnPrevSibling(object sender, EventArgs e)
+        private void OnBnPrevSibling(object sender, EventArgs e)
         {
             var curNode = (XmlNode) _tvDom.SelectedNode.Tag;
             MoveToNewNodeInTree(curNode.PreviousSibling);

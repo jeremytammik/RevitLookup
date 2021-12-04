@@ -58,18 +58,15 @@ namespace RevitLookup.Views
 
             // Add Load to update ListView Width
             Core.Utils.AddOnLoadForm(this);
-
             _pgProps.SelectedObject = obj; // This all we need to do for Reflection to kick in
         }
 
         /// <summary>
         ///     Clean up any resources being used.
         /// </summary>
-        protected override void
-            Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing) _components?.Dispose();
-
             base.Dispose(disposing);
         }
 
@@ -89,9 +86,7 @@ namespace RevitLookup.Views
             this._bnOk = new System.Windows.Forms.Button();
             this._bnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // m_pgProps
-            // 
+
             this._pgProps.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                                                                            | System.Windows.Forms.AnchorStyles.Left)
                                                                           | System.Windows.Forms.AnchorStyles.Right)));
@@ -103,30 +98,22 @@ namespace RevitLookup.Views
             this._pgProps.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
             this._pgProps.Size = new System.Drawing.Size(472, 384);
             this._pgProps.TabIndex = 0;
-            // 
-            // m_mnuContext
-            // 
+
             this._mnuContext.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
             {
                 this._mnuItemShowObjInfo,
                 this._mnuItemShowClassInfo
             });
             this._mnuContext.Popup += new System.EventHandler(this.OnMenuContextPopup);
-            // 
-            // m_mnuItemShowObjInfo
-            // 
+
             this._mnuItemShowObjInfo.Index = 0;
             this._mnuItemShowObjInfo.Text = "Show Object Info...";
             this._mnuItemShowObjInfo.Click += new System.EventHandler(this.OnShowObjInfo);
-            // 
-            // m_mnuItemShowClassInfo
-            // 
+
             this._mnuItemShowClassInfo.Index = 1;
             this._mnuItemShowClassInfo.Text = "Show Class Info...";
             this._mnuItemShowClassInfo.Click += new System.EventHandler(this.OnShowClassInfo);
-            // 
-            // m_bnOK
-            // 
+
             this._bnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._bnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this._bnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -135,10 +122,8 @@ namespace RevitLookup.Views
             this._bnOk.Size = new System.Drawing.Size(75, 23);
             this._bnOk.TabIndex = 1;
             this._bnOk.Text = "OK";
-            this._bnOk.Click += new System.EventHandler(this.m_bnOK_Click);
-            // 
-            // m_bnCancel
-            // 
+            this._bnOk.Click += new System.EventHandler(this.ButtonOK_Click);
+
             this._bnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this._bnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._bnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -147,10 +132,8 @@ namespace RevitLookup.Views
             this._bnCancel.Size = new System.Drawing.Size(75, 23);
             this._bnCancel.TabIndex = 3;
             this._bnCancel.Text = "Cancel";
-            this._bnCancel.Click += new System.EventHandler(this.m_bnOK_Click);
-            // 
-            // GenericPropGrid
-            // 
+            this._bnCancel.Click += new System.EventHandler(this.ButtonOK_Click);
+
             this.AcceptButton = this._bnOk;
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
             this.CancelButton = this._bnCancel;
@@ -200,8 +183,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            OnShowClassInfo(object sender, EventArgs e)
+        private void OnShowClassInfo(object sender, EventArgs e)
         {
             var selObj = _pgProps.SelectedGridItem.Value;
 
@@ -222,15 +204,14 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            OnMenuContextPopup(object sender, EventArgs e)
+        private void OnMenuContextPopup(object sender, EventArgs e)
         {
-            var enabled = _pgProps.SelectedGridItem == null ? false : true;
+            var enabled = _pgProps.SelectedGridItem != null;
             _mnuItemShowObjInfo.Enabled = enabled;
             _mnuItemShowClassInfo.Enabled = enabled;
         }
 
-        private void m_bnOK_Click(object sender, EventArgs e)
+        private void ButtonOK_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();

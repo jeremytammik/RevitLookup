@@ -97,7 +97,6 @@ namespace RevitLookup.Views
         protected override void Dispose(bool disposing)
         {
             if (disposing) components?.Dispose();
-
             base.Dispose(disposing);
         }
 
@@ -107,8 +106,7 @@ namespace RevitLookup.Views
         ///     Required method for Designer support - do not modify
         ///     the contents of this method with the code editor.
         /// </summary>
-        protected void
-            InitializeComponent()
+        protected void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Parameters));
@@ -344,7 +342,7 @@ namespace RevitLookup.Views
 
         #endregion
 
-        protected void AddParametersToTree(ParameterSet paramSet)
+        private void AddParametersToTree(ParameterSet paramSet)
         {
             TvObjs.Sorted = true;
 
@@ -372,7 +370,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected async void TreeNodeSelected(object sender, TreeViewEventArgs e)
+        private async void TreeNodeSelected(object sender, TreeViewEventArgs e)
         {
             CurObj = e.Node.Tag;
             await SnoopCollector.Collect(CurObj);
@@ -384,7 +382,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void DataItemSelected(object sender, EventArgs e)
+        private void DataItemSelected(object sender, EventArgs e)
         {
             Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, SnoopCollector.SourceDocument));
         }
@@ -478,8 +476,7 @@ namespace RevitLookup.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void
-            CopyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (LvData.SelectedItems.Count > 0)
                 Core.Utils.CopyToClipboard(LvData.SelectedItems[0], false);
@@ -497,7 +494,6 @@ namespace RevitLookup.Views
             Core.Utils.PrintMenuItemClick(_printDialog, TvObjs);
         }
 
-
         /// <summary>
         /// </summary>
         /// <param name="sender"></param>
@@ -507,7 +503,6 @@ namespace RevitLookup.Views
             Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
             Core.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
         }
-
 
         /// <summary>
         /// </summary>

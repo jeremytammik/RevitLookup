@@ -24,12 +24,9 @@
 
 #endregion // Header
 
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
-using Color = System.Drawing.Color;
 
 namespace RevitLookup.Views
 {
@@ -38,28 +35,23 @@ namespace RevitLookup.Views
     /// </summary>
     public class BindingMap : ObjTreeBase
     {
-        protected Autodesk.Revit.DB.BindingMap MMap = null;
-
         public BindingMap(Autodesk.Revit.DB.BindingMap map)
         {
             Text = "Snoop Binding Map";
-
             TvObjs.BeginUpdate();
             AddObjectsToTree(map, TvObjs.Nodes);
             TvObjs.EndUpdate();
         }
 
-        protected void AddObjectsToTree(Autodesk.Revit.DB.BindingMap map, TreeNodeCollection curNodes)
+        private void AddObjectsToTree(Autodesk.Revit.DB.BindingMap map, TreeNodeCollection curNodes)
         {
-            if (map.IsEmpty)
-                return; // nothing to add
+            if (map.IsEmpty) return;
 
-            // iterate over the map and add items to the tree
-            var iter = map.ForwardIterator();
-            while (iter.MoveNext())
+            var iterator = map.ForwardIterator();
+            while (iterator.MoveNext())
             {
-                var def = iter.Key;
-                var elemBind = (ElementBinding) iter.Current;
+                var def = iterator.Key;
+                var elemBind = (ElementBinding) iterator.Current;
 
                 // TBD:  not sure if this map is implemented correctly... doesn't seem to be
                 // find out if this one already exists
@@ -72,7 +64,7 @@ namespace RevitLookup.Views
                 {
                     defNode = new TreeNode(def.Name)
                     {
-                        Tag = iter.Current
+                        Tag = iterator.Current
                     };
                     curNodes.Add(defNode);
                 }
@@ -90,25 +82,6 @@ namespace RevitLookup.Views
                     }
                 }
             }
-        }
-
-        private new void InitializeComponent()
-        {
-            var resources = new ComponentResourceManager(typeof(BindingMap));
-            SuspendLayout();
-            // 
-            // m_tvObjs
-            // 
-            TvObjs.LineColor = Color.Black;
-            // 
-            // BindingMap
-            // 
-            ClientSize = new Size(800, 478);
-            Icon = (Icon) resources.GetObject("$this.Icon");
-            Name = "BindingMap";
-            StartPosition = FormStartPosition.CenterParent;
-            ResumeLayout(false);
-            PerformLayout();
         }
     }
 }

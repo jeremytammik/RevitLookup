@@ -24,11 +24,8 @@
 
 #endregion // Header
 
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
-using Color = System.Drawing.Color;
 
 namespace RevitLookup.Views
 {
@@ -40,52 +37,30 @@ namespace RevitLookup.Views
         public Categories(CategoryNameMap map)
         {
             Text = "Snoop Categories";
-
             TvObjs.BeginUpdate();
             AddObjectsToTree(map, TvObjs.Nodes);
             TvObjs.EndUpdate();
         }
 
-        protected void AddObjectsToTree(CategoryNameMap map, TreeNodeCollection curNodes)
+        private void AddObjectsToTree(CategoryNameMap map, TreeNodeCollection curNodes)
         {
             TvObjs.Sorted = true;
-
-            if (map.IsEmpty)
-                return; // nothing to add
+            if (map.IsEmpty) return;
 
             // iterate over the map and add items to the tree
-            var iter = map.ForwardIterator();
-            while (iter.MoveNext())
+            var iterator = map.ForwardIterator();
+            while (iterator.MoveNext())
             {
-                var tmpNode = new TreeNode(iter.Key)
+                var tmpNode = new TreeNode(iterator.Key)
                 {
-                    Tag = iter.Current
+                    Tag = iterator.Current
                 };
                 curNodes.Add(tmpNode);
 
                 // recursively add sub-nodes (if any)
-                var curCat = (Category) iter.Current;
-                AddObjectsToTree(curCat.SubCategories, tmpNode.Nodes);
+                var curCat = (Category) iterator.Current;
+                AddObjectsToTree(curCat!.SubCategories, tmpNode.Nodes);
             }
-        }
-
-        private new void InitializeComponent()
-        {
-            var resources = new ComponentResourceManager(typeof(Categories));
-            SuspendLayout();
-            // 
-            // m_tvObjs
-            // 
-            TvObjs.LineColor = Color.Black;
-            // 
-            // Categories
-            // 
-            ClientSize = new Size(800, 478);
-            Icon = (Icon) resources.GetObject("$this.Icon");
-            Name = "Categories";
-            StartPosition = FormStartPosition.CenterParent;
-            ResumeLayout(false);
-            PerformLayout();
         }
     }
 }
