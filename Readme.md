@@ -4,7 +4,6 @@
   <img src="https://img.shields.io/badge/Revit%20API-2022-blue.svg?style=for-the-badge">
   <a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/v/release/jeremytammik/RevitLookup?style=for-the-badge"></a>
   <a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/downloads/jeremytammik/RevitLookup/total?style=for-the-badge"></a>
-  <a href="http://opensource.org/licenses/MIT"><img src="https://img.shields.io/github/license/jeremytammik/RevitLookup?style=for-the-badge"></a>
   <a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto?ref=master"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge%3Fref%3Dmaster&style=for-the-badge"></a>
 </p>
 
