@@ -34,8 +34,6 @@ using RevitLookup.Views;
 
 namespace RevitLookup.Commands
 {
-#pragma warning disable CS4014 // Because calls to SnoopAndShow method, which is async, are not awaited, execution of the commands continues before the calls are completed
-
     /// <summary>
     ///     Search by and Snoop command: Browse
     ///     elements found by the condition
@@ -53,5 +51,4 @@ namespace RevitLookup.Commands
             return Result.Succeeded;
         }
     }
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 }
