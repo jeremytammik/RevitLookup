@@ -45,7 +45,7 @@ The project currently supports the 2022 version of Revit. You can find the sourc
 - [2016.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2016.0.0.13) for Revit 2016
 - [2015.0.0.8](https://github.com/jeremytammik/RevitLookup/releases/tag/2015.0.0.8) for Revit 2015
 
-Please refer to the [changelog](Doc/Changelog.md) for details.
+Please refer to the [changelog](Changelog.md) for details.
 
 ## Caveat &ndash; RevitLookup Cannot Snoop Everything
 

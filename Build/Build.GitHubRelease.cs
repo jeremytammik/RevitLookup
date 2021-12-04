@@ -16,7 +16,7 @@ partial class Build
     [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
     readonly Regex VersionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     [Parameter] string GitHubToken { get; set; }
-    AbsolutePath ChangeLogPath => RootDirectory / "Doc" / "Changelog.md";
+    AbsolutePath ChangeLogPath => RootDirectory / "Changelog.md";
 
     Target PublishGitHubRelease => _ => _
         .TriggeredBy(CreateInstaller)
