@@ -112,13 +112,13 @@ namespace RevitLookup.Core
 
         public static void AddOnLoadForm(Form form)
         {
-            form.Load += (s, e) =>
+            form.Load += (_, _) =>
             {
                 foreach (var control in form.Controls)
                     if (control is ListView listView)
                     {
                         UpdateLastColumnWidth(listView);
-                        listView.Resize += (s2, e2) => UpdateLastColumnWidth(listView);
+                        listView.Resize += (_, _) => UpdateLastColumnWidth(listView);
                     }
             };
         }
@@ -142,20 +142,14 @@ namespace RevitLookup.Core
                 .GetType()
                 .GetProperty("Name", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-            if (nameProperty != null)
-            {
-                var propertyValue = nameProperty.GetValue(obj) as string;
-
-                return $"< {obj.GetType().Name}  {(string.IsNullOrEmpty(propertyValue) ? "???" : propertyValue)} >";
-            }
-
-            return null;
+            if (nameProperty == null) return null;
+            var propertyValue = nameProperty.GetValue(obj) as string;
+            return $"< {obj.GetType().Name}  {(string.IsNullOrEmpty(propertyValue) ? "???" : propertyValue)} >";
         }
 
         public static string GetParameterObjectLabel(object obj)
         {
             var parameter = obj as Parameter;
-
             return parameter?.Definition.Name;
         }
 
