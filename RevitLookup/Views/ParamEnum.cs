@@ -30,116 +30,115 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using RevitLookup.Views.Utils;
 
-namespace RevitLookup.Views
+namespace RevitLookup.Views;
+
+public partial class ParamEnum : Form
 {
-    public partial class ParamEnum : Form
+    private int _currentPrintItem;
+    private int[] _maxWidths;
+
+    public ParamEnum(ArrayList labelStrs, ArrayList valueStrs)
     {
-        private int _currentPrintItem;
-        private int[] _maxWidths;
+        InitializeComponent();
 
-        public ParamEnum(ArrayList labelStrs, ArrayList valueStrs)
+        // Add Load to update ListView Width
+        Core.Utils.AddOnLoadForm(this);
+
+        // Set the column sorter for the list view
+        colSorter = new ListViewColumnSorter();
+        listView.ListViewItemSorter = colSorter;
+
+        listView.BeginUpdate();
+
+        var len = valueStrs.Count;
+        for (var i = 0; i < len; i++)
         {
-            InitializeComponent();
-
-            // Add Load to update ListView Width
-            Core.Utils.AddOnLoadForm(this);
-
-            // Set the column sorter for the list view
-            colSorter = new ListViewColumnSorter();
-            listView.ListViewItemSorter = colSorter;
-
-            listView.BeginUpdate();
-
-            var len = valueStrs.Count;
-            for (var i = 0; i < len; i++)
-            {
-                var lvItem = new ListViewItem((string) labelStrs[i]);
-                lvItem.SubItems.Add((string) valueStrs[i]);
-                listView.Items.Add(lvItem);
-            }
-
-            listView.EndUpdate();
+            var lvItem = new ListViewItem((string) labelStrs[i]);
+            lvItem.SubItems.Add((string) valueStrs[i]);
+            listView.Items.Add(lvItem);
         }
 
-        private void ButtonOk_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-            Dispose();
-        }
-
-
-        #region Events
-
-        /// <summary>
-        ///     Sort the columns according to the column sorter object mandate
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnColumnClick(object sender, ColumnClickEventArgs e)
-        {
-            // Determine if clicked column is already the column that is being sorted.
-            if (e.Column == colSorter.SortColumn)
-            {
-                // Reverse the current sort direction for this column.
-                colSorter.Order = colSorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
-            }
-            else
-            {
-                // Set the column number that is to be sorted; default to ascending.
-                colSorter.SortColumn = e.Column;
-                colSorter.Order = SortOrder.Ascending;
-            }
-
-            // Perform the sort with these new sort options.
-            listView.Sort();
-        }
-
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (listView.SelectedItems.Count > 0)
-                Core.Utils.CopyToClipboard(listView.SelectedItems[0], true);
-            else
-                Clipboard.Clear();
-        }
-
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            _currentPrintItem = Core.Utils.Print("", listView, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
-        }
-
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PrintMenuItem_Click(object sender, EventArgs e)
-        {
-            Core.Utils.UpdatePrintSettings(listView, ref _maxWidths);
-            Core.Utils.PrintMenuItemClick(m_printDialog);
-        }
-
-
-        /// <summary>
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
-        {
-            Core.Utils.UpdatePrintSettings(listView, ref _maxWidths);
-            Core.Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, listView);
-        }
-
-        #endregion
+        listView.EndUpdate();
     }
+
+    private void ButtonOk_Click(object sender, EventArgs e)
+    {
+        DialogResult = DialogResult.Cancel;
+        Close();
+        Dispose();
+    }
+
+
+    #region Events
+
+    /// <summary>
+    ///     Sort the columns according to the column sorter object mandate
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnColumnClick(object sender, ColumnClickEventArgs e)
+    {
+        // Determine if clicked column is already the column that is being sorted.
+        if (e.Column == colSorter.SortColumn)
+        {
+            // Reverse the current sort direction for this column.
+            colSorter.Order = colSorter.Order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+        }
+        else
+        {
+            // Set the column number that is to be sorted; default to ascending.
+            colSorter.SortColumn = e.Column;
+            colSorter.Order = SortOrder.Ascending;
+        }
+
+        // Perform the sort with these new sort options.
+        listView.Sort();
+    }
+
+
+    /// <summary>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (listView.SelectedItems.Count > 0)
+            Core.Utils.CopyToClipboard(listView.SelectedItems[0], true);
+        else
+            Clipboard.Clear();
+    }
+
+
+    /// <summary>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+    {
+        _currentPrintItem = Core.Utils.Print("", listView, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
+    }
+
+
+    /// <summary>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void PrintMenuItem_Click(object sender, EventArgs e)
+    {
+        Core.Utils.UpdatePrintSettings(listView, ref _maxWidths);
+        Core.Utils.PrintMenuItemClick(m_printDialog);
+    }
+
+
+    /// <summary>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
+    {
+        Core.Utils.UpdatePrintSettings(listView, ref _maxWidths);
+        Core.Utils.PrintPreviewMenuItemClick(m_printPreviewDialog, listView);
+    }
+
+    #endregion
 }

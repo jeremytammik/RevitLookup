@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 
-public static class BuilderExtensions
+static class BuilderExtensions
 {
     public static Project GetProject(this Solution solution, string projectName) =>
         solution.GetProject(projectName) ?? throw new NullReferenceException($"Cannon find project \"{projectName}\"");

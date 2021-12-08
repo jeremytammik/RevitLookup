@@ -26,69 +26,68 @@
 
 using System.Windows.Forms;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     This is the base class for all types of "Snoop.Data".  Basically, we
+///     want something smarter than the original data type so that we can
+///     hook it up to an editor and allow its output to go different places.
+/// </summary>
+public abstract class Data
 {
-    /// <summary>
-    ///     This is the base class for all types of "Snoop.Data".  Basically, we
-    ///     want something smarter than the original data type so that we can
-    ///     hook it up to an editor and allow its output to go different places.
-    /// </summary>
-    public abstract class Data
+    protected Data(string label)
     {
-        protected Data(string label)
-        {
-            Label = label;
-        }
+        Label = label;
+    }
 
-        /// <summary>
-        ///     The Label value for the property (e.g. "Radius" for a Circle
-        /// </summary>
+    /// <summary>
+    ///     The Label value for the property (e.g. "Radius" for a Circle
+    /// </summary>
 
-        public string Label { get; set; }
+    public string Label { get; set; }
 
-        /// <summary>
-        ///     Is there more information available about this property.  For instance,
-        ///     a type double would not have anything further to show.  But, a Collection
-        ///     can bring up a nested dialog showing all those objects.
-        /// </summary>
+    /// <summary>
+    ///     Is there more information available about this property.  For instance,
+    ///     a type double would not have anything further to show.  But, a Collection
+    ///     can bring up a nested dialog showing all those objects.
+    /// </summary>
 
-        public virtual bool HasDrillDown => false;
+    public virtual bool HasDrillDown => false;
 
-        /// <summary>
-        ///     Is this real data, or just a logical category separator?
-        /// </summary>
+    /// <summary>
+    ///     Is this real data, or just a logical category separator?
+    /// </summary>
 
-        public virtual bool IsSeparator => false;
+    public virtual bool IsSeparator => false;
 
-        /// <summary>
-        ///     Is this an error condition
-        /// </summary>
+    /// <summary>
+    ///     Is this an error condition
+    /// </summary>
 
-        public virtual bool IsError => false;
+    public virtual bool IsError => false;
 
-        /// <summary>
-        ///     The value for the Property, expressed as a string
-        /// </summary>
-        /// <returns>The value formatted as a string</returns>
-        public abstract string StrValue();
+    /// <summary>
+    ///     The value for the Property, expressed as a string
+    /// </summary>
+    /// <returns>The value formatted as a string</returns>
+    public abstract string StrValue();
 
-        /// <summary>
-        ///     Format the Label and Value as a single string.  The Snoop Forms will
-        ///     handle the Label/Value pair individually, but in other contexts, this
-        ///     could be used to make a flat list of Label/Value pairs.
-        /// </summary>
-        /// <returns>Label/Value pair as a string</returns>
-        public override string ToString()
-        {
-            return $"{Label}: {StrValue()}";
-        }
+    /// <summary>
+    ///     Format the Label and Value as a single string.  The Snoop Forms will
+    ///     handle the Label/Value pair individually, but in other contexts, this
+    ///     could be used to make a flat list of Label/Value pairs.
+    /// </summary>
+    /// <returns>Label/Value pair as a string</returns>
+    public override string ToString()
+    {
+        return $"{Label}: {StrValue()}";
+    }
 
-        /// <summary>
-        ///     Do the act of drilling down on the data
-        /// </summary>
-        public virtual Form DrillDown()
-        {
-            return null; // do nothing by default
-        }
+    /// <summary>
+    ///     Do the act of drilling down on the data
+    /// </summary>
+    public virtual Form DrillDown()
+    {
+        return null; // do nothing by default
     }
 }

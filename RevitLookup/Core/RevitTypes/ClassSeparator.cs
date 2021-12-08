@@ -28,35 +28,34 @@ using System;
 using System.Windows.Forms;
 using RevitLookup.Views;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format a ClassSeparator value.
+/// </summary>
+public class ClassSeparator : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format a ClassSeparator value.
-    /// </summary>
-    public class ClassSeparator : Data
+    private readonly Type _value;
+
+    public ClassSeparator(Type val) : base("------- CLASS -------")
     {
-        private readonly Type _value;
+        _value = val;
+    }
 
-        public ClassSeparator(Type val) : base("------- CLASS -------")
-        {
-            _value = val;
-        }
+    public override bool IsSeparator => true;
+    public override bool HasDrillDown => true;
 
-        public override bool IsSeparator => true;
-        public override bool HasDrillDown => true;
+    public override string StrValue()
+    {
+        return $"--- {_value.Name} ---";
+    }
 
-        public override string StrValue()
-        {
-            return $"--- {_value.Name} ---";
-        }
-
-        public override Form DrillDown()
-        {
-            // DrillDown on a ClassType will just browse it using Reflection
-            var pgForm = new GenericPropGrid(_value);
-            pgForm.Text = $"System.Type = {_value.FullName}";
-            pgForm.ShowDialog();
-            return null;
-        }
+    public override Form DrillDown()
+    {
+        // DrillDown on a ClassType will just browse it using Reflection
+        var pgForm = new GenericPropGrid(_value);
+        pgForm.Text = $"System.Type = {_value.FullName}";
+        pgForm.ShowDialog();
+        return null;
     }
 }

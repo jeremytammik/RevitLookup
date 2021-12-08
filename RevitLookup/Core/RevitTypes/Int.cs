@@ -24,23 +24,22 @@
 
 #endregion // Header
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format an Integer value.
+/// </summary>
+public class Int : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format an Integer value.
-    /// </summary>
-    public class Int : Data
+    private readonly double _value;
+
+    public Int(string label, int val) : base(label)
     {
-        private readonly double _value;
+        _value = val;
+    }
 
-        public Int(string label, int val) : base(label)
-        {
-            _value = val;
-        }
-
-        public override string StrValue()
-        {
-            return _value.ToString();
-        }
+    public override string StrValue()
+    {
+        return _value.ToString();
     }
 }

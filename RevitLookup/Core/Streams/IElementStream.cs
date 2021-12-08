@@ -1,9 +1,8 @@
 using System;
 
-namespace RevitLookup.Core.Streams
+namespace RevitLookup.Core.Streams;
+
+public interface IElementStream
 {
-    public interface IElementStream
-    {
-        void Stream(Type type);
-    }
+    void Stream(Type type);
 }

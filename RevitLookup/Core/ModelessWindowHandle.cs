@@ -2,30 +2,29 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace RevitLookup.Core
+namespace RevitLookup.Core;
+
+internal class ModelessWindowHandle : IWin32Window
 {
-    internal class ModelessWindowHandle : IWin32Window
+    private static IntPtr _revitMainWindowHandle;
+
+    public ModelessWindowHandle()
     {
-        private static IntPtr _revitMainWindowHandle;
+        Handle = _revitMainWindowHandle;
+    }
 
-        public ModelessWindowHandle()
-        {
-            Handle = _revitMainWindowHandle;
-        }
+    public IntPtr Handle { get; }
 
-        public IntPtr Handle { get; }
+    public static void SetHandler(IntPtr handler)
+    {
+        _revitMainWindowHandle = handler;
+    }
 
-        public static void SetHandler(IntPtr handler)
-        {
-            _revitMainWindowHandle = handler;
-        }
+    [DllImport("USER32.DLL")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        [DllImport("USER32.DLL")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        public static void BringRevitToFront()
-        {
-            SetForegroundWindow(_revitMainWindowHandle);
-        }
+    public static void BringRevitToFront()
+    {
+        SetForegroundWindow(_revitMainWindowHandle);
     }
 }

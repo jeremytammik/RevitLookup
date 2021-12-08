@@ -30,60 +30,59 @@ using Autodesk.Revit.DB;
 using RevitLookup.Views;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format an Object value.
+/// </summary>
+public class ElementGeometry : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format an Object value.
-    /// </summary>
-    public class ElementGeometry : Data
+    private readonly Autodesk.Revit.ApplicationServices.Application _app;
+    private readonly bool _hasGeometry;
+    private readonly Element _value;
+
+    public ElementGeometry(string label, Element val, Autodesk.Revit.ApplicationServices.Application app) : base(label)
     {
-        private readonly Autodesk.Revit.ApplicationServices.Application _app;
-        private readonly bool _hasGeometry;
-        private readonly Element _value;
+        _value = val;
+        _app = app;
+        _hasGeometry = false;
+        if (_value is not null && _app is not null) _hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
+    }
 
-        public ElementGeometry(string label, Element val, Autodesk.Revit.ApplicationServices.Application app) : base(label)
+    public override bool HasDrillDown => _hasGeometry;
+
+    public override string StrValue()
+    {
+        return "<Geometry.Element>";
+    }
+
+    public override Form DrillDown()
+    {
+        if (!_hasGeometry) return null;
+        var form = new Geometry(_value, _app);
+        return form;
+    }
+
+    private bool HasModelGeometry()
+    {
+        return Enum
+            .GetValues(typeof(ViewDetailLevel))
+            .Cast<ViewDetailLevel>()
+            .Select(x => new Options {DetailLevel = x})
+            .Any(x => _value.get_Geometry(x) is not null);
+    }
+
+    private bool HasViewSpecificGeometry()
+    {
+        var view = _value.Document.ActiveView;
+        if (view is null) return false;
+
+        var options = new Options
         {
-            _value = val;
-            _app = app;
-            _hasGeometry = false;
-            if (_value is not null && _app is not null) _hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
-        }
+            View = view,
+            IncludeNonVisibleObjects = true
+        };
 
-        public override bool HasDrillDown => _hasGeometry;
-
-        public override string StrValue()
-        {
-            return "<Geometry.Element>";
-        }
-
-        public override Form DrillDown()
-        {
-            if (!_hasGeometry) return null;
-            var form = new Geometry(_value, _app);
-            return form;
-        }
-
-        private bool HasModelGeometry()
-        {
-            return Enum
-                .GetValues(typeof(ViewDetailLevel))
-                .Cast<ViewDetailLevel>()
-                .Select(x => new Options {DetailLevel = x})
-                .Any(x => _value.get_Geometry(x) is not null);
-        }
-
-        private bool HasViewSpecificGeometry()
-        {
-            var view = _value.Document.ActiveView;
-            if (view is null) return false;
-
-            var options = new Options
-            {
-                View = view,
-                IncludeNonVisibleObjects = true
-            };
-
-            return _value.get_Geometry(options) is not null;
-        }
+        return _value.get_Geometry(options) is not null;
     }
 }

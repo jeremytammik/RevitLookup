@@ -26,15 +26,14 @@
 
 using System;
 
-namespace RevitLookup.Core.Collectors
-{
-    public class CollectorEventArgs : EventArgs
-    {
-        public CollectorEventArgs(object objToSnoop)
-        {
-            ObjToSnoop = objToSnoop;
-        }
+namespace RevitLookup.Core.Collectors;
 
-        public object ObjToSnoop { get; }
+public class CollectorEventArgs : EventArgs
+{
+    public CollectorEventArgs(object objToSnoop)
+    {
+        ObjToSnoop = objToSnoop;
     }
+
+    public object ObjToSnoop { get; }
 }

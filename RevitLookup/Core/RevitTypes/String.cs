@@ -24,23 +24,22 @@
 
 #endregion // Header
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format a String value.
+/// </summary>
+public class String : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format a String value.
-    /// </summary>
-    public class String : Data
+    private readonly string _value;
+
+    public String(string label, string val) : base(label)
     {
-        private readonly string _value;
+        _value = val;
+    }
 
-        public String(string label, string val) : base(label)
-        {
-            _value = val;
-        }
-
-        public override string StrValue()
-        {
-            return _value;
-        }
+    public override string StrValue()
+    {
+        return _value;
     }
 }

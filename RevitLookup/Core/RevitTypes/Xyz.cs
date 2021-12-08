@@ -26,25 +26,24 @@
 
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format an XYZ value.
+/// </summary>
+public class Xyz : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format an XYZ value.
-    /// </summary>
-    public class Xyz : Data
+    private readonly XYZ _value;
+
+    public Xyz(string label, XYZ val) : base(label)
     {
-        private readonly XYZ _value;
+        _value = val;
+    }
 
-        public Xyz(string label, XYZ val) : base(label)
-        {
-            _value = val;
-        }
-
-        public override string StrValue()
-        {
-            return _value is not null
-                ? $"({_value.X}, {_value.Y}, {_value.Z})"
-                : "< null >";
-        }
+    public override string StrValue()
+    {
+        return _value is not null
+            ? $"({_value.X}, {_value.Y}, {_value.Z})"
+            : "< null >";
     }
 }

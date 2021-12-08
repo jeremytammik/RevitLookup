@@ -28,48 +28,47 @@ using System.Windows.Forms;
 using System.Xml;
 using RevitLookup.Views;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format a chunk of XML.
+/// </summary>
+public class Xml : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format a chunk of XML.
-    /// </summary>
-    public class Xml : Data
+    private readonly bool _isFileName;
+    private readonly string _value;
+
+    public Xml(string label, string val, bool isFileName) : base(label)
     {
-        private readonly bool _isFileName;
-        private readonly string _value;
+        _value = val;
+        _isFileName = isFileName;
+    }
 
-        public Xml(string label, string val, bool isFileName) : base(label)
+    public override bool HasDrillDown => _value != string.Empty;
+
+    public override string StrValue()
+    {
+        return _value;
+    }
+
+    public override Form DrillDown()
+    {
+        try
         {
-            _value = val;
-            _isFileName = isFileName;
+            var xmlDoc = new XmlDocument();
+            if (_isFileName)
+                xmlDoc.Load(_value);
+            else
+                xmlDoc.LoadXml(_value);
+
+            var form = new Dom(xmlDoc);
+            form.ShowDialog();
+        }
+        catch (XmlException e)
+        {
+            MessageBox.Show(e.Message, "XML Exception");
         }
 
-        public override bool HasDrillDown => _value != string.Empty;
-
-        public override string StrValue()
-        {
-            return _value;
-        }
-
-        public override Form DrillDown()
-        {
-            try
-            {
-                var xmlDoc = new XmlDocument();
-                if (_isFileName)
-                    xmlDoc.Load(_value);
-                else
-                    xmlDoc.LoadXml(_value);
-
-                var form = new Dom(xmlDoc);
-                form.ShowDialog();
-            }
-            catch (XmlException e)
-            {
-                MessageBox.Show(e.Message, "XML Exception");
-            }
-
-            return null;
-        }
+        return null;
     }
 }

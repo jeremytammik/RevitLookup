@@ -1,28 +1,27 @@
 ﻿using System;
 using RevitLookup.Core.RevitTypes.PlaceHolders;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+public class SnoopableObjectWrapper
 {
-    public class SnoopableObjectWrapper
+    public SnoopableObjectWrapper(string title, object obj)
     {
-        public SnoopableObjectWrapper(string title, object obj)
-        {
-            Title = title;
-            Object = obj;
-        }
+        Title = title;
+        Object = obj;
+    }
 
-        public string Title { get; }
-        public object Object { get; }
+    public string Title { get; }
+    public object Object { get; }
 
-        public static SnoopableObjectWrapper Create(object obj)
-        {
-            return new SnoopableObjectWrapper(Utils.ObjToLabelStr(obj), obj);
-        }
+    public static SnoopableObjectWrapper Create(object obj)
+    {
+        return new SnoopableObjectWrapper(Utils.ObjToLabelStr(obj), obj);
+    }
 
-        public Type GetUnderlyingType()
-        {
-            if (Object is IObjectToSnoopPlaceholder placeholder) return placeholder.GetUnderlyingType();
-            return Object.GetType();
-        }
+    public Type GetUnderlyingType()
+    {
+        if (Object is IObjectToSnoopPlaceholder placeholder) return placeholder.GetUnderlyingType();
+        return Object.GetType();
     }
 }

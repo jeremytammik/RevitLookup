@@ -4,20 +4,19 @@ using Autodesk.Revit.UI;
 using RevitLookup.Core;
 using RevitLookup.Views;
 
-namespace RevitLookup.Commands
+namespace RevitLookup.Commands;
+
+/// <summary>
+///     Snoop dependent elements using
+///     Element.GetDependentElements
+/// </summary>
+[Transaction(TransactionMode.Manual)]
+public class SnoopDependentsCommand : IExternalCommand
 {
-    /// <summary>
-    ///     Snoop dependent elements using
-    ///     Element.GetDependentElements
-    /// </summary>
-    [Transaction(TransactionMode.Manual)]
-    public class SnoopDependentsCommand : IExternalCommand
+    public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
     {
-        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
-        {
-            var form = new Objects();
-            form.SnoopAndShow(Selector.SnoopDependentElements);
-            return Result.Succeeded;
-        }
+        var form = new Objects();
+        form.SnoopAndShow(Selector.SnoopDependentElements);
+        return Result.Succeeded;
     }
 }

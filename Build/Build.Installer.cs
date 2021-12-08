@@ -42,7 +42,7 @@ partial class Build
             }
         });
 
-    string BuildExeArguments(IReadOnlyList<string> args)
+    static string BuildExeArguments(IReadOnlyList<string> args)
     {
         var argumentBuilder = new StringBuilder();
         for (var i = 0; i < args.Count; i++)

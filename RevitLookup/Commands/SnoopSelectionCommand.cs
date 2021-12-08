@@ -4,20 +4,19 @@ using Autodesk.Revit.UI;
 using RevitLookup.Core;
 using RevitLookup.Views;
 
-namespace RevitLookup.Commands
+namespace RevitLookup.Commands;
+
+/// <summary>
+///     Snoop ModScope command:  Browse all Elements in the current selection set
+///     In case nothing is selected: browse visible elements
+/// </summary>
+[Transaction(TransactionMode.Manual)]
+public class SnoopSelectionCommand : IExternalCommand
 {
-    /// <summary>
-    ///     Snoop ModScope command:  Browse all Elements in the current selection set
-    ///     In case nothing is selected: browse visible elements
-    /// </summary>
-    [Transaction(TransactionMode.Manual)]
-    public class SnoopSelectionCommand : IExternalCommand
+    public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
     {
-        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
-        {
-            var form = new Objects();
-            form.SnoopAndShow(Selector.SnoopCurrentSelection);
-            return Result.Succeeded;
-        }
+        var form = new Objects();
+        form.SnoopAndShow(Selector.SnoopCurrentSelection);
+        return Result.Succeeded;
     }
 }

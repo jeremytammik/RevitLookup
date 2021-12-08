@@ -4,41 +4,40 @@ using System.Linq;
 using Autodesk.Revit.DB;
 using Object = RevitLookup.Core.RevitTypes.Object;
 
-namespace RevitLookup.Core.Streams
+namespace RevitLookup.Core.Streams;
+
+public class SpatialElementStream : IElementStream
 {
-    public class SpatialElementStream : IElementStream
+    private readonly SpatialElementBoundaryOptions _boundaryOptions;
+    private readonly ArrayList _data;
+    private readonly SpatialElement _spatialElement;
+
+    public SpatialElementStream(ArrayList data, object elem)
     {
-        private readonly SpatialElementBoundaryOptions _boundaryOptions;
-        private readonly ArrayList _data;
-        private readonly SpatialElement _spatialElement;
+        _data = data;
+        _spatialElement = elem as SpatialElement;
 
-        public SpatialElementStream(ArrayList data, object elem)
+        _boundaryOptions = new SpatialElementBoundaryOptions
         {
-            _data = data;
-            _spatialElement = elem as SpatialElement;
+            StoreFreeBoundaryFaces = true,
+            SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center
+        };
+    }
 
-            _boundaryOptions = new SpatialElementBoundaryOptions
-            {
-                StoreFreeBoundaryFaces = true,
-                SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center
-            };
-        }
+    public void Stream(Type type)
+    {
+        if (MustStream(type))
+            _data.Add(new Object("GetBoundarySegments", _spatialElement.GetBoundarySegments(_boundaryOptions)));
+    }
 
-        public void Stream(Type type)
+    private bool MustStream(Type type)
+    {
+        var typeNames = new[]
         {
-            if (MustStream(type))
-                _data.Add(new Object("GetBoundarySegments", _spatialElement.GetBoundarySegments(_boundaryOptions)));
-        }
-
-        private bool MustStream(Type type)
-        {
-            var typeNames = new[]
-            {
-                "Space",
-                "SpatialElement",
-                "Room"
-            };
-            return _spatialElement is not null && typeNames.Contains(type.Name);
-        }
+            "Space",
+            "SpatialElement",
+            "Room"
+        };
+        return _spatialElement is not null && typeNames.Contains(type.Name);
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Autodesk.Revit.DB;
 
-namespace RevitLookup.Core
+namespace RevitLookup.Core;
+
+internal interface IHaveCollector
 {
-    internal interface IHaveCollector
-    {
-        void SetDocument(Document document);
-    }
+    void SetDocument(Document document);
 }

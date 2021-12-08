@@ -28,87 +28,86 @@ using System;
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Views
-{
-    /// <summary>
-    ///     Summary description for BindingMap form.
-    /// </summary>
-    public class Geometry : ObjTreeBase
-    {
-        private readonly Autodesk.Revit.ApplicationServices.Application _app;
+namespace RevitLookup.Views;
 
-        public Geometry(Element elem, Autodesk.Revit.ApplicationServices.Application app)
+/// <summary>
+///     Summary description for BindingMap form.
+/// </summary>
+public class Geometry : ObjTreeBase
+{
+    private readonly Autodesk.Revit.ApplicationServices.Application _app;
+
+    public Geometry(Element elem, Autodesk.Revit.ApplicationServices.Application app)
+    {
+        Text = "Element Geometry";
+        _app = app;
+        TvObjs.BeginUpdate();
+        AddObjectsToTree(elem, TvObjs.Nodes);
+        TvObjs.EndUpdate();
+    }
+
+    private void AddObjectsToTree(Element elem, TreeNodeCollection curNodes)
+    {
+        Options geomOp;
+        TreeNode tmpNode;
+
+        // add geometry with the View set to null.
+        var rootNode1 = new TreeNode("View = null");
+        curNodes.Add(rootNode1);
+        foreach (ViewDetailLevel viewDetailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
         {
-            Text = "Element Geometry";
-            _app = app;
-            TvObjs.BeginUpdate();
-            AddObjectsToTree(elem, TvObjs.Nodes);
-            TvObjs.EndUpdate();
+            tmpNode = new TreeNode($"Detail Level = {viewDetailLevel}");
+            // IMPORTANT!!! Need to create options each time when you are 
+            // getting geometry. In other case, all the geometry you got at the 
+            // previous step will be owerriten according with the latest DetailLevel
+            geomOp = _app.Create.NewGeometryOptions();
+            geomOp.ComputeReferences = true;
+            geomOp.DetailLevel = viewDetailLevel;
+            tmpNode.Tag = elem.get_Geometry(geomOp);
+            rootNode1.Nodes.Add(tmpNode);
         }
 
-        private void AddObjectsToTree(Element elem, TreeNodeCollection curNodes)
+
+        // add model geometry including geometry objects not set as Visible.
+        var rootNode = new TreeNode("View = null - Including geometry objects not set as Visible");
+        curNodes.Add(rootNode);
+        foreach (ViewDetailLevel viewDetailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
         {
-            Options geomOp;
-            TreeNode tmpNode;
+            tmpNode = new TreeNode($"Detail Level = {viewDetailLevel}");
+            // IMPORTANT!!! Need to create options each time when you are 
+            // getting geometry. In other case, all the geometry you got at the 
+            // previous step will be owerriten according with the latest DetailLevel
+            geomOp = _app.Create.NewGeometryOptions();
+            geomOp.ComputeReferences = true;
+            geomOp.IncludeNonVisibleObjects = true;
+            geomOp.DetailLevel = viewDetailLevel;
+            tmpNode.Tag = elem.get_Geometry(geomOp);
+            rootNode.Nodes.Add(tmpNode);
+        }
 
-            // add geometry with the View set to null.
-            var rootNode1 = new TreeNode("View = null");
-            curNodes.Add(rootNode1);
-            foreach (ViewDetailLevel viewDetailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
+        // now add geometry with the View set to the current view
+        if (elem.Document.ActiveView is not null)
+        {
+            var geomOp2 = _app.Create.NewGeometryOptions();
+            geomOp2.ComputeReferences = true;
+            geomOp2.View = elem.Document.ActiveView;
+
+            var rootNode2 = new TreeNode("View = Document.ActiveView")
             {
-                tmpNode = new TreeNode($"Detail Level = {viewDetailLevel}");
-                // IMPORTANT!!! Need to create options each time when you are 
-                // getting geometry. In other case, all the geometry you got at the 
-                // previous step will be owerriten according with the latest DetailLevel
-                geomOp = _app.Create.NewGeometryOptions();
-                geomOp.ComputeReferences = true;
-                geomOp.DetailLevel = viewDetailLevel;
-                tmpNode.Tag = elem.get_Geometry(geomOp);
-                rootNode1.Nodes.Add(tmpNode);
-            }
+                Tag = elem.get_Geometry(geomOp2)
+            };
+            curNodes.Add(rootNode2);
 
-
+            // SOFiSTiK FS
             // add model geometry including geometry objects not set as Visible.
-            var rootNode = new TreeNode("View = null - Including geometry objects not set as Visible");
+            var opts = _app.Create.NewGeometryOptions();
+            opts.ComputeReferences = true;
+            opts.IncludeNonVisibleObjects = true;
+            opts.View = elem.Document.ActiveView;
+
+            rootNode = new TreeNode("View = Document.ActiveView - Including geometry objects not set as Visible");
             curNodes.Add(rootNode);
-            foreach (ViewDetailLevel viewDetailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
-            {
-                tmpNode = new TreeNode($"Detail Level = {viewDetailLevel}");
-                // IMPORTANT!!! Need to create options each time when you are 
-                // getting geometry. In other case, all the geometry you got at the 
-                // previous step will be owerriten according with the latest DetailLevel
-                geomOp = _app.Create.NewGeometryOptions();
-                geomOp.ComputeReferences = true;
-                geomOp.IncludeNonVisibleObjects = true;
-                geomOp.DetailLevel = viewDetailLevel;
-                tmpNode.Tag = elem.get_Geometry(geomOp);
-                rootNode.Nodes.Add(tmpNode);
-            }
-
-            // now add geometry with the View set to the current view
-            if (elem.Document.ActiveView is not null)
-            {
-                var geomOp2 = _app.Create.NewGeometryOptions();
-                geomOp2.ComputeReferences = true;
-                geomOp2.View = elem.Document.ActiveView;
-
-                var rootNode2 = new TreeNode("View = Document.ActiveView")
-                {
-                    Tag = elem.get_Geometry(geomOp2)
-                };
-                curNodes.Add(rootNode2);
-
-                // SOFiSTiK FS
-                // add model geometry including geometry objects not set as Visible.
-                var opts = _app.Create.NewGeometryOptions();
-                opts.ComputeReferences = true;
-                opts.IncludeNonVisibleObjects = true;
-                opts.View = elem.Document.ActiveView;
-
-                rootNode = new TreeNode("View = Document.ActiveView - Including geometry objects not set as Visible");
-                curNodes.Add(rootNode);
-                rootNode.Tag = elem.get_Geometry(opts);
-            }
+            rootNode.Tag = elem.get_Geometry(opts);
         }
     }
 }

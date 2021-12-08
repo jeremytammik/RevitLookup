@@ -26,25 +26,24 @@
 
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format a UV value.
+/// </summary>
+public class Uv : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format a UV value.
-    /// </summary>
-    public class Uv : Data
+    private readonly UV _value;
+
+    public Uv(string label, UV val) : base(label)
     {
-        private readonly UV _value;
+        _value = val;
+    }
 
-        public Uv(string label, UV val) : base(label)
-        {
-            _value = val;
-        }
-
-        public override string StrValue()
-        {
-            return _value is not null
-                ? $"({_value.U}, {_value.V})"
-                : "< null >";
-        }
+    public override string StrValue()
+    {
+        return _value is not null
+            ? $"({_value.U}, {_value.V})"
+            : "< null >";
     }
 }

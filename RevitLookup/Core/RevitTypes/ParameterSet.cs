@@ -28,34 +28,33 @@ using Autodesk.Revit.DB;
 using RevitLookup.Views;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format an ElementSet value.
+/// </summary>
+public class ParameterSet : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format an ElementSet value.
-    /// </summary>
-    public class ParameterSet : Data
+    private readonly Element _element;
+    private readonly Autodesk.Revit.DB.ParameterSet _value;
+
+    public ParameterSet(string label, Element elem, Autodesk.Revit.DB.ParameterSet val) : base(label)
     {
-        private readonly Element _element;
-        private readonly Autodesk.Revit.DB.ParameterSet _value;
+        _value = val;
+        _element = elem;
+    }
 
-        public ParameterSet(string label, Element elem, Autodesk.Revit.DB.ParameterSet val) : base(label)
-        {
-            _value = val;
-            _element = elem;
-        }
+    public override bool HasDrillDown => _value is {IsEmpty: false};
 
-        public override bool HasDrillDown => _value is {IsEmpty: false};
+    public override string StrValue()
+    {
+        return Utils.ObjToLabelStr(_value);
+    }
 
-        public override string StrValue()
-        {
-            return Utils.ObjToLabelStr(_value);
-        }
-
-        public override Form DrillDown()
-        {
-            if (_value is not {IsEmpty: false}) return null;
-            var form = new Parameters(_element, _value);
-            return form;
-        }
+    public override Form DrillDown()
+    {
+        if (_value is not {IsEmpty: false}) return null;
+        var form = new Parameters(_element, _value);
+        return form;
     }
 }

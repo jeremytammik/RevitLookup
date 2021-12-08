@@ -24,25 +24,24 @@
 
 #endregion // Header
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format a Exception value.
+/// </summary>
+public class Exception : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format a Exception value.
-    /// </summary>
-    public class Exception : Data
+    private readonly System.Exception _value;
+
+    public Exception(string label, System.Exception val) : base(label)
     {
-        private readonly System.Exception _value;
+        _value = val;
+    }
 
-        public Exception(string label, System.Exception val) : base(label)
-        {
-            _value = val;
-        }
+    public override bool IsError => true;
 
-        public override bool IsError => true;
-
-        public override string StrValue()
-        {
-            return _value.Message;
-        }
+    public override string StrValue()
+    {
+        return _value.Message;
     }
 }

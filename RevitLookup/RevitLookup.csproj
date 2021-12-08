@@ -2,11 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <UseWPF>true</UseWPF>
-        <LangVersion>9</LangVersion>
+        <LangVersion>latest</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
         <UseWindowsForms>true</UseWindowsForms>
         <TargetFramework>net48</TargetFramework>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <RevitVersion>2022</RevitVersion>
         <Version>$(RevitVersion).0.3.0</Version>
     </PropertyGroup>
@@ -20,9 +19,13 @@
         <Optimize>true</Optimize>
         <DebugType>none</DebugType>
     </PropertyGroup>
+    <PropertyGroup>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0"/>
+        <PackageReference Include="JetBrains.Annotations" Version="*"/>
         <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).*"/>
     </ItemGroup>
 

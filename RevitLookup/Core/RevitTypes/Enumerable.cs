@@ -29,62 +29,61 @@ using Autodesk.Revit.DB;
 using RevitLookup.Views;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format an Enumerable value.  This class can be used
+///     for any object that supports the IEnumerable interface.  However, some classes,
+///     such as a Map, are better seen visually in Key/Value pairs vs a straight list of
+///     enumerated objects.  Use this when it works well, but write your own Snoop.Data object
+///     for Enumerable cases that need better feedback to the user.
+/// </summary>
+public class Enumerable : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format an Enumerable value.  This class can be used
-    ///     for any object that supports the IEnumerable interface.  However, some classes,
-    ///     such as a Map, are better seen visually in Key/Value pairs vs a straight list of
-    ///     enumerated objects.  Use this when it works well, but write your own Snoop.Data object
-    ///     for Enumerable cases that need better feedback to the user.
-    /// </summary>
-    public class Enumerable : Data
+    private readonly ArrayList _objects = new();
+    private readonly IEnumerable _value;
+
+    public Enumerable(string label, IEnumerable val) : base(label)
     {
-        private readonly ArrayList _objects = new();
-        private readonly IEnumerable _value;
+        _value = val;
+        if (_value is null) return;
+        foreach (var value in _value) _objects.Add(value);
+    }
 
-        public Enumerable(string label, IEnumerable val) : base(label)
+    public Enumerable(string label, IEnumerable val, Document doc) : base(label)
+    {
+        _value = val;
+        if (_value is null) return;
+
+        foreach (var value in _value)
         {
-            _value = val;
-            if (_value is null) return;
-            foreach (var value in _value) _objects.Add(value);
-        }
-
-        public Enumerable(string label, IEnumerable val, Document doc) : base(label)
-        {
-            _value = val;
-            if (_value is null) return;
-
-            foreach (var value in _value)
+            var elementId = value as Autodesk.Revit.DB.ElementId;
+            if (elementId is not null && doc is not null)
             {
-                var elementId = value as Autodesk.Revit.DB.ElementId;
-                if (elementId is not null && doc is not null)
-                {
-                    var elem = doc.GetElement(elementId);
-                    if (elem is null) // Likely a category
-                        _objects.Add(Category.GetCategory(doc, elementId));
-                    else
-                        _objects.Add(elem); // it's more useful for user to view element rather than element id.
-                }
+                var elem = doc.GetElement(elementId);
+                if (elem is null) // Likely a category
+                    _objects.Add(Category.GetCategory(doc, elementId));
                 else
-                {
-                    _objects.Add(value);
-                }
+                    _objects.Add(elem); // it's more useful for user to view element rather than element id.
+            }
+            else
+            {
+                _objects.Add(value);
             }
         }
+    }
 
-        public override bool HasDrillDown => _value is not null && _objects.Count != 0;
+    public override bool HasDrillDown => _value is not null && _objects.Count != 0;
 
-        public override string StrValue()
-        {
-            return Utils.ObjToLabelStr(_value);
-        }
+    public override string StrValue()
+    {
+        return Utils.ObjToLabelStr(_value);
+    }
 
-        public override Form DrillDown()
-        {
-            if (_value is null || _objects.Count == 0) return null;
-            var form = new Objects(_objects);
-            return form;
-        }
+    public override Form DrillDown()
+    {
+        if (_value is null || _objects.Count == 0) return null;
+        var form = new Objects(_objects);
+        return form;
     }
 }

@@ -29,40 +29,39 @@ using RevitLookup.Commands;
 using RevitLookup.Core;
 using RevitLookup.RevitUtils;
 
-namespace RevitLookup
+namespace RevitLookup;
+
+public class Application : IExternalApplication
 {
-    public class Application : IExternalApplication
+    public Result OnStartup(UIControlledApplication application)
     {
-        public Result OnStartup(UIControlledApplication application)
-        {
-            CreateRibbonPanel(application);
-            ModelessWindowHandle.SetHandler(application.MainWindowHandle);
-            ExternalExecutor.CreateExternalEvent();
+        CreateRibbonPanel(application);
+        ModelessWindowHandle.SetHandler(application.MainWindowHandle);
+        ExternalExecutor.CreateExternalEvent();
 
-            return Result.Succeeded;
-        }
+        return Result.Succeeded;
+    }
 
-        public Result OnShutdown(UIControlledApplication application)
-        {
-            return Result.Succeeded;
-        }
+    public Result OnShutdown(UIControlledApplication application)
+    {
+        return Result.Succeeded;
+    }
 
-        private void CreateRibbonPanel(UIControlledApplication application)
-        {
-            var ribbonPanel = application.CreatePanel("Revit Lookup");
-            var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
-            pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-            pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-            pullDownButton.AddPushButton(typeof(HelloWorldCommand), "Hello World...");
-            pullDownButton.AddPushButton(typeof(SnoopDbCommand), "Snoop DB...");
-            pullDownButton.AddPushButton(typeof(SnoopSelectionCommand), "Snoop Current Selection...");
-            pullDownButton.AddPushButton(typeof(SnoopSurfaceCommand), "Snoop Pick Face...");
-            pullDownButton.AddPushButton(typeof(SnoopPickEdgeCommand), "Snoop Pick Edge...");
-            pullDownButton.AddPushButton(typeof(SnoopLinkedElementCommand), "Snoop Linked Element...");
-            pullDownButton.AddPushButton(typeof(SnoopDependentsCommand), "Snoop Dependent Elements...");
-            pullDownButton.AddPushButton(typeof(SnoopActiveViewCommand), "Snoop Active View...");
-            pullDownButton.AddPushButton(typeof(SnoopApplicationCommand), "Snoop Application...");
-            pullDownButton.AddPushButton(typeof(SearchCommand), "Search and Snoop...");
-        }
+    private void CreateRibbonPanel(UIControlledApplication application)
+    {
+        var ribbonPanel = application.CreatePanel("Revit Lookup");
+        var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
+        pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        pullDownButton.AddPushButton(typeof(HelloWorldCommand), "Hello World...");
+        pullDownButton.AddPushButton(typeof(SnoopDbCommand), "Snoop DB...");
+        pullDownButton.AddPushButton(typeof(SnoopSelectionCommand), "Snoop Current Selection...");
+        pullDownButton.AddPushButton(typeof(SnoopSurfaceCommand), "Snoop Pick Face...");
+        pullDownButton.AddPushButton(typeof(SnoopPickEdgeCommand), "Snoop Pick Edge...");
+        pullDownButton.AddPushButton(typeof(SnoopLinkedElementCommand), "Snoop Linked Element...");
+        pullDownButton.AddPushButton(typeof(SnoopDependentsCommand), "Snoop Dependent Elements...");
+        pullDownButton.AddPushButton(typeof(SnoopActiveViewCommand), "Snoop Active View...");
+        pullDownButton.AddPushButton(typeof(SnoopApplicationCommand), "Snoop Application...");
+        pullDownButton.AddPushButton(typeof(SearchCommand), "Search and Snoop...");
     }
 }

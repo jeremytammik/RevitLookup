@@ -4,19 +4,18 @@ using Autodesk.Revit.UI;
 using RevitLookup.Core;
 using RevitLookup.Views;
 
-namespace RevitLookup.Commands
+namespace RevitLookup.Commands;
+
+/// <summary>
+///     Snoop App command:  Browse all objects that are part of the Application object
+/// </summary>
+[Transaction(TransactionMode.Manual)]
+public class SnoopApplicationCommand : IExternalCommand
 {
-    /// <summary>
-    ///     Snoop App command:  Browse all objects that are part of the Application object
-    /// </summary>
-    [Transaction(TransactionMode.Manual)]
-    public class SnoopApplicationCommand : IExternalCommand
+    public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
     {
-        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
-        {
-            var form = new Objects();
-            form.SnoopAndShow(Selector.SnoopApplication);
-            return Result.Succeeded;
-        }
+        var form = new Objects();
+        form.SnoopAndShow(Selector.SnoopApplication);
+        return Result.Succeeded;
     }
 }

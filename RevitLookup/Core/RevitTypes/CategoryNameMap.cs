@@ -27,32 +27,31 @@
 using System.Windows.Forms;
 using RevitLookup.Views;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format a CategoryNameMap value.
+/// </summary>
+public class CategoryNameMap : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format a CategoryNameMap value.
-    /// </summary>
-    public class CategoryNameMap : Data
+    private readonly Autodesk.Revit.DB.CategoryNameMap _value;
+
+    public CategoryNameMap(string label, Autodesk.Revit.DB.CategoryNameMap val) : base(label)
     {
-        private readonly Autodesk.Revit.DB.CategoryNameMap _value;
+        _value = val;
+    }
 
-        public CategoryNameMap(string label, Autodesk.Revit.DB.CategoryNameMap val) : base(label)
-        {
-            _value = val;
-        }
+    public override bool HasDrillDown => _value is {IsEmpty: false};
 
-        public override bool HasDrillDown => _value is {IsEmpty: false};
+    public override string StrValue()
+    {
+        return Utils.ObjToLabelStr(_value);
+    }
 
-        public override string StrValue()
-        {
-            return Utils.ObjToLabelStr(_value);
-        }
-
-        public override Form DrillDown()
-        {
-            if (_value is not {IsEmpty: false}) return null;
-            var form = new Categories(_value);
-            return form;
-        }
+    public override Form DrillDown()
+    {
+        if (_value is not {IsEmpty: false}) return null;
+        var form = new Categories(_value);
+        return form;
     }
 }

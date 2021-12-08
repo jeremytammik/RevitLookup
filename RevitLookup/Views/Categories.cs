@@ -27,40 +27,39 @@
 using System.Windows.Forms;
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Views
+namespace RevitLookup.Views;
+
+/// <summary>
+///     Summary description for Categories form.
+/// </summary>
+public class Categories : ObjTreeBase
 {
-    /// <summary>
-    ///     Summary description for Categories form.
-    /// </summary>
-    public class Categories : ObjTreeBase
+    public Categories(CategoryNameMap map)
     {
-        public Categories(CategoryNameMap map)
-        {
-            Text = "Snoop Categories";
-            TvObjs.BeginUpdate();
-            AddObjectsToTree(map, TvObjs.Nodes);
-            TvObjs.EndUpdate();
-        }
+        Text = "Snoop Categories";
+        TvObjs.BeginUpdate();
+        AddObjectsToTree(map, TvObjs.Nodes);
+        TvObjs.EndUpdate();
+    }
 
-        private void AddObjectsToTree(CategoryNameMap map, TreeNodeCollection curNodes)
-        {
-            TvObjs.Sorted = true;
-            if (map.IsEmpty) return;
+    private void AddObjectsToTree(CategoryNameMap map, TreeNodeCollection curNodes)
+    {
+        TvObjs.Sorted = true;
+        if (map.IsEmpty) return;
 
-            // iterate over the map and add items to the tree
-            var iterator = map.ForwardIterator();
-            while (iterator.MoveNext())
+        // iterate over the map and add items to the tree
+        var iterator = map.ForwardIterator();
+        while (iterator.MoveNext())
+        {
+            var tmpNode = new TreeNode(iterator.Key)
             {
-                var tmpNode = new TreeNode(iterator.Key)
-                {
-                    Tag = iterator.Current
-                };
-                curNodes.Add(tmpNode);
+                Tag = iterator.Current
+            };
+            curNodes.Add(tmpNode);
 
-                // recursively add sub-nodes (if any)
-                var curCat = (Category) iterator.Current;
-                AddObjectsToTree(curCat!.SubCategories, tmpNode.Nodes);
-            }
+            // recursively add sub-nodes (if any)
+            var curCat = (Category) iterator.Current;
+            AddObjectsToTree(curCat!.SubCategories, tmpNode.Nodes);
         }
     }
 }

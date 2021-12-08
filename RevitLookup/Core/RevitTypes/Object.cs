@@ -28,35 +28,34 @@ using System.Collections;
 using System.Windows.Forms;
 using RevitLookup.Views;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format an Object value.
+/// </summary>
+public class Object : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format an Object value.
-    /// </summary>
-    public class Object : Data
+    private readonly string _stringValue;
+    private readonly object _value;
+
+    public Object(string label, object val) : base(label)
     {
-        private readonly string _stringValue;
-        private readonly object _value;
+        _value = val;
+        _stringValue = Utils.ObjToLabelStr(_value);
+    }
 
-        public Object(string label, object val) : base(label)
-        {
-            _value = val;
-            _stringValue = Utils.ObjToLabelStr(_value);
-        }
+    public override bool HasDrillDown => _value is not null;
 
-        public override bool HasDrillDown => _value is not null;
+    public override string StrValue()
+    {
+        return _stringValue;
+    }
 
-        public override string StrValue()
-        {
-            return _stringValue;
-        }
-
-        public override Form DrillDown()
-        {
-            if (_value is null) return null;
-            var objects = new ArrayList {_value};
-            var form = new Objects(objects);
-            return form;
-        }
+    public override Form DrillDown()
+    {
+        if (_value is null) return null;
+        var objects = new ArrayList {_value};
+        var form = new Objects(objects);
+        return form;
     }
 }

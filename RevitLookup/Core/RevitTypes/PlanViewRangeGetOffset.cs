@@ -4,40 +4,39 @@ using Autodesk.Revit.DB;
 using RevitLookup.Views;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+public class PlanViewRangeGetOffset : Data
 {
-    public class PlanViewRangeGetOffset : Data
+    private readonly PlanViewRange _planViewRange;
+
+    public PlanViewRangeGetOffset(string label, PlanViewRange planViewRange) : base(label)
     {
-        private readonly PlanViewRange _planViewRange;
+        _planViewRange = planViewRange;
+    }
 
-        public PlanViewRangeGetOffset(string label, PlanViewRange planViewRange) : base(label)
+    public override bool HasDrillDown => _planViewRange is not null;
+
+    public override string StrValue()
+    {
+        return "< Get Offsets >";
+    }
+
+    public override Form DrillDown()
+    {
+        if (!HasDrillDown) return null;
+
+        var sectionDataObjects = new List<SnoopableObjectWrapper>();
+
+        foreach (PlanViewPlane type in Enum.GetValues(typeof(PlanViewPlane)))
         {
-            _planViewRange = planViewRange;
+            var offset = _planViewRange.GetOffset(type);
+            sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), offset));
         }
 
-        public override bool HasDrillDown => _planViewRange is not null;
+        if (sectionDataObjects.Count == 0) return null;
 
-        public override string StrValue()
-        {
-            return "< Get Offsets >";
-        }
-
-        public override Form DrillDown()
-        {
-            if (!HasDrillDown) return null;
-
-            var sectionDataObjects = new List<SnoopableObjectWrapper>();
-
-            foreach (PlanViewPlane type in Enum.GetValues(typeof(PlanViewPlane)))
-            {
-                var offset = _planViewRange.GetOffset(type);
-                sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), offset));
-            }
-
-            if (sectionDataObjects.Count == 0) return null;
-
-            var form = new Objects(sectionDataObjects);
-            return form;
-        }
+        var form = new Objects(sectionDataObjects);
+        return form;
     }
 }

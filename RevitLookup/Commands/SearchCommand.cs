@@ -32,23 +32,22 @@ using RevitLookup.Views;
 
 // Each command is implemented as a class that provides the IExternalCommand Interface
 
-namespace RevitLookup.Commands
-{
-    /// <summary>
-    ///     Search by and Snoop command: Browse
-    ///     elements found by the condition
-    /// </summary>
-    [Transaction(TransactionMode.Manual)]
-    public class SearchCommand : IExternalCommand
-    {
-        public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
-        {
-            var revitDoc = cmdData.Application.ActiveUIDocument;
-            var dbdoc = revitDoc.Document;
-            var form = new SearchBy(dbdoc);
-            ModelessWindowFactory.Show(form);
+namespace RevitLookup.Commands;
 
-            return Result.Succeeded;
-        }
+/// <summary>
+///     Search by and Snoop command: Browse
+///     elements found by the condition
+/// </summary>
+[Transaction(TransactionMode.Manual)]
+public class SearchCommand : IExternalCommand
+{
+    public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
+    {
+        var revitDoc = cmdData.Application.ActiveUIDocument;
+        var document = revitDoc.Document;
+        var form = new SearchBy(document);
+        ModelessWindowFactory.Show(form);
+
+        return Result.Succeeded;
     }
 }

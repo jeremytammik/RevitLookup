@@ -26,15 +26,14 @@
 
 using System.Collections;
 
-namespace RevitLookup.Core.Collectors
-{
-    public abstract class Collector
-    {
-        protected readonly ArrayList DataObjects = new();
+namespace RevitLookup.Core.Collectors;
 
-        public ArrayList Data()
-        {
-            return DataObjects;
-        }
+public abstract class Collector
+{
+    protected readonly ArrayList DataObjects = new();
+
+    public ArrayList Data()
+    {
+        return DataObjects;
     }
 }

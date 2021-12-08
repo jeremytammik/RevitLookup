@@ -1,12 +1,11 @@
 ﻿using System;
 using Autodesk.Revit.DB;
 
-namespace RevitLookup.Core.RevitTypes.PlaceHolders
+namespace RevitLookup.Core.RevitTypes.PlaceHolders;
+
+internal interface IObjectToSnoopPlaceholder
 {
-    internal interface IObjectToSnoopPlaceholder
-    {
-        object GetObject(Document document);
-        string GetName();
-        Type GetUnderlyingType();
-    }
+    object GetObject(Document document);
+    string GetName();
+    Type GetUnderlyingType();
 }

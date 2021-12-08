@@ -24,23 +24,22 @@
 
 #endregion // Header
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format a Double value.
+/// </summary>
+public class Double : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format a Double value.
-    /// </summary>
-    public class Double : Data
+    private readonly double _value;
+
+    public Double(string label, double val) : base(label)
     {
-        private readonly double _value;
+        _value = val;
+    }
 
-        public Double(string label, double val) : base(label)
-        {
-            _value = val;
-        }
-
-        public override string StrValue()
-        {
-            return _value.ToString();
-        }
+    public override string StrValue()
+    {
+        return _value.ToString();
     }
 }

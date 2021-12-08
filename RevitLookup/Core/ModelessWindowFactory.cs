@@ -3,59 +3,58 @@ using Autodesk.Revit.DB;
 using Form = System.Windows.Forms.Form;
 using Point = System.Drawing.Point;
 
-namespace RevitLookup.Core
+namespace RevitLookup.Core;
+
+public class ModelessWindowFactory
 {
-    public class ModelessWindowFactory
+    private readonly Form _parentForm;
+    private readonly Document _targetDocument;
+
+    public ModelessWindowFactory(Form parentForm, Document targetDocument)
     {
-        private readonly Form _parentForm;
-        private readonly Document _targetDocument;
+        _parentForm = parentForm;
+        _targetDocument = targetDocument;
+    }
 
-        public ModelessWindowFactory(Form parentForm, Document targetDocument)
+    public void ShowForm(Form newForm)
+    {
+        Show(newForm, _targetDocument, _parentForm);
+    }
+
+    public static void Show(Form newForm, Document targetDocument = null, Form parentForm = null)
+    {
+        AddKeyEvents(newForm);
+        if (parentForm is null)
         {
-            _parentForm = parentForm;
-            _targetDocument = targetDocument;
+            newForm.StartPosition = FormStartPosition.CenterScreen;
+        }
+        else
+        {
+            parentForm.AddOwnedForm(newForm);
+            newForm.StartPosition = FormStartPosition.Manual;
+            newForm.Location = new Point(parentForm.Location.X + (parentForm.Width - newForm.Width) / 2, parentForm.Location.Y + (parentForm.Height - newForm.Height) / 2);
         }
 
-        public void ShowForm(Form newForm)
+        if (targetDocument is not null && newForm is IHaveCollector formWithCollector) formWithCollector.SetDocument(targetDocument);
+        newForm.Show(new ModelessWindowHandle());
+        newForm.FormClosed += (s, e) =>
         {
-            Show(newForm, _targetDocument, _parentForm);
-        }
+            ModelessWindowHandle.BringRevitToFront();
+            FocusOwner((Form) s);
+        };
+    }
 
-        public static void Show(Form newForm, Document targetDocument = null, Form parentForm = null)
+    private static void AddKeyEvents(Form parentForm)
+    {
+        parentForm.KeyPreview = true;
+        parentForm.KeyDown += (s, e) =>
         {
-            AddKeyEvents(newForm);
-            if (parentForm is null)
-            {
-                newForm.StartPosition = FormStartPosition.CenterScreen;
-            }
-            else
-            {
-                parentForm.AddOwnedForm(newForm);
-                newForm.StartPosition = FormStartPosition.Manual;
-                newForm.Location = new Point(parentForm.Location.X + (parentForm.Width - newForm.Width) / 2, parentForm.Location.Y + (parentForm.Height - newForm.Height) / 2);
-            }
+            if (e.KeyCode == Keys.Escape) ((Form) s).Close();
+        };
+    }
 
-            if (targetDocument is not null && newForm is IHaveCollector formWithCollector) formWithCollector.SetDocument(targetDocument);
-            newForm.Show(new ModelessWindowHandle());
-            newForm.FormClosed += (s, e) =>
-            {
-                ModelessWindowHandle.BringRevitToFront();
-                FocusOwner((Form) s);
-            };
-        }
-
-        private static void AddKeyEvents(Form parentForm)
-        {
-            parentForm.KeyPreview = true;
-            parentForm.KeyDown += (s, e) =>
-            {
-                if (e.KeyCode == Keys.Escape) ((Form) s).Close();
-            };
-        }
-
-        private static void FocusOwner(Form form)
-        {
-            if (form.Owner is { } owner) owner.Focus();
-        }
+    private static void FocusOwner(Form form)
+    {
+        if (form.Owner is { } owner) owner.Focus();
     }
 }

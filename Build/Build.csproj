@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
         <NoWarn>CS0649;CS0169</NoWarn>
+        <TargetFramework>net6.0</TargetFramework>
         <NukeRootDirectory>..</NukeRootDirectory>
         <NukeScriptDirectory>..</NukeScriptDirectory>
         <NukeTelemetryVersion>1</NukeTelemetryVersion>
@@ -11,7 +11,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Nuke.Common" Version="5.3.0"/>
-        <PackageReference Include="vswhere" Version="2.8.4"/>
+        <PackageReference Include="vswhere" Version="*"/>
     </ItemGroup>
     <ItemGroup>
         <PackageDownload Include="GitVersion.Tool" Version="[5.7.0]"/>

@@ -27,32 +27,31 @@
 using System.Windows.Forms;
 using RevitLookup.Views;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format an ElementSet value.
+/// </summary>
+public class ElementSet : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format an ElementSet value.
-    /// </summary>
-    public class ElementSet : Data
+    private readonly Autodesk.Revit.DB.ElementSet _value;
+
+    public ElementSet(string label, Autodesk.Revit.DB.ElementSet val) : base(label)
     {
-        private readonly Autodesk.Revit.DB.ElementSet _value;
+        _value = val;
+    }
 
-        public ElementSet(string label, Autodesk.Revit.DB.ElementSet val) : base(label)
-        {
-            _value = val;
-        }
+    public override bool HasDrillDown => _value is {IsEmpty: false};
 
-        public override bool HasDrillDown => _value is {IsEmpty: false};
+    public override string StrValue()
+    {
+        return Utils.ObjToLabelStr(_value);
+    }
 
-        public override string StrValue()
-        {
-            return Utils.ObjToLabelStr(_value);
-        }
-
-        public override Form DrillDown()
-        {
-            if (_value is not {IsEmpty: false}) return null;
-            var form = new Objects(_value);
-            return form;
-        }
+    public override Form DrillDown()
+    {
+        if (_value is not {IsEmpty: false}) return null;
+        var form = new Objects(_value);
+        return form;
     }
 }

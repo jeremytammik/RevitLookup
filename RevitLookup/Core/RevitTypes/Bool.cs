@@ -24,23 +24,22 @@
 
 #endregion // Header
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format a Bool value.
+/// </summary>
+public class Bool : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format a Bool value.
-    /// </summary>
-    public class Bool : Data
+    private readonly bool _value;
+
+    public Bool(string label, bool val) : base(label)
     {
-        private readonly bool _value;
+        _value = val;
+    }
 
-        public Bool(string label, bool val) : base(label)
-        {
-            _value = val;
-        }
-
-        public override string StrValue()
-        {
-            return _value.ToString();
-        }
+    public override string StrValue()
+    {
+        return _value.ToString();
     }
 }

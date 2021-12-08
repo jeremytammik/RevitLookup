@@ -28,36 +28,35 @@ using Autodesk.Revit.DB;
 using RevitLookup.Views;
 using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Core.RevitTypes
+namespace RevitLookup.Core.RevitTypes;
+
+/// <summary>
+///     Snoop.Data class to hold and format an ElementId value.
+/// </summary>
+public class ElementId : Data
 {
-    /// <summary>
-    ///     Snoop.Data class to hold and format an ElementId value.
-    /// </summary>
-    public class ElementId : Data
+    private readonly Element _element;
+    private readonly Autodesk.Revit.DB.ElementId _value;
+
+    public ElementId(string label, Autodesk.Revit.DB.ElementId val, Document doc) : base(label)
     {
-        private readonly Element _element;
-        private readonly Autodesk.Revit.DB.ElementId _value;
+        _value = val;
+        _element = doc.GetElement(val);
+    }
 
-        public ElementId(string label, Autodesk.Revit.DB.ElementId val, Document doc) : base(label)
-        {
-            _value = val;
-            _element = doc.GetElement(val);
-        }
+    public override bool HasDrillDown => _element is not null;
 
-        public override bool HasDrillDown => _element is not null;
+    public override string StrValue()
+    {
+        if (_element is not null) return Utils.ObjToLabelStr(_element);
+        return _value != Autodesk.Revit.DB.ElementId.InvalidElementId ? _value.ToString() : Utils.ObjToLabelStr(null);
+    }
 
-        public override string StrValue()
-        {
-            if (_element is not null) return Utils.ObjToLabelStr(_element);
-            return _value != Autodesk.Revit.DB.ElementId.InvalidElementId ? _value.ToString() : Utils.ObjToLabelStr(null);
-        }
+    public override Form DrillDown()
+    {
+        if (_element is null) return null;
 
-        public override Form DrillDown()
-        {
-            if (_element is null) return null;
-
-            var form = new Objects(_element);
-            return form;
-        }
+        var form = new Objects(_element);
+        return form;
     }
 }

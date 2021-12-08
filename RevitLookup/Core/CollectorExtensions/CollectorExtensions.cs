@@ -39,115 +39,114 @@ using Exception = System.Exception;
 using Object = RevitLookup.Core.RevitTypes.Object;
 using String = RevitLookup.Core.RevitTypes.String;
 
-namespace RevitLookup.Core.CollectorExtensions
+namespace RevitLookup.Core.CollectorExtensions;
+
+/// <summary>
+///     Provide Snoop.Data for any classes related to an Element.
+/// </summary>
+public class CollectorExtensions
 {
-    /// <summary>
-    ///     Provide Snoop.Data for any classes related to an Element.
-    /// </summary>
-    public class CollectorExtensions
+    private static readonly Type[] Types;
+    private readonly Document _document;
+
+    static CollectorExtensions()
     {
-        private static readonly Type[] Types;
-        private readonly Document _document;
+        Types = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location))
+            .Where(x => Path.GetDirectoryName(x.Location) == Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory))
+            .Where(x => x.GetName().Name.ToLower().Contains("revit"))
+            .SelectMany(x => x.GetTypes())
+            .Union(new[] {typeof(KeyValuePair<,>)})
+            .ToArray();
+    }
 
-        static CollectorExtensions()
+    public CollectorExtensions(Document doc)
+    {
+        _document = doc;
+    }
+
+    public void Collect(Collector snoopCollector, CollectorEventArgs e)
+    {
+        if (e.ObjToSnoop is IEnumerable snoop)
+            snoopCollector.Data().Add(new Enumerable(snoop.GetType().Name, snoop));
+        else
+            Stream(snoopCollector.Data(), e.ObjToSnoop);
+    }
+
+    private void Stream(ArrayList data, object elem)
+    {
+        var thisElementTypes = Types.Where(x => IsSnoopableType(x, elem)).ToList();
+
+        var streams = new IElementStream[]
         {
-            Types = AppDomain.CurrentDomain.GetAssemblies()
-                .Where(x => !x.IsDynamic && !string.IsNullOrWhiteSpace(x.Location))
-                .Where(x => Path.GetDirectoryName(x.Location) == Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory))
-                .Where(x => x.GetName().Name.ToLower().Contains("revit"))
-                .SelectMany(x => x.GetTypes())
-                .Union(new[] {typeof(KeyValuePair<,>)})
-                .ToArray();
+            new ElementPropertiesStream(_document, data, elem),
+            new ElementMethodsStream(_document, data, elem),
+            new SpatialElementStream(data, elem),
+            new FamilyTypeParameterValuesStream(data, elem),
+            new ExtensibleStorageEntityContentStream(_document, data, elem),
+            new PartUtilsStream(data, elem)
+        };
+
+        foreach (var type in thisElementTypes)
+        {
+            data.Add(new ClassSeparator(type));
+
+            foreach (var elementStream in streams)
+                elementStream.Stream(type);
         }
 
-        public CollectorExtensions(Document doc)
+        StreamElementExtensibleStorages(data, elem as Element);
+        StreamSimpleType(data, elem);
+    }
+
+    private static bool IsSnoopableType(Type type, object element)
+    {
+        var elementType = element.GetType();
+        if (type == elementType || elementType.IsSubclassOf(type) || type.IsAssignableFrom(elementType)) return true;
+
+        return type.IsGenericType && elementType.IsGenericType && IsSubclassOfRawGeneric(type, elementType);
+    }
+
+    private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
+    {
+        while (toCheck is not null && toCheck != typeof(object))
         {
-            _document = doc;
+            var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
+            if (generic == cur) return true;
+            toCheck = toCheck.BaseType;
         }
 
-        public void Collect(Collector snoopCollector, CollectorEventArgs e)
-        {
-            if (e.ObjToSnoop is IEnumerable snoop)
-                snoopCollector.Data().Add(new Enumerable(snoop.GetType().Name, snoop));
-            else
-                Stream(snoopCollector.Data(), e.ObjToSnoop);
-        }
+        return false;
+    }
 
-        private void Stream(ArrayList data, object elem)
-        {
-            var thisElementTypes = Types.Where(x => IsSnoopableType(x, elem)).ToList();
+    private static void StreamElementExtensibleStorages(ArrayList data, Element elem)
+    {
+        var schemas = Schema.ListSchemas();
+        if (elem is null || schemas.Count == 0) return;
 
-            var streams = new IElementStream[]
+        data.Add(new ExtensibleStorageSeparator());
+
+        foreach (var schema in schemas)
+        {
+            var objectName = $"Entity with Schema [{schema.SchemaName}]";
+            try
             {
-                new ElementPropertiesStream(_document, data, elem),
-                new ElementMethodsStream(_document, data, elem),
-                new SpatialElementStream(data, elem),
-                new FamilyTypeParameterValuesStream(data, elem),
-                new ExtensibleStorageEntityContentStream(_document, data, elem),
-                new PartUtilsStream(data, elem)
-            };
-
-            foreach (var type in thisElementTypes)
-            {
-                data.Add(new ClassSeparator(type));
-
-                foreach (var elementStream in streams)
-                    elementStream.Stream(type);
+                var entity = elem.GetEntity(schema);
+                if (!entity.IsValid()) continue;
+                data.Add(new Object(objectName, entity));
             }
-
-            StreamElementExtensibleStorages(data, elem as Element);
-            StreamSimpleType(data, elem);
-        }
-
-        private static bool IsSnoopableType(Type type, object element)
-        {
-            var elementType = element.GetType();
-            if (type == elementType || elementType.IsSubclassOf(type) || type.IsAssignableFrom(elementType)) return true;
-
-            return type.IsGenericType && elementType.IsGenericType && IsSubclassOfRawGeneric(type, elementType);
-        }
-
-        private static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
-        {
-            while (toCheck is not null && toCheck != typeof(object))
+            catch (Exception ex)
             {
-                var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                if (generic == cur) return true;
-                toCheck = toCheck.BaseType;
-            }
-
-            return false;
-        }
-
-        private static void StreamElementExtensibleStorages(ArrayList data, Element elem)
-        {
-            var schemas = Schema.ListSchemas();
-            if (elem is null || schemas.Count == 0) return;
-
-            data.Add(new ExtensibleStorageSeparator());
-
-            foreach (var schema in schemas)
-            {
-                var objectName = $"Entity with Schema [{schema.SchemaName}]";
-                try
-                {
-                    var entity = elem.GetEntity(schema);
-                    if (!entity.IsValid()) continue;
-                    data.Add(new Object(objectName, entity));
-                }
-                catch (Exception ex)
-                {
-                    data.Add(new RevitTypes.Exception(objectName, ex));
-                }
+                data.Add(new RevitTypes.Exception(objectName, ex));
             }
         }
+    }
 
-        private void StreamSimpleType(ArrayList data, object elem)
-        {
-            var elemType = elem.GetType();
+    private void StreamSimpleType(ArrayList data, object elem)
+    {
+        var elemType = elem.GetType();
 
-            if (elemType.IsEnum || elemType.IsPrimitive || elemType.IsValueType)
-                data.Add(new String($"{elemType.Name} value", elem.ToString()));
-        }
+        if (elemType.IsEnum || elemType.IsPrimitive || elemType.IsValueType)
+            data.Add(new String($"{elemType.Name} value", elem.ToString()));
     }
 }
