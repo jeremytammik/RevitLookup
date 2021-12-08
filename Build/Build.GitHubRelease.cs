@@ -23,7 +23,7 @@ partial class Build
         .Requires(() => GitHubToken)
         .Requires(() => GitRepository)
         .Requires(() => GitVersion)
-        .OnlyWhenStatic(() => GitRepository.IsOnMasterBranch())
+        .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
         .OnlyWhenStatic(() => IsServerBuild)
         .Executes(() =>
         {
@@ -34,8 +34,8 @@ partial class Build
 
             var gitHubName = GitRepository.GetGitHubName();
             var gitHubOwner = GitRepository.GetGitHubOwner();
-            var msiFiles = Directory.GetFiles(ArtifactsDirectory, "*.msi");
-            var version = GetMsiVersion(msiFiles);
+            var artifacts = Directory.GetFiles(ArtifactsDirectory, "*");
+            var version = GetProductVersion(artifacts);
 
             CheckTags(gitHubOwner, gitHubName, version);
             Log.Debug("Detected Tag: {Version}", version);
@@ -49,7 +49,7 @@ partial class Build
             };
 
             var draft = CreatedDraft(gitHubOwner, gitHubName, newRelease);
-            UploadMsiFiles(draft, msiFiles);
+            UploadArtifacts(draft, artifacts);
             ReleaseDraft(gitHubOwner, gitHubName, draft);
         });
 
@@ -64,7 +64,7 @@ partial class Build
         Log.Debug("Detected Changelog: {Path}", ChangeLogPath);
 
         var logBuilder = new StringBuilder();
-        var changelogLineRegex = new Regex($"^.*{version}.? ");
+        var changelogLineRegex = new Regex($@"^.*({version})\S*\s");
 
         foreach (var line in File.ReadLines(ChangeLogPath))
         {
@@ -92,13 +92,13 @@ partial class Build
         if (gitHubTags.Select(tag => tag.Name).Contains(version)) throw new ArgumentException($"The repository already contains a Release with the tag: {version}");
     }
 
-    string GetMsiVersion(IEnumerable<string> msiFiles)
+    string GetProductVersion(IEnumerable<string> artifacts)
     {
         var stringVersion = string.Empty;
         var doubleVersion = 0d;
-        foreach (var msiFile in msiFiles)
+        foreach (var file in artifacts)
         {
-            var fileInfo = new FileInfo(msiFile);
+            var fileInfo = new FileInfo(file);
             var match = VersionRegex.Match(fileInfo.Name);
             if (!match.Success) continue;
             var version = match.Value;
@@ -110,14 +110,14 @@ partial class Build
             }
         }
 
-        if (stringVersion.Equals(string.Empty)) throw new ArgumentException("The version number of the MSI files was not found.");
+        if (stringVersion.Equals(string.Empty)) throw new ArgumentException("Could not determine product version from artifacts.");
 
         return stringVersion;
     }
 
-    static void UploadMsiFiles(Release createdRelease, IEnumerable<string> msiFiles)
+    static void UploadArtifacts(Release createdRelease, IEnumerable<string> artifacts)
     {
-        foreach (var file in msiFiles)
+        foreach (var file in artifacts)
         {
             var releaseAssetUpload = new ReleaseAssetUpload
             {
@@ -126,7 +126,7 @@ partial class Build
                 RawData = File.OpenRead(file)
             };
             var _ = GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload).Result;
-            Log.Debug("Added MSI file: {Path}", file);
+            Log.Debug("Added artifact: {Path}", file);
         }
     }
 
