@@ -10,10 +10,10 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Nuke.Common" Version="5.3.0"/>
-        <PackageReference Include="vswhere" Version="*"/>
+        <PackageReference Include="Nuke.Common" Version="5.3.0" />
+        <PackageReference Include="vswhere" Version="*" />
     </ItemGroup>
     <ItemGroup>
-        <PackageDownload Include="GitVersion.Tool" Version="[5.7.0]"/>
+        <PackageDownload Include="GitVersion.Tool" Version="[5.7.0]" />
     </ItemGroup>
 </Project>
