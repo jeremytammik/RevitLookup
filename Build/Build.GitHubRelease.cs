@@ -6,17 +6,17 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Nuke.Common;
 using Nuke.Common.Git;
-using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using Octokit;
+using Serilog;
 
 partial class Build
 {
     [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
     readonly Regex VersionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
+
     [Parameter] string GitHubToken { get; set; }
-    AbsolutePath ChangeLogPath => RootDirectory / "Changelog.md";
 
     Target PublishGitHubRelease => _ => _
         .TriggeredBy(CreateInstaller)
@@ -38,7 +38,7 @@ partial class Build
             var version = GetMsiVersion(msiFiles);
 
             CheckTags(gitHubOwner, gitHubName, version);
-            Logger.Normal($"Detected Tag: {version}");
+            Log.Debug("Detected Tag: {Version}", version);
 
             var newRelease = new NewRelease(version)
             {
@@ -57,15 +57,15 @@ partial class Build
     {
         if (!File.Exists(ChangeLogPath))
         {
-            Logger.Warn($"Can't find changelog file: {ChangeLogPath}");
+            Log.Warning("Can't find changelog file: {Log}", ChangeLogPath);
             return string.Empty;
         }
 
-        Logger.Normal($"Detected Changelog: {ChangeLogPath}");
-        
+        Log.Debug("Detected Changelog: {Path}", ChangeLogPath);
+
         var logBuilder = new StringBuilder();
         var changelogLineRegex = new Regex($"^.*{version}.? ");
-        
+
         foreach (var line in File.ReadLines(ChangeLogPath))
         {
             if (logBuilder.Length > 0)
@@ -79,9 +79,8 @@ partial class Build
             logBuilder.AppendLine(truncatedLine);
         }
 
-        var log = logBuilder.ToString();
-        if (string.IsNullOrEmpty(log)) Logger.Warn($"There is no version entry in the changelog: {version}");
-        return log;
+        if (logBuilder.Length == 0) Log.Warning("There is no version entry in the changelog: {Version}", version);
+        return logBuilder.ToString();
     }
 
     static void CheckTags(string gitHubOwner, string gitHubName, string version)
@@ -127,7 +126,7 @@ partial class Build
                 RawData = File.OpenRead(file)
             };
             var _ = GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload).Result;
-            Logger.Normal($"Added MSI file: {file}");
+            Log.Debug("Added MSI file: {Path}", file);
         }
     }
 

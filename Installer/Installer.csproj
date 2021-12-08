@@ -13,10 +13,10 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="WixSharp.bin">
-            <Version>1.19.0</Version>
+            <Version>1.19.*</Version>
         </PackageReference>
         <PackageReference Include="WixSharp.wix.bin">
-            <Version>3.11.2</Version>
+            <Version>3.11.*</Version>
         </PackageReference>
     </ItemGroup>
 </Project>

@@ -75,7 +75,8 @@ public static class Installer
                 versionStorages.Add(version, new List<WixEntity> {files});
 
             var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
-            foreach (var assembly in assemblies) Console.WriteLine($"Added {version} version file: {assembly}");
+            Console.WriteLine($"Added {version} version files: ");
+            foreach (var assembly in assemblies) Console.WriteLine($"\t{assembly}");
         }
 
         return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();

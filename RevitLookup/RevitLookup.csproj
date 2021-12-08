@@ -9,7 +9,6 @@
         <RevitVersion>2022</RevitVersion>
         <Version>$(RevitVersion).0.3.0</Version>
     </PropertyGroup>
-
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
@@ -25,7 +24,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="*"/>
         <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).*"/>
     </ItemGroup>
 

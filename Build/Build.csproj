@@ -10,8 +10,8 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Nuke.Common" Version="5.3.0" />
-        <PackageReference Include="vswhere" Version="*" />
+        <PackageReference Include="Nuke.Common" Version="6.0.0-beta0010" />
+        <PackageReference Include="vswhere" Version="2.*" />
     </ItemGroup>
     <ItemGroup>
         <PackageDownload Include="GitVersion.Tool" Version="[5.8.1]" />
