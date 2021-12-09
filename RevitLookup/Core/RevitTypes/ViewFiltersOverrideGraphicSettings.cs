@@ -1,5 +1,6 @@
 ﻿using RevitLookup.Views;
 using Form = System.Windows.Forms.Form;
+using View = Autodesk.Revit.DB.View;
 
 namespace RevitLookup.Core.RevitTypes;
 

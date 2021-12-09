@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.RevitTypes;
+using View = Autodesk.Revit.DB.View;
 
 namespace RevitLookup.Core.CollectorExtensions;
 

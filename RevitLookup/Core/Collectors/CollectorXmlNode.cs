@@ -26,6 +26,7 @@
 
 using System.Xml;
 using RevitLookup.Core.RevitTypes;
+using String = RevitLookup.Core.RevitTypes.String;
 
 namespace RevitLookup.Core.Collectors;
 
