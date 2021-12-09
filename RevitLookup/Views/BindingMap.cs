@@ -24,8 +24,6 @@
 
 #endregion // Header
 
-using System.Linq;
-using System.Windows.Forms;
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.Views;

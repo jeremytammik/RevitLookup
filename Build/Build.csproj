@@ -2,6 +2,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <NoWarn>CS0649;CS0169</NoWarn>
+        <ImplicitUsings>true</ImplicitUsings>
         <TargetFramework>net6.0</TargetFramework>
         <NukeRootDirectory>..</NukeRootDirectory>
         <NukeScriptDirectory>..</NukeScriptDirectory>

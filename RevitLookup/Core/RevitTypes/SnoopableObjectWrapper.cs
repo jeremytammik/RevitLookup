@@ -1,5 +1,4 @@
-﻿using System;
-using RevitLookup.Core.RevitTypes.PlaceHolders;
+﻿using RevitLookup.Core.RevitTypes.PlaceHolders;
 
 namespace RevitLookup.Core.RevitTypes;
 

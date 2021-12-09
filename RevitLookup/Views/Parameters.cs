@@ -24,11 +24,9 @@
 
 #endregion // Header
 
-using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing.Printing;
-using System.Windows.Forms;
 using Autodesk.Revit.DB;
 using RevitLookup.Core;
 using RevitLookup.Core.Collectors;

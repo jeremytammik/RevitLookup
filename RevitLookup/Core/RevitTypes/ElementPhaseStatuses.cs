@@ -1,4 +1,3 @@
-using System.Linq;
 using Autodesk.Revit.DB;
 using RevitLookup.Views;
 using Form = System.Windows.Forms.Form;

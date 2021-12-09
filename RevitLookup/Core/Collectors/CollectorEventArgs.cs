@@ -24,8 +24,6 @@
 
 #endregion // Header
 
-using System;
-
 namespace RevitLookup.Core.Collectors;
 
 public class CollectorEventArgs : EventArgs

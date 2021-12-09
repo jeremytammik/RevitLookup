@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using RevitLookup.Core;
 using Form = System.Windows.Forms.Form;
 

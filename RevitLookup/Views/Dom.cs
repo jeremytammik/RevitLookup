@@ -24,12 +24,8 @@
 
 #endregion // Header
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
 using RevitLookup.Core;

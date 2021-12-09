@@ -24,9 +24,7 @@
 
 #endregion // Header
 
-using System;
 using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace RevitLookup.Views;
 

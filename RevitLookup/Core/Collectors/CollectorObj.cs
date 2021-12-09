@@ -24,7 +24,6 @@
 
 #endregion // Header
 
-using System.Threading.Tasks;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.RevitTypes.PlaceHolders;
 

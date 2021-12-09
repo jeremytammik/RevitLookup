@@ -1,5 +1,3 @@
-using System;
-
 namespace RevitLookup.Core.Streams;
 
 public interface IElementStream

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Nuke.Common;
@@ -14,9 +10,8 @@ using Serilog;
 partial class Build
 {
     [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
-    readonly Regex VersionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
-
     [Parameter] string GitHubToken { get; set; }
+    readonly Regex VersionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
 
     Target PublishGitHubRelease => _ => _
         .TriggeredBy(CreateInstaller)
@@ -38,7 +33,7 @@ partial class Build
             var version = GetProductVersion(artifacts);
 
             CheckTags(gitHubOwner, gitHubName, version);
-            Log.Debug("Detected Tag: {Version}", version);
+            Log.Information("Detected Tag: {Version}", version);
 
             var newRelease = new NewRelease(version)
             {
@@ -61,7 +56,7 @@ partial class Build
             return string.Empty;
         }
 
-        Log.Debug("Detected Changelog: {Path}", ChangeLogPath);
+        Log.Information("Detected Changelog: {Path}", ChangeLogPath);
 
         var logBuilder = new StringBuilder();
         var changelogLineRegex = new Regex($@"^.*({version})\S*\s");
@@ -126,7 +121,7 @@ partial class Build
                 RawData = File.OpenRead(file)
             };
             var _ = GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload).Result;
-            Log.Debug("Added artifact: {Path}", file);
+            Log.Information("Added artifact: {Path}", file);
         }
     }
 

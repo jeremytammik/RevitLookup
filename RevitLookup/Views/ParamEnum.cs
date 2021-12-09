@@ -24,10 +24,8 @@
 
 #endregion // Header
 
-using System;
 using System.Collections;
 using System.Drawing.Printing;
-using System.Windows.Forms;
 using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Views;

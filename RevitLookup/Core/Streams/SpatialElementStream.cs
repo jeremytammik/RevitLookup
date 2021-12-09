@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Linq;
 using Autodesk.Revit.DB;
 using Object = RevitLookup.Core.RevitTypes.Object;
 

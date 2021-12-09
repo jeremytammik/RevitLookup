@@ -4,6 +4,7 @@
         <UseWPF>true</UseWPF>
         <LangVersion>latest</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
+        <ImplicitUsings>true</ImplicitUsings>
         <UseWindowsForms>true</UseWindowsForms>
         <TargetFramework>net48</TargetFramework>
         <RevitVersion>2022</RevitVersion>

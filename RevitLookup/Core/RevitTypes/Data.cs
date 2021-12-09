@@ -24,8 +24,6 @@
 
 #endregion // Header
 
-using System.Windows.Forms;
-
 namespace RevitLookup.Core.RevitTypes;
 
 /// <summary>
