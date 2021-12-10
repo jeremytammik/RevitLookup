@@ -9,96 +9,83 @@ using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Controls;
 
-namespace Installer;
+const string installationDir = @"%AppDataFolder%\Autodesk\Revit\Addins\";
+const string projectName = "RevitLookup";
+const string outputName = "RevitLookup";
+const string outputDir = "output";
 
-/// <summary>
-///     Documentation:
-///     https://github.com/Nice3point/RevitTemplates/wiki
-/// </summary>
-public static class Installer
+var version = GetAssemblyVersion(args, out var dllVersion);
+var outFileNameBuilder = new StringBuilder().Append(outputName).Append("-").Append(dllVersion);
+//Additional suffixes for unique configurations add here
+var outFileName = outFileNameBuilder.ToString();
+
+var project = new Project
 {
-    private const string InstallationDir = @"%AppDataFolder%\Autodesk\Revit\Addins\";
-    private const string ProjectName = "RevitLookup";
-    private const string OutputName = "RevitLookup";
-    private const string OutputDir = "output";
-
-    public static void Main(string[] args)
+    Name = projectName,
+    OutDir = outputDir,
+    OutFileName = outFileName,
+    Platform = Platform.x64,
+    Version = new Version(version),
+    InstallScope = InstallScope.perUser,
+    MajorUpgrade = MajorUpgrade.Default,
+    UI = WUI.WixUI_InstallDir,
+    GUID = new Guid("2179ECCB-0ED3-4FFF-907D-01C9D57AD20D"),
+    BackgroundImage = @"Installer\Resources\Icons\BackgroundImage.png",
+    BannerImage = @"Installer\Resources\Icons\BannerImage.png",
+    ControlPanelInfo =
     {
-        var version = GetAssemblyVersion(args, out var dllVersion);
-        var outFileNameBuilder = new StringBuilder().Append(OutputName).Append("-").Append(dllVersion);
-        //Additional suffixes for unique configurations add here
-        var outFileName = outFileNameBuilder.ToString();
+        Manufacturer = "Autodesk",
+        HelpLink = "https://github.com/jeremytammik/RevitLookup/issues",
+        ProductIcon = @"Installer\Resources\Icons\ShellIcon.ico"
+    },
+    Dirs = new Dir[]
+    {
+        new InstallDir(installationDir, GenerateWixEntities())
+    }
+};
 
-        var project = new Project
-        {
-            Name = ProjectName,
-            OutDir = OutputDir,
-            OutFileName = outFileName,
-            Platform = Platform.x64,
-            Version = new Version(version),
-            InstallScope = InstallScope.perUser,
-            MajorUpgrade = MajorUpgrade.Default,
-            UI = WUI.WixUI_InstallDir,
-            GUID = new Guid("2179ECCB-0ED3-4FFF-907D-01C9D57AD20D"),
-            BackgroundImage = @"Installer\Resources\Icons\BackgroundImage.png",
-            BannerImage = @"Installer\Resources\Icons\BannerImage.png",
-            ControlPanelInfo =
-            {
-                Manufacturer = "Autodesk",
-                HelpLink = "https://github.com/jeremytammik/RevitLookup/issues",
-                ProductIcon = @"Installer\Resources\Icons\ShellIcon.ico"
-            },
-            Dirs = new Dir[]
-            {
-                new InstallDir(InstallationDir, GetOutputFolders(args))
-            }
-        };
+MajorUpgrade.Default.AllowSameVersionUpgrades = true;
+project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
+project.BuildMsi();
 
-        MajorUpgrade.Default.AllowSameVersionUpgrades = true;
-        project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
-        project.BuildMsi();
+WixEntity[] GenerateWixEntities()
+{
+    var versionRegex = new Regex(@"\d+");
+    var versionStorages = new Dictionary<string, List<WixEntity>>();
+
+    foreach (var directory in args)
+    {
+        var directoryInfo = new DirectoryInfo(directory);
+        var fileVersion = versionRegex.Match(directoryInfo.Name).Value;
+        var files = new Files($@"{directory}\*.*");
+        if (versionStorages.ContainsKey(fileVersion))
+            versionStorages[fileVersion].Add(files);
+        else
+            versionStorages.Add(fileVersion, new List<WixEntity> {files});
+
+        var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
+        Console.WriteLine($"Added {fileVersion} version files: ");
+        foreach (var assembly in assemblies) Console.WriteLine($"\t{assembly}");
     }
 
-    private static WixEntity[] GetOutputFolders(string[] directories)
+    return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
+}
+
+string GetAssemblyVersion(IEnumerable<string> directories, out string originalVersion)
+{
+    foreach (var directory in directories)
     {
-        var versionRegex = new Regex(@"\d+");
-        var versionStorages = new Dictionary<string, List<WixEntity>>();
-
-        foreach (var directory in directories)
-        {
-            var directoryInfo = new DirectoryInfo(directory);
-            var version = versionRegex.Match(directoryInfo.Name).Value;
-            var files = new Files($@"{directory}\*.*");
-            if (versionStorages.ContainsKey(version))
-                versionStorages[version].Add(files);
-            else
-                versionStorages.Add(version, new List<WixEntity> {files});
-
-            var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
-            Console.WriteLine($"Added {version} version files: ");
-            foreach (var assembly in assemblies) Console.WriteLine($"\t{assembly}");
-        }
-
-        return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
+        var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
+        if (assemblies.Length == 0) continue;
+        var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
+        var versionGroups = fileVersionInfo.ProductVersion.Split('.');
+        var majorVersion = versionGroups[0];
+        if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
+        originalVersion = fileVersionInfo.ProductVersion;
+        var wixVersion = string.Join(".", versionGroups);
+        if (!originalVersion.Equals(wixVersion)) Console.WriteLine($"Installer version trimmed from {originalVersion} to {wixVersion}");
+        return wixVersion;
     }
 
-    private static string GetAssemblyVersion(IEnumerable<string> directories, out string dllVersion)
-    {
-        dllVersion = string.Empty;
-        foreach (var directory in directories)
-        {
-            var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
-            if (assemblies.Length == 0) continue;
-            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
-            var versionGroups = fileVersionInfo.ProductVersion.Split('.');
-            var majorVersion = versionGroups[0];
-            if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
-            dllVersion = fileVersionInfo.ProductVersion;
-            var version = string.Join(".", versionGroups);
-            if (!dllVersion.Equals(version)) Console.WriteLine($"Installer version trimmed from {dllVersion} to {version}");
-            return version;
-        }
-
-        throw new Exception("Cant find RevitLookup.dll file");
-    }
+    throw new Exception("Cant find RevitLookup.dll file");
 }
