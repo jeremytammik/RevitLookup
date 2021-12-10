@@ -8,7 +8,6 @@ partial class Build
 {
     Target CreateInstaller => _ => _
         .TriggeredBy(Compile)
-        .Produces(ArtifactsDirectory / "*.msi")
         .OnlyWhenStatic(() => IsLocalBuild || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {

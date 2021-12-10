@@ -14,7 +14,7 @@ const string projectName = "RevitLookup";
 const string outputName = "RevitLookup";
 const string outputDir = "output";
 
-var version = GetAssemblyVersion(args, out var dllVersion);
+var version = GetAssemblyVersion(out var dllVersion);
 var outFileNameBuilder = new StringBuilder().Append(outputName).Append("-").Append(dllVersion);
 //Additional suffixes for unique configurations add here
 var outFileName = outFileNameBuilder.ToString();
@@ -71,9 +71,9 @@ WixEntity[] GenerateWixEntities()
     return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
 }
 
-string GetAssemblyVersion(IEnumerable<string> directories, out string originalVersion)
+string GetAssemblyVersion(out string originalVersion)
 {
-    foreach (var directory in directories)
+    foreach (var directory in args)
     {
         var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
         if (assemblies.Length == 0) continue;
