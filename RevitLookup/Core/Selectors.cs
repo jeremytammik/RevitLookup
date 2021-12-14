@@ -109,7 +109,7 @@ internal static class Selectors
 
     private static (Element, Document) SnoopLinkedElement(UIApplication app)
     {
-        var doc = app.ActiveUIDocument.Document;
+        var document = app.ActiveUIDocument.Document;
 
         Reference refElem;
         try
@@ -121,13 +121,13 @@ internal static class Selectors
             return (null, null);
         }
 
-        var stableRefLink = refElem.ConvertToStableRepresentation(doc).Split(':')[0];
-        var refLink = Reference.ParseFromStableRepresentation(doc, stableRefLink);
-        var rliReturn = (RevitLinkInstance) doc.GetElement(refLink);
-        var mActiveDoc = rliReturn.GetLinkDocument();
-        var e = mActiveDoc.GetElement(refElem.LinkedElementId);
+        var representation = refElem.ConvertToStableRepresentation(document).Split(':')[0];
+        var reference = Reference.ParseFromStableRepresentation(document, representation);
+        var revitLinkInstance = (RevitLinkInstance) document.GetElement(reference);
+        var activeDoc = revitLinkInstance.GetLinkDocument();
+        var element = activeDoc.GetElement(refElem.LinkedElementId);
 
-        return (e, mActiveDoc);
+        return (element, activeDoc);
     }
 
     private static (IList<Element>, Document) SnoopDependentElements(UIApplication app)

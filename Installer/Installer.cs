@@ -15,20 +15,18 @@ const string outputName = "RevitLookup";
 const string outputDir = "output";
 
 var version = GetAssemblyVersion(out var dllVersion);
-var outFileNameBuilder = new StringBuilder().Append(outputName).Append("-").Append(dllVersion);
-//Additional suffixes for unique configurations add here
-var outFileName = outFileNameBuilder.ToString();
+var fileName = new StringBuilder().Append(outputName).Append("-").Append(dllVersion);
 
 var project = new Project
 {
     Name = projectName,
     OutDir = outputDir,
-    OutFileName = outFileName,
     Platform = Platform.x64,
+    UI = WUI.WixUI_InstallDir,
     Version = new Version(version),
+    OutFileName = fileName.ToString(),
     InstallScope = InstallScope.perUser,
     MajorUpgrade = MajorUpgrade.Default,
-    UI = WUI.WixUI_InstallDir,
     GUID = new Guid("2179ECCB-0ED3-4FFF-907D-01C9D57AD20D"),
     BackgroundImage = @"Installer\Resources\Icons\BackgroundImage.png",
     BannerImage = @"Installer\Resources\Icons\BannerImage.png",
@@ -64,8 +62,8 @@ WixEntity[] GenerateWixEntities()
             versionStorages.Add(fileVersion, new List<WixEntity> {files});
 
         var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
-        Console.WriteLine($"Added {fileVersion} version files: ");
-        foreach (var assembly in assemblies) Console.WriteLine($"\t{assembly}");
+        Console.WriteLine($"Added  {fileVersion}  version files: ");
+        foreach (var assembly in assemblies) Console.WriteLine($" {assembly} ");
     }
 
     return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
@@ -83,7 +81,7 @@ string GetAssemblyVersion(out string originalVersion)
         if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
         originalVersion = fileVersionInfo.ProductVersion;
         var wixVersion = string.Join(".", versionGroups);
-        if (!originalVersion.Equals(wixVersion)) Console.WriteLine($"Installer version trimmed from {originalVersion} to {wixVersion}");
+        if (!originalVersion.Equals(wixVersion)) Console.WriteLine($"Installer version trimmed from  {originalVersion}  to  {wixVersion} ");
         return wixVersion;
     }
 

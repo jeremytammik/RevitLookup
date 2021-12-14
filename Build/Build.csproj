@@ -11,7 +11,7 @@
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Nuke.Common" Version="6.0.0-beta0010" />
+        <PackageReference Include="Nuke.Common" Version="6.0.0-beta0012" />
         <PackageReference Include="vswhere" Version="2.*" />
     </ItemGroup>
     <ItemGroup>
