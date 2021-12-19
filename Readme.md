@@ -102,6 +102,4 @@ Credit to [icons8.com](https://icons8.com) for the RevitLookup icons.
 
 ## Technology Sponsors
 
-Thanks to [JetBrains](https://jetbrains.com) for providing licenses for [Rider](https://jetbrains.com/rider), which both make open-source development a real pleasure!
-
-[<img src="https://user-images.githubusercontent.com/20504884/144722493-6fe08637-b5ef-4e71-aa19-faef9f45021f.png" height="120" al />](https://jetbrains.com/)
+Thanks to [JetBrains](https://jetbrains.com) for providing licenses for [Rider](https://jetbrains.com/rider) and [dotUltimate](https://www.jetbrains.com/dotnet/) tools, which both make open-source development a real pleasure!
