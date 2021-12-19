@@ -62,8 +62,8 @@ WixEntity[] GenerateWixEntities()
             versionStorages.Add(fileVersion, new List<WixEntity> {files});
 
         var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
-        Console.WriteLine($"Added  {fileVersion}  version files: ");
-        foreach (var assembly in assemblies) Console.WriteLine($" {assembly} ");
+        Console.WriteLine($"Added '{fileVersion}' version files: ");
+        foreach (var assembly in assemblies) Console.WriteLine($"'{assembly}'");
     }
 
     return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
@@ -81,7 +81,7 @@ string GetAssemblyVersion(out string originalVersion)
         if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
         originalVersion = fileVersionInfo.ProductVersion;
         var wixVersion = string.Join(".", versionGroups);
-        if (!originalVersion.Equals(wixVersion)) Console.WriteLine($"Installer version trimmed from  {originalVersion}  to  {wixVersion} ");
+        if (!originalVersion.Equals(wixVersion)) Console.WriteLine($"Installer version trimmed from '{originalVersion}' to '{wixVersion}'");
         return wixVersion;
     }
 
