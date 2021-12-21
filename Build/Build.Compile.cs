@@ -10,31 +10,31 @@ partial class Build
         .TriggeredBy(Cleaning)
         .Executes(() =>
         {
+            var msBuildPath = GetMsBuildPath();
             var configurations = GetConfigurations(BuildConfiguration, InstallerConfiguration);
-            foreach (var configuration in configurations) BuildProject(configuration);
+            foreach (var configuration in configurations) CompileProject(configuration, msBuildPath);
         });
 
     static string GetMsBuildPath()
     {
         if (IsServerBuild) return null;
-        var vsWhere = VSWhereTasks.VSWhere(settings => settings
+        var (_, output) = VSWhereTasks.VSWhere(settings => settings
             .EnableLatest()
             .AddRequires("Microsoft.Component.MSBuild")
-            .DisableProcessLogOutput()
-            .DisableProcessLogInvocation()
+            .SetProperty("installationPath")
         );
 
-        if (vsWhere.Output.Count > 3) return null;
+        if (output.Count > 0) return null;
         if (!File.Exists(CustomMsBuildPath)) throw new Exception($"Missing file: {CustomMsBuildPath}. Change the path to the build platform or install Visual Studio.");
         return CustomMsBuildPath;
     }
 
-    void BuildProject(string configuration) =>
+    void CompileProject(string configuration, string toolPath) =>
         MSBuild(s => s
             .SetTargets("Rebuild")
             .SetTargetPath(Solution)
+            .SetProcessToolPath(toolPath)
             .SetConfiguration(configuration)
-            .SetProcessToolPath(GetMsBuildPath())
             .SetVerbosity(MSBuildVerbosity.Minimal)
             .SetMSBuildPlatform(MSBuildPlatform.x64)
             .SetMaxCpuCount(Environment.ProcessorCount)

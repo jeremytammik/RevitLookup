@@ -12,8 +12,8 @@ partial class Build : NukeBuild
 {
     [Solution] public readonly Solution Solution;
     [GitRepository] readonly GitRepository GitRepository;
-    AbsolutePath ChangeLogPath => RootDirectory / "Changelog.md";
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / ArtifactsFolder;
+    readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
 
     public static int Main() => Execute<Build>(x => x.Cleaning);
 
