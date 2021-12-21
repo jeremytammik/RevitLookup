@@ -46,7 +46,7 @@ public class ElementId : Data
 
     public override bool HasDrillDown => _element is not null;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         if (_element is not null) return Utils.ObjToLabelStr(_element);
         return _value != Autodesk.Revit.DB.ElementId.InvalidElementId ? _value.ToString() : Utils.ObjToLabelStr(null);

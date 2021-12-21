@@ -40,7 +40,7 @@ public class Xyz : Data
         _value = val;
     }
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return _value is not null
             ? $"({_value.X}, {_value.Y}, {_value.Z})"

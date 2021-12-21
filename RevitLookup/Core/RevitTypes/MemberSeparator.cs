@@ -16,7 +16,7 @@ public class MemberSeparator : Data
 
     public override bool HasDrillDown => false;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return $"--- {Name} ---";
     }
@@ -33,7 +33,7 @@ public class MemberSeparatorWithOffset : MemberSeparator
     {
     }
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return $"  --- {Name} ---";
     }

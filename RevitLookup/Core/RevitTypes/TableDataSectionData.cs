@@ -15,7 +15,7 @@ public class TableDataSectionData : Data
 
     public override bool HasDrillDown => _tableData is {NumberOfSections: > 0};
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return "< Get Section Data >";
     }

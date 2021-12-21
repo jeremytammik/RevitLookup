@@ -75,7 +75,7 @@ public class Enumerable : Data
 
     public override bool HasDrillDown => _value is not null && _objects.Count != 0;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return Utils.ObjToLabelStr(_value);
     }

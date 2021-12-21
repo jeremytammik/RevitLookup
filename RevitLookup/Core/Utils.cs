@@ -59,7 +59,7 @@ public static class Utils
             // and don't add a SubItem for the "Field" value
             if (tmpSnoopData.IsSeparator)
             {
-                var lvItem = new ListViewItem(tmpSnoopData.StrValue())
+                var lvItem = new ListViewItem(tmpSnoopData.AsValueString())
                 {
                     BackColor = tmpSnoopData is ClassSeparator ? Color.LightBlue : Color.WhiteSmoke,
                     Tag = tmpSnoopData
@@ -70,7 +70,7 @@ public static class Utils
             else
             {
                 var lvItem = new ListViewItem(tmpSnoopData.Label);
-                lvItem.SubItems.Add(tmpSnoopData.StrValue());
+                lvItem.SubItems.Add(tmpSnoopData.AsValueString());
 
                 if (tmpSnoopData.IsError)
                 {

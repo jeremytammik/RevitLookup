@@ -40,8 +40,8 @@ public class Exception : Data
 
     public override bool IsError => true;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
-        return _value.Message;
+        return _value.InnerException is not null ? _value.InnerException.Message : _value.Message;
     }
 }

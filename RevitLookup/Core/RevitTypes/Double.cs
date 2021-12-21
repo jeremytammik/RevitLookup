@@ -38,7 +38,7 @@ public class Double : Data
         _value = val;
     }
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return _value.ToString();
     }

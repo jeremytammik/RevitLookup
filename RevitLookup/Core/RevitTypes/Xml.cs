@@ -45,7 +45,7 @@ public class Xml : Data
 
     public override bool HasDrillDown => _value != string.Empty;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return _value;
     }

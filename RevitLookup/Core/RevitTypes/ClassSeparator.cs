@@ -43,7 +43,7 @@ public class ClassSeparator : Data
     public override bool IsSeparator => true;
     public override bool HasDrillDown => true;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return $"--- {_value.Name} ---";
     }

@@ -15,7 +15,7 @@ public class PlanViewRangeGetOffset : Data
 
     public override bool HasDrillDown => _planViewRange is not null;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return "< Get Offsets >";
     }

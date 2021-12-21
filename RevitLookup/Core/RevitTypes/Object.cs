@@ -45,7 +45,7 @@ public class Object : Data
 
     public override bool HasDrillDown => _value is not null;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return _stringValue;
     }

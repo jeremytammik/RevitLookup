@@ -15,7 +15,7 @@ public class ElementPhaseStatuses : Data
 
     public override bool HasDrillDown => !_element.Document.Phases.IsEmpty;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return "< phases statuses >";
     }

@@ -68,7 +68,7 @@ public abstract class Data
     ///     The value for the Property, expressed as a string
     /// </summary>
     /// <returns>The value formatted as a string</returns>
-    public abstract string StrValue();
+    public abstract string AsValueString();
 
     /// <summary>
     ///     Format the Label and Value as a single string.  The Snoop Forms will
@@ -78,7 +78,7 @@ public abstract class Data
     /// <returns>Label/Value pair as a string</returns>
     public override string ToString()
     {
-        return $"{Label}: {StrValue()}";
+        return $"{Label}: {AsValueString()}";
     }
 
     /// <summary>

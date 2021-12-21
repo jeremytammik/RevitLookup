@@ -3,7 +3,7 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.CollectorExtensions;
 using RevitLookup.Core.RevitTypes;
-using Exception = RevitLookup.Core.RevitTypes.Exception;
+using Exception = System.Exception;
 using String = RevitLookup.Core.RevitTypes.String;
 
 namespace RevitLookup.Core.Streams;
@@ -88,11 +88,9 @@ public class ElementPropertiesStream : IElementStream
                 _data.Add(new String("BuiltInCategory", bic.ToString()));
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
-            _data.Add(ex.InnerException is not null 
-                ? new Exception(propertyInfo.Name, ex.InnerException) 
-                : new Exception(propertyInfo.Name, ex));
+            _data.Add(new RevitTypes.Exception(propertyInfo.Name, ex));
         }
     }
 }

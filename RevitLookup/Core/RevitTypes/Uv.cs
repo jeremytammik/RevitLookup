@@ -40,7 +40,7 @@ public class Uv : Data
         _value = val;
     }
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return _value is not null
             ? $"({_value.U}, {_value.V})"

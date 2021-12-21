@@ -24,7 +24,7 @@ public class AssetProperty : Data
         return form;
     }
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return "<AssetProperty>";
     }

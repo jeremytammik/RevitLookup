@@ -46,7 +46,7 @@ public class ParameterSet : Data
 
     public override bool HasDrillDown => _value is {IsEmpty: false};
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return Utils.ObjToLabelStr(_value);
     }

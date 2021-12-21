@@ -9,7 +9,7 @@ public class DoubleArray : Data
         _value = val;
     }
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         var array = new string[_value.Size];
         for (var i = 0; i < _value.Size; i++) array[i] = _value.get_Item(i).ToString();

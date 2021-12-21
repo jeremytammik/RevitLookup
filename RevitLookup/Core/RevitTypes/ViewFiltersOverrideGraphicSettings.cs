@@ -1,5 +1,4 @@
 ﻿using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 using View = Autodesk.Revit.DB.View;
 
 namespace RevitLookup.Core.RevitTypes;
@@ -15,7 +14,7 @@ public class ViewFiltersOverrideGraphicSettings : Data
 
     public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.AreGraphicsOverridesAllowed() && _view.GetFilters().Count > 0;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return "< view filters override graphic settings >";
     }

@@ -3,7 +3,7 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.CollectorExtensions;
 using RevitLookup.Core.RevitTypes;
-using Exception = RevitLookup.Core.RevitTypes.Exception;
+using Exception = System.Exception;
 
 namespace RevitLookup.Core.Streams;
 
@@ -47,11 +47,9 @@ public class ElementMethodsStream : IElementStream
         {
             return _methodDataFactory.Create(methodInfo);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
-            return ex.InnerException is not null 
-                ? new Exception(methodInfo.Name, ex.InnerException) 
-                : new Exception(methodInfo.Name, ex);
+            return new RevitTypes.Exception(methodInfo.Name, ex);
         }
     }
 }

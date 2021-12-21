@@ -14,7 +14,7 @@ public class EnumerableAsString : Data
         _value = val;
     }
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         if (_value is null) return "null";
 

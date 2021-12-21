@@ -10,7 +10,7 @@ public class ExtensibleStorageSeparator : Data
 
     public override bool HasDrillDown => false;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return "--- Extensible storages ---";
     }

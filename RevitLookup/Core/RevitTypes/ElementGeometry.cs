@@ -49,7 +49,7 @@ public class ElementGeometry : Data
 
     public override bool HasDrillDown => _hasGeometry;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return "<Geometry.Element>";
     }

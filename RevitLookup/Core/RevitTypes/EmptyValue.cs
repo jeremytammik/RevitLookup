@@ -6,7 +6,7 @@ public class EmptyValue : Data
     {
     }
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return string.Empty;
     }

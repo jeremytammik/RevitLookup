@@ -11,14 +11,14 @@ public class CurveGetEndPoint : Data
     public CurveGetEndPoint(string label, Curve curve) : base(label)
     {
         _curve = curve;
-        
+
         //ISSUE: Internal exception. Object unloaded from memory
         var _ = _curve.IsBound;
     }
 
     public override bool HasDrillDown => _curve is not null && _curve.IsBound;
 
-    public override string StrValue()
+    public override string AsValueString()
     {
         return "< Get End Points >";
     }
