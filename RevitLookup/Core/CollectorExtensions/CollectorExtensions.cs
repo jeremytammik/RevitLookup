@@ -65,9 +65,9 @@ public class CollectorExtensions
     public void Collect(Collector snoopCollector, CollectorEventArgs e)
     {
         if (e.ObjToSnoop is IEnumerable snoop)
-            snoopCollector.Data().Add(new Enumerable(snoop.GetType().Name, snoop));
+            snoopCollector.Data.Add(new Enumerable(snoop.GetType().Name, snoop));
         else
-            Stream(snoopCollector.Data(), e.ObjToSnoop);
+            Stream(snoopCollector.Data, e.ObjToSnoop);
     }
 
     private void Stream(ArrayList data, object elem)

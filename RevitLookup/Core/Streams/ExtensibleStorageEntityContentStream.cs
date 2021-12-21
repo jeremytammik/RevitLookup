@@ -121,7 +121,9 @@ public class ExtensibleStorageEntityContentStream : IElementStream
         }
         catch (Exception ex)
         {
-            _data.Add(new RevitTypes.Exception(field.FieldName, ex));
+            _data.Add(ex.InnerException is not null 
+                ? new Exception(field.FieldName, ex.InnerException) 
+                : new Exception(field.FieldName, ex));
         }
     }
 

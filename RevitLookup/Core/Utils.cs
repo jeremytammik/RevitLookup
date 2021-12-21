@@ -51,9 +51,9 @@ public static class Utils
         var newStyle = lvCur.Font.Style ^ FontStyle.Bold;
         var boldFont = new Font(oldFont, newStyle);
 
-        for (var i = 0; i < snoopCollector.Data().Count; i++)
+        for (var i = 0; i < snoopCollector.Data.Count; i++)
         {
-            var tmpSnoopData = (Data) snoopCollector.Data()[i];
+            var tmpSnoopData = (Data) snoopCollector.Data[i];
 
             // if it is a class separator, then color the background differently
             // and don't add a SubItem for the "Field" value

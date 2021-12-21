@@ -40,7 +40,7 @@ public class CollectorXmlNode : Collector
 {
     public void Collect(XmlNode node)
     {
-        DataObjects.Clear();
+        Data.Clear();
         Stream(node);
 
         // now that we've collected all the data that we know about,
@@ -52,19 +52,19 @@ public class CollectorXmlNode : Collector
     //  main branch for anything derived from System.Xml.XmlNode
     private void Stream(XmlNode node)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlNode)));
-        DataObjects.Add(new String("Node type", node.NodeType.ToString()));
-        DataObjects.Add(new String("Name", node.Name));
-        DataObjects.Add(new String("Local name", node.LocalName));
-        DataObjects.Add(new String("Value", node.Value));
-        DataObjects.Add(new Bool("Has child nodes", node.HasChildNodes));
-        DataObjects.Add(new String("Inner text", node.InnerText));
-        DataObjects.Add(new Xml("Inner XML", node.InnerXml, false));
-        DataObjects.Add(new Xml("Outer XML", node.OuterXml, false));
-        DataObjects.Add(new Bool("Is read only", node.IsReadOnly));
-        DataObjects.Add(new String("BaseURI", node.BaseURI));
-        DataObjects.Add(new String("Namespace URI", node.NamespaceURI));
-        DataObjects.Add(new String("Prefix", node.Prefix));
+        Data.Add(new ClassSeparator(typeof(XmlNode)));
+        Data.Add(new String("Node type", node.NodeType.ToString()));
+        Data.Add(new String("Name", node.Name));
+        Data.Add(new String("Local name", node.LocalName));
+        Data.Add(new String("Value", node.Value));
+        Data.Add(new Bool("Has child nodes", node.HasChildNodes));
+        Data.Add(new String("Inner text", node.InnerText));
+        Data.Add(new Xml("Inner XML", node.InnerXml, false));
+        Data.Add(new Xml("Outer XML", node.OuterXml, false));
+        Data.Add(new Bool("Is read only", node.IsReadOnly));
+        Data.Add(new String("BaseURI", node.BaseURI));
+        Data.Add(new String("Namespace URI", node.NamespaceURI));
+        Data.Add(new String("Prefix", node.Prefix));
 
         switch (node)
         {
@@ -91,13 +91,13 @@ public class CollectorXmlNode : Collector
 
     private void Stream(XmlAttribute att)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlAttribute)));
-        DataObjects.Add(new Bool("Specified", att.Specified));
+        Data.Add(new ClassSeparator(typeof(XmlAttribute)));
+        Data.Add(new Bool("Specified", att.Specified));
     }
 
     private void Stream(XmlLinkedNode lnkNode)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlLinkedNode)));
+        Data.Add(new ClassSeparator(typeof(XmlLinkedNode)));
 
         switch (lnkNode)
         {
@@ -125,16 +125,16 @@ public class CollectorXmlNode : Collector
 
     private void Stream(XmlElement elem)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlElement)));
-        DataObjects.Add(new Bool("Has attributes", elem.HasAttributes));
-        DataObjects.Add(new Bool("Is empty", elem.IsEmpty));
+        Data.Add(new ClassSeparator(typeof(XmlElement)));
+        Data.Add(new Bool("Has attributes", elem.HasAttributes));
+        Data.Add(new Bool("Is empty", elem.IsEmpty));
     }
 
     private void Stream(XmlCharacterData charData)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlCharacterData)));
-        DataObjects.Add(new Int("Length", charData.Length));
-        DataObjects.Add(new String("Data", charData.Data));
+        Data.Add(new ClassSeparator(typeof(XmlCharacterData)));
+        Data.Add(new Int("Length", charData.Length));
+        Data.Add(new String("Data", charData.Data));
 
         switch (charData)
         {
@@ -158,79 +158,79 @@ public class CollectorXmlNode : Collector
 
     private void Stream(XmlCDataSection cDataSection)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlCDataSection)));
+        Data.Add(new ClassSeparator(typeof(XmlCDataSection)));
     }
 
     private void Stream(XmlComment comment)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlComment)));
+        Data.Add(new ClassSeparator(typeof(XmlComment)));
     }
 
     private void Stream(XmlDeclaration decl)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlDeclaration)));
-        DataObjects.Add(new String("Encoding", decl.Encoding));
-        DataObjects.Add(new String("Standalone", decl.Standalone));
-        DataObjects.Add(new String("Version", decl.Version));
+        Data.Add(new ClassSeparator(typeof(XmlDeclaration)));
+        Data.Add(new String("Encoding", decl.Encoding));
+        Data.Add(new String("Standalone", decl.Standalone));
+        Data.Add(new String("Version", decl.Version));
     }
 
     private void Stream(XmlDocument doc)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlDocument)));
-        DataObjects.Add(new Bool("Preserve whitespace", doc.PreserveWhitespace));
+        Data.Add(new ClassSeparator(typeof(XmlDocument)));
+        Data.Add(new Bool("Preserve whitespace", doc.PreserveWhitespace));
     }
 
     private void Stream(XmlDocumentFragment doc)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlDocumentFragment)));
+        Data.Add(new ClassSeparator(typeof(XmlDocumentFragment)));
     }
 
     private void Stream(XmlDocumentType dType)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlDocumentType)));
-        DataObjects.Add(new String("Internal subset", dType.InternalSubset));
-        DataObjects.Add(new String("Public ID", dType.PublicId));
-        DataObjects.Add(new String("System ID", dType.SystemId));
+        Data.Add(new ClassSeparator(typeof(XmlDocumentType)));
+        Data.Add(new String("Internal subset", dType.InternalSubset));
+        Data.Add(new String("Public ID", dType.PublicId));
+        Data.Add(new String("System ID", dType.SystemId));
     }
 
     private void Stream(XmlEntity ent)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlEntity)));
-        DataObjects.Add(new String("Notation name", ent.NotationName));
-        DataObjects.Add(new String("Public ID", ent.PublicId));
-        DataObjects.Add(new String("System ID", ent.SystemId));
+        Data.Add(new ClassSeparator(typeof(XmlEntity)));
+        Data.Add(new String("Notation name", ent.NotationName));
+        Data.Add(new String("Public ID", ent.PublicId));
+        Data.Add(new String("System ID", ent.SystemId));
     }
 
     private void Stream(XmlEntityReference entRef)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlEntityReference)));
+        Data.Add(new ClassSeparator(typeof(XmlEntityReference)));
     }
 
     private void Stream(XmlNotation notation)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlNotation)));
-        DataObjects.Add(new String("Public ID", notation.PublicId));
-        DataObjects.Add(new String("System ID", notation.SystemId));
+        Data.Add(new ClassSeparator(typeof(XmlNotation)));
+        Data.Add(new String("Public ID", notation.PublicId));
+        Data.Add(new String("System ID", notation.SystemId));
     }
 
     private void Stream(XmlProcessingInstruction pi)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlProcessingInstruction)));
-        DataObjects.Add(new String("Target", pi.Target));
+        Data.Add(new ClassSeparator(typeof(XmlProcessingInstruction)));
+        Data.Add(new String("Target", pi.Target));
     }
 
     private void Stream(XmlSignificantWhitespace swSpace)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlSignificantWhitespace)));
+        Data.Add(new ClassSeparator(typeof(XmlSignificantWhitespace)));
     }
 
     private void Stream(XmlText text)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlText)));
+        Data.Add(new ClassSeparator(typeof(XmlText)));
     }
 
     private void Stream(XmlWhitespace wSpace)
     {
-        DataObjects.Add(new ClassSeparator(typeof(XmlWhitespace)));
+        Data.Add(new ClassSeparator(typeof(XmlWhitespace)));
     }
 }

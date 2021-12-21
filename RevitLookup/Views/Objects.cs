@@ -609,10 +609,7 @@ public class Objects : Form, IHaveCollector
     {
         try
         {
-            // collect the data about this object
             await _snoopCollector.Collect(_curObj);
-
-            // display it
             Core.Utils.Display(LvData, _snoopCollector);
         }
         catch (Exception ex)

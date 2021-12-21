@@ -59,13 +59,13 @@ public class ElementPropertiesStream : IElementStream
             switch (propertyInfo.Name)
             {
                 case "Geometry":
-                    propertyValue = propertyInfo.GetValue(_elem, new object[1] {new Options()});
+                    propertyValue = propertyInfo.GetValue(_elem, new object[] {new Options()});
                     break;
                 case "BoundingBox":
-                    propertyValue = propertyInfo.GetValue(_elem, new object[1] {_document.ActiveView});
+                    propertyValue = propertyInfo.GetValue(_elem, new object[] {_document.ActiveView});
                     break;
                 case "Item":
-                    propertyValue = propertyInfo.GetValue(_elem, new object[1] {0});
+                    propertyValue = propertyInfo.GetValue(_elem, new object[] {0});
                     break;
                 case "Parameter":
                 case "PlanTopology":
@@ -88,21 +88,11 @@ public class ElementPropertiesStream : IElementStream
                 _data.Add(new String("BuiltInCategory", bic.ToString()));
             }
         }
-        catch (ArgumentException ex)
+        catch (System.Exception ex)
         {
-            _data.Add(new Exception(propertyInfo.Name, ex));
-        }
-        catch (TargetException ex)
-        {
-            _data.Add(new Exception(propertyInfo.Name, ex));
-        }
-        catch (TargetInvocationException ex)
-        {
-            _data.Add(new Exception(propertyInfo.Name, ex));
-        }
-        catch (TargetParameterCountException ex)
-        {
-            _data.Add(new Exception(propertyInfo.Name, ex));
+            _data.Add(ex.InnerException is not null 
+                ? new Exception(propertyInfo.Name, ex.InnerException) 
+                : new Exception(propertyInfo.Name, ex));
         }
     }
 }

@@ -47,7 +47,7 @@ public class CollectorObj : Collector
     /// <param name="obj">Object to collect data for</param>
     public Task Collect(object obj)
     {
-        DataObjects.Clear();
+        Data.Clear();
 
         return obj is null
             ? Task.CompletedTask

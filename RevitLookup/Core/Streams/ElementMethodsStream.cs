@@ -47,17 +47,11 @@ public class ElementMethodsStream : IElementStream
         {
             return _methodDataFactory.Create(methodInfo);
         }
-        catch (TargetException ex)
+        catch (System.Exception ex)
         {
-            return new Exception(methodInfo.Name, ex);
-        }
-        catch (TargetInvocationException ex)
-        {
-            return new Exception(methodInfo.Name, ex);
-        }
-        catch (TargetParameterCountException ex)
-        {
-            return new Exception(methodInfo.Name, ex);
+            return ex.InnerException is not null 
+                ? new Exception(methodInfo.Name, ex.InnerException) 
+                : new Exception(methodInfo.Name, ex);
         }
     }
 }
