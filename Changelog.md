@@ -119,3 +119,4 @@
   - Optimized collections and arrays, updating the window just got a little faster
   - Fixed broken print and preview button
   - Reduced memory allocation
+- 2021-12-21 2022.0.3.1 Fixed https://github.com/jeremytammik/RevitLookup/issues/117 issue. Reflection TargetException message replaced by InnerException message.
