@@ -1,8 +1,8 @@
 ﻿using Nuke.Common;
 using Nuke.Common.Tooling;
-using Nuke.Common.Tools.DotNet;
+using Nuke.Common.Tools.MSBuild;
 using Nuke.Common.Tools.VSWhere;
-using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
 partial class Build
 {
@@ -30,8 +30,11 @@ partial class Build
     }
 
     void CompileProject(string configuration, string toolPath) =>
-        DotNetBuild(settings => settings
+        MSBuild(s => s
+            .SetTargets("Rebuild")
             .SetProcessToolPath(toolPath)
             .SetConfiguration(configuration)
-            .SetVerbosity(DotNetVerbosity.Minimal));
+            .SetVerbosity(MSBuildVerbosity.Minimal)
+            .DisableNodeReuse()
+            .EnableRestore());
 }
