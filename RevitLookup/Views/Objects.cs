@@ -90,15 +90,15 @@ public class Objects : Form, IHaveCollector
     }
 
 
-    public Objects(IEnumerable<SnoopableObjectWrapper> objs)
+    public Objects(IEnumerable<SnoopableObjectWrapper> objects)
     {
         InitializeComponent();
-        CommonInit(objs);
+        CommonInit(objects);
     }
 
-    public void SetDocument(Document document)
+    public Document Document
     {
-        _snoopCollector.SourceDocument = document;
+        set => _snoopCollector.Document = value;
     }
 
     public async void SnoopAndShow(Selector selector)
@@ -621,15 +621,15 @@ public class Objects : Form, IHaveCollector
             LvData.Enabled = false;
             BnOk.Enabled = false;
 
-            var selected = Selectors.Snoop(x, selector);
+            var (item1, document) = Selectors.Snoop(x, selector);
 
             _tableLayoutPanel1.Enabled = true;
             TvObjs.Enabled = true;
             LvData.Enabled = true;
             BnOk.Enabled = true;
 
-            SetDocument(selected.Item2);
-            CommonInit(selected.Item1);
+            Document = document;
+            CommonInit(item1);
         });
     }
 
@@ -643,7 +643,7 @@ public class Objects : Form, IHaveCollector
 
     private void DataItemSelected(object sender, EventArgs e)
     {
-        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, _snoopCollector.SourceDocument));
+        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, _snoopCollector.Document));
     }
 
     private void ContextMenuClick_Copy(object sender, EventArgs e)

@@ -29,16 +29,14 @@ namespace RevitLookup.Core.RevitTypes;
 /// </summary>
 public class ElementGeometry : Data
 {
-    private readonly Autodesk.Revit.ApplicationServices.Application _app;
     private readonly bool _hasGeometry;
     private readonly Element _value;
 
-    public ElementGeometry(string label, Element val, Autodesk.Revit.ApplicationServices.Application app) : base(label)
+    public ElementGeometry(string label, Element val) : base(label)
     {
         _value = val;
-        _app = app;
         _hasGeometry = false;
-        if (_value is not null && _app is not null) _hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
+        if (_value is not null) _hasGeometry = HasModelGeometry() || HasViewSpecificGeometry();
     }
 
     public override bool HasDrillDown => _hasGeometry;
@@ -51,7 +49,7 @@ public class ElementGeometry : Data
     public override Form DrillDown()
     {
         if (!_hasGeometry) return null;
-        var form = new Geometry(_value, _app);
+        var form = new Geometry(_value);
         return form;
     }
 
@@ -60,8 +58,8 @@ public class ElementGeometry : Data
         return Enum
             .GetValues(typeof(ViewDetailLevel))
             .Cast<ViewDetailLevel>()
-            .Select(x => new Options {DetailLevel = x})
-            .Any(x => _value.get_Geometry(x) is not null);
+            .Select(detailLevel => new Options {DetailLevel = detailLevel})
+            .Any(options => _value.get_Geometry(options) is not null);
     }
 
     private bool HasViewSpecificGeometry()

@@ -78,9 +78,9 @@ public class Parameters : Form, IHaveCollector
         TvObjs.EndUpdate();
     }
 
-    public void SetDocument(Document document)
+    public Document Document
     {
-        SnoopCollector.SourceDocument = document;
+        set => SnoopCollector.Document = value;
     }
 
     /// <summary>
@@ -376,7 +376,7 @@ public class Parameters : Form, IHaveCollector
     /// <param name="e"></param>
     private void DataItemSelected(object sender, EventArgs e)
     {
-        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, SnoopCollector.SourceDocument));
+        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, SnoopCollector.Document));
     }
 
 
@@ -426,7 +426,7 @@ public class Parameters : Form, IHaveCollector
         }
 
         var form = new ParamEnumSnoop(enumMap);
-        ModelessWindowFactory.Show(form, SnoopCollector.SourceDocument, this);
+        ModelessWindowFactory.Show(form, SnoopCollector.Document, this);
     }
 
 

@@ -24,5 +24,5 @@ namespace RevitLookup.Core.Collectors;
 
 public abstract class Collector
 {
-    public ArrayList Data { get; set; } = new();
+    public ArrayList Data { get; } = new();
 }

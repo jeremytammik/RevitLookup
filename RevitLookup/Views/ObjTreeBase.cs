@@ -66,9 +66,9 @@ public class ObjTreeBase : Form, IHaveCollector
         // derived classes are responsible for populating the tree
     }
 
-    public void SetDocument(Document document)
+    public Document Document
     {
-        _mSnoopCollector.SourceDocument = document;
+        set => _mSnoopCollector.Document = value;
     }
 
     /// <summary>
@@ -324,7 +324,7 @@ public class ObjTreeBase : Form, IHaveCollector
     /// <param name="e"></param>
     private void DataItemSelected(object sender, EventArgs e)
     {
-        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, _mSnoopCollector.SourceDocument));
+        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, _mSnoopCollector.Document));
     }
 
     /// <summary>

@@ -4,5 +4,5 @@ namespace RevitLookup.Core;
 
 internal interface IHaveCollector
 {
-    void SetDocument(Document document);
+    Document Document { set; }
 }

@@ -30,7 +30,7 @@ namespace RevitLookup.Core.Collectors;
 /// </summary>
 public class CollectorObj : Collector
 {
-    public Document SourceDocument { get; set; }
+    public Document Document { get; set; }
 
     /// <summary>
     ///     This is the point where the ball starts rolling.  We'll walk down the object's class hierarchy,
@@ -45,7 +45,7 @@ public class CollectorObj : Collector
 
         return obj is null
             ? Task.CompletedTask
-            : ExternalExecutor.ExecuteInRevitContextAsync(_ => Collect(SourceDocument, this, obj));
+            : ExternalExecutor.ExecuteInRevitContextAsync(_ => Collect(Document, this, obj));
     }
 
     private void Collect(Document document, CollectorObj collector, object objectToSnoop)

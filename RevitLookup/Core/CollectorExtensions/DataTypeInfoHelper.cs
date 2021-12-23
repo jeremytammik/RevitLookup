@@ -73,7 +73,7 @@ public static class DataTypeInfoHelper
                 return new Int(info.Name, (byte) returnValue);
 
             if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element element)
-                return new ElementGeometry(info.Name, element, document.Application);
+                return new ElementGeometry(info.Name, element);
 
             if (expectedType == typeof(ElementId))
             {
