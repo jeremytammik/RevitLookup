@@ -1,6 +1,3 @@
-#region Header
-
-//
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
@@ -20,9 +17,6 @@
 // restrictions set forth in FAR 52.227-19 (Commercial Computer
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
-//
-
-#endregion // Header
 
 using System.Diagnostics;
 using System.Drawing.Printing;
@@ -328,17 +322,13 @@ public static class Utils
 
     public static StringAlignment HorizontalAlignmentToStringAligment(HorizontalAlignment ha)
     {
-        switch (ha)
+        return ha switch
         {
-            case HorizontalAlignment.Center:
-                return StringAlignment.Center;
-            case HorizontalAlignment.Left:
-                return StringAlignment.Near;
-            case HorizontalAlignment.Right:
-                return StringAlignment.Far;
-            default:
-                return StringAlignment.Near;
-        }
+            HorizontalAlignment.Center => StringAlignment.Center,
+            HorizontalAlignment.Left => StringAlignment.Near,
+            HorizontalAlignment.Right => StringAlignment.Far,
+            _ => StringAlignment.Near
+        };
     }
 
     public static int[] GetMaximumColumnWidths(ListView lv)

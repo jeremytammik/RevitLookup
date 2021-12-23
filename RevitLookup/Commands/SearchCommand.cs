@@ -1,7 +1,4 @@
-﻿#region Header
-
-//
-// Copyright 2003-2021 by Autodesk, Inc.
+﻿// Copyright 2003-2021 by Autodesk, Inc.
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -20,9 +17,6 @@
 // restrictions set forth in FAR 52.227-19 (Commercial Computer
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
-//
-
-#endregion // Header
 
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;

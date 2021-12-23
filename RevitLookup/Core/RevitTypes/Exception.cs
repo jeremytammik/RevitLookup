@@ -1,6 +1,3 @@
-#region Header
-
-//
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
@@ -20,9 +17,6 @@
 // restrictions set forth in FAR 52.227-19 (Commercial Computer
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
-//
-
-#endregion // Header
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -42,6 +36,7 @@ public class Exception : Data
 
     public override string AsValueString()
     {
-        return _value.InnerException is not null ? _value.InnerException.Message : _value.Message;
+        if (_value.InnerException is null) return _value.Message;
+        return string.IsNullOrEmpty(_value.InnerException.Message) ? _value.Message : _value.InnerException.Message;
     }
 }

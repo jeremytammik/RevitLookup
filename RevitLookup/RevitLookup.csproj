@@ -25,18 +25,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Revit_API_x64" Version="$(RevitVersion).*" />
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\Images\RibbonIcon16.png"/>
-        <Resource Include="Resources\Images\RibbonIcon32.png"/>
+        <Resource Include="Resources\Images\RibbonIcon16.png" />
+        <Resource Include="Resources\Images\RibbonIcon32.png" />
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
-            <RootItem Include="$(ProjectDir)*.addin"/>
-            <AddinItem Include="$(TargetDir)$(AssemblyName).*"/>
+            <RootItem Include="$(ProjectDir)*.addin" />
+            <AddinItem Include="$(TargetDir)$(AssemblyName).*" />
             <!--Files to copy to Revit add-ins folder-->
             <!--<AddinItem Include="$(TargetDir)Simple.dll" />-->
         </ItemGroup>
@@ -46,13 +46,13 @@
             <AddinDir>$(RootDir)$(AssemblyName)\</AddinDir>
         </PropertyGroup>
 
-        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)"/>
-        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)"/>
+        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)" />
+        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)" />
 
         <ItemGroup>
-            <AddinFiles Include="$(RootDir)**\*.*"/>
+            <AddinFiles Include="$(RootDir)**\*.*" />
         </ItemGroup>
 
-        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))"/>
+        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))" />
     </Target>
 </Project>

@@ -1,6 +1,3 @@
-#region Header
-
-//
 // Copyright 2003-2021 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
@@ -20,9 +17,6 @@
 // restrictions set forth in FAR 52.227-19 (Commercial Computer
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
-//
-
-#endregion // Header
 
 using System.Collections;
 
@@ -77,14 +71,11 @@ public class ListViewColumnSorter : IComparer
 
         var compareResult = _objectCompare.Compare(listviewX!.SubItems[SortColumn].Text, listviewY!.SubItems[SortColumn].Text);
 
-        switch (Order)
+        return Order switch
         {
-            case SortOrder.Ascending:
-                return compareResult;
-            case SortOrder.Descending:
-                return -compareResult;
-            default:
-                return 0;
-        }
+            SortOrder.Ascending => compareResult,
+            SortOrder.Descending => -compareResult,
+            _ => 0
+        };
     }
 }

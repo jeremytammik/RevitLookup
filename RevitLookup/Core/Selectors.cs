@@ -22,27 +22,18 @@ internal static class Selectors
 {
     public static (object, Document) Snoop(UIApplication app, Selector selector)
     {
-        switch (selector)
+        return selector switch
         {
-            case Selector.SnoopDb:
-                return SnoopDb(app);
-            case Selector.SnoopCurrentSelection:
-                return SnoopCurrentSelection(app);
-            case Selector.SnoopPickFace:
-                return SnoopPickFace(app);
-            case Selector.SnoopPickEdge:
-                return SnoopPickEdge(app);
-            case Selector.SnoopLinkedElement:
-                return SnoopLinkedElement(app);
-            case Selector.SnoopDependentElements:
-                return SnoopDependentElements(app);
-            case Selector.SnoopActiveView:
-                return SnoopActiveView(app);
-            case Selector.SnoopApplication:
-                return SnoopApplication(app);
-            default:
-                throw new NotImplementedException();
-        }
+            Selector.SnoopDb => SnoopDb(app),
+            Selector.SnoopCurrentSelection => SnoopCurrentSelection(app),
+            Selector.SnoopPickFace => SnoopPickFace(app),
+            Selector.SnoopPickEdge => SnoopPickEdge(app),
+            Selector.SnoopLinkedElement => SnoopLinkedElement(app),
+            Selector.SnoopDependentElements => SnoopDependentElements(app),
+            Selector.SnoopActiveView => SnoopActiveView(app),
+            Selector.SnoopApplication => SnoopApplication(app),
+            _ => throw new NotImplementedException()
+        };
     }
 
     private static (IList<Element>, Document) SnoopDb(UIApplication app)
