@@ -120,4 +120,6 @@
   - Fixed broken print and preview button
   - Reduced memory allocation
 - 2021-12-21 2022.0.3.1 Fixed https://github.com/jeremytammik/RevitLookup/issues/117 issue. Reflection TargetException message replaced by InnerException message.
-- Unreleased 2022.0.3.2 Updated headers for Geometry View. Added a label for null and empty strings.
+- Unreleased 2022.0.3.2 This update fixes the display of labels:
+  - Updated labels for Geometry View.
+  - Added a label for null and empty string, nullable double.
