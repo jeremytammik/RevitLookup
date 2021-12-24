@@ -34,6 +34,10 @@ public class String : Data
 
     public override string AsValueString()
     {
+        if (_value is null)
+            return Labels.Null;
+        if (_value.Length == 0)
+            return Labels.Empty;
         return _value;
     }
 }

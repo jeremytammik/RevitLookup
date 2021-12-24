@@ -8,6 +8,6 @@ public class EmptyValue : Data
 
     public override string AsValueString()
     {
-        return string.Empty;
+        return Labels.Empty;
     }
 }

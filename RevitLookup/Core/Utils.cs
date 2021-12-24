@@ -135,7 +135,7 @@ public static class Utils
 
         if (nameProperty is null) return null;
         var propertyValue = nameProperty.GetValue(obj) as string;
-        return $"< {obj.GetType().Name}  {(string.IsNullOrEmpty(propertyValue) ? "???" : propertyValue)} >";
+        return $"< {obj.GetType().Name}  {(string.IsNullOrEmpty(propertyValue) ? Labels.Undefined : propertyValue)} >";
     }
 
     public static string GetParameterObjectLabel(object obj)
@@ -155,7 +155,7 @@ public static class Utils
         switch (obj)
         {
             case null:
-                return "< null >";
+                return Labels.Null;
             case IObjectToSnoopPlaceholder placeholder:
                 return placeholder.GetName();
             case Element elem:
@@ -164,7 +164,7 @@ public static class Utils
                 // arj - 1/23/07
                 try
                 {
-                    var nameStr = elem.Name == string.Empty ? "???" : elem.Name; // use "???" if no name is set
+                    var nameStr = elem.Name == string.Empty ? Labels.Undefined : elem.Name;
                     return $"< {nameStr}  {elem.Id.IntegerValue} >";
                 }
                 catch (Exception ex)

@@ -38,6 +38,6 @@ public class Uv : Data
     {
         return _value is not null
             ? $"({_value.U}, {_value.V})"
-            : "< null >";
+            : Labels.Null;
     }
 }
