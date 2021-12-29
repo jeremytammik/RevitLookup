@@ -21,10 +21,10 @@
 using Autodesk.Revit.UI;
 using RevitLookup.Commands;
 using RevitLookup.Core;
-using RevitLookup.RevitUtils;
 
 namespace RevitLookup;
 
+[UsedImplicitly]
 public class Application : IExternalApplication
 {
     public Result OnStartup(UIControlledApplication application)
