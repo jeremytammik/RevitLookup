@@ -25,10 +25,6 @@ using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Collectors;
 using RevitLookup.Core.RevitTypes;
 using RevitLookup.Core.Streams;
-using Enumerable = RevitLookup.Core.RevitTypes.Enumerable;
-using Exception = System.Exception;
-using Object = RevitLookup.Core.RevitTypes.Object;
-using String = RevitLookup.Core.RevitTypes.String;
 
 namespace RevitLookup.Core.CollectorExtensions;
 
@@ -59,7 +55,7 @@ public class CollectorExtensions
     public void Collect(Collector snoopCollector, CollectorEventArgs e)
     {
         if (e.ObjToSnoop is IEnumerable snoop)
-            snoopCollector.Data.Add(new Enumerable(snoop.GetType().Name, snoop));
+            snoopCollector.Data.Add(new EnumerableData(snoop.GetType().Name, snoop));
         else
             Stream(snoopCollector.Data, e.ObjToSnoop);
     }
@@ -80,7 +76,7 @@ public class CollectorExtensions
 
         foreach (var type in thisElementTypes)
         {
-            data.Add(new ClassSeparator(type));
+            data.Add(new ClassSeparatorData(type));
 
             foreach (var elementStream in streams)
                 elementStream.Stream(type);
@@ -115,7 +111,7 @@ public class CollectorExtensions
         var schemas = Schema.ListSchemas();
         if (elem is null || schemas.Count == 0) return;
 
-        data.Add(new ExtensibleStorageSeparator());
+        data.Add(new ExtensibleStorageSeparatorData());
 
         foreach (var schema in schemas)
         {
@@ -124,11 +120,11 @@ public class CollectorExtensions
             {
                 var entity = elem.GetEntity(schema);
                 if (!entity.IsValid()) continue;
-                data.Add(new Object(objectName, entity));
+                data.Add(new ObjectData(objectName, entity));
             }
             catch (Exception ex)
             {
-                data.Add(new RevitTypes.Exception(objectName, ex));
+                data.Add(new ExceptionData(objectName, ex));
             }
         }
     }
@@ -138,6 +134,6 @@ public class CollectorExtensions
         var elemType = elem.GetType();
 
         if (elemType.IsEnum || elemType.IsPrimitive || elemType.IsValueType)
-            data.Add(new String($"{elemType.Name} value", elem.ToString()));
+            data.Add(new StringData($"{elemType.Name} value", elem.ToString()));
     }
 }

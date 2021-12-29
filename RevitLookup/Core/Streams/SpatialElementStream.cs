@@ -1,6 +1,6 @@
 using System.Collections;
 using Autodesk.Revit.DB;
-using Object = RevitLookup.Core.RevitTypes.Object;
+using RevitLookup.Core.RevitTypes;
 
 namespace RevitLookup.Core.Streams;
 
@@ -25,7 +25,7 @@ public class SpatialElementStream : IElementStream
     public void Stream(Type type)
     {
         if (MustStream(type))
-            _data.Add(new Object("GetBoundarySegments", _spatialElement.GetBoundarySegments(_boundaryOptions)));
+            _data.Add(new ObjectData("GetBoundarySegments", _spatialElement.GetBoundarySegments(_boundaryOptions)));
     }
 
     private bool MustStream(Type type)

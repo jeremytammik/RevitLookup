@@ -32,7 +32,6 @@ public class Application : IExternalApplication
         CreateRibbonPanel(application);
         ModelessWindowHandle.SetHandler(application.MainWindowHandle);
         ExternalExecutor.CreateExternalEvent();
-
         return Result.Succeeded;
     }
 
@@ -41,7 +40,7 @@ public class Application : IExternalApplication
         return Result.Succeeded;
     }
 
-    private void CreateRibbonPanel(UIControlledApplication application)
+    private static void CreateRibbonPanel(UIControlledApplication application)
     {
         var ribbonPanel = application.CreatePanel("Revit Lookup");
         var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");

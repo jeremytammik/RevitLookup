@@ -3,7 +3,6 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.CollectorExtensions;
 using RevitLookup.Core.RevitTypes;
-using Exception = System.Exception;
 
 namespace RevitLookup.Core.Streams;
 
@@ -26,7 +25,7 @@ public class ElementMethodsStream : IElementStream
             .OrderBy(x => x.Name)
             .ToList();
 
-        if (methods.Count > 0) _data.Add(new MemberSeparatorWithOffset("Methods"));
+        if (methods.Count > 0) _data.Add(new MemberSeparatorWithOffsetData("Methods"));
         var currentTypeMethods = new List<string>();
 
         foreach (var methodInfo in methods)
@@ -49,7 +48,7 @@ public class ElementMethodsStream : IElementStream
         }
         catch (Exception ex)
         {
-            return new RevitTypes.Exception(methodInfo.Name, ex);
+            return new ExceptionData(methodInfo.Name, ex);
         }
     }
 }

@@ -54,7 +54,7 @@ public class DataFactory
         }
 
         if (declaringType == typeof(Element) && methodInfo.Name == nameof(Element.GetPhaseStatus))
-            return new ElementPhaseStatuses(methodInfo.Name, (Element) _elem);
+            return new ElementPhaseStatusesData(methodInfo.Name, (Element) _elem);
 
         if (declaringType == typeof(Reference) && methodInfo.Name == nameof(Reference.ConvertToStableRepresentation))
         {
@@ -63,29 +63,29 @@ public class DataFactory
         }
 
         if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetFilterOverrides))
-            return new ViewFiltersOverrideGraphicSettings(methodInfo.Name, (View) _elem);
+            return new ViewFiltersOverrideGraphicSettingsData(methodInfo.Name, (View) _elem);
 
         if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetFilterVisibility))
-            return new ViewFiltersVisibilitySettings(methodInfo.Name, (View) _elem);
+            return new ViewFiltersVisibilitySettingsData(methodInfo.Name, (View) _elem);
 
         if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetNonControlledTemplateParameterIds))
-            return new ViewGetNonControlledTemplateParameterIds(methodInfo.Name, (View) _elem);
+            return new ViewGetNonControlledTemplateParameterIdsData(methodInfo.Name, (View) _elem);
 
         if (declaringType == typeof(View) && methodInfo.Name == nameof(View.GetTemplateParameterIds))
-            return new ViewGetTemplateParameterIds(methodInfo.Name, (View) _elem);
+            return new ViewGetTemplateParameterIdsData(methodInfo.Name, (View) _elem);
 
         if (declaringType == typeof(ScheduleDefinition) && methodInfo.Name == nameof(ScheduleDefinition.GetField))
         {
             var parameters = methodInfo.GetParameters();
             if (parameters[0].ParameterType == typeof(int))
-                return new ScheduleDefinitionGetFields(methodInfo.Name, (ScheduleDefinition) _elem);
+                return new ScheduleDefinitionGetFieldsData(methodInfo.Name, (ScheduleDefinition) _elem);
         }
 
         if (declaringType == typeof(ViewCropRegionShapeManager) && methodInfo.Name == nameof(ViewCropRegionShapeManager.GetSplitRegionOffset))
-            return new ViewCropRegionShapeManagerGetSplitRegionOffsets(methodInfo.Name, (ViewCropRegionShapeManager) _elem);
+            return new ViewCropRegionShapeManagerGetSplitRegionOffsetsData(methodInfo.Name, (ViewCropRegionShapeManager) _elem);
 
         if (declaringType == typeof(Curve) && methodInfo.Name == nameof(Curve.GetEndPoint))
-            return new CurveGetEndPoint(methodInfo.Name, (Curve) _elem);
+            return new CurveGetEndPointData(methodInfo.Name, (Curve) _elem);
 
         if (declaringType == typeof(TableData) && methodInfo.Name == nameof(TableData.GetSectionData))
         {
@@ -95,10 +95,10 @@ public class DataFactory
         }
 
         if (declaringType == typeof(PlanViewRange) && methodInfo.Name == nameof(PlanViewRange.GetLevelId))
-            return new PlanViewRangeGetLevelId(methodInfo.Name, (PlanViewRange) _elem, _document);
+            return new PlanViewRangeGetLevelIdData(methodInfo.Name, (PlanViewRange) _elem, _document);
 
         if (declaringType == typeof(PlanViewRange) && methodInfo.Name == nameof(PlanViewRange.GetOffset))
-            return new PlanViewRangeGetOffset(methodInfo.Name, (PlanViewRange) _elem);
+            return new PlanViewRangeGetOffsetData(methodInfo.Name, (PlanViewRange) _elem);
 
         if (declaringType == typeof(Document) && methodInfo.Name == nameof(Document.Close))
             return null;

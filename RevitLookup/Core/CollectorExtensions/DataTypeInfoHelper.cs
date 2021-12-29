@@ -24,18 +24,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using RevitLookup.Core.RevitTypes;
 using RevitLookup.Core.RevitTypes.PlaceHolders;
-using AssetProperty = Autodesk.Revit.DB.Visual.AssetProperty;
-using CategoryNameMap = Autodesk.Revit.DB.CategoryNameMap;
 using Color = Autodesk.Revit.DB.Color;
-using Double = RevitLookup.Core.RevitTypes.Double;
-using DoubleArray = Autodesk.Revit.DB.DoubleArray;
-using ElementId = Autodesk.Revit.DB.ElementId;
-using ElementSet = Autodesk.Revit.DB.ElementSet;
-using Enumerable = RevitLookup.Core.RevitTypes.Enumerable;
-using Exception = System.Exception;
-using Object = RevitLookup.Core.RevitTypes.Object;
-using ParameterSet = Autodesk.Revit.DB.ParameterSet;
-using String = RevitLookup.Core.RevitTypes.String;
 
 namespace RevitLookup.Core.CollectorExtensions;
 
@@ -53,65 +42,65 @@ public static class DataTypeInfoHelper
             if (expectedType == typeof(bool))
             {
                 var val = returnValue as bool?;
-                return new Bool(info.Name, val.GetValueOrDefault());
+                return new BoolData(info.Name, val.GetValueOrDefault());
             }
 
             if (expectedType == typeof(CategoryNameMap))
-                return new RevitTypes.CategoryNameMap(info.Name, returnValue as CategoryNameMap);
+                return new CategoryNameMapData(info.Name, returnValue as CategoryNameMap);
 
             if (expectedType == typeof(double))
-                return new Double(info.Name, (double) returnValue);
+                return new DoubleData(info.Name, (double) returnValue);
 
             if (expectedType == typeof(double?))
             {
                 var value = (double?) returnValue;
-                if (value.HasValue) return new Double(info.Name, value.Value);
-                return new EmptyValue(info.Name);
+                if (value.HasValue) return new DoubleData(info.Name, value.Value);
+                return new StringData(info.Name, null);
             }
 
             if (expectedType == typeof(byte))
-                return new Int(info.Name, (byte) returnValue);
+                return new IntData(info.Name, (byte) returnValue);
 
             if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element element)
-                return new ElementGeometry(info.Name, element);
+                return new ElementGeometryData(info.Name, element);
 
             if (expectedType == typeof(ElementId))
             {
                 if (info.Name == nameof(Element.Id))
-                    return new String(info.Name, (returnValue as ElementId)?.IntegerValue.ToString());
+                    return new StringData(info.Name, (returnValue as ElementId)?.IntegerValue.ToString());
 
-                return new RevitTypes.ElementId(info.Name, returnValue as ElementId, document);
+                return new ElementIdData(info.Name, returnValue as ElementId, document);
             }
 
             if (expectedType == typeof(ElementSet))
-                return new RevitTypes.ElementSet(info.Name, returnValue as ElementSet);
+                return new ElementSetData(info.Name, returnValue as ElementSet);
 
             if (expectedType == typeof(AssetProperty))
-                return new RevitTypes.AssetProperty(info.Name, elem as AssetProperties);
+                return new AssetPropertyData(info.Name, elem as AssetProperties);
 
             if (expectedType == typeof(Color))
-                return new RevitTypes.Color(info.Name, returnValue as Color);
+                return new ColorData(info.Name, returnValue as Color);
 
             if (expectedType == typeof(DoubleArray))
-                return new RevitTypes.DoubleArray(info.Name, returnValue as DoubleArray);
+                return new DoubleArrayData(info.Name, returnValue as DoubleArray);
 
             if (expectedType == typeof(int))
             {
                 var val = returnValue as int?;
-                return new Int(info.Name, val.GetValueOrDefault());
+                return new IntData(info.Name, val.GetValueOrDefault());
             }
 
             if (expectedType == typeof(ParameterSet))
-                return new RevitTypes.ParameterSet(info.Name, elem as Element, returnValue as ParameterSet);
+                return new ParameterSetData(info.Name, elem as Element, returnValue as ParameterSet);
 
             if (expectedType == typeof(string))
-                return new String(info.Name, returnValue as string);
+                return new StringData(info.Name, returnValue as string);
 
             if (expectedType == typeof(UV))
-                return new Uv(info.Name, returnValue as UV);
+                return new UvData(info.Name, returnValue as UV);
 
             if (expectedType == typeof(XYZ))
-                return new Xyz(info.Name, returnValue as XYZ);
+                return new XyzData(info.Name, returnValue as XYZ);
 
             if (expectedType == typeof(PlanTopologySet))
             {
@@ -120,7 +109,7 @@ public static class DataTypeInfoHelper
                     .Cast<PlanTopology>()
                     .Select(x => new PlanTopologyPlaceholder(x))
                     .ToList();
-                return new Enumerable(info.Name, placeholders, document);
+                return new EnumerableData(info.Name, placeholders, document);
             }
 
             if (typeof(IEnumerable).IsAssignableFrom(expectedType)
@@ -131,22 +120,22 @@ public static class DataTypeInfoHelper
                 return new EnumerableAsString(info.Name, returnValue as IEnumerable);
 
             if (typeof(IEnumerable).IsAssignableFrom(expectedType))
-                return new Enumerable(info.Name, returnValue as IEnumerable, document);
+                return new EnumerableData(info.Name, returnValue as IEnumerable, document);
 
             if (expectedType.IsEnum)
-                return new String(info.Name, returnValue.ToString());
+                return new StringData(info.Name, returnValue.ToString());
 
             if (expectedType == typeof(Guid))
             {
                 var guidValue = (Guid) returnValue;
-                return new String(info.Name, guidValue.ToString());
+                return new StringData(info.Name, guidValue.ToString());
             }
 
-            return new Object(info.Name, returnValue);
+            return new ObjectData(info.Name, returnValue);
         }
         catch (Exception ex)
         {
-            return new RevitTypes.Exception(info.Name, ex);
+            return new ExceptionData(info.Name, ex);
         }
     }
 

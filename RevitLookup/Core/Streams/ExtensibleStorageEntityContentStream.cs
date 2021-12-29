@@ -3,12 +3,6 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.RevitTypes;
-using Double = RevitLookup.Core.RevitTypes.Double;
-using ElementId = Autodesk.Revit.DB.ElementId;
-using Enumerable = RevitLookup.Core.RevitTypes.Enumerable;
-using Exception = System.Exception;
-using Object = RevitLookup.Core.RevitTypes.Object;
-using String = RevitLookup.Core.RevitTypes.String;
 
 namespace RevitLookup.Core.Streams;
 
@@ -29,11 +23,11 @@ public class ExtensibleStorageEntityContentStream : IElementStream
     {
         if (type != typeof(Entity) || _entity is null || !_entity.IsValid()) return;
         if (!_entity.ReadAccessGranted())
-            _data.Add(new RevitTypes.Exception("<Extensible storage Fields>", new Exception("Doesn't have access to read extensible storage data")));
+            _data.Add(new ExceptionData("<Extensible storage Fields>", new Exception("Doesn't have access to read extensible storage data")));
 
         var fields = _entity.Schema.ListFields();
         if (fields.Count == 0) return;
-        _data.Add(new ExtensibleStorageSeparator());
+        _data.Add(new ExtensibleStorageSeparatorData());
         foreach (var field in fields) StreamEntityFieldValue(field);
     }
 
@@ -55,7 +49,7 @@ public class ExtensibleStorageEntityContentStream : IElementStream
         }
         catch (Exception ex)
         {
-            _data.Add(new RevitTypes.Exception(field.FieldName, ex));
+            _data.Add(new ExceptionData(field.FieldName, ex));
         }
     }
 
@@ -82,41 +76,41 @@ public class ExtensibleStorageEntityContentStream : IElementStream
         {
             if (field.ContainerType != ContainerType.Simple)
             {
-                _data.Add(new Enumerable(field.FieldName, value as IEnumerable));
+                _data.Add(new EnumerableData(field.FieldName, value as IEnumerable));
             }
             else if (field.ValueType == typeof(double))
             {
-                _data.Add(new Double(field.FieldName, (double) value));
+                _data.Add(new DoubleData(field.FieldName, (double) value));
             }
             else if (field.ValueType == typeof(string))
             {
-                _data.Add(new String(field.FieldName, value as string));
+                _data.Add(new StringData(field.FieldName, value as string));
             }
             else if (field.ValueType == typeof(XYZ))
             {
-                _data.Add(new Xyz(field.FieldName, value as XYZ));
+                _data.Add(new XyzData(field.FieldName, value as XYZ));
             }
             else if (field.ValueType == typeof(UV))
             {
-                _data.Add(new Uv(field.FieldName, value as UV));
+                _data.Add(new UvData(field.FieldName, value as UV));
             }
             else if (field.ValueType == typeof(int))
             {
-                _data.Add(new Int(field.FieldName, (int) value));
+                _data.Add(new IntData(field.FieldName, (int) value));
             }
             else if (field.ValueType == typeof(ElementId))
             {
-                _data.Add(new RevitTypes.ElementId(field.FieldName, value as ElementId, _document));
+                _data.Add(new ElementIdData(field.FieldName, value as ElementId, _document));
             }
             else if (field.ValueType == typeof(Guid))
             {
                 var guidValue = (Guid) value;
 
-                _data.Add(new String(field.FieldName, guidValue.ToString()));
+                _data.Add(new StringData(field.FieldName, guidValue.ToString()));
             }
             else
             {
-                _data.Add(new Object(field.FieldName, value));
+                _data.Add(new ObjectData(field.FieldName, value));
             }
         }
         catch (Exception ex)

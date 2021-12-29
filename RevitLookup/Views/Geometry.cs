@@ -36,7 +36,7 @@ public class Geometry : ObjTreeBase
     }
 
     private void AddObjectsToTree(Element elem, TreeNodeCollection nodes)
-    {   
+    {
         var rootNode1 = new TreeNode("Undefined View");
         nodes.Add(rootNode1);
         foreach (ViewDetailLevel detailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
@@ -70,9 +70,9 @@ public class Geometry : ObjTreeBase
         }
 
         if (elem.Document.ActiveView is null) return;
-        
+
         var options3 = new Options
-        {   
+        {
             View = elem.Document.ActiveView,
             ComputeReferences = true
         };

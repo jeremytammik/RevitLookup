@@ -1,6 +1,6 @@
 using System.Collections;
 using Autodesk.Revit.DB;
-using Enumerable = RevitLookup.Core.RevitTypes.Enumerable;
+using RevitLookup.Core.RevitTypes;
 
 namespace RevitLookup.Core.Streams;
 
@@ -28,6 +28,6 @@ public class FamilyTypeParameterValuesStream : IElementStream
             .Select(family.Document.GetElement)
             .ToList();
 
-        _data.Add(new Enumerable($"{nameof(Family)}.{nameof(Family.GetFamilyTypeParameterValues)}()", familyTypeParameterValues));
+        _data.Add(new EnumerableData($"{nameof(Family)}.{nameof(Family.GetFamilyTypeParameterValues)}()", familyTypeParameterValues));
     }
 }

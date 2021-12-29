@@ -1,10 +1,6 @@
 using System.Collections;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.RevitTypes;
-using ElementId = Autodesk.Revit.DB.ElementId;
-using Enumerable = RevitLookup.Core.RevitTypes.Enumerable;
-using Object = RevitLookup.Core.RevitTypes.Object;
-using String = RevitLookup.Core.RevitTypes.String;
 
 namespace RevitLookup.Core.Streams;
 
@@ -25,29 +21,29 @@ public class PartUtilsStream : IElementStream
 
         if (type == typeof(Element) && _elem is Element element)
         {
-            _data.Add(new MemberSeparatorWithOffset(nameof(PartUtils)));
-            _data.Add(new Bool(nameof(PartUtils.AreElementsValidForCreateParts), PartUtils.AreElementsValidForCreateParts(element.Document, new[] {element.Id})));
-            _data.Add(new Object(nameof(PartUtils.GetAssociatedPartMaker), PartUtils.GetAssociatedPartMaker(element.Document, element.Id)));
-            _data.Add(new Bool(nameof(PartUtils.HasAssociatedParts), PartUtils.HasAssociatedParts(element.Document, element.Id)));
-            _data.Add(new Bool(nameof(PartUtils.IsValidForCreateParts), PartUtils.IsValidForCreateParts(element.Document, new LinkElementId(element.Id))));
+            _data.Add(new MemberSeparatorWithOffsetData(nameof(PartUtils)));
+            _data.Add(new BoolData(nameof(PartUtils.AreElementsValidForCreateParts), PartUtils.AreElementsValidForCreateParts(element.Document, new[] {element.Id})));
+            _data.Add(new ObjectData(nameof(PartUtils.GetAssociatedPartMaker), PartUtils.GetAssociatedPartMaker(element.Document, element.Id)));
+            _data.Add(new BoolData(nameof(PartUtils.HasAssociatedParts), PartUtils.HasAssociatedParts(element.Document, element.Id)));
+            _data.Add(new BoolData(nameof(PartUtils.IsValidForCreateParts), PartUtils.IsValidForCreateParts(element.Document, new LinkElementId(element.Id))));
         }
 
         if (type == typeof(Part) && part is not null)
         {
-            _data.Add(new MemberSeparatorWithOffset(nameof(PartUtils)));
-            _data.Add(new Bool(nameof(PartUtils.ArePartsValidForDivide), PartUtils.ArePartsValidForDivide(part.Document, new[] {part.Id})));
-            _data.Add(new Bool(nameof(PartUtils.ArePartsValidForMerge), PartUtils.ArePartsValidForMerge(part.Document, new[] {part.Id})));
-            _data.Add(new Int(nameof(PartUtils.GetChainLengthToOriginal), PartUtils.GetChainLengthToOriginal(part)));
+            _data.Add(new MemberSeparatorWithOffsetData(nameof(PartUtils)));
+            _data.Add(new BoolData(nameof(PartUtils.ArePartsValidForDivide), PartUtils.ArePartsValidForDivide(part.Document, new[] {part.Id})));
+            _data.Add(new BoolData(nameof(PartUtils.ArePartsValidForMerge), PartUtils.ArePartsValidForMerge(part.Document, new[] {part.Id})));
+            _data.Add(new IntData(nameof(PartUtils.GetChainLengthToOriginal), PartUtils.GetChainLengthToOriginal(part)));
             var isMergedPart = PartUtils.IsMergedPart(part);
-            _data.Add(new Enumerable(nameof(PartUtils.GetMergedParts), isMergedPart ? PartUtils.GetMergedParts(part) : Array.Empty<ElementId>(), part.Document));
-            _data.Add(new Bool(nameof(PartUtils.IsMergedPart), isMergedPart));
-            _data.Add(new Bool(nameof(PartUtils.IsPartDerivedFromLink), PartUtils.IsPartDerivedFromLink(part)));
+            _data.Add(new EnumerableData(nameof(PartUtils.GetMergedParts), isMergedPart ? PartUtils.GetMergedParts(part) : Array.Empty<ElementId>(), part.Document));
+            _data.Add(new BoolData(nameof(PartUtils.IsMergedPart), isMergedPart));
+            _data.Add(new BoolData(nameof(PartUtils.IsPartDerivedFromLink), PartUtils.IsPartDerivedFromLink(part)));
 
-            _data.Add(new MemberSeparatorWithOffset(nameof(Part)));
-            _data.Add(new String(nameof(Part.OriginalCategoryId), ((BuiltInCategory) part.OriginalCategoryId.IntegerValue).ToString()));
+            _data.Add(new MemberSeparatorWithOffsetData(nameof(Part)));
+            _data.Add(new StringData(nameof(Part.OriginalCategoryId), ((BuiltInCategory) part.OriginalCategoryId.IntegerValue).ToString()));
 
             var sourceElementIds = part.GetSourceElementIds().Where(e => e.HostElementId != ElementId.InvalidElementId).Select(e => e.HostElementId).ToList();
-            _data.Add(new Enumerable(nameof(Part.GetSourceElementIds), sourceElementIds, part.Document));
+            _data.Add(new EnumerableData(nameof(Part.GetSourceElementIds), sourceElementIds, part.Document));
 
             var sourceCategoryIds = part.GetSourceElementOriginalCategoryIds().Select(e => (BuiltInCategory) e.IntegerValue).ToList();
             _data.Add(new EnumerableAsString(nameof(Part.GetSourceElementOriginalCategoryIds), sourceCategoryIds));

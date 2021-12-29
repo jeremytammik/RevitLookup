@@ -3,8 +3,6 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.CollectorExtensions;
 using RevitLookup.Core.RevitTypes;
-using Exception = System.Exception;
-using String = RevitLookup.Core.RevitTypes.String;
 
 namespace RevitLookup.Core.Streams;
 
@@ -26,7 +24,7 @@ public class ElementPropertiesStream : IElementStream
     {
         var properties = GetElementProperties(type);
         var currentTypeProperties = new List<string>();
-        if (properties.Length > 0) _data.Add(new MemberSeparatorWithOffset("Properties"));
+        if (properties.Length > 0) _data.Add(new MemberSeparatorWithOffsetData("Properties"));
 
         foreach (var pi in properties)
         {
@@ -85,12 +83,12 @@ public class ElementPropertiesStream : IElementStream
             if (_elem is Category category && propertyInfo.Name == "Id" && category.Id.IntegerValue < 0)
             {
                 var bic = (BuiltInCategory) category.Id.IntegerValue;
-                _data.Add(new String("BuiltInCategory", bic.ToString()));
+                _data.Add(new StringData("BuiltInCategory", bic.ToString()));
             }
         }
         catch (Exception ex)
         {
-            _data.Add(new RevitTypes.Exception(propertyInfo.Name, ex));
+            _data.Add(new ExceptionData(propertyInfo.Name, ex));
         }
     }
 }

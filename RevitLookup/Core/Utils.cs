@@ -55,7 +55,7 @@ public static class Utils
             {
                 var lvItem = new ListViewItem(tmpSnoopData.AsValueString())
                 {
-                    BackColor = tmpSnoopData is ClassSeparator ? Color.LightBlue : Color.WhiteSmoke,
+                    BackColor = tmpSnoopData is ClassSeparatorData ? Color.LightBlue : Color.WhiteSmoke,
                     Tag = tmpSnoopData
                 };
 
@@ -405,8 +405,7 @@ public static class Utils
         dlg.Document.Print();
     }
 
-    public static void
-        PrintPreviewMenuItemClick(PrintPreviewDialog dlg, TreeView tv)
+    public static void PrintPreviewMenuItemClick(PrintPreviewDialog dlg, TreeView tv)
     {
         if (tv.SelectedNode is null)
         {

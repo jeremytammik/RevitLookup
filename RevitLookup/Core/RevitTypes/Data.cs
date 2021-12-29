@@ -35,8 +35,7 @@ public abstract class Data
     /// <summary>
     ///     The Label value for the property (e.g. "Radius" for a Circle
     /// </summary>
-
-    public string Label { get; set; }
+    public string Label { get; }
 
     /// <summary>
     ///     Is there more information available about this property.  For instance,

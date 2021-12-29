@@ -28,7 +28,7 @@
         <Using Include="Nice3point.Revit.Extensions" />
         <Using Include="JetBrains.Annotations" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />
     </ItemGroup>
@@ -36,10 +36,6 @@
     <ItemGroup>
         <Resource Include="Resources\Images\RibbonIcon16.png" />
         <Resource Include="Resources\Images\RibbonIcon32.png" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="RevitUtils" />
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
