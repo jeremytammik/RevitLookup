@@ -363,10 +363,13 @@ public static class Utils
         return widthArray;
     }
 
-    public static TreeNode GetRootNode(TreeNode node)
+    private static TreeNode GetRootNode(TreeNode node)
     {
-        if (node.Parent is null) return node;
-        return GetRootNode(node.Parent);
+        while (true)
+        {
+            if (node.Parent is null) return node;
+            node = node.Parent;
+        }
     }
 
     public static string GetPrintDocumentName(TreeNode node)
