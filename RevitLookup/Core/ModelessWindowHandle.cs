@@ -4,18 +4,18 @@ namespace RevitLookup.Core;
 
 internal class ModelessWindowHandle : IWin32Window
 {
-    private static IntPtr _revitMainWindowHandle;
+    private static IntPtr _windowHandle;
 
     public ModelessWindowHandle()
     {
-        Handle = _revitMainWindowHandle;
+        Handle = _windowHandle;
     }
 
     public IntPtr Handle { get; }
 
     public static void SetHandler(IntPtr handler)
     {
-        _revitMainWindowHandle = handler;
+        _windowHandle = handler;
     }
 
     [DllImport("USER32.DLL")]
@@ -23,6 +23,6 @@ internal class ModelessWindowHandle : IWin32Window
 
     public static void BringRevitToFront()
     {
-        SetForegroundWindow(_revitMainWindowHandle);
+        SetForegroundWindow(_windowHandle);
     }
 }

@@ -24,12 +24,12 @@ public class ScheduleDefinitionGetFieldsData : Data
     {
         if (!HasDrillDown) return null;
 
-        var scheduleFieldObjects = new List<SnoopableObjectWrapper>();
+        var scheduleFieldObjects = new List<SnoopableWrapper>();
 
         for (var i = 0; i < _scheduleDefinition.GetFieldCount(); i++)
         {
             var field = _scheduleDefinition.GetField(i);
-            scheduleFieldObjects.Add(new SnoopableObjectWrapper($"[{i}] {field.GetName()}", field));
+            scheduleFieldObjects.Add(new SnoopableWrapper($"[{i}] {field.GetName()}", field));
         }
 
         if (scheduleFieldObjects.Count == 0) return null;

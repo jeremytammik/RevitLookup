@@ -28,7 +28,7 @@ public class ElementPhaseStatusesData : Data
             .Document
             .Phases
             .Cast<Phase>()
-            .Select(x => new SnoopableObjectWrapper(x.Name, _element.GetPhaseStatus(x.Id)))
+            .Select(x => new SnoopableWrapper(x.Name, _element.GetPhaseStatus(x.Id)))
             .ToList();
 
         if (elementOnPhaseStatuses.Count == 0) return null;

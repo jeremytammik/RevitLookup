@@ -29,7 +29,7 @@ namespace RevitLookup.Commands;
 [Transaction(TransactionMode.Manual)]
 public class SnoopSurfaceCommand : IExternalCommand
 {
-    public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
+    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var form = new Objects();
         form.SnoopAndShow(Selector.SnoopPickFace);

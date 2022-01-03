@@ -12,11 +12,11 @@ public class ExtensibleStorageEntityContentStream : IElementStream
     private readonly Document _document;
     private readonly Entity _entity;
 
-    public ExtensibleStorageEntityContentStream(Document document, ArrayList data, object elem)
+    public ExtensibleStorageEntityContentStream(Document document, ArrayList data, object element)
     {
         _document = document;
         _data = data;
-        _entity = elem as Entity;
+        _entity = element as Entity;
     }
 
     public void Stream(Type type)
@@ -105,7 +105,6 @@ public class ExtensibleStorageEntityContentStream : IElementStream
             else if (field.ValueType == typeof(Guid))
             {
                 var guidValue = (Guid) value;
-
                 _data.Add(new StringData(field.FieldName, guidValue.ToString()));
             }
             else

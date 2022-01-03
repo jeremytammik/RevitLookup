@@ -31,11 +31,11 @@ namespace RevitLookup.Commands;
 [Transaction(TransactionMode.Manual)]
 public class HelloWorldCommand : IExternalCommand
 {
-    public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
+    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var a = Assembly.GetExecutingAssembly();
+        var assembly = Assembly.GetExecutingAssembly();
         var dialog = new TaskDialog("Autodesk Revit");
-        dialog.MainContent = $"Hello World from {a.Location} v{a.GetName().Version}";
+        dialog.MainContent = $"Hello World from {assembly.Location} v{assembly.GetName().Version}";
         dialog.Show();
         return Result.Cancelled;
     }

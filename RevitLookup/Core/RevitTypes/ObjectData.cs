@@ -34,7 +34,7 @@ public class ObjectData : Data
     public ObjectData(string label, object val) : base(label)
     {
         _value = val;
-        _stringValue = Utils.ObjToLabelStr(_value);
+        _stringValue = Utils.GetLabel(_value);
     }
 
     public override bool HasDrillDown => _value is not null;

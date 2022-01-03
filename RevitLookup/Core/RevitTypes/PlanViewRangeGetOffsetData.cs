@@ -24,12 +24,12 @@ public class PlanViewRangeGetOffsetData : Data
     {
         if (!HasDrillDown) return null;
 
-        var sectionDataObjects = new List<SnoopableObjectWrapper>();
+        var sectionDataObjects = new List<SnoopableWrapper>();
 
         foreach (PlanViewPlane type in Enum.GetValues(typeof(PlanViewPlane)))
         {
             var offset = _planViewRange.GetOffset(type);
-            sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), offset));
+            sectionDataObjects.Add(new SnoopableWrapper(type.ToString(), offset));
         }
 
         if (sectionDataObjects.Count == 0) return null;

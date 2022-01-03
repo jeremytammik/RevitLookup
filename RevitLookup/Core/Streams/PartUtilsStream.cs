@@ -7,19 +7,19 @@ namespace RevitLookup.Core.Streams;
 public class PartUtilsStream : IElementStream
 {
     private readonly ArrayList _data;
-    private readonly object _elem;
+    private readonly object _element;
 
-    public PartUtilsStream(ArrayList data, object elem)
+    public PartUtilsStream(ArrayList data, object element)
     {
-        _elem = elem;
+        _element = element;
         _data = data;
     }
 
     public void Stream(Type type)
     {
-        var part = _elem as Part;
+        var part = _element as Part;
 
-        if (type == typeof(Element) && _elem is Element element)
+        if (type == typeof(Element) && _element is Element element)
         {
             _data.Add(new MemberSeparatorWithOffsetData(nameof(PartUtils)));
             _data.Add(new BoolData(nameof(PartUtils.AreElementsValidForCreateParts), PartUtils.AreElementsValidForCreateParts(element.Document, new[] {element.Id})));

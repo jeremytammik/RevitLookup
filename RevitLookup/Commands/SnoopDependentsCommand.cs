@@ -27,13 +27,12 @@ using RevitLookup.Views;
 namespace RevitLookup.Commands;
 
 /// <summary>
-///     Snoop dependent elements using
-///     Element.GetDependentElements
+///     Snoop dependent elements using Element.GetDependentElements
 /// </summary>
 [Transaction(TransactionMode.Manual)]
 public class SnoopDependentsCommand : IExternalCommand
 {
-    public Result Execute(ExternalCommandData cmdData, ref string msg, ElementSet elems)
+    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
         var form = new Objects();
         form.SnoopAndShow(Selector.SnoopDependentElements);

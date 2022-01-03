@@ -10,14 +10,14 @@ public class ElementPropertiesStream : IElementStream
 {
     private readonly ArrayList _data;
     private readonly Document _document;
-    private readonly object _elem;
+    private readonly object _element;
     private readonly List<string> _seenProperties = new();
 
-    public ElementPropertiesStream(Document document, ArrayList data, object elem)
+    public ElementPropertiesStream(Document document, ArrayList data, object element)
     {
         _document = document;
         _data = data;
-        _elem = elem;
+        _element = element;
     }
 
     public void Stream(Type type)
@@ -26,11 +26,11 @@ public class ElementPropertiesStream : IElementStream
         var currentTypeProperties = new List<string>();
         if (properties.Length > 0) _data.Add(new MemberSeparatorWithOffsetData("Properties"));
 
-        foreach (var pi in properties)
+        foreach (var property in properties)
         {
-            if (_seenProperties.Contains(pi.Name)) continue;
-            currentTypeProperties.Add(pi.Name);
-            AddPropertyToData(pi);
+            if (_seenProperties.Contains(property.Name)) continue;
+            currentTypeProperties.Add(property.Name);
+            AddPropertyToData(property);
         }
 
         _seenProperties.AddRange(currentTypeProperties);
@@ -45,42 +45,42 @@ public class ElementPropertiesStream : IElementStream
             .ToArray();
     }
 
-    private void AddPropertyToData(PropertyInfo pi)
+    private void AddPropertyToData(PropertyInfo propertyInfo)
     {
-        var propertyInfo = pi.PropertyType.ContainsGenericParameters ? _elem.GetType().GetProperty(pi.Name) : pi;
-        if (propertyInfo is null) return;
-        var propertyType = propertyInfo.PropertyType;
+        var property = propertyInfo.PropertyType.ContainsGenericParameters ? _element.GetType().GetProperty(propertyInfo.Name) : propertyInfo;
+        if (property is null) return;
+        var propertyType = property.PropertyType;
 
         try
         {
             object propertyValue;
-            switch (propertyInfo.Name)
+            switch (property.Name)
             {
                 case "Geometry":
-                    propertyValue = propertyInfo.GetValue(_elem, new object[] {new Options()});
+                    propertyValue = property.GetValue(_element, new object[] {new Options()});
                     break;
                 case "BoundingBox":
-                    propertyValue = propertyInfo.GetValue(_elem, new object[] {_document.ActiveView});
+                    propertyValue = property.GetValue(_element, new object[] {_document.ActiveView});
                     break;
                 case "Item":
-                    propertyValue = propertyInfo.GetValue(_elem, new object[] {0});
+                    propertyValue = property.GetValue(_element, new object[] {0});
                     break;
                 case "Parameter":
                 case "PlanTopology":
-                case "PlanTopologies" when propertyInfo.GetMethod.GetParameters().Length != 0:
+                case "PlanTopologies" when property.GetMethod.GetParameters().Length != 0:
                     return;
                 default:
                 {
                     propertyValue = propertyType.ContainsGenericParameters
-                        ? _elem.GetType().GetProperty(propertyInfo.Name)?.GetValue(_elem)
-                        : propertyInfo.GetValue(_elem);
+                        ? _element.GetType().GetProperty(property.Name)?.GetValue(_element)
+                        : property.GetValue(_element);
                     break;
                 }
             }
 
-            DataTypeInfoHelper.AddDataFromTypeInfo(_document, propertyInfo, propertyType, propertyValue, _elem, _data);
+            DataTypeInfoHelper.AddDataFromTypeInfo(_document, property, propertyType, propertyValue, _element, _data);
 
-            if (_elem is Category category && propertyInfo.Name == "Id" && category.Id.IntegerValue < 0)
+            if (_element is Category category && property.Name == "Id" && category.Id.IntegerValue < 0)
             {
                 var bic = (BuiltInCategory) category.Id.IntegerValue;
                 _data.Add(new StringData("BuiltInCategory", bic.ToString()));
@@ -88,7 +88,7 @@ public class ElementPropertiesStream : IElementStream
         }
         catch (Exception ex)
         {
-            _data.Add(new ExceptionData(propertyInfo.Name, ex));
+            _data.Add(new ExceptionData(property.Name, ex));
         }
     }
 }

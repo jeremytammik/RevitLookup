@@ -30,12 +30,12 @@ namespace RevitLookup.Core.CollectorExtensions;
 
 public static class DataTypeInfoHelper
 {
-    public static Data CreateFrom(Document document, MethodInfo info, object returnValue, object elem)
+    public static Data CreateFrom(Document document, MethodInfo info, object returnValue, object element)
     {
-        return CreateFrom(document, info, info.ReturnType, returnValue, elem);
+        return CreateFrom(document, info, info.ReturnType, returnValue, element);
     }
 
-    private static Data CreateFrom(Document document, MemberInfo info, Type expectedType, object returnValue, object elem)
+    private static Data CreateFrom(Document document, MemberInfo info, Type expectedType, object returnValue, object element)
     {
         try
         {
@@ -61,8 +61,8 @@ public static class DataTypeInfoHelper
             if (expectedType == typeof(byte))
                 return new IntData(info.Name, (byte) returnValue);
 
-            if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && elem is Element element)
-                return new ElementGeometryData(info.Name, element);
+            if ((expectedType == typeof(GeometryObject) || expectedType == typeof(GeometryElement)) && element is Element geometryElement)
+                return new ElementGeometryData(info.Name, geometryElement);
 
             if (expectedType == typeof(ElementId))
             {
@@ -76,7 +76,7 @@ public static class DataTypeInfoHelper
                 return new ElementSetData(info.Name, returnValue as ElementSet);
 
             if (expectedType == typeof(AssetProperty))
-                return new AssetPropertyData(info.Name, elem as AssetProperties);
+                return new AssetPropertyData(info.Name, element as AssetProperties);
 
             if (expectedType == typeof(Color))
                 return new ColorData(info.Name, returnValue as Color);
@@ -91,7 +91,7 @@ public static class DataTypeInfoHelper
             }
 
             if (expectedType == typeof(ParameterSet))
-                return new ParameterSetData(info.Name, elem as Element, returnValue as ParameterSet);
+                return new ParameterSetData(info.Name, element as Element, returnValue as ParameterSet);
 
             if (expectedType == typeof(string))
                 return new StringData(info.Name, returnValue as string);
@@ -112,11 +112,11 @@ public static class DataTypeInfoHelper
                 return new EnumerableData(info.Name, placeholders, document);
             }
 
-            if (typeof(IEnumerable).IsAssignableFrom(expectedType)
-                && expectedType.IsGenericType
-                && (expectedType.GenericTypeArguments[0] == typeof(double)
-                    || expectedType.GenericTypeArguments[0] == typeof(int))
-                || expectedType == typeof(DoubleArray))
+            if (typeof(IEnumerable).IsAssignableFrom(expectedType) &&
+                expectedType.IsGenericType &&
+                (expectedType.GenericTypeArguments[0] == typeof(double) ||
+                 expectedType.GenericTypeArguments[0] == typeof(int)) ||
+                expectedType == typeof(DoubleArray))
                 return new EnumerableAsString(info.Name, returnValue as IEnumerable);
 
             if (typeof(IEnumerable).IsAssignableFrom(expectedType))
@@ -133,9 +133,9 @@ public static class DataTypeInfoHelper
 
             return new ObjectData(info.Name, returnValue);
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            return new ExceptionData(info.Name, ex);
+            return new ExceptionData(info.Name, exception);
         }
     }
 

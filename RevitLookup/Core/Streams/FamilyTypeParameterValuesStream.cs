@@ -7,19 +7,19 @@ namespace RevitLookup.Core.Streams;
 public class FamilyTypeParameterValuesStream : IElementStream
 {
     private readonly ArrayList _data;
-    private readonly object _elem;
+    private readonly object _element;
 
-    public FamilyTypeParameterValuesStream(ArrayList data, object elem)
+    public FamilyTypeParameterValuesStream(ArrayList data, object element)
     {
         _data = data;
-        _elem = elem;
+        _element = element;
     }
 
     public void Stream(Type type)
     {
         if (type != typeof(Parameter)) return;
 
-        var parameter = (Parameter) _elem;
+        var parameter = (Parameter) _element;
         if (!Category.IsBuiltInCategory(parameter.Definition.GetDataType())) return;
         var family = (parameter.Element as FamilyInstance)?.Symbol.Family ?? (parameter.Element as FamilySymbol)?.Family;
         if (family is null) return;

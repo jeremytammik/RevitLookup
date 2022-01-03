@@ -17,14 +17,14 @@ internal static class ExternalExecutor
         var request = new Request(command);
         ExternalEventHandler.Queue.Enqueue(request);
         _externalEvent.Raise();
-        return request.Tcs.Task;
+        return request.CompletionSource.Task;
     }
 
 
     private class Request
     {
         public readonly Action<UIApplication> Command;
-        public readonly TaskCompletionSource<object> Tcs = new();
+        public readonly TaskCompletionSource<object> CompletionSource = new();
 
         public Request(Action<UIApplication> command)
         {
@@ -42,11 +42,11 @@ internal static class ExternalExecutor
                 try
                 {
                     request.Command(app);
-                    request.Tcs.SetResult(null);
+                    request.CompletionSource.SetResult(null);
                 }
                 catch (Exception e)
                 {
-                    request.Tcs.SetException(e);
+                    request.CompletionSource.SetException(e);
                 }
         }
 

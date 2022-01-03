@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using View = Autodesk.Revit.DB.View;
@@ -8,7 +7,7 @@ namespace RevitLookup.Core;
 
 public enum Selector
 {
-    SnoopDb = 0,
+    SnoopDb,
     SnoopCurrentSelection,
     SnoopPickFace,
     SnoopPickEdge,
@@ -20,44 +19,42 @@ public enum Selector
 
 internal static class Selectors
 {
-    public static (object, Document) Snoop(UIApplication app, Selector selector)
+    public static (object, Document) Snoop(UIApplication uiApplication, Selector selector)
     {
         return selector switch
         {
-            Selector.SnoopDb => SnoopDb(app),
-            Selector.SnoopCurrentSelection => SnoopCurrentSelection(app),
-            Selector.SnoopPickFace => SnoopPickFace(app),
-            Selector.SnoopPickEdge => SnoopPickEdge(app),
-            Selector.SnoopLinkedElement => SnoopLinkedElement(app),
-            Selector.SnoopDependentElements => SnoopDependentElements(app),
-            Selector.SnoopActiveView => SnoopActiveView(app),
-            Selector.SnoopApplication => SnoopApplication(app),
+            Selector.SnoopDb => SnoopDb(uiApplication),
+            Selector.SnoopCurrentSelection => SnoopCurrentSelection(uiApplication),
+            Selector.SnoopPickFace => SnoopPickFace(uiApplication),
+            Selector.SnoopPickEdge => SnoopPickEdge(uiApplication),
+            Selector.SnoopLinkedElement => SnoopLinkedElement(uiApplication),
+            Selector.SnoopDependentElements => SnoopDependentElements(uiApplication),
+            Selector.SnoopActiveView => SnoopActiveView(uiApplication),
+            Selector.SnoopApplication => SnoopApplication(uiApplication),
             _ => throw new NotImplementedException()
         };
     }
 
-    private static (IList<Element>, Document) SnoopDb(UIApplication app)
+    private static (IList<Element>, Document) SnoopDb(UIApplication uiApplication)
     {
-        var doc = app.ActiveUIDocument.Document;
-        var elemTypeCtor = new FilteredElementCollector(doc).WhereElementIsElementType();
-        var notElemTypeCtor = new FilteredElementCollector(doc).WhereElementIsNotElementType();
-        var allElementCtor = elemTypeCtor.UnionWith(notElemTypeCtor);
-        var founds = allElementCtor.ToElements();
+        var document = uiApplication.ActiveUIDocument.Document;
+        var elementTypes = new FilteredElementCollector(document).WhereElementIsElementType();
+        var elementInstances = new FilteredElementCollector(document).WhereElementIsNotElementType();
+        var elementsCollector = elementTypes.UnionWith(elementInstances);
+        var elements = elementsCollector.ToElements();
 
-        Trace.WriteLine(founds.Count.ToString());
-
-        return (founds, doc);
+        return (elements, document);
     }
 
-    private static (IList<Element>, Document) SnoopCurrentSelection(UIApplication app)
+    private static (IList<Element>, Document) SnoopCurrentSelection(UIApplication uiApplication)
     {
-        var activeUiDocument = app.ActiveUIDocument;
-        var document = activeUiDocument.Document;
+        var uiDocument = uiApplication.ActiveUIDocument;
+        var document = uiDocument.Document;
 
-        var ids = activeUiDocument.Selection.GetElementIds();
+        var selectedIds = uiDocument.Selection.GetElementIds();
 
-        if (ids.Count > 0)
-            return (new FilteredElementCollector(document, ids)
+        if (selectedIds.Count > 0)
+            return (new FilteredElementCollector(document, selectedIds)
                 .WherePasses(new LogicalOrFilter(new ElementIsElementTypeFilter(false), new ElementIsElementTypeFilter(true)))
                 .ToElements(), document);
 

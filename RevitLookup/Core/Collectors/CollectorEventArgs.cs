@@ -22,10 +22,10 @@ namespace RevitLookup.Core.Collectors;
 
 public class CollectorEventArgs : EventArgs
 {
-    public CollectorEventArgs(object objToSnoop)
+    public CollectorEventArgs(object snoopObject)
     {
-        ObjToSnoop = objToSnoop;
+        SnoopObject = snoopObject;
     }
 
-    public object ObjToSnoop { get; }
+    public object SnoopObject { get; }
 }

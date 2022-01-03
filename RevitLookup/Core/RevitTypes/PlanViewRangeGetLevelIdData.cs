@@ -26,7 +26,7 @@ public class PlanViewRangeGetLevelIdData : Data
     {
         if (!HasDrillDown) return null;
 
-        var sectionDataObjects = new List<SnoopableObjectWrapper>();
+        var sectionDataObjects = new List<SnoopableWrapper>();
 
         foreach (PlanViewPlane type in Enum.GetValues(typeof(PlanViewPlane)))
         {
@@ -34,11 +34,11 @@ public class PlanViewRangeGetLevelIdData : Data
             if (levelId is not null && levelId != ElementId.InvalidElementId)
             {
                 var level = _document.GetElement(levelId) as Level;
-                sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), level));
+                sectionDataObjects.Add(new SnoopableWrapper(type.ToString(), level));
             }
             else
             {
-                sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), levelId));
+                sectionDataObjects.Add(new SnoopableWrapper(type.ToString(), levelId));
             }
         }
 

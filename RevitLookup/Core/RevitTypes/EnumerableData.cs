@@ -68,7 +68,7 @@ public class EnumerableData : Data
 
     public override string AsValueString()
     {
-        return Utils.ObjToLabelStr(_value);
+        return Utils.GetLabel(_value);
     }
 
     public override Form DrillDown()

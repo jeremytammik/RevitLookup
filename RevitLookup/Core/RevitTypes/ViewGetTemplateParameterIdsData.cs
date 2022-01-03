@@ -31,7 +31,7 @@ public class ViewGetTemplateParameterIdsData : Data
                 .ToList()
                 .Find(q => q.Id.IntegerValue == id.IntegerValue))
             .Where(p => p is not null)
-            .Select(p => new SnoopableObjectWrapper(p.Definition.Name, p)).ToList();
+            .Select(p => new SnoopableWrapper(p.Definition.Name, p)).ToList();
 
         if (templateParameterIds.Count == 0) return null;
 

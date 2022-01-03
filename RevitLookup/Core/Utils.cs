@@ -36,69 +36,69 @@ namespace RevitLookup.Core;
 
 public static class Utils
 {
-    public static void Display(ListView lvCur, Collector snoopCollector)
+    public static void Display(ListView listView, Collector snoopCollector)
     {
-        lvCur.BeginUpdate();
-        lvCur.Items.Clear();
+        listView.BeginUpdate();
+        listView.Items.Clear();
 
-        var oldFont = lvCur.Font;
-        var newStyle = lvCur.Font.Style ^ FontStyle.Bold;
+        var oldFont = listView.Font;
+        var newStyle = listView.Font.Style ^ FontStyle.Bold;
         var boldFont = new Font(oldFont, newStyle);
 
-        for (var i = 0; i < snoopCollector.Data.Count; i++)
+        foreach (var data in snoopCollector.Data)
         {
-            var tmpSnoopData = (Data) snoopCollector.Data[i];
+            var snoopData = (Data) data;
 
             // if it is a class separator, then color the background differently
             // and don't add a SubItem for the "Field" value
-            if (tmpSnoopData.IsSeparator)
+            if (snoopData.IsSeparator)
             {
-                var lvItem = new ListViewItem(tmpSnoopData.AsValueString())
+                var lvItem = new ListViewItem(snoopData.AsValueString())
                 {
-                    BackColor = tmpSnoopData is ClassSeparatorData ? Color.LightBlue : Color.WhiteSmoke,
-                    Tag = tmpSnoopData
+                    BackColor = snoopData is ClassSeparatorData ? Color.LightBlue : Color.WhiteSmoke,
+                    Tag = snoopData
                 };
 
-                lvCur.Items.Add(lvItem);
+                listView.Items.Add(lvItem);
             }
             else
             {
-                var lvItem = new ListViewItem(tmpSnoopData.Label);
-                lvItem.SubItems.Add(tmpSnoopData.AsValueString());
+                var viewItem = new ListViewItem(snoopData.Label);
+                viewItem.SubItems.Add(snoopData.AsValueString());
 
-                if (tmpSnoopData.IsError)
+                if (snoopData.IsError)
                 {
-                    var sItem = lvItem.SubItems[0];
-                    sItem.ForeColor = Color.Red;
+                    var subItem = viewItem.SubItems[0];
+                    subItem.ForeColor = Color.Red;
                 }
 
-                if (tmpSnoopData.HasDrillDown)
+                if (snoopData.HasDrillDown)
                 {
-                    var sItem = lvItem.SubItems[0];
-                    sItem.Font = boldFont;
+                    var subItem = viewItem.SubItems[0];
+                    subItem.Font = boldFont;
                 }
 
-                lvItem.Tag = tmpSnoopData;
-                lvCur.Items.Add(lvItem);
+                viewItem.Tag = snoopData;
+                listView.Items.Add(viewItem);
             }
         }
 
-        lvCur.EndUpdate();
+        listView.EndUpdate();
     }
 
-    public static void DataItemSelected(ListView lvCur, ModelessWindowFactory windowFactory)
+    public static void DataItemSelected(ListView listView, ModelessWindowFactory windowFactory)
     {
-        Debug.Assert(lvCur.SelectedItems.Count > 1 == false);
-        if (lvCur.SelectedItems.Count == 0) return;
+        Debug.Assert(listView.SelectedItems.Count > 1 == false);
+        if (listView.SelectedItems.Count == 0) return;
 
-        var tmpSnoopData = (Data) lvCur.SelectedItems[0].Tag;
-        var newForm = tmpSnoopData.DrillDown();
+        var snoopData = (Data) listView.SelectedItems[0].Tag;
+        var newForm = snoopData.DrillDown();
         if (newForm is not null) windowFactory.ShowForm(newForm);
     }
 
-    private static void UpdateLastColumnWidth(ListView lvCur)
+    private static void UpdateLastColumnWidth(ListView listView)
     {
-        lvCur.Columns[lvCur.Columns.Count - 1].Width = -2;
+        listView.Columns[listView.Columns.Count - 1].Width = -2;
     }
 
     public static void AddOnLoadForm(Form form)
@@ -150,13 +150,13 @@ public static class Utils
         return familyParameter?.Definition.Name;
     }
 
-    public static string ObjToLabelStr(object obj)
+    public static string GetLabel(object obj)
     {
         switch (obj)
         {
             case null:
                 return Labels.Null;
-            case IObjectToSnoopPlaceholder placeholder:
+            case ISnoopPlaceholder placeholder:
                 return placeholder.GetName();
             case Element elem:
                 // TBD: Exceptions are thrown in certain cases when accessing the Name property. 
@@ -376,7 +376,7 @@ public static class Utils
     {
         var root = GetRootNode(node);
 
-        if (root.Tag is string str) return Path.GetFileNameWithoutExtension((string) root.Tag);
+        if (root.Tag is string str) return Path.GetFileNameWithoutExtension(str);
         return string.Empty;
     }
 

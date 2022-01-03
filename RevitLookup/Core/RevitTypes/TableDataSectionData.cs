@@ -24,13 +24,13 @@ public class TableDataSectionData : Data
     {
         if (!HasDrillDown) return null;
 
-        var sectionDataObjects = new List<SnoopableObjectWrapper>();
+        var sectionDataObjects = new List<SnoopableWrapper>();
 
         foreach (SectionType type in Enum.GetValues(typeof(SectionType)))
         {
             var sectionData = _tableData.GetSectionData(type);
             if (sectionData is null) continue;
-            sectionDataObjects.Add(new SnoopableObjectWrapper(type.ToString(), sectionData));
+            sectionDataObjects.Add(new SnoopableWrapper(type.ToString(), sectionData));
         }
 
         if (sectionDataObjects.Count == 0) return null;

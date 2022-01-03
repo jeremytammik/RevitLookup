@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
+using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.Tools.GitHub;
@@ -60,10 +61,11 @@ partial class Build
 
         var logBuilder = new StringBuilder();
         var changelogLineRegex = new Regex($@"^.*({version})\S*\s");
+        const string logStartSymbol = "- ";
 
         foreach (var line in File.ReadLines(ChangeLogPath))
         {
-            if (logBuilder.Length > 0)
+            if (logBuilder.Length > 0 && !line.StartsWith(logStartSymbol))
             {
                 logBuilder.AppendLine(line);
                 continue;

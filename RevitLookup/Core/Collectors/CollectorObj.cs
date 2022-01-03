@@ -53,7 +53,7 @@ public class CollectorObj : Collector
         var transaction = document is {IsModifiable: false} ? new Transaction(document, GetType().Name) : null;
         transaction?.Start();
 
-        if (objectToSnoop is IObjectToSnoopPlaceholder placeholder) objectToSnoop = placeholder.GetObject(document);
+        if (objectToSnoop is ISnoopPlaceholder placeholder) objectToSnoop = placeholder.GetObject(document);
 
         try
         {

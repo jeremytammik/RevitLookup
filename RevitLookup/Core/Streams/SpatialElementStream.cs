@@ -10,10 +10,10 @@ public class SpatialElementStream : IElementStream
     private readonly ArrayList _data;
     private readonly SpatialElement _spatialElement;
 
-    public SpatialElementStream(ArrayList data, object elem)
+    public SpatialElementStream(ArrayList data, object element)
     {
         _data = data;
-        _spatialElement = elem as SpatialElement;
+        _spatialElement = element as SpatialElement;
 
         _boundaryOptions = new SpatialElementBoundaryOptions
         {

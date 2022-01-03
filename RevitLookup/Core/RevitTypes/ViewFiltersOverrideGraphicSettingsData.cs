@@ -25,7 +25,7 @@ public class ViewFiltersOverrideGraphicSettingsData : Data
 
         var filterOverrides = _view
             .GetFilters()
-            .Select(x => new SnoopableObjectWrapper(_view.Document.GetElement(x).Name, _view.GetFilterOverrides(x)))
+            .Select(x => new SnoopableWrapper(_view.Document.GetElement(x).Name, _view.GetFilterOverrides(x)))
             .ToList();
 
         if (filterOverrides.Count == 0) return null;

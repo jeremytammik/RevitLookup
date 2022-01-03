@@ -12,10 +12,10 @@ public class ElementMethodsStream : IElementStream
     private readonly DataFactory _methodDataFactory;
     private readonly List<string> _seenMethods = new();
 
-    public ElementMethodsStream(Document document, ArrayList data, object elem)
+    public ElementMethodsStream(Document document, ArrayList data, object element)
     {
         _data = data;
-        _methodDataFactory = new DataFactory(document, elem);
+        _methodDataFactory = new DataFactory(document, element);
     }
 
     public void Stream(Type type)

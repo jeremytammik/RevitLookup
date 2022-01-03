@@ -25,7 +25,7 @@ public class ViewFiltersVisibilitySettingsData : Data
 
         var filtersVisibility = _view
             .GetFilters()
-            .Select(x => new SnoopableObjectWrapper(_view.Document.GetElement(x).Name, _view.GetFilterVisibility(x)))
+            .Select(x => new SnoopableWrapper(_view.Document.GetElement(x).Name, _view.GetFilterVisibility(x)))
             .ToList();
 
         if (filtersVisibility.Count == 0) return null;

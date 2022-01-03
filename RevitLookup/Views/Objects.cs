@@ -24,7 +24,6 @@ using System.Drawing.Printing;
 using Autodesk.Revit.DB;
 using RevitLookup.Core;
 using RevitLookup.Core.Collectors;
-using RevitLookup.Core.RevitTypes;
 using Exception = System.Exception;
 using Form = System.Windows.Forms.Form;
 
@@ -80,17 +79,17 @@ public class Objects : Form, IHaveCollector
     public Objects(object obj)
     {
         InitializeComponent();
-        CommonInit(new[] {SnoopableObjectWrapper.Create(obj)});
+        CommonInit(new[] {SnoopableWrapper.Create(obj)});
     }
 
     public Objects(ArrayList objs)
     {
         InitializeComponent();
-        CommonInit(objs.Cast<object>().Select(SnoopableObjectWrapper.Create));
+        CommonInit(objs.Cast<object>().Select(SnoopableWrapper.Create));
     }
 
 
-    public Objects(IEnumerable<SnoopableObjectWrapper> objects)
+    public Objects(IEnumerable<SnoopableWrapper> objects)
     {
         InitializeComponent();
         CommonInit(objects);
@@ -107,7 +106,7 @@ public class Objects : Form, IHaveCollector
         ModelessWindowFactory.Show(this);
     }
 
-    private void CommonInit(IEnumerable<SnoopableObjectWrapper> objs)
+    private void CommonInit(IEnumerable<SnoopableWrapper> objs)
     {
         TvObjs.Nodes.Clear();
         LvData.Items.Clear();
@@ -142,10 +141,10 @@ public class Objects : Form, IHaveCollector
             case null:
                 return;
             case IList<Element> lista:
-                CommonInit(lista.Select(SnoopableObjectWrapper.Create));
+                CommonInit(lista.Select(SnoopableWrapper.Create));
                 break;
             default:
-                CommonInit(new[] {SnoopableObjectWrapper.Create(obj)});
+                CommonInit(new[] {SnoopableWrapper.Create(obj)});
                 break;
         }
     }
@@ -559,7 +558,7 @@ public class Objects : Form, IHaveCollector
 
     #endregion
 
-    private void AddObjectsToTree(IEnumerable<SnoopableObjectWrapper> snoopableObjects)
+    private void AddObjectsToTree(IEnumerable<SnoopableWrapper> snoopableObjects)
     {
         TvObjs.Sorted = true;
 

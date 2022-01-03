@@ -15,28 +15,28 @@ public class ModelessWindowFactory
         _targetDocument = targetDocument;
     }
 
-    public void ShowForm(Form newForm)
+    public void ShowForm(Form form)
     {
-        Show(newForm, _targetDocument, _parentForm);
+        Show(form, _targetDocument, _parentForm);
     }
 
-    public static void Show(Form newForm, Document targetDocument = null, Form parentForm = null)
+    public static void Show(Form form, Document targetDocument = null, Form parentForm = null)
     {
-        AddKeyEvents(newForm);
+        AddKeyEvents(form);
         if (parentForm is null)
         {
-            newForm.StartPosition = FormStartPosition.CenterScreen;
+            form.StartPosition = FormStartPosition.CenterScreen;
         }
         else
         {
-            parentForm.AddOwnedForm(newForm);
-            newForm.StartPosition = FormStartPosition.Manual;
-            newForm.Location = new Point(parentForm.Location.X + (parentForm.Width - newForm.Width) / 2, parentForm.Location.Y + (parentForm.Height - newForm.Height) / 2);
+            parentForm.AddOwnedForm(form);
+            form.StartPosition = FormStartPosition.Manual;
+            form.Location = new Point(parentForm.Location.X + (parentForm.Width - form.Width) / 2, parentForm.Location.Y + (parentForm.Height - form.Height) / 2);
         }
 
-        if (targetDocument is not null && newForm is IHaveCollector formWithCollector) formWithCollector.Document = targetDocument;
-        newForm.Show(new ModelessWindowHandle());
-        newForm.FormClosed += (s, e) =>
+        if (targetDocument is not null && form is IHaveCollector formWithCollector) formWithCollector.Document = targetDocument;
+        form.Show(new ModelessWindowHandle());
+        form.FormClosed += (s, e) =>
         {
             ModelessWindowHandle.BringRevitToFront();
             FocusOwner((Form) s);

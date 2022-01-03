@@ -2,7 +2,7 @@
 
 namespace RevitLookup.Core.RevitTypes.PlaceHolders;
 
-internal class PlanTopologyPlaceholder : IObjectToSnoopPlaceholder
+internal class PlanTopologyPlaceholder : ISnoopPlaceholder
 {
     private readonly Level _level;
     private readonly Phase _phase;

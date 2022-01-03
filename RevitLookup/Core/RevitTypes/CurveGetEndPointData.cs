@@ -27,7 +27,7 @@ public class CurveGetEndPointData : Data
     {
         if (!HasDrillDown) return null;
 
-        var xyzObjects = new List<SnoopableObjectWrapper>
+        var xyzObjects = new List<SnoopableWrapper>
         {
             new("[0] Start", _curve.GetEndPoint(0)),
             new("[1] End", _curve.GetEndPoint(1))
