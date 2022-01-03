@@ -41,7 +41,7 @@ public class Geometry : ObjTreeBase
         nodes.Add(rootNode1);
         foreach (ViewDetailLevel detailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
         {
-            var treeNode = new TreeNode($"Detail Level = {detailLevel}");
+            var treeNode = new TreeNode($"Detail Level: {detailLevel}");
             // IMPORTANT!!! Need to create options each time when you are 
             // getting geometry. In other case, all the geometry you got at the 
             // previous step will be overridden according with the latest DetailLevel
@@ -54,14 +54,14 @@ public class Geometry : ObjTreeBase
             rootNode1.Nodes.Add(treeNode);
         }
 
-        var rootNode2 = new TreeNode("Undefined View, include not visible objects");
+        var rootNode2 = new TreeNode("Undefined View, including non-visible objects");
         nodes.Add(rootNode2);
-        foreach (ViewDetailLevel viewDetailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
+        foreach (ViewDetailLevel detailLevel in Enum.GetValues(typeof(ViewDetailLevel)))
         {
-            var treeNode = new TreeNode($"Detail Level = {viewDetailLevel}");
+            var treeNode = new TreeNode($"Detail Level: {detailLevel}");
             var options2 = new Options
             {
-                DetailLevel = viewDetailLevel,
+                DetailLevel = detailLevel,
                 ComputeReferences = true,
                 IncludeNonVisibleObjects = true
             };
@@ -90,7 +90,7 @@ public class Geometry : ObjTreeBase
             IncludeNonVisibleObjects = true
         };
 
-        var rootNode4 = new TreeNode("Active View, include not visible objects");
+        var rootNode4 = new TreeNode("Active View, including non-visible objects");
         nodes.Add(rootNode4);
         rootNode4.Tag = elem.get_Geometry(options4);
     }
