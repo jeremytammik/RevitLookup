@@ -3,6 +3,7 @@ using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tools.VSWhere;
 
 /// <summary>
 ///     Documentation:
@@ -14,6 +15,20 @@ partial class Build : NukeBuild
     [GitRepository] readonly GitRepository GitRepository;
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / ArtifactsFolder;
     readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
+
+    static readonly Lazy<string> MsBuildPath = new(() =>
+    {
+        if (IsServerBuild) return null;
+        var (_, output) = VSWhereTasks.VSWhere(settings => settings
+            .EnableLatest()
+            .AddRequires("Microsoft.Component.MSBuild")
+            .SetProperty("installationPath")
+        );
+
+        if (output.Count > 0) return null;
+        if (!File.Exists(CustomMsBuildPath)) throw new Exception($"Missing file: {CustomMsBuildPath}. Change the path to the build platform or install Visual Studio.");
+        return CustomMsBuildPath;
+    });
 
     public static int Main() => Execute<Build>(x => x.Cleaning);
 
