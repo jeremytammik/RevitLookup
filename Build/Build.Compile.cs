@@ -1,7 +1,6 @@
 ﻿using Nuke.Common;
 using Nuke.Common.Tooling;
 using Nuke.Common.Tools.MSBuild;
-using Nuke.Common.Tools.VSWhere;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
 partial class Build

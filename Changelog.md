@@ -5,9 +5,9 @@
   - Support for string null label.
   - Support for double? null label.
   - Renamed "View = null" to "Undefined View". This was a misnomer because null throws an exception
-  - Renamed "View = null - Including geometry objects not set as Visible" to "Undefined View, include not visible objects"
+  - Renamed "View = null - Including geometry objects not set as Visible" to "Undefined View, including non-visible objects"
   - Renamed "View = Document.ActiveView" to "Active View"
-  - Renamed "View = Document.ActiveView - Including geometry objects not set as Visible" to "Active View, include not visible objects"
+  - Renamed "View = Document.ActiveView - Including geometry objects not set as Visible" to "Active View, including non-visible objects"
 - 2021-12-21 **2022.0.3.1** Fixed https://github.com/jeremytammik/RevitLookup/issues/117 issue. Reflection TargetException message replaced by InnerException message.
 - 2021-12-04 **2022.0.3.0** This is patch release to fix a few items. This release will fix the issues below:
   - Removed unused code and resources, reduced application size
