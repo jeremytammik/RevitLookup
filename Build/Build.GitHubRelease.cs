@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.Tools.GitHub;

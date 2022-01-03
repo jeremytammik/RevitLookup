@@ -1,9 +1,9 @@
 # Changelog
 
 - 2022-01-03 **2022.0.3.2** This update fixes the display of labels:
-  - Support string empty label.
-  - Support string null label.
-  - Support double? null label.
+  - Support for string empty label.
+  - Support for string null label.
+  - Support for double? null label.
   - Renamed "View = null" to "Undefined View". This was a misnomer because null throws an exception
   - Renamed "View = null - Including geometry objects not set as Visible" to "Undefined View, include not visible objects"
   - Renamed "View = Document.ActiveView" to "Active View"
