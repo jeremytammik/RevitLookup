@@ -63,22 +63,6 @@ For instance, in the case of `GetFullGeometryForView`, a view input argument is 
 For methods requiring dynamic input that cannot be automatically determined, you can
 [make use of more intimate interactive database exploration tools, e.g. RevitPythonShell](http://thebuildingcoder.typepad.com/blog/2013/11/intimate-revit-database-exploration-with-the-python-shell.html).
 
-## Contributing
-
-Contributions are more than welcome! Please work in the `dev` branch to do so:
-
-- Create or update your own fork of RevitLookup under your GitHub account.
-- Checkout to the `dev` branch.
-- In the `dev` branch, implement and test you changes specific to the feature.
-- Build the project and make sure everything works.
-- Create well-documented commits of your changes.
-- Submit a pull request to the `origin:dev` branch.
-
-Please avoid:
-
-- Lots of unrelated changes in one commit.
-- Modifying files that are not directly related to the feature you implement.
-
 ## Author
 
 Originally implemented by Jim Awe and the Revit API development team at Autodesk.
