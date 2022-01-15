@@ -1,5 +1,6 @@
 # Changelog
 
+- 2022-01-15 **2022.0.3.3** BindingMap support. https://github.com/jeremytammik/RevitLookup/issues/128 issue.
 - 2022-01-03 **2022.0.3.2** This update fixes the display of labels:
   - Support for string empty label.
   - Support for string null label.

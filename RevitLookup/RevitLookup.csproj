@@ -13,7 +13,6 @@
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Release'))">
         <Optimize>true</Optimize>
