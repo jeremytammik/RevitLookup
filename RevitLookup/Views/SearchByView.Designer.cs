@@ -1,6 +1,6 @@
 ﻿namespace RevitLookup.Views
 {
-    partial class SearchBy
+    partial class SearchByView
     {
         /// <summary>
         /// Required designer variable.
@@ -93,7 +93,7 @@
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.m_cbSearchByVariant);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.Name = "SearchBy";
+			this.Name = "SearchByView";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "SearchBy";
 			this.ResumeLayout(false);

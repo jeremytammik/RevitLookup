@@ -74,7 +74,7 @@ public class EnumerableData : Data
     public override Form DrillDown()
     {
         if (_value is null || _objects.Count == 0) return null;
-        var form = new Objects(_objects);
+        var form = new ObjectsView(_objects);
         return form;
     }
 }

@@ -34,7 +34,7 @@ public class SnoopDbCommand : IExternalCommand
 {
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var form = new Objects();
+        var form = new ObjectsView();
         form.SnoopAndShow(Selector.SnoopDb);
         return Result.Succeeded;
     }

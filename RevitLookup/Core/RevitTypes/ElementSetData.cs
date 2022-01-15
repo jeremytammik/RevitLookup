@@ -46,7 +46,7 @@ public class ElementSetData : Data
     public override Form DrillDown()
     {
         if (_value is not {IsEmpty: false}) return null;
-        var form = new Objects(_value);
+        var form = new ObjectsView(_value);
         return form;
     }
 }

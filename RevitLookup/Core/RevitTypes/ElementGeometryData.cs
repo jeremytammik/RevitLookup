@@ -49,7 +49,7 @@ public class ElementGeometryData : Data
     public override Form DrillDown()
     {
         if (!_hasGeometry) return null;
-        var form = new Geometry(_value);
+        var form = new GeometryView(_value);
         return form;
     }
 

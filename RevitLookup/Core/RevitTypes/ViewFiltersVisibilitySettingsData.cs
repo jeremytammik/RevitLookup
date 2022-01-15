@@ -29,7 +29,7 @@ public class ViewFiltersVisibilitySettingsData : Data
             .ToList();
 
         if (filtersVisibility.Count == 0) return null;
-        var form = new Objects(filtersVisibility);
+        var form = new ObjectsView(filtersVisibility);
         return form;
     }
 }

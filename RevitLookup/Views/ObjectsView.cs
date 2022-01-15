@@ -32,7 +32,7 @@ namespace RevitLookup.Views;
 /// <summary>
 ///     Summary description for Object form.
 /// </summary>
-public class Objects : Form, IHaveCollector
+public class ObjectsView : Form, IHaveCollector
 {
     private readonly CollectorObj _snoopCollector = new();
     private ToolStripMenuItem _copyToolStripMenuItem;
@@ -71,25 +71,25 @@ public class Objects : Form, IHaveCollector
     protected ListView LvData;
     protected TreeView TvObjs;
 
-    public Objects()
+    public ObjectsView()
     {
         InitializeComponent();
     }
 
-    public Objects(object obj)
+    public ObjectsView(object obj)
     {
         InitializeComponent();
         CommonInit(new[] {SnoopableWrapper.Create(obj)});
     }
 
-    public Objects(ArrayList objs)
+    public ObjectsView(ArrayList objs)
     {
         InitializeComponent();
         CommonInit(objs.Cast<object>().Select(SnoopableWrapper.Create));
     }
 
 
-    public Objects(IEnumerable<SnoopableWrapper> objects)
+    public ObjectsView(IEnumerable<SnoopableWrapper> objects)
     {
         InitializeComponent();
         CommonInit(objects);
@@ -168,7 +168,7 @@ public class Objects : Form, IHaveCollector
     protected void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Objects));
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjectsView));
         this.TvObjs = new System.Windows.Forms.TreeView();
         this.CntxMenuObjId = new System.Windows.Forms.ContextMenu();
         this._mnuItemCopy = new System.Windows.Forms.MenuItem();
@@ -540,7 +540,7 @@ public class Objects : Form, IHaveCollector
         this.MaximizeBox = false;
         this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 200);
-        this.Name = "Objects";
+        this.Name = "ObjectsView";
         this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "Snoop Objects";

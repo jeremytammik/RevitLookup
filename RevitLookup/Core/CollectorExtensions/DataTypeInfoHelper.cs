@@ -39,18 +39,24 @@ public static class DataTypeInfoHelper
     {
         try
         {
+            if (expectedType == typeof(double))
+                return new DoubleData(info.Name, (double) returnValue);
+            
+            if (expectedType == typeof(int))
+            {
+                var val = returnValue as int?;
+                return new IntData(info.Name, val.GetValueOrDefault());
+            }
+            
             if (expectedType == typeof(bool))
             {
                 var val = returnValue as bool?;
                 return new BoolData(info.Name, val.GetValueOrDefault());
             }
-
-            if (expectedType == typeof(CategoryNameMap))
-                return new CategoryNameMapData(info.Name, returnValue as CategoryNameMap);
-
-            if (expectedType == typeof(double))
-                return new DoubleData(info.Name, (double) returnValue);
-
+            
+            if (expectedType == typeof(string))
+                return new StringData(info.Name, returnValue as string);
+            
             if (expectedType == typeof(double?))
             {
                 var value = (double?) returnValue;
@@ -75,6 +81,9 @@ public static class DataTypeInfoHelper
             if (expectedType == typeof(ElementSet))
                 return new ElementSetData(info.Name, returnValue as ElementSet);
 
+            if (expectedType == typeof(CategoryNameMap))
+                return new CategoryNameMapData(info.Name, returnValue as CategoryNameMap);
+            
             if (expectedType == typeof(AssetProperty))
                 return new AssetPropertyData(info.Name, element as AssetProperties);
 
@@ -84,17 +93,8 @@ public static class DataTypeInfoHelper
             if (expectedType == typeof(DoubleArray))
                 return new DoubleArrayData(info.Name, returnValue as DoubleArray);
 
-            if (expectedType == typeof(int))
-            {
-                var val = returnValue as int?;
-                return new IntData(info.Name, val.GetValueOrDefault());
-            }
-
             if (expectedType == typeof(ParameterSet))
                 return new ParameterSetData(info.Name, element as Element, returnValue as ParameterSet);
-
-            if (expectedType == typeof(string))
-                return new StringData(info.Name, returnValue as string);
 
             if (expectedType == typeof(UV))
                 return new UvData(info.Name, returnValue as UV);
@@ -102,6 +102,15 @@ public static class DataTypeInfoHelper
             if (expectedType == typeof(XYZ))
                 return new XyzData(info.Name, returnValue as XYZ);
 
+            if (expectedType == typeof(BindingMap))
+                return new BindingMapData(info.Name, returnValue as BindingMap);
+            
+            if (expectedType == typeof(Guid))
+            {
+                var guidValue = (Guid) returnValue;
+                return new StringData(info.Name, guidValue.ToString());
+            }
+            
             if (expectedType == typeof(PlanTopologySet))
             {
                 var set = (PlanTopologySet) returnValue;
@@ -124,12 +133,6 @@ public static class DataTypeInfoHelper
 
             if (expectedType.IsEnum)
                 return new StringData(info.Name, returnValue.ToString());
-
-            if (expectedType == typeof(Guid))
-            {
-                var guidValue = (Guid) returnValue;
-                return new StringData(info.Name, guidValue.ToString());
-            }
 
             return new ObjectData(info.Name, returnValue);
         }

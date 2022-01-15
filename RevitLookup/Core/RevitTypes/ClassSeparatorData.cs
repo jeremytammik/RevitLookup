@@ -45,7 +45,7 @@ public class ClassSeparatorData : Data
     public override Form DrillDown()
     {
         // DrillDown on a ClassType will just browse it using Reflection
-        var pgForm = new GenericPropGrid(_value);
+        var pgForm = new GenericPropGridView(_value);
         pgForm.Text = $"System.Type = {_value.FullName}";
         pgForm.ShowDialog();
         return null;

@@ -20,7 +20,7 @@ public class AssetPropertyData : Data
         if (_assetProperties is null) return null;
         var objects = new ArrayList();
         for (var i = 0; i < _assetProperties.Size; i++) objects.Add(_assetProperties.Get(i));
-        var form = new Objects(objects);
+        var form = new ObjectsView(objects);
         return form;
     }
 

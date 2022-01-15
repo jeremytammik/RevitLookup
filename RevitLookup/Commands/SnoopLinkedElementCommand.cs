@@ -31,7 +31,7 @@ public class SnoopLinkedElementCommand : IExternalCommand
 {
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var form = new Objects();
+        var form = new ObjectsView();
         form.SnoopAndShow(Selector.SnoopLinkedElement);
         return Result.Succeeded;
     }

@@ -25,9 +25,9 @@ namespace RevitLookup.Views;
 /// <summary>
 ///     Summary description for Categories form.
 /// </summary>
-public class Categories : ObjTreeBase
+public class CategoriesView : ObjTreeBaseView
 {
-    public Categories(CategoryNameMap map)
+    public CategoriesView(CategoryNameMap map)
     {
         Text = "Snoop Categories";
         TvObjs.BeginUpdate();

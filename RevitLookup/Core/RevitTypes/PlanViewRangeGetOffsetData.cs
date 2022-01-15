@@ -34,7 +34,7 @@ public class PlanViewRangeGetOffsetData : Data
 
         if (sectionDataObjects.Count == 0) return null;
 
-        var form = new Objects(sectionDataObjects);
+        var form = new ObjectsView(sectionDataObjects);
         return form;
     }
 }

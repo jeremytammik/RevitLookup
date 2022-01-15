@@ -35,7 +35,7 @@ public class ViewGetTemplateParameterIdsData : Data
 
         if (templateParameterIds.Count == 0) return null;
 
-        var form = new Objects(templateParameterIds);
+        var form = new ObjectsView(templateParameterIds);
         return form;
     }
 }

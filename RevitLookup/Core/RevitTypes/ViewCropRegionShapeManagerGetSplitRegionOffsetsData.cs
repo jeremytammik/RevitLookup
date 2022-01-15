@@ -31,7 +31,7 @@ public class ViewCropRegionShapeManagerGetSplitRegionOffsetsData : Data
 
         if (cropRegionOffsetObjects.Count == 0) return null;
 
-        var form = new Objects(cropRegionOffsetObjects);
+        var form = new ObjectsView(cropRegionOffsetObjects);
         return form;
     }
 }

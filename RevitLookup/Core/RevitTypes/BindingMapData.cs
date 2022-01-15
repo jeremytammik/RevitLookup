@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2021 by Autodesk, Inc.
+﻿// Copyright 2003-2022 by Autodesk, Inc.
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,27 +18,30 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using RevitLookup.Core;
 using RevitLookup.Views;
+using BindingMap = Autodesk.Revit.DB.BindingMap;
+using Form = System.Windows.Forms.Form;
 
-namespace RevitLookup.Commands;
+namespace RevitLookup.Core.RevitTypes;
 
-/// <summary>
-///     Search by and Snoop command: Browse elements found by the condition
-/// </summary>
-[Transaction(TransactionMode.Manual)]
-public class SearchCommand : IExternalCommand
+public class BindingMapData : Data
 {
-    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
-    {
-        var uiDocument = commandData.Application.ActiveUIDocument;
-        var document = uiDocument.Document;
-        var form = new SearchByView(document);
-        ModelessWindowFactory.Show(form);
+    private readonly BindingMap _value;
 
-        return Result.Succeeded;
+    public BindingMapData(string label, BindingMap value) : base(label)
+    {
+        _value = value;
+    }
+
+    public override string AsValueString()
+    {
+        return Utils.GetLabel(_value);
+    }
+
+    public override bool HasDrillDown => !_value.IsEmpty;
+    public override Form DrillDown()
+    {
+        var form = new BindingMapView(_value);
+        return form;
     }
 }

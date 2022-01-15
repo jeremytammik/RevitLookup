@@ -24,12 +24,12 @@ using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Views;
 
-public partial class ParamEnum : Form
+public partial class ParamEnumView : Form
 {
     private int _currentPrintItem;
     private int[] _maxWidths;
 
-    public ParamEnum(ArrayList labelStrs, ArrayList valueStrs)
+    public ParamEnumView(ArrayList labelStrs, ArrayList valueStrs)
     {
         InitializeComponent();
 

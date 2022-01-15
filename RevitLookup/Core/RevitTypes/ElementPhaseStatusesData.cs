@@ -32,7 +32,7 @@ public class ElementPhaseStatusesData : Data
             .ToList();
 
         if (elementOnPhaseStatuses.Count == 0) return null;
-        var form = new Objects(elementOnPhaseStatuses);
+        var form = new ObjectsView(elementOnPhaseStatuses);
         return form;
     }
 }

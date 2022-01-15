@@ -34,7 +34,7 @@ public class ScheduleDefinitionGetFieldsData : Data
 
         if (scheduleFieldObjects.Count == 0) return null;
 
-        var form = new Objects(scheduleFieldObjects);
+        var form = new ObjectsView(scheduleFieldObjects);
         return form;
     }
 }

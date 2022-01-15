@@ -35,7 +35,7 @@ public class CurveGetEndPointData : Data
 
         if (xyzObjects.Count == 0) return null;
 
-        var form = new Objects(xyzObjects);
+        var form = new ObjectsView(xyzObjects);
         return form;
     }
 }

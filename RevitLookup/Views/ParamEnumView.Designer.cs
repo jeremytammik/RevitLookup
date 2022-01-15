@@ -1,7 +1,7 @@
 using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Views {
-    partial class ParamEnum {
+    partial class ParamEnumView {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -28,7 +28,7 @@ namespace RevitLookup.Views {
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamEnum));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamEnumView));
             this.listView = new System.Windows.Forms.ListView();
             this.m_colEnum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.m_colVal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -168,7 +168,7 @@ namespace RevitLookup.Views {
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ParamEnum";
+            this.Name = "ParamEnumView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enum Mappings";
             this.listViewContextMenuStrip.ResumeLayout(false);

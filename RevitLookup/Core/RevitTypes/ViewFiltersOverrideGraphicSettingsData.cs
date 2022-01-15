@@ -29,7 +29,7 @@ public class ViewFiltersOverrideGraphicSettingsData : Data
             .ToList();
 
         if (filterOverrides.Count == 0) return null;
-        var form = new Objects(filterOverrides);
+        var form = new ObjectsView(filterOverrides);
         return form;
     }
 }

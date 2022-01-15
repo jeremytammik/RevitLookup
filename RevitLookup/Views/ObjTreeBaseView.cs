@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
 using System.ComponentModel;
 using System.Drawing.Printing;
 using Autodesk.Revit.DB;
@@ -29,21 +28,23 @@ using Form = System.Windows.Forms.Form;
 namespace RevitLookup.Views;
 
 /// <summary>
-///     Summary description for Object form.
+///     Summary description for ObjTreeBase form.
 /// </summary>
-public class Parameters : Form, IHaveCollector
+public class ObjTreeBaseView : Form, IHaveCollector
 {
-    private readonly Element _elem;
-    private Button _bnParamEnums;
-    private Button _bnParamEnumsMap;
+    private readonly CollectorObj _mSnoopCollector = new();
     private ToolStripMenuItem _copyToolStripMenuItem;
-    private int _currentPrintItem;
     private ContextMenuStrip _listViewContextMenuStrip;
-    private int[] _maxWidths;
-    private MenuItem _mnuItemCopy;
-    private PrintDialog _printDialog;
-    private PrintDocument _printDocument;
-    private PrintPreviewDialog _printPreviewDialog;
+    private ColumnHeader _lvColLabel;
+    private ColumnHeader _lvColValue;
+    private object _mCurObj;
+    private int _mCurrentPrintItem;
+    private int[] _mMaxWidths;
+    private MenuItem _mMnuItemCopy;
+    private MenuItem _mnuItemBrowseReflection;
+    private PrintDialog _mPrintDialog;
+    private PrintDocument _mPrintDocument;
+    private PrintPreviewDialog _mPrintPreviewDialog;
     private ToolStrip _toolStrip1;
     private ToolStripButton _toolStripButton1;
     private ToolStripButton _toolStripButton2;
@@ -51,36 +52,23 @@ public class Parameters : Form, IHaveCollector
     protected Button BnOk;
     protected ContextMenu CntxMenuObjId;
     private IContainer components;
-    protected object CurObj;
-    protected ColumnHeader LvColLabel;
-    protected ColumnHeader LvColValue;
     protected ListView LvData;
-    protected MenuItem MnuItemBrowseReflection;
-
-    protected CollectorObj SnoopCollector = new();
     protected TreeView TvObjs;
 
-    public Parameters(Element elem, ParameterSet paramSet)
-    {
-        _elem = elem;
 
-        // this constructor is for derived classes to call
+    public ObjTreeBaseView()
+    {
         InitializeComponent();
 
         // Add Load to update ListView Width
         Core.Utils.AddOnLoadForm(this);
 
-        TvObjs.BeginUpdate();
-
-        AddParametersToTree(paramSet);
-
-        TvObjs.ExpandAll();
-        TvObjs.EndUpdate();
+        // derived classes are responsible for populating the tree
     }
 
     public Document Document
     {
-        set => SnoopCollector.Document = value;
+        set => _mSnoopCollector.Document = value;
     }
 
     /// <summary>
@@ -101,26 +89,24 @@ public class Parameters : Form, IHaveCollector
     protected void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Parameters));
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjTreeBaseView));
         this.TvObjs = new System.Windows.Forms.TreeView();
         this.CntxMenuObjId = new System.Windows.Forms.ContextMenu();
-        this._mnuItemCopy = new System.Windows.Forms.MenuItem();
-        this.MnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
+        this._mMnuItemCopy = new System.Windows.Forms.MenuItem();
+        this._mnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
         this.BnOk = new System.Windows.Forms.Button();
         this.LvData = new System.Windows.Forms.ListView();
-        this.LvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
-        this.LvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+        this._lvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+        this._lvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
         this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
         this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-        this._bnParamEnums = new System.Windows.Forms.Button();
         this._toolStrip1 = new System.Windows.Forms.ToolStrip();
         this._toolStripButton1 = new System.Windows.Forms.ToolStripButton();
         this._toolStripButton2 = new System.Windows.Forms.ToolStripButton();
         this._toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-        this._printDialog = new System.Windows.Forms.PrintDialog();
-        this._printDocument = new System.Drawing.Printing.PrintDocument();
-        this._printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
-        this._bnParamEnumsMap = new System.Windows.Forms.Button();
+        this._mPrintDialog = new System.Windows.Forms.PrintDialog();
+        this._mPrintDocument = new System.Drawing.Printing.PrintDocument();
+        this._mPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
         this._listViewContextMenuStrip.SuspendLayout();
         this._toolStrip1.SuspendLayout();
         this.SuspendLayout();
@@ -131,9 +117,10 @@ public class Parameters : Form, IHaveCollector
                                                                     | System.Windows.Forms.AnchorStyles.Left)));
         this.TvObjs.ContextMenu = this.CntxMenuObjId;
         this.TvObjs.HideSelection = false;
-        this.TvObjs.Location = new System.Drawing.Point(11, 38);
+        this.TvObjs.Location = new System.Drawing.Point(12, 28);
         this.TvObjs.Name = "TvObjs";
-        this.TvObjs.Size = new System.Drawing.Size(248, 415);
+        this.TvObjs.Size = new System.Drawing.Size(248, 416);
+        this.TvObjs.Sorted = true;
         this.TvObjs.TabIndex = 0;
         this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
         // 
@@ -141,28 +128,28 @@ public class Parameters : Form, IHaveCollector
         // 
         this.CntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
         {
-            this._mnuItemCopy,
-            this.MnuItemBrowseReflection
+            this._mMnuItemCopy,
+            this._mnuItemBrowseReflection
         });
         // 
         // m_mnuItemCopy
         // 
-        this._mnuItemCopy.Index = 0;
-        this._mnuItemCopy.Text = "Copy";
-        this._mnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
+        this._mMnuItemCopy.Index = 0;
+        this._mMnuItemCopy.Text = "Copy";
+        this._mMnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
         // 
         // m_mnuItemBrowseReflection
         // 
-        this.MnuItemBrowseReflection.Index = 1;
-        this.MnuItemBrowseReflection.Text = "Browse Using Reflection...";
-        this.MnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
+        this._mnuItemBrowseReflection.Index = 1;
+        this._mnuItemBrowseReflection.Text = "Browse Using Reflection...";
+        this._mnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
         // 
         // m_bnOK
         // 
         this.BnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
         this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         this.BnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-        this.BnOk.Location = new System.Drawing.Point(476, 459);
+        this.BnOk.Location = new System.Drawing.Point(364, 448);
         this.BnOk.Name = "BnOk";
         this.BnOk.Size = new System.Drawing.Size(75, 23);
         this.BnOk.TabIndex = 2;
@@ -176,16 +163,17 @@ public class Parameters : Form, IHaveCollector
                                                                     | System.Windows.Forms.AnchorStyles.Right)));
         this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
         {
-            this.LvColLabel,
-            this.LvColValue
+            this._lvColLabel,
+            this._lvColValue
         });
         this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
         this.LvData.FullRowSelect = true;
         this.LvData.GridLines = true;
         this.LvData.HideSelection = false;
-        this.LvData.Location = new System.Drawing.Point(275, 38);
+        this.LvData.Location = new System.Drawing.Point(284, 28);
         this.LvData.Name = "LvData";
-        this.LvData.Size = new System.Drawing.Size(504, 415);
+        this.LvData.ShowItemToolTips = true;
+        this.LvData.Size = new System.Drawing.Size(504, 416);
         this.LvData.TabIndex = 3;
         this.LvData.UseCompatibleStateImageBehavior = false;
         this.LvData.View = System.Windows.Forms.View.Details;
@@ -194,13 +182,13 @@ public class Parameters : Form, IHaveCollector
         // 
         // m_lvCol_label
         // 
-        this.LvColLabel.Text = "Field";
-        this.LvColLabel.Width = 200;
+        this._lvColLabel.Text = "Field";
+        this._lvColLabel.Width = 200;
         // 
         // m_lvCol_value
         // 
-        this.LvColValue.Text = "Value";
-        this.LvColValue.Width = 800;
+        this._lvColValue.Text = "Value";
+        this._lvColValue.Width = 800;
         // 
         // listViewContextMenuStrip
         // 
@@ -219,17 +207,6 @@ public class Parameters : Form, IHaveCollector
         this._copyToolStripMenuItem.Text = "Copy";
         this._copyToolStripMenuItem.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
         // 
-        // m_bnParamEnums
-        // 
-        this._bnParamEnums.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this._bnParamEnums.Location = new System.Drawing.Point(11, 459);
-        this._bnParamEnums.Name = "_bnParamEnums";
-        this._bnParamEnums.Size = new System.Drawing.Size(130, 23);
-        this._bnParamEnums.TabIndex = 4;
-        this._bnParamEnums.Text = "Built-in Enums Snoop...";
-        this._bnParamEnums.UseVisualStyleBackColor = true;
-        this._bnParamEnums.Click += new System.EventHandler(this.OnBnEnumSnoop);
-        // 
         // toolStrip1
         // 
         this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
@@ -241,7 +218,7 @@ public class Parameters : Form, IHaveCollector
         this._toolStrip1.Location = new System.Drawing.Point(0, 0);
         this._toolStrip1.Name = "_toolStrip1";
         this._toolStrip1.Size = new System.Drawing.Size(800, 25);
-        this._toolStrip1.TabIndex = 5;
+        this._toolStrip1.TabIndex = 4;
         this._toolStrip1.Text = "toolStrip1";
         // 
         // toolStripButton1
@@ -276,44 +253,31 @@ public class Parameters : Form, IHaveCollector
         // 
         // m_printDialog
         // 
-        this._printDialog.Document = this._printDocument;
-        this._printDialog.UseEXDialog = true;
+        this._mPrintDialog.Document = this._mPrintDocument;
+        this._mPrintDialog.UseEXDialog = true;
         // 
         // m_printDocument
         // 
-        this._printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
+        this._mPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
         // 
         // m_printPreviewDialog
         // 
-        this._printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-        this._printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-        this._printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-        this._printPreviewDialog.Document = this._printDocument;
-        this._printPreviewDialog.Enabled = true;
-        this._printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
-        this._printPreviewDialog.Name = "_printPreviewDialog";
-        this._printPreviewDialog.Visible = false;
+        this._mPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+        this._mPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+        this._mPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+        this._mPrintPreviewDialog.Document = this._mPrintDocument;
+        this._mPrintPreviewDialog.Enabled = true;
+        this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
+        this._mPrintPreviewDialog.Name = "_mPrintPreviewDialog";
+        this._mPrintPreviewDialog.Visible = false;
         // 
-        // m_bnParamEnumsMap
-        // 
-        this._bnParamEnumsMap.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this._bnParamEnumsMap.Location = new System.Drawing.Point(153, 459);
-        this._bnParamEnumsMap.Name = "_bnParamEnumsMap";
-        this._bnParamEnumsMap.Size = new System.Drawing.Size(130, 23);
-        this._bnParamEnumsMap.TabIndex = 6;
-        this._bnParamEnumsMap.Text = "Built-in Enums Map...";
-        this._bnParamEnumsMap.UseVisualStyleBackColor = true;
-        this._bnParamEnumsMap.Click += new System.EventHandler(this.OnBnEnumMap);
-        // 
-        // Parameters
+        // ObjTreeBase
         // 
         this.AcceptButton = this.BnOk;
         this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this.BnOk;
-        this.ClientSize = new System.Drawing.Size(800, 489);
+        this.ClientSize = new System.Drawing.Size(800, 478);
         this.Controls.Add(this._toolStrip1);
-        this.Controls.Add(this._bnParamEnumsMap);
-        this.Controls.Add(this._bnParamEnums);
         this.Controls.Add(this.LvData);
         this.Controls.Add(this.BnOk);
         this.Controls.Add(this.TvObjs);
@@ -321,10 +285,10 @@ public class Parameters : Form, IHaveCollector
         this.MaximizeBox = false;
         this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 200);
-        this.Name = "Parameters";
+        this.Name = "ObjTreeBaseView";
         this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-        this.Text = "Snoop Parameters";
+        this.Text = "Snoop Tree";
         this._listViewContextMenuStrip.ResumeLayout(false);
         this._toolStrip1.ResumeLayout(false);
         this._toolStrip1.PerformLayout();
@@ -333,21 +297,6 @@ public class Parameters : Form, IHaveCollector
     }
 
     #endregion
-
-    private void AddParametersToTree(ParameterSet paramSet)
-    {
-        TvObjs.Sorted = true;
-
-        // initialize the tree control
-        foreach (Parameter tmpObj in paramSet)
-        {
-            var tmpNode = new TreeNode(Core.Utils.GetParameterObjectLabel(tmpObj))
-            {
-                Tag = tmpObj
-            };
-            TvObjs.Nodes.Add(tmpNode);
-        }
-    }
 
     private void m_bnOK_Click(object sender, EventArgs e)
     {
@@ -364,11 +313,10 @@ public class Parameters : Form, IHaveCollector
     /// <param name="e"></param>
     private async void TreeNodeSelected(object sender, TreeViewEventArgs e)
     {
-        CurObj = e.Node.Tag;
-        await SnoopCollector.Collect(CurObj);
-        Core.Utils.Display(LvData, SnoopCollector);
+        _mCurObj = e.Node.Tag;
+        await _mSnoopCollector.Collect(_mCurObj);
+        Core.Utils.Display(LvData, _mSnoopCollector);
     }
-
 
     /// <summary>
     /// </summary>
@@ -376,9 +324,8 @@ public class Parameters : Form, IHaveCollector
     /// <param name="e"></param>
     private void DataItemSelected(object sender, EventArgs e)
     {
-        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, SnoopCollector.Document));
+        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, _mSnoopCollector.Document));
     }
-
 
     /// <summary>
     /// </summary>
@@ -396,73 +343,9 @@ public class Parameters : Form, IHaveCollector
     /// <param name="e"></param>
     private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
     {
-        Core.Utils.BrowseReflection(CurObj);
+        Core.Utils.BrowseReflection(_mCurObj);
     }
 
-
-    /// <summary>
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void OnBnEnumSnoop(object sender, EventArgs e)
-    {
-        var enumMap = new Hashtable();
-
-        // TBD: iterating over the Parameters using basic reflection gives us lots
-        // of duplicates (not sure why).  Instead, use Enum.GetNames() which will return
-        // only unique Enum names.  Then go backward to get the actual BuiltinParam Enum.
-        // See TestElements.ParameterEnums() and TestElements.ParameterEnumsNoDup() for an
-        // explanation of what is going on.  (jma - 07/24/06)
-        var strs = Enum.GetNames(typeof(BuiltInParameter));
-        foreach (var str in strs)
-        {
-            // look up the actual enum from its name
-            var paramEnum = (BuiltInParameter) Enum.Parse(typeof(BuiltInParameter), str);
-
-            // see if this Element supports that parameter
-            var tmpParam = _elem.get_Parameter(paramEnum);
-
-            if (tmpParam is not null) enumMap.Add(str, tmpParam);
-        }
-
-        var form = new ParamEnumSnoop(enumMap);
-        ModelessWindowFactory.Show(form, SnoopCollector.Document, this);
-    }
-
-
-    /// <summary>
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void OnBnEnumMap(object sender, EventArgs e)
-    {
-        var labelStrs = new ArrayList();
-        var valueStrs = new ArrayList();
-
-        // TBD: iterating over the Parameters using basic reflection gives us lots
-        // of duplicates (not sure why).  Instead, use Enum.GetNames() which will return
-        // only unique Enum names.  Then go backward to get the actual BuiltinParam Enum.
-        // See TestElements.ParameterEnums() and TestElements.ParameterEnumsNoDup() for an
-        // explanation of what is going on.  (jma - 07/24/06)
-
-        var strs = Enum.GetNames(typeof(BuiltInParameter));
-        foreach (var str in strs)
-        {
-            // look up the actual enum from its name
-            var paramEnum = (BuiltInParameter) Enum.Parse(typeof(BuiltInParameter), str);
-
-            // see if this Element supports that parameter
-            var tmpParam = _elem.get_Parameter(paramEnum);
-            if (tmpParam is not null)
-            {
-                labelStrs.Add(str);
-                valueStrs.Add(Core.Utils.GetParameterObjectLabel(tmpParam));
-            }
-        }
-
-        var dbox = new ParamEnum(labelStrs, valueStrs);
-        dbox.ShowDialog();
-    }
 
     /// <summary>
     /// </summary>
@@ -480,10 +363,20 @@ public class Parameters : Form, IHaveCollector
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+    {
+        _mCurrentPrintItem = Core.Utils.Print(TvObjs.SelectedNode.Text, LvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
+    }
+
+
+    /// <summary>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void PrintMenuItem_Click(object sender, EventArgs e)
     {
-        Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
-        Core.Utils.PrintMenuItemClick(_printDialog, TvObjs);
+        Core.Utils.UpdatePrintSettings(_mPrintDocument, TvObjs, LvData, ref _mMaxWidths);
+        Core.Utils.PrintMenuItemClick(_mPrintDialog, TvObjs);
     }
 
     /// <summary>
@@ -492,17 +385,8 @@ public class Parameters : Form, IHaveCollector
     /// <param name="e"></param>
     private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
     {
-        Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, LvData, ref _maxWidths);
-        Core.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
-    }
-
-    /// <summary>
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
-    {
-        _currentPrintItem = Core.Utils.Print(TvObjs.SelectedNode.Text, LvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
+        Core.Utils.UpdatePrintSettings(_mPrintDocument, TvObjs, LvData, ref _mMaxWidths);
+        Core.Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, TvObjs);
     }
 
     #endregion

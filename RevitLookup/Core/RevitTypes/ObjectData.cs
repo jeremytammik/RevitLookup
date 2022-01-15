@@ -48,7 +48,7 @@ public class ObjectData : Data
     {
         if (_value is null) return null;
         var objects = new ArrayList {_value};
-        var form = new Objects(objects);
+        var form = new ObjectsView(objects);
         return form;
     }
 }

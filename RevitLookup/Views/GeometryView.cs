@@ -25,9 +25,9 @@ namespace RevitLookup.Views;
 /// <summary>
 ///     Summary description for BindingMap form.
 /// </summary>
-public class Geometry : ObjTreeBase
+public class GeometryView : ObjTreeBaseView
 {
-    public Geometry(Element elem)
+    public GeometryView(Element elem)
     {
         Text = "Element Geometry";
         TvObjs.BeginUpdate();

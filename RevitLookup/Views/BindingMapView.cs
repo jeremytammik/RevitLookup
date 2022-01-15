@@ -25,9 +25,9 @@ namespace RevitLookup.Views;
 /// <summary>
 ///     Summary description for BindingMap form.
 /// </summary>
-public class BindingMap : ObjTreeBase
+public class BindingMapView : ObjTreeBaseView
 {
-    public BindingMap(Autodesk.Revit.DB.BindingMap map)
+    public BindingMapView(BindingMap map)
     {
         Text = "Snoop Binding Map";
         TvObjs.BeginUpdate();
@@ -35,43 +35,29 @@ public class BindingMap : ObjTreeBase
         TvObjs.EndUpdate();
     }
 
-    private void AddObjectsToTree(Autodesk.Revit.DB.BindingMap map, TreeNodeCollection curNodes)
+    private void AddObjectsToTree(BindingMap map, TreeNodeCollection nodeCollection)
     {
-        if (map.IsEmpty) return;
-
         var iterator = map.ForwardIterator();
         while (iterator.MoveNext())
         {
-            var def = iterator.Key;
-            var elemBind = (ElementBinding) iterator.Current;
-
-            // TBD:  not sure if this map is implemented correctly... doesn't seem to be
-            // find out if this one already exists
-            var defNode = curNodes
-                .Cast<TreeNode>()
-                .FirstOrDefault(tmpNode => tmpNode.Text == def.Name);
-
-            // this one doesn't exist in the tree yet, add it.
-            if (defNode is null)
+            var definition = iterator.Key;
+            var node = new TreeNode(definition.Name)
             {
-                defNode = new TreeNode(def.Name)
+                Tag = iterator.Current
+            };
+
+            nodeCollection.Add(node);
+
+            if (iterator.Current is not ElementBinding elementBinding) continue;
+
+            var categories = elementBinding.Categories;
+            foreach (Category category in categories)
+            {
+                var treeNode = new TreeNode(category.Name)
                 {
-                    Tag = iterator.Current
+                    Tag = category
                 };
-                curNodes.Add(defNode);
-            }
-
-            if (elemBind is not null)
-            {
-                var cats = elemBind.Categories;
-                foreach (Category cat in cats)
-                {
-                    var tmpNode = new TreeNode(cat.Name)
-                    {
-                        Tag = cat
-                    };
-                    defNode.Nodes.Add(tmpNode);
-                }
+                node.Nodes.Add(treeNode);
             }
         }
     }

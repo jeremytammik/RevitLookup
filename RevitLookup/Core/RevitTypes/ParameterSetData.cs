@@ -48,7 +48,7 @@ public class ParameterSetData : Data
     public override Form DrillDown()
     {
         if (_value is not {IsEmpty: false}) return null;
-        var form = new Parameters(_element, _value);
+        var form = new ParametersView(_element, _value);
         return form;
     }
 }

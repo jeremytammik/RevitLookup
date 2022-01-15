@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing.Printing;
 using Autodesk.Revit.DB;
@@ -28,47 +29,56 @@ using Form = System.Windows.Forms.Form;
 namespace RevitLookup.Views;
 
 /// <summary>
-///     Summary description for ObjTreeBase form.
+///     Summary description for Object form.
 /// </summary>
-public class ObjTreeBase : Form, IHaveCollector
+public class ParamEnumSnoopView : Form, IHaveCollector
 {
-    private readonly CollectorObj _mSnoopCollector = new();
+    private readonly Hashtable _enumMap;
     private ToolStripMenuItem _copyToolStripMenuItem;
+    private int _currentPrintItem;
     private ContextMenuStrip _listViewContextMenuStrip;
-    private ColumnHeader _lvColLabel;
-    private ColumnHeader _lvColValue;
-    private object _mCurObj;
-    private int _mCurrentPrintItem;
-    private int[] _mMaxWidths;
-    private MenuItem _mMnuItemCopy;
-    private MenuItem _mnuItemBrowseReflection;
-    private PrintDialog _mPrintDialog;
-    private PrintDocument _mPrintDocument;
-    private PrintPreviewDialog _mPrintPreviewDialog;
+    private int[] _maxWidths;
+    private MenuItem _mnuItemCopy;
+    private PrintDialog _printDialog;
+    private PrintDocument _printDocument;
+    private PrintPreviewDialog _printPreviewDialog;
     private ToolStrip _toolStrip1;
     private ToolStripButton _toolStripButton1;
     private ToolStripButton _toolStripButton2;
     private ToolStripButton _toolStripButton3;
-    protected Button BnOk;
-    protected ContextMenu CntxMenuObjId;
     private IContainer components;
-    protected ListView LvData;
+    protected Button MBnOk;
+    protected ContextMenu MCntxMenuObjId;
+    protected object MCurObj;
+    protected ColumnHeader MLvColLabel;
+    protected ColumnHeader MLvColValue;
+    protected ListView MLvData;
+    protected MenuItem MMnuItemBrowseReflection;
+
+    protected CollectorObj MSnoopCollector = new();
     protected TreeView TvObjs;
 
-
-    public ObjTreeBase()
+    public ParamEnumSnoopView(Hashtable enumMap)
     {
+        _enumMap = enumMap;
+
+        // this constructor is for derived classes to call
         InitializeComponent();
 
         // Add Load to update ListView Width
         Core.Utils.AddOnLoadForm(this);
 
-        // derived classes are responsible for populating the tree
+        TvObjs.BeginUpdate();
+
+        AddParametersToTree();
+
+        TvObjs.ExpandAll();
+        TvObjs.EndUpdate();
     }
 
     public Document Document
     {
-        set => _mSnoopCollector.Document = value;
+        set => MSnoopCollector.Document = value;
     }
 
     /// <summary>
@@ -89,24 +99,24 @@ public class ObjTreeBase : Form, IHaveCollector
     protected void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjTreeBase));
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamEnumSnoopView));
         this.TvObjs = new System.Windows.Forms.TreeView();
-        this.CntxMenuObjId = new System.Windows.Forms.ContextMenu();
-        this._mMnuItemCopy = new System.Windows.Forms.MenuItem();
-        this._mnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
-        this.BnOk = new System.Windows.Forms.Button();
-        this.LvData = new System.Windows.Forms.ListView();
-        this._lvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
-        this._lvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+        this.MCntxMenuObjId = new System.Windows.Forms.ContextMenu();
+        this._mnuItemCopy = new System.Windows.Forms.MenuItem();
+        this.MMnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
+        this.MBnOk = new System.Windows.Forms.Button();
+        this.MLvData = new System.Windows.Forms.ListView();
+        this.MLvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+        this.MLvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
         this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
         this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this._toolStrip1 = new System.Windows.Forms.ToolStrip();
         this._toolStripButton1 = new System.Windows.Forms.ToolStripButton();
         this._toolStripButton2 = new System.Windows.Forms.ToolStripButton();
         this._toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-        this._mPrintDialog = new System.Windows.Forms.PrintDialog();
-        this._mPrintDocument = new System.Drawing.Printing.PrintDocument();
-        this._mPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+        this._printDialog = new System.Windows.Forms.PrintDialog();
+        this._printDocument = new System.Drawing.Printing.PrintDocument();
+        this._printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
         this._listViewContextMenuStrip.SuspendLayout();
         this._toolStrip1.SuspendLayout();
         this.SuspendLayout();
@@ -115,80 +125,78 @@ public class ObjTreeBase : Form, IHaveCollector
         // 
         this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                                                                     | System.Windows.Forms.AnchorStyles.Left)));
-        this.TvObjs.ContextMenu = this.CntxMenuObjId;
+        this.TvObjs.ContextMenu = this.MCntxMenuObjId;
         this.TvObjs.HideSelection = false;
-        this.TvObjs.Location = new System.Drawing.Point(12, 28);
+        this.TvObjs.Location = new System.Drawing.Point(11, 38);
         this.TvObjs.Name = "TvObjs";
-        this.TvObjs.Size = new System.Drawing.Size(248, 416);
-        this.TvObjs.Sorted = true;
+        this.TvObjs.Size = new System.Drawing.Size(248, 415);
         this.TvObjs.TabIndex = 0;
         this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
         // 
         // m_cntxMenuObjId
         // 
-        this.CntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
+        this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
         {
-            this._mMnuItemCopy,
-            this._mnuItemBrowseReflection
+            this._mnuItemCopy,
+            this.MMnuItemBrowseReflection
         });
         // 
         // m_mnuItemCopy
         // 
-        this._mMnuItemCopy.Index = 0;
-        this._mMnuItemCopy.Text = "Copy";
-        this._mMnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
+        this._mnuItemCopy.Index = 0;
+        this._mnuItemCopy.Text = "Copy";
+        this._mnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
         // 
         // m_mnuItemBrowseReflection
         // 
-        this._mnuItemBrowseReflection.Index = 1;
-        this._mnuItemBrowseReflection.Text = "Browse Using Reflection...";
-        this._mnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
+        this.MMnuItemBrowseReflection.Index = 1;
+        this.MMnuItemBrowseReflection.Text = "Browse Using Reflection...";
+        this.MMnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
         // 
         // m_bnOK
         // 
-        this.BnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-        this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-        this.BnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-        this.BnOk.Location = new System.Drawing.Point(364, 448);
-        this.BnOk.Name = "BnOk";
-        this.BnOk.Size = new System.Drawing.Size(75, 23);
-        this.BnOk.TabIndex = 2;
-        this.BnOk.Text = "OK";
-        this.BnOk.Click += new System.EventHandler(this.m_bnOK_Click);
+        this.MBnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+        this.MBnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+        this.MBnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
+        this.MBnOk.Location = new System.Drawing.Point(364, 459);
+        this.MBnOk.Name = "MBnOk";
+        this.MBnOk.Size = new System.Drawing.Size(75, 23);
+        this.MBnOk.TabIndex = 2;
+        this.MBnOk.Text = "OK";
+        this.MBnOk.Click += new System.EventHandler(this.m_bnOK_Click);
         // 
         // m_lvData
         // 
-        this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                     | System.Windows.Forms.AnchorStyles.Left)
-                                                                    | System.Windows.Forms.AnchorStyles.Right)));
-        this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
+        this.MLvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                                                                      | System.Windows.Forms.AnchorStyles.Left)
+                                                                     | System.Windows.Forms.AnchorStyles.Right)));
+        this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
         {
-            this._lvColLabel,
-            this._lvColValue
+            this.MLvColLabel,
+            this.MLvColValue
         });
-        this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
-        this.LvData.FullRowSelect = true;
-        this.LvData.GridLines = true;
-        this.LvData.HideSelection = false;
-        this.LvData.Location = new System.Drawing.Point(284, 28);
-        this.LvData.Name = "LvData";
-        this.LvData.ShowItemToolTips = true;
-        this.LvData.Size = new System.Drawing.Size(504, 416);
-        this.LvData.TabIndex = 3;
-        this.LvData.UseCompatibleStateImageBehavior = false;
-        this.LvData.View = System.Windows.Forms.View.Details;
-        this.LvData.Click += new System.EventHandler(this.DataItemSelected);
-        this.LvData.DoubleClick += new System.EventHandler(this.DataItemSelected);
+        this.MLvData.ContextMenuStrip = this._listViewContextMenuStrip;
+        this.MLvData.FullRowSelect = true;
+        this.MLvData.GridLines = true;
+        this.MLvData.HideSelection = false;
+        this.MLvData.Location = new System.Drawing.Point(284, 38);
+        this.MLvData.Name = "MLvData";
+        this.MLvData.Size = new System.Drawing.Size(504, 415);
+        this.MLvData.TabIndex = 3;
+        this.MLvData.UseCompatibleStateImageBehavior = false;
+        this.MLvData.View = System.Windows.Forms.View.Details;
+        this.MLvData.Click += new System.EventHandler(this.DataItemSelected);
+        this.MLvData.DoubleClick += new System.EventHandler(this.DataItemSelected);
         // 
         // m_lvCol_label
         // 
-        this._lvColLabel.Text = "Field";
-        this._lvColLabel.Width = 200;
+        this.MLvColLabel.Text = "Field";
+        this.MLvColLabel.Width = 200;
         // 
         // m_lvCol_value
         // 
-        this._lvColValue.Text = "Value";
-        this._lvColValue.Width = 800;
+        this.MLvColValue.Text = "Value";
+        this.MLvColValue.Width = 800;
         // 
         // listViewContextMenuStrip
         // 
@@ -218,7 +226,7 @@ public class ObjTreeBase : Form, IHaveCollector
         this._toolStrip1.Location = new System.Drawing.Point(0, 0);
         this._toolStrip1.Name = "_toolStrip1";
         this._toolStrip1.Size = new System.Drawing.Size(800, 25);
-        this._toolStrip1.TabIndex = 4;
+        this._toolStrip1.TabIndex = 5;
         this._toolStrip1.Text = "toolStrip1";
         // 
         // toolStripButton1
@@ -253,42 +261,42 @@ public class ObjTreeBase : Form, IHaveCollector
         // 
         // m_printDialog
         // 
-        this._mPrintDialog.Document = this._mPrintDocument;
-        this._mPrintDialog.UseEXDialog = true;
+        this._printDialog.Document = this._printDocument;
+        this._printDialog.UseEXDialog = true;
         // 
         // m_printDocument
         // 
-        this._mPrintDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
+        this._printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
         // 
         // m_printPreviewDialog
         // 
-        this._mPrintPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
-        this._mPrintPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
-        this._mPrintPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
-        this._mPrintPreviewDialog.Document = this._mPrintDocument;
-        this._mPrintPreviewDialog.Enabled = true;
-        this._mPrintPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
-        this._mPrintPreviewDialog.Name = "_mPrintPreviewDialog";
-        this._mPrintPreviewDialog.Visible = false;
+        this._printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
+        this._printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+        this._printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
+        this._printPreviewDialog.Document = this._printDocument;
+        this._printPreviewDialog.Enabled = true;
+        this._printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
+        this._printPreviewDialog.Name = "_printPreviewDialog";
+        this._printPreviewDialog.Visible = false;
         // 
-        // ObjTreeBase
+        // ParamEnumSnoop
         // 
-        this.AcceptButton = this.BnOk;
+        this.AcceptButton = this.MBnOk;
         this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-        this.CancelButton = this.BnOk;
-        this.ClientSize = new System.Drawing.Size(800, 478);
+        this.CancelButton = this.MBnOk;
+        this.ClientSize = new System.Drawing.Size(800, 489);
         this.Controls.Add(this._toolStrip1);
-        this.Controls.Add(this.LvData);
-        this.Controls.Add(this.BnOk);
+        this.Controls.Add(this.MBnOk);
         this.Controls.Add(this.TvObjs);
+        this.Controls.Add(this.MLvData);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
         this.MaximizeBox = false;
         this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 200);
-        this.Name = "ObjTreeBase";
+        this.Name = "ParamEnumSnoopView";
         this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-        this.Text = "Snoop Tree";
+        this.Text = "Snoop Built-In Parameters";
         this._listViewContextMenuStrip.ResumeLayout(false);
         this._toolStrip1.ResumeLayout(false);
         this._toolStrip1.PerformLayout();
@@ -297,6 +305,21 @@ public class ObjTreeBase : Form, IHaveCollector
     }
 
     #endregion
+
+    private void AddParametersToTree()
+    {
+        TvObjs.Sorted = true;
+
+        foreach (DictionaryEntry de in _enumMap)
+        {
+            var tmpNode = new TreeNode(de.Key.ToString())
+            {
+                Tag = de.Value
+            };
+
+            TvObjs.Nodes.Add(tmpNode);
+        }
+    }
 
     private void m_bnOK_Click(object sender, EventArgs e)
     {
@@ -313,9 +336,9 @@ public class ObjTreeBase : Form, IHaveCollector
     /// <param name="e"></param>
     private async void TreeNodeSelected(object sender, TreeViewEventArgs e)
     {
-        _mCurObj = e.Node.Tag;
-        await _mSnoopCollector.Collect(_mCurObj);
-        Core.Utils.Display(LvData, _mSnoopCollector);
+        MCurObj = e.Node.Tag;
+        await MSnoopCollector.Collect(MCurObj);
+        Core.Utils.Display(MLvData, MSnoopCollector);
     }
 
     /// <summary>
@@ -324,7 +347,7 @@ public class ObjTreeBase : Form, IHaveCollector
     /// <param name="e"></param>
     private void DataItemSelected(object sender, EventArgs e)
     {
-        Core.Utils.DataItemSelected(LvData, new ModelessWindowFactory(this, _mSnoopCollector.Document));
+        Core.Utils.DataItemSelected(MLvData, new ModelessWindowFactory(this, MSnoopCollector.Document));
     }
 
     /// <summary>
@@ -333,9 +356,8 @@ public class ObjTreeBase : Form, IHaveCollector
     /// <param name="e"></param>
     private void ContextMenuClick_Copy(object sender, EventArgs e)
     {
-        if (TvObjs.SelectedNode is not null) Core.Utils.CopyToClipboard(LvData);
+        if (TvObjs.SelectedNode is not null) Core.Utils.CopyToClipboard(MLvData);
     }
-
 
     /// <summary>
     /// </summary>
@@ -343,9 +365,8 @@ public class ObjTreeBase : Form, IHaveCollector
     /// <param name="e"></param>
     private void ContextMenuClick_BrowseReflection(object sender, EventArgs e)
     {
-        Core.Utils.BrowseReflection(_mCurObj);
+        Core.Utils.BrowseReflection(MCurObj);
     }
-
 
     /// <summary>
     /// </summary>
@@ -353,8 +374,8 @@ public class ObjTreeBase : Form, IHaveCollector
     /// <param name="e"></param>
     private void CopyToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        if (LvData.SelectedItems.Count > 0)
-            Core.Utils.CopyToClipboard(LvData.SelectedItems[0], false);
+        if (MLvData.SelectedItems.Count > 0)
+            Core.Utils.CopyToClipboard(MLvData.SelectedItems[0], false);
         else
             Clipboard.Clear();
     }
@@ -363,20 +384,10 @@ public class ObjTreeBase : Form, IHaveCollector
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
-    {
-        _mCurrentPrintItem = Core.Utils.Print(TvObjs.SelectedNode.Text, LvData, e, _mMaxWidths[0], _mMaxWidths[1], _mCurrentPrintItem);
-    }
-
-
-    /// <summary>
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
     private void PrintMenuItem_Click(object sender, EventArgs e)
     {
-        Core.Utils.UpdatePrintSettings(_mPrintDocument, TvObjs, LvData, ref _mMaxWidths);
-        Core.Utils.PrintMenuItemClick(_mPrintDialog, TvObjs);
+        Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
+        Core.Utils.PrintMenuItemClick(_printDialog, TvObjs);
     }
 
     /// <summary>
@@ -385,8 +396,17 @@ public class ObjTreeBase : Form, IHaveCollector
     /// <param name="e"></param>
     private void PrintPreviewMenuItem_Click(object sender, EventArgs e)
     {
-        Core.Utils.UpdatePrintSettings(_mPrintDocument, TvObjs, LvData, ref _mMaxWidths);
-        Core.Utils.PrintPreviewMenuItemClick(_mPrintPreviewDialog, TvObjs);
+        Core.Utils.UpdatePrintSettings(_printDocument, TvObjs, MLvData, ref _maxWidths);
+        Core.Utils.PrintPreviewMenuItemClick(_printPreviewDialog, TvObjs);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
+    {
+        _currentPrintItem = Core.Utils.Print(TvObjs.SelectedNode.Text, MLvData, e, _maxWidths[0], _maxWidths[1], _currentPrintItem);
     }
 
     #endregion

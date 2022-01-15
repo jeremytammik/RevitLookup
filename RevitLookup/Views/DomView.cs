@@ -30,7 +30,7 @@ namespace RevitLookup.Views;
 /// <summary>
 ///     UI Test for navigating the XML Dom
 /// </summary>
-public class Dom : Form
+public class DomView : Form
 {
     private readonly CollectorXmlNode _mSnoopCollector = new();
     private readonly XmlDocument _mXmlDoc;
@@ -61,7 +61,7 @@ public class Dom : Form
     private Label _txtXpathPattern;
     private IContainer components;
 
-    public Dom(XmlDocument xmlDoc)
+    public DomView(XmlDocument xmlDoc)
     {
         _mXmlDoc = xmlDoc;
         InitializeComponent();
@@ -86,7 +86,7 @@ public class Dom : Form
     private void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
-        System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(Dom));
+        System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(DomView));
         this._tvDom = new System.Windows.Forms.TreeView();
         this._imgListTree = new System.Windows.Forms.ImageList(this.components);
         this._lvData = new System.Windows.Forms.ListView();
@@ -364,7 +364,7 @@ public class Dom : Form
         this.MaximizeBox = false;
         this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 400);
-        this.Name = "Dom";
+        this.Name = "DomView";
         this.Text = "XML DOM Tree";
         this._grpNodeDisplay.ResumeLayout(false);
         this._grpXpath.ResumeLayout(false);

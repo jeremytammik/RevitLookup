@@ -19,7 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using Categories = RevitLookup.Views.Categories;
+using RevitLookup.Views;
 using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
@@ -43,7 +43,7 @@ public class CategoryNameMapData : Data
     public override Form DrillDown()
     {
         if (_value is not {IsEmpty: false}) return null;
-        var form = new Categories(_value);
+        var form = new CategoriesView(_value);
         return form;
     }
 }

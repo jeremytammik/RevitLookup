@@ -35,7 +35,7 @@ public class ViewGetNonControlledTemplateParameterIdsData : Data
 
         if (nonControlledTemplateParameterIds.Count == 0) return null;
 
-        var form = new Objects(nonControlledTemplateParameterIds);
+        var form = new ObjectsView(nonControlledTemplateParameterIds);
         return form;
     }
 }

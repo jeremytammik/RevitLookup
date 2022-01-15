@@ -4,11 +4,11 @@ using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Views;
 
-public partial class SearchBy : Form
+public partial class SearchByView : Form
 {
     private readonly Document _doc;
 
-    public SearchBy(Document doc)
+    public SearchByView(Document doc)
     {
         InitializeComponent();
         m_cbSearchByVariant.SelectedIndex = 0;
@@ -38,7 +38,7 @@ public partial class SearchBy : Form
             var element = _doc.GetElement(new ElementId(id));
             if (element is not null)
             {
-                var form = new Objects(element);
+                var form = new ObjectsView(element);
                 ModelessWindowFactory.Show(form, _doc, this);
             }
             else
@@ -57,7 +57,7 @@ public partial class SearchBy : Form
         var element = _doc.GetElement(m_tbSearchValue.Text);
         if (element is not null)
         {
-            var form = new Objects(element);
+            var form = new ObjectsView(element);
             ModelessWindowFactory.Show(form, _doc, this);
         }
         else

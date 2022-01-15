@@ -51,7 +51,7 @@ public class XmlData : Data
             else
                 xmlDoc.LoadXml(_value);
 
-            var form = new Dom(xmlDoc);
+            var form = new DomView(xmlDoc);
             form.ShowDialog();
         }
         catch (XmlException e)

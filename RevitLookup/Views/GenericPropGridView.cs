@@ -29,7 +29,7 @@ namespace RevitLookup.Views;
 ///     most of the items will appear as Greyed-out, read-only items.  But, we don't have
 ///     to go write a SnoopCollector for every item in the .NET system.
 /// </summary>
-public class GenericPropGrid : Form
+public class GenericPropGridView : Form
 {
     /// <summary>
     ///     Required designer variable.
@@ -43,7 +43,7 @@ public class GenericPropGrid : Form
     private MenuItem _mnuItemShowObjInfo;
     private PropertyGrid _pgProps;
 
-    public GenericPropGrid(object obj)
+    public GenericPropGridView(object obj)
     {
         // Required for Windows Form Designer support
         InitializeComponent();
@@ -70,7 +70,7 @@ public class GenericPropGrid : Form
     /// </summary>
     private void InitializeComponent()
     {
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenericPropGrid));
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GenericPropGridView));
         this._pgProps = new System.Windows.Forms.PropertyGrid();
         this._mnuContext = new System.Windows.Forms.ContextMenu();
         this._mnuItemShowObjInfo = new System.Windows.Forms.MenuItem();
@@ -137,7 +137,7 @@ public class GenericPropGrid : Form
         this.MaximizeBox = false;
         this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(280, 250);
-        this.Name = "GenericPropGrid";
+        this.Name = "GenericPropGridView";
         this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "PropGrid";
@@ -163,7 +163,7 @@ public class GenericPropGrid : Form
         }
         else
         {
-            var pgForm = new GenericPropGrid(selObj);
+            var pgForm = new GenericPropGridView(selObj);
             pgForm.Text = $"{_pgProps.SelectedGridItem.Label} (Object Info: {selObj.GetType()})";
             pgForm.ShowDialog();
         }
@@ -185,7 +185,7 @@ public class GenericPropGrid : Form
         }
         else
         {
-            var pgForm = new GenericPropGrid(selObj.GetType());
+            var pgForm = new GenericPropGridView(selObj.GetType());
             pgForm.Text = $"{_pgProps.SelectedGridItem.Label} (System.Type = {selObj.GetType().FullName})";
             pgForm.ShowDialog();
         }

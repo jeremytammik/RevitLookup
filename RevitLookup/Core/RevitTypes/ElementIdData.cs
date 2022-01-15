@@ -50,7 +50,7 @@ public class ElementIdData : Data
     {
         if (_element is null) return null;
 
-        var form = new Objects(_element);
+        var form = new ObjectsView(_element);
         return form;
     }
 }

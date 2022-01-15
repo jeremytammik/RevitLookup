@@ -122,7 +122,7 @@ public static class Utils
             return;
         }
 
-        var pgForm = new GenericPropGrid(obj);
+        var pgForm = new GenericPropGridView(obj);
         pgForm.Text = $"Object Data (System.Type = {obj.GetType().FullName})";
         pgForm.ShowDialog();
     }
