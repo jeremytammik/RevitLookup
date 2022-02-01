@@ -7,8 +7,8 @@
         <ImplicitUsings>true</ImplicitUsings>
         <UseWindowsForms>true</UseWindowsForms>
         <TargetFramework>net48</TargetFramework>
-        <RevitVersion>2022</RevitVersion>
-        <Version>$(RevitVersion).0.3.3</Version>
+        <RevitVersion>2023</RevitVersion>
+        <Version>$(RevitVersion).0.0</Version>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
         <DebugSymbols>true</DebugSymbols>
@@ -29,9 +29,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*" />
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />
-        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />
+<!--        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*" />-->
+<!--        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />-->
+<!--        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />-->
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="2023.0.0-beta0117" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="2023.0.0-beta0117" />
+        <PackageReference Include="Nice3point.Revit.Extensions" Version="2022.0.5" />
     </ItemGroup>
 
     <ItemGroup>
