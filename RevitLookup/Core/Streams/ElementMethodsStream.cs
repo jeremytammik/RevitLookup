@@ -30,6 +30,7 @@ public class ElementMethodsStream : IElementStream
 
         foreach (var methodInfo in methods)
         {
+            //if(IsMethodExcept(methodInfo)) continue;
             if (_seenMethods.Contains(methodInfo.Name)) continue;
 
             currentTypeMethods.Add(methodInfo.Name);
@@ -50,5 +51,11 @@ public class ElementMethodsStream : IElementStream
         {
             return new ExceptionData(methodInfo.Name, ex);
         }
+    }
+
+    bool IsMethodExcept(MethodInfo methodInfo)
+    {
+        if (methodInfo.Name.Equals("SubmitPrint", StringComparison.OrdinalIgnoreCase)) return true;
+        return false;
     }
 }
