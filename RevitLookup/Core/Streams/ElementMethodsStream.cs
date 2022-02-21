@@ -30,7 +30,7 @@ public class ElementMethodsStream : IElementStream
 
         foreach (var methodInfo in methods)
         {
-            //if(IsMethodExcept(methodInfo)) continue;
+            if(IsMethodExcept(methodInfo)) continue;
             if (_seenMethods.Contains(methodInfo.Name)) continue;
 
             currentTypeMethods.Add(methodInfo.Name);
