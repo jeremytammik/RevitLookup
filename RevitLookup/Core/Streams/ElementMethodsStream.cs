@@ -51,5 +51,4 @@ public class ElementMethodsStream : IElementStream
             return new ExceptionData(methodInfo.Name, ex);
         }
     }
-
 }
