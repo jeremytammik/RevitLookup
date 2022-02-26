@@ -3,6 +3,7 @@ using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.CollectorExtensions;
 using RevitLookup.Core.RevitTypes;
+using RevitLookup.RevitUtils;
 
 namespace RevitLookup.Core.Streams;
 
@@ -80,9 +81,9 @@ public class ElementPropertiesStream : IElementStream
 
             DataTypeInfoHelper.AddDataFromTypeInfo(_document, property, propertyType, propertyValue, _element, _data);
 
-            if (_element is Category category && property.Name == "Id" && category.Id.IntegerValue < 0)
+            if (_element is Category category && property.Name == "Id" && category.Id.GetValue() < 0)
             {
-                var bic = (BuiltInCategory) category.Id.IntegerValue;
+                var bic = (BuiltInCategory) category.Id.GetValue();
                 _data.Add(new StringData("BuiltInCategory", bic.ToString()));
             }
         }

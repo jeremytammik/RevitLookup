@@ -32,8 +32,11 @@ public partial class SearchByView : Form
 
     private void SearcAndSnoopByElementId()
     {
-        int id;
-        if (int.TryParse(m_tbSearchValue.Text, out id))
+#if R22
+        if (int.TryParse(m_tbSearchValue.Text, out var id))
+#else
+        if (long.TryParse(m_tbSearchValue.Text, out var id))
+#endif
         {
             var element = _doc.GetElement(new ElementId(id));
             if (element is not null)

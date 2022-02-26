@@ -39,8 +39,8 @@
 
     <ItemGroup>
         <!--Update version after new Revit is released - Version="$(RevitVersion).*"-->
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="2022.1.1" />
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="2022.1.1" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="2023.0.0-dev0207" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="2023.0.0-dev0207" />
         <PackageReference Include="Nice3point.Revit.Extensions" Version="2022.0.5" />
     </ItemGroup>
 

@@ -24,6 +24,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using RevitLookup.Core.RevitTypes;
 using RevitLookup.Core.RevitTypes.PlaceHolders;
+using RevitLookup.RevitUtils;
 using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.Core.CollectorExtensions;
@@ -73,7 +74,7 @@ public static class DataTypeInfoHelper
             if (expectedType == typeof(ElementId))
             {
                 if (info.Name == nameof(Element.Id))
-                    return new StringData(info.Name, (returnValue as ElementId)?.IntegerValue.ToString());
+                    return new StringData(info.Name, (returnValue as ElementId)?.GetValue().ToString());
 
                 return new ElementIdData(info.Name, returnValue as ElementId, document);
             }
