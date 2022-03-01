@@ -162,10 +162,10 @@ public class ObjectsView : Form, IHaveCollector
     #region Windows Form Designer generated code
 
     /// <summary>
-    ///     Required method for Designer support - do not modify
-    ///     the contents of this method with the code editor.
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
     /// </summary>
-    protected void InitializeComponent()
+    private void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ObjectsView));
@@ -175,8 +175,8 @@ public class ObjectsView : Form, IHaveCollector
         this._mnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
         this.BnOk = new System.Windows.Forms.Button();
         this.LvData = new System.Windows.Forms.ListView();
-        this._lvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
-        this._lvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+        this._lvColLabel = new System.Windows.Forms.ColumnHeader();
+        this._lvColValue = new System.Windows.Forms.ColumnHeader();
         this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
         this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this._printDialog = new System.Windows.Forms.PrintDialog();
@@ -205,10 +205,9 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripSelectors.SuspendLayout();
         this.SuspendLayout();
         // 
-        // m_tvObjs
+        // TvObjs
         // 
-        this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                    | System.Windows.Forms.AnchorStyles.Left)));
+        this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
         this.TvObjs.ContextMenu = this.CntxMenuObjId;
         this.TvObjs.HideSelection = false;
         this.TvObjs.Location = new System.Drawing.Point(12, 32);
@@ -217,27 +216,23 @@ public class ObjectsView : Form, IHaveCollector
         this.TvObjs.TabIndex = 0;
         this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
         // 
-        // m_cntxMenuObjId
+        // CntxMenuObjId
         // 
-        this.CntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
-        {
-            this._mnuItemCopy,
-            this._mnuItemBrowseReflection
-        });
+        this.CntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {this._mnuItemCopy, this._mnuItemBrowseReflection});
         // 
-        // m_mnuItemCopy
+        // _mnuItemCopy
         // 
         this._mnuItemCopy.Index = 0;
         this._mnuItemCopy.Text = "Copy";
         this._mnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
         // 
-        // m_mnuItemBrowseReflection
+        // _mnuItemBrowseReflection
         // 
         this._mnuItemBrowseReflection.Index = 1;
         this._mnuItemBrowseReflection.Text = "Browse Using Reflection...";
         this._mnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
         // 
-        // m_bnOK
+        // BnOk
         // 
         this.BnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
         this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -249,16 +244,10 @@ public class ObjectsView : Form, IHaveCollector
         this.BnOk.Text = "OK";
         this.BnOk.Click += new System.EventHandler(this.ButtonOK_Click);
         // 
-        // m_lvData
+        // LvData
         // 
-        this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                     | System.Windows.Forms.AnchorStyles.Left)
-                                                                    | System.Windows.Forms.AnchorStyles.Right)));
-        this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
-        {
-            this._lvColLabel,
-            this._lvColValue
-        });
+        this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this._lvColLabel, this._lvColValue});
         this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
         this.LvData.FullRowSelect = true;
         this.LvData.GridLines = true;
@@ -273,26 +262,23 @@ public class ObjectsView : Form, IHaveCollector
         this.LvData.Click += new System.EventHandler(this.DataItemSelected);
         this.LvData.DoubleClick += new System.EventHandler(this.DataItemSelected);
         // 
-        // m_lvCol_label
+        // _lvColLabel
         // 
         this._lvColLabel.Text = "Field";
         this._lvColLabel.Width = 200;
         // 
-        // m_lvCol_value
+        // _lvColValue
         // 
         this._lvColValue.Text = "Value";
         this._lvColValue.Width = 800;
         // 
-        // listViewContextMenuStrip
+        // _listViewContextMenuStrip
         // 
-        this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-        {
-            this._copyToolStripMenuItem
-        });
+        this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this._copyToolStripMenuItem});
         this._listViewContextMenuStrip.Name = "_listViewContextMenuStrip";
         this._listViewContextMenuStrip.Size = new System.Drawing.Size(103, 26);
         // 
-        // copyToolStripMenuItem
+        // _copyToolStripMenuItem
         // 
         this._copyToolStripMenuItem.Image = global::RevitLookup.Properties.Resources.Copy;
         this._copyToolStripMenuItem.Name = "_copyToolStripMenuItem";
@@ -300,27 +286,27 @@ public class ObjectsView : Form, IHaveCollector
         this._copyToolStripMenuItem.Text = "Copy";
         this._copyToolStripMenuItem.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
         // 
-        // m_printDialog
+        // _printDialog
         // 
         this._printDialog.Document = this._printDocument;
         this._printDialog.UseEXDialog = true;
         // 
-        // m_printDocument
+        // _printDocument
         // 
         this._printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
         // 
-        // m_printPreviewDialog
+        // _printPreviewDialog
         // 
         this._printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
         this._printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
         this._printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
         this._printPreviewDialog.Document = this._printDocument;
         this._printPreviewDialog.Enabled = true;
-        this._printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
+        this._printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("_printPreviewDialog.Icon")));
         this._printPreviewDialog.Name = "_printPreviewDialog";
         this._printPreviewDialog.Visible = false;
         // 
-        // tableLayoutPanel1
+        // _tableLayoutPanel1
         // 
         this._tableLayoutPanel1.AutoSize = true;
         this._tableLayoutPanel1.ColumnCount = 3;
@@ -338,22 +324,17 @@ public class ObjectsView : Form, IHaveCollector
         this._tableLayoutPanel1.Size = new System.Drawing.Size(800, 26);
         this._tableLayoutPanel1.TabIndex = 5;
         // 
-        // toolStrip1
+        // _toolStrip1
         // 
         this._toolStrip1.AutoSize = false;
         this._toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-        this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-        {
-            this._toolStripButton1,
-            this._toolStripButton2,
-            this._toolStripButton3
-        });
+        this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this._toolStripButton1, this._toolStripButton2, this._toolStripButton3});
         this._toolStrip1.Location = new System.Drawing.Point(0, 0);
         this._toolStrip1.Name = "_toolStrip1";
         this._toolStrip1.Size = new System.Drawing.Size(320, 26);
         this._toolStrip1.TabIndex = 5;
         // 
-        // toolStripButton1
+        // _toolStripButton1
         // 
         this._toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButton1.Image = global::RevitLookup.Properties.Resources.Print;
@@ -363,7 +344,7 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButton1.Text = "Print";
         this._toolStripButton1.Click += new System.EventHandler(this.PrintMenuItem_Click);
         // 
-        // toolStripButton2
+        // _toolStripButton2
         // 
         this._toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButton2.Image = global::RevitLookup.Properties.Resources.Preview;
@@ -373,7 +354,7 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButton2.Text = "Print Preview";
         this._toolStripButton2.Click += new System.EventHandler(this.PrintPreviewMenuItem_Click);
         // 
-        // toolStripButton3
+        // _toolStripButton3
         // 
         this._toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButton3.Image = global::RevitLookup.Properties.Resources.Copy;
@@ -383,21 +364,18 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButton3.Text = "Copy To Clipboard";
         this._toolStripButton3.Click += new System.EventHandler(this.ContextMenuClick_Copy);
         // 
-        // toolStrip_ListView
+        // _toolStripListView
         // 
         this._toolStripListView.AutoSize = false;
         this._toolStripListView.ImageScalingSize = new System.Drawing.Size(20, 20);
-        this._toolStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-        {
-            this._toolStripButtonRefreshListView
-        });
+        this._toolStripListView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this._toolStripButtonRefreshListView});
         this._toolStripListView.Location = new System.Drawing.Point(640, 0);
         this._toolStripListView.Name = "_toolStripListView";
         this._toolStripListView.Size = new System.Drawing.Size(160, 26);
         this._toolStripListView.TabIndex = 7;
         this._toolStripListView.Text = "toolStrip3";
         // 
-        // toolStripButton_RefreshListView
+        // _toolStripButtonRefreshListView
         // 
         this._toolStripButtonRefreshListView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonRefreshListView.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonRefreshListView.Image")));
@@ -409,125 +387,107 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonRefreshListView.Click += new System.EventHandler(this.ToolStripButton_RefreshListView_Click);
         this._toolStripButtonRefreshListView.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // toolStrip_Selectors
+        // _toolStripSelectors
         // 
         this._toolStripSelectors.AutoSize = false;
         this._toolStripSelectors.ImageScalingSize = new System.Drawing.Size(20, 20);
-        this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-        {
-            this._toolStripButtonSnoopDb,
-            this._toolStripButtonSnoopCurrentSelection,
-            this._toolStripButtonSnoopPickFace,
-            this._toolStripButtonSnoopPickEdge,
-            this._toolStripButtonSnoopLinkedElement,
-            this._toolStripButtonSnoopDependentElements,
-            this._toolStripButtonSnoopActiveView,
-            this._toolStripButtonSnoopApplication
-        });
+        this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this._toolStripButtonSnoopDb, this._toolStripButtonSnoopCurrentSelection, this._toolStripButtonSnoopPickFace, this._toolStripButtonSnoopPickEdge, this._toolStripButtonSnoopLinkedElement, this._toolStripButtonSnoopDependentElements, this._toolStripButtonSnoopActiveView, this._toolStripButtonSnoopApplication});
         this._toolStripSelectors.Location = new System.Drawing.Point(320, 0);
         this._toolStripSelectors.Name = "_toolStripSelectors";
         this._toolStripSelectors.Size = new System.Drawing.Size(320, 26);
         this._toolStripSelectors.TabIndex = 8;
         this._toolStripSelectors.Text = "toolStrip2";
         // 
-        // toolStripButton_SnoopDB
+        // _toolStripButtonSnoopDb
         // 
         this._toolStripButtonSnoopDb.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopDb.Image")));
         this._toolStripButtonSnoopDb.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopDb.Name = "_toolStripButtonSnoopDb";
         this._toolStripButtonSnoopDb.Size = new System.Drawing.Size(24, 23);
-        this._toolStripButtonSnoopDb.Tag = nameof(Selector.SnoopDb);
         this._toolStripButtonSnoopDb.Text = "Snoop DB";
         this._toolStripButtonSnoopDb.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopDb.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // toolStripButton_SnoopCurrentSelection
+        // _toolStripButtonSnoopCurrentSelection
         // 
         this._toolStripButtonSnoopCurrentSelection.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopCurrentSelection.Image")));
         this._toolStripButtonSnoopCurrentSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopCurrentSelection.Name = "_toolStripButtonSnoopCurrentSelection";
         this._toolStripButtonSnoopCurrentSelection.Size = new System.Drawing.Size(24, 23);
-        this._toolStripButtonSnoopCurrentSelection.Tag = nameof(Selector.SnoopCurrentSelection);
         this._toolStripButtonSnoopCurrentSelection.Text = "Snoop current selection";
         this._toolStripButtonSnoopCurrentSelection.ToolTipText = "Snoop current selection";
         this._toolStripButtonSnoopCurrentSelection.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopCurrentSelection.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // toolStripButton_SnoopPickFace
+        // _toolStripButtonSnoopPickFace
         // 
         this._toolStripButtonSnoopPickFace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopPickFace.Image")));
         this._toolStripButtonSnoopPickFace.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopPickFace.Name = "_toolStripButtonSnoopPickFace";
         this._toolStripButtonSnoopPickFace.Size = new System.Drawing.Size(24, 23);
-        this._toolStripButtonSnoopPickFace.Tag = nameof(Selector.SnoopPickFace);
         this._toolStripButtonSnoopPickFace.Text = "Snoop pick face";
         this._toolStripButtonSnoopPickFace.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopPickFace.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // toolStripButton_SnoopPickEdge
+        // _toolStripButtonSnoopPickEdge
         // 
         this._toolStripButtonSnoopPickEdge.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopPickEdge.Image")));
         this._toolStripButtonSnoopPickEdge.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopPickEdge.Name = "_toolStripButtonSnoopPickEdge";
         this._toolStripButtonSnoopPickEdge.Size = new System.Drawing.Size(24, 23);
-        this._toolStripButtonSnoopPickEdge.Tag = nameof(Selector.SnoopPickEdge);
         this._toolStripButtonSnoopPickEdge.Text = "Snoop pick edge";
         this._toolStripButtonSnoopPickEdge.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopPickEdge.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // toolStripButton_SnoopLinkedElement
+        // _toolStripButtonSnoopLinkedElement
         // 
         this._toolStripButtonSnoopLinkedElement.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopLinkedElement.Image")));
         this._toolStripButtonSnoopLinkedElement.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopLinkedElement.Name = "_toolStripButtonSnoopLinkedElement";
         this._toolStripButtonSnoopLinkedElement.Size = new System.Drawing.Size(24, 23);
-        this._toolStripButtonSnoopLinkedElement.Tag = nameof(Selector.SnoopLinkedElement);
         this._toolStripButtonSnoopLinkedElement.Text = "Snoop linked element";
         this._toolStripButtonSnoopLinkedElement.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopLinkedElement.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // toolStripButton_SnoopDependentElements
+        // _toolStripButtonSnoopDependentElements
         // 
         this._toolStripButtonSnoopDependentElements.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopDependentElements.Image")));
         this._toolStripButtonSnoopDependentElements.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopDependentElements.Name = "_toolStripButtonSnoopDependentElements";
         this._toolStripButtonSnoopDependentElements.Size = new System.Drawing.Size(24, 23);
-        this._toolStripButtonSnoopDependentElements.Tag = nameof(Selector.SnoopDependentElements);
         this._toolStripButtonSnoopDependentElements.Text = "Snoop dependent elements";
         this._toolStripButtonSnoopDependentElements.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopDependentElements.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // toolStripButton_SnoopActiveView
+        // _toolStripButtonSnoopActiveView
         // 
         this._toolStripButtonSnoopActiveView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopActiveView.Image")));
         this._toolStripButtonSnoopActiveView.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopActiveView.Name = "_toolStripButtonSnoopActiveView";
         this._toolStripButtonSnoopActiveView.Size = new System.Drawing.Size(24, 23);
-        this._toolStripButtonSnoopActiveView.Tag = nameof(Selector.SnoopActiveView);
         this._toolStripButtonSnoopActiveView.Text = "Snoop active view";
         this._toolStripButtonSnoopActiveView.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopActiveView.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // toolStripButton_SnoopApplication
+        // _toolStripButtonSnoopApplication
         // 
         this._toolStripButtonSnoopApplication.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopApplication.Image")));
         this._toolStripButtonSnoopApplication.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopApplication.Name = "_toolStripButtonSnoopApplication";
         this._toolStripButtonSnoopApplication.Size = new System.Drawing.Size(24, 23);
-        this._toolStripButtonSnoopApplication.Tag = nameof(Selector.SnoopApplication);
         this._toolStripButtonSnoopApplication.Text = "Snoop application";
         this._toolStripButtonSnoopApplication.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopApplication.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
-        // Objects
+        // ObjectsView
         // 
         this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this.BnOk;
@@ -537,7 +497,6 @@ public class ObjectsView : Form, IHaveCollector
         this.Controls.Add(this.TvObjs);
         this.Controls.Add(this.BnOk);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-        this.MaximizeBox = false;
         this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ObjectsView";
