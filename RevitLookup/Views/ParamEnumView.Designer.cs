@@ -30,8 +30,8 @@ namespace RevitLookup.Views {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamEnumView));
             this.listView = new System.Windows.Forms.ListView();
-            this.m_colEnum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.m_colVal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.m_colEnum = new System.Windows.Forms.ColumnHeader();
+            this.m_colVal = new System.Windows.Forms.ColumnHeader();
             this.listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_bnOk = new System.Windows.Forms.Button();
@@ -45,14 +45,10 @@ namespace RevitLookup.Views {
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // m_listView
+            // listView
             // 
-            this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.m_colEnum,
-            this.m_colVal});
+            this.listView.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this.m_colEnum, this.m_colVal});
             this.listView.ContextMenuStrip = this.listViewContextMenuStrip;
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
@@ -79,8 +75,7 @@ namespace RevitLookup.Views {
             // 
             // listViewContextMenuStrip
             // 
-            this.listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToolStripMenuItem});
+            this.listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.copyToolStripMenuItem});
             this.listViewContextMenuStrip.Name = "listViewContextMenuStrip";
             this.listViewContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
@@ -121,15 +116,13 @@ namespace RevitLookup.Views {
             this.m_printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
             this.m_printPreviewDialog.Document = this.m_printDocument;
             this.m_printPreviewDialog.Enabled = true;
-            this.m_printPreviewDialog.Icon = ((System.Drawing.Icon)(resources.GetObject("m_printPreviewDialog.Icon")));
+            this.m_printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
             this.m_printPreviewDialog.Name = "m_printPreviewDialog";
             this.m_printPreviewDialog.Visible = false;
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2});
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.toolStripButton1, this.toolStripButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(613, 25);
@@ -156,7 +149,7 @@ namespace RevitLookup.Views {
             this.toolStripButton2.Text = "Print Preview";
             this.toolStripButton2.Click += new System.EventHandler(this.PrintPreviewMenuItem_Click);
             // 
-            // ParamEnum
+            // ParamEnumView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -165,8 +158,7 @@ namespace RevitLookup.Views {
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.m_bnOk);
             this.Controls.Add(this.listView);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
+            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.Name = "ParamEnumView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -176,7 +168,6 @@ namespace RevitLookup.Views {
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
