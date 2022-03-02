@@ -234,7 +234,7 @@ public class ObjectsView : Form, IHaveCollector
         // 
         // BnOk
         // 
-        this.BnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+        this.BnOk.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         this.BnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this.BnOk.Location = new System.Drawing.Point(284, 464);
