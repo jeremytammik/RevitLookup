@@ -36,12 +36,12 @@ public class GenericPropGridView : Form
     /// </summary>
     private readonly Container _components = null;
 
-    private Button _bnCancel;
-    private Button _bnOk;
+    private System.Windows.Forms.Button _bnCancel;
+    private System.Windows.Forms.Button _bnOk;
     private ContextMenu _mnuContext;
     private MenuItem _mnuItemShowClassInfo;
     private MenuItem _mnuItemShowObjInfo;
-    private PropertyGrid _pgProps;
+    private System.Windows.Forms.PropertyGrid _pgProps;
 
     public GenericPropGridView(object obj)
     {
@@ -88,7 +88,7 @@ public class GenericPropGridView : Form
         this._pgProps.Location = new System.Drawing.Point(16, 16);
         this._pgProps.Name = "_pgProps";
         this._pgProps.PropertySort = System.Windows.Forms.PropertySort.Alphabetical;
-        this._pgProps.Size = new System.Drawing.Size(472, 384);
+        this._pgProps.Size = new System.Drawing.Size(602, 384);
         this._pgProps.TabIndex = 0;
         // 
         // _mnuContext
@@ -113,7 +113,7 @@ public class GenericPropGridView : Form
         this._bnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
         this._bnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
         this._bnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-        this._bnOk.Location = new System.Drawing.Point(171, 416);
+        this._bnOk.Location = new System.Drawing.Point(236, 416);
         this._bnOk.Name = "_bnOk";
         this._bnOk.Size = new System.Drawing.Size(75, 23);
         this._bnOk.TabIndex = 1;
@@ -125,7 +125,7 @@ public class GenericPropGridView : Form
         this._bnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
         this._bnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         this._bnCancel.FlatStyle = System.Windows.Forms.FlatStyle.System;
-        this._bnCancel.Location = new System.Drawing.Point(259, 416);
+        this._bnCancel.Location = new System.Drawing.Point(324, 416);
         this._bnCancel.Name = "_bnCancel";
         this._bnCancel.Size = new System.Drawing.Size(75, 23);
         this._bnCancel.TabIndex = 3;
@@ -136,11 +136,12 @@ public class GenericPropGridView : Form
         // 
         this.AcceptButton = this._bnOk;
         this.CancelButton = this._bnCancel;
-        this.ClientSize = new System.Drawing.Size(504, 454);
+        this.ClientSize = new System.Drawing.Size(634, 454);
         this.Controls.Add(this._bnCancel);
         this.Controls.Add(this._bnOk);
         this.Controls.Add(this._pgProps);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+        this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "GenericPropGridView";
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "PropGrid";

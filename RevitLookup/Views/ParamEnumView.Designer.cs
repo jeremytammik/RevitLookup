@@ -56,7 +56,7 @@ namespace RevitLookup.Views {
             this.listView.Location = new System.Drawing.Point(12, 33);
             this.listView.Name = "listView";
             this.listView.ShowItemToolTips = true;
-            this.listView.Size = new System.Drawing.Size(587, 409);
+            this.listView.Size = new System.Drawing.Size(608, 409);
             this.listView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView.TabIndex = 0;
             this.listView.UseCompatibleStateImageBehavior = false;
@@ -92,7 +92,7 @@ namespace RevitLookup.Views {
             this.m_bnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.m_bnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.m_bnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.m_bnOk.Location = new System.Drawing.Point(269, 448);
+            this.m_bnOk.Location = new System.Drawing.Point(280, 448);
             this.m_bnOk.Name = "m_bnOk";
             this.m_bnOk.Size = new System.Drawing.Size(75, 23);
             this.m_bnOk.TabIndex = 1;
@@ -125,7 +125,7 @@ namespace RevitLookup.Views {
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this.toolStripButton1, this.toolStripButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(613, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(634, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -154,11 +154,12 @@ namespace RevitLookup.Views {
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.m_bnOk;
-            this.ClientSize = new System.Drawing.Size(613, 483);
+            this.ClientSize = new System.Drawing.Size(634, 483);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.m_bnOk);
             this.Controls.Add(this.listView);
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(650, 200);
             this.Name = "ParamEnumView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enum Mappings";
@@ -171,10 +172,10 @@ namespace RevitLookup.Views {
 
         #endregion
 
-        private System.Windows.Forms.ListView           listView;
+        private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.ColumnHeader       m_colEnum;
         private System.Windows.Forms.ColumnHeader       m_colVal;
-        private System.Windows.Forms.Button             m_bnOk;
+        private System.Windows.Forms.Button m_bnOk;
         
         private ListViewColumnSorter    colSorter;
         private System.Windows.Forms.ContextMenuStrip   listViewContextMenuStrip;

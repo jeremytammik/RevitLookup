@@ -270,6 +270,7 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this.Controls.Add(this.TvObjs);
         this.Controls.Add(this.MLvData);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+        this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ParamEnumSnoopView";
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "Snoop Built-In Parameters";
