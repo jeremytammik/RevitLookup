@@ -86,7 +86,6 @@ public class DomView : Form
     private void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
-        System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(DomView));
         this._tvDom = new System.Windows.Forms.TreeView();
         this._imgListTree = new System.Windows.Forms.ImageList(this.components);
         this._lvData = new System.Windows.Forms.ListView();
@@ -115,28 +114,33 @@ public class DomView : Form
         this._grpNodeDisplay.SuspendLayout();
         this._grpXpath.SuspendLayout();
         this.SuspendLayout();
-
-        this._tvDom.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                               | System.Windows.Forms.AnchorStyles.Left)
-                              | System.Windows.Forms.AnchorStyles.Right);
+        // 
+        // _tvDom
+        // 
+        this._tvDom.Anchor =
+            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
+                                                   System.Windows.Forms.AnchorStyles.Right)));
         this._tvDom.HideSelection = false;
+        this._tvDom.ImageIndex = 0;
         this._tvDom.ImageList = this._imgListTree;
         this._tvDom.Location = new System.Drawing.Point(16, 16);
         this._tvDom.Name = "_tvDom";
+        this._tvDom.SelectedImageIndex = 0;
         this._tvDom.Size = new System.Drawing.Size(336, 416);
         this._tvDom.TabIndex = 0;
         this._tvDom.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
-
+        // 
+        // _imgListTree
+        // 
         this._imgListTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
         this._imgListTree.ImageSize = new System.Drawing.Size(16, 16);
-        this._imgListTree.ImageStream = ((System.Windows.Forms.ImageListStreamer) (resources.GetObject("m_imgListTree.ImageStream")));
         this._imgListTree.TransparentColor = System.Drawing.Color.Transparent;
-        this._lvData.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right);
-        this._lvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
-        {
-            this._lvColLabel,
-            this._lvColValue
-        });
+        // 
+        // _lvData
+        // 
+        this._lvData.Anchor =
+            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
+        this._lvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this._lvColLabel, this._lvColValue});
         this._lvData.FullRowSelect = true;
         this._lvData.GridLines = true;
         this._lvData.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -145,16 +149,23 @@ public class DomView : Form
         this._lvData.Name = "_lvData";
         this._lvData.Size = new System.Drawing.Size(416, 328);
         this._lvData.TabIndex = 1;
+        this._lvData.UseCompatibleStateImageBehavior = false;
         this._lvData.View = System.Windows.Forms.View.Details;
         this._lvData.Click += new System.EventHandler(this.DataItemSelected);
-
+        // 
+        // _lvColLabel
+        // 
         this._lvColLabel.Text = "Field";
         this._lvColLabel.Width = 200;
-
+        // 
+        // _lvColValue
+        // 
         this._lvColValue.Text = "Value";
         this._lvColValue.Width = 750;
-
-        this._rbNodeNameOnly.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+        // 
+        // _rbNodeNameOnly
+        // 
+        this._rbNodeNameOnly.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
         this._rbNodeNameOnly.Checked = true;
         this._rbNodeNameOnly.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._rbNodeNameOnly.Location = new System.Drawing.Point(384, 376);
@@ -164,8 +175,10 @@ public class DomView : Form
         this._rbNodeNameOnly.TabStop = true;
         this._rbNodeNameOnly.Text = "Node Name Only";
         this._rbNodeNameOnly.CheckedChanged += new System.EventHandler(this.OnRbChanged_LabelDisplay);
-
-        this._rbNodeAndText.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+        // 
+        // _rbNodeAndText
+        // 
+        this._rbNodeAndText.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
         this._rbNodeAndText.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._rbNodeAndText.Location = new System.Drawing.Point(384, 400);
         this._rbNodeAndText.Name = "_rbNodeAndText";
@@ -173,8 +186,10 @@ public class DomView : Form
         this._rbNodeAndText.TabIndex = 4;
         this._rbNodeAndText.Text = "Node Name and Value";
         this._rbNodeAndText.CheckedChanged += new System.EventHandler(this.OnRbChanged_LabelDisplay);
-
-        this._grpLabelDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+        // 
+        // _grpLabelDisplay
+        // 
+        this._grpLabelDisplay.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
         this._grpLabelDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._grpLabelDisplay.Location = new System.Drawing.Point(368, 360);
         this._grpLabelDisplay.Name = "_grpLabelDisplay";
@@ -182,13 +197,12 @@ public class DomView : Form
         this._grpLabelDisplay.TabIndex = 5;
         this._grpLabelDisplay.TabStop = false;
         this._grpLabelDisplay.Text = "Label Display";
-
-        this._grpNodeDisplay.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
-        this._grpNodeDisplay.Controls.AddRange(new System.Windows.Forms.Control[]
-        {
-            this._cbHideTextNodes,
-            this._cbHideCommentNodes
-        });
+        // 
+        // _grpNodeDisplay
+        // 
+        this._grpNodeDisplay.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+        this._grpNodeDisplay.Controls.Add(this._cbHideTextNodes);
+        this._grpNodeDisplay.Controls.Add(this._cbHideCommentNodes);
         this._grpNodeDisplay.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._grpNodeDisplay.Location = new System.Drawing.Point(584, 360);
         this._grpNodeDisplay.Name = "_grpNodeDisplay";
@@ -196,8 +210,10 @@ public class DomView : Form
         this._grpNodeDisplay.TabIndex = 6;
         this._grpNodeDisplay.TabStop = false;
         this._grpNodeDisplay.Text = "Node Display";
-
-        this._cbHideTextNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+        // 
+        // _cbHideTextNodes
+        // 
+        this._cbHideTextNodes.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
         this._cbHideTextNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._cbHideTextNodes.Location = new System.Drawing.Point(16, 40);
         this._cbHideTextNodes.Name = "_cbHideTextNodes";
@@ -205,8 +221,10 @@ public class DomView : Form
         this._cbHideTextNodes.TabIndex = 1;
         this._cbHideTextNodes.Text = "Hide Text Nodes";
         this._cbHideTextNodes.CheckedChanged += new System.EventHandler(this.OnCbChanged_NodeDisplay);
-
-        this._cbHideCommentNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+        // 
+        // _cbHideCommentNodes
+        // 
+        this._cbHideCommentNodes.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
         this._cbHideCommentNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._cbHideCommentNodes.Location = new System.Drawing.Point(16, 16);
         this._cbHideCommentNodes.Name = "_cbHideCommentNodes";
@@ -214,71 +232,94 @@ public class DomView : Form
         this._cbHideCommentNodes.TabIndex = 0;
         this._cbHideCommentNodes.Text = "Hide Comment Nodes";
         this._cbHideCommentNodes.CheckedChanged += new System.EventHandler(this.OnCbChanged_NodeDisplay);
-
-        this._bnParent.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnParent
+        // 
+        this._bnParent.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnParent.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnParent.Location = new System.Drawing.Point(16, 448);
         this._bnParent.Name = "_bnParent";
+        this._bnParent.Size = new System.Drawing.Size(75, 23);
         this._bnParent.TabIndex = 7;
         this._bnParent.Text = "Parent";
         this._bnParent.Click += new System.EventHandler(this.OnBnParent);
-
-        this._bnOwnerDoc.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnOwnerDoc
+        // 
+        this._bnOwnerDoc.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnOwnerDoc.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnOwnerDoc.Location = new System.Drawing.Point(104, 448);
         this._bnOwnerDoc.Name = "_bnOwnerDoc";
+        this._bnOwnerDoc.Size = new System.Drawing.Size(75, 23);
         this._bnOwnerDoc.TabIndex = 8;
         this._bnOwnerDoc.Text = "Owner Doc";
         this._bnOwnerDoc.Click += new System.EventHandler(this.OnBnOwnerDoc);
-
-        this._bnPrevSibling.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnPrevSibling
+        // 
+        this._bnPrevSibling.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnPrevSibling.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnPrevSibling.Location = new System.Drawing.Point(192, 448);
         this._bnPrevSibling.Name = "_bnPrevSibling";
+        this._bnPrevSibling.Size = new System.Drawing.Size(75, 23);
         this._bnPrevSibling.TabIndex = 9;
         this._bnPrevSibling.Text = "Prev Sibling";
         this._bnPrevSibling.Click += new System.EventHandler(this.OnBnPrevSibling);
-
-        this._bnNextSibling.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnNextSibling
+        // 
+        this._bnNextSibling.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnNextSibling.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnNextSibling.Location = new System.Drawing.Point(280, 448);
         this._bnNextSibling.Name = "_bnNextSibling";
+        this._bnNextSibling.Size = new System.Drawing.Size(75, 23);
         this._bnNextSibling.TabIndex = 10;
         this._bnNextSibling.Text = "Next Sibling";
         this._bnNextSibling.Click += new System.EventHandler(this.OnBnNextSibling);
-
-        this._bnFirstChild.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnFirstChild
+        // 
+        this._bnFirstChild.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnFirstChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnFirstChild.Location = new System.Drawing.Point(368, 448);
         this._bnFirstChild.Name = "_bnFirstChild";
+        this._bnFirstChild.Size = new System.Drawing.Size(75, 23);
         this._bnFirstChild.TabIndex = 11;
         this._bnFirstChild.Text = "First Child";
         this._bnFirstChild.Click += new System.EventHandler(this.OnBnFirstChild);
-
-        this._bnLastChild.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnLastChild
+        // 
+        this._bnLastChild.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnLastChild.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnLastChild.Location = new System.Drawing.Point(456, 448);
         this._bnLastChild.Name = "_bnLastChild";
+        this._bnLastChild.Size = new System.Drawing.Size(75, 23);
         this._bnLastChild.TabIndex = 12;
         this._bnLastChild.Text = "Last Child";
         this._bnLastChild.Click += new System.EventHandler(this.OnBnLastChild);
-
-        this._txtXpathPattern.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _txtXpathPattern
+        // 
+        this._txtXpathPattern.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._txtXpathPattern.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._txtXpathPattern.Location = new System.Drawing.Point(32, 512);
         this._txtXpathPattern.Name = "_txtXpathPattern";
         this._txtXpathPattern.Size = new System.Drawing.Size(64, 23);
         this._txtXpathPattern.TabIndex = 14;
         this._txtXpathPattern.Text = "Expression:";
-
-        this._ebXpathPattern.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _ebXpathPattern
+        // 
+        this._ebXpathPattern.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._ebXpathPattern.Location = new System.Drawing.Point(88, 24);
         this._ebXpathPattern.Name = "_ebXpathPattern";
         this._ebXpathPattern.Size = new System.Drawing.Size(424, 20);
         this._ebXpathPattern.TabIndex = 15;
-        this._ebXpathPattern.Text = "";
-
-        this._bnSelectSingleNode.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnSelectSingleNode
+        // 
+        this._bnSelectSingleNode.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnSelectSingleNode.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnSelectSingleNode.Location = new System.Drawing.Point(128, 56);
         this._bnSelectSingleNode.Name = "_bnSelectSingleNode";
@@ -286,8 +327,10 @@ public class DomView : Form
         this._bnSelectSingleNode.TabIndex = 16;
         this._bnSelectSingleNode.Text = "Select Single Node";
         this._bnSelectSingleNode.Click += new System.EventHandler(this.OnBnSelectSingleNode);
-
-        this._bnSelectNodes.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnSelectNodes
+        // 
+        this._bnSelectNodes.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnSelectNodes.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnSelectNodes.Location = new System.Drawing.Point(256, 56);
         this._bnSelectNodes.Name = "_bnSelectNodes";
@@ -295,16 +338,21 @@ public class DomView : Form
         this._bnSelectNodes.TabIndex = 17;
         this._bnSelectNodes.Text = "Select Nodes";
         this._bnSelectNodes.Click += new System.EventHandler(this.OnBnSelectNodes);
-
-        this._bnOk.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+        // 
+        // _bnOk
+        // 
+        this._bnOk.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
         this._bnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
         this._bnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnOk.Location = new System.Drawing.Point(704, 544);
         this._bnOk.Name = "_bnOk";
+        this._bnOk.Size = new System.Drawing.Size(75, 23);
         this._bnOk.TabIndex = 18;
         this._bnOk.Text = "OK";
-
-        this._bnXpathClear.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnXpathClear
+        // 
+        this._bnXpathClear.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnXpathClear.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnXpathClear.Location = new System.Drawing.Point(384, 56);
         this._bnXpathClear.Name = "_bnXpathClear";
@@ -312,15 +360,14 @@ public class DomView : Form
         this._bnXpathClear.TabIndex = 19;
         this._bnXpathClear.Text = "Clear";
         this._bnXpathClear.Click += new System.EventHandler(this.OnBnClear);
-
-        this._grpXpath.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
-        this._grpXpath.Controls.AddRange(new System.Windows.Forms.Control[]
-        {
-            this._ebXpathPattern,
-            this._bnXpathClear,
-            this._bnSelectNodes,
-            this._bnSelectSingleNode
-        });
+        // 
+        // _grpXpath
+        // 
+        this._grpXpath.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+        this._grpXpath.Controls.Add(this._ebXpathPattern);
+        this._grpXpath.Controls.Add(this._bnXpathClear);
+        this._grpXpath.Controls.Add(this._bnSelectNodes);
+        this._grpXpath.Controls.Add(this._bnSelectSingleNode);
         this._grpXpath.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._grpXpath.Location = new System.Drawing.Point(16, 488);
         this._grpXpath.Name = "_grpXpath";
@@ -328,8 +375,10 @@ public class DomView : Form
         this._grpXpath.TabIndex = 20;
         this._grpXpath.TabStop = false;
         this._grpXpath.Text = "XPath Expressions";
-
-        this._bnDocElem.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+        // 
+        // _bnDocElem
+        // 
+        this._bnDocElem.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this._bnDocElem.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this._bnDocElem.Location = new System.Drawing.Point(544, 448);
         this._bnDocElem.Name = "_bnDocElem";
@@ -337,37 +386,34 @@ public class DomView : Form
         this._bnDocElem.TabIndex = 21;
         this._bnDocElem.Text = "Doc Element";
         this._bnDocElem.Click += new System.EventHandler(this.OnBnDocElement);
-
+        // 
+        // DomView
+        // 
         this.AcceptButton = this._bnOk;
-        this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this._bnOk;
         this.ClientSize = new System.Drawing.Size(800, 591);
-        this.Controls.AddRange(new System.Windows.Forms.Control[]
-        {
-            this._bnDocElem,
-            this._bnOk,
-            this._txtXpathPattern,
-            this._bnLastChild,
-            this._bnFirstChild,
-            this._bnNextSibling,
-            this._bnPrevSibling,
-            this._bnOwnerDoc,
-            this._bnParent,
-            this._grpNodeDisplay,
-            this._rbNodeAndText,
-            this._rbNodeNameOnly,
-            this._lvData,
-            this._tvDom,
-            this._grpLabelDisplay,
-            this._grpXpath
-        });
-        this.MaximizeBox = false;
-        this.MinimizeBox = false;
-        this.MinimumSize = new System.Drawing.Size(650, 400);
+        this.Controls.Add(this._bnDocElem);
+        this.Controls.Add(this._bnOk);
+        this.Controls.Add(this._txtXpathPattern);
+        this.Controls.Add(this._bnLastChild);
+        this.Controls.Add(this._bnFirstChild);
+        this.Controls.Add(this._bnNextSibling);
+        this.Controls.Add(this._bnPrevSibling);
+        this.Controls.Add(this._bnOwnerDoc);
+        this.Controls.Add(this._bnParent);
+        this.Controls.Add(this._grpNodeDisplay);
+        this.Controls.Add(this._rbNodeAndText);
+        this.Controls.Add(this._rbNodeNameOnly);
+        this.Controls.Add(this._lvData);
+        this.Controls.Add(this._tvDom);
+        this.Controls.Add(this._grpLabelDisplay);
+        this.Controls.Add(this._grpXpath);
+        this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "DomView";
         this.Text = "XML DOM Tree";
         this._grpNodeDisplay.ResumeLayout(false);
         this._grpXpath.ResumeLayout(false);
+        this._grpXpath.PerformLayout();
         this.ResumeLayout(false);
     }
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2021 by Autodesk, Inc. 
+// Copyright 2003-2021 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -105,6 +105,9 @@ public class DataFactory
 
         if (info.GetParameters().Length > 0 || info.ReturnType == typeof(void))
             return null;
+
+        if (declaringType == typeof(PrintManager) && info.Name == nameof(PrintManager.SubmitPrint))
+            return new BoolData(nameof(PrintManager.SubmitPrint), false);
 
         var returnValue = info.Invoke(_element, Array.Empty<object>());
         return DataTypeInfoHelper.CreateFrom(_document, info, returnValue, _element);

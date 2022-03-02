@@ -41,22 +41,22 @@ public static class DataTypeInfoHelper
         {
             if (expectedType == typeof(double))
                 return new DoubleData(info.Name, (double) returnValue);
-            
+
             if (expectedType == typeof(int))
             {
                 var val = returnValue as int?;
                 return new IntData(info.Name, val.GetValueOrDefault());
             }
-            
+
             if (expectedType == typeof(bool))
             {
                 var val = returnValue as bool?;
                 return new BoolData(info.Name, val.GetValueOrDefault());
             }
-            
+
             if (expectedType == typeof(string))
                 return new StringData(info.Name, returnValue as string);
-            
+
             if (expectedType == typeof(double?))
             {
                 var value = (double?) returnValue;
@@ -83,7 +83,7 @@ public static class DataTypeInfoHelper
 
             if (expectedType == typeof(CategoryNameMap))
                 return new CategoryNameMapData(info.Name, returnValue as CategoryNameMap);
-            
+
             if (expectedType == typeof(AssetProperty))
                 return new AssetPropertyData(info.Name, element as AssetProperties);
 
@@ -104,13 +104,13 @@ public static class DataTypeInfoHelper
 
             if (expectedType == typeof(BindingMap))
                 return new BindingMapData(info.Name, returnValue as BindingMap);
-            
+
             if (expectedType == typeof(Guid))
             {
                 var guidValue = (Guid) returnValue;
                 return new StringData(info.Name, guidValue.ToString());
             }
-            
+
             if (expectedType == typeof(PlanTopologySet))
             {
                 var set = (PlanTopologySet) returnValue;

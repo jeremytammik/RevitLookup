@@ -96,7 +96,7 @@ public class ParamEnumSnoopView : Form, IHaveCollector
     ///     Required method for Designer support - do not modify
     ///     the contents of this method with the code editor.
     /// </summary>
-    protected void InitializeComponent()
+    private void InitializeComponent()
     {
         this.components = new System.ComponentModel.Container();
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamEnumSnoopView));
@@ -106,8 +106,8 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this.MMnuItemBrowseReflection = new System.Windows.Forms.MenuItem();
         this.MBnOk = new System.Windows.Forms.Button();
         this.MLvData = new System.Windows.Forms.ListView();
-        this.MLvColLabel = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
-        this.MLvColValue = ((System.Windows.Forms.ColumnHeader) (new System.Windows.Forms.ColumnHeader()));
+        this.MLvColLabel = new System.Windows.Forms.ColumnHeader();
+        this.MLvColValue = new System.Windows.Forms.ColumnHeader();
         this._listViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
         this._copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
         this._toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -121,10 +121,10 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this._toolStrip1.SuspendLayout();
         this.SuspendLayout();
         // 
-        // m_tvObjs
+        // TvObjs
         // 
-        this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                    | System.Windows.Forms.AnchorStyles.Left)));
+        this.TvObjs.Anchor =
+            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
         this.TvObjs.ContextMenu = this.MCntxMenuObjId;
         this.TvObjs.HideSelection = false;
         this.TvObjs.Location = new System.Drawing.Point(11, 38);
@@ -133,27 +133,23 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this.TvObjs.TabIndex = 0;
         this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
         // 
-        // m_cntxMenuObjId
+        // MCntxMenuObjId
         // 
-        this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[]
-        {
-            this._mnuItemCopy,
-            this.MMnuItemBrowseReflection
-        });
+        this.MCntxMenuObjId.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {this._mnuItemCopy, this.MMnuItemBrowseReflection});
         // 
-        // m_mnuItemCopy
+        // _mnuItemCopy
         // 
         this._mnuItemCopy.Index = 0;
         this._mnuItemCopy.Text = "Copy";
         this._mnuItemCopy.Click += new System.EventHandler(this.ContextMenuClick_Copy);
         // 
-        // m_mnuItemBrowseReflection
+        // MMnuItemBrowseReflection
         // 
         this.MMnuItemBrowseReflection.Index = 1;
         this.MMnuItemBrowseReflection.Text = "Browse Using Reflection...";
         this.MMnuItemBrowseReflection.Click += new System.EventHandler(this.ContextMenuClick_BrowseReflection);
         // 
-        // m_bnOK
+        // MBnOk
         // 
         this.MBnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
         this.MBnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -165,16 +161,12 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this.MBnOk.Text = "OK";
         this.MBnOk.Click += new System.EventHandler(this.m_bnOK_Click);
         // 
-        // m_lvData
+        // MLvData
         // 
-        this.MLvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                                                      | System.Windows.Forms.AnchorStyles.Left)
-                                                                     | System.Windows.Forms.AnchorStyles.Right)));
-        this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[]
-        {
-            this.MLvColLabel,
-            this.MLvColValue
-        });
+        this.MLvData.Anchor =
+            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
+                                                   System.Windows.Forms.AnchorStyles.Right)));
+        this.MLvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this.MLvColLabel, this.MLvColValue});
         this.MLvData.ContextMenuStrip = this._listViewContextMenuStrip;
         this.MLvData.FullRowSelect = true;
         this.MLvData.GridLines = true;
@@ -188,26 +180,23 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this.MLvData.Click += new System.EventHandler(this.DataItemSelected);
         this.MLvData.DoubleClick += new System.EventHandler(this.DataItemSelected);
         // 
-        // m_lvCol_label
+        // MLvColLabel
         // 
         this.MLvColLabel.Text = "Field";
         this.MLvColLabel.Width = 200;
         // 
-        // m_lvCol_value
+        // MLvColValue
         // 
         this.MLvColValue.Text = "Value";
         this.MLvColValue.Width = 800;
         // 
-        // listViewContextMenuStrip
+        // _listViewContextMenuStrip
         // 
-        this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-        {
-            this._copyToolStripMenuItem
-        });
+        this._listViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this._copyToolStripMenuItem});
         this._listViewContextMenuStrip.Name = "_listViewContextMenuStrip";
         this._listViewContextMenuStrip.Size = new System.Drawing.Size(103, 26);
         // 
-        // copyToolStripMenuItem
+        // _copyToolStripMenuItem
         // 
         this._copyToolStripMenuItem.Image = global::RevitLookup.Properties.Resources.Copy;
         this._copyToolStripMenuItem.Name = "_copyToolStripMenuItem";
@@ -215,21 +204,16 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this._copyToolStripMenuItem.Text = "Copy";
         this._copyToolStripMenuItem.Click += new System.EventHandler(this.CopyToolStripMenuItem_Click);
         // 
-        // toolStrip1
+        // _toolStrip1
         // 
-        this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-        {
-            this._toolStripButton1,
-            this._toolStripButton2,
-            this._toolStripButton3
-        });
+        this._toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this._toolStripButton1, this._toolStripButton2, this._toolStripButton3});
         this._toolStrip1.Location = new System.Drawing.Point(0, 0);
         this._toolStrip1.Name = "_toolStrip1";
         this._toolStrip1.Size = new System.Drawing.Size(800, 25);
         this._toolStrip1.TabIndex = 5;
         this._toolStrip1.Text = "toolStrip1";
         // 
-        // toolStripButton1
+        // _toolStripButton1
         // 
         this._toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButton1.Image = global::RevitLookup.Properties.Resources.Print;
@@ -239,7 +223,7 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this._toolStripButton1.Text = "Print";
         this._toolStripButton1.Click += new System.EventHandler(this.PrintMenuItem_Click);
         // 
-        // toolStripButton2
+        // _toolStripButton2
         // 
         this._toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButton2.Image = global::RevitLookup.Properties.Resources.Preview;
@@ -249,7 +233,7 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this._toolStripButton2.Text = "Print Preview";
         this._toolStripButton2.Click += new System.EventHandler(this.PrintPreviewMenuItem_Click);
         // 
-        // toolStripButton3
+        // _toolStripButton3
         // 
         this._toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
         this._toolStripButton3.Image = global::RevitLookup.Properties.Resources.Copy;
@@ -259,30 +243,29 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this._toolStripButton3.Text = "Copy To Clipboard";
         this._toolStripButton3.Click += new System.EventHandler(this.ContextMenuClick_Copy);
         // 
-        // m_printDialog
+        // _printDialog
         // 
         this._printDialog.Document = this._printDocument;
         this._printDialog.UseEXDialog = true;
         // 
-        // m_printDocument
+        // _printDocument
         // 
         this._printDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PrintDocument_PrintPage);
         // 
-        // m_printPreviewDialog
+        // _printPreviewDialog
         // 
         this._printPreviewDialog.AutoScrollMargin = new System.Drawing.Size(0, 0);
         this._printPreviewDialog.AutoScrollMinSize = new System.Drawing.Size(0, 0);
         this._printPreviewDialog.ClientSize = new System.Drawing.Size(400, 300);
         this._printPreviewDialog.Document = this._printDocument;
         this._printPreviewDialog.Enabled = true;
-        this._printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("m_printPreviewDialog.Icon")));
+        this._printPreviewDialog.Icon = ((System.Drawing.Icon) (resources.GetObject("_printPreviewDialog.Icon")));
         this._printPreviewDialog.Name = "_printPreviewDialog";
         this._printPreviewDialog.Visible = false;
         // 
-        // ParamEnumSnoop
+        // ParamEnumSnoopView
         // 
         this.AcceptButton = this.MBnOk;
-        this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this.MBnOk;
         this.ClientSize = new System.Drawing.Size(800, 489);
         this.Controls.Add(this._toolStrip1);
@@ -290,11 +273,8 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this.Controls.Add(this.TvObjs);
         this.Controls.Add(this.MLvData);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-        this.MaximizeBox = false;
-        this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ParamEnumSnoopView";
-        this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "Snoop Built-In Parameters";
         this._listViewContextMenuStrip.ResumeLayout(false);
