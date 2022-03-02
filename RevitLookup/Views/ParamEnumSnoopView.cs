@@ -263,7 +263,6 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         // ParamEnumSnoopView
         // 
         this.AcceptButton = this.MBnOk;
-        this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this.MBnOk;
         this.ClientSize = new System.Drawing.Size(800, 489);
         this.Controls.Add(this._toolStrip1);
@@ -271,9 +270,7 @@ public class ParamEnumSnoopView : Form, IHaveCollector
         this.Controls.Add(this.TvObjs);
         this.Controls.Add(this.MLvData);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-        this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ParamEnumSnoopView";
-        this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "Snoop Built-In Parameters";
         this._listViewContextMenuStrip.ResumeLayout(false);

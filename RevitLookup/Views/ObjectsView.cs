@@ -497,7 +497,6 @@ public class ObjectsView : Form, IHaveCollector
         // 
         // ObjectsView
         // 
-        this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this.BnOk;
         this.ClientSize = new System.Drawing.Size(800, 492);
         this.Controls.Add(this._tableLayoutPanel1);
@@ -507,7 +506,6 @@ public class ObjectsView : Form, IHaveCollector
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
         this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ObjectsView";
-        this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "Snoop Objects";
         this._listViewContextMenuStrip.ResumeLayout(false);

@@ -135,16 +135,13 @@ public class GenericPropGridView : Form
         // GenericPropGridView
         // 
         this.AcceptButton = this._bnOk;
-        this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this._bnCancel;
         this.ClientSize = new System.Drawing.Size(504, 454);
         this.Controls.Add(this._bnCancel);
         this.Controls.Add(this._bnOk);
         this.Controls.Add(this._pgProps);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-        this.MinimumSize = new System.Drawing.Size(280, 250);
         this.Name = "GenericPropGridView";
-        this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "PropGrid";
         this.ResumeLayout(false);

@@ -255,7 +255,6 @@ public class ObjTreeBaseView : Form, IHaveCollector
         // ObjTreeBaseView
         // 
         this.AcceptButton = this.BnOk;
-        this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this.BnOk;
         this.ClientSize = new System.Drawing.Size(800, 478);
         this.Controls.Add(this._toolStrip1);
@@ -263,9 +262,7 @@ public class ObjTreeBaseView : Form, IHaveCollector
         this.Controls.Add(this.BnOk);
         this.Controls.Add(this.TvObjs);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-        this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ObjTreeBaseView";
-        this.ShowInTaskbar = false;
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
         this.Text = "Snoop Tree";
         this._listViewContextMenuStrip.ResumeLayout(false);

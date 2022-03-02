@@ -387,7 +387,6 @@ public class DomView : Form
         // DomView
         // 
         this.AcceptButton = this._bnOk;
-        this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
         this.CancelButton = this._bnOk;
         this.ClientSize = new System.Drawing.Size(800, 591);
         this.Controls.Add(this._bnDocElem);
@@ -406,7 +405,6 @@ public class DomView : Form
         this.Controls.Add(this._tvDom);
         this.Controls.Add(this._grpLabelDisplay);
         this.Controls.Add(this._grpXpath);
-        this.MinimumSize = new System.Drawing.Size(650, 400);
         this.Name = "DomView";
         this.Text = "XML DOM Tree";
         this._grpNodeDisplay.ResumeLayout(false);
