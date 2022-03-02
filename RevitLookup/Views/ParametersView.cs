@@ -34,8 +34,8 @@ namespace RevitLookup.Views;
 public class ParametersView : Form, IHaveCollector
 {
     private readonly Element _elem;
-    private Button _bnParamEnums;
-    private Button _bnParamEnumsMap;
+    private System.Windows.Forms.Button _bnParamEnums;
+    private System.Windows.Forms.Button _bnParamEnumsMap;
     private ToolStripMenuItem _copyToolStripMenuItem;
     private int _currentPrintItem;
     private ContextMenuStrip _listViewContextMenuStrip;
@@ -48,17 +48,17 @@ public class ParametersView : Form, IHaveCollector
     private ToolStripButton _toolStripButton1;
     private ToolStripButton _toolStripButton2;
     private ToolStripButton _toolStripButton3;
-    protected Button BnOk;
+    protected System.Windows.Forms.Button BnOk;
     protected ContextMenu CntxMenuObjId;
     private IContainer components;
     protected object CurObj;
     protected ColumnHeader LvColLabel;
     protected ColumnHeader LvColValue;
-    protected ListView LvData;
+    protected System.Windows.Forms.ListView LvData;
     protected MenuItem MnuItemBrowseReflection;
 
     protected CollectorObj SnoopCollector = new();
-    protected TreeView TvObjs;
+    protected System.Windows.Forms.TreeView TvObjs;
 
     public ParametersView(Element elem, ParameterSet paramSet)
     {
@@ -95,8 +95,8 @@ public class ParametersView : Form, IHaveCollector
     #region Windows Form Designer generated code
 
     /// <summary>
-    ///     Required method for Designer support - do not modify
-    ///     the contents of this method with the code editor.
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent()
     {
@@ -121,19 +121,22 @@ public class ParametersView : Form, IHaveCollector
         this._printDocument = new System.Drawing.Printing.PrintDocument();
         this._printPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
         this._bnParamEnumsMap = new System.Windows.Forms.Button();
+        this.panel1 = new System.Windows.Forms.Panel();
+        this.panel2 = new System.Windows.Forms.Panel();
         this._listViewContextMenuStrip.SuspendLayout();
         this._toolStrip1.SuspendLayout();
+        this.panel1.SuspendLayout();
+        this.panel2.SuspendLayout();
         this.SuspendLayout();
         // 
         // TvObjs
         // 
-        this.TvObjs.Anchor =
-            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+        this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
         this.TvObjs.ContextMenu = this.CntxMenuObjId;
         this.TvObjs.HideSelection = false;
-        this.TvObjs.Location = new System.Drawing.Point(11, 38);
+        this.TvObjs.Location = new System.Drawing.Point(3, 3);
         this.TvObjs.Name = "TvObjs";
-        this.TvObjs.Size = new System.Drawing.Size(248, 415);
+        this.TvObjs.Size = new System.Drawing.Size(262, 425);
         this.TvObjs.TabIndex = 0;
         this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
         // 
@@ -155,29 +158,27 @@ public class ParametersView : Form, IHaveCollector
         // 
         // BnOk
         // 
-        this.BnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+        this.BnOk.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         this.BnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-        this.BnOk.Location = new System.Drawing.Point(476, 459);
+        this.BnOk.Location = new System.Drawing.Point(268, 4);
         this.BnOk.Name = "BnOk";
-        this.BnOk.Size = new System.Drawing.Size(75, 23);
+        this.BnOk.Size = new System.Drawing.Size(529, 23);
         this.BnOk.TabIndex = 2;
         this.BnOk.Text = "OK";
         this.BnOk.Click += new System.EventHandler(this.m_bnOK_Click);
         // 
         // LvData
         // 
-        this.LvData.Anchor =
-            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
-                                                   System.Windows.Forms.AnchorStyles.Right)));
+        this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this.LvColLabel, this.LvColValue});
         this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
         this.LvData.FullRowSelect = true;
         this.LvData.GridLines = true;
         this.LvData.HideSelection = false;
-        this.LvData.Location = new System.Drawing.Point(275, 38);
+        this.LvData.Location = new System.Drawing.Point(271, 3);
         this.LvData.Name = "LvData";
-        this.LvData.Size = new System.Drawing.Size(504, 415);
+        this.LvData.Size = new System.Drawing.Size(526, 425);
         this.LvData.TabIndex = 3;
         this.LvData.UseCompatibleStateImageBehavior = false;
         this.LvData.View = System.Windows.Forms.View.Details;
@@ -210,8 +211,8 @@ public class ParametersView : Form, IHaveCollector
         // 
         // _bnParamEnums
         // 
-        this._bnParamEnums.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this._bnParamEnums.Location = new System.Drawing.Point(11, 459);
+        this._bnParamEnums.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+        this._bnParamEnums.Location = new System.Drawing.Point(3, 4);
         this._bnParamEnums.Name = "_bnParamEnums";
         this._bnParamEnums.Size = new System.Drawing.Size(130, 23);
         this._bnParamEnums.TabIndex = 4;
@@ -280,26 +281,44 @@ public class ParametersView : Form, IHaveCollector
         // 
         // _bnParamEnumsMap
         // 
-        this._bnParamEnumsMap.Anchor = ((System.Windows.Forms.AnchorStyles) ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this._bnParamEnumsMap.Location = new System.Drawing.Point(153, 459);
+        this._bnParamEnumsMap.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+        this._bnParamEnumsMap.Location = new System.Drawing.Point(133, 4);
         this._bnParamEnumsMap.Name = "_bnParamEnumsMap";
-        this._bnParamEnumsMap.Size = new System.Drawing.Size(130, 23);
+        this._bnParamEnumsMap.Size = new System.Drawing.Size(135, 23);
         this._bnParamEnumsMap.TabIndex = 6;
         this._bnParamEnumsMap.Text = "Built-in Enums Map...";
         this._bnParamEnumsMap.UseVisualStyleBackColor = true;
         this._bnParamEnumsMap.Click += new System.EventHandler(this.OnBnEnumMap);
+        // 
+        // panel1
+        // 
+        this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this.panel1.Controls.Add(this.panel2);
+        this.panel1.Controls.Add(this.LvData);
+        this.panel1.Controls.Add(this.TvObjs);
+        this.panel1.Location = new System.Drawing.Point(0, 28);
+        this.panel1.Name = "panel1";
+        this.panel1.Size = new System.Drawing.Size(800, 460);
+        this.panel1.TabIndex = 7;
+        // 
+        // panel2
+        // 
+        this.panel2.Controls.Add(this._bnParamEnumsMap);
+        this.panel2.Controls.Add(this.BnOk);
+        this.panel2.Controls.Add(this._bnParamEnums);
+        this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+        this.panel2.Location = new System.Drawing.Point(0, 430);
+        this.panel2.Name = "panel2";
+        this.panel2.Size = new System.Drawing.Size(800, 30);
+        this.panel2.TabIndex = 7;
         // 
         // ParametersView
         // 
         this.AcceptButton = this.BnOk;
         this.CancelButton = this.BnOk;
         this.ClientSize = new System.Drawing.Size(800, 489);
+        this.Controls.Add(this.panel1);
         this.Controls.Add(this._toolStrip1);
-        this.Controls.Add(this._bnParamEnumsMap);
-        this.Controls.Add(this._bnParamEnums);
-        this.Controls.Add(this.LvData);
-        this.Controls.Add(this.BnOk);
-        this.Controls.Add(this.TvObjs);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
         this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ParametersView";
@@ -308,9 +327,14 @@ public class ParametersView : Form, IHaveCollector
         this._listViewContextMenuStrip.ResumeLayout(false);
         this._toolStrip1.ResumeLayout(false);
         this._toolStrip1.PerformLayout();
+        this.panel1.ResumeLayout(false);
+        this.panel2.ResumeLayout(false);
         this.ResumeLayout(false);
         this.PerformLayout();
     }
+
+    private System.Windows.Forms.Panel panel1;
+    private System.Windows.Forms.Panel panel2;
 
     #endregion
 
