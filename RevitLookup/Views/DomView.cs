@@ -406,7 +406,6 @@ public class DomView : Form
         this.Controls.Add(this._tvDom);
         this.Controls.Add(this._grpLabelDisplay);
         this.Controls.Add(this._grpXpath);
-        this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 400);
         this.Name = "DomView";
         this.Text = "XML DOM Tree";

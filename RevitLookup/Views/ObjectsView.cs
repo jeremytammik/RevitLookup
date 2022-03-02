@@ -505,7 +505,6 @@ public class ObjectsView : Form, IHaveCollector
         this.Controls.Add(this.TvObjs);
         this.Controls.Add(this.BnOk);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-        this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ObjectsView";
         this.ShowInTaskbar = false;

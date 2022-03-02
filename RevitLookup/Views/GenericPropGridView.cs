@@ -142,7 +142,6 @@ public class GenericPropGridView : Form
         this.Controls.Add(this._bnOk);
         this.Controls.Add(this._pgProps);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-        this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(280, 250);
         this.Name = "GenericPropGridView";
         this.ShowInTaskbar = false;

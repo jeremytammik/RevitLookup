@@ -263,7 +263,6 @@ public class ObjTreeBaseView : Form, IHaveCollector
         this.Controls.Add(this.BnOk);
         this.Controls.Add(this.TvObjs);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-        this.MinimizeBox = false;
         this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ObjTreeBaseView";
         this.ShowInTaskbar = false;

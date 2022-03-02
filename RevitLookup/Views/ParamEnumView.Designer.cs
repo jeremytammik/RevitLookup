@@ -159,7 +159,6 @@ namespace RevitLookup.Views {
             this.Controls.Add(this.m_bnOk);
             this.Controls.Add(this.listView);
             this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
-            this.MinimizeBox = false;
             this.Name = "ParamEnumView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enum Mappings";
