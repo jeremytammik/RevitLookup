@@ -80,8 +80,8 @@ public class DomView : Form
     #region Windows Form Designer generated code
 
     /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
+    ///     Required method for Designer support - do not modify
+    ///     the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent()
     {
@@ -117,7 +117,9 @@ public class DomView : Form
         // 
         // _tvDom
         // 
-        this._tvDom.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this._tvDom.Anchor =
+            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
+                                                   System.Windows.Forms.AnchorStyles.Right)));
         this._tvDom.HideSelection = false;
         this._tvDom.ImageIndex = 0;
         this._tvDom.ImageList = this._imgListTree;
@@ -136,7 +138,8 @@ public class DomView : Form
         // 
         // _lvData
         // 
-        this._lvData.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
+        this._lvData.Anchor =
+            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
         this._lvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this._lvColLabel, this._lvColValue});
         this._lvData.FullRowSelect = true;
         this._lvData.GridLines = true;

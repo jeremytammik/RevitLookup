@@ -36,12 +36,12 @@ public class GenericPropGridView : Form
     /// </summary>
     private readonly Container _components = null;
 
-    private System.Windows.Forms.Button _bnCancel;
-    private System.Windows.Forms.Button _bnOk;
+    private Button _bnCancel;
+    private Button _bnOk;
     private ContextMenu _mnuContext;
     private MenuItem _mnuItemShowClassInfo;
     private MenuItem _mnuItemShowObjInfo;
-    private System.Windows.Forms.PropertyGrid _pgProps;
+    private PropertyGrid _pgProps;
 
     public GenericPropGridView(object obj)
     {
@@ -65,8 +65,8 @@ public class GenericPropGridView : Form
     #region Windows Form Designer generated code
 
     /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
+    ///     Required method for Designer support - do not modify
+    ///     the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent()
     {
@@ -81,7 +81,9 @@ public class GenericPropGridView : Form
         // 
         // _pgProps
         // 
-        this._pgProps.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this._pgProps.Anchor =
+            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
+                                                   System.Windows.Forms.AnchorStyles.Right)));
         this._pgProps.ContextMenu = this._mnuContext;
         this._pgProps.Cursor = System.Windows.Forms.Cursors.Hand;
         this._pgProps.LineColor = System.Drawing.SystemColors.ScrollBar;

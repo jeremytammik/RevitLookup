@@ -95,8 +95,8 @@ public class ParametersView : Form, IHaveCollector
     #region Windows Form Designer generated code
 
     /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
+    ///     Required method for Designer support - do not modify
+    ///     the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent()
     {
@@ -127,7 +127,8 @@ public class ParametersView : Form, IHaveCollector
         // 
         // TvObjs
         // 
-        this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+        this.TvObjs.Anchor =
+            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
         this.TvObjs.ContextMenu = this.CntxMenuObjId;
         this.TvObjs.HideSelection = false;
         this.TvObjs.Location = new System.Drawing.Point(11, 38);
@@ -166,7 +167,9 @@ public class ParametersView : Form, IHaveCollector
         // 
         // LvData
         // 
-        this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this.LvData.Anchor =
+            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
+                                                   System.Windows.Forms.AnchorStyles.Right)));
         this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this.LvColLabel, this.LvColValue});
         this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
         this.LvData.FullRowSelect = true;

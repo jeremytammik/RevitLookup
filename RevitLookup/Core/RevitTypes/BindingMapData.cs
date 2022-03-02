@@ -18,8 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using RevitLookup.Views;
-using BindingMap = Autodesk.Revit.DB.BindingMap;
 using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
@@ -33,12 +33,13 @@ public class BindingMapData : Data
         _value = value;
     }
 
+    public override bool HasDrillDown => !_value.IsEmpty;
+
     public override string AsValueString()
     {
         return Utils.GetLabel(_value);
     }
 
-    public override bool HasDrillDown => !_value.IsEmpty;
     public override Form DrillDown()
     {
         var form = new BindingMapView(_value);

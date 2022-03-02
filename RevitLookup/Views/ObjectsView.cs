@@ -162,8 +162,8 @@ public class ObjectsView : Form, IHaveCollector
     #region Windows Form Designer generated code
 
     /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
+    ///     Required method for Designer support - do not modify
+    ///     the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent()
     {
@@ -207,7 +207,8 @@ public class ObjectsView : Form, IHaveCollector
         // 
         // TvObjs
         // 
-        this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+        this.TvObjs.Anchor =
+            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
         this.TvObjs.ContextMenu = this.CntxMenuObjId;
         this.TvObjs.HideSelection = false;
         this.TvObjs.Location = new System.Drawing.Point(12, 32);
@@ -234,7 +235,8 @@ public class ObjectsView : Form, IHaveCollector
         // 
         // BnOk
         // 
-        this.BnOk.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this.BnOk.Anchor =
+            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         this.BnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
         this.BnOk.Location = new System.Drawing.Point(284, 464);
@@ -246,7 +248,9 @@ public class ObjectsView : Form, IHaveCollector
         // 
         // LvData
         // 
-        this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this.LvData.Anchor =
+            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
+                                                   System.Windows.Forms.AnchorStyles.Right)));
         this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this._lvColLabel, this._lvColValue});
         this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
         this.LvData.FullRowSelect = true;
@@ -391,7 +395,11 @@ public class ObjectsView : Form, IHaveCollector
         // 
         this._toolStripSelectors.AutoSize = false;
         this._toolStripSelectors.ImageScalingSize = new System.Drawing.Size(20, 20);
-        this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this._toolStripButtonSnoopDb, this._toolStripButtonSnoopCurrentSelection, this._toolStripButtonSnoopPickFace, this._toolStripButtonSnoopPickEdge, this._toolStripButtonSnoopLinkedElement, this._toolStripButtonSnoopDependentElements, this._toolStripButtonSnoopActiveView, this._toolStripButtonSnoopApplication});
+        this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
+        {
+            this._toolStripButtonSnoopDb, this._toolStripButtonSnoopCurrentSelection, this._toolStripButtonSnoopPickFace, this._toolStripButtonSnoopPickEdge,
+            this._toolStripButtonSnoopLinkedElement, this._toolStripButtonSnoopDependentElements, this._toolStripButtonSnoopActiveView, this._toolStripButtonSnoopApplication
+        });
         this._toolStripSelectors.Location = new System.Drawing.Point(320, 0);
         this._toolStripSelectors.Name = "_toolStripSelectors";
         this._toolStripSelectors.Size = new System.Drawing.Size(320, 26);
