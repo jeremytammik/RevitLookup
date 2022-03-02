@@ -284,7 +284,7 @@ public class ParametersView : Form, IHaveCollector
         this._bnParamEnumsMap.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
         this._bnParamEnumsMap.Location = new System.Drawing.Point(133, 4);
         this._bnParamEnumsMap.Name = "_bnParamEnumsMap";
-        this._bnParamEnumsMap.Size = new System.Drawing.Size(135, 23);
+        this._bnParamEnumsMap.Size = new System.Drawing.Size(132, 23);
         this._bnParamEnumsMap.TabIndex = 6;
         this._bnParamEnumsMap.Text = "Built-in Enums Map...";
         this._bnParamEnumsMap.UseVisualStyleBackColor = true;
