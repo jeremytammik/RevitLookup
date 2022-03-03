@@ -49,11 +49,11 @@ public class ObjTreeBaseView : Form, IHaveCollector
     private ToolStripButton _toolStripButton1;
     private ToolStripButton _toolStripButton2;
     private ToolStripButton _toolStripButton3;
-    protected Button BnOk;
+    protected System.Windows.Forms.Button BnOk;
     protected ContextMenu CntxMenuObjId;
     private IContainer components;
-    protected ListView LvData;
-    protected TreeView TvObjs;
+    protected System.Windows.Forms.ListView LvData;
+    protected System.Windows.Forms.TreeView TvObjs;
 
 
     public ObjTreeBaseView()
@@ -83,8 +83,8 @@ public class ObjTreeBaseView : Form, IHaveCollector
     #region Windows Form Designer generated code
 
     /// <summary>
-    ///     Required method for Designer support - do not modify
-    ///     the contents of this method with the code editor.
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent()
     {
@@ -107,19 +107,20 @@ public class ObjTreeBaseView : Form, IHaveCollector
         this._mPrintDialog = new System.Windows.Forms.PrintDialog();
         this._mPrintDocument = new System.Drawing.Printing.PrintDocument();
         this._mPrintPreviewDialog = new System.Windows.Forms.PrintPreviewDialog();
+        this.panel1 = new System.Windows.Forms.Panel();
         this._listViewContextMenuStrip.SuspendLayout();
         this._toolStrip1.SuspendLayout();
+        this.panel1.SuspendLayout();
         this.SuspendLayout();
         // 
         // TvObjs
         // 
-        this.TvObjs.Anchor =
-            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+        this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
         this.TvObjs.ContextMenu = this.CntxMenuObjId;
         this.TvObjs.HideSelection = false;
-        this.TvObjs.Location = new System.Drawing.Point(12, 28);
+        this.TvObjs.Location = new System.Drawing.Point(3, 3);
         this.TvObjs.Name = "TvObjs";
-        this.TvObjs.Size = new System.Drawing.Size(248, 416);
+        this.TvObjs.Size = new System.Drawing.Size(248, 414);
         this.TvObjs.Sorted = true;
         this.TvObjs.TabIndex = 0;
         this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
@@ -142,30 +143,28 @@ public class ObjTreeBaseView : Form, IHaveCollector
         // 
         // BnOk
         // 
-        this.BnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+        this.BnOk.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         this.BnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-        this.BnOk.Location = new System.Drawing.Point(364, 448);
+        this.BnOk.Location = new System.Drawing.Point(257, 423);
         this.BnOk.Name = "BnOk";
-        this.BnOk.Size = new System.Drawing.Size(75, 23);
+        this.BnOk.Size = new System.Drawing.Size(540, 23);
         this.BnOk.TabIndex = 2;
         this.BnOk.Text = "OK";
         this.BnOk.Click += new System.EventHandler(this.m_bnOK_Click);
         // 
         // LvData
         // 
-        this.LvData.Anchor =
-            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
-                                                   System.Windows.Forms.AnchorStyles.Right)));
+        this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this._lvColLabel, this._lvColValue});
         this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
         this.LvData.FullRowSelect = true;
         this.LvData.GridLines = true;
         this.LvData.HideSelection = false;
-        this.LvData.Location = new System.Drawing.Point(284, 28);
+        this.LvData.Location = new System.Drawing.Point(257, 0);
         this.LvData.Name = "LvData";
         this.LvData.ShowItemToolTips = true;
-        this.LvData.Size = new System.Drawing.Size(504, 416);
+        this.LvData.Size = new System.Drawing.Size(540, 417);
         this.LvData.TabIndex = 3;
         this.LvData.UseCompatibleStateImageBehavior = false;
         this.LvData.View = System.Windows.Forms.View.Details;
@@ -255,15 +254,24 @@ public class ObjTreeBaseView : Form, IHaveCollector
         this._mPrintPreviewDialog.Name = "_mPrintPreviewDialog";
         this._mPrintPreviewDialog.Visible = false;
         // 
+        // panel1
+        // 
+        this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this.panel1.Controls.Add(this.BnOk);
+        this.panel1.Controls.Add(this.TvObjs);
+        this.panel1.Controls.Add(this.LvData);
+        this.panel1.Location = new System.Drawing.Point(0, 29);
+        this.panel1.Name = "panel1";
+        this.panel1.Size = new System.Drawing.Size(800, 449);
+        this.panel1.TabIndex = 5;
+        // 
         // ObjTreeBaseView
         // 
         this.AcceptButton = this.BnOk;
         this.CancelButton = this.BnOk;
         this.ClientSize = new System.Drawing.Size(800, 478);
+        this.Controls.Add(this.panel1);
         this.Controls.Add(this._toolStrip1);
-        this.Controls.Add(this.LvData);
-        this.Controls.Add(this.BnOk);
-        this.Controls.Add(this.TvObjs);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
         this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ObjTreeBaseView";
@@ -272,9 +280,12 @@ public class ObjTreeBaseView : Form, IHaveCollector
         this._listViewContextMenuStrip.ResumeLayout(false);
         this._toolStrip1.ResumeLayout(false);
         this._toolStrip1.PerformLayout();
+        this.panel1.ResumeLayout(false);
         this.ResumeLayout(false);
         this.PerformLayout();
     }
+
+    private System.Windows.Forms.Panel panel1;
 
     #endregion
 
