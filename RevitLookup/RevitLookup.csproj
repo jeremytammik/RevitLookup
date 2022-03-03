@@ -8,7 +8,7 @@
         <UseWindowsForms>true</UseWindowsForms>
         <TargetFramework>net48</TargetFramework>
         <RevitVersion>2022</RevitVersion>
-        <Version>$(RevitVersion).0.4.0</Version>
+        <Version>$(RevitVersion).0.4.1</Version>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
         <DebugSymbols>true</DebugSymbols>
