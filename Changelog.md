@@ -1,5 +1,6 @@
 # Changelog
 
+- 2022-04-05 **2023.0.0** Revit 2023 support
 - 2022-03-02 **2022.0.4.1** Minor UI changes https://github.com/jeremytammik/RevitLookup/pull/135
 - 2022-03-02 **2022.0.4.0** Minimize, maximize support https://github.com/jeremytammik/RevitLookup/pull/134. Fixed problem with sending a print job https://github.com/jeremytammik/RevitLookup/pull/133
 - 2022-01-15 **2022.0.3.3** BindingMap support. https://github.com/jeremytammik/RevitLookup/issues/128 issue.
