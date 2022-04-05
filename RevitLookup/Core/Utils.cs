@@ -27,7 +27,6 @@ using Autodesk.Revit.DB;
 using RevitLookup.Core.Collectors;
 using RevitLookup.Core.RevitTypes;
 using RevitLookup.Core.RevitTypes.PlaceHolders;
-using RevitLookup.RevitUtils;
 using RevitLookup.Views;
 using Color = System.Drawing.Color;
 using Exception = System.Exception;
@@ -166,7 +165,7 @@ public static class Utils
                 try
                 {
                     var nameStr = elem.Name == string.Empty ? Labels.Undefined : elem.Name;
-                    return $"< {nameStr}  {elem.Id.GetValue().ToString()} >";
+                    return $"< {nameStr}  {elem.Id.IntegerValue.ToString()} >";
                 }
                 catch (Exception ex)
                 {
