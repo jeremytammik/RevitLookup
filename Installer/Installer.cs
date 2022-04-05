@@ -42,7 +42,6 @@ var project = new Project
     }
 };
 
-MajorUpgrade.Default.AllowSameVersionUpgrades = true;
 project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
 project.BuildMsi();
 
