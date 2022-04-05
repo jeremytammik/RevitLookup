@@ -135,7 +135,7 @@ public static class Utils
 
         if (nameProperty is null) return null;
         var propertyValue = nameProperty.GetValue(obj) as string;
-        return $"< {obj.GetType().Name}  {(string.IsNullOrEmpty(propertyValue) ? Labels.Undefined : propertyValue)} >";
+        return $"{obj.GetType().Name}  {(string.IsNullOrEmpty(propertyValue) ? Labels.Undefined : propertyValue)}";
     }
 
     public static string GetParameterObjectLabel(object obj)
@@ -165,14 +165,14 @@ public static class Utils
                 try
                 {
                     var nameStr = elem.Name == string.Empty ? Labels.Undefined : elem.Name;
-                    return $"< {nameStr}  {elem.Id.IntegerValue.ToString()} >";
+                    return $"{nameStr}  {elem.Id.IntegerValue.ToString()}";
                 }
                 catch (Exception ex)
                 {
-                    return $"< {null}  {ex.Message} >";
+                    return $"{null}  {ex.Message}";
                 }
             default:
-                return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? GetFamilyParameterObjectLabel(obj) ?? $"< {obj.GetType().Name} >";
+                return GetNamedObjectLabel(obj) ?? GetParameterObjectLabel(obj) ?? GetFamilyParameterObjectLabel(obj) ?? $"{obj.GetType().Name}";
         }
     }
 
