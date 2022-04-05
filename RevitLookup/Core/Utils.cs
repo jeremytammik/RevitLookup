@@ -1,4 +1,4 @@
-// Copyright 2003-2021 by Autodesk, Inc. 
+// Copyright 2003-2022 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -165,7 +165,7 @@ public static class Utils
                 try
                 {
                     var nameStr = elem.Name == string.Empty ? Labels.Undefined : elem.Name;
-                    return $"< {nameStr}  {elem.Id.IntegerValue} >";
+                    return $"< {nameStr}  {elem.Id.IntegerValue.ToString()} >";
                 }
                 catch (Exception ex)
                 {

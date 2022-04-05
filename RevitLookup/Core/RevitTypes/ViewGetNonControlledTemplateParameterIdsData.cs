@@ -29,7 +29,7 @@ public class ViewGetNonControlledTemplateParameterIdsData : Data
             .Select(id => _view.Parameters
                 .Cast<Parameter>()
                 .ToList()
-                .Find(q => q.Id.IntegerValue == id.IntegerValue))
+                .Find(parameter => parameter.Id == id))
             .Where(p => p is not null)
             .Select(p => new SnoopableWrapper(p.Definition.Name, p)).ToList();
 

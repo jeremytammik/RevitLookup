@@ -1,4 +1,4 @@
-// Copyright 2003-2021 by Autodesk, Inc. 
+// Copyright 2003-2022 by Autodesk, Inc. 
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted, 
@@ -46,15 +46,15 @@ public class Application : IExternalApplication
         var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
         pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        pullDownButton.AddPushButton(typeof(HelloWorldCommand), "Hello World...");
-        pullDownButton.AddPushButton(typeof(SnoopDbCommand), "Snoop DB...");
-        pullDownButton.AddPushButton(typeof(SnoopSelectionCommand), "Snoop Current Selection...");
-        pullDownButton.AddPushButton(typeof(SnoopSurfaceCommand), "Snoop Pick Face...");
-        pullDownButton.AddPushButton(typeof(SnoopPickEdgeCommand), "Snoop Pick Edge...");
-        pullDownButton.AddPushButton(typeof(SnoopLinkedElementCommand), "Snoop Linked Element...");
-        pullDownButton.AddPushButton(typeof(SnoopDependentsCommand), "Snoop Dependent Elements...");
-        pullDownButton.AddPushButton(typeof(SnoopActiveViewCommand), "Snoop Active View...");
-        pullDownButton.AddPushButton(typeof(SnoopApplicationCommand), "Snoop Application...");
-        pullDownButton.AddPushButton(typeof(SearchCommand), "Search and Snoop...");
+        pullDownButton.AddPushButton<HelloWorldCommand>("Hello World...");
+        pullDownButton.AddPushButton<SnoopDbCommand>("Snoop DB...");
+        pullDownButton.AddPushButton<SnoopSelectionCommand>("Snoop Current Selection...");
+        pullDownButton.AddPushButton<SnoopSurfaceCommand>("Snoop Pick Face...");
+        pullDownButton.AddPushButton<SnoopPickEdgeCommand>("Snoop Pick Edge...");
+        pullDownButton.AddPushButton<SnoopLinkedElementCommand>("Snoop Linked Element...");
+        pullDownButton.AddPushButton<SnoopDependentsCommand>("Snoop Dependent Elements...");
+        pullDownButton.AddPushButton<SnoopActiveViewCommand>("Snoop Active View...");
+        pullDownButton.AddPushButton<SnoopApplicationCommand>("Snoop Application...");
+        pullDownButton.AddPushButton<SearchCommand>("Search and Snoop...");
     }
 }

@@ -22,7 +22,7 @@ public partial class SearchByView : Form
         switch (m_cbSearchByVariant.SelectedItem as string)
         {
             case "ElementId": // by ElementId
-                SearcAndSnoopByElementId();
+                SearchAndSnoopByElementId();
                 break;
             case "UniqId": // by UniqId
                 SearchAndSnoopByUniqId();
@@ -30,10 +30,9 @@ public partial class SearchByView : Form
         }
     }
 
-    private void SearcAndSnoopByElementId()
+    private void SearchAndSnoopByElementId()
     {
-        int id;
-        if (int.TryParse(m_tbSearchValue.Text, out id))
+        if (int.TryParse(m_tbSearchValue.Text, out var id))
         {
             var element = _doc.GetElement(new ElementId(id));
             if (element is not null)

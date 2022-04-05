@@ -20,12 +20,21 @@ partial class Build
             var configurations = GetConfigurations(InstallerConfiguration);
 
             var releasesDirectory = Solution.Directory / "Releases";
-            var releasesInfos = new DirectoryInfo(releasesDirectory).EnumerateDirectories().Select(info => info.FullName).ToList();
+            var releasesInfos = new DirectoryInfo(releasesDirectory)
+                .EnumerateDirectories()
+                .OrderByDescending(info => info.Name)
+                .Select(info => info.FullName)
+                .ToList();
 
             foreach (var directoryGroup in buildDirectories)
             {
-                var directories = directoryGroup.ToList();
-                var exeArguments = BuildExeArguments(directories.Select(info => info.FullName).Concat(releasesInfos).ToList());
+                var directories = directoryGroup
+                    .OrderByDescending(info => info.Name)
+                    .ToList();
+                var exeArguments = BuildExeArguments(directories
+                    .Select(info => info.FullName)
+                    .Concat(releasesInfos)
+                    .ToList());
                 var exeFile = installerProject.GetExecutableFile(configurations, directories);
                 if (string.IsNullOrEmpty(exeFile))
                 {

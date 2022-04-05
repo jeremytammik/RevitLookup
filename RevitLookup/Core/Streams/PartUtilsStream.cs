@@ -42,10 +42,10 @@ public class PartUtilsStream : IElementStream
             _data.Add(new MemberSeparatorWithOffsetData(nameof(Part)));
             _data.Add(new StringData(nameof(Part.OriginalCategoryId), ((BuiltInCategory) part.OriginalCategoryId.IntegerValue).ToString()));
 
-            var sourceElementIds = part.GetSourceElementIds().Where(e => e.HostElementId != ElementId.InvalidElementId).Select(e => e.HostElementId).ToList();
+            var sourceElementIds = part.GetSourceElementIds().Where(id => id.HostElementId != ElementId.InvalidElementId).Select(e => e.HostElementId).ToList();
             _data.Add(new EnumerableData(nameof(Part.GetSourceElementIds), sourceElementIds, part.Document));
 
-            var sourceCategoryIds = part.GetSourceElementOriginalCategoryIds().Select(e => (BuiltInCategory) e.IntegerValue).ToList();
+            var sourceCategoryIds = part.GetSourceElementOriginalCategoryIds().Select(id => (BuiltInCategory) id.IntegerValue).ToList();
             _data.Add(new EnumerableAsString(nameof(Part.GetSourceElementOriginalCategoryIds), sourceCategoryIds));
         }
     }
