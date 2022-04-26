@@ -10,7 +10,8 @@
     Background="Transparent"
     WindowStyle="None"
     WindowStartupLocation="CenterScreen"
-    PreviewMouseLeftButtonDown="AboutView_OnPreviewMouseLeftButtonDown">
+    Title="About RevitLookup"
+    PreviewMouseLeftButtonDown="Window_OnPreviewMouseLeftButtonDown">
     <Window.Resources>
         <Style
             TargetType="TextBlock">

@@ -39,11 +39,11 @@ public partial class AboutView
     private void UpdateContent()
     {
         var assembly = Assembly.GetExecutingAssembly();
-        var assemblyName = assembly.GetName();
-        VersionRun.Text = assemblyName.Version.ToString();
+        var info = FileVersionInfo.GetVersionInfo(assembly.Location);
+        VersionRun.Text = info.ProductVersion;
     }
 
-    private void AboutView_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs eventArgs)
+    private void Window_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs eventArgs)
     {
         if (eventArgs.Source is Run) return;
         Close();
