@@ -14,6 +14,7 @@ public enum Selector
     SnoopLinkedElement,
     SnoopDependentElements,
     SnoopActiveView,
+    SnoopActiveDocument,
     SnoopApplication
 }
 
@@ -31,6 +32,7 @@ internal static class Selectors
             Selector.SnoopDependentElements => SnoopDependentElements(uiApplication),
             Selector.SnoopActiveView => SnoopActiveView(uiApplication),
             Selector.SnoopApplication => SnoopApplication(uiApplication),
+            Selector.SnoopActiveDocument => SnoopActiveDocument(uiApplication),
             _ => throw new NotImplementedException()
         };
     }
@@ -138,6 +140,12 @@ internal static class Selectors
 
         TaskDialog.Show("RevitLookup", "The document must have an active view!");
         return (null, null);
+    }
+
+    private static (Document, Document) SnoopActiveDocument(UIApplication app)
+    {
+        var doc = app.ActiveUIDocument.Document;
+        return (doc, doc);
     }
 
     private static (Autodesk.Revit.ApplicationServices.Application, Document) SnoopApplication(UIApplication app)

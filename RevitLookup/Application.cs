@@ -46,15 +46,16 @@ public class Application : IExternalApplication
         var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
         pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        pullDownButton.AddPushButton<HelloWorldCommand>("Hello World...");
-        pullDownButton.AddPushButton<SnoopDbCommand>("Snoop DB...");
-        pullDownButton.AddPushButton<SnoopSelectionCommand>("Snoop Current Selection...");
-        pullDownButton.AddPushButton<SnoopSurfaceCommand>("Snoop Pick Face...");
-        pullDownButton.AddPushButton<SnoopPickEdgeCommand>("Snoop Pick Edge...");
+        pullDownButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection...");
+        pullDownButton.AddPushButton<SnoopActiveViewCommand>("Snoop Active View...");
+        pullDownButton.AddPushButton<SnoopActiveDocumentCommand>("Snoop Active Document...");
+        pullDownButton.AddPushButton<SnoopApplicationCommand>("Snoop Application...");
+        pullDownButton.AddPushButton<SnoopDbCommand>("Snoop Database...");
         pullDownButton.AddPushButton<SnoopLinkedElementCommand>("Snoop Linked Element...");
         pullDownButton.AddPushButton<SnoopDependentsCommand>("Snoop Dependent Elements...");
-        pullDownButton.AddPushButton<SnoopActiveViewCommand>("Snoop Active View...");
-        pullDownButton.AddPushButton<SnoopApplicationCommand>("Snoop Application...");
-        pullDownButton.AddPushButton<SearchCommand>("Search and Snoop...");
+        pullDownButton.AddPushButton<SnoopSurfaceCommand>("Snoop Face...");
+        pullDownButton.AddPushButton<SnoopPickEdgeCommand>("Snoop Edge...");
+        pullDownButton.AddPushButton<SearchCommand>("Snoop Id...");
+        pullDownButton.AddPushButton<AboutCommand>("About...");
     }
 }

@@ -18,25 +18,20 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitLookup.Views;
 
 namespace RevitLookup.Commands;
 
-/// <summary>
-///     The classic bare-bones test.  Just brings up an Alert box to show that the connection to the external module is working.
-/// </summary>
 [Transaction(TransactionMode.Manual)]
-public class HelloWorldCommand : IExternalCommand
+public class AboutCommand : IExternalCommand
 {
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var dialog = new TaskDialog("Autodesk Revit");
-        dialog.MainContent = $"Hello World from {assembly.Location} v{assembly.GetName().Version}";
-        dialog.Show();
-        return Result.Cancelled;
+        var aboutView = new AboutView();
+        aboutView.ShowDialog();
+        return Result.Succeeded;
     }
 }

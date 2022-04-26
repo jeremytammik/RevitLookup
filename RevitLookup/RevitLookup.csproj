@@ -27,7 +27,7 @@
         <DefineConstants>$(DefineConstants);R23</DefineConstants>
     </PropertyGroup>
     <PropertyGroup>
-        <Version>$(RevitVersion).0.0</Version>
+        <Version>2023.1.0</Version>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
