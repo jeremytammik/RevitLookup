@@ -36,7 +36,6 @@ For more information on building, see the [**RevitTemplates**](https://github.co
 
 The project currently supports the 2022-2023 versions of Revit. You can find the source code of previous versions at the links below:
 
-- [2022.0.3.3](https://github.com/jeremytammik/RevitLookup/releases/tag/2022.0.3.3) for Revit 2022
 - [2021.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2021.0.0.13) for Revit 2021
 - [2020.0.0.4](https://github.com/jeremytammik/RevitLookup/releases/tag/2020.0.0.4) for Revit 2020
 - [2019.0.0.13](https://github.com/jeremytammik/RevitLookup/releases/tag/2019.0.0.13) for Revit 2019

@@ -43,15 +43,15 @@ public partial class AboutView
         VersionRun.Text = assemblyName.Version.ToString();
     }
 
-    private void Hyperlink_OnClick(object sender, RequestNavigateEventArgs eventArgs)
+    private void AboutView_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs eventArgs)
+    {
+        if (eventArgs.Source is Run) return;
+        Close();
+    }
+
+    private static void Hyperlink_OnClick(object sender, RequestNavigateEventArgs eventArgs)
     {
         Process.Start(eventArgs.Uri.AbsoluteUri);
         eventArgs.Handled = true;
-    }
-
-    private void AboutView_OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (e.Source is Run) return;
-        Close();
     }
 }

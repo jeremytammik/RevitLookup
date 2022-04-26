@@ -50,21 +50,18 @@
                 DockPanel.Dock="Left"
                 VerticalAlignment="Center"
                 Fill="White"
-                Data="M40.91,0c7.27,10.79,19.18,28.85,21.76,32.23s2,2.46,1.31,7.86S62.62,47,62,50.5c-4.11,1.69-8.68,1.46-13.18,3.78C60.43,67.38,73,79.27,85,92.33l-7.39,11.26C60,94.82,43.07,85.08,25.2,76.28c-3.33,9.48-3.5,19.55-6.8,29.34A145.43,145.43,0,0,1,0,100.41C2.08,85.06,3.78,70.13,6.21,55.33q3-18.49,5.52-37a5.54,5.54,0,0,1,3.18-4.65C23.6,9.16,32.24,4.56,40.91,0Z">
-            </Path>
+                Data="M40.91,0c7.27,10.79,19.18,28.85,21.76,32.23s2,2.46,1.31,7.86S62.62,47,62,50.5c-4.11,1.69-8.68,1.46-13.18,3.78C60.43,67.38,73,79.27,85,92.33l-7.39,11.26C60,94.82,43.07,85.08,25.2,76.28c-3.33,9.48-3.5,19.55-6.8,29.34A145.43,145.43,0,0,1,0,100.41C2.08,85.06,3.78,70.13,6.21,55.33q3-18.49,5.52-37a5.54,5.54,0,0,1,3.18-4.65C23.6,9.16,32.24,4.56,40.91,0Z" />
             <StackPanel
                 Margin="30,0,0,0">
                 <TextBlock
                     Text="RevitLookup"
-                    FontSize="48">
-                </TextBlock>
+                    FontSize="48" />
                 <TextBlock
                     Width="400"
                     TextWrapping="Wrap"
                     FontWeight="Medium"
                     Margin="0,20,0,0"
-                    Text="Interactive Revit RFA and RVT project database exploration tool to view and navigate BIM element parameters, properties and relationships.">
-                </TextBlock>
+                    Text="Interactive Revit RFA and RVT project database exploration tool to view and navigate BIM element parameters, properties and relationships." />
                 <TextBlock
                     Margin="0,20,0,0">
                     <Run
