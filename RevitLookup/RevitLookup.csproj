@@ -73,6 +73,8 @@
         <Message Text="$(MSBuildProjectName) -> Copying files to $(RevitAddinFolder)"
                  Importance="High"
                  Condition="$(Configuration.Contains('Debug'))"/>
-        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))" />
+        <Copy SourceFiles="@(AddinFiles)"
+              DestinationFolder="$(RevitAddinFolder)"
+              Condition="$(Configuration.Contains('Debug'))"/>
     </Target>
 </Project>
