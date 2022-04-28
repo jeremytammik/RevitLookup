@@ -65,11 +65,11 @@ public class ObjectsView : Form, IHaveCollector
     private ToolStrip _toolStripSelectors;
     private ArrayList _treeTypeNodes = new();
     private ArrayList _types = new();
-    protected Button BnOk;
+    protected System.Windows.Forms.Button BnOk;
     protected ContextMenu CntxMenuObjId;
     private IContainer components;
-    protected ListView LvData;
-    protected TreeView TvObjs;
+    protected System.Windows.Forms.ListView LvData;
+    protected System.Windows.Forms.TreeView TvObjs;
 
     public ObjectsView()
     {
@@ -162,8 +162,8 @@ public class ObjectsView : Form, IHaveCollector
     #region Windows Form Designer generated code
 
     /// <summary>
-    ///     Required method for Designer support - do not modify
-    ///     the contents of this method with the code editor.
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent()
     {
@@ -198,22 +198,26 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopDependentElements = new System.Windows.Forms.ToolStripButton();
         this._toolStripButtonSnoopActiveView = new System.Windows.Forms.ToolStripButton();
         this._toolStripButtonSnoopApplication = new System.Windows.Forms.ToolStripButton();
+        this.splitContainer1 = new System.Windows.Forms.SplitContainer();
         this._listViewContextMenuStrip.SuspendLayout();
         this._tableLayoutPanel1.SuspendLayout();
         this._toolStrip1.SuspendLayout();
         this._toolStripListView.SuspendLayout();
         this._toolStripSelectors.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize) (this.splitContainer1)).BeginInit();
+        this.splitContainer1.Panel1.SuspendLayout();
+        this.splitContainer1.Panel2.SuspendLayout();
+        this.splitContainer1.SuspendLayout();
         this.SuspendLayout();
         // 
         // TvObjs
         // 
-        this.TvObjs.Anchor =
-            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+        this.TvObjs.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.TvObjs.ContextMenu = this.CntxMenuObjId;
         this.TvObjs.HideSelection = false;
-        this.TvObjs.Location = new System.Drawing.Point(12, 32);
+        this.TvObjs.Location = new System.Drawing.Point(3, 3);
         this.TvObjs.Name = "TvObjs";
-        this.TvObjs.Size = new System.Drawing.Size(248, 430);
+        this.TvObjs.Size = new System.Drawing.Size(259, 460);
         this.TvObjs.TabIndex = 0;
         this.TvObjs.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeNodeSelected);
         // 
@@ -235,31 +239,28 @@ public class ObjectsView : Form, IHaveCollector
         // 
         // BnOk
         // 
-        this.BnOk.Anchor =
-            ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this.BnOk.Anchor = ((System.Windows.Forms.AnchorStyles) (((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.BnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
         this.BnOk.FlatStyle = System.Windows.Forms.FlatStyle.System;
-        this.BnOk.Location = new System.Drawing.Point(284, 464);
+        this.BnOk.Location = new System.Drawing.Point(3, 440);
         this.BnOk.Name = "BnOk";
-        this.BnOk.Size = new System.Drawing.Size(504, 23);
+        this.BnOk.Size = new System.Drawing.Size(525, 23);
         this.BnOk.TabIndex = 4;
         this.BnOk.Text = "OK";
         this.BnOk.Click += new System.EventHandler(this.ButtonOK_Click);
         // 
         // LvData
         // 
-        this.LvData.Anchor =
-            ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) |
-                                                   System.Windows.Forms.AnchorStyles.Right)));
+        this.LvData.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
         this.LvData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {this._lvColLabel, this._lvColValue});
         this.LvData.ContextMenuStrip = this._listViewContextMenuStrip;
         this.LvData.FullRowSelect = true;
         this.LvData.GridLines = true;
         this.LvData.HideSelection = false;
-        this.LvData.Location = new System.Drawing.Point(284, 32);
+        this.LvData.Location = new System.Drawing.Point(3, 3);
         this.LvData.Name = "LvData";
         this.LvData.ShowItemToolTips = true;
-        this.LvData.Size = new System.Drawing.Size(504, 430);
+        this.LvData.Size = new System.Drawing.Size(525, 431);
         this.LvData.TabIndex = 3;
         this.LvData.UseCompatibleStateImageBehavior = false;
         this.LvData.View = System.Windows.Forms.View.Details;
@@ -395,11 +396,7 @@ public class ObjectsView : Form, IHaveCollector
         // 
         this._toolStripSelectors.AutoSize = false;
         this._toolStripSelectors.ImageScalingSize = new System.Drawing.Size(20, 20);
-        this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[]
-        {
-            this._toolStripButtonSnoopDb, this._toolStripButtonSnoopCurrentSelection, this._toolStripButtonSnoopPickFace, this._toolStripButtonSnoopPickEdge,
-            this._toolStripButtonSnoopLinkedElement, this._toolStripButtonSnoopDependentElements, this._toolStripButtonSnoopActiveView, this._toolStripButtonSnoopApplication
-        });
+        this._toolStripSelectors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {this._toolStripButtonSnoopDb, this._toolStripButtonSnoopCurrentSelection, this._toolStripButtonSnoopPickFace, this._toolStripButtonSnoopPickEdge, this._toolStripButtonSnoopLinkedElement, this._toolStripButtonSnoopDependentElements, this._toolStripButtonSnoopActiveView, this._toolStripButtonSnoopApplication});
         this._toolStripSelectors.Location = new System.Drawing.Point(320, 0);
         this._toolStripSelectors.Name = "_toolStripSelectors";
         this._toolStripSelectors.Size = new System.Drawing.Size(320, 26);
@@ -412,7 +409,6 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopDb.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopDb.Image")));
         this._toolStripButtonSnoopDb.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopDb.Name = "_toolStripButtonSnoopDb";
-        this._toolStripButtonSnoopDb.Tag = nameof(Selector.SnoopDb);
         this._toolStripButtonSnoopDb.Size = new System.Drawing.Size(24, 23);
         this._toolStripButtonSnoopDb.Text = "Snoop DB";
         this._toolStripButtonSnoopDb.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
@@ -424,7 +420,6 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopCurrentSelection.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopCurrentSelection.Image")));
         this._toolStripButtonSnoopCurrentSelection.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopCurrentSelection.Name = "_toolStripButtonSnoopCurrentSelection";
-        this._toolStripButtonSnoopCurrentSelection.Tag = nameof(Selector.SnoopCurrentSelection);
         this._toolStripButtonSnoopCurrentSelection.Size = new System.Drawing.Size(24, 23);
         this._toolStripButtonSnoopCurrentSelection.Text = "Snoop current selection";
         this._toolStripButtonSnoopCurrentSelection.ToolTipText = "Snoop current selection";
@@ -437,7 +432,6 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopPickFace.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopPickFace.Image")));
         this._toolStripButtonSnoopPickFace.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopPickFace.Name = "_toolStripButtonSnoopPickFace";
-        this._toolStripButtonSnoopPickFace.Tag = nameof(Selector.SnoopPickFace);
         this._toolStripButtonSnoopPickFace.Size = new System.Drawing.Size(24, 23);
         this._toolStripButtonSnoopPickFace.Text = "Snoop pick face";
         this._toolStripButtonSnoopPickFace.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
@@ -449,7 +443,6 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopPickEdge.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopPickEdge.Image")));
         this._toolStripButtonSnoopPickEdge.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopPickEdge.Name = "_toolStripButtonSnoopPickEdge";
-        this._toolStripButtonSnoopPickEdge.Tag = nameof(Selector.SnoopPickEdge);
         this._toolStripButtonSnoopPickEdge.Size = new System.Drawing.Size(24, 23);
         this._toolStripButtonSnoopPickEdge.Text = "Snoop pick edge";
         this._toolStripButtonSnoopPickEdge.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
@@ -461,7 +454,6 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopLinkedElement.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopLinkedElement.Image")));
         this._toolStripButtonSnoopLinkedElement.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopLinkedElement.Name = "_toolStripButtonSnoopLinkedElement";
-        this._toolStripButtonSnoopLinkedElement.Tag = nameof(Selector.SnoopLinkedElement);
         this._toolStripButtonSnoopLinkedElement.Size = new System.Drawing.Size(24, 23);
         this._toolStripButtonSnoopLinkedElement.Text = "Snoop linked element";
         this._toolStripButtonSnoopLinkedElement.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
@@ -473,7 +465,6 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopDependentElements.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopDependentElements.Image")));
         this._toolStripButtonSnoopDependentElements.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopDependentElements.Name = "_toolStripButtonSnoopDependentElements";
-        this._toolStripButtonSnoopDependentElements.Tag = nameof(Selector.SnoopDependentElements);
         this._toolStripButtonSnoopDependentElements.Size = new System.Drawing.Size(24, 23);
         this._toolStripButtonSnoopDependentElements.Text = "Snoop dependent elements";
         this._toolStripButtonSnoopDependentElements.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
@@ -485,7 +476,6 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopActiveView.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopActiveView.Image")));
         this._toolStripButtonSnoopActiveView.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopActiveView.Name = "_toolStripButtonSnoopActiveView";
-        this._toolStripButtonSnoopActiveView.Tag = nameof(Selector.SnoopActiveView);
         this._toolStripButtonSnoopActiveView.Size = new System.Drawing.Size(24, 23);
         this._toolStripButtonSnoopActiveView.Text = "Snoop active view";
         this._toolStripButtonSnoopActiveView.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
@@ -497,20 +487,35 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripButtonSnoopApplication.Image = ((System.Drawing.Image) (resources.GetObject("_toolStripButtonSnoopApplication.Image")));
         this._toolStripButtonSnoopApplication.ImageTransparentColor = System.Drawing.Color.Magenta;
         this._toolStripButtonSnoopApplication.Name = "_toolStripButtonSnoopApplication";
-        this._toolStripButtonSnoopApplication.Tag = nameof(Selector.SnoopApplication);
         this._toolStripButtonSnoopApplication.Size = new System.Drawing.Size(24, 23);
         this._toolStripButtonSnoopApplication.Text = "Snoop application";
         this._toolStripButtonSnoopApplication.Click += new System.EventHandler(this.ToolStripButton_Snoop_Click);
         this._toolStripButtonSnoopApplication.MouseEnter += new System.EventHandler(this.ToolStrip_MouseEnter);
         // 
+        // splitContainer1
+        // 
+        this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles) ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+        this.splitContainer1.Location = new System.Drawing.Point(0, 26);
+        this.splitContainer1.Name = "splitContainer1";
+        // 
+        // splitContainer1.Panel1
+        // 
+        this.splitContainer1.Panel1.Controls.Add(this.TvObjs);
+        // 
+        // splitContainer1.Panel2
+        // 
+        this.splitContainer1.Panel2.Controls.Add(this.LvData);
+        this.splitContainer1.Panel2.Controls.Add(this.BnOk);
+        this.splitContainer1.Size = new System.Drawing.Size(800, 466);
+        this.splitContainer1.SplitterDistance = 265;
+        this.splitContainer1.TabIndex = 6;
+        // 
         // ObjectsView
         // 
         this.CancelButton = this.BnOk;
         this.ClientSize = new System.Drawing.Size(800, 492);
+        this.Controls.Add(this.splitContainer1);
         this.Controls.Add(this._tableLayoutPanel1);
-        this.Controls.Add(this.LvData);
-        this.Controls.Add(this.TvObjs);
-        this.Controls.Add(this.BnOk);
         this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
         this.MinimumSize = new System.Drawing.Size(650, 200);
         this.Name = "ObjectsView";
@@ -524,9 +529,15 @@ public class ObjectsView : Form, IHaveCollector
         this._toolStripListView.PerformLayout();
         this._toolStripSelectors.ResumeLayout(false);
         this._toolStripSelectors.PerformLayout();
+        this.splitContainer1.Panel1.ResumeLayout(false);
+        this.splitContainer1.Panel2.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize) (this.splitContainer1)).EndInit();
+        this.splitContainer1.ResumeLayout(false);
         this.ResumeLayout(false);
         this.PerformLayout();
     }
+
+    private System.Windows.Forms.SplitContainer splitContainer1;
 
     #endregion
 
