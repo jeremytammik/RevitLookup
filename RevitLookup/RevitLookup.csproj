@@ -67,7 +67,8 @@
         <ItemGroup>
             <AddinFiles Include="$(RootDir)**\*.*" />
         </ItemGroup>
-
+        <Message Text="Executing Copy Assemblys To Addin Folder" Importance="High" />
         <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))" />
+        <Message Text="Copied Assemblys to Addin Folder" Importance="High" />
     </Target>
 </Project>
