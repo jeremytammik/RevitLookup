@@ -10,7 +10,8 @@
     Background="Transparent"
     WindowStyle="None"
     WindowStartupLocation="CenterScreen"
-    PreviewMouseLeftButtonDown="AboutView_OnPreviewMouseLeftButtonDown">
+    Title="About RevitLookup"
+    PreviewMouseLeftButtonDown="Window_OnPreviewMouseLeftButtonDown">
     <Window.Resources>
         <Style
             TargetType="TextBlock">
@@ -46,7 +47,6 @@
         <DockPanel
             Margin="30">
             <Path
-                Margin="10,0,10,0"
                 DockPanel.Dock="Left"
                 VerticalAlignment="Center"
                 Fill="White"
@@ -65,24 +65,24 @@
                 <TextBlock
                     Margin="0,20,0,0">
                     <Run
-                        Text="Version: " />
+                        Text="Version:" />
                     <Run
                         x:Name="VersionRun" />
                 </TextBlock>
                 <TextBlock
                     Margin="0,4,0,0">
                     <Run
-                        Text="Project website: " />
+                        Text="Project website:" />
                     <Hyperlink
                         Foreground="White"
-                        NavigateUri="https://thebuildingcoder.typepad.com/">
-                        https://thebuildingcoder.typepad.com/
+                        NavigateUri="https://thebuildingcoder.typepad.com">
+                        https://thebuildingcoder.typepad.com
                     </Hyperlink>
                 </TextBlock>
                 <TextBlock
                     Margin="0,4,0,0">
                     <Run
-                        Text="Source repository: " />
+                        Text="Source repository:" />
                     <Hyperlink
                         Foreground="White"
                         NavigateUri="https://github.com/jeremytammik/RevitLookup">
@@ -92,7 +92,7 @@
                 <TextBlock
                     Margin="0,20,0,0">
                     <Run
-                        Text="Contact Us: " />
+                        Text="Contact Us:" />
                     <Hyperlink
                         Foreground="White"
                         NavigateUri="https://github.com/jeremytammik/RevitLookup/discussions/new">

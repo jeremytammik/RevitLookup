@@ -21,10 +21,10 @@ public partial class SearchByView : Form
             MessageBox.Show(@"You did not enter a value to search for", @"Attention!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
         switch (m_cbSearchByVariant.SelectedItem as string)
         {
-            case "ElementId": // by ElementId
+            case "ElementId":
                 SearchAndSnoopByElementId();
                 break;
-            case "UniqId": // by UniqId
+            case "UniqId":
                 SearchAndSnoopByUniqId();
                 break;
         }

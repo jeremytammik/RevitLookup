@@ -66,9 +66,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(99, 13);
+            this.label2.Size = new System.Drawing.Size(21, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Value to search for:";
+            this.label2.Text = "ID:";
             // 
             // m_bnFindAndSnoop
             // 
@@ -76,7 +76,7 @@
             this.m_bnFindAndSnoop.Name = "m_bnFindAndSnoop";
             this.m_bnFindAndSnoop.Size = new System.Drawing.Size(360, 23);
             this.m_bnFindAndSnoop.TabIndex = 4;
-            this.m_bnFindAndSnoop.Text = "Find and snoop";
+            this.m_bnFindAndSnoop.Text = "Search";
             this.m_bnFindAndSnoop.UseVisualStyleBackColor = true;
             this.m_bnFindAndSnoop.Click += new System.EventHandler(this.m_bnFindAndSnoop_Click);
             // 
@@ -95,7 +95,7 @@
             this.MinimizeBox = false;
             this.Name = "SearchByView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "SearchBy";
+            this.Text = "Snoop ID";
             this.ResumeLayout(false);
             this.PerformLayout();
         }
