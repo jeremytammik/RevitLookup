@@ -42,8 +42,7 @@ public class ElementIdData : Data
 
     public override string AsValueString()
     {
-        if (_element is not null) return Utils.GetLabel(_element);
-        return _value != ElementId.InvalidElementId ? _value.ToString() : Utils.GetLabel(null);
+        return _element is not null ? Utils.GetLabel(_element) : _value.ToString();
     }
 
     public override Form DrillDown()
