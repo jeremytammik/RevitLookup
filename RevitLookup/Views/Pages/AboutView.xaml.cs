@@ -18,24 +18,16 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using RevitLookup.Views;
+using RevitLookup.ViewModels;
+using RevitLookup.ViewModels.Pages;
 
-namespace RevitLookup.Commands;
+namespace RevitLookup.Views.Pages;
 
-[UsedImplicitly]
-[Transaction(TransactionMode.Manual)]
-public class SnoopCommand : IExternalCommand
+public partial class AboutView
 {
-    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+    public AboutView()
     {
-        var uiDocument = commandData.Application.ActiveUIDocument;
-        var document = uiDocument.Document;
-        var form = new DashboadView();
-        form.Show();
-
-        return Result.Succeeded;
+        InitializeComponent();
+        DataContext = new AboutPageViewModel();
     }
 }

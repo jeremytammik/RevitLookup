@@ -18,15 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
+using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
+using RevitLookup.Views;
 
-namespace RevitLookup.Views;
+namespace RevitLookup.Commands;
 
-public partial class SnoopView
+[UsedImplicitly]
+[Transaction(TransactionMode.Manual)]
+public class DashboardCommand : IExternalCommand
 {
-    public SnoopView()
+    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        UI.Application.Current = this;
-        InitializeComponent();
+        var uiDocument = commandData.Application.ActiveUIDocument;
+        var document = uiDocument.Document;
+        var form = new DashboadView();
+        form.Show();
+
+        return Result.Succeeded;
     }
 }

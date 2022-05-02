@@ -45,23 +45,30 @@ public class Application : IExternalApplication
     {
         var ribbonPanel = application.CreatePanel("Revit Lookup");
         
-        var pushButton = ribbonPanel.AddPushButton<SnoopCommand>("Snoop");
-        pushButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        pushButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "RevitLookup");
         
-        var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
-        pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        pullDownButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection...");
-        pullDownButton.AddPushButton<SnoopActiveViewCommand>("Snoop Active View...");
-        pullDownButton.AddPushButton<SnoopActiveDocumentCommand>("Snoop Active Document...");
-        pullDownButton.AddPushButton<SnoopApplicationCommand>("Snoop Application...");
-        pullDownButton.AddPushButton<SnoopDbCommand>("Snoop Database...");
-        pullDownButton.AddPushButton<SnoopLinkedElementCommand>("Snoop Linked Element...");
-        pullDownButton.AddPushButton<SnoopDependentsCommand>("Snoop Dependent Elements...");
-        pullDownButton.AddPushButton<SnoopSurfaceCommand>("Snoop Face...");
-        pullDownButton.AddPushButton<SnoopPickEdgeCommand>("Snoop Edge...");
-        pullDownButton.AddPushButton<SnoopIdCommand>("Snoop Id...");
-        pullDownButton.AddPushButton<AboutCommand>("About...");
+        var dashboardButton = splitButton.AddPushButton<DashboardCommand>("Dashboard");
+        dashboardButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        dashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        dashboardButton.ToolTip = "Open the Revit Lookup Dashboard";
+
+        var snoopButton = splitButton.AddPushButton<SnoopCommand>("Snoop");
+        snoopButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        snoopButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        snoopButton.ToolTip = "Snoop last choice";
+
+        // var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
+        // pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        // pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        // pullDownButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection...");
+        // pullDownButton.AddPushButton<SnoopActiveViewCommand>("Snoop Active View...");
+        // pullDownButton.AddPushButton<SnoopActiveDocumentCommand>("Snoop Active Document...");
+        // pullDownButton.AddPushButton<SnoopApplicationCommand>("Snoop Application...");
+        // pullDownButton.AddPushButton<SnoopDbCommand>("Snoop Database...");
+        // pullDownButton.AddPushButton<SnoopLinkedElementCommand>("Snoop Linked Element...");
+        // pullDownButton.AddPushButton<SnoopDependentsCommand>("Snoop Dependent Elements...");
+        // pullDownButton.AddPushButton<SnoopSurfaceCommand>("Snoop Face...");
+        // pullDownButton.AddPushButton<SnoopPickEdgeCommand>("Snoop Edge...");
+        // pullDownButton.AddPushButton<SnoopIdCommand>("Snoop Id...");
     }
 }

@@ -1,0 +1,59 @@
+﻿<rl:DynamicScrollViewer
+    x:Class="RevitLookup.Views.Pages.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:rl="http://revitlookup.com/controls"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="500"
+    Style="{DynamicResource UiDynamicScrollViewer}">
+    <!-- <rl:DynamicScrollViewer.Resources> -->
+    <!--     <ResourceDictionary> -->
+    <!--         <ResourceDictionary.MergedDictionaries> -->
+    <!--             <ResourceDictionary -->
+    <!--                 Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" /> -->
+    <!--             <ResourceDictionary -->
+    <!--                 Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Light.xaml" /> -->
+    <!--         </ResourceDictionary.MergedDictionaries> -->
+    <!--     </ResourceDictionary> -->
+    <!-- </rl:DynamicScrollViewer.Resources> -->
+    <StackPanel
+        Margin="24">
+        <rl:CardControl
+            Title="Theme"
+            Icon="DarkTheme24">
+            <ComboBox
+                SelectedIndex="0"
+                MinWidth="140"
+                SelectionChanged="ThemeSelector_OnSelectionChanged">
+                <ComboBoxItem
+                    Content="Windows default" />
+                <ComboBoxItem
+                    Content="Dark" />
+                <ComboBoxItem
+                    Content="Light" />
+            </ComboBox>
+        </rl:CardControl>
+        <rl:CardControl
+            Title="Effect"
+            Margin="0,6,0,0"
+            Icon="ColorBackground24">
+            <ComboBox
+                x:Name="ComboBoxBackground"
+                MinWidth="140"
+                SelectedIndex="0"
+                SelectionChanged="BackgroundSelector_OnSelectionChanged">
+                <ComboBoxItem
+                    Content="Disabled" />
+                <ComboBoxItem
+                    Content="Windows default" />
+                <ComboBoxItem
+                    Content="Mica" />
+                <ComboBoxItem
+                    Content="Acrylic" />
+            </ComboBox>
+        </rl:CardControl>
+    </StackPanel>
+</rl:DynamicScrollViewer>
