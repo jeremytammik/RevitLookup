@@ -1,0 +1,70 @@
+﻿<rl:DynamicScrollViewer
+    x:Class="RevitLookup.UI.Tests.Views.Pages.AboutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:rl="http://revitlookup.com/controls"
+    xmlns:viewModels="clr-namespace:RevitLookup.UI.Tests.ViewModels"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:AboutPageViewModel}"
+    Style="{DynamicResource UiDynamicScrollViewer}">
+    <!-- <rl:DynamicScrollViewer.Resources> -->
+    <!--     <ResourceDictionary> -->
+    <!--         <ResourceDictionary.MergedDictionaries> -->
+    <!--             <ResourceDictionary -->
+    <!--                 Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" /> -->
+    <!--             <ResourceDictionary -->
+    <!--                 Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Light.xaml" /> -->
+    <!--         </ResourceDictionary.MergedDictionaries> -->
+    <!--     </ResourceDictionary> -->
+    <!-- </rl:DynamicScrollViewer.Resources> -->
+    <DockPanel
+        Margin="30,0">
+        <Path
+            DockPanel.Dock="Left"
+            Margin="0,17,0,0"
+            Fill="#283C7E"
+            Data="M40.91,0c7.27,10.79,19.18,28.85,21.76,32.23s2,2.46,1.31,7.86S62.62,47,62,50.5c-4.11,1.69-8.68,1.46-13.18,3.78C60.43,67.38,73,79.27,85,92.33l-7.39,11.26C60,94.82,43.07,85.08,25.2,76.28c-3.33,9.48-3.5,19.55-6.8,29.34A145.43,145.43,0,0,1,0,100.41C2.08,85.06,3.78,70.13,6.21,55.33q3-18.49,5.52-37a5.54,5.54,0,0,1,3.18-4.65C23.6,9.16,32.24,4.56,40.91,0Z" />
+        <StackPanel
+            Margin="30,0,0,0">
+            <TextBlock
+                Text="RevitLookup"
+                FontSize="48" />
+            <TextBlock
+                TextWrapping="Wrap"
+                Margin="0,25,0,0"
+                HorizontalAlignment="Left"
+                Foreground="{DynamicResource PaletteGreyBrush}"
+                Text="Interactive Revit RFA and RVT project database exploration tool to view and navigate BIM element parameters, properties and relationships." />
+            <TextBlock
+                FontWeight="Medium"
+                Margin="0,20,0,0"
+                Text="Version">
+            </TextBlock>
+            <rl:CardControl
+                x:Name="VersionRun"
+                Title="{Binding Version}"
+                Subtitle="{Binding LatestCheck}"
+                Margin="0,12,0,0"
+                Icon="ArrowSync24">
+                <rl:Button
+                    Appearance="Secondary"
+                    Content="Check for updates" />
+            </rl:CardControl>
+            <rl:Hyperlink
+                Margin="0,12,0,0"
+                Content="Project website"
+                Icon="Link48"
+                NavigateUri="https://thebuildingcoder.typepad.com" />
+            <rl:Hyperlink
+                Content="Source repository on GitHub"
+                Icon="Link48"
+                NavigateUri="https://github.com/jeremytammik/RevitLookup" />
+            <rl:Hyperlink
+                Content="Contact Us"
+                Icon="Link48"
+                NavigateUri="https://github.com/jeremytammik/RevitLookup/discussions/new" />
+        </StackPanel>
+    </DockPanel>
+</rl:DynamicScrollViewer>

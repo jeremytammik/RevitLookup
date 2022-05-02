@@ -29,6 +29,7 @@ public class Application : IExternalApplication
 {
     public Result OnStartup(UIControlledApplication application)
     {
+        UI.Assembly.AttachToRevit();
         CreateRibbonPanel(application);
         ModelessWindowHandle.SetHandler(application.MainWindowHandle);
         ExternalExecutor.CreateExternalEvent();
@@ -43,6 +44,11 @@ public class Application : IExternalApplication
     private static void CreateRibbonPanel(UIControlledApplication application)
     {
         var ribbonPanel = application.CreatePanel("Revit Lookup");
+        
+        var pushButton = ribbonPanel.AddPushButton<SnoopCommand>("Snoop");
+        pushButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        pushButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        
         var pullDownButton = ribbonPanel.AddPullDownButton("Options", "Revit Lookup");
         pullDownButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         pullDownButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
@@ -55,7 +61,7 @@ public class Application : IExternalApplication
         pullDownButton.AddPushButton<SnoopDependentsCommand>("Snoop Dependent Elements...");
         pullDownButton.AddPushButton<SnoopSurfaceCommand>("Snoop Face...");
         pullDownButton.AddPushButton<SnoopPickEdgeCommand>("Snoop Edge...");
-        pullDownButton.AddPushButton<SearchCommand>("Snoop Id...");
+        pullDownButton.AddPushButton<SnoopIdCommand>("Snoop Id...");
         pullDownButton.AddPushButton<AboutCommand>("About...");
     }
 }

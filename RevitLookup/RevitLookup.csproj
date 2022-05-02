@@ -8,6 +8,7 @@
         <UseWindowsForms>true</UseWindowsForms>
         <TargetFramework>net48</TargetFramework>
         <Configurations>Debug R22;Debug R23</Configurations>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
         <Configurations>$(Configurations);Release R22;Release R23</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
@@ -33,47 +34,47 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Using Include="Nice3point.Revit.Extensions"/>
-        <Using Include="JetBrains.Annotations"/>
+        <Using Include="Nice3point.Revit.Extensions" />
+        <Using Include="JetBrains.Annotations" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\Images\RibbonIcon16.png"/>
-        <Resource Include="Resources\Images\RibbonIcon32.png"/>
+        <Resource Include="Resources\Images\RibbonIcon16.png" />
+        <Resource Include="Resources\Images\RibbonIcon32.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj" />
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
-            <RootItem Include="$(ProjectDir)*.addin"/>
-            <AddinItem Include="$(TargetDir)$(AssemblyName).*"/>
+            <RootItem Include="$(ProjectDir)*.addin" />
+            <AddinItem Include="$(TargetDir)$(AssemblyName).*" />
             <!--Files to copy to Revit add-ins folder-->
-            <AddinItem Include="$(TargetDir)Nice3point.Revit.Extensions.dll"/>
+            <AddinItem Include="$(TargetDir)Nice3point.Revit.Extensions.dll" />
         </ItemGroup>
         <PropertyGroup>
             <RootDir>bin\AddIn $(RevitVersion) $(Configuration)\</RootDir>
             <AddinDir>$(RootDir)$(AssemblyName)\</AddinDir>
         </PropertyGroup>
-        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)"/>
-        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)"/>
+        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)" />
+        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)" />
 
         <ItemGroup>
-            <AddinFiles Include="$(RootDir)**\*.*"/>
+            <AddinFiles Include="$(RootDir)**\*.*" />
         </ItemGroup>
         <PropertyGroup>
             <RevitAddinFolder>$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)</RevitAddinFolder>
         </PropertyGroup>
         
-        <Message Text="$(MSBuildProjectName) -> Copying files to $(RevitAddinFolder)"
-                 Importance="High"
-                 Condition="$(Configuration.Contains('Debug'))"/>
-        <Copy SourceFiles="@(AddinFiles)"
-              DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)"
-              Condition="$(Configuration.Contains('Debug'))"/>
+        <Message Text="$(MSBuildProjectName) -&gt; Copying files to $(RevitAddinFolder)" Importance="High" Condition="$(Configuration.Contains('Debug'))" />
+        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))" />
     </Target>
 </Project>

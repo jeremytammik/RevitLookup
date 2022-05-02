@@ -30,8 +30,6 @@ public class AboutCommand : IExternalCommand
 {
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var aboutView = new AboutView();
-        aboutView.ShowDialog();
         return Result.Succeeded;
     }
 }
