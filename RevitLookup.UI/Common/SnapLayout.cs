@@ -10,27 +10,24 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using RevitLookup.UI.Win32;
-using Point = System.Windows.Point;
-using Size = System.Windows.Size;
 
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Brings the Snap Layout functionality from Windows 11 to a custom <see cref="Controls.TitleBar"/>.
+///     Brings the Snap Layout functionality from Windows 11 to a custom <see cref="Controls.TitleBar" />.
 /// </summary>
 internal sealed class SnapLayout
 {
-    public SolidColorBrush DefaultButtonBackground { get; set; } = Brushes.Transparent;
-
-    private bool _isButtonFocused;
-
-    private bool _isButtonClicked;
+    private Button _button;
 
     private double _dpiScale;
 
-    private Button _button;
-
     private SolidColorBrush _hoverColor;
+
+    private bool _isButtonClicked;
+
+    private bool _isButtonFocused;
+    public SolidColorBrush DefaultButtonBackground { get; set; } = Brushes.Transparent;
 
     public void Register(Button button)
     {
@@ -40,7 +37,7 @@ internal sealed class SnapLayout
 
         SetHoverColor();
 
-        var hwnd = (HwndSource)PresentationSource.FromVisual(button);
+        var hwnd = (HwndSource) PresentationSource.FromVisual(button);
 
         if (hwnd != null)
             hwnd.AddHook(HwndSourceHook);
@@ -52,19 +49,22 @@ internal sealed class SnapLayout
     }
 
     /// <summary>
-    /// Represents the method that handles Win32 window messages.
+    ///     Represents the method that handles Win32 window messages.
     /// </summary>
     /// <param name="hWnd">The window handle.</param>
     /// <param name="uMsg">The message ID.</param>
     /// <param name="wParam">The message's wParam value.</param>
     /// <param name="lParam">The message's lParam value.</param>
-    /// <param name="handled">A value that indicates whether the message was handled. Set the value to <see langword="true"/> if the message was handled; otherwise, <see langword="false"/>.</param>
+    /// <param name="handled">
+    ///     A value that indicates whether the message was handled. Set the value to <see langword="true" /> if the message was handled; otherwise,
+    ///     <see langword="false" />.
+    /// </param>
     /// <returns>The appropriate return value depends on the particular message. See the message documentation details for the Win32 message being handled.</returns>
     private IntPtr HwndSourceHook(IntPtr hWnd, int uMsg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
         // TODO: This whole class is one big todo
 
-        var mouseNotification = (User32.WM)uMsg;
+        var mouseNotification = (User32.WM) uMsg;
 
         switch (mouseNotification)
         {
@@ -107,14 +107,14 @@ internal sealed class SnapLayout
                     DefocusButton();
                 }
 
-                return new IntPtr((int)HT.MAXBUTTON);
+                return new IntPtr((int) HT.MAXBUTTON);
 
             default:
                 handled = false;
                 break;
         }
 
-        return new IntPtr((int)HT.CLIENT);
+        return new IntPtr((int) HT.CLIENT);
     }
 
     private void FocusButton()
@@ -165,6 +165,6 @@ internal sealed class SnapLayout
     private void SetHoverColor()
     {
         var color = Application.Current.Resources["ControlFillColorSecondary"] ?? Color.FromArgb(21, 255, 255, 255);
-        _hoverColor = new SolidColorBrush((Color)color);
+        _hoverColor = new SolidColorBrush((Color) color);
     }
 }

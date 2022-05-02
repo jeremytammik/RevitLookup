@@ -10,29 +10,52 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style x:Key="UiBreadcrumbButton" TargetType="{x:Type Button}" />
+    <Style
+        x:Key="UiBreadcrumbButton"
+        TargetType="{x:Type Button}" />
 
-    <Style TargetType="{x:Type controls:Breadcrumb}">
-        <Setter Property="Foreground">
+    <Style
+        TargetType="{x:Type controls:Breadcrumb}">
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="FontSize" Value="26" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="FontSize"
+            Value="26" />
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="Margin"
+            Value="0" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:Breadcrumb}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:Breadcrumb}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <!--
                         TODO: Navigate with previous levels
@@ -69,7 +92,9 @@
                         -->
 
                         <!--  Current page  -->
-                        <Grid x:Name="GridLevelFour" Grid.Column="0">
+                        <Grid
+                            x:Name="GridLevelFour"
+                            Grid.Column="0">
                             <TextBlock
                                 FontSize="{TemplateBinding FontSize}"
                                 FontWeight="Medium"

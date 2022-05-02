@@ -4,74 +4,74 @@
 // All Rights Reserved.
 
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Custom <see cref="System.Windows.Controls.Primitives.ScrollBar"/> with events depending on actions taken by the user.
+///     Custom <see cref="System.Windows.Controls.Primitives.ScrollBar" /> with events depending on actions taken by the user.
 /// </summary>
-public class DynamicScrollBar : System.Windows.Controls.Primitives.ScrollBar
+public class DynamicScrollBar : ScrollBar
 {
-    private bool _isScrolling;
-
-    private bool _isInteracted;
-
-    private readonly EventIdentifier _interactiveIdentifier = new();
-
     /// <summary>
-    /// Property for <see cref="IsScrolling"/>.
+    ///     Property for <see cref="IsScrolling" />.
     /// </summary>
     public static readonly DependencyProperty IsScrollingProperty = DependencyProperty.Register(nameof(IsScrolling),
         typeof(bool), typeof(DynamicScrollBar), new PropertyMetadata(false, IsScrollingProperty_OnChange));
 
     /// <summary>
-    /// Property for <see cref="IsInteracted"/>.
+    ///     Property for <see cref="IsInteracted" />.
     /// </summary>
     public static readonly DependencyProperty IsInteractedProperty = DependencyProperty.Register(
         nameof(IsInteracted),
         typeof(bool), typeof(DynamicScrollBar), new PropertyMetadata(false, IsInteractedProperty_OnChange));
 
     /// <summary>
-    /// Property for <see cref="Timeout"/>.
+    ///     Property for <see cref="Timeout" />.
     /// </summary>
     public static readonly DependencyProperty TimeoutProperty = DependencyProperty.Register(nameof(Timeout),
         typeof(int), typeof(DynamicScrollBar), new PropertyMetadata(1000));
 
+    private readonly EventIdentifier _interactiveIdentifier = new();
+
+    private bool _isInteracted;
+    private bool _isScrolling;
+
     /// <summary>
-    /// Gets or sets information whether the user was scrolling for the last few seconds.
+    ///     Gets or sets information whether the user was scrolling for the last few seconds.
     /// </summary>
     public bool IsScrolling
     {
-        get => (bool)GetValue(IsScrollingProperty);
+        get => (bool) GetValue(IsScrollingProperty);
         set => SetValue(IsScrollingProperty, value);
     }
 
     /// <summary>
-    /// Informs whether the user has taken an action related to scrolling.
+    ///     Informs whether the user has taken an action related to scrolling.
     /// </summary>
     public bool IsInteracted
     {
-        get => (bool)GetValue(IsInteractedProperty);
+        get => (bool) GetValue(IsInteractedProperty);
         set
         {
-            if ((bool)GetValue(IsInteractedProperty) != value)
+            if ((bool) GetValue(IsInteractedProperty) != value)
                 SetValue(IsInteractedProperty, value);
         }
     }
 
     /// <summary>
-    /// Gets or sets additional delay after which the <see cref="DynamicScrollBar"/> should be hidden.
+    ///     Gets or sets additional delay after which the <see cref="DynamicScrollBar" /> should be hidden.
     /// </summary>
     public int Timeout
     {
-        get => (int)GetValue(TimeoutProperty);
+        get => (int) GetValue(TimeoutProperty);
         set => SetValue(TimeoutProperty, value);
     }
 
     /// <summary>
-    /// Method reporting the mouse entered this element.
+    ///     Method reporting the mouse entered this element.
     /// </summary>
     protected override void OnMouseEnter(MouseEventArgs e)
     {
@@ -81,7 +81,7 @@ public class DynamicScrollBar : System.Windows.Controls.Primitives.ScrollBar
     }
 
     /// <summary>
-    /// Method reporting the mouse leaved this element.
+    ///     Method reporting the mouse leaved this element.
     /// </summary>
     protected override void OnMouseLeave(MouseEventArgs e)
     {

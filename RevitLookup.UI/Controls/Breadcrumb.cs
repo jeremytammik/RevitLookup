@@ -4,40 +4,41 @@
 // All Rights Reserved.
 
 using System.Windows;
+using System.Windows.Controls;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Displays the name of the current <see cref="NavigationItem"/> and it's parents that can be navigated using <see cref="INavigation"/>.
+///     Displays the name of the current <see cref="NavigationItem" /> and it's parents that can be navigated using <see cref="INavigation" />.
 /// </summary>
-public class Breadcrumb : System.Windows.Controls.Control
+public class Breadcrumb : Control
 {
     /// <summary>
-    /// Property for <see cref="Current"/>.
+    ///     Property for <see cref="Current" />.
     /// </summary>
     public static readonly DependencyProperty CurrentProperty = DependencyProperty.Register(nameof(Current),
         typeof(string), typeof(Breadcrumb), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    /// Property for <see cref="Navigation"/>.
+    ///     Property for <see cref="Navigation" />.
     /// </summary>
     public static readonly DependencyProperty NavigationProperty = DependencyProperty.Register(nameof(Navigation),
         typeof(INavigation), typeof(Breadcrumb),
         new PropertyMetadata(null, NavigationPropertyChangedCallback));
 
     /// <summary>
-    /// <see cref="INavigation"/> based on which <see cref="Breadcrumb"/> displays the titles.
+    ///     <see cref="INavigation" /> based on which <see cref="Breadcrumb" /> displays the titles.
     /// </summary>
     public string Current
     {
-        get => (string)GetValue(CurrentProperty);
+        get => (string) GetValue(CurrentProperty);
         set => SetValue(CurrentProperty, value);
     }
 
     /// <summary>
-    /// <see cref="INavigation"/> based on which <see cref="Breadcrumb"/> displays the titles.
+    ///     <see cref="INavigation" /> based on which <see cref="Breadcrumb" /> displays the titles.
     /// </summary>
     public INavigation Navigation
     {

@@ -3,7 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;
 using RevitLookup.UI.Common;
@@ -12,14 +11,14 @@ using RevitLookup.UI.Win32;
 namespace RevitLookup.UI.Taskbar;
 
 /// <summary>
-/// Allows to change the status of the displayed notification in the application icon on the TaskBar.
-/// <para>
-/// Based on the work of <see href="https://wpf.2000things.com/2014/03/19/1032-show-progress-on-windows-taskbar-icon/">Sean Sexton</see>.
-/// </para>
+///     Allows to change the status of the displayed notification in the application icon on the TaskBar.
+///     <para>
+///         Based on the work of <see href="https://wpf.2000things.com/2014/03/19/1032-show-progress-on-windows-taskbar-icon/">Sean Sexton</see>.
+///     </para>
 /// </summary>
 public static class Progress
 {
-    private static ShobjidlCore.ITaskbarList _taskbarList;
+    private static readonly ShobjidlCore.ITaskbarList _taskbarList;
 
     static Progress()
     {
@@ -37,10 +36,10 @@ public static class Progress
     }
 
     /// <summary>
-    /// Allows to change the status of the progress bar in the task bar.
+    ///     Allows to change the status of the progress bar in the task bar.
     /// </summary>
     /// <param name="state">State of the progress indicator.</param>
-    /// <param name="dispatchInvoke">Run with the main <see cref="System.Windows.Application"/> thread.</param>
+    /// <param name="dispatchInvoke">Run with the main <see cref="System.Windows.Application" /> thread.</param>
     public static void SetState(ProgressState state, bool dispatchInvoke = false)
     {
         if (!dispatchInvoke)
@@ -57,11 +56,11 @@ public static class Progress
     }
 
     /// <summary>
-    /// Allows to change the fill of the task bar.
+    ///     Allows to change the fill of the task bar.
     /// </summary>
     /// <param name="current">Current value to display</param>
     /// <param name="max">Maximum number for division.</param>
-    /// <param name="dispatchInvoke">Run with the main <see cref="System.Windows.Application"/> thread.</param>
+    /// <param name="dispatchInvoke">Run with the main <see cref="System.Windows.Application" /> thread.</param>
     public static void SetValue(int current, int max, bool dispatchInvoke = false)
     {
         if (!dispatchInvoke)
@@ -87,9 +86,9 @@ public static class Progress
     private static void SetProgressValue(int current, int max)
     {
         _taskbarList.SetProgressValue(
-                 GetHandle(),
-                 Convert.ToUInt64(current),
-                 Convert.ToUInt64(max));
+            GetHandle(),
+            Convert.ToUInt64(current),
+            Convert.ToUInt64(max));
     }
 
     private static IntPtr GetHandle()

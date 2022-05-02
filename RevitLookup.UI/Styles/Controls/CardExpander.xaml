@@ -10,16 +10,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <ControlTemplate x:Key="UiCardExpanderToggleButton" TargetType="{x:Type ToggleButton}">
-        <Grid Margin="{TemplateBinding Padding}" Background="Transparent">
+    <ControlTemplate
+        x:Key="UiCardExpanderToggleButton"
+        TargetType="{x:Type ToggleButton}">
+        <Grid
+            Margin="{TemplateBinding Padding}"
+            Background="Transparent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1">
-                <ContentPresenter x:Name="Presenter" Content="{TemplateBinding Content}" />
+            <Grid
+                Grid.Column="1">
+                <ContentPresenter
+                    x:Name="Presenter"
+                    Content="{TemplateBinding Content}" />
             </Grid>
 
             <Grid
@@ -30,7 +40,8 @@
                 Background="Transparent"
                 RenderTransformOrigin="0.5, 0.5">
                 <Grid.RenderTransform>
-                    <RotateTransform Angle="0" />
+                    <RotateTransform
+                        Angle="0" />
                 </Grid.RenderTransform>
                 <controls:SymbolIcon
                     x:Name="Chevron"
@@ -39,10 +50,17 @@
             </Grid>
         </Grid>
         <ControlTemplate.Triggers>
-            <Trigger Property="Content" Value="{x:Null}">
-                <Setter TargetName="Presenter" Property="Visibility" Value="Collapsed" />
+            <Trigger
+                Property="Content"
+                Value="{x:Null}">
+                <Setter
+                    TargetName="Presenter"
+                    Property="Visibility"
+                    Value="Collapsed" />
             </Trigger>
-            <Trigger Property="IsChecked" Value="True">
+            <Trigger
+                Property="IsChecked"
+                Value="True">
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -69,26 +87,45 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style TargetType="{x:Type controls:CardExpander}">
-        <Setter Property="Foreground">
+    <Style
+        TargetType="{x:Type controls:CardExpander}">
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Background">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="IsExpanded" Value="False" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="MinHeight" Value="68" />
-        <Setter Property="Padding" Value="12" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="IsExpanded"
+            Value="False" />
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="MinHeight"
+            Value="68" />
+        <Setter
+            Property="Padding"
+            Value="12" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:CardExpander}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:CardExpander}">
                     <Border
                         x:Name="Border"
                         Background="{TemplateBinding Background}"
@@ -97,8 +134,10 @@
                         CornerRadius="4,4,4,4">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <Grid
@@ -106,8 +145,10 @@
                                 Margin="{TemplateBinding Padding}"
                                 VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <controls:SymbolIcon
                                     x:Name="CardIcon"
@@ -117,10 +158,14 @@
                                     Filled="{TemplateBinding IconFilled}"
                                     FontSize="26"
                                     Symbol="{TemplateBinding Icon}" />
-                                <Grid Grid.Column="1" VerticalAlignment="Center">
+                                <Grid
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition x:Name="SubtitleRow" />
+                                        <RowDefinition
+                                            Height="*" />
+                                        <RowDefinition
+                                            x:Name="SubtitleRow" />
                                     </Grid.RowDefinitions>
                                     <ContentPresenter
                                         x:Name="Title"
@@ -135,7 +180,8 @@
                                         FontSize="11"
                                         Text="{TemplateBinding Subtitle}">
                                         <TextBlock.Foreground>
-                                            <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                            <SolidColorBrush
+                                                Color="{DynamicResource TextFillColorTertiary}" />
                                         </TextBlock.Foreground>
                                     </TextBlock>
                                 </Grid>
@@ -160,22 +206,39 @@
                                 Background="Transparent"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 Opacity="0.0">
-                                <ContentPresenter Margin="{TemplateBinding Padding}" />
+                                <ContentPresenter
+                                    Margin="{TemplateBinding Padding}" />
                                 <Border.LayoutTransform>
-                                    <ScaleTransform ScaleY="0" />
+                                    <ScaleTransform
+                                        ScaleY="0" />
                                 </Border.LayoutTransform>
                             </Border>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Icon" Value="Empty">
-                            <Setter TargetName="CardIcon" Property="Margin" Value="0" />
+                        <Trigger
+                            Property="Icon"
+                            Value="Empty">
+                            <Setter
+                                TargetName="CardIcon"
+                                Property="Margin"
+                                Value="0" />
                         </Trigger>
-                        <Trigger Property="Subtitle" Value="{x:Null}">
-                            <Setter TargetName="Title" Property="Margin" Value="0" />
-                            <Setter TargetName="SubtitleRow" Property="Height" Value="0" />
+                        <Trigger
+                            Property="Subtitle"
+                            Value="{x:Null}">
+                            <Setter
+                                TargetName="Title"
+                                Property="Margin"
+                                Value="0" />
+                            <Setter
+                                TargetName="SubtitleRow"
+                                Property="Height"
+                                Value="0" />
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger
+                            Property="IsMouseOver"
+                            Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -201,8 +264,13 @@
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
                         </Trigger>
-                        <Trigger Property="IsExpanded" Value="True">
-                            <Setter TargetName="ContentGrid" Property="BorderThickness" Value="0,1,0,0" />
+                        <Trigger
+                            Property="IsExpanded"
+                            Value="True">
+                            <Setter
+                                TargetName="ContentGrid"
+                                Property="BorderThickness"
+                                Value="0,1,0,0" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -236,8 +304,12 @@
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.8" />
+                        <Trigger
+                            Property="IsEnabled"
+                            Value="False">
+                            <Setter
+                                Property="Opacity"
+                                Value="0.8" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

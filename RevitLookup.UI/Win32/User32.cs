@@ -10,12 +10,12 @@ using System.Runtime.InteropServices;
 namespace RevitLookup.UI.Win32;
 
 /// <summary>
-/// This header is used by multiple technologies.
+///     This header is used by multiple technologies.
 /// </summary>
 internal static class User32
 {
     /// <summary>
-    /// DWM window accent state.
+    ///     DWM window accent state.
     /// </summary>
     public enum ACCENT_STATE
     {
@@ -28,7 +28,7 @@ internal static class User32
     }
 
     /// <summary>
-    /// DWM window attributes.
+    ///     DWM window attributes.
     /// </summary>
     public enum WINCOMPATTR
     {
@@ -66,33 +66,7 @@ internal static class User32
     }
 
     /// <summary>
-    /// The following are the window styles. After the window has been created, these styles cannot be modified, except as noted.
-    /// </summary>
-    public enum WS
-    {
-        /// <summary>
-        /// The window has a maximize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.
-        /// </summary>
-        MAXIMIZEBOX = 0x10000,
-
-        /// <summary>
-        /// The window has a minimize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.
-        /// </summary>
-        MINIMIZEBOX = 0x20000,
-
-        /// <summary>
-        /// The window is an overlapped window. Same as the WS_TILEDWINDOW style.
-        /// </summary>
-        SIZEBOX = 0x40000,
-
-        /// <summary>
-        /// The window has a window menu on its title bar. The WS_CAPTION style must also be specified.
-        /// </summary>
-        SYSMENU = 0x80000
-    }
-
-    /// <summary>
-    /// Window message values, WM_*
+    ///     Window message values, WM_*
     /// </summary>
     public enum WM
     {
@@ -239,9 +213,12 @@ internal static class User32
         DWMWINDOWMAXIMIZEDCHANGE = 0x0321,
 
         GETTITLEBARINFOEX = 0x033F,
+
         #region Windows 7
+
         DWMSENDICONICTHUMBNAIL = 0x0323,
         DWMSENDICONICLIVEPREVIEWBITMAP = 0x0326,
+
         #endregion
 
         USER = 0x0400,
@@ -254,7 +231,103 @@ internal static class User32
     }
 
     /// <summary>
-    /// DWM window accent policy.
+    ///     The following are the window styles. After the window has been created, these styles cannot be modified, except as noted.
+    /// </summary>
+    public enum WS
+    {
+        /// <summary>
+        ///     The window has a maximize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.
+        /// </summary>
+        MAXIMIZEBOX = 0x10000,
+
+        /// <summary>
+        ///     The window has a minimize button. Cannot be combined with the WS_EX_CONTEXTHELP style. The WS_SYSMENU style must also be specified.
+        /// </summary>
+        MINIMIZEBOX = 0x20000,
+
+        /// <summary>
+        ///     The window is an overlapped window. Same as the WS_TILEDWINDOW style.
+        /// </summary>
+        SIZEBOX = 0x40000,
+
+        /// <summary>
+        ///     The window has a window menu on its title bar. The WS_CAPTION style must also be specified.
+        /// </summary>
+        SYSMENU = 0x80000
+    }
+
+    /// <summary>
+    ///     Retrieves the position of the mouse cursor, in screen coordinates.
+    /// </summary>
+    /// <param name="lpPoint">A <see cref="POINT" /> structure that receives the screen coordinates of the cursor.</param>
+    /// <returns></returns>
+    [DllImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool GetCursorPos(out POINT lpPoint);
+
+    /// <summary>
+    ///     Sets various information regarding DWM window attributes.
+    /// </summary>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int SetWindowCompositionAttribute(IntPtr hWnd, ref WINCOMPATTRDATA data);
+
+    /// <summary>
+    ///     Brings the thread that created the specified window into the foreground and activates the window.
+    ///     Keyboard input is directed to the window, and various visual cues are changed for the user.
+    /// </summary>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern bool SetForegroundWindow(HandleRef hWnd);
+
+    /// <summary>
+    ///     Retrieves the specified system metric or system configuration setting.
+    ///     Note that all dimensions retrieved by GetSystemMetrics are in pixels.
+    /// </summary>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int GetSystemMetrics(int nIndex);
+
+    /// <summary>
+    ///     Retrieves information about the specified window.
+    ///     The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
+    /// </summary>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+    /// <summary>
+    ///     Changes an attribute of the specified window.
+    ///     The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
+    /// </summary>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+    /// <summary>
+    ///     Sends the specified message to a window or windows.
+    ///     The SendMessage function calls the window procedure for the specified window and does not return until the window procedure has processed the message.
+    /// </summary>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
+
+    /// <summary>
+    ///     Places (posts) a message in the message queue associated with the thread that created the specified window and returns without waiting for the thread to process the message.
+    /// </summary>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern bool PostMessage(HandleRef hWnd, WM msg, IntPtr wParam, IntPtr lParam);
+
+    /// <summary>
+    ///     Calls the default window procedure to provide default processing for any window messages that an application does not process.
+    ///     This function ensures that every message is processed.
+    /// </summary>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern IntPtr DefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+    /// <summary>
+    ///     Defines a new window message that is guaranteed to be unique throughout the system. The message value can be used when sending or posting messages.
+    /// </summary>
+    /// <param name="lpString">The message to be registered.</param>
+    [DllImport("user32.dll", CharSet = CharSet.Auto)]
+    public static extern int RegisterWindowMessage(string lpString);
+
+    /// <summary>
+    ///     DWM window accent policy.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct ACCENT_POLICY
@@ -274,88 +347,19 @@ internal static class User32
     }
 
     /// <summary>
-    /// The POINT structure defines the x- and y-coordinates of a point.
+    ///     The POINT structure defines the x- and y-coordinates of a point.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct POINT
     {
         /// <summary>
-        /// Specifies the x-coordinate of the point.
+        ///     Specifies the x-coordinate of the point.
         /// </summary>
         public int X;
+
         /// <summary>
-        /// Specifies the y-coordinate of the point.
+        ///     Specifies the y-coordinate of the point.
         /// </summary>
         public int Y;
     }
-
-    /// <summary>
-    /// Retrieves the position of the mouse cursor, in screen coordinates.
-    /// </summary>
-    /// <param name="lpPoint">A <see cref="POINT"/> structure that receives the screen coordinates of the cursor.</param>
-    /// <returns></returns>
-    [DllImport("user32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool GetCursorPos(out POINT lpPoint);
-
-    /// <summary>
-    /// Sets various information regarding DWM window attributes.
-    /// </summary>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern int SetWindowCompositionAttribute(IntPtr hWnd, ref WINCOMPATTRDATA data);
-
-    /// <summary>
-    /// Brings the thread that created the specified window into the foreground and activates the window.
-    /// Keyboard input is directed to the window, and various visual cues are changed for the user.
-    /// </summary>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern bool SetForegroundWindow(HandleRef hWnd);
-
-    /// <summary>
-    /// Retrieves the specified system metric or system configuration setting.
-    /// Note that all dimensions retrieved by GetSystemMetrics are in pixels.
-    /// </summary>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern int GetSystemMetrics(int nIndex);
-
-    /// <summary>
-    /// Retrieves information about the specified window.
-    /// The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
-    /// </summary>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-    /// <summary>
-    /// Changes an attribute of the specified window.
-    /// The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
-    /// </summary>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-    /// <summary>
-    /// Sends the specified message to a window or windows.
-    /// The SendMessage function calls the window procedure for the specified window and does not return until the window procedure has processed the message.
-    /// </summary>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
-
-    /// <summary>
-    /// Places (posts) a message in the message queue associated with the thread that created the specified window and returns without waiting for the thread to process the message.
-    /// </summary>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern bool PostMessage(HandleRef hWnd, WM msg, IntPtr wParam, IntPtr lParam);
-
-    /// <summary>
-    /// Calls the default window procedure to provide default processing for any window messages that an application does not process.
-    /// This function ensures that every message is processed.
-    /// </summary>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern IntPtr DefWindowProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-
-    /// <summary>
-    /// Defines a new window message that is guaranteed to be unique throughout the system. The message value can be used when sending or posting messages.
-    /// </summary>
-    /// <param name="lpString">The message to be registered.</param>
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern int RegisterWindowMessage(string lpString);
 }

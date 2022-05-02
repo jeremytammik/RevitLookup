@@ -3,9 +3,11 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Windows.Controls.Primitives;
+
 namespace RevitLookup.UI.Controls;
 
 /// <inheritdoc />
-public class ToggleSwitch : System.Windows.Controls.Primitives.ToggleButton
+public class ToggleSwitch : ToggleButton
 {
 }

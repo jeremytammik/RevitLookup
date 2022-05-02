@@ -6,17 +6,17 @@
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Controls the reveal mode of a control element.
+///     Controls the reveal mode of a control element.
 /// </summary>
 public enum RevealMode
 {
     /// <summary>
-    /// Element should be hidden.
+    ///     Element should be hidden.
     /// </summary>
     Hidden,
 
     /// <summary>
-    /// Element should be visible.
+    ///     Element should be visible.
     /// </summary>
     Visible
 }

@@ -6,176 +6,176 @@
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Represents a list of filled Fluent System Icons <c>v.1.1.163</c>.
-/// <para>May be converted to <see langword="char"/> using <c>GetGlyph()</c> or to <see langword="string"/> using <c>GetString()</c></para>
+///     Represents a list of filled Fluent System Icons <c>v.1.1.163</c>.
+///     <para>May be converted to <see langword="char" /> using <c>GetGlyph()</c> or to <see langword="string" /> using <c>GetString()</c></para>
 /// </summary>
 #pragma warning disable CS1591
 public enum SymbolFilled
 {
     /// <summary>
-    /// Actually, this icon is not empty, but makes it easier to navigate.
+    ///     Actually, this icon is not empty, but makes it easier to navigate.
     /// </summary>
     Empty = 0x0,
 
     // Automatically generated, may contain bugs.
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     ChatArrowBack20 = 0x0,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     ChatArrowDoubleBack16 = 0x1,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     ChatArrowDoubleBack20 = 0x2,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     Check24 = 0x3,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     CheckboxCheckedSync20 = 0x4,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     ChevronUpDown16 = 0x5,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     CircleSubtractArrowBack20 = 0x6,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     CircleSubtractArrowForward20 = 0x7,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     CursorClick20 = 0x8,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     CursorClick24 = 0x9,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     Directions16 = 0xA,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     DividerTall20 = 0xB,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     DocumentArrowUp20 = 0xC,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     DocumentDismiss16 = 0xD,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     DocumentLink16 = 0xE,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     DocumentPerson20 = 0xF,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     EditArrowBack20 = 0x10,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     EmojiSad16 = 0x11,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     Extension16 = 0x12,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     GlobeClock16 = 0x13,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     GlobeClock20 = 0x14,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     ImmersiveReader16 = 0x15,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     IosArrowRight24 = 0x16,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     LinkDismiss16 = 0x17,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     LockOpen16 = 0x18,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     Luggage16 = 0x19,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     Luggage20 = 0x1A,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     MailArrowDoubleBack20 = 0x1B,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     MailArrowDown20 = 0x1C,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     MailArrowForward20 = 0x1D,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     MailAttach20 = 0x1E,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
     MailCheckmark20 = 0x1F,
 

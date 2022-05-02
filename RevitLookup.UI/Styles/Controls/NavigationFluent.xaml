@@ -10,34 +10,62 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style x:Key="NavigationFluentItem" TargetType="{x:Type controls:NavigationItem}">
-        <Setter Property="Margin" Value="0,0,0,4" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="IconSize" Value="18" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="Background">
+    <Style
+        x:Key="NavigationFluentItem"
+        TargetType="{x:Type controls:NavigationItem}">
+        <Setter
+            Property="Margin"
+            Value="0,0,0,4" />
+        <Setter
+            Property="Cursor"
+            Value="Hand" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+        <Setter
+            Property="IconSize"
+            Value="18" />
+        <Setter
+            Property="VerticalAlignment"
+            Value="Center" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="Left" />
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground">
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="IconForeground">
+        <Setter
+            Property="IconForeground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource SystemAccentBrush}" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource SystemAccentBrush}" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:NavigationItem}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:NavigationItem}">
                     <Border
                         x:Name="MainBorder"
                         Padding="{TemplateBinding Padding}"
@@ -53,10 +81,14 @@
                                 VerticalAlignment="Center"
                                 Background="{TemplateBinding BorderBrush}"
                                 CornerRadius="2" />
-                            <Grid Margin="16,8" HorizontalAlignment="Left">
+                            <Grid
+                                Margin="16,8"
+                                HorizontalAlignment="Left">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <controls:SymbolIcon
                                     x:Name="ItemIcon"
@@ -84,14 +116,21 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsActive" Value="False">
-                            <Setter TargetName="MainBorder" Property="Background">
+                        <Trigger
+                            Property="IsActive"
+                            Value="False">
+                            <Setter
+                                TargetName="MainBorder"
+                                Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Opacity="0" />
+                                    <SolidColorBrush
+                                        Opacity="0" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="IsActive" Value="True">
+                        <Trigger
+                            Property="IsActive"
+                            Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -131,11 +170,17 @@
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="MainBorder" Property="Background">
+                            <Setter
+                                TargetName="MainBorder"
+                                Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Opacity="0.5" Color="{DynamicResource ControlFillColorDefault}" />
+                                    <SolidColorBrush
+                                        Opacity="0.5"
+                                        Color="{DynamicResource ControlFillColorDefault}" />
                                 </Setter.Value>
                             </Setter>
                         </MultiTrigger>
@@ -230,14 +275,33 @@
                                 </BeginStoryboard>
                             </MultiTrigger.ExitActions>
                         </MultiTrigger>-->
-                        <Trigger Property="Icon" Value="Empty">
-                            <Setter TargetName="ItemIcon" Property="Width" Value="0" />
-                            <Setter TargetName="ItemIcon" Property="Margin" Value="0" />
+                        <Trigger
+                            Property="Icon"
+                            Value="Empty">
+                            <Setter
+                                TargetName="ItemIcon"
+                                Property="Width"
+                                Value="0" />
+                            <Setter
+                                TargetName="ItemIcon"
+                                Property="Margin"
+                                Value="0" />
                         </Trigger>
-                        <Trigger Property="Image" Value="{x:Null}">
-                            <Setter TargetName="ItemImage" Property="Width" Value="0" />
-                            <Setter TargetName="ItemImage" Property="Margin" Value="0" />
-                            <Setter TargetName="ItemImage" Property="Visibility" Value="Collapsed" />
+                        <Trigger
+                            Property="Image"
+                            Value="{x:Null}">
+                            <Setter
+                                TargetName="ItemImage"
+                                Property="Width"
+                                Value="0" />
+                            <Setter
+                                TargetName="ItemImage"
+                                Property="Margin"
+                                Value="0" />
+                            <Setter
+                                TargetName="ItemImage"
+                                Property="Visibility"
+                                Value="Collapsed" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -245,22 +309,35 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type controls:NavigationFluent}">
+    <Style
+        TargetType="{x:Type controls:NavigationFluent}">
         <!--<Setter Property="ItemStyle" Value="{StaticResource UiFluentNavigationItemStyle}" />-->
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:NavigationFluent}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:NavigationFluent}">
                     <controls:DynamicScrollViewer
                         Margin="0"
                         Padding="0"
                         HorizontalScrollBarVisibility="Disabled">
-                        <Grid Width="250" HorizontalAlignment="Left">
+                        <Grid
+                            Width="250"
+                            HorizontalAlignment="Left">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition
+                                    Height="*" />
+                                <RowDefinition
+                                    Height="Auto" />
                             </Grid.RowDefinitions>
 
                             <ItemsControl
@@ -271,7 +348,9 @@
                                 ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Margin="0" IsItemsHost="True" />
+                                        <StackPanel
+                                            Margin="0"
+                                            IsItemsHost="True" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
@@ -283,7 +362,9 @@
                                 ScrollViewer.VerticalScrollBarVisibility="Disabled">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <StackPanel Margin="0" IsItemsHost="True" />
+                                        <StackPanel
+                                            Margin="0"
+                                            IsItemsHost="True" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
@@ -293,7 +374,9 @@
             </Setter.Value>
         </Setter>
         <Style.Resources>
-            <Style BasedOn="{StaticResource NavigationFluentItem}" TargetType="{x:Type controls:NavigationItem}" />
+            <Style
+                BasedOn="{StaticResource NavigationFluentItem}"
+                TargetType="{x:Type controls:NavigationItem}" />
         </Style.Resources>
     </Style>
 

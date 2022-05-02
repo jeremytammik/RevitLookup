@@ -43,16 +43,12 @@ public partial class SettingsView
         {
             case 0:
                 if (new WindowInteropHelper(Application.Current).Handle == IntPtr.Zero)
-                {
                     Application.Current.Loaded += (_, _) =>
                     {
                         Watcher.Watch(Application.Current, BackgroundType, true, true);
                     };
-                }
                 else
-                {
                     Watcher.Watch(Application.Current, BackgroundType, true, true);
-                }
                 break;
             case 1:
                 ThemeType = ThemeType.Dark;
@@ -64,10 +60,7 @@ public partial class SettingsView
                 break;
         }
 
-        if (ComboBoxBackground != null)
-        {
-            ApplyBackgroundEffect(ComboBoxBackground.SelectedIndex);
-        }
+        if (ComboBoxBackground != null) ApplyBackgroundEffect(ComboBoxBackground.SelectedIndex);
     }
 
     private void BackgroundSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -82,13 +75,9 @@ public partial class SettingsView
         Appearance.Background.Remove(windowHandle);
 
         if (ThemeType == ThemeType.Dark)
-        {
             Appearance.Background.ApplyDarkMode(windowHandle);
-        }
         else
-        {
             Appearance.Background.RemoveDarkMode(windowHandle);
-        }
 
         switch (index)
         {

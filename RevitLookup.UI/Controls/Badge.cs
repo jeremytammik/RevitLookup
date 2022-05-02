@@ -4,6 +4,7 @@
 // All Rights Reserved.
 
 using System.Windows;
+using System.Windows.Controls;
 using RevitLookup.UI.Controls.Interfaces;
 
 // https://docs.microsoft.com/en-us/fluent-ui/web-components/components/badge
@@ -11,12 +12,12 @@ using RevitLookup.UI.Controls.Interfaces;
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Used to highlight an item, attract attention or flag status.
+///     Used to highlight an item, attract attention or flag status.
 /// </summary>
-public class Badge : System.Windows.Controls.ContentControl, IAppearanceControl
+public class Badge : ContentControl, IAppearanceControl
 {
     /// <summary>
-    /// Property for <see cref="Appearance"/>.
+    ///     Property for <see cref="Appearance" />.
     /// </summary>
     public static readonly DependencyProperty AppearanceProperty = DependencyProperty.Register(nameof(Appearance),
         typeof(Common.Appearance), typeof(Badge),
@@ -25,7 +26,7 @@ public class Badge : System.Windows.Controls.ContentControl, IAppearanceControl
     /// <inheritdoc />
     public Common.Appearance Appearance
     {
-        get => (Common.Appearance)GetValue(AppearanceProperty);
+        get => (Common.Appearance) GetValue(AppearanceProperty);
         set => SetValue(AppearanceProperty, value);
     }
 }

@@ -8,7 +8,7 @@ using RevitLookup.UI.Controls.Interfaces;
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Event triggered on successful navigation.
+///     Event triggered on successful navigation.
 /// </summary>
 /// <param name="sender">Current navigation instance.</param>
 #if NET5_0_OR_GREATER

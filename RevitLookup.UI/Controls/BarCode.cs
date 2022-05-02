@@ -1,7 +1,9 @@
-﻿namespace RevitLookup.UI.Controls;
+﻿using System.Windows.Controls;
+
+namespace RevitLookup.UI.Controls;
 
 // TODO: Another for fun
 [Obsolete]
-internal class Barcode : System.Windows.Controls.Control
+internal class Barcode : Control
 {
 }

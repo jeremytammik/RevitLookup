@@ -6,7 +6,7 @@
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Modern navigation styled according to the principles of Fluent Design for Windows 11.
+///     Modern navigation styled according to the principles of Fluent Design for Windows 11.
 /// </summary>
 public class NavigationFluent : Navigation
 {

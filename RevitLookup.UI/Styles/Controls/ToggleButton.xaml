@@ -10,35 +10,61 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:RevitLookup.UI.Converters">
 
-    <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
+    <converters:BrushToColorConverter
+        x:Key="BrushToColorConverter" />
 
-    <Style TargetType="{x:Type ToggleButton}">
-        <Setter Property="Foreground">
+    <Style
+        TargetType="{x:Type ToggleButton}">
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Background">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource SystemAccentColorLight2}" />
+                <SolidColorBrush
+                    Color="{DynamicResource SystemAccentColorLight2}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush">
+        <Setter
+            Property="BorderBrush">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource SystemAccentColorLight2}" />
+                <SolidColorBrush
+                    Color="{DynamicResource SystemAccentColorLight2}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="30,6" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="FontWeight" Value="Medium" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="Padding"
+            Value="30,6" />
+        <Setter
+            Property="Cursor"
+            Value="Hand" />
+        <Setter
+            Property="FontSize"
+            Value="13" />
+        <Setter
+            Property="FontWeight"
+            Value="Medium" />
+        <Setter
+            Property="VerticalAlignment"
+            Value="Center" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="Center" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                <ControlTemplate
+                    TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="Border"
                         Padding="{TemplateBinding Padding}"
@@ -46,7 +72,9 @@
                         BorderThickness="1"
                         CornerRadius="4">
                         <Border.Background>
-                            <SolidColorBrush Opacity="0.0" Color="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
+                            <SolidColorBrush
+                                Opacity="0.0"
+                                Color="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
                         </Border.Background>
                         <ContentPresenter
                             x:Name="Presenter"
@@ -54,7 +82,9 @@
                             VerticalAlignment="Center" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
+                        <Trigger
+                            Property="IsChecked"
+                            Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -80,18 +110,30 @@
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource SystemAccentBrush}" />
+                        <Trigger
+                            Property="IsMouseOver"
+                            Value="True">
+                            <Setter
+                                TargetName="Border"
+                                Property="BorderBrush"
+                                Value="{DynamicResource SystemAccentBrush}" />
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background">
+                        <Trigger
+                            Property="IsEnabled"
+                            Value="False">
+                            <Setter
+                                Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource ControlFillColorDisabled}" />
+                                    <SolidColorBrush
+                                        Color="{DynamicResource ControlFillColorDisabled}" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="Presenter" Property="TextElement.Foreground">
+                            <Setter
+                                TargetName="Presenter"
+                                Property="TextElement.Foreground">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                    <SolidColorBrush
+                                        Color="{DynamicResource TextFillColorTertiary}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

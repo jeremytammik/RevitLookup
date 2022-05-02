@@ -4,32 +4,43 @@
 // All Rights Reserved.
 
 using System.Windows;
+using System.Windows.Controls;
+using RevitLookup.UI.Common;
+using RevitLookup.UI.Syntax;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Formats and display a fragment of the source code.
+///     Formats and display a fragment of the source code.
 /// </summary>
-public class CodeBlock : System.Windows.Controls.ContentControl
+public class CodeBlock : ContentControl
 {
-    private string _sourceCode = string.Empty;
-
     /// <summary>
-    /// Property for <see cref="SyntaxContent"/>.
+    ///     Property for <see cref="SyntaxContent" />.
     /// </summary>
     public static readonly DependencyProperty SyntaxContentProperty = DependencyProperty.Register(nameof(SyntaxContent),
         typeof(object), typeof(CodeBlock),
         new PropertyMetadata(null));
 
     /// <summary>
-    /// Property for <see cref="ButtonCommand"/>.
+    ///     Property for <see cref="ButtonCommand" />.
     /// </summary>
     public static readonly DependencyProperty ButtonCommandProperty =
         DependencyProperty.Register(nameof(NumberBox),
-            typeof(Common.IRelayCommand), typeof(CodeBlock), new PropertyMetadata(null));
+            typeof(IRelayCommand), typeof(CodeBlock), new PropertyMetadata(null));
+
+    private string _sourceCode = string.Empty;
 
     /// <summary>
-    /// Formatted <see cref="System.Windows.Controls.ContentControl.Content"/>.
+    ///     Creates new instance and assigns <see cref="ButtonCommand" /> default action.
+    /// </summary>
+    public CodeBlock()
+    {
+        SetValue(ButtonCommandProperty, new RelayCommand(o => Button_Click(this, o)));
+    }
+
+    /// <summary>
+    ///     Formatted <see cref="System.Windows.Controls.ContentControl.Content" />.
     /// </summary>
     public object SyntaxContent
     {
@@ -38,27 +49,19 @@ public class CodeBlock : System.Windows.Controls.ContentControl
     }
 
     /// <summary>
-    /// Command triggered after clicking the control button.
+    ///     Command triggered after clicking the control button.
     /// </summary>
-    public Common.IRelayCommand ButtonCommand => (Common.IRelayCommand)GetValue(ButtonCommandProperty);
+    public IRelayCommand ButtonCommand => (IRelayCommand) GetValue(ButtonCommandProperty);
 
     /// <summary>
-    /// Creates new instance and assigns <see cref="ButtonCommand"/> default action.
-    /// </summary>
-    public CodeBlock()
-    {
-        SetValue(ButtonCommandProperty, new Common.RelayCommand(o => Button_Click(this, o)));
-    }
-
-    /// <summary>
-    /// This method is invoked when the Content property changes.
+    ///     This method is invoked when the Content property changes.
     /// </summary>
     /// <param name="oldContent">The old value of the Content property.</param>
     /// <param name="newContent">The new value of the Content property.</param>
     protected override void OnContentChanged(object oldContent, object newContent)
     {
-        _sourceCode = Syntax.Highlighter.Clean(newContent as string ?? string.Empty);
-        SyntaxContent = Syntax.Highlighter.Format(_sourceCode);
+        _sourceCode = Highlighter.Clean(newContent as string ?? string.Empty);
+        SyntaxContent = Highlighter.Format(_sourceCode);
     }
 
     private void Button_Click(object sender, object parameter)

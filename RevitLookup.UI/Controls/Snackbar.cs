@@ -4,6 +4,7 @@
 // All Rights Reserved.
 
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Controls.Interfaces;
@@ -11,149 +12,162 @@ using RevitLookup.UI.Controls.Interfaces;
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Small card with buttons displayed at the bottom for a short time.
+///     Small card with buttons displayed at the bottom for a short time.
 /// </summary>
-public class Snackbar : System.Windows.Controls.ContentControl, IIconControl
+public class Snackbar : ContentControl, IIconControl
 {
-    private readonly EventIdentifier _identifier = new();
-
     /// <summary>
-    /// Property for <see cref="IsShown"/>.
+    ///     Property for <see cref="IsShown" />.
     /// </summary>
     public static readonly DependencyProperty IsShownProperty = DependencyProperty.Register(nameof(IsShown),
         typeof(bool), typeof(Snackbar), new PropertyMetadata(false));
 
     /// <summary>
-    /// Property for <see cref="Timeout"/>.
+    ///     Property for <see cref="Timeout" />.
     /// </summary>
     public static readonly DependencyProperty TimeoutProperty = DependencyProperty.Register(nameof(Timeout),
         typeof(int), typeof(Snackbar), new PropertyMetadata(2000));
 
     /// <summary>
-    /// Property for <see cref="Icon"/>.
+    ///     Property for <see cref="Icon" />.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
         typeof(SymbolRegular), typeof(Snackbar),
         new PropertyMetadata(SymbolRegular.Empty));
 
     /// <summary>
-    /// Property for <see cref="IconFilled"/>.
+    ///     Property for <see cref="IconFilled" />.
     /// </summary>
     public static readonly DependencyProperty IconFilledProperty = DependencyProperty.Register(nameof(IconFilled),
         typeof(bool), typeof(Snackbar), new PropertyMetadata(false));
 
     /// <summary>
-    /// Property for <see cref="Title"/>.
+    ///     Property for <see cref="Title" />.
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
         typeof(string), typeof(Snackbar), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    /// Property for <see cref="Message"/>.
+    ///     Property for <see cref="Message" />.
     /// </summary>
     public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(nameof(Message),
         typeof(string), typeof(Snackbar), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    /// Property for <see cref="ShowCloseButton"/>.
+    ///     Property for <see cref="ShowCloseButton" />.
     /// </summary>
     public static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.Register(nameof(ShowCloseButton),
         typeof(bool), typeof(Snackbar), new PropertyMetadata(true));
 
     // TODO: Remove
     /// <summary>
-    /// Property for <see cref="SlideTransform"/>.
+    ///     Property for <see cref="SlideTransform" />.
     /// </summary>
     public static readonly DependencyProperty SlideTransformProperty = DependencyProperty.Register(nameof(SlideTransform),
         typeof(TranslateTransform), typeof(Snackbar), new PropertyMetadata(new TranslateTransform()));
 
     /// <summary>
-    /// Property for <see cref="ButtonCloseCommand"/>.
+    ///     Property for <see cref="ButtonCloseCommand" />.
     /// </summary>
     public static readonly DependencyProperty ButtonCloseCommandProperty =
         DependencyProperty.Register(nameof(ButtonCloseCommand),
             typeof(IRelayCommand), typeof(Snackbar), new PropertyMetadata(null));
 
     /// <summary>
-    /// Gets or sets information whether the snackbar should be displayed.
+    ///     Event triggered when <see cref="Snackbar" /> opens.
+    /// </summary>
+    public static readonly RoutedEvent OpenedEvent = EventManager.RegisterRoutedEvent(nameof(Opened), RoutingStrategy.Bubble, typeof(RoutedSnackbarEvent), typeof(Snackbar));
+
+    /// <summary>
+    ///     Event triggered when <see cref="Snackbar" /> opens.
+    /// </summary>
+    public static readonly RoutedEvent ClosedEvent = EventManager.RegisterRoutedEvent(nameof(Closed), RoutingStrategy.Bubble, typeof(RoutedSnackbarEvent), typeof(Snackbar));
+
+    private readonly EventIdentifier _identifier = new();
+
+    /// <summary>
+    ///     Creates new instance and sets default <see cref="ButtonCloseCommand" />.
+    /// </summary>
+    public Snackbar()
+    {
+        SetValue(ButtonCloseCommandProperty, new RelayCommand(_ => HideComponentAsync(0).GetAwaiter()));
+    }
+
+    /// <summary>
+    ///     Gets or sets information whether the snackbar should be displayed.
     /// </summary>
     public bool IsShown
     {
-        get => (bool)GetValue(IsShownProperty);
+        get => (bool) GetValue(IsShownProperty);
         set => SetValue(IsShownProperty, value);
     }
 
     /// <summary>
-    /// Time for which the snackbar is to be displayed.
+    ///     Time for which the snackbar is to be displayed.
     /// </summary>
     public int Timeout
     {
-        get => (int)GetValue(TimeoutProperty);
+        get => (int) GetValue(TimeoutProperty);
         set => SetValue(TimeoutProperty, value);
     }
+
+    /// <summary>
+    ///     Gets or sets the text displayed on the top of the snackbar.
+    /// </summary>
+    public string Title
+    {
+        get => (string) GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the text displayed on the bottom of the snackbar.
+    /// </summary>
+    public string Message
+    {
+        get => (string) GetValue(MessageProperty);
+        set => SetValue(MessageProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether the <see cref="Snackbar" /> close button should be visible.
+    /// </summary>
+    public bool ShowCloseButton
+    {
+        get => (bool) GetValue(ShowCloseButtonProperty);
+        set => SetValue(ShowCloseButtonProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the transform.
+    /// </summary>
+    public TranslateTransform SlideTransform
+    {
+        get => (TranslateTransform) GetValue(SlideTransformProperty);
+        set => SetValue(SlideTransformProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets the <see cref="Common.RelayCommand" /> triggered after clicking close button.
+    /// </summary>
+    public IRelayCommand ButtonCloseCommand => (IRelayCommand) GetValue(ButtonCloseCommandProperty);
 
     /// <inheritdoc />
     public SymbolRegular Icon
     {
-        get => (SymbolRegular)GetValue(IconProperty);
+        get => (SymbolRegular) GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     /// <inheritdoc />
     public bool IconFilled
     {
-        get => (bool)GetValue(IconFilledProperty);
+        get => (bool) GetValue(IconFilledProperty);
         set => SetValue(IconFilledProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets the text displayed on the top of the snackbar.
-    /// </summary>
-    public string Title
-    {
-        get => (string)GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the text displayed on the bottom of the snackbar.
-    /// </summary>
-    public string Message
-    {
-        get => (string)GetValue(MessageProperty);
-        set => SetValue(MessageProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the <see cref="Snackbar"/> close button should be visible.
-    /// </summary>
-    public bool ShowCloseButton
-    {
-        get => (bool)GetValue(ShowCloseButtonProperty);
-        set => SetValue(ShowCloseButtonProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the transform.
-    /// </summary>
-    public TranslateTransform SlideTransform
-    {
-        get => (TranslateTransform)GetValue(SlideTransformProperty);
-        set => SetValue(SlideTransformProperty, value);
-    }
-
-    /// <summary>
-    /// Gets the <see cref="Common.RelayCommand"/> triggered after clicking close button.
-    /// </summary>
-    public IRelayCommand ButtonCloseCommand => (IRelayCommand)GetValue(ButtonCloseCommandProperty);
-
-    /// <summary>
-    /// Event triggered when <see cref="Snackbar"/> opens.
-    /// </summary>
-    public static readonly RoutedEvent OpenedEvent = EventManager.RegisterRoutedEvent(nameof(Opened), RoutingStrategy.Bubble, typeof(RoutedSnackbarEvent), typeof(Snackbar));
-
-    /// <summary>
-    /// Add / Remove <see cref="OpenedEvent"/> handler.
+    ///     Add / Remove <see cref="OpenedEvent" /> handler.
     /// </summary>
     public event RoutedSnackbarEvent Opened
     {
@@ -162,12 +176,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, IIconControl
     }
 
     /// <summary>
-    /// Event triggered when <see cref="Snackbar"/> opens.
-    /// </summary>
-    public static readonly RoutedEvent ClosedEvent = EventManager.RegisterRoutedEvent(nameof(Closed), RoutingStrategy.Bubble, typeof(RoutedSnackbarEvent), typeof(Snackbar));
-
-    /// <summary>
-    /// Add / Remove <see cref="ClosedEvent"/> handler.
+    ///     Add / Remove <see cref="ClosedEvent" /> handler.
     /// </summary>
     public event RoutedSnackbarEvent Closed
     {
@@ -176,52 +185,71 @@ public class Snackbar : System.Windows.Controls.ContentControl, IIconControl
     }
 
     /// <summary>
-    /// Creates new instance and sets default <see cref="ButtonCloseCommand"/>.
+    ///     Shows the <see cref="Snackbar" /> for the amount of time specified in <see cref="Timeout" />.
     /// </summary>
-    public Snackbar() => SetValue(ButtonCloseCommandProperty, new RelayCommand(_ => HideComponentAsync(0).GetAwaiter()));
+    public void Show()
+    {
+        ShowComponentAsync(string.Empty, string.Empty).GetAwaiter();
+    }
 
     /// <summary>
-    /// Shows the <see cref="Snackbar"/> for the amount of time specified in <see cref="Timeout"/>.
+    ///     Sets <see cref="Title" /> and <see cref="Message" />, then shows the <see cref="Snackbar" /> for the amount of time specified in <see cref="Timeout" />.
     /// </summary>
-    public void Show() => ShowComponentAsync(string.Empty, string.Empty).GetAwaiter();
+    public void Show(string title, string message)
+    {
+        ShowComponentAsync(title, message).GetAwaiter();
+    }
 
     /// <summary>
-    /// Sets <see cref="Title"/> and <see cref="Message"/>, then shows the <see cref="Snackbar"/> for the amount of time specified in <see cref="Timeout"/>.
+    ///     Asynchronously shows the <see cref="Snackbar" /> for the amount of time specified in <see cref="Timeout" />.
     /// </summary>
-    public void Show(string title, string message) => ShowComponentAsync(title, message).GetAwaiter();
+    public async Task<bool> ShowAsync()
+    {
+        return await ShowComponentAsync(string.Empty, string.Empty);
+    }
 
     /// <summary>
-    /// Asynchronously shows the <see cref="Snackbar"/> for the amount of time specified in <see cref="Timeout"/>.
+    ///     Asynchronously sets <see cref="Title" /> and <see cref="Message" />, then shows the <see cref="Snackbar" /> for the amount of time specified in <see cref="Timeout" />.
     /// </summary>
-    public async Task<bool> ShowAsync() => await ShowComponentAsync(string.Empty, string.Empty);
+    public async Task<bool> ShowAsync(string title, string message)
+    {
+        return await ShowComponentAsync(title, message);
+    }
 
     /// <summary>
-    /// Asynchronously sets <see cref="Title"/> and <see cref="Message"/>, then shows the <see cref="Snackbar"/> for the amount of time specified in <see cref="Timeout"/>.
+    ///     Hides <see cref="Snackbar" />.
     /// </summary>
-    public async Task<bool> ShowAsync(string title, string message) => await ShowComponentAsync(title, message);
+    public void Hide()
+    {
+        HideComponentAsync(0).GetAwaiter();
+    }
 
     /// <summary>
-    /// Hides <see cref="Snackbar"/>.
+    ///     Hides <see cref="Snackbar" /> after provided timeout.
     /// </summary>
-    public void Hide() => HideComponentAsync(0).GetAwaiter();
+    public void Hide(int timeout)
+    {
+        HideComponentAsync(timeout).GetAwaiter();
+    }
 
     /// <summary>
-    /// Hides <see cref="Snackbar"/> after provided timeout.
+    ///     Asynchronously hides <see cref="Snackbar" />.
     /// </summary>
-    public void Hide(int timeout) => HideComponentAsync(timeout).GetAwaiter();
+    public async Task<bool> HideAsync()
+    {
+        return await HideComponentAsync(0);
+    }
 
     /// <summary>
-    /// Asynchronously hides <see cref="Snackbar"/>.
+    ///     Asynchronously ides <see cref="Snackbar" /> after provided timeout.
     /// </summary>
-    public async Task<bool> HideAsync() => await HideComponentAsync(0);
+    public async Task<bool> HideAsync(int timeout)
+    {
+        return await HideComponentAsync(timeout);
+    }
 
     /// <summary>
-    /// Asynchronously ides <see cref="Snackbar"/> after provided timeout.
-    /// </summary>
-    public async Task<bool> HideAsync(int timeout) => await HideComponentAsync(timeout);
-
-    /// <summary>
-    /// This virtual method is called by <see cref="Show()"/> or <see cref="ShowAsync()"/> to reveal the <see cref="Snackbar"/>.
+    ///     This virtual method is called by <see cref="Show()" /> or <see cref="ShowAsync()" /> to reveal the <see cref="Snackbar" />.
     /// </summary>
     protected virtual async Task<bool> ShowComponentAsync(string title, string message)
     {
@@ -249,7 +277,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, IIconControl
     }
 
     /// <summary>
-    /// This virtual method is called by <see cref="Hide()"/> or <see cref="HideAsync()"/> to collapse the <see cref="Snackbar"/>.
+    ///     This virtual method is called by <see cref="Hide()" /> or <see cref="HideAsync()" /> to collapse the <see cref="Snackbar" />.
     /// </summary>
     protected virtual async Task<bool> HideComponentAsync(int timeout)
     {
@@ -277,7 +305,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, IIconControl
     }
 
     /// <summary>
-    /// This virtual method is called when <see cref="Snackbar"/> is opening and it raises the <see cref="Opened"/> <see langword="event"/>.
+    ///     This virtual method is called when <see cref="Snackbar" /> is opening and it raises the <see cref="Opened" /> <see langword="event" />.
     /// </summary>
     protected virtual void OnOpened()
     {
@@ -286,7 +314,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, IIconControl
     }
 
     /// <summary>
-    /// This virtual method is called when <see cref="Snackbar"/> is closing and it raises the <see cref="Closed"/> <see langword="event"/>.
+    ///     This virtual method is called when <see cref="Snackbar" /> is closing and it raises the <see cref="Closed" /> <see langword="event" />.
     /// </summary>
     protected virtual void OnClosed()
     {

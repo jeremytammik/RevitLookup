@@ -6,18 +6,18 @@
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Class used to create identifiers of threads or tasks that can be performed multiple times within one instance.
-/// <see cref="Current"/> represents roughly the time in Unix microseconds at which it was taken.
+///     Class used to create identifiers of threads or tasks that can be performed multiple times within one instance.
+///     <see cref="Current" /> represents roughly the time in Unix microseconds at which it was taken.
 /// </summary>
 internal class EventIdentifier
 {
     /// <summary>
-    /// Current identifier.
+    ///     Current identifier.
     /// </summary>
     public long Current { get; internal set; }
 
     /// <summary>
-    /// Creates and gets the next identifier.
+    ///     Creates and gets the next identifier.
     /// </summary>
     public long GetNext()
     {
@@ -27,12 +27,18 @@ internal class EventIdentifier
     }
 
     /// <summary>
-    /// Checks if the identifiers are the same.
+    ///     Checks if the identifiers are the same.
     /// </summary>
-    public bool IsEqual(long storedId) => Current == storedId;
+    public bool IsEqual(long storedId)
+    {
+        return Current == storedId;
+    }
 
     /// <summary>
-    /// Creates and assigns a random value with an extra time code if possible.
+    ///     Creates and assigns a random value with an extra time code if possible.
     /// </summary>
-    private void UpdateIdentifier() => Current = DateTime.Now.GetMicroTimestamp();
+    private void UpdateIdentifier()
+    {
+        Current = DateTime.Now.GetMicroTimestamp();
+    }
 }

@@ -3,17 +3,18 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Reflection;
 using System.Windows;
 
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Provides access to various DPI-related methods.
+///     Provides access to various DPI-related methods.
 /// </summary>
 internal static class Dpi
 {
     /// <summary>
-    /// Default DPI value.
+    ///     Default DPI value.
     /// </summary>
     private const double DefaultDpi = 96.0d;
 
@@ -30,22 +31,22 @@ internal static class Dpi
     // Reference: https://docs.microsoft.com/en-us/dotnet/standard/frameworks
 
     /// <summary>
-    /// Gets the horizontal DPI value from <see cref="SystemParameters"/>.
+    ///     Gets the horizontal DPI value from <see cref="SystemParameters" />.
     /// </summary>
-    /// <returns>The horizontal DPI value from <see cref="SystemParameters"/>. If the property cannot be accessed, the default value 96 is returned.</returns>
+    /// <returns>The horizontal DPI value from <see cref="SystemParameters" />. If the property cannot be accessed, the default value 96 is returned.</returns>
     public static int SystemDpiX()
     {
         var dpiProperty = typeof(SystemParameters).GetProperty("DpiX",
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+            BindingFlags.NonPublic | BindingFlags.Static);
 
         if (dpiProperty == null)
-            return (int)DefaultDpi;
+            return (int) DefaultDpi;
 
-        return (int)dpiProperty.GetValue(null, null)!;
+        return (int) dpiProperty.GetValue(null, null)!;
     }
 
     /// <summary>
-    /// Gets the horizontal DPI scale factor based on <see cref="SystemParameters"/>.
+    ///     Gets the horizontal DPI scale factor based on <see cref="SystemParameters" />.
     /// </summary>
     /// <returns>The horizontal DPI scale factor.</returns>
     public static double SystemDpiXScale()
@@ -54,22 +55,22 @@ internal static class Dpi
     }
 
     /// <summary>
-    /// Gets the vertical DPI value from <see cref="SystemParameters"/>.
+    ///     Gets the vertical DPI value from <see cref="SystemParameters" />.
     /// </summary>
-    /// <returns>The vertical DPI value from <see cref="SystemParameters"/>. If the property cannot be accessed, the default value 96 is returned.</returns>
+    /// <returns>The vertical DPI value from <see cref="SystemParameters" />. If the property cannot be accessed, the default value 96 is returned.</returns>
     public static int SystemDpiY()
     {
         var dpiProperty = typeof(SystemParameters).GetProperty("Dpi",
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+            BindingFlags.NonPublic | BindingFlags.Static);
 
         if (dpiProperty == null)
-            return (int)DefaultDpi;
+            return (int) DefaultDpi;
 
-        return (int)dpiProperty.GetValue(null, null)!;
+        return (int) dpiProperty.GetValue(null, null)!;
     }
 
     /// <summary>
-    /// Gets the vertical DPI scale factor based on <see cref="SystemParameters"/>.
+    ///     Gets the vertical DPI scale factor based on <see cref="SystemParameters" />.
     /// </summary>
     /// <returns>The vertical DPI scale factor.</returns>
     public static double SystemDpiYScale()

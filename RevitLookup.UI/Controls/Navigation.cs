@@ -15,12 +15,12 @@ namespace RevitLookup.UI.Controls;
 // TODO: It's still a disgusting mix. Requirements are: preview in the designer, and the ability to add items with XAML.
 
 /// <summary>
-/// Base class for creating new navigation controls.
+///     Base class for creating new navigation controls.
 /// </summary>
 public abstract class Navigation : Control, INavigation
 {
     /// <summary>
-    /// Property for <see cref="SelectedPageIndex"/>.
+    ///     Property for <see cref="SelectedPageIndex" />.
     /// </summary>
     public static readonly DependencyProperty SelectedPageIndexProperty = DependencyProperty.Register(
         nameof(SelectedPageIndex),
@@ -28,72 +28,34 @@ public abstract class Navigation : Control, INavigation
         new PropertyMetadata(0));
 
     /// <summary>
-    /// Property for <see cref="Frame"/>.
+    ///     Property for <see cref="Frame" />.
     /// </summary>
     public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame),
         typeof(ContentPresenter), typeof(Navigation),
         new PropertyMetadata(null));
 
     /// <summary>
-    /// Property for <see cref="Items"/>.
+    ///     Property for <see cref="Items" />.
     /// </summary>
     public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(nameof(Items),
         typeof(ObservableCollection<INavigationItem>), typeof(Navigation),
         new PropertyMetadata(default(ObservableCollection<INavigationItem>), Items_OnChanged));
 
     /// <summary>
-    /// Property for <see cref="Footer"/>.
+    ///     Property for <see cref="Footer" />.
     /// </summary>
     public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(nameof(Footer),
         typeof(ObservableCollection<INavigationItem>), typeof(Navigation),
         new PropertyMetadata(default(ObservableCollection<INavigationItem>), Footer_OnChanged));
 
-    /// <inheritdoc/>
-    public int SelectedPageIndex
-    {
-        get => (int) GetValue(SelectedPageIndexProperty);
-        set => SetValue(SelectedPageIndexProperty, value);
-    }
-
-    /// <inheritdoc/>
-    public ContentPresenter Frame
-    {
-        get => (ContentPresenter) GetValue(FrameProperty);
-        set => SetValue(FrameProperty, value);
-    }
-
-    /// <inheritdoc/>
-    public ObservableCollection<INavigationItem> Items
-    {
-        get => GetValue(ItemsProperty) as ObservableCollection<INavigationItem>;
-        set => SetValue(ItemsProperty, value);
-    }
-
-    /// <inheritdoc/>
-    public ObservableCollection<INavigationItem> Footer
-    {
-        get => GetValue(FooterProperty) as ObservableCollection<INavigationItem>;
-        set => SetValue(FooterProperty, value);
-    }
-
     /// <summary>
-    /// Event triggered when <see cref="Navigation"/> navigate to page.
+    ///     Event triggered when <see cref="Navigation" /> navigate to page.
     /// </summary>
     public static readonly RoutedEvent NavigatedEvent = EventManager.RegisterRoutedEvent(nameof(Navigated),
         RoutingStrategy.Bubble, typeof(RoutedNavigationEvent), typeof(Navigation));
 
-    /// <inheritdoc/>
-    public event RoutedNavigationEvent Navigated
-    {
-        add => AddHandler(NavigatedEvent, value);
-        remove => RemoveHandler(NavigatedEvent, value);
-    }
-
-    /// <inheritdoc/>
-    public INavigationItem Current { get; internal set; }
-
     /// <summary>
-    /// Creates new instance of <see cref="INavigation"/> and sets it's default <see cref="FrameworkElement.Loaded"/> event.
+    ///     Creates new instance of <see cref="INavigation" /> and sets it's default <see cref="FrameworkElement.Loaded" /> event.
     /// </summary>
     protected Navigation()
     {
@@ -102,9 +64,47 @@ public abstract class Navigation : Control, INavigation
         Loaded += LoadFirstPage;
     }
 
+    /// <inheritdoc />
+    public int SelectedPageIndex
+    {
+        get => (int) GetValue(SelectedPageIndexProperty);
+        set => SetValue(SelectedPageIndexProperty, value);
+    }
+
+    /// <inheritdoc />
+    public ContentPresenter Frame
+    {
+        get => (ContentPresenter) GetValue(FrameProperty);
+        set => SetValue(FrameProperty, value);
+    }
+
+    /// <inheritdoc />
+    public ObservableCollection<INavigationItem> Items
+    {
+        get => GetValue(ItemsProperty) as ObservableCollection<INavigationItem>;
+        set => SetValue(ItemsProperty, value);
+    }
+
+    /// <inheritdoc />
+    public ObservableCollection<INavigationItem> Footer
+    {
+        get => GetValue(FooterProperty) as ObservableCollection<INavigationItem>;
+        set => SetValue(FooterProperty, value);
+    }
+
+    /// <inheritdoc />
+    public event RoutedNavigationEvent Navigated
+    {
+        add => AddHandler(NavigatedEvent, value);
+        remove => RemoveHandler(NavigatedEvent, value);
+    }
+
+    /// <inheritdoc />
+    public INavigationItem Current { get; internal set; }
+
     private void LoadFirstPage(object sender, RoutedEventArgs e)
     {
-        if (SelectedPageIndex < 0 || Items.Count==0 && Footer.Count==0) return;
+        if (SelectedPageIndex < 0 || Items.Count == 0 && Footer.Count == 0) return;
 
         var indexShift = SelectedPageIndex;
 

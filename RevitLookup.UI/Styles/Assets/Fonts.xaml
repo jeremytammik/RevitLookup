@@ -5,13 +5,30 @@
     All Rights Reserved.
 -->
 
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <FontFamily x:Key="DFontFamily">Segoe Ui</FontFamily>
-    <FontFamily x:Key="SegoeFluentIcons">Segoe Fluent Icons</FontFamily>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <FontFamily
+        x:Key="DFontFamily">
+        Segoe Ui
+    </FontFamily>
+    <FontFamily
+        x:Key="SegoeFluentIcons">
+        Segoe Fluent Icons
+    </FontFamily>
     <!--  https://github.com/microsoft/fluentui-system-icons  -->
-    <FontFamily x:Key="FluentSystemIcons">pack://application:,,,/RevitLookup.UI;component/Fonts/#FluentSystemIcons-Regular</FontFamily>
+    <FontFamily
+        x:Key="FluentSystemIcons">
+        pack://application:,,,/RevitLookup.UI;component/Fonts/#FluentSystemIcons-Regular
+    </FontFamily>
     <!--  https://github.com/microsoft/fluentui-system-icons  -->
-    <FontFamily x:Key="FluentSystemIconsFilled">pack://application:,,,/RevitLookup.UI;component/Fonts/#FluentSystemIcons-Filled</FontFamily>
+    <FontFamily
+        x:Key="FluentSystemIconsFilled">
+        pack://application:,,,/RevitLookup.UI;component/Fonts/#FluentSystemIcons-Filled
+    </FontFamily>
     <!--  https://github.com/tonsky/FiraCode  -->
-    <FontFamily x:Key="FiraCode">pack://application:,,,/RevitLookup.UI;component/Fonts/#Fira Code</FontFamily>
+    <FontFamily
+        x:Key="FiraCode">
+        pack://application:,,,/RevitLookup.UI;component/Fonts/#Fira Code
+    </FontFamily>
 </ResourceDictionary>

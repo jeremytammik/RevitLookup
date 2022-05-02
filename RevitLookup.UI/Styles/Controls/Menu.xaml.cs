@@ -1,25 +1,26 @@
 ﻿using System.Reflection;
 using System.Windows;
 
-namespace RevitLookup.UI.Styles.Controls
+namespace RevitLookup.UI.Styles.Controls;
+
+/// <summary>
+///     Extension to the menu.
+/// </summary>
+partial class Menu : ResourceDictionary
 {
     /// <summary>
-    /// Extension to the menu.
+    ///     Sets menu alignment on initialization.
     /// </summary>
-    partial class Menu : ResourceDictionary
+    public Menu()
     {
-        /// <summary>
-        /// Sets menu alignment on initialization.
-        /// </summary>
-        public Menu() => Initialize();
+        Initialize();
+    }
 
-        private void Initialize()
-        {
-            if (!SystemParameters.MenuDropAlignment) return;
+    private void Initialize()
+    {
+        if (!SystemParameters.MenuDropAlignment) return;
 
-            var fi = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-            fi?.SetValue(null, false);
-        }
-
+        var fi = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+        fi?.SetValue(null, false);
     }
 }

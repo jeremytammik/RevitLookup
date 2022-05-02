@@ -6,28 +6,28 @@
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Facilitates the management of support for the functionality of the operating system.
+///     Facilitates the management of support for the functionality of the operating system.
 /// </summary>
 internal class Windows
 {
     /// <summary>
-    /// Indicates whether the operating system is of this version or higher.
+    ///     Indicates whether the operating system is of this version or higher.
     /// </summary>
     public static bool Is(WindowsRelease release)
     {
-        return Environment.OSVersion.Version.Build >= (int)release;
+        return Environment.OSVersion.Version.Build >= (int) release;
     }
 
     /// <summary>
-    /// Indicates whether the operating system is lower than the specified version.
+    ///     Indicates whether the operating system is lower than the specified version.
     /// </summary>
     public static bool IsBelow(WindowsRelease release)
     {
-        return Environment.OSVersion.Version.Build < (int)release;
+        return Environment.OSVersion.Version.Build < (int) release;
     }
 
     /// <summary>
-    /// Indicates whether the operating system is NT or newer.
+    ///     Indicates whether the operating system is NT or newer.
     /// </summary>
     public static bool IsNt()
     {

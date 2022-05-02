@@ -6,210 +6,178 @@
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Represents a list of Fluent System Icons <c>v.1.1.163</c>.
-/// <para>May be converted to <see langword="char"/> using <c>GetGlyph()</c> or to <see langword="string"/> using <c>GetString()</c></para>
+///     Represents a list of Fluent System Icons <c>v.1.1.163</c>.
+///     <para>May be converted to <see langword="char" /> using <c>GetGlyph()</c> or to <see langword="string" /> using <c>GetString()</c></para>
 /// </summary>
 #pragma warning disable CS1591
 public enum SymbolRegular
 {
     /// <summary>
-    /// Actually, this icon is not empty, but makes it easier to navigate.
+    ///     Actually, this icon is not empty, but makes it easier to navigate.
     /// </summary>
     Empty = 0x0,
 
     // Automatically generated, may contain bugs.
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    CheckboxCheckedSync20 = 0x0,
+    [Obsolete] CheckboxCheckedSync20 = 0x0,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    ChevronUpDown16 = 0x1,
+    [Obsolete] ChevronUpDown16 = 0x1,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    CircleSubtractArrowBack20 = 0x2,
+    [Obsolete] CircleSubtractArrowBack20 = 0x2,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    CircleSubtractArrowForward20 = 0x3,
+    [Obsolete] CircleSubtractArrowForward20 = 0x3,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    CursorClick20 = 0x4,
+    [Obsolete] CursorClick20 = 0x4,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    CursorClick24 = 0x5,
+    [Obsolete] CursorClick24 = 0x5,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    Directions16 = 0x6,
+    [Obsolete] Directions16 = 0x6,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    DividerTall20 = 0x7,
+    [Obsolete] DividerTall20 = 0x7,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    DocumentArrowUp20 = 0x8,
+    [Obsolete] DocumentArrowUp20 = 0x8,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    DocumentDismiss16 = 0x9,
+    [Obsolete] DocumentDismiss16 = 0x9,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    DocumentLink16 = 0xA,
+    [Obsolete] DocumentLink16 = 0xA,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    DocumentPerson20 = 0xB,
+    [Obsolete] DocumentPerson20 = 0xB,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    EditArrowBack20 = 0xC,
+    [Obsolete] EditArrowBack20 = 0xC,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    EmojiSad16 = 0xD,
+    [Obsolete] EmojiSad16 = 0xD,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    Extension16 = 0xE,
+    [Obsolete] Extension16 = 0xE,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    GlobeClock16 = 0xF,
+    [Obsolete] GlobeClock16 = 0xF,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    GlobeClock20 = 0x10,
+    [Obsolete] GlobeClock20 = 0x10,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    ImmersiveReader16 = 0x11,
+    [Obsolete] ImmersiveReader16 = 0x11,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    IosArrowRight24 = 0x12,
+    [Obsolete] IosArrowRight24 = 0x12,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    LinkDismiss16 = 0x13,
+    [Obsolete] LinkDismiss16 = 0x13,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    LockOpen16 = 0x14,
+    [Obsolete] LockOpen16 = 0x14,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    Luggage16 = 0x15,
+    [Obsolete] Luggage16 = 0x15,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    Luggage20 = 0x16,
+    [Obsolete] Luggage20 = 0x16,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailArrowDoubleBack20 = 0x17,
+    [Obsolete] MailArrowDoubleBack20 = 0x17,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailArrowDown20 = 0x18,
+    [Obsolete] MailArrowDown20 = 0x18,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailArrowForward20 = 0x19,
+    [Obsolete] MailArrowForward20 = 0x19,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailAttach20 = 0x1A,
+    [Obsolete] MailAttach20 = 0x1A,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailCheckmark20 = 0x1B,
+    [Obsolete] MailCheckmark20 = 0x1B,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailError16 = 0x1C,
+    [Obsolete] MailError16 = 0x1C,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailInboxArrowDown20 = 0x1D,
+    [Obsolete] MailInboxArrowDown20 = 0x1D,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailPause20 = 0x1E,
+    [Obsolete] MailPause20 = 0x1E,
 
     /// <summary>
-    /// Blank icon
+    ///     Blank icon
     /// </summary>
-    [Obsolete]
-    MailSettings20 = 0x1F,
+    [Obsolete] MailSettings20 = 0x1F,
 
     MailShield20 = 0x20,
     MultiselectRlt20 = 0x21,

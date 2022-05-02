@@ -11,42 +11,71 @@
     xmlns:converters="clr-namespace:RevitLookup.UI.Converters"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <converters:IconNotEmptyConverter x:Key="IconNotEmptyConverter" />
+    <converters:IconNotEmptyConverter
+        x:Key="IconNotEmptyConverter" />
 
-    <ContextMenu x:Key="UiTextBoxContextMenu">
-        <MenuItem Command="ApplicationCommands.Copy" />
-        <MenuItem Command="ApplicationCommands.Cut" />
-        <MenuItem Command="ApplicationCommands.Paste" />
+    <ContextMenu
+        x:Key="UiTextBoxContextMenu">
+        <MenuItem
+            Command="ApplicationCommands.Copy" />
+        <MenuItem
+            Command="ApplicationCommands.Cut" />
+        <MenuItem
+            Command="ApplicationCommands.Paste" />
     </ContextMenu>
 
     <!--  Animate bottom border brush  -->
 
-    <Style x:Key="UiTextBoxBase" TargetType="{x:Type TextBox}">
-        <Setter Property="Foreground">
+    <Style
+        x:Key="UiTextBoxBase"
+        TargetType="{x:Type TextBox}">
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="CaretBrush">
+        <Setter
+            Property="CaretBrush">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Background">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="ContextMenu" Value="{StaticResource UiTextBoxContextMenu}" />
-        <Setter Property="MinHeight" Value="34" />
-        <Setter Property="Padding" Value="6,4" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="ContextMenu"
+            Value="{StaticResource UiTextBoxContextMenu}" />
+        <Setter
+            Property="MinHeight"
+            Value="34" />
+        <Setter
+            Property="Padding"
+            Value="6,4" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
+                <ControlTemplate
+                    TargetType="{x:Type TextBox}">
                     <Border
                         x:Name="MainBorder"
                         Background="{TemplateBinding Background}"
@@ -59,7 +88,8 @@
                             BorderThickness="0,0,0,2"
                             CornerRadius="4">
                             <Border.BorderBrush>
-                                <SolidColorBrush Color="{DynamicResource ControlStrokeColorSecondary}" />
+                                <SolidColorBrush
+                                    Color="{DynamicResource ControlStrokeColorSecondary}" />
                             </Border.BorderBrush>
                             <ScrollViewer
                                 x:Name="PART_ContentHost"
@@ -69,10 +99,15 @@
                         </Border>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="BottomBorder" Property="BorderBrush">
+                        <Trigger
+                            Property="IsFocused"
+                            Value="True">
+                            <Setter
+                                TargetName="BottomBorder"
+                                Property="BorderBrush">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource SystemAccentColorLight2}" />
+                                    <SolidColorBrush
+                                        Color="{DynamicResource SystemAccentColorLight2}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
@@ -82,39 +117,67 @@
         </Setter>
     </Style>
 
-    <Style BasedOn="{StaticResource UiTextBoxBase}" TargetType="{x:Type TextBox}" />
+    <Style
+        BasedOn="{StaticResource UiTextBoxBase}"
+        TargetType="{x:Type TextBox}" />
 
-    <Style x:Key="UiTextBox" TargetType="{x:Type controls:TextBox}">
-        <Setter Property="Foreground">
+    <Style
+        x:Key="UiTextBox"
+        TargetType="{x:Type controls:TextBox}">
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="IconForeground">
+        <Setter
+            Property="IconForeground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorTertiary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="CaretBrush">
+        <Setter
+            Property="CaretBrush">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Background">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="ContextMenu" Value="{StaticResource UiTextBoxContextMenu}" />
-        <Setter Property="MinHeight" Value="34" />
-        <Setter Property="Padding" Value="6,4" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="ContextMenu"
+            Value="{StaticResource UiTextBoxContextMenu}" />
+        <Setter
+            Property="MinHeight"
+            Value="34" />
+        <Setter
+            Property="Padding"
+            Value="6,4" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:TextBox}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:TextBox}">
                     <Border
                         x:Name="MainBorder"
                         Background="{TemplateBinding Background}"
@@ -127,16 +190,21 @@
                             BorderThickness="0,0,0,2"
                             CornerRadius="4">
                             <Border.BorderBrush>
-                                <SolidColorBrush Color="{DynamicResource ControlStrokeColorSecondary}" />
+                                <SolidColorBrush
+                                    Color="{DynamicResource ControlStrokeColorSecondary}" />
                             </Border.BorderBrush>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Grid Grid.Column="0">
+                                <Grid
+                                    Grid.Column="0">
                                     <controls:SymbolIcon
                                         x:Name="IconLeft"
                                         Margin="6,0,2,0"
@@ -146,7 +214,8 @@
                                         Visibility="Collapsed" />
                                 </Grid>
 
-                                <Grid Grid.Column="1">
+                                <Grid
+                                    Grid.Column="1">
                                     <ScrollViewer
                                         x:Name="PART_ContentHost"
                                         Margin="0"
@@ -159,12 +228,14 @@
                                         VerticalAlignment="Center"
                                         Text="{TemplateBinding Placeholder}">
                                         <TextBlock.Foreground>
-                                            <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                            <SolidColorBrush
+                                                Color="{DynamicResource TextFillColorTertiary}" />
                                         </TextBlock.Foreground>
                                     </TextBlock>
                                 </Grid>
 
-                                <Grid Grid.Column="2">
+                                <Grid
+                                    Grid.Column="2">
                                     <controls:SymbolIcon
                                         x:Name="IconRight"
                                         Margin="2,0,6,0"
@@ -177,31 +248,55 @@
                         </Border>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="BottomBorder" Property="BorderBrush">
+                        <Trigger
+                            Property="IsFocused"
+                            Value="True">
+                            <Setter
+                                TargetName="BottomBorder"
+                                Property="BorderBrush">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource SystemAccentColorLight2}" />
+                                    <SolidColorBrush
+                                        Color="{DynamicResource SystemAccentColorLight2}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="PlaceholderVisible" Value="False">
-                            <Setter TargetName="Placeholder" Property="Visibility" Value="Collapsed" />
+                        <Trigger
+                            Property="PlaceholderVisible"
+                            Value="False">
+                            <Setter
+                                TargetName="Placeholder"
+                                Property="Visibility"
+                                Value="Collapsed" />
                         </Trigger>
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=Icon, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource IconNotEmptyConverter}}" Value="True" />
-                                <Condition Binding="{Binding Path=IconPosition, RelativeSource={RelativeSource Self}, Mode=OneWay}" Value="Left" />
+                                <Condition
+                                    Binding="{Binding Path=Icon, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource IconNotEmptyConverter}}"
+                                    Value="True" />
+                                <Condition
+                                    Binding="{Binding Path=IconPosition, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                    Value="Left" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="IconLeft" Property="Visibility" Value="Visible" />
+                            <Setter
+                                TargetName="IconLeft"
+                                Property="Visibility"
+                                Value="Visible" />
                         </MultiDataTrigger>
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=Icon, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource IconNotEmptyConverter}}" Value="True" />
-                                <Condition Binding="{Binding Path=IconPosition, RelativeSource={RelativeSource Self}, Mode=OneWay}" Value="Right" />
+                                <Condition
+                                    Binding="{Binding Path=Icon, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource IconNotEmptyConverter}}"
+                                    Value="True" />
+                                <Condition
+                                    Binding="{Binding Path=IconPosition, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                    Value="Right" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="IconRight" Property="Visibility" Value="Visible" />
+                            <Setter
+                                TargetName="IconRight"
+                                Property="Visibility"
+                                Value="Visible" />
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -209,6 +304,8 @@
         </Setter>
     </Style>
 
-    <Style BasedOn="{StaticResource UiTextBox}" TargetType="{x:Type controls:TextBox}" />
+    <Style
+        BasedOn="{StaticResource UiTextBox}"
+        TargetType="{x:Type controls:TextBox}" />
 
 </ResourceDictionary>

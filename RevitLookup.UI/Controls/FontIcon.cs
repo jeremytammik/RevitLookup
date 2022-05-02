@@ -4,16 +4,17 @@
 // All Rights Reserved.
 
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Represents a text element containing an icon glyph with selectable font family.
+///     Represents a text element containing an icon glyph with selectable font family.
 /// </summary>
-public class FontIcon : System.Windows.Controls.Label
+public class FontIcon : Label
 {
     /// <summary>
-    /// Property for <see cref="Glyph"/>.
+    ///     Property for <see cref="Glyph" />.
     /// </summary>
     public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(
         nameof(Glyph),
@@ -23,11 +24,11 @@ public class FontIcon : System.Windows.Controls.Label
     );
 
     /// <summary>
-    /// Gets or sets displayed <see cref="char"/>.
+    ///     Gets or sets displayed <see cref="char" />.
     /// </summary>
     public char Glyph
     {
-        get => (char)GetValue(GlyphProperty);
+        get => (char) GetValue(GlyphProperty);
         set => SetValue(GlyphProperty, value);
     }
 }

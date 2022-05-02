@@ -3,163 +3,189 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using RevitLookup.UI.Common;
 using RevitLookup.UI.Win32;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Custom navigation buttons for the window.
+///     Custom navigation buttons for the window.
 /// </summary>
 public class TitleBar : UserControl
 {
-    private Window _parent;
-
-    private User32.POINT _doubleClickPoint;
-
-    private Common.SnapLayout _snapLayout;
-
     /// <summary>
-    /// Property for <see cref="Title"/>.
+    ///     Property for <see cref="Title" />.
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
         typeof(string), typeof(TitleBar), new PropertyMetadata(null));
 
     /// <summary>
-    /// Property for <see cref="UseSnapLayout"/>.
+    ///     Property for <see cref="UseSnapLayout" />.
     /// </summary>
     public static readonly DependencyProperty UseSnapLayoutProperty = DependencyProperty.Register(
         nameof(UseSnapLayout),
         typeof(bool), typeof(TitleBar), new PropertyMetadata(false));
 
     /// <summary>
-    /// Property for <see cref="IsMaximized"/>.
+    ///     Property for <see cref="IsMaximized" />.
     /// </summary>
     public static readonly DependencyProperty IsMaximizedProperty = DependencyProperty.Register(nameof(IsMaximized),
         typeof(bool), typeof(TitleBar), new PropertyMetadata(false));
 
     /// <summary>
-    /// Property for <see cref="ShowMaximize"/>.
+    ///     Property for <see cref="ShowMaximize" />.
     /// </summary>
     public static readonly DependencyProperty ShowMaximizeProperty = DependencyProperty.Register(
         nameof(ShowMaximize),
         typeof(bool), typeof(TitleBar), new PropertyMetadata(true));
 
     /// <summary>
-    /// Property for <see cref="ShowMinimize"/>.
+    ///     Property for <see cref="ShowMinimize" />.
     /// </summary>
     public static readonly DependencyProperty ShowMinimizeProperty = DependencyProperty.Register(
         nameof(ShowMinimize),
         typeof(bool), typeof(TitleBar), new PropertyMetadata(true));
 
     /// <summary>
-    /// Property for <see cref="CanMaximize"/>
+    ///     Property for <see cref="CanMaximize" />
     /// </summary>
     public static readonly DependencyProperty CanMaximizeProperty = DependencyProperty.Register(
         nameof(CanMaximize),
         typeof(bool), typeof(TitleBar), new PropertyMetadata(true));
 
     /// <summary>
-    /// Property for <see cref="Icon"/>.
+    ///     Property for <see cref="Icon" />.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
         nameof(Icon),
         typeof(ImageSource), typeof(TitleBar), new PropertyMetadata(null));
 
     /// <summary>
-    /// Routed event for <see cref="CloseClicked"/>.
+    ///     Routed event for <see cref="CloseClicked" />.
     /// </summary>
     public static readonly RoutedEvent CloseClickedEvent = EventManager.RegisterRoutedEvent(
         nameof(CloseClicked), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TitleBar));
 
     /// <summary>
-    /// Routed event for <see cref="MaximizeClicked"/>.
+    ///     Routed event for <see cref="MaximizeClicked" />.
     /// </summary>
     public static readonly RoutedEvent MaximizeClickedEvent = EventManager.RegisterRoutedEvent(
         nameof(MaximizeClicked), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TitleBar));
 
     /// <summary>
-    /// Routed event for <see cref="MinimizeClicked"/>.
+    ///     Routed event for <see cref="MinimizeClicked" />.
     /// </summary>
     public static readonly RoutedEvent MinimizeClickedEvent = EventManager.RegisterRoutedEvent(
         nameof(MinimizeClicked), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TitleBar));
 
     /// <summary>
-    /// Property for <see cref="ButtonCommand"/>.
+    ///     Property for <see cref="ButtonCommand" />.
     /// </summary>
     public static readonly DependencyProperty ButtonCommandProperty =
         DependencyProperty.Register(nameof(ButtonCommand),
-            typeof(Common.IRelayCommand), typeof(TitleBar), new PropertyMetadata(null));
+            typeof(IRelayCommand), typeof(TitleBar), new PropertyMetadata(null));
+
+    private User32.POINT _doubleClickPoint;
+    private Window _parent;
+
+    private SnapLayout _snapLayout;
 
     /// <summary>
-    /// Gets or sets title displayed on the left.
+    ///     Creates a new instance of the class and sets the default <see cref="FrameworkElement.Loaded" /> event.
+    /// </summary>
+    public TitleBar()
+    {
+        SetValue(ButtonCommandProperty, new RelayCommand(o => TemplateButton_OnClick(this, o)));
+
+        Loaded += TitleBar_Loaded;
+    }
+
+    /// <summary>
+    ///     Gets or sets title displayed on the left.
     /// </summary>
     public string Title
     {
-        get => (string)GetValue(TitleProperty);
+        get => (string) GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets information whether the use Windows 11 Snap Layout.
+    ///     Gets or sets information whether the use Windows 11 Snap Layout.
     /// </summary>
     public bool UseSnapLayout
     {
-        get => (bool)GetValue(UseSnapLayoutProperty);
+        get => (bool) GetValue(UseSnapLayoutProperty);
         set => SetValue(UseSnapLayoutProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets information whether the current window is maximized.
+    ///     Gets or sets information whether the current window is maximized.
     /// </summary>
     public bool IsMaximized
     {
-        get => (bool)GetValue(IsMaximizedProperty);
+        get => (bool) GetValue(IsMaximizedProperty);
         internal set => SetValue(IsMaximizedProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets information whether to show maximize button.
+    ///     Gets or sets information whether to show maximize button.
     /// </summary>
     public bool ShowMaximize
     {
-        get => (bool)GetValue(ShowMaximizeProperty);
+        get => (bool) GetValue(ShowMaximizeProperty);
         set => SetValue(ShowMaximizeProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets information whether to show minimize button.
+    ///     Gets or sets information whether to show minimize button.
     /// </summary>
     public bool ShowMinimize
     {
-        get => (bool)GetValue(ShowMinimizeProperty);
+        get => (bool) GetValue(ShowMinimizeProperty);
         set => SetValue(ShowMinimizeProperty, value);
     }
 
     /// <summary>
-    /// Enables or disables the maximize functionality if disables the MaximizeActionOverride action won't be called
+    ///     Enables or disables the maximize functionality if disables the MaximizeActionOverride action won't be called
     /// </summary>
     public bool CanMaximize
     {
-        get => (bool)GetValue(CanMaximizeProperty);
+        get => (bool) GetValue(CanMaximizeProperty);
         set => SetValue(CanMaximizeProperty, value);
     }
 
     /// <summary>
-    /// Titlebar icon.
+    ///     Titlebar icon.
     /// </summary>
     public ImageSource Icon
     {
-        get => (ImageSource)GetValue(IconProperty);
+        get => (ImageSource) GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     /// <summary>
-    /// Event triggered after clicking close button.
+    ///     Command triggered after clicking the titlebar button.
+    /// </summary>
+    public IRelayCommand ButtonCommand => (IRelayCommand) GetValue(ButtonCommandProperty);
+
+    /// <summary>
+    ///     Lets you override the behavior of the Maximize/Restore button with an <see cref="Action" />.
+    /// </summary>
+    public Action<TitleBar, Window> MaximizeActionOverride { get; set; } = null;
+
+    /// <summary>
+    ///     Lets you override the behavior of the Minimize button with an <see cref="Action" />.
+    /// </summary>
+    public Action<TitleBar, Window> MinimizeActionOverride { get; set; } = null;
+
+    private Window ParentWindow => _parent ??= Window.GetWindow(this);
+
+    /// <summary>
+    ///     Event triggered after clicking close button.
     /// </summary>
     public event RoutedEventHandler CloseClicked
     {
@@ -168,7 +194,7 @@ public class TitleBar : UserControl
     }
 
     /// <summary>
-    /// Event triggered after clicking maximize or restore button.
+    ///     Event triggered after clicking maximize or restore button.
     /// </summary>
     public event RoutedEventHandler MaximizeClicked
     {
@@ -177,39 +203,12 @@ public class TitleBar : UserControl
     }
 
     /// <summary>
-    /// Event triggered after clicking minimize button.
+    ///     Event triggered after clicking minimize button.
     /// </summary>
     public event RoutedEventHandler MinimizeClicked
     {
         add => AddHandler(MinimizeClickedEvent, value);
         remove => RemoveHandler(MinimizeClickedEvent, value);
-    }
-
-    /// <summary>
-    /// Command triggered after clicking the titlebar button.
-    /// </summary>
-    public Common.IRelayCommand ButtonCommand => (Common.IRelayCommand)GetValue(ButtonCommandProperty);
-
-    /// <summary>
-    /// Lets you override the behavior of the Maximize/Restore button with an <see cref="Action"/>.
-    /// </summary>
-    public Action<TitleBar, Window> MaximizeActionOverride { get; set; } = null;
-
-    /// <summary>
-    /// Lets you override the behavior of the Minimize button with an <see cref="Action"/>.
-    /// </summary>
-    public Action<TitleBar, Window> MinimizeActionOverride { get; set; } = null;
-
-    private Window ParentWindow => _parent ??= Window.GetWindow(this);
-
-    /// <summary>
-    /// Creates a new instance of the class and sets the default <see cref="FrameworkElement.Loaded"/> event.
-    /// </summary>
-    public TitleBar()
-    {
-        SetValue(ButtonCommandProperty, new Common.RelayCommand(o => TemplateButton_OnClick(this, o)));
-
-        Loaded += TitleBar_Loaded;
     }
 
     private void CloseWindow()
@@ -252,10 +251,10 @@ public class TitleBar : UserControl
 
     private void InitializeSnapLayout(Button maximizeButton)
     {
-        if (!Common.SnapLayout.IsSupported())
+        if (!SnapLayout.IsSupported())
             return;
 
-        _snapLayout = new Common.SnapLayout();
+        _snapLayout = new SnapLayout();
         _snapLayout.Register(maximizeButton);
     }
 
@@ -263,12 +262,12 @@ public class TitleBar : UserControl
     {
         // It may look ugly, but at the moment it works surprisingly well
 
-        var maximizeButton = (Button)Template.FindName("ButtonMaximize", this);
+        var maximizeButton = (Button) Template.FindName("ButtonMaximize", this);
 
         if (maximizeButton != null && UseSnapLayout)
             InitializeSnapLayout(maximizeButton);
 
-        var rootGrid = (Grid)Template.FindName("RootGrid", this);
+        var rootGrid = (Grid) Template.FindName("RootGrid", this);
 
         if (rootGrid != null)
         {
@@ -294,8 +293,8 @@ public class TitleBar : UserControl
         if (IsMaximized)
         {
             var screenPoint = PointToScreen(e.MouseDevice.GetPosition(this));
-            screenPoint.X /= Common.Dpi.SystemDpiXScale();
-            screenPoint.Y /= Common.Dpi.SystemDpiYScale();
+            screenPoint.X /= Dpi.SystemDpiXScale();
+            screenPoint.Y /= Dpi.SystemDpiYScale();
 
             // TODO: refine the Left value to be more accurate
             // - This calculation is good enough using the center
@@ -303,7 +302,7 @@ public class TitleBar : UserControl
             //   how the OS operates.
             // - It should be set as a % (e.g. screen X / maximized width),
             //   then offset from the left to line up more naturally.
-            ParentWindow.Left = screenPoint.X - (ParentWindow.RestoreBounds.Width * 0.5);
+            ParentWindow.Left = screenPoint.X - ParentWindow.RestoreBounds.Width * 0.5;
             ParentWindow.Top = screenPoint.Y;
 
             // style has to be quickly swapped to avoid restore animation delay
@@ -317,7 +316,6 @@ public class TitleBar : UserControl
         // if()
         if (e.LeftButton == MouseButtonState.Pressed)
             ParentWindow.DragMove();
-
     }
 
     private void ParentWindow_StateChanged(object sender, EventArgs e)

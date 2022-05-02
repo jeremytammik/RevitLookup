@@ -6,34 +6,33 @@
 namespace RevitLookup.UI.Taskbar;
 
 /// <summary>
-/// Specifies the state of the progress indicator in the Windows taskbar.
-/// <see href="https://docs.microsoft.com/en-us/dotnet/api/system.windows.shell.taskbaritemprogressstate?view=windowsdesktop-5.0"/>
+///     Specifies the state of the progress indicator in the Windows taskbar.
+///     <see href="https://docs.microsoft.com/en-us/dotnet/api/system.windows.shell.taskbaritemprogressstate?view=windowsdesktop-5.0" />
 /// </summary>
 public enum ProgressState
 {
     /// <summary>
-    /// No progress indicator is displayed in the taskbar button.
+    ///     No progress indicator is displayed in the taskbar button.
     /// </summary>
     None = 0x0,
 
     /// <summary>
-    /// A pulsing green indicator is displayed in the taskbar button.
+    ///     A pulsing green indicator is displayed in the taskbar button.
     /// </summary>
     Indeterminate = 0x1,
 
     /// <summary>
-    /// A green progress indicator is displayed in the taskbar button.
+    ///     A green progress indicator is displayed in the taskbar button.
     /// </summary>
     Normal = 0x2,
 
     /// <summary>
-    /// A red progress indicator is displayed in the taskbar button.
+    ///     A red progress indicator is displayed in the taskbar button.
     /// </summary>
     Error = 0x4,
 
     /// <summary>
-    /// A yellow progress indicator is displayed in the taskbar button.
+    ///     A yellow progress indicator is displayed in the taskbar button.
     /// </summary>
     Paused = 0x8
 }
-

@@ -4,57 +4,59 @@
 // All Rights Reserved.
 
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using RevitLookup.UI.Common;
 using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Inherited from the <see cref="System.Windows.Controls.Primitives.ButtonBase"/> interactive card styled according to Fluent Design.
+///     Inherited from the <see cref="System.Windows.Controls.Primitives.ButtonBase" /> interactive card styled according to Fluent Design.
 /// </summary>
 //#if NETFRAMEWORK
 //    [ToolboxBitmap(typeof(Button))]
 //#endif
-public class CardAction : System.Windows.Controls.Primitives.ButtonBase, IIconControl
+public class CardAction : ButtonBase, IIconControl
 {
     /// <summary>
-    /// Property for <see cref="ShowChevron"/>.
+    ///     Property for <see cref="ShowChevron" />.
     /// </summary>
     public static readonly DependencyProperty ShowChevronProperty = DependencyProperty.Register(nameof(ShowChevron),
         typeof(bool), typeof(CardAction), new PropertyMetadata(true));
 
     /// <summary>
-    /// Property for <see cref="Icon"/>.
+    ///     Property for <see cref="Icon" />.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
-        typeof(Common.SymbolRegular), typeof(CardAction),
-        new PropertyMetadata(Common.SymbolRegular.Empty));
+        typeof(SymbolRegular), typeof(CardAction),
+        new PropertyMetadata(SymbolRegular.Empty));
 
     /// <summary>
-    /// Property for <see cref="IconFilled"/>.
+    ///     Property for <see cref="IconFilled" />.
     /// </summary>
     public static readonly DependencyProperty IconFilledProperty = DependencyProperty.Register(nameof(IconFilled),
         typeof(bool), typeof(CardAction), new PropertyMetadata(false));
 
     /// <summary>
-    /// Gets or sets information whether to display the chevron icon on the right side of the card.
+    ///     Gets or sets information whether to display the chevron icon on the right side of the card.
     /// </summary>
     public bool ShowChevron
     {
-        get => (bool)GetValue(ShowChevronProperty);
+        get => (bool) GetValue(ShowChevronProperty);
         set => SetValue(ShowChevronProperty, value);
     }
 
     /// <inheritdoc />
-    public Common.SymbolRegular Icon
+    public SymbolRegular Icon
     {
-        get => (Common.SymbolRegular)GetValue(IconProperty);
+        get => (SymbolRegular) GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     /// <inheritdoc />
     public bool IconFilled
     {
-        get => (bool)GetValue(IconFilledProperty);
+        get => (bool) GetValue(IconFilledProperty);
         set => SetValue(IconFilledProperty, value);
     }
 }

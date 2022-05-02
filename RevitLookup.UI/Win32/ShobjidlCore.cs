@@ -4,7 +4,7 @@ using RevitLookup.UI.Taskbar;
 namespace RevitLookup.UI.Win32;
 
 /// <summary>
-/// This header is used by multiple technologies.
+///     This header is used by multiple technologies.
 /// </summary>
 internal class ShobjidlCore
 {
@@ -23,12 +23,16 @@ internal class ShobjidlCore
         // ITaskbarList
         [PreserveSig]
         void HrInit();
+
         [PreserveSig]
         void AddTab(IntPtr hwnd);
+
         [PreserveSig]
         void DeleteTab(IntPtr hwnd);
+
         [PreserveSig]
         void ActivateTab(IntPtr hwnd);
+
         [PreserveSig]
         void SetActiveAlt(IntPtr hwnd);
 
@@ -41,37 +45,48 @@ internal class ShobjidlCore
         // ITaskbarList3
         [PreserveSig]
         void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+
         [PreserveSig]
         void SetProgressState(IntPtr hwnd, ProgressState tbpFlags);
+
         [PreserveSig]
         void RegisterTab(IntPtr hwndTab, IntPtr hwndMDI);
+
         [PreserveSig]
         void UnregisterTab(IntPtr hwndTab);
+
         [PreserveSig]
         void SetTabOrder(IntPtr hwndTab, IntPtr hwndInsertBefore);
+
         [PreserveSig]
         void SetTabActive(IntPtr hwndTab, IntPtr hwndInsertBefore, uint dwReserved);
+
         [PreserveSig]
         WinError.HResult ThumbBarAddButtons(
             IntPtr hwnd,
             uint cButtons,
             [MarshalAs(UnmanagedType.LPArray)] Shell32.THUMBBUTTON[] pButtons);
+
         [PreserveSig]
         WinError.HResult ThumbBarUpdateButtons(
             IntPtr hwnd,
             uint cButtons,
             [MarshalAs(UnmanagedType.LPArray)] Shell32.THUMBBUTTON[] pButtons);
+
         [PreserveSig]
         void ThumbBarSetImageList(IntPtr hwnd, IntPtr himl);
+
         [PreserveSig]
         void SetOverlayIcon(
-          IntPtr hwnd,
-          IntPtr hIcon,
-          [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+            IntPtr hwnd,
+            IntPtr hIcon,
+            [MarshalAs(UnmanagedType.LPWStr)] string pszDescription);
+
         [PreserveSig]
         void SetThumbnailTooltip(
             IntPtr hwnd,
             [MarshalAs(UnmanagedType.LPWStr)] string pszTip);
+
         [PreserveSig]
         void SetThumbnailClip(
             IntPtr hwnd,

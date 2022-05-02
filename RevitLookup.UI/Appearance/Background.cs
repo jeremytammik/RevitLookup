@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -13,15 +14,15 @@ using RevitLookup.UI.Win32;
 namespace RevitLookup.UI.Appearance;
 
 /// <summary>
-/// Lets you apply background effects to <see cref="Window"/> or <c>hWnd</c> by its <see cref="IntPtr"/>.
+///     Lets you apply background effects to <see cref="Window" /> or <c>hWnd</c> by its <see cref="IntPtr" />.
 /// </summary>
 public static class Background
 {
     /// <summary>
-    /// Checks if the current <see cref="Windows"/> supports selected <see cref="BackgroundType"/>.
+    ///     Checks if the current <see cref="Windows" /> supports selected <see cref="BackgroundType" />.
     /// </summary>
     /// <param name="type">Background type to check.</param>
-    /// <returns><see langword="true"/> if <see cref="BackgroundType"/> is supported.</returns>
+    /// <returns><see langword="true" /> if <see cref="BackgroundType" /> is supported.</returns>
     public static bool IsSupported(BackgroundType type)
     {
         if (!Windows.IsNt()) return false;
@@ -30,18 +31,15 @@ public static class Background
         {
             BackgroundType.Auto => Windows.Is(WindowsRelease.Windows11Insider1) // Insider with new API
             ,
-            BackgroundType.Tabbed => Windows.Is(WindowsRelease.Windows11Insider1)
-            ,
-            BackgroundType.Mica => Windows.Is(WindowsRelease.Windows11)
-            ,
-            BackgroundType.Acrylic => Windows.Is(WindowsRelease.Windows7Sp1)
-            ,
+            BackgroundType.Tabbed => Windows.Is(WindowsRelease.Windows11Insider1),
+            BackgroundType.Mica => Windows.Is(WindowsRelease.Windows11),
+            BackgroundType.Acrylic => Windows.Is(WindowsRelease.Windows7Sp1),
             _ => false
         };
     }
 
     /// <summary>
-    /// Applies selected background effect to <see cref="Window"/> when is rendered.
+    ///     Applies selected background effect to <see cref="Window" /> when is rendered.
     /// </summary>
     /// <param name="window">Window to apply effect.</param>
     /// <param name="type">Background type.</param>
@@ -70,7 +68,7 @@ public static class Background
     }
 
     /// <summary>
-    /// Applies selected background effect to <c>hWnd</c> by it's pointer.
+    ///     Applies selected background effect to <c>hWnd</c> by it's pointer.
     /// </summary>
     /// <param name="handle">Pointer to the window handle.</param>
     /// <param name="type">Background type.</param>
@@ -100,7 +98,7 @@ public static class Background
     }
 
     /// <summary>
-    /// Tries to remove background effects if they have been applied to the <see cref="Window"/>.
+    ///     Tries to remove background effects if they have been applied to the <see cref="Window" />.
     /// </summary>
     /// <param name="window">The window from which the effect should be removed.</param>
     public static void Remove(Window window)
@@ -114,7 +112,7 @@ public static class Background
     }
 
     /// <summary>
-    /// Tries to remove all effects if they have been applied to the <c>hWnd</c>.
+    ///     Tries to remove all effects if they have been applied to the <c>hWnd</c>.
     /// </summary>
     /// <param name="handle">Pointer to the window handle.</param>
     public static void Remove(IntPtr handle)
@@ -122,8 +120,8 @@ public static class Background
         if (handle == IntPtr.Zero)
             return;
 
-        var pvAttribute = (int)Dwmapi.PvAttribute.Disable;
-        var backdropPvAttribute = (int)Dwmapi.DWMSBT.DWMSBT_DISABLE;
+        var pvAttribute = (int) Dwmapi.PvAttribute.Disable;
+        var backdropPvAttribute = (int) Dwmapi.DWMSBT.DWMSBT_DISABLE;
 
         RemoveDarkMode(handle);
 
@@ -145,7 +143,7 @@ public static class Background
     }
 
     /// <summary>
-    /// Tries to inform the operating system that this window uses dark mode.
+    ///     Tries to inform the operating system that this window uses dark mode.
     /// </summary>
     /// <param name="window">Window to apply effect.</param>
     public static void ApplyDarkMode(Window window)
@@ -159,7 +157,7 @@ public static class Background
     }
 
     /// <summary>
-    /// Tries to inform the operating system that this <c>hWnd</c> uses dark mode.
+    ///     Tries to inform the operating system that this <c>hWnd</c> uses dark mode.
     /// </summary>
     /// <param name="handle">Pointer to the window handle.</param>
     public static void ApplyDarkMode(IntPtr handle)
@@ -167,7 +165,7 @@ public static class Background
         if (handle == IntPtr.Zero)
             return;
 
-        var pvAttribute = (int)Dwmapi.PvAttribute.Enable;
+        var pvAttribute = (int) Dwmapi.PvAttribute.Enable;
         var dwAttribute = Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE;
 
         if (Windows.IsBelow(WindowsRelease.Windows10Insider1))
@@ -179,7 +177,7 @@ public static class Background
     }
 
     /// <summary>
-    /// Tries to clear the dark theme usage information.
+    ///     Tries to clear the dark theme usage information.
     /// </summary>
     /// <param name="window">Window to remove effect.</param>
     public static void RemoveDarkMode(Window window)
@@ -193,7 +191,7 @@ public static class Background
     }
 
     /// <summary>
-    /// Tries to clear the dark theme usage information.
+    ///     Tries to clear the dark theme usage information.
     /// </summary>
     /// <param name="handle">Pointer to the window handle.</param>
     public static void RemoveDarkMode(IntPtr handle)
@@ -201,7 +199,7 @@ public static class Background
         if (handle == IntPtr.Zero)
             return;
 
-        var pvAttribute = (int)Dwmapi.PvAttribute.Disable;
+        var pvAttribute = (int) Dwmapi.PvAttribute.Disable;
         var dwAttribute = Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE;
 
         if (Windows.IsBelow(WindowsRelease.Windows10Insider1))
@@ -213,10 +211,10 @@ public static class Background
     }
 
     /// <summary>
-    /// Tries to remove default TitleBar from <c>hWnd</c>.
+    ///     Tries to remove default TitleBar from <c>hWnd</c>.
     /// </summary>
     /// <param name="handle">Pointer to the window handle.</param>
-    /// <returns><see langowrd="false"/> is problem occurs.</returns>
+    /// <returns><see langowrd="false" /> is problem occurs.</returns>
     private static bool RemoveTitleBar(IntPtr handle)
     {
         // Hide default TitleBar
@@ -239,14 +237,14 @@ public static class Background
     private static bool TryApplyAuto(IntPtr handle)
     {
 #if DEBUG
-        System.Diagnostics.Debug.WriteLine(
+        Debug.WriteLine(
             $"INFO | {typeof(Background)} tries to apply {BackgroundType.Auto} effect to: {handle}",
             "RevitLookup.UI.Background");
 #endif
         if (!RemoveTitleBar(handle))
             return false;
 
-        var backdropPvAttribute = (int)Dwmapi.DWMSBT.DWMSBT_AUTO;
+        var backdropPvAttribute = (int) Dwmapi.DWMSBT.DWMSBT_AUTO;
 
         Dwmapi.DwmSetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
             ref backdropPvAttribute, Marshal.SizeOf(typeof(int)));
@@ -260,14 +258,14 @@ public static class Background
     private static bool TryApplyTabbed(IntPtr handle)
     {
 #if DEBUG
-        System.Diagnostics.Debug.WriteLine(
+        Debug.WriteLine(
             $"INFO | {typeof(Background)} tries to apply {BackgroundType.Tabbed} effect to: {handle}",
             "RevitLookup.UI.Background");
 #endif
         if (!RemoveTitleBar(handle))
             return false;
 
-        var backdropPvAttribute = (int)Dwmapi.DWMSBT.DWMSBT_TABBEDWINDOW;
+        var backdropPvAttribute = (int) Dwmapi.DWMSBT.DWMSBT_TABBEDWINDOW;
 
         Dwmapi.DwmSetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
             ref backdropPvAttribute,
@@ -282,7 +280,7 @@ public static class Background
     private static bool TryApplyMica(IntPtr handle)
     {
 #if DEBUG
-        System.Diagnostics.Debug.WriteLine(
+        Debug.WriteLine(
             $"INFO | {typeof(Background)} tries to apply {BackgroundType.Mica} effect to: {handle}",
             "RevitLookup.UI.Background");
 #endif
@@ -293,7 +291,7 @@ public static class Background
             if (!RemoveTitleBar(handle))
                 return false;
 
-            backdropPvAttribute = (int)Dwmapi.DWMSBT.DWMSBT_MAINWINDOW;
+            backdropPvAttribute = (int) Dwmapi.DWMSBT.DWMSBT_MAINWINDOW;
 
             Dwmapi.DwmSetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
                 ref backdropPvAttribute,
@@ -308,7 +306,7 @@ public static class Background
         if (!RemoveTitleBar(handle))
             return false;
 
-        backdropPvAttribute = (int)Dwmapi.PvAttribute.Enable;
+        backdropPvAttribute = (int) Dwmapi.PvAttribute.Enable;
 
         Dwmapi.DwmSetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_MICA_EFFECT,
             ref backdropPvAttribute,
@@ -323,7 +321,7 @@ public static class Background
     private static bool TryApplyAcrylic(IntPtr handle)
     {
 #if DEBUG
-        System.Diagnostics.Debug.WriteLine(
+        Debug.WriteLine(
             $"INFO | {typeof(Background)} tries to apply {BackgroundType.Acrylic} effect to: {handle}",
             "RevitLookup.UI.Background");
 #endif
@@ -332,7 +330,7 @@ public static class Background
             if (!RemoveTitleBar(handle))
                 return false;
 
-            var backdropPvAttribute = (int)Dwmapi.DWMSBT.DWMSBT_TRANSIENTWINDOW;
+            var backdropPvAttribute = (int) Dwmapi.DWMSBT.DWMSBT_TRANSIENTWINDOW;
 
             Dwmapi.DwmSetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
                 ref backdropPvAttribute,

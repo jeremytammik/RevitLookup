@@ -10,16 +10,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style TargetType="{x:Type controls:Hyperlink}">
-        <Setter Property="Padding" Value="0,0,0,0" />
-        <Setter Property="Foreground" Value="{DynamicResource SystemAccentBrush}" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        TargetType="{x:Type controls:Hyperlink}">
+        <Setter
+            Property="Padding"
+            Value="0,0,0,0" />
+        <Setter
+            Property="Foreground"
+            Value="{DynamicResource SystemAccentBrush}" />
+        <Setter
+            Property="HorizontalAlignment"
+            Value="Left" />
+        <Setter
+            Property="Cursor"
+            Value="Hand" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:Hyperlink}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:Hyperlink}">
                     <Border
                         x:Name="HyperlinkBorder"
                         Padding="{TemplateBinding Padding}"
@@ -48,16 +63,29 @@
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="HyperlinkBorder" Property="Background">
+                        <Trigger
+                            Property="IsMouseOver"
+                            Value="True">
+                            <Setter
+                                TargetName="HyperlinkBorder"
+                                Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                                    <SolidColorBrush
+                                        Color="{DynamicResource ControlFillColorDefault}" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="HyperlinkBorder" Property="CornerRadius" Value="4" />
+                            <Setter
+                                TargetName="HyperlinkBorder"
+                                Property="CornerRadius"
+                                Value="4" />
                         </Trigger>
-                        <Trigger Property="Icon" Value="Empty">
-                            <Setter TargetName="HyperlinkIcon" Property="Margin" Value="0" />
+                        <Trigger
+                            Property="Icon"
+                            Value="Empty">
+                            <Setter
+                                TargetName="HyperlinkIcon"
+                                Property="Margin"
+                                Value="0" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

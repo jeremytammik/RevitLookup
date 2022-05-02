@@ -10,29 +10,60 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style x:Key="DynamicScrollBarRepeatButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="Height" Value="10" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Opacity" Value="0.0" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="DynamicScrollBarRepeatButton"
+        TargetType="{x:Type RepeatButton}">
+        <Setter
+            Property="Height"
+            Value="10" />
+        <Setter
+            Property="Margin"
+            Value="0" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="Opacity"
+            Value="0.0" />
+        <Setter
+            Property="BorderThickness"
+            Value="0" />
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="Foreground"
+            Value="Transparent" />
+        <Setter
+            Property="BorderBrush"
+            Value="Transparent" />
+        <Setter
+            Property="Focusable"
+            Value="False" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border x:Name="Border">
+                <ControlTemplate
+                    TargetType="{x:Type RepeatButton}">
+                    <Border
+                        x:Name="Border">
                         <Border.Background>
-                            <SolidColorBrush Opacity="0.0" Color="{DynamicResource ControlFillColorDefault}" />
+                            <SolidColorBrush
+                                Opacity="0.0"
+                                Color="{DynamicResource ControlFillColorDefault}" />
                         </Border.Background>
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger
+                            Property="IsMouseOver"
+                            Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -64,17 +95,27 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DynamicScrollViewerThumb" TargetType="{x:Type Thumb}">
-        <Setter Property="Background">
+    <Style
+        x:Key="DynamicScrollViewerThumb"
+        TargetType="{x:Type Thumb}">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
+                <ControlTemplate
+                    TargetType="{x:Type Thumb}">
                     <Border
                         Width="Auto"
                         Height="Auto"
@@ -87,7 +128,9 @@
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="HorizontalDynamicScrollBar" TargetType="{x:Type controls:DynamicScrollBar}">
+    <ControlTemplate
+        x:Key="HorizontalDynamicScrollBar"
+        TargetType="{x:Type controls:DynamicScrollBar}">
         <Border
             x:Name="Border"
             Height="10"
@@ -95,13 +138,19 @@
             CornerRadius="4"
             Opacity="0.0">
             <Border.Background>
-                <SolidColorBrush Opacity="0" Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Opacity="0"
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Border.Background>
-            <Grid x:Name="TrackContainer">
+            <Grid
+                x:Name="TrackContainer">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <RepeatButton
@@ -128,7 +177,9 @@
                     Focusable="False"
                     IsDirectionReversed="False">
                     <Track.Thumb>
-                        <Thumb x:Name="Thumb" Background="{TemplateBinding Background}" />
+                        <Thumb
+                            x:Name="Thumb"
+                            Background="{TemplateBinding Background}" />
                     </Track.Thumb>
                 </Track>
 
@@ -149,10 +200,17 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+            <Trigger
+                Property="IsEnabled"
+                Value="False">
+                <Setter
+                    TargetName="Thumb"
+                    Property="Visibility"
+                    Value="Collapsed" />
             </Trigger>
-            <Trigger Property="IsInteracted" Value="True">
+            <Trigger
+                Property="IsInteracted"
+                Value="True">
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -178,7 +236,9 @@
                     </BeginStoryboard>
                 </Trigger.ExitActions>
             </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
+            <Trigger
+                Property="IsMouseOver"
+                Value="True">
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -231,7 +291,9 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="VerticalDynamicScrollBar" TargetType="{x:Type controls:DynamicScrollBar}">
+    <ControlTemplate
+        x:Key="VerticalDynamicScrollBar"
+        TargetType="{x:Type controls:DynamicScrollBar}">
         <Border
             x:Name="Border"
             Width="10"
@@ -239,13 +301,19 @@
             CornerRadius="4"
             Opacity="0.0">
             <Border.Background>
-                <SolidColorBrush Opacity="0" Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Opacity="0"
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Border.Background>
-            <Grid x:Name="TrackContainer">
+            <Grid
+                x:Name="TrackContainer">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="*" />
+                    <RowDefinition
+                        Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <RepeatButton
@@ -272,7 +340,9 @@
                     Focusable="False"
                     IsDirectionReversed="True">
                     <Track.Thumb>
-                        <Thumb x:Name="Thumb" Background="{TemplateBinding Background}" />
+                        <Thumb
+                            x:Name="Thumb"
+                            Background="{TemplateBinding Background}" />
                     </Track.Thumb>
                 </Track>
 
@@ -293,10 +363,17 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+            <Trigger
+                Property="IsEnabled"
+                Value="False">
+                <Setter
+                    TargetName="Thumb"
+                    Property="Visibility"
+                    Value="Collapsed" />
             </Trigger>
-            <Trigger Property="IsInteracted" Value="True">
+            <Trigger
+                Property="IsInteracted"
+                Value="True">
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -322,7 +399,9 @@
                     </BeginStoryboard>
                 </Trigger.ExitActions>
             </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
+            <Trigger
+                Property="IsMouseOver"
+                Value="True">
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -375,44 +454,87 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style TargetType="{x:Type controls:DynamicScrollBar}">
-        <Setter Property="Background">
+    <Style
+        TargetType="{x:Type controls:DynamicScrollBar}">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlStrongFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlStrongFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter
+            Property="Margin"
+            Value="0" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="Stylus.IsFlicksEnabled"
+            Value="False" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
         <Style.Triggers>
-            <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Width" Value="Auto" />
-                <Setter Property="Height" Value="14" />
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="Template" Value="{StaticResource HorizontalDynamicScrollBar}" />
+            <Trigger
+                Property="Orientation"
+                Value="Horizontal">
+                <Setter
+                    Property="Width"
+                    Value="Auto" />
+                <Setter
+                    Property="Height"
+                    Value="14" />
+                <Setter
+                    Property="HorizontalAlignment"
+                    Value="Stretch" />
+                <Setter
+                    Property="Template"
+                    Value="{StaticResource HorizontalDynamicScrollBar}" />
             </Trigger>
-            <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="14" />
-                <Setter Property="Height" Value="Auto" />
-                <Setter Property="VerticalAlignment" Value="Stretch" />
-                <Setter Property="Template" Value="{StaticResource VerticalDynamicScrollBar}" />
+            <Trigger
+                Property="Orientation"
+                Value="Vertical">
+                <Setter
+                    Property="Width"
+                    Value="14" />
+                <Setter
+                    Property="Height"
+                    Value="Auto" />
+                <Setter
+                    Property="VerticalAlignment"
+                    Value="Stretch" />
+                <Setter
+                    Property="Template"
+                    Value="{StaticResource VerticalDynamicScrollBar}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="UiThumb" TargetType="{x:Type Thumb}">
-        <Setter Property="Background">
+    <Style
+        x:Key="UiThumb"
+        TargetType="{x:Type Thumb}">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
+                <ControlTemplate
+                    TargetType="{x:Type Thumb}">
                     <Border
                         Width="Auto"
                         Height="Auto"
@@ -425,25 +547,45 @@
         </Setter>
     </Style>
 
-    <Style x:Key="UiDynamicScrollViewer" TargetType="{x:Type controls:DynamicScrollViewer}">
-        <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
-        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="IsTabStop" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="UiDynamicScrollViewer"
+        TargetType="{x:Type controls:DynamicScrollViewer}">
+        <Setter
+            Property="VerticalScrollBarVisibility"
+            Value="Visible" />
+        <Setter
+            Property="HorizontalScrollBarVisibility"
+            Value="Disabled" />
+        <Setter
+            Property="Margin"
+            Value="0" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="IsTabStop"
+            Value="True" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:DynamicScrollViewer}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:DynamicScrollViewer}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <!--
@@ -455,7 +597,8 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="{TemplateBinding Padding}">
-                            <ScrollContentPresenter Margin="0" />
+                            <ScrollContentPresenter
+                                Margin="0" />
                         </Grid>
 
                         <!--
@@ -487,13 +630,17 @@
                             Value="{TemplateBinding VerticalOffset}" />
                     </Grid>
                     <ControlTemplate.Resources>
-                        <Style BasedOn="{StaticResource DynamicScrollViewerThumb}" TargetType="{x:Type Thumb}" />
+                        <Style
+                            BasedOn="{StaticResource DynamicScrollViewerThumb}"
+                            TargetType="{x:Type Thumb}" />
                     </ControlTemplate.Resources>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style BasedOn="{StaticResource UiDynamicScrollViewer}" TargetType="{x:Type controls:DynamicScrollViewer}" />
+    <Style
+        BasedOn="{StaticResource UiDynamicScrollViewer}"
+        TargetType="{x:Type controls:DynamicScrollViewer}" />
 
 </ResourceDictionary>

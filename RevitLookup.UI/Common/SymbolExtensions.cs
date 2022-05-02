@@ -1,12 +1,12 @@
 ﻿namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Set of extensions for the enumeration of icons to facilitate their management and replacement.
+///     Set of extensions for the enumeration of icons to facilitate their management and replacement.
 /// </summary>
 public static class SymbolExtensions
 {
     /// <summary>
-    /// Replaces <see cref="SymbolRegular"/> with <see cref="SymbolFilled"/>.
+    ///     Replaces <see cref="SymbolRegular" /> with <see cref="SymbolFilled" />.
     /// </summary>
     public static SymbolFilled Swap(this SymbolRegular icon)
     {
@@ -15,7 +15,7 @@ public static class SymbolExtensions
     }
 
     /// <summary>
-    /// Replaces <see cref="SymbolFilled"/> with <see cref="SymbolRegular"/>.
+    ///     Replaces <see cref="SymbolFilled" /> with <see cref="SymbolRegular" />.
     /// </summary>
     public static SymbolRegular Swap(this SymbolFilled icon)
     {
@@ -24,7 +24,7 @@ public static class SymbolExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="SymbolRegular"/> to <see langword="char"/> based on the ID.
+    ///     Converts <see cref="SymbolRegular" /> to <see langword="char" /> based on the ID.
     /// </summary>
     public static char GetGlyph(this SymbolRegular icon)
     {
@@ -32,7 +32,7 @@ public static class SymbolExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="SymbolFilled"/> to <see langword="char"/> based on the ID.
+    ///     Converts <see cref="SymbolFilled" /> to <see langword="char" /> based on the ID.
     /// </summary>
     public static char GetGlyph(this SymbolFilled icon)
     {
@@ -40,7 +40,7 @@ public static class SymbolExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="SymbolRegular"/> to <see langword="string"/> based on the ID.
+    ///     Converts <see cref="SymbolRegular" /> to <see langword="string" /> based on the ID.
     /// </summary>
     public static string GetString(this SymbolRegular icon)
     {
@@ -48,7 +48,7 @@ public static class SymbolExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="SymbolFilled"/> to <see langword="string"/> based on the ID.
+    ///     Converts <see cref="SymbolFilled" /> to <see langword="string" /> based on the ID.
     /// </summary>
     public static string GetString(this SymbolFilled icon)
     {
@@ -56,7 +56,7 @@ public static class SymbolExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="SymbolRegular"/> to <see langword="char"/>.
+    ///     Converts <see cref="SymbolRegular" /> to <see langword="char" />.
     /// </summary>
     private static char ToChar(SymbolRegular icon)
     {
@@ -64,7 +64,7 @@ public static class SymbolExtensions
     }
 
     /// <summary>
-    /// Converts <see cref="SymbolFilled"/> to <see langword="char"/>.
+    ///     Converts <see cref="SymbolFilled" /> to <see langword="char" />.
     /// </summary>
     private static char ToChar(SymbolFilled icon)
     {

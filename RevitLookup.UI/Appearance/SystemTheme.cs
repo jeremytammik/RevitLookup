@@ -12,19 +12,19 @@ namespace RevitLookup.UI.Appearance;
 internal static class SystemTheme
 {
     /// <summary>
-    /// Gets the current main color of the system.
+    ///     Gets the current main color of the system.
     /// </summary>
     /// <returns></returns>
     public static Color GlassColor => SystemParameters.WindowGlassColor;
 
     /// <summary>
-    /// Determines whether the system is currently set to hight contrast mode.
+    ///     Determines whether the system is currently set to hight contrast mode.
     /// </summary>
-    /// <returns><see langword="true"/> if <see cref="SystemParameters.HighContrast"/>.</returns>
+    /// <returns><see langword="true" /> if <see cref="SystemParameters.HighContrast" />.</returns>
     public static bool HighContrast => SystemParameters.HighContrast;
 
     /// <summary>
-    /// Gets currently set system theme based on <see cref="Registry"/> value.
+    ///     Gets currently set system theme based on <see cref="Registry" /> value.
     /// </summary>
     public static SystemThemeType GetTheme()
     {
@@ -64,8 +64,8 @@ internal static class SystemTheme
         //    return ; custom can be light or dark
 
         var rawAppsUseLightTheme = Registry.GetValue(
-        "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
-        "AppsUseLightTheme", 1) ?? 1;
+            "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize",
+            "AppsUseLightTheme", 1) ?? 1;
 
         if (rawAppsUseLightTheme is int and 0)
             return SystemThemeType.Dark;

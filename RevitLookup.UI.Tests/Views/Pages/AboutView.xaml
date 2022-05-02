@@ -40,8 +40,7 @@
             <TextBlock
                 FontWeight="Medium"
                 Margin="0,20,0,0"
-                Text="Version">
-            </TextBlock>
+                Text="Version" />
             <rl:CardControl
                 x:Name="VersionRun"
                 Title="{Binding Version}"

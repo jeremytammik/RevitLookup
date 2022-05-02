@@ -6,42 +6,43 @@
 using System.Windows;
 using System.Windows.Threading;
 
-namespace RevitLookup.UI.Styles.Controls
+namespace RevitLookup.UI.Styles.Controls;
+
+/// <summary>
+///     Overwrites ContextMenu-Style for some UIElements (like RichTextBox) that don't take the default ContextMenu-Style by default.
+///     <para>
+///         The code inside this CodeBehind-Class forces this ContextMenu-Style on these UIElements through Reflection (because it is only accessible through Reflection it is also
+///         only possible through CodeBehind and not XAML)
+///     </para>
+/// </summary>
+// This Code is based on a StackOverflow-Answer: https://stackoverflow.com/a/56736232/9759874
+partial class ContextMenu : ResourceDictionary
 {
     /// <summary>
-    /// Overwrites ContextMenu-Style for some UIElements (like RichTextBox) that don't take the default ContextMenu-Style by default.
-    /// <para>The code inside this CodeBehind-Class forces this ContextMenu-Style on these UIElements through Reflection (because it is only accessible through Reflection it is also only possible through CodeBehind and not XAML)</para>
+    ///     Registers editing <see cref="ContextMenu" /> styles with <see cref="Dispatcher" />.
     /// </summary>
-    // This Code is based on a StackOverflow-Answer: https://stackoverflow.com/a/56736232/9759874
-    partial class ContextMenu : ResourceDictionary
+    public ContextMenu()
     {
-        /// <summary>
-        /// Registers editing <see cref="ContextMenu"/> styles with <see cref="Dispatcher"/>.
-        /// </summary>
-        public ContextMenu()
+        // Run OnResourceDictionaryLoaded asynchronously to ensure other ResourceDictionary are already loaded before adding new entries
+        Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(OnResourceDictionaryLoaded));
+    }
+
+    private void OnResourceDictionaryLoaded()
+    {
+        var currentAssembly = typeof(System.Windows.Application).Assembly;
+
+        AddEditorContextMenuDefaultStyle(currentAssembly);
+    }
+
+    private void AddEditorContextMenuDefaultStyle(System.Reflection.Assembly currentAssembly)
+    {
+        // var contextMenuStyle = LookupApp.Current.FindResource("UiContextMenu") as Style;
+        var editorContextMenuType = Type.GetType("System.Windows.Documents.TextEditorContextMenu+EditorContextMenu, " + currentAssembly);
+
+        if (editorContextMenuType != null)
         {
-            // Run OnResourceDictionaryLoaded asynchronously to ensure other ResourceDictionary are already loaded before adding new entries
-            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(OnResourceDictionaryLoaded));
+            var editorContextMenuStyle = new Style(editorContextMenuType);
+            Add(editorContextMenuType, editorContextMenuStyle);
         }
-
-        private void OnResourceDictionaryLoaded()
-        {
-            var currentAssembly = typeof(System.Windows.Application).Assembly;
-
-            AddEditorContextMenuDefaultStyle(currentAssembly);
-        }
-
-        private void AddEditorContextMenuDefaultStyle(System.Reflection.Assembly currentAssembly)
-        {
-            // var contextMenuStyle = LookupApp.Current.FindResource("UiContextMenu") as Style;
-            var editorContextMenuType = Type.GetType("System.Windows.Documents.TextEditorContextMenu+EditorContextMenu, " + currentAssembly);
-
-            if (editorContextMenuType != null)
-            {
-                var editorContextMenuStyle = new Style(editorContextMenuType);
-                Add(editorContextMenuType, editorContextMenuStyle);
-            }
-        }
-
     }
 }

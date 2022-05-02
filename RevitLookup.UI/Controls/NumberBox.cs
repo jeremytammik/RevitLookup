@@ -6,7 +6,9 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls;
 
@@ -14,150 +16,73 @@ namespace RevitLookup.UI.Controls;
 // This control is in a very early stage of development. Validations, increments, pasting and especially masks that are not implemented at all should be refined.
 
 /// <summary>
-/// Text field for entering numbers with the possibility of specifying pattern.
+///     Text field for entering numbers with the possibility of specifying pattern.
 /// </summary>
 public class NumberBox : TextBox
 {
-    internal Regex PatternRegex;
-
     /// <summary>
-    /// Property for <see cref="Value"/>.
+    ///     Property for <see cref="Value" />.
     /// </summary>
     public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value),
         typeof(double), typeof(NumberBox), new PropertyMetadata(0.0, Value_PropertyChanged));
 
     /// <summary>
-    /// Property for <see cref="Step"/>.
+    ///     Property for <see cref="Step" />.
     /// </summary>
     public static readonly DependencyProperty StepProperty = DependencyProperty.Register(nameof(Step),
         typeof(double), typeof(NumberBox), new PropertyMetadata(1.0));
 
     /// <summary>
-    /// Property for <see cref="Max"/>.
+    ///     Property for <see cref="Max" />.
     /// </summary>
     public static readonly DependencyProperty MaxProperty = DependencyProperty.Register(nameof(Max),
         typeof(double), typeof(NumberBox), new PropertyMetadata(double.MaxValue));
 
     /// <summary>
-    /// Property for <see cref="Min"/>.
+    ///     Property for <see cref="Min" />.
     /// </summary>
     public static readonly DependencyProperty MinProperty = DependencyProperty.Register(nameof(Min),
         typeof(double), typeof(NumberBox), new PropertyMetadata(double.MinValue));
 
     /// <summary>
-    /// Property for <see cref="DecimalPlaces"/>.
+    ///     Property for <see cref="DecimalPlaces" />.
     /// </summary>
     public static readonly DependencyProperty DecimalPlacesProperty = DependencyProperty.Register(nameof(DecimalPlaces),
         typeof(int), typeof(NumberBox), new PropertyMetadata(2, DecimalPlaces_PropertyChanged));
 
     /// <summary>
-    /// Property for <see cref="Mask"/>.
+    ///     Property for <see cref="Mask" />.
     /// </summary>
     public static readonly DependencyProperty MaskProperty = DependencyProperty.Register(nameof(Mask),
         typeof(string), typeof(NumberBox), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    /// Property for <see cref="ControlsVisible"/>.
+    ///     Property for <see cref="ControlsVisible" />.
     /// </summary>
     public static readonly DependencyProperty ControlsVisibleProperty = DependencyProperty.Register(nameof(ControlsVisible),
         typeof(bool), typeof(NumberBox), new PropertyMetadata(true));
 
     /// <summary>
-    /// Property for <see cref="IntegersOnly"/>.
+    ///     Property for <see cref="IntegersOnly" />.
     /// </summary>
     public static readonly DependencyProperty IntegersOnlyProperty = DependencyProperty.Register(nameof(IntegersOnly),
         typeof(bool), typeof(NumberBox), new PropertyMetadata(false, IntegersOnly_PropertyChanged));
 
     /// <summary>
-    /// Property for <see cref="ButtonCommand"/>.
+    ///     Property for <see cref="ButtonCommand" />.
     /// </summary>
     public static readonly DependencyProperty ButtonCommandProperty =
         DependencyProperty.Register(nameof(NumberBox),
-            typeof(Common.IRelayCommand), typeof(TitleBar), new PropertyMetadata(null));
+            typeof(IRelayCommand), typeof(TitleBar), new PropertyMetadata(null));
+
+    internal Regex PatternRegex;
 
     /// <summary>
-    /// Current numeric value.
-    /// </summary>
-    public double Value
-    {
-        get => (double)GetValue(ValueProperty);
-        set => SetValue(ValueProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets value by which the given number will be increased or decreased after pressing the button.
-    /// </summary>
-    public double Step
-    {
-        get => (double)GetValue(StepProperty);
-        set => SetValue(StepProperty, value);
-    }
-
-    /// <summary>
-    /// Maximum allowable value.
-    /// </summary>
-    public double Max
-    {
-        get => (double)GetValue(MaxProperty);
-        set => SetValue(MaxProperty, value);
-    }
-
-    /// <summary>
-    /// Minimum allowable value.
-    /// </summary>
-    public double Min
-    {
-        get => (double)GetValue(MinProperty);
-        set => SetValue(MinProperty, value);
-    }
-
-    /// <summary>
-    /// Number of decimal places.
-    /// </summary>
-    public int DecimalPlaces
-    {
-        get => (int)GetValue(DecimalPlacesProperty);
-        set => SetValue(DecimalPlacesProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets numbers pattern.
-    /// </summary>
-    public string Mask
-    {
-        get => (string)GetValue(MaskProperty);
-        set => SetValue(MaskProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets value determining whether to display the button controls.
-    /// </summary>
-    public bool ControlsVisible
-    {
-        get => (bool)GetValue(ControlsVisibleProperty);
-        set => SetValue(ControlsVisibleProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets value which determines whether only integers can be entered.
-    /// </summary>
-    public bool IntegersOnly
-    {
-        get => (bool)GetValue(IntegersOnlyProperty);
-        set => SetValue(IntegersOnlyProperty, value);
-    }
-
-    /// <summary>
-    /// Command triggered after clicking the control button.
-    /// </summary>
-    public Common.IRelayCommand ButtonCommand => (Common.IRelayCommand)GetValue(ButtonCommandProperty);
-
-    /// <summary>
-    /// Creates new instance of <see cref="NumberBox"/> and defines default events for validating provided numbers.
+    ///     Creates new instance of <see cref="NumberBox" /> and defines default events for validating provided numbers.
     /// </summary>
     public NumberBox()
     {
-        SetValue(ButtonCommandProperty, new Common.RelayCommand(o => Button_Click(this, o)));
+        SetValue(ButtonCommandProperty, new RelayCommand(o => Button_Click(this, o)));
 
         PatternRegex = IntegersOnly ? new Regex("[^0-9]+") : new Regex("[^0-9.,]+");
 
@@ -167,6 +92,83 @@ public class NumberBox : TextBox
 
         DataObject.AddPastingHandler(this, PastingHandler);
     }
+
+    /// <summary>
+    ///     Current numeric value.
+    /// </summary>
+    public double Value
+    {
+        get => (double) GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets value by which the given number will be increased or decreased after pressing the button.
+    /// </summary>
+    public double Step
+    {
+        get => (double) GetValue(StepProperty);
+        set => SetValue(StepProperty, value);
+    }
+
+    /// <summary>
+    ///     Maximum allowable value.
+    /// </summary>
+    public double Max
+    {
+        get => (double) GetValue(MaxProperty);
+        set => SetValue(MaxProperty, value);
+    }
+
+    /// <summary>
+    ///     Minimum allowable value.
+    /// </summary>
+    public double Min
+    {
+        get => (double) GetValue(MinProperty);
+        set => SetValue(MinProperty, value);
+    }
+
+    /// <summary>
+    ///     Number of decimal places.
+    /// </summary>
+    public int DecimalPlaces
+    {
+        get => (int) GetValue(DecimalPlacesProperty);
+        set => SetValue(DecimalPlacesProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets numbers pattern.
+    /// </summary>
+    public string Mask
+    {
+        get => (string) GetValue(MaskProperty);
+        set => SetValue(MaskProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets value determining whether to display the button controls.
+    /// </summary>
+    public bool ControlsVisible
+    {
+        get => (bool) GetValue(ControlsVisibleProperty);
+        set => SetValue(ControlsVisibleProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets value which determines whether only integers can be entered.
+    /// </summary>
+    public bool IntegersOnly
+    {
+        get => (bool) GetValue(IntegersOnlyProperty);
+        set => SetValue(IntegersOnlyProperty, value);
+    }
+
+    /// <summary>
+    ///     Command triggered after clicking the control button.
+    /// </summary>
+    public IRelayCommand ButtonCommand => (IRelayCommand) GetValue(ButtonCommandProperty);
 
     private static void DecimalPlaces_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -223,7 +225,7 @@ public class NumberBox : TextBox
         e.Handled = Validate(e.Text);
     }
 
-    private void NumberBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void NumberBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (sender is not NumberBox control)
             return;
@@ -253,7 +255,7 @@ public class NumberBox : TextBox
         if (sender is not NumberBox control)
             return;
 
-        var clipboardText = (string)e.DataObject.GetData(typeof(string));
+        var clipboardText = (string) e.DataObject.GetData(typeof(string));
 
         if (Validate(clipboardText))
             e.CancelCommand();

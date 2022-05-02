@@ -6,12 +6,12 @@
 namespace RevitLookup.UI.Controls.Interfaces;
 
 /// <summary>
-/// Notifies page about being navigated.
+///     Notifies page about being navigated.
 /// </summary>
 public interface INavigable
 {
     /// <summary>
-    /// Method triggered when the page is navigated.
+    ///     Method triggered when the page is navigated.
     /// </summary>
     /// <param name="sender">Navigation service, from which the navigation was made.</param>
     /// <param name="current">Current page.</param>

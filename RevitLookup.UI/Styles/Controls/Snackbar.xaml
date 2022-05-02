@@ -10,16 +10,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style TargetType="{x:Type controls:Snackbar}">
-        <Setter Property="Margin" Value="24" />
-        <Setter Property="MinHeight" Value="68" />
-        <Setter Property="VerticalAlignment" Value="Bottom" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        TargetType="{x:Type controls:Snackbar}">
+        <Setter
+            Property="Margin"
+            Value="24" />
+        <Setter
+            Property="MinHeight"
+            Value="68" />
+        <Setter
+            Property="VerticalAlignment"
+            Value="Bottom" />
+        <Setter
+            Property="HorizontalAlignment"
+            Value="Stretch" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:Snackbar}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:Snackbar}">
                     <Grid
                         x:Name="CardBorderContainer"
                         Margin="0,0,0,-200"
@@ -35,7 +50,8 @@
                             RenderTransform="{TemplateBinding SlideTransform}"
                             Visibility="{TemplateBinding Visibility}">
                             <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
+                                <SolidColorBrush
+                                    Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
                             </Border.Background>
                             <Border.Effect>
                                 <DropShadowEffect
@@ -47,9 +63,13 @@
                             </Border.Effect>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition x:Name="ChevronColumn" Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                    <ColumnDefinition
+                                        x:Name="ChevronColumn"
+                                        Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <controls:SymbolIcon
                                     x:Name="CardIcon"
@@ -76,7 +96,8 @@
                                         Text="{TemplateBinding Message}"
                                         TextWrapping="Wrap">
                                         <TextBlock.Foreground>
-                                            <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                            <SolidColorBrush
+                                                Color="{DynamicResource TextFillColorTertiary}" />
                                         </TextBlock.Foreground>
                                     </TextBlock>
                                     <ContentPresenter />
@@ -89,20 +110,36 @@
                                     Padding="6"
                                     Appearance="Secondary"
                                     Command="{Binding Path=ButtonCloseCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <controls:SymbolIcon Symbol="Dismiss48" />
+                                    <controls:SymbolIcon
+                                        Symbol="Dismiss48" />
                                 </controls:Button>
                             </Grid>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Icon" Value="Empty">
-                            <Setter TargetName="CardIcon" Property="Margin" Value="0" />
+                        <Trigger
+                            Property="Icon"
+                            Value="Empty">
+                            <Setter
+                                TargetName="CardIcon"
+                                Property="Margin"
+                                Value="0" />
                         </Trigger>
-                        <Trigger Property="ShowCloseButton" Value="False">
-                            <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="CloseButton" Property="Margin" Value="0" />
+                        <Trigger
+                            Property="ShowCloseButton"
+                            Value="False">
+                            <Setter
+                                TargetName="CloseButton"
+                                Property="Visibility"
+                                Value="Collapsed" />
+                            <Setter
+                                TargetName="CloseButton"
+                                Property="Margin"
+                                Value="0" />
                         </Trigger>
-                        <Trigger Property="IsShown" Value="True">
+                        <Trigger
+                            Property="IsShown"
+                            Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -110,8 +147,12 @@
                                             BeginTime="00:00:00"
                                             Storyboard.TargetName="CardBorderContainer"
                                             Storyboard.TargetProperty="Margin">
-                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,-200" />
-                                            <SplineThicknessKeyFrame KeyTime="00:00:.26" Value="0,0,0,0" />
+                                            <SplineThicknessKeyFrame
+                                                KeyTime="00:00:00"
+                                                Value="0,0,0,-200" />
+                                            <SplineThicknessKeyFrame
+                                                KeyTime="00:00:.26"
+                                                Value="0,0,0,0" />
                                         </ThicknessAnimationUsingKeyFrames>
                                         <DoubleAnimation
                                             Storyboard.TargetName="CardBorderContainer"
@@ -129,8 +170,12 @@
                                             BeginTime="00:00:00"
                                             Storyboard.TargetName="CardBorderContainer"
                                             Storyboard.TargetProperty="Margin">
-                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
-                                            <SplineThicknessKeyFrame KeyTime="00:00:.32" Value="0,0,0,-200" />
+                                            <SplineThicknessKeyFrame
+                                                KeyTime="00:00:00"
+                                                Value="0,0,0,0" />
+                                            <SplineThicknessKeyFrame
+                                                KeyTime="00:00:.32"
+                                                Value="0,0,0,-200" />
                                         </ThicknessAnimationUsingKeyFrames>
                                         <DoubleAnimation
                                             Storyboard.TargetName="CardBorderContainer"

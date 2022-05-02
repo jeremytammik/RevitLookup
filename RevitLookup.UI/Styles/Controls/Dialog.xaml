@@ -10,16 +10,28 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style TargetType="{x:Type controls:Dialog}">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        TargetType="{x:Type controls:Dialog}">
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:Dialog}">
-                    <Grid x:Name="LayoutRoot">
+                <ControlTemplate
+                    TargetType="{x:Type controls:Dialog}">
+                    <Grid
+                        x:Name="LayoutRoot">
                         <Grid.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Offset="0.0" Color="#CF202020" />
-                                <GradientStop Offset="1.0" Color="#8F202020" />
+                            <LinearGradientBrush
+                                StartPoint="0,0"
+                                EndPoint="1,1">
+                                <GradientStop
+                                    Offset="0.0"
+                                    Color="#CF202020" />
+                                <GradientStop
+                                    Offset="1.0"
+                                    Color="#8F202020" />
                             </LinearGradientBrush>
                         </Grid.Background>
 
@@ -32,7 +44,8 @@
                             CornerRadius="8"
                             Opacity="0">
                             <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
+                                <SolidColorBrush
+                                    Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
                             </Border.Background>
                             <Border.Effect>
                                 <DropShadowEffect
@@ -45,11 +58,15 @@
 
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition
+                                        Height="*" />
+                                    <RowDefinition
+                                        Height="Auto" />
                                 </Grid.RowDefinitions>
 
-                                <Grid Grid.Row="0" Margin="24">
+                                <Grid
+                                    Grid.Row="0"
+                                    Margin="24">
                                     <ScrollViewer
                                         Margin="0,0,-12,0"
                                         Padding="0,0,12,0"
@@ -61,14 +78,20 @@
                                     </ScrollViewer>
                                 </Grid>
 
-                                <Border Grid.Row="1" CornerRadius="0,0,8,8">
+                                <Border
+                                    Grid.Row="1"
+                                    CornerRadius="0,0,8,8">
                                     <Border.Background>
-                                        <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                                        <SolidColorBrush
+                                            Color="{DynamicResource ControlFillColorDefault}" />
                                     </Border.Background>
-                                    <Grid Margin="24">
+                                    <Grid
+                                        Margin="24">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition
+                                                Width="*" />
+                                            <ColumnDefinition
+                                                Width="*" />
                                         </Grid.ColumnDefinitions>
 
                                         <controls:Button
@@ -94,11 +117,21 @@
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsShown" Value="False">
-                            <Setter TargetName="LayoutRoot" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="LayoutRoot" Property="Height" Value="0" />
+                        <Trigger
+                            Property="IsShown"
+                            Value="False">
+                            <Setter
+                                TargetName="LayoutRoot"
+                                Property="Visibility"
+                                Value="Collapsed" />
+                            <Setter
+                                TargetName="LayoutRoot"
+                                Property="Height"
+                                Value="0" />
                         </Trigger>
-                        <Trigger Property="IsShown" Value="True">
+                        <Trigger
+                            Property="IsShown"
+                            Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>

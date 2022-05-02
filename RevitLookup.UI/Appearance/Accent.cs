@@ -3,18 +3,20 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.Windows.Media;
 using RevitLookup.UI.Common;
+using RevitLookup.UI.Win32;
 
 namespace RevitLookup.UI.Appearance;
 
 /// <summary>
-/// Lets you update the color accents of the application.
+///     Lets you update the color accents of the application.
 /// </summary>
 public static class Accent
 {
     /// <summary>
-    /// SystemAccentColor.
+    ///     SystemAccentColor.
     /// </summary>
     public static Color SystemAccent
     {
@@ -28,12 +30,12 @@ public static class Accent
     }
 
     /// <summary>
-    /// Brush of the SystemAccentColor.
+    ///     Brush of the SystemAccentColor.
     /// </summary>
     public static Brush SystemAccentBrush => new SolidColorBrush(SystemAccent);
 
     /// <summary>
-    /// SystemAccentColorLight1.
+    ///     SystemAccentColorLight1.
     /// </summary>
     public static Color PrimaryAccent
     {
@@ -49,12 +51,12 @@ public static class Accent
     }
 
     /// <summary>
-    /// Brush of the SystemAccentColorLight1.
+    ///     Brush of the SystemAccentColorLight1.
     /// </summary>
     public static Brush PrimaryAccentBrush => new SolidColorBrush(PrimaryAccent);
 
     /// <summary>
-    /// SystemAccentColorLight2.
+    ///     SystemAccentColorLight2.
     /// </summary>
     public static Color SecondaryAccent
     {
@@ -70,12 +72,12 @@ public static class Accent
     }
 
     /// <summary>
-    /// Brush of the SystemAccentColorLight2.
+    ///     Brush of the SystemAccentColorLight2.
     /// </summary>
     public static Brush SecondaryAccentBrush => new SolidColorBrush(SecondaryAccent);
 
     /// <summary>
-    /// SystemAccentColorLight3.
+    ///     SystemAccentColorLight3.
     /// </summary>
     public static Color TertiaryAccent
     {
@@ -91,37 +93,40 @@ public static class Accent
     }
 
     /// <summary>
-    /// Brush of the SystemAccentColorLight3.
+    ///     Brush of the SystemAccentColorLight3.
     /// </summary>
     public static Brush TertiaryAccentBrush => new SolidColorBrush(TertiaryAccent);
 
     /// <summary>
-    /// Obsolete alternative for <see cref="Apply"/>. Will be removed in the future.
+    ///     Obsolete alternative for <see cref="Apply" />. Will be removed in the future.
     /// </summary>
     [Obsolete]
     public static void Change(Color systemAccent, ThemeType themeType = ThemeType.Light,
-        bool systemGlassColor = false) => Apply(systemAccent, themeType, systemGlassColor);
+        bool systemGlassColor = false)
+    {
+        Apply(systemAccent, themeType, systemGlassColor);
+    }
 
     /// <summary>
-    /// Obsolete alternative for <see cref="Apply"/>. Will be removed in the future.
+    ///     Obsolete alternative for <see cref="Apply" />. Will be removed in the future.
     /// </summary>
     [Obsolete]
-    public static void Change(Color systemAccent, Color primaryAccent, Color secondaryAccent, Color tertiaryAccent) => 
+    public static void Change(Color systemAccent, Color primaryAccent, Color secondaryAccent, Color tertiaryAccent)
+    {
         Apply(systemAccent, primaryAccent, secondaryAccent, tertiaryAccent);
+    }
 
     /// <summary>
-    /// Changes the color accents of the application based on the color entered.
+    ///     Changes the color accents of the application based on the color entered.
     /// </summary>
     /// <param name="systemAccent">Primary accent color.</param>
-    /// <param name="themeType">If <see cref="ThemeType.Dark"/>, the colors will be different.</param>
+    /// <param name="themeType">If <see cref="ThemeType.Dark" />, the colors will be different.</param>
     /// <param name="systemGlassColor">If the color is taken from the Glass Color System, its brightness will be increased with the help of the operations on HSV space.</param>
     public static void Apply(Color systemAccent, ThemeType themeType = ThemeType.Light, bool systemGlassColor = false)
     {
         if (systemGlassColor)
-        {
             // WindowGlassColor is little darker than accent color
             systemAccent = systemAccent.UpdateBrightness(6f);
-        }
 
         Color primaryAccent, secondaryAccent, tertiaryAccent;
 
@@ -147,7 +152,7 @@ public static class Accent
     }
 
     /// <summary>
-    /// Changes the color accents of the application based on the entered colors.
+    ///     Changes the color accents of the application based on the entered colors.
     /// </summary>
     /// <param name="systemAccent">Primary color.</param>
     /// <param name="primaryAccent">Alternative light or dark color.</param>
@@ -159,12 +164,12 @@ public static class Accent
     }
 
     /// <summary>
-    /// Gets current Desktop Window Manager colorization color.
-    /// <para>It should be the color defined in the system Personalization.</para>
+    ///     Gets current Desktop Window Manager colorization color.
+    ///     <para>It should be the color defined in the system Personalization.</para>
     /// </summary>
     public static Color GetColorizationColor()
     {
-        Win32.Dwmapi.DwmGetColorizationParameters(out var dmwParams);
+        Dwmapi.DwmGetColorizationParameters(out var dmwParams);
 
         var values = BitConverter.GetBytes(dmwParams.clrColor);
 
@@ -177,16 +182,16 @@ public static class Accent
     }
 
     /// <summary>
-    /// Updates application resources.
+    ///     Updates application resources.
     /// </summary>
     private static void UpdateColorResources(Color systemAccent, Color primaryAccent,
         Color secondaryAccent, Color tertiaryAccent)
     {
 #if DEBUG
-        System.Diagnostics.Debug.WriteLine("INFO | SystemAccentColor: " + systemAccent, "RevitLookup.UI.Accent");
-        System.Diagnostics.Debug.WriteLine("INFO | SystemAccentColorLight1: " + primaryAccent, "RevitLookup.UI.Accent");
-        System.Diagnostics.Debug.WriteLine("INFO | SystemAccentColorLight2: " + secondaryAccent, "RevitLookup.UI.Accent");
-        System.Diagnostics.Debug.WriteLine("INFO | SystemAccentColorLight3: " + tertiaryAccent, "RevitLookup.UI.Accent");
+        Debug.WriteLine("INFO | SystemAccentColor: " + systemAccent, "RevitLookup.UI.Accent");
+        Debug.WriteLine("INFO | SystemAccentColorLight1: " + primaryAccent, "RevitLookup.UI.Accent");
+        Debug.WriteLine("INFO | SystemAccentColorLight2: " + secondaryAccent, "RevitLookup.UI.Accent");
+        Debug.WriteLine("INFO | SystemAccentColorLight3: " + tertiaryAccent, "RevitLookup.UI.Accent");
 #endif
 
         // TODO: Inverse TextOnAccentFillColorPrimary if background does not match

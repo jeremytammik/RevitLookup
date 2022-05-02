@@ -4,26 +4,27 @@
 // All Rights Reserved.
 
 using System.Windows;
+using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Lets look for things and other stuff.
+///     Lets look for things and other stuff.
 /// </summary>
 public class SearchBox : TextBox
 {
     /// <summary>
-    /// Property override for <see cref="TextBox.Icon"/>.
+    ///     Property override for <see cref="TextBox.Icon" />.
     /// </summary>
     // Static constructor.
     static SearchBox()
     {
         FrameworkPropertyMetadata newIconMetadata = new(
-            defaultValue: Common.SymbolRegular.Search24);
+            SymbolRegular.Search24);
 
         IconProperty.OverrideMetadata(
-            forType: typeof(SearchBox),
-            typeMetadata: newIconMetadata);
+            typeof(SearchBox),
+            newIconMetadata);
     }
 
     // TODO: Well, could use some ListBox search logic or something similar

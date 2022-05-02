@@ -4,31 +4,50 @@
     xmlns:converters="clr-namespace:RevitLookup.UI.Converters"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
+    <converters:BrushToColorConverter
+        x:Key="BrushToColorConverter" />
 
-    <Style TargetType="{x:Type controls:ToggleSwitch}">
-        <Setter Property="Foreground">
+    <Style
+        TargetType="{x:Type controls:ToggleSwitch}">
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Background">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Opacity="1.0" Color="{DynamicResource SystemAccentColorLight2}" />
+                <SolidColorBrush
+                    Opacity="1.0"
+                    Color="{DynamicResource SystemAccentColorLight2}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush">
+        <Setter
+            Property="BorderBrush">
             <Setter.Value>
-                <SolidColorBrush Opacity="1.0" Color="{DynamicResource SystemAccentColorLight2}" />
+                <SolidColorBrush
+                    Opacity="1.0"
+                    Color="{DynamicResource SystemAccentColorLight2}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="Cursor"
+            Value="Hand" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:ToggleSwitch}">
-                    <StackPanel Orientation="Horizontal">
+                <ControlTemplate
+                    TargetType="{x:Type controls:ToggleSwitch}">
+                    <StackPanel
+                        Orientation="Horizontal">
                         <Border
                             x:Name="ToggleBorder"
                             Width="40"
@@ -38,7 +57,9 @@
                             BorderThickness="1"
                             CornerRadius="10">
                             <Border.Background>
-                                <SolidColorBrush Opacity="0" Color="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
+                                <SolidColorBrush
+                                    Opacity="0"
+                                    Color="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
                             </Border.Background>
                             <Ellipse
                                 x:Name="ToggleEllipse"
@@ -57,13 +78,22 @@
                             TextBlock.Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
                     </StackPanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="ToggleBorder" Property="BorderBrush">
+                        <Trigger
+                            Property="IsChecked"
+                            Value="True">
+                            <Setter
+                                TargetName="ToggleBorder"
+                                Property="BorderBrush">
                                 <Setter.Value>
-                                    <SolidColorBrush Opacity="1.0" Color="{DynamicResource SystemAccentColorLight2}" />
+                                    <SolidColorBrush
+                                        Opacity="1.0"
+                                        Color="{DynamicResource SystemAccentColorLight2}" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="ToggleEllipse" Property="Fill" Value="Black" />
+                            <Setter
+                                TargetName="ToggleEllipse"
+                                Property="Fill"
+                                Value="Black" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -85,8 +115,12 @@
                                             BeginTime="00:00:00"
                                             Storyboard.TargetName="ToggleEllipse"
                                             Storyboard.TargetProperty="Margin">
-                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="-18,0,0,0" />
-                                            <SplineThicknessKeyFrame KeyTime="00:00:.2" Value="18,0,0,0" />
+                                            <SplineThicknessKeyFrame
+                                                KeyTime="00:00:00"
+                                                Value="-18,0,0,0" />
+                                            <SplineThicknessKeyFrame
+                                                KeyTime="00:00:.2"
+                                                Value="18,0,0,0" />
                                         </ThicknessAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -112,14 +146,20 @@
                                             BeginTime="00:00:00"
                                             Storyboard.TargetName="ToggleEllipse"
                                             Storyboard.TargetProperty="Margin">
-                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="18,0,0,0" />
-                                            <SplineThicknessKeyFrame KeyTime="00:00:.2" Value="-18,0,0,0" />
+                                            <SplineThicknessKeyFrame
+                                                KeyTime="00:00:00"
+                                                Value="18,0,0,0" />
+                                            <SplineThicknessKeyFrame
+                                                KeyTime="00:00:.2"
+                                                Value="-18,0,0,0" />
                                         </ThicknessAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger
+                            Property="IsMouseOver"
+                            Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -153,13 +193,20 @@
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
                         </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Presenter" Property="TextBlock.Foreground">
+                        <Trigger
+                            Property="IsEnabled"
+                            Value="False">
+                            <Setter
+                                TargetName="Presenter"
+                                Property="TextBlock.Foreground">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                    <SolidColorBrush
+                                        Color="{DynamicResource TextFillColorTertiary}" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter Property="Opacity" Value="0.6" />
+                            <Setter
+                                Property="Opacity"
+                                Value="0.6" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

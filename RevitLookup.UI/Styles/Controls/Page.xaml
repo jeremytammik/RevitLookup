@@ -10,21 +10,40 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style x:Key="UiPage" TargetType="{x:Type Page}">
-        <Setter Property="Control.FontSize" Value="13" />
-        <Setter Property="Control.Foreground">
+    <Style
+        x:Key="UiPage"
+        TargetType="{x:Type Page}">
+        <Setter
+            Property="Control.FontSize"
+            Value="13" />
+        <Setter
+            Property="Control.Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="TextElement.FontWeight" Value="Regular" />
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="TextElement.FontWeight"
+            Value="Regular" />
         <!--  The Display option casues a large aliasing effect  -->
-        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
-        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="TextOptions.TextFormattingMode"
+            Value="Ideal" />
+        <Setter
+            Property="TextOptions.TextRenderingMode"
+            Value="ClearType" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Grid>
@@ -42,7 +61,8 @@
         x:Key="UiPageScrollable"
         BasedOn="{StaticResource UiPage}"
         TargetType="{x:Type Page}">
-        <Setter Property="Template">
+        <Setter
+            Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <controls:DynamicScrollViewer>

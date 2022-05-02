@@ -4,9 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:RevitLookup.UI.Tests"
     xmlns:rl="http://revitlookup.com/controls"
-    xmlns:pages="clr-namespace:RevitLookup.UI.Tests.Views.Pages"
     xmlns:viewModels="clr-namespace:RevitLookup.UI.Tests.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="300"
@@ -41,18 +39,17 @@
                     Icon="AppGeneric24" />
                 <rl:NavigationItem
                     Content="Snoop"
-                    Icon="SlideSearch24">
-                </rl:NavigationItem>
+                    Icon="SlideSearch24" />
             </rl:NavigationCompact.Items>
             <rl:NavigationCompact.Footer>
                 <rl:NavigationItem
                     Content="Settings"
                     Icon="Settings24"
-                    Page="{Binding SettingsPage}"/>
+                    Page="{Binding SettingsPage}" />
                 <rl:NavigationItem
                     Content="About"
                     Icon="Info24"
-                    Page="{Binding AboutPage}"/>
+                    Page="{Binding AboutPage}" />
             </rl:NavigationCompact.Footer>
         </rl:NavigationCompact>
         <Grid

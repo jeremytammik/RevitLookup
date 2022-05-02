@@ -11,26 +11,13 @@ using RevitLookup.UI.Common;
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Custom <see cref="System.Windows.Controls.ScrollViewer"/> with events depending on actions taken by the user.
+///     Custom <see cref="System.Windows.Controls.ScrollViewer" /> with events depending on actions taken by the user.
 /// </summary>
 [DefaultEvent("ScrollChangedEvent")]
 public class DynamicScrollViewer : ScrollViewer
 {
-    private readonly EventIdentifier _verticalIdentifier = new();
-
-    private readonly EventIdentifier _horizontalIdentifier = new();
-
-    // Due to the large number of triggered events, we limit the complex logic of DependencyProperty
-    private bool _scrollingVertically;
-
-    private bool _scrollingHorizontally;
-
-    private int _timeout = 1200;
-
-    private double _minimalChange = 40d;
-
     /// <summary>
-    /// Property for <see cref="IsScrollingVertically"/>.
+    ///     Property for <see cref="IsScrollingVertically" />.
     /// </summary>
     public static readonly DependencyProperty IsScrollingVerticallyProperty = DependencyProperty.Register(
         nameof(IsScrollingVertically),
@@ -38,58 +25,70 @@ public class DynamicScrollViewer : ScrollViewer
         new PropertyMetadata(false, IsScrollingVerticallyProperty_OnChanged));
 
     /// <summary>
-    /// Property for <see cref="IsScrollingHorizontally"/>.
+    ///     Property for <see cref="IsScrollingHorizontally" />.
     /// </summary>
     public static readonly DependencyProperty IsScrollingHorizontallyProperty = DependencyProperty.Register(
         nameof(IsScrollingHorizontally),
         typeof(bool), typeof(DynamicScrollViewer), new PropertyMetadata(false, IsScrollingHorizontally_OnChanged));
 
     /// <summary>
-    /// Property for <see cref="MinimalChange"/>.
+    ///     Property for <see cref="MinimalChange" />.
     /// </summary>
     public static readonly DependencyProperty MinimalChangeProperty = DependencyProperty.Register(
         nameof(MinimalChange),
         typeof(double), typeof(DynamicScrollViewer), new PropertyMetadata(40d, MinimalChangeProperty_OnChanged));
 
     /// <summary>
-    /// Property for <see cref="Timeout"/>.
+    ///     Property for <see cref="Timeout" />.
     /// </summary>
     public static readonly DependencyProperty TimeoutProperty = DependencyProperty.Register(nameof(Timeout),
         typeof(int), typeof(DynamicScrollViewer), new PropertyMetadata(1200, TimeoutProperty_OnChanged));
 
+    private readonly EventIdentifier _horizontalIdentifier = new();
+    private readonly EventIdentifier _verticalIdentifier = new();
+
+    private double _minimalChange = 40d;
+
+    private bool _scrollingHorizontally;
+
+    // Due to the large number of triggered events, we limit the complex logic of DependencyProperty
+    private bool _scrollingVertically;
+
+    private int _timeout = 1200;
+
     /// <summary>
-    /// Gets or sets information whether the user was scrolling vertically for the last few seconds.
+    ///     Gets or sets information whether the user was scrolling vertically for the last few seconds.
     /// </summary>
     public bool IsScrollingVertically
     {
-        get => (bool)GetValue(IsScrollingVerticallyProperty);
+        get => (bool) GetValue(IsScrollingVerticallyProperty);
         set => SetValue(IsScrollingVerticallyProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets information whether the user was scrolling horizontally for the last few seconds.
+    ///     Gets or sets information whether the user was scrolling horizontally for the last few seconds.
     /// </summary>
     public bool IsScrollingHorizontally
     {
-        get => (bool)GetValue(IsScrollingHorizontallyProperty);
+        get => (bool) GetValue(IsScrollingHorizontallyProperty);
         set => SetValue(IsScrollingHorizontallyProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets the value required for the scroll to show automatically.
+    ///     Gets or sets the value required for the scroll to show automatically.
     /// </summary>
     public double MinimalChange
     {
-        get => (double)GetValue(MinimalChangeProperty);
+        get => (double) GetValue(MinimalChangeProperty);
         set => SetValue(MinimalChangeProperty, value);
     }
 
     /// <summary>
-    /// Gets or sets time after which the scroll is to be hidden.
+    ///     Gets or sets time after which the scroll is to be hidden.
     /// </summary>
     public int Timeout
     {
-        get => (int)GetValue(TimeoutProperty);
+        get => (int) GetValue(TimeoutProperty);
         set => SetValue(TimeoutProperty, value);
     }
 
@@ -104,11 +103,11 @@ public class DynamicScrollViewer : ScrollViewer
     //}
 
     /// <summary>
-    /// OnScrollChanged is an override called whenever scrolling state changes on this <see cref="DynamicScrollViewer"/>.
+    ///     OnScrollChanged is an override called whenever scrolling state changes on this <see cref="DynamicScrollViewer" />.
     /// </summary>
     /// <remarks>
-    /// OnScrollChanged fires the ScrollChangedEvent. Overriders of this method should call
-    /// base.OnScrollChanged(args) if they want the event to be fired.
+    ///     OnScrollChanged fires the ScrollChangedEvent. Overriders of this method should call
+    ///     base.OnScrollChanged(args) if they want the event to be fired.
     /// </remarks>
     /// <param name="e">ScrollChangedEventArgs containing information about the change in scrolling state.</param>
     protected override void OnScrollChanged(ScrollChangedEventArgs e)

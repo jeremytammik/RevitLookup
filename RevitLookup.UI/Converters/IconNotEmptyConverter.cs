@@ -3,32 +3,34 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Globalization;
 using System.Windows.Data;
+using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Converters;
 
 /// <summary>
-/// Checks if the <see cref="Common.SymbolRegular"/> is valid and not empty.
+///     Checks if the <see cref="Common.SymbolRegular" /> is valid and not empty.
 /// </summary>
 internal class IconNotEmptyConverter : IValueConverter
 {
     /// <summary>
-    /// Checks if the <see cref="Common.SymbolRegular"/> is valid and not empty.
+    ///     Checks if the <see cref="Common.SymbolRegular" /> is valid and not empty.
     /// </summary>
-    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is Common.SymbolRegular icon)
-            return icon != Common.SymbolRegular.Empty;
+        if (value is SymbolRegular icon)
+            return icon != SymbolRegular.Empty;
 
         return false;
     }
 
     /// <summary>
-    /// Not Implemented.
+    ///     Not Implemented.
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
     public object ConvertBack(object value, Type targetType, object parameter,
-        System.Globalization.CultureInfo culture)
+        CultureInfo culture)
     {
         throw new NotImplementedException();
     }

@@ -22,7 +22,4 @@ namespace RevitLookup.UI.Tests;
 
 public partial class App
 {
-    public App()
-    {
-    }
 }

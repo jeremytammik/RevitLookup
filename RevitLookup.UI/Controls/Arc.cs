@@ -5,56 +5,31 @@
 
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Control that draws a symmetrical arc with rounded edges.
+///     Control that draws a symmetrical arc with rounded edges.
 /// </summary>
-public class Arc : System.Windows.Shapes.Shape
+public class Arc : Shape
 {
     /// <summary>
-    /// Property for <see cref="StartAngle"/>.
+    ///     Property for <see cref="StartAngle" />.
     /// </summary>
     public static readonly DependencyProperty StartAngleProperty =
         DependencyProperty.Register(nameof(StartAngle), typeof(double), typeof(Arc),
             new PropertyMetadata(0.0d, PropertyChangedCallback));
 
     /// <summary>
-    /// Property for <see cref="EndAngle"/>.
+    ///     Property for <see cref="EndAngle" />.
     /// </summary>
     public static readonly DependencyProperty EndAngleProperty =
         DependencyProperty.Register(nameof(EndAngle), typeof(double), typeof(Arc),
             new PropertyMetadata(0.0d, PropertyChangedCallback));
 
     /// <summary>
-    /// Gets or sets the initial angle from which the arc will be drawn.
-    /// </summary>
-    public double StartAngle
-    {
-        get => (double)GetValue(StartAngleProperty);
-        set => SetValue(StartAngleProperty, value);
-    }
-
-    /// <summary>
-    /// Gets or sets the final angle from which the arc will be drawn.
-    /// </summary>
-    public double EndAngle
-    {
-        get => (double)GetValue(EndAngleProperty);
-        set => SetValue(EndAngleProperty, value);
-    }
-
-    /// <summary>
-    /// If IsLargeArc is <see langword="true"/>, then one of the two larger arc sweeps is chosen; otherwise, if is <see langword="false"/>, one of the smaller arc sweeps is chosen.
-    /// </summary>
-    public bool IsLargeArc { get; internal set; }
-
-    /// <inheritdoc />
-    protected override Geometry DefiningGeometry => GetDefiningGeometry();
-
-    /// <summary>
-    /// Overrides default properties.
+    ///     Overrides default properties.
     /// </summary>
     static Arc()
     {
@@ -70,8 +45,36 @@ public class Arc : System.Windows.Shapes.Shape
     }
 
     /// <summary>
-    /// Get the geometry that defines this shape.
-    /// <para><see href="https://stackoverflow.com/a/36756365/13224348">Based on Mark Feldman implementation.</see></para>
+    ///     Gets or sets the initial angle from which the arc will be drawn.
+    /// </summary>
+    public double StartAngle
+    {
+        get => (double) GetValue(StartAngleProperty);
+        set => SetValue(StartAngleProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the final angle from which the arc will be drawn.
+    /// </summary>
+    public double EndAngle
+    {
+        get => (double) GetValue(EndAngleProperty);
+        set => SetValue(EndAngleProperty, value);
+    }
+
+    /// <summary>
+    ///     If IsLargeArc is <see langword="true" />, then one of the two larger arc sweeps is chosen; otherwise, if is <see langword="false" />, one of the smaller arc sweeps is chosen.
+    /// </summary>
+    public bool IsLargeArc { get; internal set; }
+
+    /// <inheritdoc />
+    protected override Geometry DefiningGeometry => GetDefiningGeometry();
+
+    /// <summary>
+    ///     Get the geometry that defines this shape.
+    ///     <para>
+    ///         <see href="https://stackoverflow.com/a/36756365/13224348">Based on Mark Feldman implementation.</see>
+    ///     </para>
     /// </summary>
     protected Geometry GetDefiningGeometry()
     {
@@ -106,8 +109,10 @@ public class Arc : System.Windows.Shapes.Shape
     }
 
     /// <summary>
-    /// Draws a point on the coordinates of the given angle.
-    /// <para><see href="https://stackoverflow.com/a/36756365/13224348">Based on Mark Feldman implementation.</see></para>
+    ///     Draws a point on the coordinates of the given angle.
+    ///     <para>
+    ///         <see href="https://stackoverflow.com/a/36756365/13224348">Based on Mark Feldman implementation.</see>
+    ///     </para>
     /// </summary>
     /// <param name="angle">The angle at which to create the point.</param>
     protected Point PointAtAngle(double angle)
@@ -123,7 +128,7 @@ public class Arc : System.Windows.Shapes.Shape
     }
 
     /// <summary>
-    /// Event triggered when one of the key parameters is changed. Forces the geometry to be redrawn.
+    ///     Event triggered when one of the key parameters is changed. Forces the geometry to be redrawn.
     /// </summary>
     protected static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

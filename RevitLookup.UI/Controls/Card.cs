@@ -4,30 +4,31 @@
 // All Rights Reserved.
 
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Simple Card with content and <see cref="Footer"/>.
+///     Simple Card with content and <see cref="Footer" />.
 /// </summary>
-public class Card : System.Windows.Controls.ContentControl
+public class Card : ContentControl
 {
     /// <summary>
-    /// Property for <see cref="Footer"/>.
+    ///     Property for <see cref="Footer" />.
     /// </summary>
     public static readonly DependencyProperty FooterProperty =
         DependencyProperty.Register(nameof(Footer), typeof(object), typeof(Card),
             new PropertyMetadata(null, FooterChangedCallback));
 
     /// <summary>
-    /// Property for <see cref="HasFooter"/>.
+    ///     Property for <see cref="HasFooter" />.
     /// </summary>
     public static readonly DependencyProperty HasFooterProperty =
         DependencyProperty.Register(nameof(HasFooter), typeof(bool), typeof(Card),
             new PropertyMetadata(false));
 
     /// <summary>
-    /// Gets or sets additional content displayed at the bottom.
+    ///     Gets or sets additional content displayed at the bottom.
     /// </summary>
     public object Footer
     {
@@ -36,11 +37,11 @@ public class Card : System.Windows.Controls.ContentControl
     }
 
     /// <summary>
-    /// Gets information whether the <see cref="Card"/> has a <see cref="Footer"/>.
+    ///     Gets information whether the <see cref="Card" /> has a <see cref="Footer" />.
     /// </summary>
     public bool HasFooter
     {
-        get => (bool)GetValue(HasFooterProperty);
+        get => (bool) GetValue(HasFooterProperty);
         internal set => SetValue(HasFooterProperty, value);
     }
 

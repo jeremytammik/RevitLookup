@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Helper class for Visual Studio designer.
+///     Helper class for Visual Studio designer.
 /// </summary>
 public static class Designer
 {
@@ -13,7 +14,7 @@ public static class Designer
     private static bool _isInDesignMode;
 
     /// <summary>
-    /// Indicates whether the project is currently in design mode.
+    ///     Indicates whether the project is currently in design mode.
     /// </summary>
     public static bool IsInDesignMode
     {
@@ -23,7 +24,7 @@ public static class Designer
                 return true;
 
             if (_validated)
-                _isInDesignMode = (bool)(DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject))?.DefaultValue ?? false);
+                _isInDesignMode = (bool) (DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject))?.DefaultValue ?? false);
 
             _validated = true;
 
@@ -32,7 +33,7 @@ public static class Designer
     }
 
     /// <summary>
-    /// Indicates whether the project is currently debugged.
+    ///     Indicates whether the project is currently debugged.
     /// </summary>
-    public static bool IsDebugging => System.Diagnostics.Debugger.IsAttached;
+    public static bool IsDebugging => Debugger.IsAttached;
 }

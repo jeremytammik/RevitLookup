@@ -4,15 +4,16 @@
 // All Rights Reserved.
 
 using System.Windows;
+using RevitLookup.UI.Controls;
 
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Event triggered on via <see cref="Controls.Snackbar"/>.
+///     Event triggered on via <see cref="Controls.Snackbar" />.
 /// </summary>
-/// <param name="sender">Current <see cref="Controls.Snackbar"/> instance.</param>
+/// <param name="sender">Current <see cref="Controls.Snackbar" /> instance.</param>
 #if NET5_0_OR_GREATER
 public delegate void RoutedSnackbarEvent([NotNull] Controls.Snackbar sender, RoutedEventArgs e);
 #else
-public delegate void RoutedSnackbarEvent(Controls.Snackbar sender, RoutedEventArgs e);
+public delegate void RoutedSnackbarEvent(Snackbar sender, RoutedEventArgs e);
 #endif

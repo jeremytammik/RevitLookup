@@ -11,45 +11,75 @@
     xmlns:converters="clr-namespace:RevitLookup.UI.Converters"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <converters:IconNotEmptyConverter x:Key="IconNotEmptyConverter" />
+    <converters:IconNotEmptyConverter
+        x:Key="IconNotEmptyConverter" />
 
-    <ContextMenu x:Key="UiNumberBoxContextMenu">
-        <MenuItem Command="ApplicationCommands.Copy" />
-        <MenuItem Command="ApplicationCommands.Cut" />
-        <MenuItem Command="ApplicationCommands.Paste" />
+    <ContextMenu
+        x:Key="UiNumberBoxContextMenu">
+        <MenuItem
+            Command="ApplicationCommands.Copy" />
+        <MenuItem
+            Command="ApplicationCommands.Cut" />
+        <MenuItem
+            Command="ApplicationCommands.Paste" />
     </ContextMenu>
 
-    <Style TargetType="{x:Type controls:NumberBox}">
-        <Setter Property="Foreground">
+    <Style
+        TargetType="{x:Type controls:NumberBox}">
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="IconForeground">
+        <Setter
+            Property="IconForeground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorTertiary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="CaretBrush">
+        <Setter
+            Property="CaretBrush">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Background">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="ContextMenu" Value="{StaticResource UiNumberBoxContextMenu}" />
-        <Setter Property="MinHeight" Value="34" />
-        <Setter Property="Padding" Value="6,4" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="ContextMenu"
+            Value="{StaticResource UiNumberBoxContextMenu}" />
+        <Setter
+            Property="MinHeight"
+            Value="34" />
+        <Setter
+            Property="Padding"
+            Value="6,4" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:NumberBox}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:NumberBox}">
                     <Border
                         x:Name="MainBorder"
                         Background="{TemplateBinding Background}"
@@ -62,18 +92,25 @@
                             BorderThickness="0,0,0,2"
                             CornerRadius="4">
                             <Border.BorderBrush>
-                                <SolidColorBrush Color="{DynamicResource ControlStrokeColorSecondary}" />
+                                <SolidColorBrush
+                                    Color="{DynamicResource ControlStrokeColorSecondary}" />
                             </Border.BorderBrush>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="*" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
+                                    <ColumnDefinition
+                                        Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Grid Grid.Column="0">
+                                <Grid
+                                    Grid.Column="0">
                                     <controls:SymbolIcon
                                         x:Name="IconLeft"
                                         Margin="6,0,2,0"
@@ -83,7 +120,8 @@
                                         Visibility="Collapsed" />
                                 </Grid>
 
-                                <Grid Grid.Column="1">
+                                <Grid
+                                    Grid.Column="1">
                                     <Decorator
                                         x:Name="PART_ContentHost"
                                         Margin="0"
@@ -95,7 +133,8 @@
                                         VerticalAlignment="Center"
                                         Text="{TemplateBinding Placeholder}">
                                         <TextBlock.Foreground>
-                                            <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                            <SolidColorBrush
+                                                Color="{DynamicResource TextFillColorTertiary}" />
                                         </TextBlock.Foreground>
                                     </TextBlock>
                                 </Grid>
@@ -113,7 +152,8 @@
                                     CommandParameter="increment"
                                     Icon="ChevronUp20">
                                     <controls:Button.Foreground>
-                                        <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                        <SolidColorBrush
+                                            Color="{DynamicResource TextFillColorTertiary}" />
                                     </controls:Button.Foreground>
                                 </controls:Button>
 
@@ -130,11 +170,13 @@
                                     CommandParameter="decrement"
                                     Icon="ChevronDown20">
                                     <controls:Button.Foreground>
-                                        <SolidColorBrush Color="{DynamicResource TextFillColorTertiary}" />
+                                        <SolidColorBrush
+                                            Color="{DynamicResource TextFillColorTertiary}" />
                                     </controls:Button.Foreground>
                                 </controls:Button>
 
-                                <Grid Grid.Column="4">
+                                <Grid
+                                    Grid.Column="4">
                                     <controls:SymbolIcon
                                         x:Name="IconRight"
                                         Margin="2,0,6,0"
@@ -147,37 +189,75 @@
                         </Border>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="BottomBorder" Property="BorderBrush">
+                        <Trigger
+                            Property="IsFocused"
+                            Value="True">
+                            <Setter
+                                TargetName="BottomBorder"
+                                Property="BorderBrush">
                                 <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource SystemAccentColorLight2}" />
+                                    <SolidColorBrush
+                                        Color="{DynamicResource SystemAccentColorLight2}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="PlaceholderVisible" Value="False">
-                            <Setter TargetName="Placeholder" Property="Visibility" Value="Collapsed" />
+                        <Trigger
+                            Property="PlaceholderVisible"
+                            Value="False">
+                            <Setter
+                                TargetName="Placeholder"
+                                Property="Visibility"
+                                Value="Collapsed" />
                         </Trigger>
-                        <Trigger Property="ControlsVisible" Value="False">
-                            <Setter TargetName="IncrementButton" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="IncrementButton" Property="Margin" Value="0" />
-                            <Setter TargetName="DecrementButton" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="DecrementButton" Property="Margin" Value="0" />
+                        <Trigger
+                            Property="ControlsVisible"
+                            Value="False">
+                            <Setter
+                                TargetName="IncrementButton"
+                                Property="Visibility"
+                                Value="Collapsed" />
+                            <Setter
+                                TargetName="IncrementButton"
+                                Property="Margin"
+                                Value="0" />
+                            <Setter
+                                TargetName="DecrementButton"
+                                Property="Visibility"
+                                Value="Collapsed" />
+                            <Setter
+                                TargetName="DecrementButton"
+                                Property="Margin"
+                                Value="0" />
                         </Trigger>
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=Icon, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource IconNotEmptyConverter}}" Value="True" />
-                                <Condition Binding="{Binding Path=IconPosition, RelativeSource={RelativeSource Self}, Mode=OneWay}" Value="Left" />
+                                <Condition
+                                    Binding="{Binding Path=Icon, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource IconNotEmptyConverter}}"
+                                    Value="True" />
+                                <Condition
+                                    Binding="{Binding Path=IconPosition, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                    Value="Left" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="IconLeft" Property="Visibility" Value="Visible" />
+                            <Setter
+                                TargetName="IconLeft"
+                                Property="Visibility"
+                                Value="Visible" />
                         </MultiDataTrigger>
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=Icon, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource IconNotEmptyConverter}}" Value="True" />
-                                <Condition Binding="{Binding Path=IconPosition, RelativeSource={RelativeSource Self}, Mode=OneWay}" Value="Right" />
+                                <Condition
+                                    Binding="{Binding Path=Icon, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource IconNotEmptyConverter}}"
+                                    Value="True" />
+                                <Condition
+                                    Binding="{Binding Path=IconPosition, RelativeSource={RelativeSource Self}, Mode=OneWay}"
+                                    Value="Right" />
                             </MultiDataTrigger.Conditions>
-                            <Setter TargetName="IconRight" Property="Visibility" Value="Visible" />
+                            <Setter
+                                TargetName="IconRight"
+                                Property="Visibility"
+                                Value="Visible" />
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

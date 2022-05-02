@@ -14,29 +14,60 @@
         TODO: Fix corner radius and colors
     -->
 
-    <Style x:Key="ScrollBarRepeatButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="Height" Value="10" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Opacity" Value="0.0" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="ScrollBarRepeatButton"
+        TargetType="{x:Type RepeatButton}">
+        <Setter
+            Property="Height"
+            Value="10" />
+        <Setter
+            Property="Margin"
+            Value="0" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="Opacity"
+            Value="0.0" />
+        <Setter
+            Property="BorderThickness"
+            Value="0" />
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="Foreground"
+            Value="Transparent" />
+        <Setter
+            Property="BorderBrush"
+            Value="Transparent" />
+        <Setter
+            Property="Focusable"
+            Value="False" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border x:Name="Border">
+                <ControlTemplate
+                    TargetType="{x:Type RepeatButton}">
+                    <Border
+                        x:Name="Border">
                         <Border.Background>
-                            <SolidColorBrush Opacity="0.0" Color="{DynamicResource ControlFillColorDefault}" />
+                            <SolidColorBrush
+                                Opacity="0.0"
+                                Color="{DynamicResource ControlFillColorDefault}" />
                         </Border.Background>
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger
+                            Property="IsMouseOver"
+                            Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -68,7 +99,9 @@
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="UiHorizontalScrollBar" TargetType="{x:Type ScrollBar}">
+    <ControlTemplate
+        x:Key="UiHorizontalScrollBar"
+        TargetType="{x:Type ScrollBar}">
         <Border
             x:Name="Border"
             Height="10"
@@ -76,13 +109,19 @@
             VerticalAlignment="Bottom"
             CornerRadius="4">
             <Border.Background>
-                <SolidColorBrush Opacity="0" Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Opacity="0"
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Border.Background>
-            <Grid x:Name="TrackContainer">
+            <Grid
+                x:Name="TrackContainer">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition
+                        Width="Auto" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <RepeatButton
@@ -109,7 +148,9 @@
                     Focusable="False"
                     IsDirectionReversed="False">
                     <Track.Thumb>
-                        <Thumb x:Name="Thumb" Background="{TemplateBinding Background}" />
+                        <Thumb
+                            x:Name="Thumb"
+                            Background="{TemplateBinding Background}" />
                     </Track.Thumb>
                 </Track>
 
@@ -130,10 +171,17 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+            <Trigger
+                Property="IsEnabled"
+                Value="False">
+                <Setter
+                    TargetName="Thumb"
+                    Property="Visibility"
+                    Value="Collapsed" />
             </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
+            <Trigger
+                Property="IsMouseOver"
+                Value="True">
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -186,20 +234,28 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="UiVerticalScrollBar" TargetType="{x:Type ScrollBar}">
+    <ControlTemplate
+        x:Key="UiVerticalScrollBar"
+        TargetType="{x:Type ScrollBar}">
         <Border
             x:Name="Border"
             Width="10"
             HorizontalAlignment="Right"
             CornerRadius="4">
             <Border.Background>
-                <SolidColorBrush Opacity="0" Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Opacity="0"
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Border.Background>
-            <Grid x:Name="TrackContainer">
+            <Grid
+                x:Name="TrackContainer">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition
+                        Height="*" />
+                    <RowDefinition
+                        Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <RepeatButton
@@ -226,7 +282,9 @@
                     Focusable="False"
                     IsDirectionReversed="True">
                     <Track.Thumb>
-                        <Thumb x:Name="Thumb" Background="{TemplateBinding Background}" />
+                        <Thumb
+                            x:Name="Thumb"
+                            Background="{TemplateBinding Background}" />
                     </Track.Thumb>
                 </Track>
 
@@ -247,10 +305,17 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed" />
+            <Trigger
+                Property="IsEnabled"
+                Value="False">
+                <Setter
+                    TargetName="Thumb"
+                    Property="Visibility"
+                    Value="Collapsed" />
             </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
+            <Trigger
+                Property="IsMouseOver"
+                Value="True">
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -303,44 +368,88 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="UiScrollBar" TargetType="{x:Type ScrollBar}">
-        <Setter Property="Background">
+    <Style
+        x:Key="UiScrollBar"
+        TargetType="{x:Type ScrollBar}">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlStrongFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlStrongFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter
+            Property="Margin"
+            Value="0" />
+        <Setter
+            Property="Padding"
+            Value="0" />
+        <Setter
+            Property="Stylus.IsFlicksEnabled"
+            Value="False" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
         <Style.Triggers>
-            <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Width" Value="Auto" />
-                <Setter Property="Height" Value="14" />
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                <Setter Property="Template" Value="{StaticResource UiHorizontalScrollBar}" />
+            <Trigger
+                Property="Orientation"
+                Value="Horizontal">
+                <Setter
+                    Property="Width"
+                    Value="Auto" />
+                <Setter
+                    Property="Height"
+                    Value="14" />
+                <Setter
+                    Property="HorizontalAlignment"
+                    Value="Stretch" />
+                <Setter
+                    Property="Template"
+                    Value="{StaticResource UiHorizontalScrollBar}" />
             </Trigger>
-            <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Width" Value="14" />
-                <Setter Property="Height" Value="Auto" />
-                <Setter Property="VerticalAlignment" Value="Stretch" />
-                <Setter Property="Template" Value="{StaticResource UiVerticalScrollBar}" />
+            <Trigger
+                Property="Orientation"
+                Value="Vertical">
+                <Setter
+                    Property="Width"
+                    Value="14" />
+                <Setter
+                    Property="Height"
+                    Value="Auto" />
+                <Setter
+                    Property="VerticalAlignment"
+                    Value="Stretch" />
+                <Setter
+                    Property="Template"
+                    Value="{StaticResource UiVerticalScrollBar}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="UiThumb" TargetType="{x:Type Thumb}">
-        <Setter Property="Background">
+    <Style
+        x:Key="UiThumb"
+        TargetType="{x:Type Thumb}">
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
+                <ControlTemplate
+                    TargetType="{x:Type Thumb}">
                     <Border
                         Width="Auto"
                         Height="Auto"
@@ -353,25 +462,45 @@
         </Setter>
     </Style>
 
-    <Style x:Key="UiScrollViewer" TargetType="{x:Type ScrollViewer}">
-        <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
-        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0,0,12,12" />
-        <Setter Property="IsTabStop" Value="True" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="UiScrollViewer"
+        TargetType="{x:Type ScrollViewer}">
+        <Setter
+            Property="VerticalScrollBarVisibility"
+            Value="Visible" />
+        <Setter
+            Property="HorizontalScrollBarVisibility"
+            Value="Disabled" />
+        <Setter
+            Property="Margin"
+            Value="0" />
+        <Setter
+            Property="Padding"
+            Value="0,0,12,12" />
+        <Setter
+            Property="IsTabStop"
+            Value="True" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                <ControlTemplate
+                    TargetType="{x:Type ScrollViewer}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition
+                                Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition />
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <Grid
@@ -380,7 +509,8 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Margin="{TemplateBinding Padding}">
-                            <ScrollContentPresenter Margin="0" />
+                            <ScrollContentPresenter
+                                Margin="0" />
                         </Grid>
                         <!--
                         <ScrollContentPresenter
@@ -427,10 +557,14 @@
         </Style.Triggers>
         -->
         <Style.Resources>
-            <Style BasedOn="{StaticResource UiThumb}" TargetType="{x:Type Thumb}" />
+            <Style
+                BasedOn="{StaticResource UiThumb}"
+                TargetType="{x:Type Thumb}" />
         </Style.Resources>
     </Style>
 
-    <Style BasedOn="{StaticResource UiScrollViewer}" TargetType="{x:Type ScrollViewer}" />
+    <Style
+        BasedOn="{StaticResource UiScrollViewer}"
+        TargetType="{x:Type ScrollViewer}" />
 
 </ResourceDictionary>

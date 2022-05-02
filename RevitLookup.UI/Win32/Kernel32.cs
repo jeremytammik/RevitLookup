@@ -8,12 +8,12 @@ using System.Runtime.InteropServices;
 namespace RevitLookup.UI.Win32;
 
 /// <summary>
-/// Windows kernel module.
+///     Windows kernel module.
 /// </summary>
 internal class Kernel32
 {
     /// <summary>
-    /// Copies a block of memory from one location to another.
+    ///     Copies a block of memory from one location to another.
     /// </summary>
     [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false, CharSet = CharSet.Auto)]
     public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);

@@ -6,17 +6,17 @@
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-/// Decides where to put the element.
+///     Decides where to put the element.
 /// </summary>
 public enum ElementPosition
 {
     /// <summary>
-    /// Puts the control element on the left.
+    ///     Puts the control element on the left.
     /// </summary>
     Left,
 
     /// <summary>
-    /// Puts the control element on the right.
+    ///     Puts the control element on the right.
     /// </summary>
     Right
 }

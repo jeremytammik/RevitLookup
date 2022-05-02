@@ -1,8 +1,10 @@
-﻿namespace RevitLookup.UI.Controls;
+﻿using System.Windows.Controls;
+
+namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Prestyled loading screen with <see cref="ProgressRing"/>.
+///     Prestyled loading screen with <see cref="ProgressRing" />.
 /// </summary>
-public class LoadingScreen : System.Windows.Controls.ContentControl
+public class LoadingScreen : ContentControl
 {
 }

@@ -3,12 +3,14 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Windows.Controls;
+
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-/// Control that displays a flying element that can, for example, contain tips.
+///     Control that displays a flying element that can, for example, contain tips.
 /// </summary>
-public class Flyout : System.Windows.Controls.ContentControl
+public class Flyout : ContentControl
 {
     // TODO: Well... to do
 }

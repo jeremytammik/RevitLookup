@@ -11,27 +11,45 @@
     xmlns:converters="clr-namespace:RevitLookup.UI.Converters"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <converters:ProgressThicknessConverter x:Key="ProgressThicknessConverter" />
+    <converters:ProgressThicknessConverter
+        x:Key="ProgressThicknessConverter" />
 
-    <Style TargetType="{x:Type controls:ProgressRing}">
-        <Setter Property="Height" Value="60" />
-        <Setter Property="Width" Value="60" />
-        <Setter Property="Foreground">
+    <Style
+        TargetType="{x:Type controls:ProgressRing}">
+        <Setter
+            Property="Height"
+            Value="60" />
+        <Setter
+            Property="Width"
+            Value="60" />
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource SystemAccentColorLight2}" />
+                <SolidColorBrush
+                    Color="{DynamicResource SystemAccentColorLight2}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="CoverRingStroke">
+        <Setter
+            Property="CoverRingStroke">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlStrokeColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlStrokeColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type controls:ProgressRing}">
-                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                <ControlTemplate
+                    TargetType="{x:Type controls:ProgressRing}">
+                    <Grid
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}">
                         <controls:Arc
                             EndAngle="359"
                             StartAngle="0"
@@ -48,11 +66,17 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsIndeterminate" Value="True">
-                <Setter Property="Template">
+            <Trigger
+                Property="IsIndeterminate"
+                Value="True">
+                <Setter
+                    Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type controls:ProgressRing}">
-                            <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <ControlTemplate
+                            TargetType="{x:Type controls:ProgressRing}">
+                            <Grid
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}">
                                 <controls:Arc
                                     EndAngle="359"
                                     StartAngle="0"
@@ -72,7 +96,9 @@
                                 </controls:Arc>
                             </Grid>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsEnabled" Value="True">
+                                <Trigger
+                                    Property="IsEnabled"
+                                    Value="True">
                                     <Trigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>

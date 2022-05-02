@@ -27,8 +27,8 @@ namespace RevitLookup.UI.Tests.ViewModels;
 
 public sealed class AboutPageViewModel : INotifyPropertyChanged
 {
-    private string _version;
     private string _latestCheck;
+    private string _version;
 
     public AboutPageViewModel()
     {

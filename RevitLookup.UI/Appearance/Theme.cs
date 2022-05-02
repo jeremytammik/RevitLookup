@@ -3,51 +3,58 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace RevitLookup.UI.Appearance;
 
 /// <summary>
-/// Allows to manage available color themes from the library.
+///     Allows to manage available color themes from the library.
 /// </summary>
 public static class Theme
 {
     /// <summary>
-    /// Event triggered when the application's theme is changed.
+    ///     Event triggered when the application's theme is changed.
     /// </summary>
     public static event ThemeChangedEvent Changed;
 
     /// <summary>
-    /// Gets a value that indicates whether the application is currently using the high contrast theme.
+    ///     Gets a value that indicates whether the application is currently using the high contrast theme.
     /// </summary>
-    /// <returns><see langword="true"/> if application uses high contrast theme.</returns>
-    public static bool IsHighContrast() => AppearanceData.ApplicationTheme == ThemeType.HighContrast;
+    /// <returns><see langword="true" /> if application uses high contrast theme.</returns>
+    public static bool IsHighContrast()
+    {
+        return AppearanceData.ApplicationTheme == ThemeType.HighContrast;
+    }
 
     /// <summary>
-    /// Gets a value that indicates whether the Windows is currently using the high contrast theme.
+    ///     Gets a value that indicates whether the Windows is currently using the high contrast theme.
     /// </summary>
-    /// <returns><see langword="true"/> if system uses high contrast theme.</returns>
-    public static bool IsSystemHighContrast() => SystemTheme.HighContrast;
+    /// <returns><see langword="true" /> if system uses high contrast theme.</returns>
+    public static bool IsSystemHighContrast()
+    {
+        return SystemTheme.HighContrast;
+    }
 
     /// <summary>
-    /// Obsolete alternative for <see cref="Apply"/>. Will be removed in the future.
+    ///     Obsolete alternative for <see cref="Apply" />. Will be removed in the future.
     /// </summary>
     public static void Set(ThemeType themeType, BackgroundType backgroundEffect = BackgroundType.Mica,
-        bool updateAccent = true, bool forceBackground = false) =>
+        bool updateAccent = true, bool forceBackground = false)
+    {
         Apply(themeType, backgroundEffect, updateAccent, forceBackground);
+    }
 
     /// <summary>
-    /// Changes the current application theme.
+    ///     Changes the current application theme.
     /// </summary>
     /// <param name="themeType">Theme to set.</param>
     /// <param name="backgroundEffect">Whether the custom background effect should be applied.</param>
     /// <param name="updateAccent">Whether the color accents should be changed.</param>
-    /// <param name="forceBackground">If <see langword="true"/>, bypasses the app's theme compatibility check and tries to force the change of a background effect.</param>
+    /// <param name="forceBackground">If <see langword="true" />, bypasses the app's theme compatibility check and tries to force the change of a background effect.</param>
     public static void Apply(ThemeType themeType, BackgroundType backgroundEffect = BackgroundType.Mica, bool updateAccent = true, bool forceBackground = false)
     {
-        if (updateAccent) Accent.Apply(Accent.GetColorizationColor(), themeType, false);
+        if (updateAccent) Accent.Apply(Accent.GetColorizationColor(), themeType);
 
         if (themeType == ThemeType.Unknown || themeType == AppearanceData.ApplicationTheme)
             return;
@@ -75,9 +82,9 @@ public static class Theme
     }
 
     /// <summary>
-    /// Gets currently set application theme.
+    ///     Gets currently set application theme.
     /// </summary>
-    /// <returns><see cref="ThemeType.Unknown"/> if something goes wrong.</returns>
+    /// <returns><see cref="ThemeType.Unknown" /> if something goes wrong.</returns>
     public static ThemeType GetAppTheme()
     {
         if (AppearanceData.ApplicationTheme == ThemeType.Unknown)
@@ -87,9 +94,9 @@ public static class Theme
     }
 
     /// <summary>
-    /// Gets currently set system theme.
+    ///     Gets currently set system theme.
     /// </summary>
-    /// <returns><see cref="SystemThemeType.Unknown"/> if something goes wrong.</returns>
+    /// <returns><see cref="SystemThemeType.Unknown" /> if something goes wrong.</returns>
     public static SystemThemeType GetSystemTheme()
     {
         if (AppearanceData.SystemTheme == SystemThemeType.Unknown)
@@ -99,9 +106,9 @@ public static class Theme
     }
 
     /// <summary>
-    /// Gets a value that indicates whether the application is matching the system theme.
+    ///     Gets a value that indicates whether the application is matching the system theme.
     /// </summary>
-    /// <returns><see langword="true"/> if the application has the same theme as the system.</returns>
+    /// <returns><see langword="true" /> if the application has the same theme as the system.</returns>
     public static bool IsAppMatchesSystem()
     {
         var appTheme = GetAppTheme();
@@ -117,7 +124,7 @@ public static class Theme
     }
 
     /// <summary>
-    /// Checks if the application and the operating system are currently working in a dark theme.
+    ///     Checks if the application and the operating system are currently working in a dark theme.
     /// </summary>
     public static bool IsMatchedDark()
     {
@@ -131,7 +138,7 @@ public static class Theme
     }
 
     /// <summary>
-    /// Checks if the application and the operating system are currently working in a light theme.
+    ///     Checks if the application and the operating system are currently working in a light theme.
     /// </summary>
     public static bool IsMatchedLight()
     {
@@ -145,7 +152,7 @@ public static class Theme
     }
 
     /// <summary>
-    /// Tries to guess the currently set application theme.
+    ///     Tries to guess the currently set application theme.
     /// </summary>
     private static void FetchApplicationTheme()
     {
@@ -166,7 +173,7 @@ public static class Theme
     }
 
     /// <summary>
-    /// Tries to guess the currently set system theme.
+    ///     Tries to guess the currently set system theme.
     /// </summary>
     private static void FetchSystemTheme()
     {
@@ -174,7 +181,7 @@ public static class Theme
     }
 
     /// <summary>
-    /// Forces change to application background. Required if custom background effect was previously applied.
+    ///     Forces change to application background. Required if custom background effect was previously applied.
     /// </summary>
     private static void UpdateBackground(ThemeType themeType,
         BackgroundType backgroundEffect = BackgroundType.Unknown, bool forceBackground = false)
