@@ -22,12 +22,12 @@ using RevitLookup.UI.Tests.ViewModels;
 
 namespace RevitLookup.UI.Tests.Views;
 
-public partial class WelcomeScreen
+public partial class DashboardView
 {
-    public WelcomeScreen()
+    public DashboardView()
     {
         Application.Current = this;
         InitializeComponent();
-        DataContext = new WelcomeScreenViewModel();
+        DataContext = new DashboardViewModel();
     }
 }

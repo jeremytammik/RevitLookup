@@ -23,7 +23,7 @@
         Margin="24">
         <rl:CardControl
             Title="Theme"
-            Icon="DarkTheme24">
+            Icon="Color24">
             <ComboBox
                 SelectedIndex="0"
                 MinWidth="140"

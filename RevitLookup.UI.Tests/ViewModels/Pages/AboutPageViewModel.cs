@@ -19,41 +19,43 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
-using RevitLookup.UI.Tests.Views.Pages;
 
-namespace RevitLookup.UI.Tests.ViewModels;
+namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
-public class WelcomeScreenViewModel : INotifyPropertyChanged
+public sealed class AboutPageViewModel : INotifyPropertyChanged
 {
-    private object _aboutPage;
-    private object _settingsPage;
+    private string _latestCheck;
+    private string _version;
 
-    public WelcomeScreenViewModel()
+    public AboutPageViewModel()
     {
-        AboutPage = new AboutView();
-        SettingsPage = new SettingsView();
+        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+        var info = FileVersionInfo.GetVersionInfo(assembly.Location);
+        Version = info.ProductVersion;
+        LatestCheck = "Latest check: 01.05.2022 12:00:00";
     }
 
-    public object AboutPage
+    public string Version
     {
-        get => _aboutPage;
+        get => _version;
         set
         {
-            if (Equals(value, _aboutPage)) return;
-            _aboutPage = value;
+            if (value == _version) return;
+            _version = value;
             OnPropertyChanged();
         }
     }
 
-    public object SettingsPage
+    public string LatestCheck
     {
-        get => _settingsPage;
+        get => _latestCheck;
         set
         {
-            if (Equals(value, _settingsPage)) return;
-            _settingsPage = value;
+            if (value == _latestCheck) return;
+            _latestCheck = value;
             OnPropertyChanged();
         }
     }
@@ -61,7 +63,7 @@ public class WelcomeScreenViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
     [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

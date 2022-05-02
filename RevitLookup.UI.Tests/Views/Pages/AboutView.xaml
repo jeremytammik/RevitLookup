@@ -6,8 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/controls"
     xmlns:viewModels="clr-namespace:RevitLookup.UI.Tests.ViewModels"
+    xmlns:pages="clr-namespace:RevitLookup.UI.Tests.ViewModels.Pages"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance viewModels:AboutPageViewModel}"
+    d:DataContext="{d:DesignInstance pages:AboutPageViewModel}"
     Style="{DynamicResource UiDynamicScrollViewer}">
     <!-- <rl:DynamicScrollViewer.Resources> -->
     <!--     <ResourceDictionary> -->
