@@ -8,7 +8,7 @@
     xmlns:viewModels="clr-namespace:RevitLookup.UI.Tests.ViewModels"
     xmlns:pages="clr-namespace:RevitLookup.UI.Tests.ViewModels.Pages"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance pages:AboutPageViewModel}"
+    d:DataContext="{d:DesignInstance pages:AboutViewModel}"
     Style="{DynamicResource UiDynamicScrollViewer}">
     <!-- <rl:DynamicScrollViewer.Resources> -->
     <!--     <ResourceDictionary> -->

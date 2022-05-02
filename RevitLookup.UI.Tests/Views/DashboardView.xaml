@@ -43,13 +43,13 @@
             </rl:NavigationCompact.Items>
             <rl:NavigationCompact.Footer>
                 <rl:NavigationItem
+                    x:Name="SettingsNavigationItem"
                     Content="Settings"
-                    Icon="Settings24"
-                    Page="{Binding SettingsPage}" />
+                    Icon="Settings24"/>
                 <rl:NavigationItem
+                    x:Name="AboutNavigationItem"
                     Content="About"
-                    Icon="Info24"
-                    Page="{Binding AboutPage}" />
+                    Icon="Info24" />
             </rl:NavigationCompact.Footer>
         </rl:NavigationCompact>
         <Grid

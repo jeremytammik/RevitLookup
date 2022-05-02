@@ -21,43 +21,15 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
-using RevitLookup.UI.Tests.Views.Pages;
+using RevitLookup.UI.Tests.ViewModels.Pages;
 
 namespace RevitLookup.UI.Tests.ViewModels;
 
 public class DashboardViewModel : INotifyPropertyChanged
 {
-    private object _aboutPage;
-    private object _settingsPage;
-
-    public DashboardViewModel()
-    {
-        SettingsPage = new SettingsView();
-        AboutPage = new AboutView();
-    }
-
-    public object AboutPage
-    {
-        get => _aboutPage;
-        set
-        {
-            if (Equals(value, _aboutPage)) return;
-            _aboutPage = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public object SettingsPage
-    {
-        get => _settingsPage;
-        set
-        {
-            if (Equals(value, _settingsPage)) return;
-            _settingsPage = value;
-            OnPropertyChanged();
-        }
-    }
-
+    public SettingsViewModel SettingsViewModel { get; } = new();
+    public AboutViewModel AboutViewModel { get; } = new();
+    
     public event PropertyChangedEventHandler PropertyChanged;
 
     [NotifyPropertyChangedInvocator]

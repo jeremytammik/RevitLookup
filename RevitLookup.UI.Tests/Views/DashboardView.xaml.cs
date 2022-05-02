@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.UI.Tests.ViewModels;
+using RevitLookup.UI.Tests.Views.Pages;
 
 namespace RevitLookup.UI.Tests.Views;
 
@@ -28,6 +29,9 @@ public partial class DashboardView
     {
         Application.Current = this;
         InitializeComponent();
-        DataContext = new DashboardViewModel();
+        var dashboardViewModel = new DashboardViewModel();
+        SettingsNavigationItem.Page = new SettingsView(dashboardViewModel);
+        AboutNavigationItem.Page = new AboutView(dashboardViewModel);
+        DataContext = dashboardViewModel;
     }
 }

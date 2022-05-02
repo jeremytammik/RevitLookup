@@ -16,6 +16,11 @@ public enum ThemeType
     Unknown,
 
     /// <summary>
+    ///     Sync with Windows theme
+    /// </summary>
+    Auto,
+    
+    /// <summary>
     ///     Dark application theme.
     /// </summary>
     Dark,

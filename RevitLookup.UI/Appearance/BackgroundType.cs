@@ -16,6 +16,11 @@ public enum BackgroundType
     Unknown,
 
     /// <summary>
+    ///     Without effects
+    /// </summary>
+    Disabled,
+
+    /// <summary>
     ///     Sets <c>DWMWA_SYSTEMBACKDROP_TYPE</c> to <see langword="0"></see>.
     /// </summary>
     Auto,

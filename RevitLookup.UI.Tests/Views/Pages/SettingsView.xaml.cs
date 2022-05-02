@@ -18,84 +18,15 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Controls;
-using System.Windows.Interop;
-using System.Windows.Media;
-using RevitLookup.UI.Appearance;
+using RevitLookup.UI.Tests.ViewModels;
 
 namespace RevitLookup.UI.Tests.Views.Pages;
 
 public partial class SettingsView
 {
-    public SettingsView()
+    public SettingsView(DashboardViewModel dashboardViewModel)
     {
         InitializeComponent();
-    }
-
-    public ThemeType ThemeType { get; set; } = ThemeType.Unknown;
-    public BackgroundType BackgroundType { get; set; } = BackgroundType.Unknown;
-
-    private void ThemeSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (sender is not ComboBox comboBox) return;
-
-        switch (comboBox.SelectedIndex)
-        {
-            case 0:
-                if (new WindowInteropHelper(Application.Current).Handle == IntPtr.Zero)
-                    Application.Current.Loaded += (_, _) =>
-                    {
-                        Watcher.Watch(Application.Current, BackgroundType, true, true);
-                    };
-                else
-                    Watcher.Watch(Application.Current, BackgroundType, true, true);
-                break;
-            case 1:
-                ThemeType = ThemeType.Dark;
-                Theme.Set(ThemeType);
-                break;
-            case 2:
-                ThemeType = ThemeType.Light;
-                Theme.Set(ThemeType);
-                break;
-        }
-
-        if (ComboBoxBackground != null) ApplyBackgroundEffect(ComboBoxBackground.SelectedIndex);
-    }
-
-    private void BackgroundSelector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (sender is not ComboBox comboBox) return;
-        ApplyBackgroundEffect(comboBox.SelectedIndex);
-    }
-
-    private void ApplyBackgroundEffect(int index)
-    {
-        var windowHandle = new WindowInteropHelper(Application.Current).Handle;
-        Appearance.Background.Remove(windowHandle);
-
-        if (ThemeType == ThemeType.Dark)
-            Appearance.Background.ApplyDarkMode(windowHandle);
-        else
-            Appearance.Background.RemoveDarkMode(windowHandle);
-
-        switch (index)
-        {
-            case 1:
-                Application.Current.Background = Brushes.Transparent;
-                BackgroundType = BackgroundType.Auto;
-                Appearance.Background.Apply(windowHandle, BackgroundType, true);
-                break;
-            case 2:
-                Application.Current.Background = Brushes.Transparent;
-                BackgroundType = BackgroundType.Mica;
-                Appearance.Background.Apply(windowHandle, BackgroundType, true);
-                break;
-            case 3:
-                Application.Current.Background = Brushes.Transparent;
-                BackgroundType = BackgroundType.Acrylic;
-                Appearance.Background.Apply(windowHandle, BackgroundType, true);
-                break;
-        }
+        DataContext = dashboardViewModel.SettingsViewModel;
     }
 }
