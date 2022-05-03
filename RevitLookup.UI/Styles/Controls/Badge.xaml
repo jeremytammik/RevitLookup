@@ -29,7 +29,7 @@
         <!--<Setter Property="BorderBrush" Value="{DynamicResource SystemAccentBrush}" />-->
         <Setter
             Property="BorderBrush"
-            Value="{DynamicResource ControlElevationBorderBrush}" />
+            Value="Transparent" />
         <Setter
             Property="Padding"
             Value="4" />
@@ -49,6 +49,7 @@
                         Padding="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
                         CornerRadius="4">
                         <ContentPresenter />
                     </Border>
@@ -58,20 +59,18 @@
                             Value="Transparent">
                             <Setter
                                 TargetName="Border"
-                                Property="BorderBrush"
-                                Value="Transparent" />
-                            <Setter
-                                TargetName="Border"
                                 Property="Background"
                                 Value="Transparent" />
+                            <Setter
+                                Property="BorderBrush"
+                                Value="{DynamicResource ControlElevationBorderBrush}" />
                         </Trigger>
                         <Trigger
                             Property="Appearance"
                             Value="Secondary">
                             <Setter
-                                TargetName="Border"
                                 Property="BorderBrush"
-                                Value="{DynamicResource ControlFillColorDefaultBrush}" />
+                                Value="{DynamicResource ControlElevationBorderBrush}" />
                             <Setter
                                 TargetName="Border"
                                 Property="Background"
@@ -82,20 +81,12 @@
                             Value="Caution">
                             <Setter
                                 TargetName="Border"
-                                Property="BorderBrush"
-                                Value="{DynamicResource PaletteOrangeBrush}" />
-                            <Setter
-                                TargetName="Border"
                                 Property="Background"
                                 Value="{DynamicResource PaletteOrangeBrush}" />
                         </Trigger>
                         <Trigger
                             Property="Appearance"
                             Value="Danger">
-                            <Setter
-                                TargetName="Border"
-                                Property="BorderBrush"
-                                Value="{DynamicResource PaletteRedBrush}" />
                             <Setter
                                 TargetName="Border"
                                 Property="Background"
@@ -106,10 +97,6 @@
                             Value="Success">
                             <Setter
                                 TargetName="Border"
-                                Property="BorderBrush"
-                                Value="{DynamicResource PaletteGreenBrush}" />
-                            <Setter
-                                TargetName="Border"
                                 Property="Background"
                                 Value="{DynamicResource PaletteGreenBrush}" />
                         </Trigger>
@@ -118,30 +105,28 @@
                             Value="Dark">
                             <Setter
                                 TargetName="Border"
-                                Property="BorderBrush"
-                                Value="#1e1e1e" />
-                            <Setter
-                                TargetName="Border"
                                 Property="Background"
-                                Value="#2e2e2e" />
+                                Value="{DynamicResource ControlStrongFillColorDarkBrush}" />
                             <Setter
                                 Property="Foreground"
-                                Value="#f3f3f3" />
+                                Value="{DynamicResource TextFillColorLightPrimaryBrush}" />
+                            <Setter
+                                Property="BorderBrush"
+                                Value="{DynamicResource ControlElevationBorderBrush}" />
                         </Trigger>
                         <Trigger
                             Property="Appearance"
                             Value="Light">
                             <Setter
                                 TargetName="Border"
-                                Property="BorderBrush"
-                                Value="#b3b3b3" />
-                            <Setter
-                                TargetName="Border"
                                 Property="Background"
-                                Value="#f3f3f3" />
+                                Value="{DynamicResource ControlStrongFillColorLightBrush}" />
                             <Setter
                                 Property="Foreground"
-                                Value="#1e1e1e" />
+                                Value="{DynamicResource TextFillColorDarkPrimaryBrush}" />
+                            <Setter
+                                Property="BorderBrush"
+                                Value="{DynamicResource ControlElevationBorderBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

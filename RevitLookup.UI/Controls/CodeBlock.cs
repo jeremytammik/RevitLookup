@@ -3,10 +3,14 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Syntax;
+using Clipboard = RevitLookup.UI.Common.Clipboard;
 
 namespace RevitLookup.UI.Controls;
 
@@ -37,6 +41,8 @@ public class CodeBlock : ContentControl
     public CodeBlock()
     {
         SetValue(ButtonCommandProperty, new RelayCommand(o => Button_Click(this, o)));
+
+        Theme.Changed += ThemeOnChanged;
     }
 
     /// <summary>
@@ -53,6 +59,11 @@ public class CodeBlock : ContentControl
     /// </summary>
     public IRelayCommand ButtonCommand => (IRelayCommand) GetValue(ButtonCommandProperty);
 
+    private void ThemeOnChanged(ThemeType currentTheme, Color systemAccent)
+    {
+        UpdateSyntax();
+    }
+
     /// <summary>
     ///     This method is invoked when the Content property changes.
     /// </summary>
@@ -60,16 +71,20 @@ public class CodeBlock : ContentControl
     /// <param name="newContent">The new value of the Content property.</param>
     protected override void OnContentChanged(object oldContent, object newContent)
     {
-        _sourceCode = Highlighter.Clean(newContent as string ?? string.Empty);
+        UpdateSyntax();
+    }
+
+    protected virtual void UpdateSyntax()
+    {
+        _sourceCode = Highlighter.Clean(Content as string ?? string.Empty);
         SyntaxContent = Highlighter.Format(_sourceCode);
     }
 
     private void Button_Click(object sender, object parameter)
     {
-        var thread = new Thread(() => Clipboard.SetText(_sourceCode));
-
-        thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-        thread.Start();
-        thread.Join();
+#if DEBUG
+        Debug.WriteLine($"INFO | CodeBlock source: \n{_sourceCode}", "RevitLookup.UI.CodeBlock");
+#endif
+        Clipboard.SetText(_sourceCode);
     }
 }

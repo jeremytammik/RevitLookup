@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Win32;
+namespace RevitLookup.UI.Interop;
 
 [Flags]
 internal enum UFlags

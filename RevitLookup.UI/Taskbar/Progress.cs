@@ -6,7 +6,7 @@
 using System.Windows.Interop;
 using System.Windows.Threading;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Win32;
+using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Taskbar;
 
@@ -39,7 +39,7 @@ public static class Progress
     ///     Allows to change the status of the progress bar in the task bar.
     /// </summary>
     /// <param name="state">State of the progress indicator.</param>
-    /// <param name="dispatchInvoke">Run with the main <see cref="System.Windows.Application" /> thread.</param>
+    /// <param name="dispatchInvoke">Run with the main <see cref="Application" /> thread.</param>
     public static void SetState(ProgressState state, bool dispatchInvoke = false)
     {
         if (!dispatchInvoke)
@@ -60,7 +60,7 @@ public static class Progress
     /// </summary>
     /// <param name="current">Current value to display</param>
     /// <param name="max">Maximum number for division.</param>
-    /// <param name="dispatchInvoke">Run with the main <see cref="System.Windows.Application" /> thread.</param>
+    /// <param name="dispatchInvoke">Run with the main <see cref="Application" /> thread.</param>
     public static void SetValue(int current, int max, bool dispatchInvoke = false)
     {
         if (!dispatchInvoke)
@@ -79,7 +79,7 @@ public static class Progress
 
     private static void SetProgressState(ProgressState state)
     {
-        // LookupApp.Current.MainWindow.TaskbarItemInfo.ProgressState = (System.Windows.Shell.TaskbarItemProgressState) state;
+        // Application.Current.MainWindow.TaskbarItemInfo.ProgressState = (System.Windows.Shell.TaskbarItemProgressState) state;
         _taskbarList.SetProgressState(GetHandle(), state);
     }
 

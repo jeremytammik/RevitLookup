@@ -51,7 +51,7 @@ public sealed class RelayCommand : IRelayCommand
         if (execute == null)
             throw new ArgumentNullException("execute");
 
-        _execute = _ => execute();
+        _execute = p => execute();
         _canExecute = canExecute;
     }
 

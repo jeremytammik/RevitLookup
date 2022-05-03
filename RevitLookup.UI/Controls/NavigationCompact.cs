@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.Windows;
 using RevitLookup.UI.Common;
 
@@ -52,9 +53,14 @@ public class NavigationCompact : Navigation
 
     private void Button_OnClick(object sender, object parameter)
     {
-        if (parameter == null) return;
+        if (parameter == null)
+            return;
 
         var param = parameter as string ?? string.Empty;
+
+#if DEBUG
+        Debug.WriteLine($"INFO: {typeof(NavigationCompact)} button clicked with param: {param}", "RevitLookup.UI.NavigationCompact");
+#endif
         if (param == "hamburger")
             IsExpanded = !IsExpanded;
     }

@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/controls"
-    xmlns:viewModels="clr-namespace:RevitLookup.UI.Tests.ViewModels"
     xmlns:pages="clr-namespace:RevitLookup.UI.Tests.ViewModels.Pages"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance pages:AboutViewModel}"

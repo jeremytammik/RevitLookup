@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shell;
 using RevitLookup.UI.Common;
-using static RevitLookup.UI.Win32.User32;
+using static RevitLookup.UI.Interop.User32;
 
 namespace RevitLookup.UI.Controls;
 

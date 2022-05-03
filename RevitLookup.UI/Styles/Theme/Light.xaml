@@ -18,7 +18,7 @@
 
     <Color
         x:Key="ApplicationBackgroundColor">
-        #fafafa
+        #FFFAFAFA
     </Color>
 
     <!--  Colors  -->
@@ -29,11 +29,11 @@
     </Color>
     <Color
         x:Key="TextFillColorSecondary">
-        #9E000000
+        #BE000000
     </Color>
     <Color
         x:Key="TextFillColorTertiary">
-        #72000000
+        #A2000000
     </Color>
     <Color
         x:Key="TextFillColorDisabled">

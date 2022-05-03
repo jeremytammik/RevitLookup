@@ -16,19 +16,19 @@ namespace RevitLookup.UI.Controls;
 public class Anchor : Button
 {
     /// <summary>
-    ///     Property for <see cref="Href" />.
+    ///     Property for <see cref="NavigateUri" />.
     /// </summary>
-    public static readonly DependencyProperty HrefProperty =
-        DependencyProperty.Register(nameof(Href), typeof(string), typeof(Anchor),
+    public static readonly DependencyProperty NavigateUriProperty =
+        DependencyProperty.Register(nameof(NavigateUri), typeof(string), typeof(Anchor),
             new PropertyMetadata(string.Empty));
 
     /// <summary>
     ///     Gets or sets the URL that the hyperlink points to.
     /// </summary>
-    public string Href
+    public string NavigateUri
     {
-        get => (string) GetValue(HrefProperty);
-        set => SetValue(HrefProperty, value);
+        get => (string) GetValue(NavigateUriProperty);
+        set => SetValue(NavigateUriProperty, value);
     }
 
     /// <summary>
@@ -38,8 +38,13 @@ public class Anchor : Button
     {
         var newEvent = new RoutedEventArgs(ClickEvent, this);
         RaiseEvent(newEvent);
-        if (string.IsNullOrEmpty(Href)) return;
-        ProcessStartInfo sInfo = new(new Uri(Href).AbsoluteUri)
+
+#if DEBUG
+        Debug.WriteLine($"INFO | Anchor clicked, with href: {NavigateUri}", "RevitLookup.UI.Anchor");
+#endif
+        if (string.IsNullOrEmpty(NavigateUri))
+            return;
+        ProcessStartInfo sInfo = new(new Uri(NavigateUri).AbsoluteUri)
         {
             UseShellExecute = true
         };

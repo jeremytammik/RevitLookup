@@ -22,7 +22,7 @@
 
     <Color
         x:Key="ApplicationBackgroundColor">
-        #202020
+        #FF202020
     </Color>
 
     <!--  Colors  -->

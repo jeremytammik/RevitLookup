@@ -6,7 +6,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace RevitLookup.UI.Win32;
+namespace RevitLookup.UI.Interop;
 
 /// <summary>
 ///     Shell32 Namespace
@@ -100,7 +100,7 @@ internal static class Shell32
     ///     Sends a message to the taskbar's status area.
     /// </summary>
     [SecurityCritical]
-    [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+    [DllImport(Libraries.Shell32, CharSet = CharSet.Auto)]
     public static extern int Shell_NotifyIcon(NIM message, NOTIFYICONDATA pnid);
 
     [StructLayout(LayoutKind.Sequential, Pack = 8, CharSet = CharSet.Unicode)]

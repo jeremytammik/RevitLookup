@@ -6,9 +6,9 @@
 -->
 
 <ResourceDictionary
+    x:Class="RevitLookup.UI.Styles.Controls.ContextMenu"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="RevitLookup.UI.Styles.Controls.ContextMenu">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style
         x:Key="UiContextMenu"
@@ -46,10 +46,10 @@
             Property="Margin"
             Value="0" />
         <Setter
-            Property="Grid.IsSharedSizeScope"
-            Value="True" />
-        <Setter
             Property="HasDropShadow"
+            Value="False" />
+        <Setter
+            Property="Grid.IsSharedSizeScope"
             Value="True" />
         <Setter
             Property="Popup.PopupAnimation"
@@ -73,8 +73,10 @@
                         BorderThickness="1"
                         CornerRadius="8">
                         <StackPanel
+                            ClipToBounds="True"
                             IsItemsHost="True"
-                            KeyboardNavigation.DirectionalNavigation="Cycle" />
+                            KeyboardNavigation.DirectionalNavigation="Cycle"
+                            Orientation="Vertical" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger

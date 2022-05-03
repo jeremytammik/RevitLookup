@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using RevitLookup.UI.Common;
@@ -48,10 +49,18 @@ public class Breadcrumb : Control
 
     private void BuildBreadcrumb()
     {
+#if DEBUG
+        Debug.WriteLine($"INFO | {typeof(Breadcrumb)} builded, current nav: {Navigation.GetType()}", "RevitLookup.UI.Breadcrumb");
+#endif
+
+        //TODO: Navigate with previous levels
+
         if (Navigation?.Current is INavigationItem item)
         {
             var pageName = item.Content as string;
-            if (string.IsNullOrEmpty(pageName)) return;
+
+            if (string.IsNullOrEmpty(pageName))
+                return;
 
             Current = pageName;
         }
@@ -59,7 +68,9 @@ public class Breadcrumb : Control
 
     private static void NavigationPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is not Breadcrumb control) return;
+        if (d is not Breadcrumb control)
+            return;
+
         control.Navigation.Navigated += control.NavigationOnNavigated;
     }
 

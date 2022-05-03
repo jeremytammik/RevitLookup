@@ -29,8 +29,14 @@ namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
 public sealed class SettingsViewModel : INotifyPropertyChanged
 {
-    private ThemeType _currentTheme;
     private BackgroundType _currentEffect;
+    private ThemeType _currentTheme;
+
+    public SettingsViewModel()
+    {
+        CurrentTheme = ThemeType.Auto;
+        CurrentEffect = BackgroundType.Disabled;
+    }
 
     public List<ThemeType> Themes { get; } = new()
     {
@@ -42,9 +48,10 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
     public List<BackgroundType> Effects { get; } = new()
     {
         BackgroundType.Disabled,
-        BackgroundType.Auto,
-        BackgroundType.Mica,
-        BackgroundType.Acrylic
+        // BackgroundType.Auto,
+        // BackgroundType.Acrylic,
+        BackgroundType.Mica
+        // BackgroundType.Tabbed
     };
 
     public ThemeType CurrentTheme
@@ -71,11 +78,7 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
         }
     }
 
-    public SettingsViewModel()
-    {
-        CurrentTheme = ThemeType.Auto;
-        CurrentEffect = BackgroundType.Disabled;
-    }
+    public event PropertyChangedEventHandler PropertyChanged;
 
     private void ApplyTheme(ThemeType theme)
     {
@@ -91,10 +94,10 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
                     Watcher.Watch(Application.Current, CurrentEffect, true, true);
                 return;
             case ThemeType.Dark:
-                Theme.Set(ThemeType.Dark);
+                Theme.Apply(ThemeType.Dark);
                 break;
             case ThemeType.Light:
-                Theme.Set(ThemeType.Light);
+                Theme.Apply(ThemeType.Light);
                 break;
             case ThemeType.Unknown:
             case ThemeType.HighContrast:
@@ -121,18 +124,16 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
             case BackgroundType.Disabled:
                 break;
             case BackgroundType.Auto:
-            case BackgroundType.Mica:
             case BackgroundType.Acrylic:
+            case BackgroundType.Mica:
+            case BackgroundType.Tabbed:
                 Application.Current.Background = Brushes.Transparent;
                 Background.Apply(windowHandle, effect, true);
                 break;
-            case BackgroundType.Tabbed:
             default:
                 throw new NotSupportedException();
         }
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
 
     [NotifyPropertyChangedInvocator]
     private void OnPropertyChanged([CallerMemberName] string propertyName = null)

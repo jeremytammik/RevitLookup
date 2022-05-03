@@ -114,6 +114,11 @@ public class DynamicScrollViewer : ScrollViewer
     {
         base.OnScrollChanged(e);
 
+        //#if DEBUG
+        //            System.Diagnostics.Debug.WriteLine($"DEBUG | {typeof(DynamicScrollBar)}.{nameof(e.VerticalChange)} - {e.VerticalChange}", "RevitLookup.UI");
+        //            System.Diagnostics.Debug.WriteLine($"DEBUG | {typeof(DynamicScrollBar)}.{nameof(e.HorizontalChange)} - {e.HorizontalChange}", "RevitLookup.UI");
+        //#endif
+
         if (e.HorizontalChange > _minimalChange || e.HorizontalChange < -_minimalChange)
             UpdateHorizontalScrollingState();
 

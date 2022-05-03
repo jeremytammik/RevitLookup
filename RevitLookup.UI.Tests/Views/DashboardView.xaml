@@ -45,7 +45,7 @@
                 <rl:NavigationItem
                     x:Name="SettingsNavigationItem"
                     Content="Settings"
-                    Icon="Settings24"/>
+                    Icon="Settings24" />
                 <rl:NavigationItem
                     x:Name="AboutNavigationItem"
                     Content="About"

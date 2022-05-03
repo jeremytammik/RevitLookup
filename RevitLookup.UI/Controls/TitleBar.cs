@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Win32;
+using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Controls;
 
@@ -22,6 +22,12 @@ public class TitleBar : UserControl
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
         typeof(string), typeof(TitleBar), new PropertyMetadata(null));
+
+    /// <summary>
+    ///     Property for <see cref="Header" />.
+    /// </summary>
+    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header),
+        typeof(object), typeof(TitleBar), new PropertyMetadata(null));
 
     /// <summary>
     ///     Property for <see cref="UseSnapLayout" />.
@@ -49,6 +55,13 @@ public class TitleBar : UserControl
     public static readonly DependencyProperty ShowMinimizeProperty = DependencyProperty.Register(
         nameof(ShowMinimize),
         typeof(bool), typeof(TitleBar), new PropertyMetadata(true));
+
+    /// <summary>
+    ///     Property for <see cref="ShowHelp" />
+    /// </summary>
+    public static readonly DependencyProperty ShowHelpProperty = DependencyProperty.Register(
+        nameof(ShowHelp),
+        typeof(bool), typeof(TitleBar), new PropertyMetadata(false));
 
     /// <summary>
     ///     Property for <see cref="CanMaximize" />
@@ -83,16 +96,22 @@ public class TitleBar : UserControl
         nameof(MinimizeClicked), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TitleBar));
 
     /// <summary>
+    ///     Routed event for <see cref="HelpClicked" />.
+    /// </summary>
+    public static readonly RoutedEvent HelpClickedEvent = EventManager.RegisterRoutedEvent(
+        nameof(HelpClicked), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TitleBar));
+
+    /// <summary>
     ///     Property for <see cref="ButtonCommand" />.
     /// </summary>
     public static readonly DependencyProperty ButtonCommandProperty =
         DependencyProperty.Register(nameof(ButtonCommand),
             typeof(IRelayCommand), typeof(TitleBar), new PropertyMetadata(null));
 
-    private User32.POINT _doubleClickPoint;
+    internal User32.POINT _doubleClickPoint;
     private Window _parent;
 
-    private SnapLayout _snapLayout;
+    internal SnapLayout _snapLayout;
 
     /// <summary>
     ///     Creates a new instance of the class and sets the default <see cref="FrameworkElement.Loaded" /> event.
@@ -111,6 +130,15 @@ public class TitleBar : UserControl
     {
         get => (string) GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
+    }
+
+    /// <summary>
+    ///     Gets or sets the content displayed in the <see cref="TitleBar" />.
+    /// </summary>
+    public object Header
+    {
+        get => GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
     }
 
     /// <summary>
@@ -150,6 +178,15 @@ public class TitleBar : UserControl
     }
 
     /// <summary>
+    ///     Gets or sets information whether to show help button
+    /// </summary>
+    public bool ShowHelp
+    {
+        get => (bool) GetValue(ShowHelpProperty);
+        set => SetValue(ShowHelpProperty, value);
+    }
+
+    /// <summary>
     ///     Enables or disables the maximize functionality if disables the MaximizeActionOverride action won't be called
     /// </summary>
     public bool CanMaximize
@@ -182,7 +219,10 @@ public class TitleBar : UserControl
     /// </summary>
     public Action<TitleBar, Window> MinimizeActionOverride { get; set; } = null;
 
-    private Window ParentWindow => _parent ??= Window.GetWindow(this);
+    /// <summary>
+    ///     Window containing the TitleBar.
+    /// </summary>
+    internal Window ParentWindow => _parent ??= Window.GetWindow(this);
 
     /// <summary>
     ///     Event triggered after clicking close button.
@@ -211,6 +251,15 @@ public class TitleBar : UserControl
         remove => RemoveHandler(MinimizeClickedEvent, value);
     }
 
+    /// <summary>
+    ///     Event triggered after clicking help button
+    /// </summary>
+    public event RoutedEventHandler HelpClicked
+    {
+        add => AddHandler(HelpClickedEvent, value);
+        remove => RemoveHandler(HelpClickedEvent, value);
+    }
+
     private void CloseWindow()
     {
         ParentWindow.Close();
@@ -221,6 +270,7 @@ public class TitleBar : UserControl
         if (MinimizeActionOverride != null)
         {
             MinimizeActionOverride(this, _parent);
+
             return;
         }
 
@@ -229,11 +279,13 @@ public class TitleBar : UserControl
 
     private void MaximizeWindow()
     {
-        if (!CanMaximize) return;
+        if (!CanMaximize)
+            return;
 
         if (MaximizeActionOverride != null)
         {
             MaximizeActionOverride(this, _parent);
+
             return;
         }
 
@@ -356,6 +408,9 @@ public class TitleBar : UserControl
             case "maximize":
                 RaiseEvent(new RoutedEventArgs(MaximizeClickedEvent, this));
                 MaximizeWindow();
+                break;
+            case "help":
+                RaiseEvent(new RoutedEventArgs(HelpClickedEvent, this));
                 break;
         }
     }

@@ -29,7 +29,7 @@ public class DashboardViewModel : INotifyPropertyChanged
 {
     public SettingsViewModel SettingsViewModel { get; } = new();
     public AboutViewModel AboutViewModel { get; } = new();
-    
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     [NotifyPropertyChangedInvocator]

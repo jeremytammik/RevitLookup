@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Win32;
+using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Appearance;
 
@@ -25,7 +25,8 @@ public static class Background
     /// <returns><see langword="true" /> if <see cref="BackgroundType" /> is supported.</returns>
     public static bool IsSupported(BackgroundType type)
     {
-        if (!Windows.IsNt()) return false;
+        if (!Windows.IsNt())
+            return false;
 
         return type switch
         {
@@ -46,14 +47,17 @@ public static class Background
     /// <param name="force">Skip the compatibility check.</param>
     public static bool Apply(Window window, BackgroundType type, bool force = false)
     {
-        if (!force && (!IsSupported(type) || !Theme.IsAppMatchesSystem()))
+        //if (!force && (!IsSupported(type) || !Theme.IsAppMatchesSystem()))
+        //    return false;
+
+        if (!force && !IsSupported(type))
             return false;
 
-        window.Loaded += (_, _) =>
+        window.Loaded += (sender, args) =>
         {
             window.Background = Brushes.Transparent;
 
-            PresentationSource.FromVisual(window)!.ContentRendered += (_, _) =>
+            PresentationSource.FromVisual(window)!.ContentRendered += (o, args) =>
             {
                 var windowHandle = new WindowInteropHelper(window).Handle;
 
@@ -75,7 +79,10 @@ public static class Background
     /// <param name="force">Skip the compatibility check.</param>
     public static bool Apply(IntPtr handle, BackgroundType type, bool force = false)
     {
-        if (!force && (!IsSupported(type) || !Theme.IsAppMatchesSystem()))
+        //if (!force && (!IsSupported(type) || !Theme.IsAppMatchesSystem()))
+        //    return false;
+
+        if (!force && !IsSupported(type))
             return false;
 
         if (handle == IntPtr.Zero)
@@ -84,7 +91,7 @@ public static class Background
         if (!AppearanceData.Handlers.Contains(handle))
             AppearanceData.Handlers.Add(handle);
 
-        if (Theme.IsMatchedDark())
+        if (Theme.GetAppTheme() == ThemeType.Dark)
             ApplyDarkMode(handle);
 
         return type switch
@@ -247,7 +254,8 @@ public static class Background
         var backdropPvAttribute = (int) Dwmapi.DWMSBT.DWMSBT_AUTO;
 
         Dwmapi.DwmSetWindowAttribute(handle, Dwmapi.DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE,
-            ref backdropPvAttribute, Marshal.SizeOf(typeof(int)));
+            ref backdropPvAttribute,
+            Marshal.SizeOf(typeof(int)));
 
         if (!AppearanceData.Handlers.Contains(handle))
             AppearanceData.Handlers.Add(handle);

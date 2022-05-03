@@ -3,13 +3,14 @@
 // Copyright (C) Leszek Pomianowski, Ch0pstix and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Interop;
-using RevitLookup.UI.Win32;
+using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Appearance;
 
-// https://github.com/lepoco/RevitLookup.UI/issues/55
+// https://github.com/lepoco/wpfui/issues/55
 
 /// <summary>
 ///     Automatically updates the application background if the system theme or color is changed.
@@ -106,5 +107,14 @@ public sealed class Watcher
             themeToSet = ThemeType.Dark;
 
         Theme.Set(themeToSet, BackgroundEffect, UpdateAccents, ForceBackground);
+
+#if DEBUG
+        Debug.WriteLine($"INFO | {typeof(Watcher)} changed the app theme.", "RevitLookup.UI.Watcher");
+        Debug.WriteLine($"INFO | Current accent: {Accent.SystemAccent}", "RevitLookup.UI.Watcher");
+        Debug.WriteLine($"INFO | Current app theme: {AppearanceData.ApplicationTheme}",
+            "RevitLookup.UI.Watcher");
+        Debug.WriteLine($"INFO | Current system theme: {AppearanceData.SystemTheme}",
+            "RevitLookup.UI.Watcher");
+#endif
     }
 }

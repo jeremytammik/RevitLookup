@@ -5,8 +5,8 @@
 
 using System.Diagnostics;
 using System.Windows.Media;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Win32;
+using RevitLookup.UI.Extensions;
+using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Appearance;
 
@@ -23,7 +23,9 @@ public static class Accent
         get
         {
             var resource = Application.Current.Resources["SystemAccentColor"];
-            if (resource is Color color) return color;
+
+            if (resource is Color color)
+                return color;
 
             return Colors.Transparent;
         }
@@ -111,7 +113,8 @@ public static class Accent
     ///     Obsolete alternative for <see cref="Apply" />. Will be removed in the future.
     /// </summary>
     [Obsolete]
-    public static void Change(Color systemAccent, Color primaryAccent, Color secondaryAccent, Color tertiaryAccent)
+    public static void Change(Color systemAccent, Color primaryAccent,
+        Color secondaryAccent, Color tertiaryAccent)
     {
         Apply(systemAccent, primaryAccent, secondaryAccent, tertiaryAccent);
     }
@@ -122,7 +125,8 @@ public static class Accent
     /// <param name="systemAccent">Primary accent color.</param>
     /// <param name="themeType">If <see cref="ThemeType.Dark" />, the colors will be different.</param>
     /// <param name="systemGlassColor">If the color is taken from the Glass Color System, its brightness will be increased with the help of the operations on HSV space.</param>
-    public static void Apply(Color systemAccent, ThemeType themeType = ThemeType.Light, bool systemGlassColor = false)
+    public static void Apply(Color systemAccent, ThemeType themeType = ThemeType.Light,
+        bool systemGlassColor = false)
     {
         if (systemGlassColor)
             // WindowGlassColor is little darker than accent color
@@ -158,7 +162,8 @@ public static class Accent
     /// <param name="primaryAccent">Alternative light or dark color.</param>
     /// <param name="secondaryAccent">Second alternative light or dark color (most used).</param>
     /// <param name="tertiaryAccent">Third alternative light or dark color.</param>
-    public static void Apply(Color systemAccent, Color primaryAccent, Color secondaryAccent, Color tertiaryAccent)
+    public static void Apply(Color systemAccent, Color primaryAccent,
+        Color secondaryAccent, Color tertiaryAccent)
     {
         UpdateColorResources(systemAccent, primaryAccent, secondaryAccent, tertiaryAccent);
     }

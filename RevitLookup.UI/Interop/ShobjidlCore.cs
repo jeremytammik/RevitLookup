@@ -1,7 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 using RevitLookup.UI.Taskbar;
+using RevitLookup.UI.Win32;
 
-namespace RevitLookup.UI.Win32;
+namespace RevitLookup.UI.Interop;
 
 /// <summary>
 ///     This header is used by multiple technologies.
@@ -62,13 +63,13 @@ internal class ShobjidlCore
         void SetTabActive(IntPtr hwndTab, IntPtr hwndInsertBefore, uint dwReserved);
 
         [PreserveSig]
-        WinError.HResult ThumbBarAddButtons(
+        HRESULT ThumbBarAddButtons(
             IntPtr hwnd,
             uint cButtons,
             [MarshalAs(UnmanagedType.LPArray)] Shell32.THUMBBUTTON[] pButtons);
 
         [PreserveSig]
-        WinError.HResult ThumbBarUpdateButtons(
+        HRESULT ThumbBarUpdateButtons(
             IntPtr hwnd,
             uint cButtons,
             [MarshalAs(UnmanagedType.LPArray)] Shell32.THUMBBUTTON[] pButtons);

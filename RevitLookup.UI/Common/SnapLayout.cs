@@ -9,7 +9,7 @@ using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
-using RevitLookup.UI.Win32;
+using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Common;
 
@@ -165,6 +165,7 @@ internal sealed class SnapLayout
     private void SetHoverColor()
     {
         var color = Application.Current.Resources["ControlFillColorSecondary"] ?? Color.FromArgb(21, 255, 255, 255);
+
         _hoverColor = new SolidColorBrush((Color) color);
     }
 }

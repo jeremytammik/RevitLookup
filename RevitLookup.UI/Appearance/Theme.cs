@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.Windows.Interop;
 using System.Windows.Media;
 
@@ -39,6 +40,7 @@ public static class Theme
     /// <summary>
     ///     Obsolete alternative for <see cref="Apply" />. Will be removed in the future.
     /// </summary>
+    [Obsolete]
     public static void Set(ThemeType themeType, BackgroundType backgroundEffect = BackgroundType.Mica,
         bool updateAccent = true, bool forceBackground = false)
     {
@@ -52,9 +54,14 @@ public static class Theme
     /// <param name="backgroundEffect">Whether the custom background effect should be applied.</param>
     /// <param name="updateAccent">Whether the color accents should be changed.</param>
     /// <param name="forceBackground">If <see langword="true" />, bypasses the app's theme compatibility check and tries to force the change of a background effect.</param>
-    public static void Apply(ThemeType themeType, BackgroundType backgroundEffect = BackgroundType.Mica, bool updateAccent = true, bool forceBackground = false)
+    public static void Apply(ThemeType themeType, BackgroundType backgroundEffect = BackgroundType.Mica,
+        bool updateAccent = true, bool forceBackground = false)
     {
-        if (updateAccent) Accent.Apply(Accent.GetColorizationColor(), themeType);
+        if (updateAccent)
+            Accent.Apply(
+                Accent.GetColorizationColor(),
+                themeType
+            );
 
         if (themeType == ThemeType.Unknown || themeType == AppearanceData.ApplicationTheme)
             return;
@@ -70,9 +77,21 @@ public static class Theme
                 break;
         }
 
-        var isUpdated = appDictionaries.UpdateDictionary("theme",
-            new Uri(AppearanceData.LibraryThemeDictionariesUri + themeDictionaryName + ".xaml", UriKind.Absolute));
-        if (!isUpdated) return;
+        var isUpdated = appDictionaries.UpdateDictionary(
+            "theme",
+            new Uri(
+                AppearanceData.LibraryThemeDictionariesUri + themeDictionaryName + ".xaml",
+                UriKind.Absolute
+            )
+        );
+
+#if DEBUG
+        Debug.WriteLine(
+            $"INFO | {typeof(Theme)} tries to update theme to {themeDictionaryName} ({themeType}): {isUpdated}",
+            "RevitLookup.UI.Theme");
+#endif
+        if (!isUpdated)
+            return;
 
         AppearanceData.ApplicationTheme = themeType;
 
@@ -193,6 +212,10 @@ public static class Theme
         if (backgroundColor is Color color)
             mainWindow.Background = new SolidColorBrush(color);
 
+#if DEBUG
+        Debug.WriteLine($"INFO | Current background color: {backgroundColor}", "RevitLookup.UI.Theme");
+#endif
+
         var windowHandle = new WindowInteropHelper(mainWindow).Handle;
 
         if (windowHandle == IntPtr.Zero)
@@ -200,7 +223,11 @@ public static class Theme
 
         Background.Remove(windowHandle);
 
-        if (!IsAppMatchesSystem() || backgroundEffect == BackgroundType.Unknown) return;
+        //if (!IsAppMatchesSystem() || backgroundEffect == BackgroundType.Unknown)
+        //    return;
+
+        if (backgroundEffect == BackgroundType.Unknown)
+            return;
 
         // TODO: Improve
         if (Background.Apply(windowHandle, backgroundEffect, forceBackground))

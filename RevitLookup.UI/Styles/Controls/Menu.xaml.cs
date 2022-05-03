@@ -1,4 +1,9 @@
-﻿using System.Reflection;
+﻿// This Source Code Form is subject to the terms of the MIT License.
+// If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
+// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
+// All Rights Reserved.
+
+using System.Reflection;
 using System.Windows;
 
 namespace RevitLookup.UI.Styles.Controls;
@@ -18,9 +23,10 @@ partial class Menu : ResourceDictionary
 
     private void Initialize()
     {
-        if (!SystemParameters.MenuDropAlignment) return;
+        if (!SystemParameters.MenuDropAlignment)
+            return;
 
-        var fi = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-        fi?.SetValue(null, false);
+        var fieldInfo = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+        fieldInfo?.SetValue(null, false);
     }
 }

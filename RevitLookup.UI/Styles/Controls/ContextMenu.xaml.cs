@@ -29,20 +29,20 @@ partial class ContextMenu : ResourceDictionary
 
     private void OnResourceDictionaryLoaded()
     {
-        var currentAssembly = typeof(System.Windows.Application).Assembly;
+        var currentAssembly = typeof(Application).Assembly;
 
         AddEditorContextMenuDefaultStyle(currentAssembly);
     }
 
     private void AddEditorContextMenuDefaultStyle(System.Reflection.Assembly currentAssembly)
     {
-        // var contextMenuStyle = LookupApp.Current.FindResource("UiContextMenu") as Style;
+        var contextMenuStyle = this["UiContextMenu"] as Style;
         var editorContextMenuType = Type.GetType("System.Windows.Documents.TextEditorContextMenu+EditorContextMenu, " + currentAssembly);
 
-        if (editorContextMenuType != null)
-        {
-            var editorContextMenuStyle = new Style(editorContextMenuType);
-            Add(editorContextMenuType, editorContextMenuStyle);
-        }
+        if (editorContextMenuType == null || contextMenuStyle == null)
+            return;
+
+        var editorContextMenuStyle = new Style(editorContextMenuType, contextMenuStyle);
+        Add(editorContextMenuType, editorContextMenuStyle);
     }
 }

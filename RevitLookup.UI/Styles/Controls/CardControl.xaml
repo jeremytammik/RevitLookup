@@ -93,6 +93,7 @@
                                     </TextBlock.Foreground>
                                 </TextBlock>
                             </Grid>
+
                             <ContentPresenter
                                 Grid.Column="2"
                                 VerticalAlignment="Center" />

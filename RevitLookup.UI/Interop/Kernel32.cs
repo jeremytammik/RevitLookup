@@ -5,7 +5,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace RevitLookup.UI.Win32;
+namespace RevitLookup.UI.Interop;
 
 /// <summary>
 ///     Windows kernel module.
