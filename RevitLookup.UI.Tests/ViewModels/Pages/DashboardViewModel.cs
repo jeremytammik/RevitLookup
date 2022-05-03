@@ -18,15 +18,19 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.UI.Tests.ViewModels;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using JetBrains.Annotations;
 
-namespace RevitLookup.UI.Tests.Views.Pages;
+namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
-public partial class SettingsView
+public sealed class DashboardViewModel : INotifyPropertyChanged
 {
-    public SettingsView(RevitLookupViewModel lookupViewModel)
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    [NotifyPropertyChangedInvocator]
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
-        InitializeComponent();
-        DataContext = lookupViewModel.SettingsViewModel;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

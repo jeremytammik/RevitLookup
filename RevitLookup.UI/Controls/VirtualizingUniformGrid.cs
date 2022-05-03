@@ -188,8 +188,9 @@ public class VirtualizingUniformGrid : Control
     /// <summary>
     ///     This virtual method is invoked when <see cref="ItemTemplate" /> is changed.
     /// </summary>
-    protected virtual async Task OnItemTemplateChanged()
+    protected virtual Task OnItemTemplateChanged()
     {
+        return Task.CompletedTask;
     }
 
     /// <summary>

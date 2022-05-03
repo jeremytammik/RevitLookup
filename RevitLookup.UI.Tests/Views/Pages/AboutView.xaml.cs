@@ -24,9 +24,9 @@ namespace RevitLookup.UI.Tests.Views.Pages;
 
 public partial class AboutView
 {
-    public AboutView(DashboardViewModel dashboardViewModel)
+    public AboutView(RevitLookupViewModel lookupViewModel)
     {
         InitializeComponent();
-        DataContext = dashboardViewModel.AboutViewModel;
+        DataContext = lookupViewModel.AboutViewModel;
     }
 }

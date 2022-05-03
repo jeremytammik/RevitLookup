@@ -22,11 +22,11 @@ using RevitLookup.UI.Tests.ViewModels;
 
 namespace RevitLookup.UI.Tests.Views.Pages;
 
-public partial class SettingsView
+public partial class DashboardView
 {
-    public SettingsView(RevitLookupViewModel lookupViewModel)
+    public DashboardView(RevitLookupViewModel lookupViewModel)
     {
         InitializeComponent();
-        DataContext = lookupViewModel.SettingsViewModel;
+        DataContext = lookupViewModel.DashboardViewModel;
     }
 }

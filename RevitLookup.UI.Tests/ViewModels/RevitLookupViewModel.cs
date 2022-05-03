@@ -25,8 +25,10 @@ using RevitLookup.UI.Tests.ViewModels.Pages;
 
 namespace RevitLookup.UI.Tests.ViewModels;
 
-public class DashboardViewModel : INotifyPropertyChanged
+public class RevitLookupViewModel : INotifyPropertyChanged
 {
+    public int CurrentPageIndex { get; set; }
+    public DashboardViewModel DashboardViewModel { get; } = new();
     public SettingsViewModel SettingsViewModel { get; } = new();
     public AboutViewModel AboutViewModel { get; } = new();
 

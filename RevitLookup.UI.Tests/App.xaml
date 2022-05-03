@@ -2,5 +2,5 @@
     x:Class="RevitLookup.UI.Tests.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    StartupUri="Views/DashboardView.xaml">
+    StartupUri="Views/RevitLookupView.xaml">
 </Application>

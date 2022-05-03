@@ -23,15 +23,16 @@ using RevitLookup.UI.Tests.Views.Pages;
 
 namespace RevitLookup.UI.Tests.Views;
 
-public partial class DashboardView
+public partial class RevitLookupView
 {
-    public DashboardView()
+    public RevitLookupView()
     {
         Application.Current = this;
         InitializeComponent();
-        var dashboardViewModel = new DashboardViewModel();
-        SettingsNavigationItem.Page = new SettingsView(dashboardViewModel);
-        AboutNavigationItem.Page = new AboutView(dashboardViewModel);
-        DataContext = dashboardViewModel;
+        var lookupViewModel = new RevitLookupViewModel();
+        DashboardNavigationItem.Page = new DashboardView(lookupViewModel);
+        SettingsNavigationItem.Page = new SettingsView(lookupViewModel);
+        AboutNavigationItem.Page = new AboutView(lookupViewModel);
+        DataContext = lookupViewModel;
     }
 }

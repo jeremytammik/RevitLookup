@@ -13,7 +13,7 @@ namespace RevitLookup.UI.Common;
 public class ViewData : INotifyPropertyChanged
 {
     /// <inheritdoc />
-    public event PropertyChangedEventHandler? PropertyChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
 
     /// <summary>
     ///     Updates property by reference if value was changed.

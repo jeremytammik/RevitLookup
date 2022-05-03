@@ -34,8 +34,11 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
 
     public SettingsViewModel()
     {
-        CurrentTheme = ThemeType.Auto;
-        CurrentEffect = BackgroundType.Disabled;
+        Application.Current.Loaded += (_, _) =>
+        {
+            CurrentTheme = ThemeType.Dark;
+            CurrentEffect = BackgroundType.Mica;
+        };
     }
 
     public List<ThemeType> Themes { get; } = new()
