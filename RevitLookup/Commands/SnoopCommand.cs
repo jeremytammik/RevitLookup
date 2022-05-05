@@ -21,7 +21,6 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using RevitLookup.Views;
 
 namespace RevitLookup.Commands;
 
@@ -31,11 +30,6 @@ public class SnoopCommand : IExternalCommand
 {
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var uiDocument = commandData.Application.ActiveUIDocument;
-        var document = uiDocument.Document;
-        var form = new DashboadView();
-        form.Show();
-
         return Result.Succeeded;
     }
 }

@@ -27,7 +27,6 @@ public class ExtensibleStorageEntityContentStream : IElementStream
 
         var fields = _entity.Schema.ListFields();
         if (fields.Count == 0) return;
-        _data.Add(new ExtensibleStorageSeparatorData());
         foreach (var field in fields) StreamEntityFieldValue(field);
     }
 

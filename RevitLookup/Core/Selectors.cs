@@ -1,5 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using View = Autodesk.Revit.DB.View;
 
@@ -18,97 +17,80 @@ public enum Selector
     SnoopApplication
 }
 
-internal static class Selectors
+public static class Selectors
 {
-    public static (object, Document) Snoop(UIApplication uiApplication, Selector selector)
+    public static IList<Element> SnoopDatabase()
     {
-        return selector switch
-        {
-            Selector.SnoopDb => SnoopDb(uiApplication),
-            Selector.SnoopCurrentSelection => SnoopCurrentSelection(uiApplication),
-            Selector.SnoopPickFace => SnoopPickFace(uiApplication),
-            Selector.SnoopPickEdge => SnoopPickEdge(uiApplication),
-            Selector.SnoopLinkedElement => SnoopLinkedElement(uiApplication),
-            Selector.SnoopDependentElements => SnoopDependentElements(uiApplication),
-            Selector.SnoopActiveView => SnoopActiveView(uiApplication),
-            Selector.SnoopApplication => SnoopApplication(uiApplication),
-            Selector.SnoopActiveDocument => SnoopActiveDocument(uiApplication),
-            _ => throw new NotImplementedException()
-        };
-    }
-
-    private static (IList<Element>, Document) SnoopDb(UIApplication uiApplication)
-    {
-        var document = uiApplication.ActiveUIDocument.Document;
+        var document = RevitApi.UiApplication.ActiveUIDocument.Document;
         var elementTypes = new FilteredElementCollector(document).WhereElementIsElementType();
         var elementInstances = new FilteredElementCollector(document).WhereElementIsNotElementType();
         var elementsCollector = elementTypes.UnionWith(elementInstances);
         var elements = elementsCollector.ToElements();
-
-        return (elements, document);
+        return elements;
     }
 
-    private static (IList<Element>, Document) SnoopCurrentSelection(UIApplication uiApplication)
+    public static IList<Element> SnoopCurrentSelection()
     {
-        var uiDocument = uiApplication.ActiveUIDocument;
-        var document = uiDocument.Document;
-
-        var selectedIds = uiDocument.Selection.GetElementIds();
+        var document = RevitApi.Document;
+        var selectedIds = RevitApi.UiApplication.ActiveUIDocument.Selection.GetElementIds();
 
         if (selectedIds.Count > 0)
-            return (new FilteredElementCollector(document, selectedIds)
+            return new FilteredElementCollector(document, selectedIds)
                 .WherePasses(new LogicalOrFilter(new ElementIsElementTypeFilter(false), new ElementIsElementTypeFilter(true)))
-                .ToElements(), document);
+                .ToElements();
 
-        return (new FilteredElementCollector(document, document.ActiveView.Id)
+        return new FilteredElementCollector(document, document.ActiveView.Id)
             .WhereElementIsNotElementType()
-            .ToElements(), document);
+            .ToElements();
     }
 
-    private static (GeometryObject, Document) SnoopPickFace(UIApplication app)
+    [CanBeNull]
+    public static GeometryObject SnoopPickFace()
     {
         try
         {
-            var refElem = app.ActiveUIDocument.Selection.PickObject(ObjectType.Face);
-            var geoObject = app.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
-            return (geoObject, app.ActiveUIDocument.Document);
+            var refElem = RevitApi.UiApplication.ActiveUIDocument.Selection.PickObject(ObjectType.Face);
+            var geoObject = RevitApi.UiApplication.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
+            return geoObject;
         }
         catch
         {
             // ignored
         }
 
-        return (null, null);
+        return null;
     }
 
-    private static (GeometryObject, Document) SnoopPickEdge(UIApplication app)
+    [CanBeNull]
+    public static GeometryObject SnoopPickEdge()
     {
         try
         {
-            var refElem = app.ActiveUIDocument.Selection.PickObject(ObjectType.Edge);
-            var geoObject = app.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
-            return (geoObject, app.ActiveUIDocument.Document);
+            var refElem = RevitApi.UiApplication.ActiveUIDocument.Selection.PickObject(ObjectType.Edge);
+            var geoObject = RevitApi.UiApplication.ActiveUIDocument.Document.GetElement(refElem).GetGeometryObjectFromReference(refElem);
+            return geoObject;
         }
         catch
         {
             // ignored
         }
 
-        return (null, null);
+        return null;
     }
 
-    private static (Element, Document) SnoopLinkedElement(UIApplication app)
+    [CanBeNull]
+    public static Element SnoopLinkedElement()
     {
-        var document = app.ActiveUIDocument.Document;
+        var document = RevitApi.Document;
 
         Reference refElem;
         try
         {
-            refElem = app.ActiveUIDocument.Selection.PickObject(ObjectType.LinkedElement);
+            refElem = RevitApi.UiApplication.ActiveUIDocument.Selection.PickObject(ObjectType.LinkedElement);
         }
         catch
         {
-            return (null, null);
+            return null;
         }
 
         var representation = refElem.ConvertToStableRepresentation(document).Split(':')[0];
@@ -117,39 +99,35 @@ internal static class Selectors
         var activeDoc = revitLinkInstance.GetLinkDocument();
         var element = activeDoc.GetElement(refElem.LinkedElementId);
 
-        return (element, activeDoc);
+        return element;
     }
 
-    private static (IList<Element>, Document) SnoopDependentElements(UIApplication app)
+    public static IList<Element> SnoopDependentElements()
     {
-        var uiDocument = app.ActiveUIDocument;
-        var document = uiDocument.Document;
+        var uiDocument = RevitApi.UiApplication.ActiveUIDocument;
+        var document = RevitApi.Document;
         var selectedIds = uiDocument.Selection.GetElementIds();
-        if (selectedIds.Count == 0) return (new List<Element>(), document);
+        if (selectedIds.Count == 0) return new List<Element>();
 
         var elemSet = new FilteredElementCollector(document, selectedIds).WhereElementIsNotElementType().ToElements();
         ICollection<ElementId> ids = elemSet.SelectMany(t => t.GetDependentElements(null)).ToList();
         var result = new FilteredElementCollector(document, ids).WhereElementIsNotElementType().ToElements();
-        return (result, document);
+        return result;
     }
 
-    private static (View, Document) SnoopActiveView(UIApplication app)
+    [CanBeNull]
+    public static View SnoopActiveView()
     {
-        var doc = app.ActiveUIDocument.Document;
-        if (doc.ActiveView is not null) return (doc.ActiveView, doc);
-
-        TaskDialog.Show("RevitLookup", "The document must have an active view!");
-        return (null, null);
+        return RevitApi.Document.ActiveView;
     }
 
-    private static (Document, Document) SnoopActiveDocument(UIApplication app)
+    public static Document SnoopActiveDocument()
     {
-        var doc = app.ActiveUIDocument.Document;
-        return (doc, doc);
+        return RevitApi.Document;
     }
 
-    private static (Autodesk.Revit.ApplicationServices.Application, Document) SnoopApplication(UIApplication app)
+    public static Autodesk.Revit.ApplicationServices.Application SnoopApplication()
     {
-        return (app.Application, null);
+        return RevitApi.UiApplication.Application;
     }
 }

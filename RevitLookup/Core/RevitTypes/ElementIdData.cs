@@ -19,8 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -45,11 +43,8 @@ public class ElementIdData : Data
         return _element is not null ? Utils.GetLabel(_element) : _value.ToString();
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
-        if (_element is null) return null;
-
-        var form = new ObjectsView(_element);
-        return form;
+        return _element;
     }
 }

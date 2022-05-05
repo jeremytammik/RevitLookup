@@ -1,5 +1,4 @@
-﻿using RevitLookup.Views;
-using View = Autodesk.Revit.DB.View;
+﻿using View = Autodesk.Revit.DB.View;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -19,7 +18,7 @@ public class ViewFiltersOverrideGraphicSettingsData : Data
         return "< view filters override graphic settings >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -29,7 +28,6 @@ public class ViewFiltersOverrideGraphicSettingsData : Data
             .ToList();
 
         if (filterOverrides.Count == 0) return null;
-        var form = new ObjectsView(filterOverrides);
-        return form;
+        return filterOverrides;
     }
 }

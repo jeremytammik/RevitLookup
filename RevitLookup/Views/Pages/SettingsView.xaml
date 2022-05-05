@@ -5,10 +5,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/controls"
+    xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
+    xmlns:pages="clr-namespace:RevitLookup.ViewModels.Pages"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="500"
-    Style="{DynamicResource UiDynamicScrollViewer}">
+    Style="{DynamicResource UiDynamicScrollViewer}"
+    d:DataContext="{d:DesignInstance pages:SettingsViewModel}">
     <!-- <rl:DynamicScrollViewer.Resources> -->
     <!--     <ResourceDictionary> -->
     <!--         <ResourceDictionary.MergedDictionaries> -->
@@ -23,17 +26,17 @@
         Margin="24">
         <rl:CardControl
             Title="Theme"
-            Icon="DarkTheme24">
+            Icon="Color24">
             <ComboBox
-                SelectedIndex="0"
-                MinWidth="140"
-                SelectionChanged="ThemeSelector_OnSelectionChanged">
-                <ComboBoxItem
-                    Content="Windows default" />
-                <ComboBoxItem
-                    Content="Dark" />
-                <ComboBoxItem
-                    Content="Light" />
+                MinWidth="150"
+                SelectedItem="{Binding CurrentTheme}"
+                ItemsSource="{Binding Themes}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding ., Converter={converters:ThemeTypeConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
         </rl:CardControl>
         <rl:CardControl
@@ -41,18 +44,15 @@
             Margin="0,6,0,0"
             Icon="ColorBackground24">
             <ComboBox
-                x:Name="ComboBoxBackground"
-                MinWidth="140"
-                SelectedIndex="0"
-                SelectionChanged="BackgroundSelector_OnSelectionChanged">
-                <ComboBoxItem
-                    Content="Disabled" />
-                <ComboBoxItem
-                    Content="Windows default" />
-                <ComboBoxItem
-                    Content="Mica" />
-                <ComboBoxItem
-                    Content="Acrylic" />
+                MinWidth="150"
+                SelectedItem="{Binding CurrentEffect}"
+                ItemsSource="{Binding Effects}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding ., Converter={converters:BackgroundTypeConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
         </rl:CardControl>
     </StackPanel>

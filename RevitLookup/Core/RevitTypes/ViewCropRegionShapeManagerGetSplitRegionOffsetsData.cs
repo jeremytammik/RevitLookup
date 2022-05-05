@@ -1,6 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -20,7 +18,7 @@ public class ViewCropRegionShapeManagerGetSplitRegionOffsetsData : Data
         return "< Split Region Offsets >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -31,7 +29,6 @@ public class ViewCropRegionShapeManagerGetSplitRegionOffsetsData : Data
 
         if (cropRegionOffsetObjects.Count == 0) return null;
 
-        var form = new ObjectsView(cropRegionOffsetObjects);
-        return form;
+        return cropRegionOffsetObjects;
     }
 }

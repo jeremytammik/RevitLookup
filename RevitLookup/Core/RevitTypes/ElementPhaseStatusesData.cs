@@ -1,6 +1,4 @@
 using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -20,7 +18,7 @@ public class ElementPhaseStatusesData : Data
         return "< phases statuses >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -31,8 +29,6 @@ public class ElementPhaseStatusesData : Data
             .Select(x => new SnoopableWrapper(x.Name, _element.GetPhaseStatus(x.Id)))
             .ToList();
 
-        if (elementOnPhaseStatuses.Count == 0) return null;
-        var form = new ObjectsView(elementOnPhaseStatuses);
-        return form;
+        return elementOnPhaseStatuses.Count == 0 ? null : elementOnPhaseStatuses;
     }
 }

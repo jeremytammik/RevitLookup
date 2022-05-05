@@ -21,7 +21,6 @@ public class PartUtilsStream : IElementStream
 
         if (type == typeof(Element) && _element is Element element)
         {
-            _data.Add(new MemberSeparatorWithOffsetData(nameof(PartUtils)));
             _data.Add(new BoolData(nameof(PartUtils.AreElementsValidForCreateParts), PartUtils.AreElementsValidForCreateParts(element.Document, new[] {element.Id})));
             _data.Add(new ObjectData(nameof(PartUtils.GetAssociatedPartMaker), PartUtils.GetAssociatedPartMaker(element.Document, element.Id)));
             _data.Add(new BoolData(nameof(PartUtils.HasAssociatedParts), PartUtils.HasAssociatedParts(element.Document, element.Id)));
@@ -30,7 +29,6 @@ public class PartUtilsStream : IElementStream
 
         if (type == typeof(Part) && part is not null)
         {
-            _data.Add(new MemberSeparatorWithOffsetData(nameof(PartUtils)));
             _data.Add(new BoolData(nameof(PartUtils.ArePartsValidForDivide), PartUtils.ArePartsValidForDivide(part.Document, new[] {part.Id})));
             _data.Add(new BoolData(nameof(PartUtils.ArePartsValidForMerge), PartUtils.ArePartsValidForMerge(part.Document, new[] {part.Id})));
             _data.Add(new IntData(nameof(PartUtils.GetChainLengthToOriginal), PartUtils.GetChainLengthToOriginal(part)));
@@ -39,7 +37,6 @@ public class PartUtilsStream : IElementStream
             _data.Add(new BoolData(nameof(PartUtils.IsMergedPart), isMergedPart));
             _data.Add(new BoolData(nameof(PartUtils.IsPartDerivedFromLink), PartUtils.IsPartDerivedFromLink(part)));
 
-            _data.Add(new MemberSeparatorWithOffsetData(nameof(Part)));
             _data.Add(new StringData(nameof(Part.OriginalCategoryId), ((BuiltInCategory) part.OriginalCategoryId.IntegerValue).ToString()));
 
             var sourceElementIds = part.GetSourceElementIds().Where(id => id.HostElementId != ElementId.InvalidElementId).Select(e => e.HostElementId).ToList();

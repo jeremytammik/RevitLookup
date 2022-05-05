@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Xml;
-using RevitLookup.Views;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -41,7 +40,7 @@ public class XmlData : Data
         return _value;
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         try
         {
@@ -50,13 +49,11 @@ public class XmlData : Data
                 xmlDoc.Load(_value);
             else
                 xmlDoc.LoadXml(_value);
-
-            var form = new DomView(xmlDoc);
-            form.ShowDialog();
+            return xmlDoc;
         }
         catch (XmlException e)
         {
-            MessageBox.Show(e.Message, "XML Exception");
+            
         }
 
         return null;

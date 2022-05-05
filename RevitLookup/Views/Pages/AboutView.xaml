@@ -5,10 +5,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/controls"
-    xmlns:viewModels1="clr-namespace:RevitLookup.ViewModels"
     xmlns:pages="clr-namespace:RevitLookup.ViewModels.Pages"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance pages:AboutPageViewModel}"
+    d:DataContext="{d:DesignInstance pages:AboutViewModel}"
     Style="{DynamicResource UiDynamicScrollViewer}">
     <!-- <rl:DynamicScrollViewer.Resources> -->
     <!--     <ResourceDictionary> -->

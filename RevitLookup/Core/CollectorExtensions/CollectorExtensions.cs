@@ -76,8 +76,6 @@ public class CollectorExtensions
 
         foreach (var type in thisElementTypes)
         {
-            data.Add(new ClassSeparatorData(type));
-
             foreach (var elementStream in streams)
                 elementStream.Stream(type);
         }
@@ -110,8 +108,6 @@ public class CollectorExtensions
     {
         var schemas = Schema.ListSchemas();
         if (elem is null || schemas.Count == 0) return;
-
-        data.Add(new ExtensibleStorageSeparatorData());
 
         foreach (var schema in schemas)
         {

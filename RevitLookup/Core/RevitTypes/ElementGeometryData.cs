@@ -19,8 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -46,11 +44,10 @@ public class ElementGeometryData : Data
         return "<Geometry.Element>";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!_hasGeometry) return null;
-        var form = new GeometryView(_value);
-        return form;
+        return _value;
     }
 
     private bool HasModelGeometry()

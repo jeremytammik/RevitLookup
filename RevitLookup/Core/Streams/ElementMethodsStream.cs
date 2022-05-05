@@ -25,7 +25,6 @@ public class ElementMethodsStream : IElementStream
             .OrderBy(x => x.Name)
             .ToList();
 
-        if (methods.Count > 0) _data.Add(new MemberSeparatorWithOffsetData("Methods"));
         var currentTypeMethods = new List<string>();
 
         foreach (var methodInfo in methods)

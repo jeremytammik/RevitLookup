@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
-using RevitLookup.Views;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -44,11 +43,10 @@ public class ObjectData : Data
         return _stringValue;
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (_value is null) return null;
         var objects = new ArrayList {_value};
-        var form = new ObjectsView(objects);
-        return form;
+        return objects;
     }
 }

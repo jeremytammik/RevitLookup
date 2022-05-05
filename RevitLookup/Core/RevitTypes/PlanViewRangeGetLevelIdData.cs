@@ -1,6 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -22,7 +20,7 @@ public class PlanViewRangeGetLevelIdData : Data
         return "< Get Level Ids >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -42,9 +40,6 @@ public class PlanViewRangeGetLevelIdData : Data
             }
         }
 
-        if (sectionDataObjects.Count == 0) return null;
-
-        var form = new ObjectsView(sectionDataObjects);
-        return form;
+        return sectionDataObjects.Count == 0 ? null : sectionDataObjects;
     }
 }

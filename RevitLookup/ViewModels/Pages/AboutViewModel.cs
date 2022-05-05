@@ -24,17 +24,17 @@ using System.Runtime.CompilerServices;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class AboutPageViewModel : INotifyPropertyChanged
+public sealed class AboutViewModel : INotifyPropertyChanged
 {
     private string _latestCheck;
     private string _version;
 
-    public AboutPageViewModel()
+    public AboutViewModel()
     {
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
         var info = FileVersionInfo.GetVersionInfo(assembly.Location);
         Version = info.ProductVersion;
-        LatestCheck = "Latest check: 01.05.2022 12:00:00";
+        LatestCheck = $"Latest check: {DateTime.Now:yyyy.MM.dd HH:mm:ss}";
     }
 
     public string Version

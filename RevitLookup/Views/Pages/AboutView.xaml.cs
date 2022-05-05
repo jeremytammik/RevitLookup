@@ -19,15 +19,14 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.ViewModels;
-using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.Views.Pages;
 
 public partial class AboutView
 {
-    public AboutView()
+    public AboutView(RevitLookupViewModel lookupViewModel)
     {
         InitializeComponent();
-        DataContext = new AboutPageViewModel();
+        DataContext = lookupViewModel.AboutViewModel;
     }
 }

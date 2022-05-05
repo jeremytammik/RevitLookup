@@ -1,6 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -20,7 +18,7 @@ public class TableDataSectionData : Data
         return "< Get Section Data >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -35,7 +33,6 @@ public class TableDataSectionData : Data
 
         if (sectionDataObjects.Count == 0) return null;
 
-        var form = new ObjectsView(sectionDataObjects);
-        return form;
+        return sectionDataObjects;
     }
 }

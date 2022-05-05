@@ -25,17 +25,24 @@ using RevitLookup.UI.Tests.ViewModels.Pages;
 
 namespace RevitLookup.UI.Tests.ViewModels;
 
-public class RevitLookupViewModel : INotifyPropertyChanged
+public sealed class RevitLookupViewModel : INotifyPropertyChanged
 {
+    public RevitLookupViewModel()
+    {
+        DashboardViewModel = new DashboardViewModel(this);
+        SettingsViewModel = new SettingsViewModel();
+        AboutViewModel = new AboutViewModel();
+    }
+
     public int CurrentPageIndex { get; set; }
-    public DashboardViewModel DashboardViewModel { get; } = new();
-    public SettingsViewModel SettingsViewModel { get; } = new();
-    public AboutViewModel AboutViewModel { get; } = new();
+    public DashboardViewModel DashboardViewModel { get; }
+    public SettingsViewModel SettingsViewModel { get; }
+    public AboutViewModel AboutViewModel { get; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
     [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

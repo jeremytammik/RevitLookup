@@ -24,7 +24,6 @@ public class ElementPropertiesStream : IElementStream
     {
         var properties = GetElementProperties(type);
         var currentTypeProperties = new List<string>();
-        if (properties.Length > 0) _data.Add(new MemberSeparatorWithOffsetData("Properties"));
 
         foreach (var property in properties)
         {

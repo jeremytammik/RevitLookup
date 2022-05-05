@@ -53,6 +53,10 @@
       <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ViewModels\Objects" />
+    </ItemGroup>
+
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
             <RootItem Include="$(ProjectDir)*.addin" />

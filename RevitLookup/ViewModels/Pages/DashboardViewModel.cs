@@ -20,10 +20,11 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
+using Autodesk.Revit.DB;
+using RevitLookup.Core;
 using RevitLookup.UI.Common;
 
-namespace RevitLookup.UI.Tests.ViewModels.Pages;
+namespace RevitLookup.ViewModels.Pages;
 
 public sealed class DashboardViewModel : INotifyPropertyChanged
 {
@@ -35,10 +36,25 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
         _lookupViewModel = lookupViewModel;
     }
 
-    public RelayCommand SnoopSelectionCommand => _snoopSelectionCommand ??= new RelayCommand(o =>
+    public RelayCommand SnoopSelectionCommand => _snoopSelectionCommand ??= new RelayCommand(_ =>
     {
         _lookupViewModel.CurrentPageIndex = 1;
+        Commands.DashboardCommand.CollectDataHandler.Raise(() =>
+        {
+            var item = Selectors.SnoopCurrentSelection();
+            var elements = GetWrappedElements(item);
+        });
     });
+
+    private static object GetWrappedElements(object item)
+    {
+        return item switch
+        {
+            null => new List<SnoopableWrapper>(),
+            IList<Element> list => list.Select(SnoopableWrapper.Create).ToList(),
+            _ => (new List<SnoopableWrapper> {SnoopableWrapper.Create(item)})
+        };
+    }
 
     public event PropertyChangedEventHandler PropertyChanged;
 

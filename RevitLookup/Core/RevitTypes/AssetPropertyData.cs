@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Autodesk.Revit.DB.Visual;
-using RevitLookup.Views;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -15,13 +14,12 @@ public class AssetPropertyData : Data
 
     public override bool HasDrillDown => _assetProperties is {Size: > 0};
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (_assetProperties is null) return null;
         var objects = new ArrayList();
         for (var i = 0; i < _assetProperties.Size; i++) objects.Add(_assetProperties.Get(i));
-        var form = new ObjectsView(objects);
-        return form;
+        return objects;
     }
 
     public override string AsValueString()

@@ -1,6 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -23,7 +21,7 @@ public class CurveGetEndPointData : Data
         return "< Get End Points >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -33,9 +31,6 @@ public class CurveGetEndPointData : Data
             new("[1] End", _curve.GetEndPoint(1))
         };
 
-        if (xyzObjects.Count == 0) return null;
-
-        var form = new ObjectsView(xyzObjects);
-        return form;
+        return xyzObjects.Count == 0 ? null : xyzObjects;
     }
 }

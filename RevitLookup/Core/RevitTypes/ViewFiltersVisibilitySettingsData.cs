@@ -1,5 +1,4 @@
-﻿using RevitLookup.Views;
-using View = Autodesk.Revit.DB.View;
+﻿using View = Autodesk.Revit.DB.View;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -19,7 +18,7 @@ public class ViewFiltersVisibilitySettingsData : Data
         return "< view filters visibility >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -29,7 +28,6 @@ public class ViewFiltersVisibilitySettingsData : Data
             .ToList();
 
         if (filtersVisibility.Count == 0) return null;
-        var form = new ObjectsView(filtersVisibility);
-        return form;
+        return filtersVisibility;
     }
 }

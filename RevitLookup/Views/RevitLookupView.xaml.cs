@@ -19,15 +19,20 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.ViewModels;
+using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Views;
 
-public partial class DashboadView
+public partial class RevitLookupView
 {
-    public DashboadView()
+    public RevitLookupView()
     {
         UI.Application.Current = this;
         InitializeComponent();
-        DataContext = new DashboardViewModel();
+        var lookupViewModel = new RevitLookupViewModel();
+        DashboardNavigationItem.Page = new DashboardView(lookupViewModel);
+        SettingsNavigationItem.Page = new SettingsView(lookupViewModel);
+        AboutNavigationItem.Page = new AboutView(lookupViewModel);
+        DataContext = lookupViewModel;
     }
 }

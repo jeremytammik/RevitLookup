@@ -77,8 +77,8 @@ public abstract class Data
     /// <summary>
     ///     Do the act of drilling down on the data
     /// </summary>
-    public virtual Form DrillDown()
+    public virtual object DrillDown()
     {
-        return null; // do nothing by default
+        return null;
     }
 }

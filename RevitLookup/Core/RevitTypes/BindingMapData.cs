@@ -19,8 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -40,9 +38,8 @@ public class BindingMapData : Data
         return Utils.GetLabel(_value);
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
-        var form = new BindingMapView(_value);
-        return form;
+        return _value;
     }
 }

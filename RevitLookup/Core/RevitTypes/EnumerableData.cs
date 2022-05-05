@@ -20,8 +20,6 @@
 
 using System.Collections;
 using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -71,10 +69,9 @@ public class EnumerableData : Data
         return Utils.GetLabel(_value);
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (_value is null || _objects.Count == 0) return null;
-        var form = new ObjectsView(_objects);
-        return form;
+        return _objects;
     }
 }

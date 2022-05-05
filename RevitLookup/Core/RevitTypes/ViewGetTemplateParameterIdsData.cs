@@ -1,6 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 using View = Autodesk.Revit.DB.View;
 
 namespace RevitLookup.Core.RevitTypes;
@@ -21,7 +19,7 @@ public class ViewGetTemplateParameterIdsData : Data
         return "< view template parameter ids >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -34,8 +32,6 @@ public class ViewGetTemplateParameterIdsData : Data
             .Select(p => new SnoopableWrapper(p.Definition.Name, p)).ToList();
 
         if (templateParameterIds.Count == 0) return null;
-
-        var form = new ObjectsView(templateParameterIds);
-        return form;
+        return templateParameterIds;
     }
 }

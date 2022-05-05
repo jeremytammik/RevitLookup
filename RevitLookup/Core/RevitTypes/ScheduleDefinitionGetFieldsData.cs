@@ -1,6 +1,4 @@
 ﻿using Autodesk.Revit.DB;
-using RevitLookup.Views;
-using Form = System.Windows.Forms.Form;
 
 namespace RevitLookup.Core.RevitTypes;
 
@@ -20,7 +18,7 @@ public class ScheduleDefinitionGetFieldsData : Data
         return "< Get Fields >";
     }
 
-    public override Form DrillDown()
+    public override object DrillDown()
     {
         if (!HasDrillDown) return null;
 
@@ -34,7 +32,6 @@ public class ScheduleDefinitionGetFieldsData : Data
 
         if (scheduleFieldObjects.Count == 0) return null;
 
-        var form = new ObjectsView(scheduleFieldObjects);
-        return form;
+        return scheduleFieldObjects;
     }
 }

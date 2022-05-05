@@ -20,7 +20,6 @@
 
 using Autodesk.Revit.UI;
 using RevitLookup.Commands;
-using RevitLookup.Core;
 
 namespace RevitLookup;
 
@@ -31,8 +30,6 @@ public class Application : IExternalApplication
     {
         UI.Assembly.AttachToRevit();
         CreateRibbonPanel(application);
-        ModelessWindowHandle.SetHandler(application.MainWindowHandle);
-        ExternalExecutor.CreateExternalEvent();
         return Result.Succeeded;
     }
 
@@ -44,9 +41,9 @@ public class Application : IExternalApplication
     private static void CreateRibbonPanel(UIControlledApplication application)
     {
         var ribbonPanel = application.CreatePanel("Revit Lookup");
-        
+
         var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "RevitLookup");
-        
+
         var dashboardButton = splitButton.AddPushButton<DashboardCommand>("Dashboard");
         dashboardButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         dashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");

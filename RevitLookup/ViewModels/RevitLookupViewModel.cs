@@ -20,42 +20,23 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using RevitLookup.Views.Pages;
+using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.ViewModels;
 
-public sealed class DashboardViewModel : INotifyPropertyChanged
+public sealed class RevitLookupViewModel : INotifyPropertyChanged
 {
-    private object _aboutPage;
-    private object _settingsPage;
-
-    public DashboardViewModel()
+    public RevitLookupViewModel()
     {
-        AboutPage = new AboutView();
-        SettingsPage = new SettingsView();
+        DashboardViewModel = new DashboardViewModel(this);
+        SettingsViewModel = new SettingsViewModel();
+        AboutViewModel = new AboutViewModel();
     }
 
-    public object AboutPage
-    {
-        get => _aboutPage;
-        set
-        {
-            if (Equals(value, _aboutPage)) return;
-            _aboutPage = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public object SettingsPage
-    {
-        get => _settingsPage;
-        set
-        {
-            if (Equals(value, _settingsPage)) return;
-            _settingsPage = value;
-            OnPropertyChanged();
-        }
-    }
+    public int CurrentPageIndex { get; set; }
+    public DashboardViewModel DashboardViewModel { get; }
+    public SettingsViewModel SettingsViewModel { get; }
+    public AboutViewModel AboutViewModel { get; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 

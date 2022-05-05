@@ -21,6 +21,8 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitLookup.Commands.Handlers;
+using RevitLookup.Core;
 using RevitLookup.Views;
 
 namespace RevitLookup.Commands;
@@ -29,12 +31,13 @@ namespace RevitLookup.Commands;
 [Transaction(TransactionMode.Manual)]
 public class DashboardCommand : IExternalCommand
 {
+    public static readonly CollectDataHandler CollectDataHandler = new();
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
-        var uiDocument = commandData.Application.ActiveUIDocument;
-        var document = uiDocument.Document;
-        var form = new DashboadView();
-        form.Show();
+        RevitApi.UiApplication = commandData.Application;
+        
+        var view = new RevitLookupView();
+        view.Show();
 
         return Result.Succeeded;
     }
