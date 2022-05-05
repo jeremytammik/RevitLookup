@@ -13,10 +13,7 @@ public class ViewFiltersVisibilitySettingsData : Data
 
     public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.AreGraphicsOverridesAllowed() && _view.GetFilters().Count > 0;
 
-    public override string AsValueString()
-    {
-        return "< view filters visibility >";
-    }
+    public override string Value => "< view filters visibility >";
 
     public override object DrillDown()
     {

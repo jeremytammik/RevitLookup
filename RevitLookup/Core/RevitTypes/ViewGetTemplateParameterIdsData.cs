@@ -14,10 +14,7 @@ public class ViewGetTemplateParameterIdsData : Data
 
     public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.IsTemplate && _view.GetTemplateParameterIds().Count > 0;
 
-    public override string AsValueString()
-    {
-        return "< view template parameter ids >";
-    }
+    public override string Value=> "< view template parameter ids >";
 
     public override object DrillDown()
     {

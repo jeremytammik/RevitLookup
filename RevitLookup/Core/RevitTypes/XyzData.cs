@@ -31,10 +31,5 @@ public class XyzData : Data
         _value = val;
     }
 
-    public override string AsValueString()
-    {
-        return _value is not null
-            ? $"({_value.X}, {_value.Y}, {_value.Z})"
-            : Labels.Null;
-    }
+    public override string Value => _value is not null ? $"({_value.X}, {_value.Y}, {_value.Z})" : Labels.Null;
 }

@@ -7,10 +7,10 @@ namespace RevitLookup.Core.Streams;
 public class SpatialElementStream : IElementStream
 {
     private readonly SpatialElementBoundaryOptions _boundaryOptions;
-    private readonly ArrayList _data;
+    private readonly List<Data> _data;
     private readonly SpatialElement _spatialElement;
 
-    public SpatialElementStream(ArrayList data, object element)
+    public SpatialElementStream(List<Data> data, object element)
     {
         _data = data;
         _spatialElement = element as SpatialElement;

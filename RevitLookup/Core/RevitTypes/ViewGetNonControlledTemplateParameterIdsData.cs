@@ -14,10 +14,7 @@ public class ViewGetNonControlledTemplateParameterIdsData : Data
 
     public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.IsTemplate && _view.GetNonControlledTemplateParameterIds().Count > 0;
 
-    public override string AsValueString()
-    {
-        return "< view non controlled template parameter ids >";
-    }
+    public override string Value=> "< view non controlled template parameter ids >";
 
     public override object DrillDown()
     {

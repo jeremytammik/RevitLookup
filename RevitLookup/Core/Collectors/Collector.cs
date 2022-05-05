@@ -19,10 +19,11 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
+using RevitLookup.Core.RevitTypes;
 
 namespace RevitLookup.Core.Collectors;
 
 public abstract class Collector
 {
-    public ArrayList Data { get; } = new();
+    public List<Data> Data { get; } = new();
 }

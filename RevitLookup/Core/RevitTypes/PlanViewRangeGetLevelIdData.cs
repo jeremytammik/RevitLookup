@@ -15,10 +15,7 @@ public class PlanViewRangeGetLevelIdData : Data
 
     public override bool HasDrillDown => _planViewRange is not null;
 
-    public override string AsValueString()
-    {
-        return "< Get Level Ids >";
-    }
+    public override string Value=> "< Get Level Ids >";
 
     public override object DrillDown()
     {

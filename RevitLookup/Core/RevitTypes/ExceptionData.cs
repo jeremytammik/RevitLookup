@@ -34,9 +34,12 @@ public class ExceptionData : Data
 
     public override bool IsError => true;
 
-    public override string AsValueString()
+    public override string Value
     {
-        if (_value.InnerException is null) return _value.Message;
-        return string.IsNullOrEmpty(_value.InnerException.Message) ? _value.Message : _value.InnerException.Message;
+        get
+        {
+            if (_value.InnerException is null) return _value.Message;
+            return string.IsNullOrEmpty(_value.InnerException.Message) ? _value.Message : _value.InnerException.Message;
+        }
     }
 }

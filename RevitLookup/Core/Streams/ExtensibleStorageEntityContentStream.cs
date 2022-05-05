@@ -8,11 +8,11 @@ namespace RevitLookup.Core.Streams;
 
 public class ExtensibleStorageEntityContentStream : IElementStream
 {
-    private readonly ArrayList _data;
+    private readonly List<Data> _data;
     private readonly Document _document;
     private readonly Entity _entity;
 
-    public ExtensibleStorageEntityContentStream(Document document, ArrayList data, object element)
+    public ExtensibleStorageEntityContentStream(Document document, List<Data> data, object element)
     {
         _document = document;
         _data = data;
@@ -113,7 +113,7 @@ public class ExtensibleStorageEntityContentStream : IElementStream
         }
         catch (Exception ex)
         {
-            _data.Add(new Exception(field.FieldName, ex));
+            _data.Add(new ExceptionData(field.FieldName, ex));
         }
     }
 

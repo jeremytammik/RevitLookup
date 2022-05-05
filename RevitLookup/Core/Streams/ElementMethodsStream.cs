@@ -8,11 +8,11 @@ namespace RevitLookup.Core.Streams;
 
 public class ElementMethodsStream : IElementStream
 {
-    private readonly ArrayList _data;
+    private readonly List<Data> _data;
     private readonly DataFactory _methodDataFactory;
     private readonly List<string> _seenMethods = new();
 
-    public ElementMethodsStream(Document document, ArrayList data, object element)
+    public ElementMethodsStream(Document document, List<Data> data, object element)
     {
         _data = data;
         _methodDataFactory = new DataFactory(document, element);

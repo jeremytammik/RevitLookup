@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Autodesk.Revit.DB;
 using RevitLookup.Core;
+using RevitLookup.Core.Collectors;
 using RevitLookup.UI.Common;
 
 namespace RevitLookup.ViewModels.Pages;
@@ -41,12 +42,13 @@ public sealed class DashboardViewModel : INotifyPropertyChanged
         _lookupViewModel.CurrentPageIndex = 1;
         Commands.DashboardCommand.CollectDataHandler.Raise(() =>
         {
-            var item = Selectors.SnoopCurrentSelection();
-            var elements = GetWrappedElements(item);
+            var items = Selectors.SnoopCurrentSelection();
+            var itemsTree = GetWrappedElements(items);
+            var selectedItemData = new CollectorObj().Collect(itemsTree[0].Object);
         });
     });
 
-    private static object GetWrappedElements(object item)
+    private static List<SnoopableWrapper> GetWrappedElements(object item)
     {
         return item switch
         {

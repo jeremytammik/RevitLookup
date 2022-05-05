@@ -60,7 +60,7 @@ public class CollectorExtensions
             Stream(snoopCollector.Data, e.SnoopObject);
     }
 
-    private void Stream(ArrayList data, object elem)
+    private void Stream(List<Data> data, object elem)
     {
         var thisElementTypes = Types.Where(x => IsSnoopableType(x, elem)).ToList();
 
@@ -104,7 +104,7 @@ public class CollectorExtensions
         return false;
     }
 
-    private static void StreamElementExtensibleStorages(ArrayList data, Element elem)
+    private static void StreamElementExtensibleStorages(List<Data> data, Element elem)
     {
         var schemas = Schema.ListSchemas();
         if (elem is null || schemas.Count == 0) return;
@@ -125,7 +125,7 @@ public class CollectorExtensions
         }
     }
 
-    private void StreamSimpleType(ArrayList data, object elem)
+    private void StreamSimpleType(List<Data> data, object elem)
     {
         var elemType = elem.GetType();
 

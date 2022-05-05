@@ -22,8 +22,5 @@ public class AssetPropertyData : Data
         return objects;
     }
 
-    public override string AsValueString()
-    {
-        return "<AssetProperty>";
-    }
+    public override string Value => "<AssetProperty>";
 }

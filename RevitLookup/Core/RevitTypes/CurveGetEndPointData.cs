@@ -16,10 +16,7 @@ public class CurveGetEndPointData : Data
 
     public override bool HasDrillDown => _curve is not null && _curve.IsBound;
 
-    public override string AsValueString()
-    {
-        return "< Get End Points >";
-    }
+    public override string Value=> "< Get End Points >";
 
     public override object DrillDown()
     {

@@ -14,13 +14,16 @@ public class EnumerableAsString : Data
         _value = val;
     }
 
-    public override string AsValueString()
+    public override string Value
     {
-        if (_value is null) return "null";
+        get
+        {
+            if (_value is null) return Labels.Null;
 
-        var stringList = _value
-            .Cast<object>()
-            .Select(v => v.ToString());
-        return string.Join("; ", stringList);
+            var stringList = _value
+                .Cast<object>()
+                .Select(v => v.ToString());
+            return string.Join("; ", stringList);
+        }
     }
 }

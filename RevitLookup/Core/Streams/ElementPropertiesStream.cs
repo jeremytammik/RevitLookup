@@ -8,12 +8,12 @@ namespace RevitLookup.Core.Streams;
 
 public class ElementPropertiesStream : IElementStream
 {
-    private readonly ArrayList _data;
+    private readonly List<Data> _data;
     private readonly Document _document;
     private readonly object _element;
     private readonly List<string> _seenProperties = new();
 
-    public ElementPropertiesStream(Document document, ArrayList data, object element)
+    public ElementPropertiesStream(Document document, List<Data> data, object element)
     {
         _document = document;
         _data = data;

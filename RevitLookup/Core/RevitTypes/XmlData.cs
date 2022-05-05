@@ -35,10 +35,7 @@ public class XmlData : Data
 
     public override bool HasDrillDown => _value != string.Empty;
 
-    public override string AsValueString()
-    {
-        return _value;
-    }
+    public override string Value=> _value;
 
     public override object DrillDown()
     {

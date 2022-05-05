@@ -11,10 +11,13 @@ public class DoubleArrayData : Data
         _value = val;
     }
 
-    public override string AsValueString()
+    public override string Value
     {
-        var array = new string[_value.Size];
-        for (var i = 0; i < _value.Size; i++) array[i] = _value.get_Item(i).ToString();
-        return string.Join("; ", array);
+        get
+        {
+            var array = new string[_value.Size];
+            for (var i = 0; i < _value.Size; i++) array[i] = _value.get_Item(i).ToString();
+            return string.Join("; ", array);
+        }
     }
 }

@@ -27,21 +27,16 @@ namespace RevitLookup.Core.RevitTypes;
 /// </summary>
 public class ObjectData : Data
 {
-    private readonly string _stringValue;
     private readonly object _value;
 
     public ObjectData(string label, object val) : base(label)
     {
         _value = val;
-        _stringValue = Utils.GetLabel(_value);
     }
 
     public override bool HasDrillDown => _value is not null;
 
-    public override string AsValueString()
-    {
-        return _stringValue;
-    }
+    public override string Value => Utils.GetLabel(_value);
 
     public override object DrillDown()
     {

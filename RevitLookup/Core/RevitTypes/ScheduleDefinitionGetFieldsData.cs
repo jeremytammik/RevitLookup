@@ -13,10 +13,7 @@ public class ScheduleDefinitionGetFieldsData : Data
 
     public override bool HasDrillDown => _scheduleDefinition is not null && _scheduleDefinition.GetFieldCount() > 0;
 
-    public override string AsValueString()
-    {
-        return "< Get Fields >";
-    }
+    public override string Value=> "< Get Fields >";
 
     public override object DrillDown()
     {

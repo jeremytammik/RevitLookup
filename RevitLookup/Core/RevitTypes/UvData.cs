@@ -31,10 +31,5 @@ public class UvData : Data
         _value = val;
     }
 
-    public override string AsValueString()
-    {
-        return _value is not null
-            ? $"({_value.U}, {_value.V})"
-            : Labels.Null;
-    }
+    public override string Value=> _value is not null ? $"({_value.U}, {_value.V})" : Labels.Null;
 }

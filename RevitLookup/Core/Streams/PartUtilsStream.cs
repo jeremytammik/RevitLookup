@@ -6,10 +6,10 @@ namespace RevitLookup.Core.Streams;
 
 public class PartUtilsStream : IElementStream
 {
-    private readonly ArrayList _data;
+    private readonly List<Data> _data;
     private readonly object _element;
 
-    public PartUtilsStream(ArrayList data, object element)
+    public PartUtilsStream(List<Data> data, object element)
     {
         _element = element;
         _data = data;

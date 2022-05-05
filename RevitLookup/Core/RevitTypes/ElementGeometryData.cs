@@ -39,10 +39,7 @@ public class ElementGeometryData : Data
 
     public override bool HasDrillDown => _hasGeometry;
 
-    public override string AsValueString()
-    {
-        return "<Geometry.Element>";
-    }
+    public override string Value => "<Geometry.Element>";
 
     public override object DrillDown()
     {

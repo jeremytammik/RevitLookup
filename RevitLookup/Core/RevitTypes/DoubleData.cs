@@ -29,8 +29,5 @@ public class DoubleData : Data
         _value = val;
     }
 
-    public override string AsValueString()
-    {
-        return _value.ToString();
-    }
+    public override string Value=> _value.ToString();
 }

@@ -38,10 +38,7 @@ public class ElementIdData : Data
 
     public override bool HasDrillDown => _element is not null;
 
-    public override string AsValueString()
-    {
-        return _element is not null ? Utils.GetLabel(_element) : _value.ToString();
-    }
+    public override string Value => _element is not null ? Utils.GetLabel(_element) : _value.ToString();
 
     public override object DrillDown()
     {

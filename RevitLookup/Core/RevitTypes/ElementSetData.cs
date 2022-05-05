@@ -36,10 +36,7 @@ public class ElementSetData : Data
 
     public override bool HasDrillDown => _value is {IsEmpty: false};
 
-    public override string AsValueString()
-    {
-        return Utils.GetLabel(_value);
-    }
+    public override string Value=> Utils.GetLabel(_value);
 
     public override object DrillDown()
     {

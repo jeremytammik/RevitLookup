@@ -13,10 +13,7 @@ public class ViewCropRegionShapeManagerGetSplitRegionOffsetsData : Data
 
     public override bool HasDrillDown => _viewCropRegionShapeManager is {NumberOfSplitRegions: > 1};
 
-    public override string AsValueString()
-    {
-        return "< Split Region Offsets >";
-    }
+    public override string Value=> "< Split Region Offsets >";
 
     public override object DrillDown()
     {

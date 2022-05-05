@@ -11,10 +11,7 @@ public class ColorData : Data
         _color = color;
     }
 
-    public override string AsValueString()
-    {
-        return _color.IsValid
-            ? $"R: {_color.Red}; G: {_color.Green}; B: {_color.Blue}"
-            : "-- invalid color value --";
-    }
+    public override string Value => _color.IsValid
+        ? $"R: {_color.Red}; G: {_color.Green}; B: {_color.Blue}"
+        : "-- invalid color value --";
 }

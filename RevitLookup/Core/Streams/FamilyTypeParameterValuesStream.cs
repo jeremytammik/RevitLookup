@@ -6,10 +6,10 @@ namespace RevitLookup.Core.Streams;
 
 public class FamilyTypeParameterValuesStream : IElementStream
 {
-    private readonly ArrayList _data;
+    private readonly List<Data> _data;
     private readonly object _element;
 
-    public FamilyTypeParameterValuesStream(ArrayList data, object element)
+    public FamilyTypeParameterValuesStream(List<Data> data, object element)
     {
         _data = data;
         _element = element;

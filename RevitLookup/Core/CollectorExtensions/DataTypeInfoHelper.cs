@@ -142,7 +142,7 @@ public static class DataTypeInfoHelper
         }
     }
 
-    public static void AddDataFromTypeInfo(Document document, MemberInfo info, Type expectedType, object returnValue, object elem, ArrayList data)
+    public static void AddDataFromTypeInfo(Document document, MemberInfo info, Type expectedType, object returnValue, object elem, List<Data> data)
     {
         data.Add(CreateFrom(document, info, expectedType, returnValue, elem));
     }

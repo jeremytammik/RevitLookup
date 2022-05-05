@@ -32,10 +32,12 @@ public class StringData : Data
         _value = val;
     }
 
-    public override string AsValueString()
+    public override string Value
     {
-        if (_value is null) return Labels.Null;
-        if (_value.Length == 0) return Labels.Empty;
-        return _value;
+        get
+        {
+            if (_value is null) return Labels.Null;
+            return _value.Length == 0 ? Labels.Empty : _value;
+        }
     }
 }

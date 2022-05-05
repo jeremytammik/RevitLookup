@@ -13,10 +13,7 @@ public class ViewFiltersOverrideGraphicSettingsData : Data
 
     public override bool HasDrillDown => !_view.Document.IsFamilyDocument && _view.AreGraphicsOverridesAllowed() && _view.GetFilters().Count > 0;
 
-    public override string AsValueString()
-    {
-        return "< view filters override graphic settings >";
-    }
+    public override string Value=> "< view filters override graphic settings >";
 
     public override object DrillDown()
     {

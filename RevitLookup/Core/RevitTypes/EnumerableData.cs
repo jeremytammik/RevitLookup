@@ -64,10 +64,7 @@ public class EnumerableData : Data
 
     public override bool HasDrillDown => _value is not null && _objects.Count != 0;
 
-    public override string AsValueString()
-    {
-        return Utils.GetLabel(_value);
-    }
+    public override string Value=> Utils.GetLabel(_value);
 
     public override object DrillDown()
     {
