@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="500"
-    Style="{DynamicResource UiWindow}"
+    Style="{DynamicResource UiWindowRounded}"
     WindowStartupLocation="CenterScreen"
     d:DataContext="{d:DesignInstance viewModels:RevitLookupViewModel}">
     <Window.Resources>

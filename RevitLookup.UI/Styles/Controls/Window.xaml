@@ -117,8 +117,7 @@
                     <AdornerDecorator>
                         <controls:ClientAreaBorder
                             Background="{TemplateBinding Background}">
-                            <ContentPresenter
-                                x:Name="ContentPresenter" />
+                            <ContentPresenter/>
                         </controls:ClientAreaBorder>
                     </AdornerDecorator>
                 </ControlTemplate>

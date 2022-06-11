@@ -14,8 +14,9 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="ViewModels\Objects" />
+      <Reference Include="System.Net.Http" />
     </ItemGroup>
 </Project>

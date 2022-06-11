@@ -6,19 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/controls"
     xmlns:pages="clr-namespace:RevitLookup.UI.Tests.ViewModels.Pages"
+    xmlns:converters="clr-namespace:RevitLookup.UI.Tests.ViewModels.Converters"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance pages:AboutViewModel}"
     Style="{DynamicResource UiDynamicScrollViewer}">
-    <!-- <rl:DynamicScrollViewer.Resources> -->
-    <!--     <ResourceDictionary> -->
-    <!--         <ResourceDictionary.MergedDictionaries> -->
-    <!--             <ResourceDictionary -->
-    <!--                 Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" /> -->
-    <!--             <ResourceDictionary -->
-    <!--                 Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Light.xaml" /> -->
-    <!--         </ResourceDictionary.MergedDictionaries> -->
-    <!--     </ResourceDictionary> -->
-    <!-- </rl:DynamicScrollViewer.Resources> -->
+    <rl:DynamicScrollViewer.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Light.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </rl:DynamicScrollViewer.Resources>
     <DockPanel
         Margin="30,0">
         <Path
@@ -44,13 +45,88 @@
             <rl:CardControl
                 x:Name="VersionRun"
                 Title="{Binding Version}"
-                Subtitle="{Binding LatestCheck}"
+                Subtitle="{Binding LatestCheckDate}"
                 Margin="0,12,0,0"
                 Icon="ArrowSync24">
                 <rl:Button
                     Appearance="Secondary"
-                    Content="Check for updates" />
+                    Content="Check for updates"
+                    Visibility="{Binding State, Converter={converters:CheckUpdateVisibilityConverter}}"
+                    Command="{Binding CheckUpdatesCommand}" />
             </rl:CardControl>
+            <rl:Card
+                Margin="0,0,0,0"
+                Background="LightGreen">
+                <StackPanel
+                    Orientation="Horizontal">
+                    <rl:SymbolIcon
+                        Symbol="CheckmarkCircle24"
+                        Filled="True"
+                        Foreground="Green" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        FontWeight="Medium"
+                        Foreground="Black"
+                        Text="RevitLookup is up to date">
+                    </TextBlock>
+                </StackPanel>
+            </rl:Card>
+            <rl:Card
+                Background="LightGreen">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition
+                            Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition
+                            Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <rl:SymbolIcon
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Symbol="CheckmarkCircle24"
+                        Filled="True"
+                        Foreground="Green"
+                        VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        FontWeight="Medium"
+                        Foreground="Black"
+                        VerticalAlignment="Center"
+                        Text="An update is available">
+                    </TextBlock>
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="10,0,0,0"
+                            Foreground="Black"
+                            VerticalAlignment="Center"
+                            Text="{Binding NewVersion}">
+                        </TextBlock>
+                        <rl:Hyperlink
+                            Margin="10,0,0,0"
+                            Content="See what's new in this version"
+                            Foreground="Blue"
+                            FontWeight="Medium"
+                            NavigateUri="{Binding ReleaseNotesUrl}" />
+                    </StackPanel>
+                    <rl:Button
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Appearance="Secondary"
+                        Content="Download &amp; Install"
+                        Command="{Binding CheckUpdatesCommand}" />
+                </Grid>
+            </rl:Card>
             <rl:Hyperlink
                 Margin="0,12,0,0"
                 Content="Project website"

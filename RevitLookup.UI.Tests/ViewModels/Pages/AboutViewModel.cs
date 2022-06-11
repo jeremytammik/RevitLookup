@@ -20,22 +20,76 @@
 
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
+using RevitLookup.UI.Common;
+using RevitLookup.UI.Tests.ViewModels.Enums;
+using RevitLookup.UI.Tests.ViewModels.Objects;
 
 namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
 public sealed class AboutViewModel : INotifyPropertyChanged
 {
-    private string _latestCheck;
+    private string _latestCheckDate;
     private string _version;
+    private UpdatingState _state;
+    private string _newVersion;
+    private string _releaseNotesUrl;
 
     public AboutViewModel()
     {
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
         var info = FileVersionInfo.GetVersionInfo(assembly.Location);
         Version = info.ProductVersion;
-        LatestCheck = $"Latest check: {DateTime.Now:yyyy.MM.dd HH:mm:ss}";
+        LatestCheckDate = $"Latest check: {DateTime.Now:yyyy.MM.dd HH:mm:ss}";
+    }
+
+    public RelayCommand CheckUpdatesCommand => new(CheckUpdates);
+
+    private async void CheckUpdates()
+    {
+        string releasesJson;
+        using (var gitHubClient = new HttpClient())
+        {
+            gitHubClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "RevitLookup");
+            releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
+        }
+
+        var releases = JsonConvert.DeserializeObject<List<GutHubApiDto>>(releasesJson);
+        if (releases is null)
+        {
+            State = UpdatingState.ErrorChecking;
+            return;
+        }
+
+        var latestRelease = releases.OrderByDescending(release => release.PublishedDate).First();
+        var newVersion = new Version(latestRelease.TagName);
+        if (newVersion > new Version(Version))
+        {
+            State = UpdatingState.ReadyToDownload;
+            NewVersion = newVersion.ToString(3);
+            DownloadUrl = latestRelease.Assets[0].DownloadUrl;
+        }
+        else if (newVersion == new Version(Version))
+        {
+            State = UpdatingState.UpToDate;
+        }
+
+        LatestCheckDate = $"Latest check: {DateTime.Now:yyyy.MM.dd HH:mm:ss}";
+        ReleaseNotesUrl = latestRelease.Url;
+    }
+
+    public UpdatingState State
+    {
+        get => _state;
+        set
+        {
+            if (value == _state) return;
+            _state = value;
+            OnPropertyChanged();
+        }
     }
 
     public string Version
@@ -49,13 +103,38 @@ public sealed class AboutViewModel : INotifyPropertyChanged
         }
     }
 
-    public string LatestCheck
+    public string LatestCheckDate
     {
-        get => _latestCheck;
+        get => _latestCheckDate;
         set
         {
-            if (value == _latestCheck) return;
-            _latestCheck = value;
+            if (value == _latestCheckDate) return;
+            _latestCheckDate = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string ReleaseNotesUrl
+    {
+        get => _releaseNotesUrl;
+        set
+        {
+            if (value == _releaseNotesUrl) return;
+            _releaseNotesUrl = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string DownloadUrl { get; set; }
+    public string DownloadedInstallerFilename { get; set; }
+
+    public string NewVersion
+    {
+        get => _newVersion;
+        set
+        {
+            if (value == _newVersion) return;
+            _newVersion = value;
             OnPropertyChanged();
         }
     }
