@@ -21,6 +21,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -32,53 +33,20 @@ namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
 public sealed class AboutViewModel : INotifyPropertyChanged
 {
-    private string _latestCheckDate;
-    private string _version;
-    private UpdatingState _state;
+    private string _errorMessage;
+    private bool _isCheckedUpdates;
+    private string _latestCheckDate = "never";
     private string _newVersion;
     private string _releaseNotesUrl;
+    private UpdatingState _state;
+    private string _version;
+    private bool _isDownloading;
 
     public AboutViewModel()
     {
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
         var info = FileVersionInfo.GetVersionInfo(assembly.Location);
         Version = info.ProductVersion;
-        LatestCheckDate = $"Latest check: {DateTime.Now:yyyy.MM.dd HH:mm:ss}";
-    }
-
-    public RelayCommand CheckUpdatesCommand => new(CheckUpdates);
-
-    private async void CheckUpdates()
-    {
-        string releasesJson;
-        using (var gitHubClient = new HttpClient())
-        {
-            gitHubClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "RevitLookup");
-            releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
-        }
-
-        var releases = JsonConvert.DeserializeObject<List<GutHubApiDto>>(releasesJson);
-        if (releases is null)
-        {
-            State = UpdatingState.ErrorChecking;
-            return;
-        }
-
-        var latestRelease = releases.OrderByDescending(release => release.PublishedDate).First();
-        var newVersion = new Version(latestRelease.TagName);
-        if (newVersion > new Version(Version))
-        {
-            State = UpdatingState.ReadyToDownload;
-            NewVersion = newVersion.ToString(3);
-            DownloadUrl = latestRelease.Assets[0].DownloadUrl;
-        }
-        else if (newVersion == new Version(Version))
-        {
-            State = UpdatingState.UpToDate;
-        }
-
-        LatestCheckDate = $"Latest check: {DateTime.Now:yyyy.MM.dd HH:mm:ss}";
-        ReleaseNotesUrl = latestRelease.Url;
     }
 
     public UpdatingState State
@@ -105,7 +73,7 @@ public sealed class AboutViewModel : INotifyPropertyChanged
 
     public string LatestCheckDate
     {
-        get => _latestCheckDate;
+        get => $"Latest check: {_latestCheckDate}";
         set
         {
             if (value == _latestCheckDate) return;
@@ -125,9 +93,6 @@ public sealed class AboutViewModel : INotifyPropertyChanged
         }
     }
 
-    public string DownloadUrl { get; set; }
-    public string DownloadedInstallerFilename { get; set; }
-
     public string NewVersion
     {
         get => _newVersion;
@@ -139,7 +104,114 @@ public sealed class AboutViewModel : INotifyPropertyChanged
         }
     }
 
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            if (value == _errorMessage) return;
+            _errorMessage = value;
+            OnPropertyChanged();
+        }
+    }
+
+    [JsonIgnore]
+    public bool IsCheckedUpdates
+    {
+        get => _isCheckedUpdates;
+        set
+        {
+            if (value == _isCheckedUpdates) return;
+            _isCheckedUpdates = value;
+            OnPropertyChanged();
+        }
+    }
+
+    [JsonIgnore]
+    public bool IsDownloading
+    {
+        get => _isDownloading;
+        set
+        {
+            if (value == _isDownloading) return;
+            _isDownloading = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string DownloadUrl { get; set; }
+    public string DownloadedInstallerFilename { get; set; }
+
+    public RelayCommand CheckUpdatesCommand => new(CheckUpdates);
+    public RelayCommand DownloadCommand => new(DownloadUpdate);
+
     public event PropertyChangedEventHandler PropertyChanged;
+
+    private async void CheckUpdates()
+    {
+        try
+        {
+            string releasesJson;
+            using (var gitHubClient = new HttpClient())
+            {
+                gitHubClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "RevitLookup");
+                releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
+            }
+
+            var releases = JsonConvert.DeserializeObject<List<GutHubApiDto>>(releasesJson);
+            if (releases is null)
+            {
+                State = UpdatingState.ErrorChecking;
+                ErrorMessage = "GitHub server unavailable to check for updates";
+            }
+            else
+            {
+                var latestRelease = releases.OrderByDescending(release => release.PublishedDate).First();
+                var newVersion = new Version(latestRelease.TagName);
+                if (newVersion > new Version(Version))
+                {
+                    State = UpdatingState.ReadyToDownload;
+                    NewVersion = newVersion.ToString(3);
+                    DownloadUrl = latestRelease.Assets[0].DownloadUrl;
+                    ReleaseNotesUrl = latestRelease.Url;
+                }
+                else
+                {
+                    State = UpdatingState.UpToDate;
+                }
+            }
+        }
+        catch
+        {
+            State = UpdatingState.ErrorChecking;
+            ErrorMessage = "An error occurred while checking for updates";
+        }
+        finally
+        {
+            IsCheckedUpdates = true;
+            LatestCheckDate = DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
+        }
+    }
+
+    private async void DownloadUpdate()
+    {
+        IsDownloading = true;
+        State = UpdatingState.ReadyToDownload;
+        try
+        {
+            await Task.Run(() => Thread.Sleep(TimeSpan.FromSeconds(3)));
+            throw new NetworkInformationException();
+        }
+        catch
+        {
+            State = UpdatingState.ErrorDownloading;
+            ErrorMessage = "An error occurred while downloading the update";
+        }
+        finally
+        {
+            IsDownloading = false;
+        }
+    }
 
     [NotifyPropertyChangedInvocator]
     private void OnPropertyChanged([CallerMemberName] string propertyName = null)

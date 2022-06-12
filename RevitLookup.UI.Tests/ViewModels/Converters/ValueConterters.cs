@@ -83,3 +83,22 @@ public class ThemeTypeConverter : MarkupExtension, IValueConverter
         return this;
     }
 }
+
+[ValueConversion(typeof(bool), typeof(bool))]
+public class InverseBooleanConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return value is not null && !(bool) value;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Convert(value, targetType, parameter, culture);
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}

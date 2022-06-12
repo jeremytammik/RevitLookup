@@ -43,7 +43,6 @@
                 Margin="0,20,0,0"
                 Text="Version" />
             <rl:CardControl
-                x:Name="VersionRun"
                 Title="{Binding Version}"
                 Subtitle="{Binding LatestCheckDate}"
                 Margin="0,12,0,0"
@@ -51,20 +50,29 @@
                 <rl:Button
                     Appearance="Secondary"
                     Content="Check for updates"
-                    Visibility="{Binding State, Converter={converters:CheckUpdateVisibilityConverter}}"
                     Command="{Binding CheckUpdatesCommand}" />
             </rl:CardControl>
             <rl:Card
                 Margin="0,0,0,0"
                 Background="LightGreen">
+                <rl:Card.Visibility>
+                    <MultiBinding
+                        Converter="{converters:UpToDateVisibilityConverter}">
+                        <Binding
+                            Path="State" />
+                        <Binding
+                            Path="IsCheckedUpdates" />
+                    </MultiBinding>
+                </rl:Card.Visibility>
                 <StackPanel
+                    Margin="8,0,0,0"
                     Orientation="Horizontal">
                     <rl:SymbolIcon
                         Symbol="CheckmarkCircle24"
                         Filled="True"
                         Foreground="Green" />
                     <TextBlock
-                        Margin="10,0,0,0"
+                        Margin="20,0,0,0"
                         FontWeight="Medium"
                         Foreground="Black"
                         Text="RevitLookup is up to date">
@@ -72,6 +80,7 @@
                 </StackPanel>
             </rl:Card>
             <rl:Card
+                Visibility="{Binding State, Converter={converters:UpdateAvailableCardVisibilityConverter}}"
                 Background="LightGreen">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -89,6 +98,7 @@
                     <rl:SymbolIcon
                         Grid.Row="0"
                         Grid.Column="0"
+                        Margin="8,0,0,0"
                         Symbol="CheckmarkCircle24"
                         Filled="True"
                         Foreground="Green"
@@ -96,7 +106,7 @@
                     <TextBlock
                         Grid.Row="0"
                         Grid.Column="1"
-                        Margin="10,0,0,0"
+                        Margin="20,0,0,0"
                         FontWeight="Medium"
                         Foreground="Black"
                         VerticalAlignment="Center"
@@ -105,6 +115,7 @@
                     <StackPanel
                         Grid.Row="1"
                         Grid.Column="1"
+                        Margin="8,0,0,0"
                         Orientation="Horizontal">
                         <TextBlock
                             Margin="10,0,0,0"
@@ -119,13 +130,42 @@
                             FontWeight="Medium"
                             NavigateUri="{Binding ReleaseNotesUrl}" />
                     </StackPanel>
-                    <rl:Button
+                    <StackPanel
                         Grid.Row="0"
                         Grid.Column="2"
-                        Appearance="Secondary"
-                        Content="Download &amp; Install"
-                        Command="{Binding CheckUpdatesCommand}" />
+                        Orientation="Horizontal">
+                        <rl:Button
+                            Appearance="Secondary"
+                            Content="Download &amp; Install"
+                            IsEnabled="{Binding IsDownloading, Converter={converters:InverseBooleanConverter}}"
+                            Command="{Binding DownloadCommand}" />
+                        <rl:ProgressRing
+                            Width="16"
+                            Height="16"
+                            Margin="10,0,0,0"
+                            IsIndeterminate="True"
+                            Visibility="{Binding IsDownloading, Converter={converters:DownloadProgressVisibilityConverter}}"/>
+                    </StackPanel>
                 </Grid>
+            </rl:Card>
+            <rl:Card
+                Margin="0,0,0,0"
+                Background="#ffcccb"
+                Visibility="{Binding State, Converter={converters:ErrorCardVisibilityConverter}}">
+                <StackPanel
+                    Orientation="Horizontal">
+                    <rl:SymbolIcon
+                        Margin="8,0,0,0"
+                        Symbol="ErrorCircle24"
+                        Filled="True"
+                        Foreground="Red" />
+                    <TextBlock
+                        Margin="20,0,0,0"
+                        FontWeight="Medium"
+                        Foreground="Black"
+                        Text="{Binding ErrorMessage}">
+                    </TextBlock>
+                </StackPanel>
             </rl:Card>
             <rl:Hyperlink
                 Margin="0,12,0,0"

@@ -45,3 +45,83 @@ public class CheckUpdateVisibilityConverter : MarkupExtension, IValueConverter
         return this;
     }
 }
+
+[ValueConversion(typeof(UpdatingState), typeof(Visibility))]
+public class UpToDateVisibilityConverter : MarkupExtension, IMultiValueConverter
+{
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    {
+        var state = (UpdatingState) values[0];
+        var isCheckedUpdates = (bool) values[1];
+        return state == UpdatingState.UpToDate && isCheckedUpdates ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+[ValueConversion(typeof(UpdatingState), typeof(Visibility))]
+public class UpdateAvailableCardVisibilityConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var state = (UpdatingState) value!;
+        return state is UpdatingState.ReadyToDownload or UpdatingState.ErrorDownloading ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+[ValueConversion(typeof(UpdatingState), typeof(Visibility))]
+public class ErrorCardVisibilityConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var state = (UpdatingState) value!;
+        return state is UpdatingState.ErrorChecking or UpdatingState.ErrorDownloading ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+[ValueConversion(typeof(UpdatingState), typeof(Visibility))]
+public class DownloadProgressVisibilityConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var isDownloading = (bool) value!;
+        return isDownloading ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
