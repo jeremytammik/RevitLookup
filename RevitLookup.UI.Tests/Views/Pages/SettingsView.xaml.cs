@@ -18,15 +18,18 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.UI.Tests.ViewModels;
+using RevitLookup.UI.Common.Interfaces;
+using RevitLookup.UI.Tests.ViewModels.Pages;
 
 namespace RevitLookup.UI.Tests.Views.Pages;
 
-public partial class SettingsView
+public partial class SettingsView: INavigableView<SettingsViewModel>
 {
-    public SettingsView(RevitLookupViewModel lookupViewModel)
+    public SettingsView(SettingsViewModel viewModel)
     {
+        ViewModel = viewModel;
         InitializeComponent();
-        DataContext = lookupViewModel.SettingsViewModel;
     }
+
+    public SettingsViewModel ViewModel { get; }
 }

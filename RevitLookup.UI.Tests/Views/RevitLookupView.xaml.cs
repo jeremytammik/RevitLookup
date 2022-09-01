@@ -18,21 +18,49 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.UI.Tests.ViewModels;
-using RevitLookup.UI.Tests.Views.Pages;
+using System.Windows.Controls;
+using RevitLookup.UI.Controls.Interfaces;
+using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.UI.Tests.Views;
 
-public partial class RevitLookupView
+public partial class RevitLookupView : INavigationWindow
 {
-    public RevitLookupView()
+    public RevitLookupView(IPageService pageService, IDialogService dialogService)
     {
         Application.Current = this;
         InitializeComponent();
-        var lookupViewModel = new RevitLookupViewModel();
-        DashboardNavigationItem.Page = new DashboardView(lookupViewModel);
-        SettingsNavigationItem.Page = new SettingsView(lookupViewModel);
-        AboutNavigationItem.Page = new AboutView(lookupViewModel);
-        DataContext = lookupViewModel;
+        SetPageService(pageService);
+        dialogService.SetDialogControl(RootDialog);
+    }
+
+    public Frame GetFrame()
+    {
+        return RootFrame;
+    }
+
+    public INavigation GetNavigation()
+    {
+        return RootNavigation;
+    }
+
+    public bool Navigate(Type pageType)
+    {
+        return RootNavigation.Navigate(pageType);
+    }
+
+    public void SetPageService(IPageService pageService)
+    {
+        RootNavigation.PageService = pageService;
+    }
+
+    public void ShowWindow()
+    {
+        Show();
+    }
+
+    public void CloseWindow()
+    {
+        Close();
     }
 }

@@ -3,118 +3,118 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Ala Pa**one color card.
+/// Ala Pa**one color card.
 /// </summary>
-public class CardColor : Control
+public class CardColor : System.Windows.Controls.Control
 {
     /// <summary>
-    ///     Property for <see cref="Title" />.
+    /// Property for <see cref="Title"/>.
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
         typeof(string), typeof(CardColor), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Property for <see cref="Subtitle" />.
+    /// Property for <see cref="Subtitle"/>.
     /// </summary>
     public static readonly DependencyProperty SubtitleProperty = DependencyProperty.Register(nameof(Subtitle),
         typeof(string), typeof(CardColor), new PropertyMetadata(string.Empty, OnSubtitlePropertyChanged));
 
     /// <summary>
-    ///     Property for <see cref="SubtitleFontSize" />.
+    /// Property for <see cref="SubtitleFontSize"/>.
     /// </summary>
     public static readonly DependencyProperty SubtitleFontSizeProperty = DependencyProperty.Register(nameof(SubtitleFontSize),
         typeof(double), typeof(CardColor), new PropertyMetadata(11.0d));
 
     /// <summary>
-    ///     Property for <see cref="Color" />.
+    /// Property for <see cref="Color"/>.
     /// </summary>
     public static readonly DependencyProperty ColorProperty = DependencyProperty.Register(nameof(Color),
         typeof(Color), typeof(CardColor), new PropertyMetadata(Color.FromArgb(0, 0, 0, 0), OnColorPropertyChanged));
 
     /// <summary>
-    ///     Property for <see cref="Brush" />.
+    /// Property for <see cref="Brush"/>.
     /// </summary>
     public static readonly DependencyProperty BrushProperty = DependencyProperty.Register(nameof(Brush),
         typeof(Brush), typeof(CardColor),
-        new PropertyMetadata(new SolidColorBrush {Color = Color.FromArgb(0, 0, 0, 0)}, OnBrushPropertyChanged));
+        new PropertyMetadata(new SolidColorBrush { Color = Color.FromArgb(0, 0, 0, 0) }, OnBrushPropertyChanged));
 
     /// <summary>
-    ///     Property for <see cref="CardBrush" />.
+    /// Property for <see cref="CardBrush"/>.
     /// </summary>
     public static readonly DependencyProperty CardBrushProperty = DependencyProperty.Register(nameof(CardBrush),
         typeof(Brush), typeof(CardColor),
-        new PropertyMetadata(new SolidColorBrush {Color = Color.FromArgb(0, 0, 0, 0)}));
+        new PropertyMetadata(new SolidColorBrush { Color = Color.FromArgb(0, 0, 0, 0) }));
 
     /// <summary>
-    ///     Gets or sets the main text displayed below the color.
+    /// Gets or sets the main text displayed below the color.
     /// </summary>
     public string Title
     {
-        get => (string) GetValue(TitleProperty);
+        get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets text displayed under main <see cref="Title" />.
+    /// Gets or sets text displayed under main <see cref="Title"/>.
     /// </summary>
     public string Subtitle
     {
-        get => (string) GetValue(SubtitleProperty);
+        get => (string)GetValue(SubtitleProperty);
         set => SetValue(SubtitleProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets the font size of <see cref="Subtitle" />.
+    /// Gets or sets the font size of <see cref="Subtitle"/>.
     /// </summary>
     public double SubtitleFontSize
     {
-        get => (double) GetValue(SubtitleFontSizeProperty);
+        get => (double)GetValue(SubtitleFontSizeProperty);
         set => SetValue(SubtitleFontSizeProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets the displayed <see cref="CardBrush" />.
+    /// Gets or sets the displayed <see cref="CardBrush"/>.
     /// </summary>
     public Color Color
     {
-        get => (Color) GetValue(ColorProperty);
+        get => (Color)GetValue(ColorProperty);
         set => SetValue(ColorProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets the displayed <see cref="CardBrush" />.
+    /// Gets or sets the displayed <see cref="CardBrush"/>.
     /// </summary>
     public Brush Brush
     {
-        get => (Brush) GetValue(BrushProperty);
+        get => (Brush)GetValue(BrushProperty);
         set => SetValue(BrushProperty, value);
     }
 
     /// <summary>
-    ///     Gets the <see cref="System.Windows.Media.Brush" /> displayed in <see cref="CardColor" />.
+    /// Gets the <see cref="System.Windows.Media.Brush"/> displayed in <see cref="CardColor"/>.
     /// </summary>
     public Brush CardBrush
     {
-        get => (Brush) GetValue(CardBrushProperty);
+        get => (Brush)GetValue(CardBrushProperty);
         internal set => SetValue(CardBrushProperty, value);
     }
 
     /// <summary>
-    ///     Virtual method triggered when <see cref="Subtitle" /> is changed.
+    /// Virtual method triggered when <see cref="Subtitle"/> is changed.
     /// </summary>
     protected virtual void OnSubtitlePropertyChanged()
     {
     }
 
     /// <summary>
-    ///     Virtual method triggered when <see cref="Color" /> is changed.
+    /// Virtual method triggered when <see cref="Color"/> is changed.
     /// </summary>
     protected virtual void OnColorPropertyChanged()
     {
@@ -122,7 +122,7 @@ public class CardColor : Control
     }
 
     /// <summary>
-    ///     Virtual method triggered when <see cref="Brush" /> is changed.
+    /// Virtual method triggered when <see cref="Brush"/> is changed.
     /// </summary>
     protected virtual void OnBrushPropertyChanged()
     {

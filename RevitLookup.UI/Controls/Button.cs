@@ -7,114 +7,158 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using RevitLookup.UI.Common;
 using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Inherited from the <see cref="System.Windows.Controls.Button" />, adding <see cref="Common.SymbolRegular" />.
+/// Inherited from the <see cref="System.Windows.Controls.Button"/>, adding <see cref="Common.SymbolRegular"/>.
 /// </summary>
 public class Button : System.Windows.Controls.Button, IIconControl, IAppearanceControl
 {
     /// <summary>
-    ///     Property for <see cref="Icon" />.
+    /// Property for <see cref="Icon"/>.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
-        typeof(SymbolRegular), typeof(Button),
-        new PropertyMetadata(SymbolRegular.Empty));
+        typeof(Common.SymbolRegular), typeof(Button),
+        new PropertyMetadata(Common.SymbolRegular.Empty));
 
     /// <summary>
-    ///     Property for <see cref="IconFilled" />.
+    /// Property for <see cref="IconFilled"/>.
     /// </summary>
     public static readonly DependencyProperty IconFilledProperty = DependencyProperty.Register(nameof(IconFilled),
         typeof(bool), typeof(Button), new PropertyMetadata(false));
 
     /// <summary>
-    ///     Property for <see cref="IconForeground" />.
+    /// Property for <see cref="IconForeground"/>.
     /// </summary>
     public static readonly DependencyProperty IconForegroundProperty = DependencyProperty.Register(nameof(IconForeground),
         typeof(Brush), typeof(Button), new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
             FrameworkPropertyMetadataOptions.Inherits));
 
     /// <summary>
-    ///     Property for <see cref="Appearance" />.
+    /// Property for <see cref="Appearance"/>.
     /// </summary>
     public static readonly DependencyProperty AppearanceProperty = DependencyProperty.Register(nameof(Appearance),
-        typeof(Common.Appearance), typeof(Button),
-        new PropertyMetadata(Common.Appearance.Primary));
+        typeof(Common.ControlAppearance), typeof(Button),
+        new PropertyMetadata(Common.ControlAppearance.Primary));
 
     /// <summary>
-    ///     Property for <see cref="HoverBackground" />.
+    /// Property for <see cref="MouseOverBackground"/>.
     /// </summary>
-    public static readonly DependencyProperty HoverBackgroundProperty = DependencyProperty.Register(nameof(HoverBackground),
+    public static readonly DependencyProperty MouseOverBackgroundProperty = DependencyProperty.Register(nameof(MouseOverBackground),
         typeof(Brush), typeof(Button),
         new PropertyMetadata(Border.BackgroundProperty.DefaultMetadata.DefaultValue));
 
     /// <summary>
-    ///     Property for <see cref="HoverBorderBrush" />.
+    /// Property for <see cref="MouseOverBorderBrush"/>.
     /// </summary>
-    public static readonly DependencyProperty HoverBorderBrushProperty = DependencyProperty.Register(nameof(HoverBorderBrush),
+    public static readonly DependencyProperty MouseOverBorderBrushProperty = DependencyProperty.Register(nameof(MouseOverBorderBrush),
         typeof(Brush), typeof(Button),
         new PropertyMetadata(Border.BorderBrushProperty.DefaultMetadata.DefaultValue));
 
     /// <summary>
-    ///     Foreground of the <see cref="SymbolIcon" />.
+    /// Property for <see cref="PressedForeground"/>.
     /// </summary>
-    [Bindable(true)]
-    [Category("Appearance")]
-    public Brush IconForeground
-    {
-        get => (Brush) GetValue(IconForegroundProperty);
-        set => SetValue(IconForegroundProperty, value);
-    }
+    public static readonly DependencyProperty PressedForegroundProperty = DependencyProperty.Register(nameof(PressedForeground),
+        typeof(Brush), typeof(Button), new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
+            FrameworkPropertyMetadataOptions.Inherits));
 
     /// <summary>
-    ///     Background <see cref="Brush" /> when the user interacts with an element with a pointing device.
+    /// Property for <see cref="PressedBackground"/>.
     /// </summary>
-    [Bindable(true)]
-    [Category("Appearance")]
-    public Brush HoverBackground
-    {
-        get => (Brush) GetValue(HoverBackgroundProperty);
-        set => SetValue(HoverBackgroundProperty, value);
-    }
+    public static readonly DependencyProperty PressedBackgroundProperty = DependencyProperty.Register(nameof(PressedBackground),
+        typeof(Brush), typeof(Button),
+        new PropertyMetadata(Border.BackgroundProperty.DefaultMetadata.DefaultValue));
 
     /// <summary>
-    ///     Border <see cref="Brush" /> when the user interacts with an element with a pointing device.
+    /// Property for <see cref="PressedBorderBrush"/>.
     /// </summary>
-    [Bindable(true)]
-    [Category("Appearance")]
-    public Brush HoverBorderBrush
-    {
-        get => (Brush) GetValue(HoverBorderBrushProperty);
-        set => SetValue(HoverBorderBrushProperty, value);
-    }
+    public static readonly DependencyProperty PressedBorderBrushProperty = DependencyProperty.Register(nameof(PressedBorderBrush),
+        typeof(Brush), typeof(Button),
+        new PropertyMetadata(Border.BorderBrushProperty.DefaultMetadata.DefaultValue));
 
     /// <inheritdoc />
-    [Bindable(true)]
-    [Category("Appearance")]
-    public Common.Appearance Appearance
+    [Bindable(true), Category("Appearance")]
+    public Common.SymbolRegular Icon
     {
-        get => (Common.Appearance) GetValue(AppearanceProperty);
-        set => SetValue(AppearanceProperty, value);
-    }
-
-    /// <inheritdoc />
-    [Bindable(true)]
-    [Category("Appearance")]
-    public SymbolRegular Icon
-    {
-        get => (SymbolRegular) GetValue(IconProperty);
+        get => (Common.SymbolRegular)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     /// <inheritdoc />
-    [Bindable(true)]
-    [Category("Appearance")]
+    [Bindable(true), Category("Appearance")]
     public bool IconFilled
     {
-        get => (bool) GetValue(IconFilledProperty);
+        get => (bool)GetValue(IconFilledProperty);
         set => SetValue(IconFilledProperty, value);
+    }
+
+    /// <summary>
+    /// Foreground of the <see cref="SymbolIcon"/>.
+    /// </summary>
+    [Bindable(true), Category("Appearance")]
+    public Brush IconForeground
+    {
+        get => (Brush)GetValue(IconForegroundProperty);
+        set => SetValue(IconForegroundProperty, value);
+    }
+
+    /// <inheritdoc />
+    [Bindable(true), Category("Appearance")]
+    public Common.ControlAppearance Appearance
+    {
+        get => (Common.ControlAppearance)GetValue(AppearanceProperty);
+        set => SetValue(AppearanceProperty, value);
+    }
+
+    /// <summary>
+    /// Background <see cref="Brush"/> when the user interacts with an element with a pointing device.
+    /// </summary>
+    [Bindable(true), Category("Appearance")]
+    public Brush MouseOverBackground
+    {
+        get => (Brush)GetValue(MouseOverBackgroundProperty);
+        set => SetValue(MouseOverBackgroundProperty, value);
+    }
+
+    /// <summary>
+    /// Border <see cref="Brush"/> when the user interacts with an element with a pointing device.
+    /// </summary>
+    [Bindable(true), Category("Appearance")]
+    public Brush MouseOverBorderBrush
+    {
+        get => (Brush)GetValue(MouseOverBorderBrushProperty);
+        set => SetValue(MouseOverBorderBrushProperty, value);
+    }
+
+    /// <summary>
+    /// Foreground when pressed.
+    /// </summary>
+    [Bindable(true), Category("Appearance")]
+    public Brush PressedForeground
+    {
+        get => (Brush)GetValue(PressedForegroundProperty);
+        set => SetValue(PressedForegroundProperty, value);
+    }
+
+    /// <summary>
+    /// Background <see cref="Brush"/> when the user clicks the button.
+    /// </summary>
+    [Bindable(true), Category("Appearance")]
+    public Brush PressedBackground
+    {
+        get => (Brush)GetValue(PressedBackgroundProperty);
+        set => SetValue(PressedBackgroundProperty, value);
+    }
+
+    /// <summary>
+    /// Border <see cref="Brush"/> when the user clicks the button.
+    /// </summary>
+    [Bindable(true), Category("Appearance")]
+    public Brush PressedBorderBrush
+    {
+        get => (Brush)GetValue(PressedBorderBrushProperty);
+        set => SetValue(PressedBorderBrushProperty, value);
     }
 }

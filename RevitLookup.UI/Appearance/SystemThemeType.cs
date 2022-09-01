@@ -6,47 +6,47 @@
 namespace RevitLookup.UI.Appearance;
 
 /// <summary>
-///     Collection of Windows 11 themes.
+/// Collection of Windows 11 themes.
 /// </summary>
 public enum SystemThemeType
 {
     /// <summary>
-    ///     Unknown Windows theme.
+    /// Unknown Windows theme.
     /// </summary>
     Unknown,
 
     /// <summary>
-    ///     Custom Windows theme.
+    /// Custom Windows theme.
     /// </summary>
     Custom,
 
     /// <summary>
-    ///     Default light theme.
+    /// Default light theme.
     /// </summary>
     Light,
 
     /// <summary>
-    ///     Default dark theme.
+    /// Default dark theme.
     /// </summary>
     Dark,
 
     /// <summary>
-    ///     First custom, kinda purple Windows 11 theme.
+    /// First custom, kinda purple Windows 11 theme.
     /// </summary>
     Glow,
 
     /// <summary>
-    ///     Second custom, kinda red Windows 11 theme.
+    /// Second custom, kinda red Windows 11 theme.
     /// </summary>
     CapturedMotion,
 
     /// <summary>
-    ///     Third custom, kinda washed off cyan Windows 11 theme.
+    /// Third custom, kinda washed off cyan Windows 11 theme.
     /// </summary>
     Sunrise,
 
     /// <summary>
-    ///     Fourth custom, kinda gray Windows 11 theme.
+    /// Fourth custom, kinda gray Windows 11 theme.
     /// </summary>
     Flow
 }

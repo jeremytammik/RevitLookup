@@ -3,39 +3,56 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RevitLookup.UI.Controls.Interfaces;
 
 /// <summary>
-///     Navigation element.
+/// Navigation element.
 /// </summary>
 public interface INavigationItem
 {
     /// <summary>
-    ///     Content is the data used to generate the child elements of this control.
+    /// Represents a text page identifier that can be navigated with <see cref="INavigation.Navigate(string, object)"/>.
     /// </summary>
-    public object Content { get; }
+    string PageTag { get; set; }
 
     /// <summary>
-    ///     Gets information whether the page has a tag and type.
+    /// Content is the data used to generate the child elements of this control.
     /// </summary>
-    public bool IsValid { get; }
+    object Content { get; }
 
     /// <summary>
-    ///     Gets information whether the current element is active.
+    /// Gets information whether the current element is active.
     /// </summary>
-    public bool IsActive { get; set; }
+    bool IsActive { get; set; }
 
     /// <summary>
-    ///     <see cref="System.Windows.Controls.Page" /> type.
+    /// Determines whether an <see cref="Page"/> should be cached.
     /// </summary>
-    public object Page { get; set; }
+    bool Cache { get; set; }
 
     /// <summary>
-    ///     Add / Remove ClickEvent handler
+    /// URI of the application or content being navigated to.
+    /// </summary>
+    Uri PageSource { get; set; }
+
+    /// <summary>
+    /// A <see cref="Type"/> inherited from <see cref="Page"/> that defines page of the item.
+    /// </summary>
+    Type PageType { get; set; }
+
+    /// <summary>
+    /// Absolute path to the <see cref="Page"/> XAML template based on <see cref="PageSource"/> and <see cref="System.Windows.Markup.IUriContext.BaseUri"/>.
+    /// </summary>
+    Uri AbsolutePageSource { get; }
+
+    /// <summary>
+    /// Add / Remove ClickEvent handler
     /// </summary>
     [Category("Behavior")]
-    public event RoutedEventHandler Click;
+    event RoutedEventHandler Click;
 }

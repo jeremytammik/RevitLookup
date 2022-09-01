@@ -6,12 +6,12 @@
 namespace RevitLookup.UI.Appearance;
 
 /// <summary>
-///     Collection of application themes.
+/// Collection of application themes.
 /// </summary>
 public enum ThemeType
 {
     /// <summary>
-    ///     Unknown application theme.
+    /// Unknown application theme.
     /// </summary>
     Unknown,
 
@@ -21,17 +21,17 @@ public enum ThemeType
     Auto,
 
     /// <summary>
-    ///     Dark application theme.
+    /// Dark application theme.
     /// </summary>
     Dark,
 
     /// <summary>
-    ///     Light application theme.
+    /// Light application theme.
     /// </summary>
     Light,
 
     /// <summary>
-    ///     High contract application theme.
+    /// High contract application theme.
     /// </summary>
     HighContrast
 }

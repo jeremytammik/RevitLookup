@@ -5,6 +5,9 @@
 
 namespace RevitLookup.UI.Syntax;
 
+/// <summary>
+/// Supported languages for syntax highlighting.
+/// </summary>
 internal enum SyntaxLanguage
 {
     Autodetect,

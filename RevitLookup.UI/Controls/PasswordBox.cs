@@ -3,102 +3,118 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Diagnostics;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls;
 
 // TODO: This is an initial implementation and requires the necessary corrections, tests and adjustments.
 
+/**
+ * TextProperty contains asterisks OR raw password if IsPasswordRevealed is set to true
+ * PasswordProperty always contains raw password
+ */
+
 /// <summary>
-///     The modified password control.
+/// The modified password control.
 /// </summary>
 public sealed class PasswordBox : TextBox
 {
     /// <summary>
-    ///     Property for <see cref="Password" />.
+    /// Blocks triggering overwrite when forced text editing.
+    /// </summary>
+    private bool _takenControl = false;
+
+    /// <summary>
+    /// Property for <see cref="Password"/>.
     /// </summary>
     public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register(nameof(Password),
         typeof(string), typeof(PasswordBox), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Property for <see cref="PasswordChar" />.
+    /// Property for <see cref="PasswordChar"/>.
     /// </summary>
     public static readonly DependencyProperty PasswordCharProperty = DependencyProperty.Register(nameof(PasswordChar),
         typeof(char), typeof(PasswordBox), new PropertyMetadata('*', OnPasswordCharChanged));
 
     /// <summary>
-    ///     Property for <see cref="PasswordRevealMode" />.
+    /// Property for <see cref="IsPasswordRevealed"/>.
     /// </summary>
-    public static readonly DependencyProperty PasswordRevealModeProperty = DependencyProperty.Register(nameof(PasswordRevealMode),
-        typeof(RevealMode), typeof(PasswordBox), new PropertyMetadata(RevealMode.Hidden, OnPasswordRevealModeChanged));
+    public static readonly DependencyProperty IsPasswordRevealedProperty = DependencyProperty.Register(nameof(IsPasswordRevealed),
+        typeof(bool), typeof(PasswordBox), new PropertyMetadata(false, OnPasswordRevealModeChanged));
 
     /// <summary>
-    ///     Property for <see cref="ShowRevealButton" />.
+    /// Property for <see cref="RevealButtonEnabled"/>.
     /// </summary>
-    public static readonly DependencyProperty ShowRevealButtonProperty = DependencyProperty.Register(nameof(ShowRevealButton),
+    public static readonly DependencyProperty RevealButtonEnabledProperty = DependencyProperty.Register(nameof(RevealButtonEnabled),
         typeof(bool), typeof(PasswordBox), new PropertyMetadata(true));
 
     /// <summary>
-    ///     Property for <see cref="TemplateButtonCommand" />.
+    /// <see cref="PasswordBox"/> does no accept returns.
     /// </summary>
-    public static readonly DependencyProperty TemplateButtonCommandProperty =
-        DependencyProperty.Register(nameof(TemplateButtonCommand),
-            typeof(IRelayCommand), typeof(PasswordBox), new PropertyMetadata(null));
-
-    /// <summary>
-    ///     Blocks triggering overwrite when forced text editing.
-    /// </summary>
-    private bool _takenControl;
-
-    /// <summary>
-    ///     Creates new instance and sets default <see cref="TemplateButtonCommandProperty" />.
-    /// </summary>
-    public PasswordBox()
+    public new bool AcceptsReturn
     {
-        SetValue(TemplateButtonCommandProperty, new RelayCommand(o => Button_OnClick(this, o)));
+        get => false;
+        set => throw new NotImplementedException($"{typeof(PasswordBox)} does not accept returns.");
     }
 
     /// <summary>
-    ///     Gets or sets currently typed text represented by asterisks.
+    /// <see cref="PasswordBox"/> does not accept changes to the number of lines.
+    /// </summary>
+    public new int MaxLines
+    {
+        get => 1;
+        set => throw new NotImplementedException($"{typeof(PasswordBox)} does not accept changes to the number of lines.");
+    }
+
+    /// <summary>
+    /// <see cref="PasswordBox"/> does not accept changes to the number of lines.
+    /// </summary>
+    public new int MinLines
+    {
+        get => 1;
+        set => throw new NotImplementedException($"{typeof(PasswordBox)} does not accept changes to the number of lines.");
+    }
+
+    /// <summary>
+    /// Gets or sets currently typed text represented by asterisks.
     /// </summary>
     public string Password
     {
-        get => (string) GetValue(PasswordProperty);
+        get => (string)GetValue(PasswordProperty);
         internal set => SetValue(PasswordProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets character used to mask the password.
+    /// Gets or sets character used to mask the password.
     /// </summary>
     public char PasswordChar
     {
-        get => (char) GetValue(PasswordCharProperty);
+        get => (char)GetValue(PasswordCharProperty);
         set => SetValue(PasswordCharProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets a value deciding whether the password should be visible as plain text.
+    /// Gets a value indicating whether the password is revealed.
     /// </summary>
-    public RevealMode PasswordRevealMode
+    public bool IsPasswordRevealed
     {
-        get => (RevealMode) GetValue(PasswordRevealModeProperty);
-        set => SetValue(PasswordRevealModeProperty, value);
+        get => (bool)GetValue(IsPasswordRevealedProperty);
+        private set => SetValue(IsPasswordRevealedProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets a value deciding whether to display the reveal password button.
+    /// Gets or sets a value deciding whether to display the reveal password button.
     /// </summary>
-    public bool ShowRevealButton
+    public bool RevealButtonEnabled
     {
-        get => (bool) GetValue(ShowRevealButtonProperty);
-        set => SetValue(ShowRevealButtonProperty, value);
+        get => (bool)GetValue(RevealButtonEnabledProperty);
+        set => SetValue(RevealButtonEnabledProperty, value);
     }
 
     /// <summary>
-    ///     Contents of the TextBox. Returns asterisks, if you want a valid password use <see cref="Password" />.
+    /// Contents of the TextBox. Returns asterisks, if you want a valid password use <see cref="Password"/>.
     /// </summary>
     public new string Text
     {
@@ -111,13 +127,8 @@ public sealed class PasswordBox : TextBox
     }
 
     /// <summary>
-    ///     Command triggered after clicking the button.
-    /// </summary>
-    public IRelayCommand TemplateButtonCommand => (IRelayCommand) GetValue(TemplateButtonCommandProperty);
-
-    /// <summary>
-    ///     Called when content changes.
-    ///     <para>Partially inspired by Leonardo T. implementation of SecureWpfLogOn.</para>
+    /// Called when content changes.
+    /// <para>Partially inspired by Leonardo T. implementation of SecureWpfLogOn.</para>
     /// </summary>
     /// <param name="e"></param>
     protected override void OnTextChanged(TextChangedEventArgs e)
@@ -125,7 +136,7 @@ public sealed class PasswordBox : TextBox
         if (_takenControl)
             return;
 
-        if (PasswordRevealMode == RevealMode.Visible)
+        if (IsPasswordRevealed)
         {
             base.OnTextChanged(e);
             Password = base.Text;
@@ -178,58 +189,56 @@ public sealed class PasswordBox : TextBox
     }
 
     /// <summary>
-    ///     Updates the content of the displayed password if the character is changed.
+    /// Updates the content of the displayed password if the character is changed.
     /// </summary>
     private void UpdatePasswordWithNewChar(char newChar)
     {
-        if (PasswordRevealMode == RevealMode.Visible)
+        // If password is currently revealed, do not replace text with asterisks
+        if (IsPasswordRevealed)
             return;
+
         base.Text = new string(newChar, base.Text.Length);
     }
 
     /// <summary>
-    ///     Change the display of the password if rules are supported.
+    /// Change the display of the password.
     /// </summary>
-    private void UpdateRevealIfPossible(RevealMode revealMode)
+    private void UpdateReveal(bool isPasswordRevealed)
     {
-        // TODO: I don't know if it's a good method, but somehow works
-
-        if (revealMode == RevealMode.Visible && Password.Length > 0)
-        {
-            PasswordRevealMode = RevealMode.Hidden;
-            return;
-        }
-
         SetValue(TextProperty,
-            revealMode == RevealMode.Visible ? Password : new string(PasswordChar, Password.Length));
+            isPasswordRevealed ? Password : new string(PasswordChar, Password.Length));
     }
 
-    private void Button_OnClick(object sender, object parameter)
+    /// <summary>
+    /// Triggered by clicking a button in the control template.
+    /// </summary>
+    /// <param name="sender">Sender of the click event.</param>
+    /// <param name="parameter">Additional parameters.</param>
+    protected override void OnTemplateButtonClick(object sender, object parameter)
     {
+        base.OnTemplateButtonClick(sender, parameter);
+
         if (parameter == null)
             return;
 
         var param = parameter as string ?? string.Empty;
 
-#if DEBUG
-        Debug.WriteLine($"INFO: {typeof(PasswordBox)} button clicked with param: {param}", "RevitLookup.UI.PasswordBox");
-#endif
-
         switch (param)
         {
             case "reveal":
-                PasswordRevealMode = PasswordRevealMode == RevealMode.Visible
-                    ? RevealMode.Hidden
-                    : RevealMode.Visible;
+                IsPasswordRevealed = !IsPasswordRevealed;
+
+                Focus();
+                CaretIndex = Text.Length;
 
                 break;
         }
     }
 
     /// <summary>
-    ///     Static method that is called if the character is changed in the during the run.
+    /// Static method that is called if the character is changed in the during the run.
     /// </summary>
-    /// <param name="d">Instance of the <see cref="PasswordBox" /></param>
+    /// <param name="d">Instance of the <see cref="PasswordBox"/></param>
     /// <param name="e">Various property events.</param>
     private static void OnPasswordCharChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -239,14 +248,15 @@ public sealed class PasswordBox : TextBox
     }
 
     /// <summary>
-    ///     Static method that is called if the reveal mode is changed in the during the run.
+    /// Static method that is called if the reveal mode is changed in the during the run.
     /// </summary>
-    /// <param name="d">Instance of the <see cref="PasswordBox" /></param>
+    /// <param name="d">Instance of the <see cref="PasswordBox"/></param>
     /// <param name="e">Various property events.</param>
     private static void OnPasswordRevealModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not PasswordBox control)
             return;
-        control.UpdateRevealIfPossible(control.PasswordRevealMode);
+
+        control.UpdateReveal(control.IsPasswordRevealed);
     }
 }

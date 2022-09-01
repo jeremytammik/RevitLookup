@@ -3,45 +3,47 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
-using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Displays the rating scale with interactions.
+/// Displays the rating scale with interactions.
 /// </summary>
-public class Rating : ContentControl
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(Rating), "Rating.bmp")]
+public class Rating : System.Windows.Controls.ContentControl
 {
     /// <summary>
-    ///     Property for <see cref="Value" />.
+    /// Property for <see cref="Value"/>.
     /// </summary>
     public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value),
         typeof(double), typeof(Rating), new PropertyMetadata(3.0));
 
     /// <summary>
-    ///     Property for <see cref="Icon" />.
+    /// Property for <see cref="Icon"/>.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
-        typeof(SymbolRegular), typeof(Rating),
-        new PropertyMetadata(SymbolRegular.Star28));
+        typeof(Common.SymbolRegular), typeof(Rating),
+        new PropertyMetadata(Common.SymbolRegular.Star28));
 
     /// <summary>
-    ///     User rating.
+    /// User rating.
     /// </summary>
     public double Value
     {
-        get => (double) GetValue(ValueProperty);
+        get => (double)GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets displayed <see cref="Common.SymbolRegular" />.
+    /// Gets or sets displayed <see cref="Common.SymbolRegular"/>.
     /// </summary>
-    public SymbolRegular Icon
+    public Common.SymbolRegular Icon
     {
-        get => (SymbolRegular) GetValue(IconProperty);
+        get => (Common.SymbolRegular)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 }

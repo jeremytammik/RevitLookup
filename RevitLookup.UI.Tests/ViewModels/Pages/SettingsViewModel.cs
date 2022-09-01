@@ -18,27 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Interop;
-using System.Windows.Media;
-using JetBrains.Annotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.UI.Appearance;
+using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
-public sealed class SettingsViewModel : INotifyPropertyChanged
+public sealed class SettingsViewModel : ObservableObject
 {
-    private BackgroundType _currentEffect;
+    private readonly IThemeService _themeService;
     private ThemeType _currentTheme;
 
-    public SettingsViewModel()
+    public SettingsViewModel(IThemeService themeService)
     {
-        Application.Current.Loaded += (_, _) =>
-        {
-            CurrentTheme = ThemeType.Dark;
-            CurrentEffect = BackgroundType.Mica;
-        };
+        _themeService = themeService;
+        CurrentTheme = themeService.GetTheme();
     }
 
     public List<ThemeType> Themes { get; } = new()
@@ -48,15 +42,6 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
         ThemeType.Light
     };
 
-    public List<BackgroundType> Effects { get; } = new()
-    {
-        BackgroundType.Disabled,
-        // BackgroundType.Auto,
-        // BackgroundType.Acrylic,
-        BackgroundType.Mica
-        // BackgroundType.Tabbed
-    };
-
     public ThemeType CurrentTheme
     {
         get => _currentTheme;
@@ -64,83 +49,8 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
         {
             if (value == _currentTheme) return;
             _currentTheme = value;
-            ApplyTheme(value);
+            _themeService.SetTheme(value);
             OnPropertyChanged();
         }
-    }
-
-    public BackgroundType CurrentEffect
-    {
-        get => _currentEffect;
-        set
-        {
-            if (value == _currentEffect) return;
-            _currentEffect = value;
-            ApplyBackgroundEffect(value);
-            OnPropertyChanged();
-        }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void ApplyTheme(ThemeType theme)
-    {
-        switch (theme)
-        {
-            case ThemeType.Auto:
-                if (new WindowInteropHelper(Application.Current).Handle == IntPtr.Zero)
-                    Application.Current.Loaded += (_, _) =>
-                    {
-                        Watcher.Watch(Application.Current, CurrentEffect, true, true);
-                    };
-                else
-                    Watcher.Watch(Application.Current, CurrentEffect, true, true);
-                return;
-            case ThemeType.Dark:
-                Theme.Apply(ThemeType.Dark);
-                break;
-            case ThemeType.Light:
-                Theme.Apply(ThemeType.Light);
-                break;
-            case ThemeType.Unknown:
-            case ThemeType.HighContrast:
-            default:
-                throw new NotSupportedException();
-        }
-
-        ApplyBackgroundEffect(CurrentEffect);
-    }
-
-    private void ApplyBackgroundEffect(BackgroundType effect)
-    {
-        var windowHandle = new WindowInteropHelper(Application.Current).Handle;
-        Background.Remove(windowHandle);
-
-        if (CurrentTheme == ThemeType.Dark)
-            Background.ApplyDarkMode(windowHandle);
-        else
-            Background.RemoveDarkMode(windowHandle);
-
-        switch (effect)
-        {
-            case BackgroundType.Unknown:
-            case BackgroundType.Disabled:
-                break;
-            case BackgroundType.Auto:
-            case BackgroundType.Acrylic:
-            case BackgroundType.Mica:
-            case BackgroundType.Tabbed:
-                Application.Current.Background = Brushes.Transparent;
-                Background.Apply(windowHandle, effect, true);
-                break;
-            default:
-                throw new NotSupportedException();
-        }
-    }
-
-    [NotifyPropertyChangedInvocator]
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

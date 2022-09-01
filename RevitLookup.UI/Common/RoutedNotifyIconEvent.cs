@@ -3,17 +3,18 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
-using RevitLookup.UI.Controls.Interfaces;
+using RevitLookup.UI.Controls;
 
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-///     Event triggered on successful navigation.
+/// Event triggered on successful navigation.
 /// </summary>
 /// <param name="sender">Current navigation instance.</param>
 #if NET5_0_OR_GREATER
-public delegate void RoutedNotifyIconEvent([NotNull] INotifyIcon sender, RoutedEventArgs e);
+public delegate void RoutedNotifyIconEvent([NotNull] NotifyIcon sender, RoutedEventArgs e);
 #else
-public delegate void RoutedNotifyIconEvent(INotifyIcon sender, RoutedEventArgs e);
+public delegate void RoutedNotifyIconEvent(NotifyIcon sender, RoutedEventArgs e);
 #endif

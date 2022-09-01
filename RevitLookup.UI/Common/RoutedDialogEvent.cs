@@ -3,17 +3,17 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
-using RevitLookup.UI.Controls;
 
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-///     Event triggered on via <see cref="Controls.Dialog" />.
+/// Event triggered on via <see cref="Controls.Dialog"/>.
 /// </summary>
-/// <param name="sender">Current <see cref="Controls.Dialog" /> instance.</param>
+/// <param name="sender">Current <see cref="Controls.Dialog"/> instance.</param>
 #if NET5_0_OR_GREATER
 public delegate void RoutedDialogEvent([NotNull] Controls.Dialog sender, RoutedEventArgs e);
 #else
-public delegate void RoutedDialogEvent(Dialog sender, RoutedEventArgs e);
+public delegate void RoutedDialogEvent(Controls.Dialog sender, RoutedEventArgs e);
 #endif

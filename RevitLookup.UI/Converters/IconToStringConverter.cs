@@ -3,23 +3,24 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Globalization;
+using System;
 using System.Windows.Data;
 using RevitLookup.UI.Common;
+using RevitLookup.UI.Extensions;
 
 namespace RevitLookup.UI.Converters;
 
 /// <summary>
-///     Converts using <see cref="Convert" /> <see cref="SymbolRegular" /> or <see cref="SymbolFilled" /> to <see langword="string" />.
+/// Converts using <see cref="Convert"/> <see cref="SymbolRegular"/> or <see cref="SymbolFilled"/> to <see langword="string"/>.
 /// </summary>
 internal class IconToStringConverter : IValueConverter
 {
     /// <summary>
-    ///     Converts <see cref="SymbolRegular" /> or <see cref="SymbolFilled" /> to <see langword="string" />.
-    ///     <para>If the given value is <see langword="char" /> or <see langword="string" /> it will simply be returned as a <see langword="string" />.</para>
+    /// Converts <see cref="SymbolRegular"/> or <see cref="SymbolFilled"/> to <see langword="string"/>.
+    /// <para>If the given value is <see langword="char"/> or <see langword="string"/> it will simply be returned as a <see langword="string"/>.</para>
     /// </summary>
-    /// <returns><see langword="string" /> representing <see cref="SymbolRegular" /> or <see cref="SymbolFilled" />.</returns>
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    /// <returns><see langword="string"/> representing <see cref="SymbolRegular"/> or <see cref="SymbolFilled"/>.</returns>
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
         if (value == null)
             return null;
@@ -40,10 +41,10 @@ internal class IconToStringConverter : IValueConverter
     }
 
     /// <summary>
-    ///     Not Implemented.
+    /// Not Implemented.
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
         throw new NotImplementedException();
     }

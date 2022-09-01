@@ -10,62 +10,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style
-        TargetType="{x:Type controls:Snackbar}">
-        <Setter
-            Property="Foreground">
+    <Style TargetType="{x:Type controls:Snackbar}">
+        <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush
-                    Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter
-            Property="MessageForeground">
+        <Setter Property="MessageForeground">
             <Setter.Value>
-                <SolidColorBrush
-                    Color="{DynamicResource TextFillColorTertiary}" />
+                <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
             </Setter.Value>
         </Setter>
-        <Setter
-            Property="IconForeground">
+        <Setter Property="IconForeground">
             <Setter.Value>
-                <SolidColorBrush
-                    Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter
-            Property="Background">
+        <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush
-                    Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
+                <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
             </Setter.Value>
         </Setter>
-        <Setter
-            Property="BorderBrush"
-            Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter
-            Property="Margin"
-            Value="24" />
-        <Setter
-            Property="MinHeight"
-            Value="68" />
-        <Setter
-            Property="VerticalAlignment"
-            Value="Bottom" />
-        <Setter
-            Property="HorizontalAlignment"
-            Value="Stretch" />
-        <Setter
-            Property="SnapsToDevicePixels"
-            Value="True" />
-        <Setter
-            Property="OverridesDefaultStyle"
-            Value="True" />
-        <Setter
-            Property="Template">
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter Property="Margin" Value="24" />
+        <Setter Property="MinHeight" Value="68" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate
-                    TargetType="{x:Type controls:Snackbar}">
+                <ControlTemplate TargetType="{x:Type controls:Snackbar}">
                     <Grid
                         x:Name="CardBorderContainer"
                         Margin="0,0,0,-200"
@@ -91,13 +68,9 @@
                             </Border.Effect>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition
-                                        Width="Auto" />
-                                    <ColumnDefinition
-                                        Width="*" />
-                                    <ColumnDefinition
-                                        x:Name="ChevronColumn"
-                                        Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition x:Name="ChevronColumn" Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <controls:SymbolIcon
                                     x:Name="CardIcon"
@@ -129,8 +102,7 @@
                                 </StackPanel>
 
                                 <!--  We assume that Content is presented instead of Title and Message.  -->
-                                <ContentPresenter
-                                    Grid.Column="1" />
+                                <ContentPresenter Grid.Column="1" />
 
                                 <controls:Button
                                     x:Name="CloseButton"
@@ -138,39 +110,25 @@
                                     Margin="12,0,0,0"
                                     Padding="6"
                                     Appearance="{TemplateBinding Appearance}"
-                                    Command="{Binding Path=ButtonCloseCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Command="{Binding Path=TemplateButtonCommand, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    CommandParameter="close"
                                     Foreground="{TemplateBinding Foreground}">
-                                    <controls:SymbolIcon
-                                        Foreground="{TemplateBinding Foreground}"
-                                        Symbol="Dismiss48" />
+                                    <controls:SymbolIcon Foreground="{TemplateBinding Foreground}" Symbol="Dismiss48" />
                                 </controls:Button>
                             </Grid>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger
-                            Property="Icon"
-                            Value="Empty">
-                            <Setter
-                                TargetName="CardIcon"
-                                Property="Margin"
-                                Value="0" />
+                        <Trigger Property="Icon" Value="Empty">
+                            <Setter TargetName="CardIcon" Property="Margin" Value="0" />
                         </Trigger>
-                        <Trigger
-                            Property="ShowCloseButton"
-                            Value="False">
-                            <Setter
-                                TargetName="CloseButton"
-                                Property="Visibility"
-                                Value="Collapsed" />
-                            <Setter
-                                TargetName="CloseButton"
-                                Property="Margin"
-                                Value="0" />
+                        <Trigger Property="CloseButtonEnabled" Value="False">
+                            <Setter TargetName="CloseButton" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="CloseButton" Property="Margin" Value="0" />
                         </Trigger>
-                        <Trigger
-                            Property="IsShown"
-                            Value="True">
+                        <Trigger Property="IsShown" Value="True">
+                            <Setter Property="Focusable" Value="True" />
+                            <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -178,12 +136,8 @@
                                             BeginTime="00:00:00"
                                             Storyboard.TargetName="CardBorderContainer"
                                             Storyboard.TargetProperty="Margin">
-                                            <SplineThicknessKeyFrame
-                                                KeyTime="00:00:00"
-                                                Value="0,0,0,-200" />
-                                            <SplineThicknessKeyFrame
-                                                KeyTime="00:00:.26"
-                                                Value="0,0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,-200" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:.26" Value="0,0,0,0" />
                                         </ThicknessAnimationUsingKeyFrames>
                                         <DoubleAnimation
                                             Storyboard.TargetName="CardBorderContainer"
@@ -201,12 +155,8 @@
                                             BeginTime="00:00:00"
                                             Storyboard.TargetName="CardBorderContainer"
                                             Storyboard.TargetProperty="Margin">
-                                            <SplineThicknessKeyFrame
-                                                KeyTime="00:00:00"
-                                                Value="0,0,0,0" />
-                                            <SplineThicknessKeyFrame
-                                                KeyTime="00:00:.32"
-                                                Value="0,0,0,-200" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:00" Value="0,0,0,0" />
+                                            <SplineThicknessKeyFrame KeyTime="00:00:.32" Value="0,0,0,-200" />
                                         </ThicknessAnimationUsingKeyFrames>
                                         <DoubleAnimation
                                             Storyboard.TargetName="CardBorderContainer"
@@ -223,202 +173,160 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger
-                Property="Appearance"
-                Value="Transparent">
-                <Setter
-                    Property="Background"
-                    Value="Transparent" />
+            <Trigger Property="Appearance" Value="Transparent">
+                <Setter Property="Background" Value="Transparent" />
             </Trigger>
-            <Trigger
-                Property="Appearance"
-                Value="Primary">
-                <Setter
-                    Property="Foreground">
+            <Trigger Property="Appearance" Value="Primary">
+                <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="{DynamicResource TextOnAccentFillColorPrimary}" />
+                        <SolidColorBrush Color="{DynamicResource TextOnAccentFillColorPrimary}" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="MessageForeground">
+                <Setter Property="MessageForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="{DynamicResource TextOnAccentFillColorSecondary}" />
+                        <SolidColorBrush Color="{DynamicResource TextOnAccentFillColorSecondary}" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="IconForeground">
+                <Setter Property="IconForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="{DynamicResource TextOnAccentFillColorPrimary}" />
+                        <SolidColorBrush Color="{DynamicResource TextOnAccentFillColorPrimary}" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="Background">
+                <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="{DynamicResource SystemAccentColorLight2}" />
+                        <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            <Trigger
-                Property="Appearance"
-                Value="Dark">
-                <Setter
-                    Property="Foreground">
+            <Trigger Property="Appearance" Value="Dark">
+                <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#FFFFFF" />
+                        <SolidColorBrush Color="#FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="MessageForeground">
+                <Setter Property="MessageForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#87FFFFFF" />
+                        <SolidColorBrush Color="#87FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="IconForeground">
+                <Setter Property="IconForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#FFFFFF" />
+                        <SolidColorBrush Color="#FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="Background">
+                <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#2e2e2e" />
+                        <SolidColorBrush Color="#2e2e2e" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            <Trigger
-                Property="Appearance"
-                Value="Light">
-                <Setter
-                    Property="Foreground">
+            <Trigger Property="Appearance" Value="Light">
+                <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#E4000000" />
+                        <SolidColorBrush Color="#E4000000" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="MessageForeground">
+                <Setter Property="MessageForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#9E000000" />
+                        <SolidColorBrush Color="#9E000000" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="IconForeground">
+                <Setter Property="IconForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#E4000000" />
+                        <SolidColorBrush Color="#E4000000" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="Background">
+                <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#F3F3F3" />
+                        <SolidColorBrush Color="#F3F3F3" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            <Trigger
-                Property="Appearance"
-                Value="Danger">
-                <Setter
-                    Property="Foreground">
+            <Trigger Property="Appearance" Value="Info">
+                <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#FFFFFF" />
+                        <SolidColorBrush Color="#FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="MessageForeground">
+                <Setter Property="MessageForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#87FFFFFF" />
+                        <SolidColorBrush Color="#87FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="IconForeground">
+                <Setter Property="IconForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#FFFFFF" />
+                        <SolidColorBrush Color="#FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="Background">
+                <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="{DynamicResource PaletteRedColor}" />
+                        <SolidColorBrush Color="{DynamicResource PaletteLightBlueColor}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            <Trigger
-                Property="Appearance"
-                Value="Success">
-                <Setter
-                    Property="Foreground">
+            <Trigger Property="Appearance" Value="Danger">
+                <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#FFFFFF" />
+                        <SolidColorBrush Color="#FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="MessageForeground">
+                <Setter Property="MessageForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#87FFFFFF" />
+                        <SolidColorBrush Color="#87FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="IconForeground">
+                <Setter Property="IconForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#FFFFFF" />
+                        <SolidColorBrush Color="#FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="Background">
+                <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="{DynamicResource PaletteGreenColor}" />
+                        <SolidColorBrush Color="{DynamicResource PaletteRedColor}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            <Trigger
-                Property="Appearance"
-                Value="Caution">
-                <Setter
-                    Property="Foreground">
+            <Trigger Property="Appearance" Value="Success">
+                <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#FFFFFF" />
+                        <SolidColorBrush Color="#FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="MessageForeground">
+                <Setter Property="MessageForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#87FFFFFF" />
+                        <SolidColorBrush Color="#87FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="IconForeground">
+                <Setter Property="IconForeground">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="#FFFFFF" />
+                        <SolidColorBrush Color="#FFFFFF" />
                     </Setter.Value>
                 </Setter>
-                <Setter
-                    Property="Background">
+                <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush
-                            Color="{DynamicResource PaletteOrangeColor}" />
+                        <SolidColorBrush Color="{DynamicResource PaletteGreenColor}" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Appearance" Value="Caution">
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="#FFFFFF" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="MessageForeground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="#87FFFFFF" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="IconForeground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="#FFFFFF" />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource PaletteOrangeColor}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>

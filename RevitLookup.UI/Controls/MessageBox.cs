@@ -3,89 +3,189 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Diagnostics;
+using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
 using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Common;
+using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Customized window for notifications.
+/// Customized window for notifications.
 /// </summary>
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(MessageBox), "MessageBox.bmp")]
 public class MessageBox : Window
 {
     /// <summary>
-    ///     Property for <see cref="Footer" />.
+    /// Property for <see cref="Footer"/>.
     /// </summary>
     public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(nameof(Footer),
         typeof(object), typeof(MessageBox), new PropertyMetadata(null));
 
     /// <summary>
-    ///     Property for <see cref="ShowFooter" />.
+    /// Property for <see cref="ShowFooter"/>.
     /// </summary>
     public static readonly DependencyProperty ShowFooterProperty = DependencyProperty.Register(nameof(ShowFooter),
         typeof(bool), typeof(MessageBox), new PropertyMetadata(true));
 
     /// <summary>
-    ///     Property for <see cref="ShowTitle" />.
+    /// Property for <see cref="ShowTitle"/>.
     /// </summary>
     public static readonly DependencyProperty ShowTitleProperty = DependencyProperty.Register(nameof(ShowTitle),
         typeof(bool), typeof(MessageBox), new PropertyMetadata(true));
 
     /// <summary>
-    ///     Property for <see cref="MicaEnabled" />.
+    /// Property for <see cref="MicaEnabled"/>.
     /// </summary>
     public static readonly DependencyProperty MicaEnabledProperty = DependencyProperty.Register(nameof(MicaEnabled),
         typeof(bool), typeof(MessageBox), new PropertyMetadata(true));
 
     /// <summary>
-    ///     Property for <see cref="ButtonLeftName" />.
+    /// Property for <see cref="ButtonLeftName"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftNameProperty = DependencyProperty.Register(nameof(ButtonLeftName),
         typeof(string), typeof(MessageBox), new PropertyMetadata("Action"));
 
     /// <summary>
-    ///     Property for <see cref="ButtonLeftAppearance" />.
+    /// Property for <see cref="ButtonLeftAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftAppearanceProperty = DependencyProperty.Register(nameof(ButtonLeftAppearance),
-        typeof(Common.Appearance), typeof(MessageBox),
-        new PropertyMetadata(Common.Appearance.Primary));
+        typeof(ControlAppearance), typeof(MessageBox),
+        new PropertyMetadata(ControlAppearance.Primary));
 
     /// <summary>
-    ///     Routed event for <see cref="ButtonLeftClick" />.
+    /// Routed event for <see cref="ButtonLeftClick"/>.
     /// </summary>
     public static readonly RoutedEvent ButtonLeftClickEvent = EventManager.RegisterRoutedEvent(
-        nameof(ButtonLeftClick), RoutingStrategy.Bubble, typeof(MessageBox), typeof(MessageBox));
+        nameof(ButtonLeftClick), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MessageBox));
 
     /// <summary>
-    ///     Property for <see cref="ButtonRightName" />.
+    /// Property for <see cref="ButtonRightName"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonRightNameProperty = DependencyProperty.Register(nameof(ButtonRightName),
         typeof(string), typeof(MessageBox), new PropertyMetadata("Close"));
 
     /// <summary>
-    ///     Property for <see cref="ButtonRightAppearance" />.
+    /// Property for <see cref="ButtonRightAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonRightAppearanceProperty = DependencyProperty.Register(nameof(ButtonRightAppearance),
-        typeof(Common.Appearance), typeof(MessageBox),
-        new PropertyMetadata(Common.Appearance.Secondary));
+        typeof(ControlAppearance), typeof(MessageBox),
+        new PropertyMetadata(ControlAppearance.Secondary));
 
     /// <summary>
-    ///     Routed event for <see cref="ButtonRightClick" />.
+    /// Routed event for <see cref="ButtonRightClick"/>.
     /// </summary>
     public static readonly RoutedEvent ButtonRightClickEvent = EventManager.RegisterRoutedEvent(
-        nameof(ButtonRightClick), RoutingStrategy.Bubble, typeof(MessageBox), typeof(MessageBox));
+        nameof(ButtonRightClick), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(MessageBox));
 
     /// <summary>
-    ///     Property for <see cref="TemplateButtonCommand" />.
+    /// Property for <see cref="TemplateButtonCommand"/>.
     /// </summary>
     public static readonly DependencyProperty TemplateButtonCommandProperty =
         DependencyProperty.Register(nameof(TemplateButtonCommand),
             typeof(IRelayCommand), typeof(MessageBox), new PropertyMetadata(null));
 
     /// <summary>
-    ///     Creates new instance and sets default <see cref="FrameworkElement.Loaded" /> event.
+    /// Gets or sets a content of the <see cref="MessageBox"/> bottom element.
+    /// </summary>
+    public object Footer
+    {
+        get => GetValue(FooterProperty);
+        set => SetValue(FooterProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value that determines whether to show the <see cref="Footer"/>.
+    /// </summary>
+    public bool ShowFooter
+    {
+        get => (bool)GetValue(ShowFooterProperty);
+        set => SetValue(ShowFooterProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value that determines whether to show the <see cref="System.Windows.Window.Title"/> in <see cref="TitleBar"/>.
+    /// </summary>
+    public bool ShowTitle
+    {
+        get => (bool)GetValue(ShowTitleProperty);
+        set => SetValue(ShowTitleProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value that determines whether <see cref="MessageBox"/> should contain a <see cref="BackgroundType.Mica"/> effect.
+    /// </summary>
+    public bool MicaEnabled
+    {
+        get => (bool)GetValue(MicaEnabledProperty);
+        set => SetValue(MicaEnabledProperty, value);
+    }
+
+    /// <summary>
+    /// Name of the button on the left side of footer.
+    /// </summary>
+    public string ButtonLeftName
+    {
+        get => (string)GetValue(ButtonLeftNameProperty);
+        set => SetValue(ButtonLeftNameProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the <see cref="ControlAppearance"/> of the button on the left, if available.
+    /// </summary>
+    public ControlAppearance ButtonLeftAppearance
+    {
+        get => (ControlAppearance)GetValue(ButtonLeftAppearanceProperty);
+        set => SetValue(ButtonLeftAppearanceProperty, value);
+    }
+
+    /// <summary>
+    /// Action triggered after clicking left button.
+    /// </summary>
+    public event RoutedEventHandler ButtonLeftClick
+    {
+        add => AddHandler(ButtonLeftClickEvent, value);
+        remove => RemoveHandler(ButtonLeftClickEvent, value);
+    }
+
+    /// <summary>
+    /// Name of the button on the right side of footer.
+    /// </summary>
+    public string ButtonRightName
+    {
+        get => (string)GetValue(ButtonRightNameProperty);
+        set => SetValue(ButtonRightNameProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the <see cref="ControlAppearance"/> of the button on the right, if available.
+    /// </summary>
+    public ControlAppearance ButtonRightAppearance
+    {
+        get => (ControlAppearance)GetValue(ButtonRightAppearanceProperty);
+        set => SetValue(ButtonRightAppearanceProperty, value);
+    }
+
+    /// <summary>
+    /// Action triggered after clicking right button.
+    /// </summary>
+    public event RoutedEventHandler ButtonRightClick
+    {
+        add => AddHandler(ButtonRightClickEvent, value);
+        remove => RemoveHandler(ButtonRightClickEvent, value);
+    }
+
+    /// <summary>
+    /// Command triggered after clicking the button on the Footer.
+    /// </summary>
+    public IRelayCommand TemplateButtonCommand => (IRelayCommand)GetValue(TemplateButtonCommandProperty);
+
+    /// <summary>
+    /// Creates new instance and sets default <see cref="FrameworkElement.Loaded"/> event.
     /// </summary>
     public MessageBox()
     {
@@ -101,118 +201,21 @@ public class MessageBox : Window
         SetValue(TemplateButtonCommandProperty, new RelayCommand(o => Button_OnClick(this, o)));
     }
 
-    /// <summary>
-    ///     Gets or sets a content of the <see cref="MessageBox" /> bottom element.
-    /// </summary>
-    public object Footer
-    {
-        get => GetValue(FooterProperty);
-        set => SetValue(FooterProperty, value);
-    }
-
-    /// <summary>
-    ///     Gets or sets a value that determines whether to show the <see cref="Footer" />.
-    /// </summary>
-    public bool ShowFooter
-    {
-        get => (bool) GetValue(ShowFooterProperty);
-        set => SetValue(ShowFooterProperty, value);
-    }
-
-    /// <summary>
-    ///     Gets or sets a value that determines whether to show the <see cref="System.Windows.Window.Title" /> in <see cref="TitleBar" />.
-    /// </summary>
-    public bool ShowTitle
-    {
-        get => (bool) GetValue(ShowTitleProperty);
-        set => SetValue(ShowTitleProperty, value);
-    }
-
-    /// <summary>
-    ///     Gets or sets a value that determines whether <see cref="MessageBox" /> should contain a <see cref="BackgroundType.Mica" /> effect.
-    /// </summary>
-    public bool MicaEnabled
-    {
-        get => (bool) GetValue(MicaEnabledProperty);
-        set => SetValue(MicaEnabledProperty, value);
-    }
-
-    /// <summary>
-    ///     Name of the button on the left side of footer.
-    /// </summary>
-    public string ButtonLeftName
-    {
-        get => (string) GetValue(ButtonLeftNameProperty);
-        set => SetValue(ButtonLeftNameProperty, value);
-    }
-
-    /// <summary>
-    ///     Gets or sets the <see cref="Common.Appearance" /> of the button on the left, if available.
-    /// </summary>
-    public Common.Appearance ButtonLeftAppearance
-    {
-        get => (Common.Appearance) GetValue(ButtonLeftAppearanceProperty);
-        set => SetValue(ButtonLeftAppearanceProperty, value);
-    }
-
-    /// <summary>
-    ///     Name of the button on the right side of footer.
-    /// </summary>
-    public string ButtonRightName
-    {
-        get => (string) GetValue(ButtonRightNameProperty);
-        set => SetValue(ButtonRightNameProperty, value);
-    }
-
-    /// <summary>
-    ///     Gets or sets the <see cref="Common.Appearance" /> of the button on the right, if available.
-    /// </summary>
-    public Common.Appearance ButtonRightAppearance
-    {
-        get => (Common.Appearance) GetValue(ButtonRightAppearanceProperty);
-        set => SetValue(ButtonRightAppearanceProperty, value);
-    }
-
-    /// <summary>
-    ///     Command triggered after clicking the button on the Footer.
-    /// </summary>
-    public IRelayCommand TemplateButtonCommand => (IRelayCommand) GetValue(TemplateButtonCommandProperty);
-
-    /// <summary>
-    ///     Action triggered after clicking left button.
-    /// </summary>
-    public event RoutedEventHandler ButtonLeftClick
-    {
-        add => AddHandler(ButtonLeftClickEvent, value);
-        remove => RemoveHandler(ButtonLeftClickEvent, value);
-    }
-
-    /// <summary>
-    ///     Action triggered after clicking right button.
-    /// </summary>
-    public event RoutedEventHandler ButtonRightClick
-    {
-        add => AddHandler(ButtonRightClickEvent, value);
-        remove => RemoveHandler(ButtonRightClickEvent, value);
-    }
-
-    /// Shows a
-    /// <see cref="System.Windows.MessageBox" />
-    /// .
+    /// Shows a <see cref="System.Windows.MessageBox"/>.
     public new void Show()
     {
-        Appearance.Background.Apply(this, BackgroundType.Mica);
+        UnsafeNativeMethods.RemoveWindowTitlebar(this);
+
+        Appearance.Background.Apply(this, Appearance.BackgroundType.Mica);
 
         base.Show();
     }
 
     /// <summary>
-    ///     Sets <see cref="System.Windows.Window.Title" /> and content of <see cref="System.Windows.Window" />, then calls <see cref="MessageBox.Show()" />.
+    /// Sets <see cref="System.Windows.Window.Title"/> and content of <see cref="System.Windows.Window"/>, then calls <see cref="MessageBox.Show()"/>.
     /// </summary>
-    /// <param name="title">
-    ///     <see cref="System.Windows.Window.Title" />
-    /// </param>
-    /// <param name="content">Content of <see cref="System.Windows.Window" /></param>
+    /// <param name="title"><see cref="System.Windows.Window.Title"/></param>
+    /// <param name="content">Content of <see cref="System.Windows.Window"/></param>
     public void Show(string title, object content)
     {
         Title = title;
@@ -238,13 +241,12 @@ public class MessageBox : Window
 
     private void Button_OnClick(object sender, object parameter)
     {
-        if (parameter == null) return;
+        if (parameter == null)
+        {
+            return;
+        }
 
         var param = parameter as string ?? string.Empty;
-
-#if DEBUG
-        Debug.WriteLine($"INFO | {typeof(MessageBox)} button clicked with param: {param}", "RevitLookup.UI.MessageBox");
-#endif
 
         switch (param)
         {

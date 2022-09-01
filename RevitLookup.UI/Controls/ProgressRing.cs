@@ -5,26 +5,30 @@
 
 // https://docs.microsoft.com/en-us/fluent-ui/web-components/components/progress-ring
 
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Rotating loading ring.
+/// Rotating loading ring.
 /// </summary>
-public class ProgressRing : Control
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(ProgressRing), "ProgressRing.bmp")]
+public class ProgressRing : System.Windows.Controls.Control
 {
     /// <summary>
-    ///     Property for <see cref="Progress" />.
+    /// Property for <see cref="Progress"/>.
     /// </summary>
     public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register(nameof(Progress),
         typeof(double), typeof(ProgressRing),
         new PropertyMetadata(50d, PropertyChangedCallback));
 
     /// <summary>
-    ///     Property for <see cref="IsIndeterminate" />.
+    /// Property for <see cref="IsIndeterminate"/>.
     /// </summary>
     public static readonly DependencyProperty IsIndeterminateProperty = DependencyProperty.Register(
         nameof(IsIndeterminate),
@@ -32,14 +36,14 @@ public class ProgressRing : Control
         new PropertyMetadata(false));
 
     /// <summary>
-    ///     Property for <see cref="EngAngle" />.
+    /// Property for <see cref="EngAngle"/>.
     /// </summary>
     public static readonly DependencyProperty EngAngleProperty = DependencyProperty.Register(nameof(EngAngle),
         typeof(double), typeof(ProgressRing),
         new PropertyMetadata(180.0d));
 
     /// <summary>
-    ///     Property for <see cref="IndeterminateAngle" />.
+    /// Property for <see cref="IndeterminateAngle"/>.
     /// </summary>
     public static readonly DependencyProperty IndeterminateAngleProperty = DependencyProperty.Register(
         nameof(IndeterminateAngle),
@@ -47,7 +51,7 @@ public class ProgressRing : Control
         new PropertyMetadata(180.0d));
 
     /// <summary>
-    ///     Property for <see cref="CoverRingStroke" />.
+    /// Property for <see cref="CoverRingStroke"/>.
     /// </summary>
     public static readonly DependencyProperty CoverRingStrokeProperty =
         DependencyProperty.RegisterAttached(
@@ -61,7 +65,7 @@ public class ProgressRing : Control
                 FrameworkPropertyMetadataOptions.Inherits));
 
     /// <summary>
-    ///     Property for <see cref="CoverRingVisibility" />.
+    /// Property for <see cref="CoverRingVisibility"/>.
     /// </summary>
     public static readonly DependencyProperty CoverRingVisibilityProperty = DependencyProperty.Register(
         nameof(CoverRingVisibility),
@@ -69,62 +73,62 @@ public class ProgressRing : Control
         new PropertyMetadata(Visibility.Visible));
 
     /// <summary>
-    ///     Gets or sets the progress.
+    /// Gets or sets the progress.
     /// </summary>
     public double Progress
     {
-        get => (double) GetValue(ProgressProperty);
+        get => (double)GetValue(ProgressProperty);
         set => SetValue(ProgressProperty, value);
     }
 
     /// <summary>
-    ///     Determines if <see cref="ProgressRing" /> shows actual values (<see langword="false" />)
-    ///     or generic, continuous progress feedback (<see langword="true" />).
+    /// Determines if <see cref="ProgressRing"/> shows actual values (<see langword="false"/>)
+    /// or generic, continuous progress feedback (<see langword="true"/>).
     /// </summary>
     public bool IsIndeterminate
     {
-        get => (bool) GetValue(IsIndeterminateProperty);
+        get => (bool)GetValue(IsIndeterminateProperty);
         set => SetValue(IsIndeterminateProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets the <see cref="Arc.EndAngle" />.
+    /// Gets or sets the <see cref="Arc.EndAngle"/>.
     /// </summary>
     public double EngAngle
     {
-        get => (double) GetValue(EngAngleProperty);
+        get => (double)GetValue(EngAngleProperty);
         set => SetValue(EngAngleProperty, value);
     }
 
     /// <summary>
-    ///     Gets the <see cref="Arc.EndAngle" /> when <see cref="IsIndeterminate" /> is <see langword="true" />.
+    /// Gets the <see cref="Arc.EndAngle"/> when <see cref="IsIndeterminate"/> is <see langword="true"/>.
     /// </summary>
     public double IndeterminateAngle
     {
-        get => (double) GetValue(IndeterminateAngleProperty);
+        get => (double)GetValue(IndeterminateAngleProperty);
         internal set => SetValue(IndeterminateAngleProperty, value);
     }
 
     /// <summary>
-    ///     Background ring fill.
+    /// Background ring fill.
     /// </summary>
     public Brush CoverRingStroke
     {
-        get => (Brush) GetValue(CoverRingStrokeProperty);
+        get => (Brush)GetValue(CoverRingStrokeProperty);
         internal set => SetValue(CoverRingStrokeProperty, value);
     }
 
     /// <summary>
-    ///     Background ring visibility.
+    /// Background ring visibility.
     /// </summary>
     public Visibility CoverRingVisibility
     {
-        get => (Visibility) GetValue(CoverRingVisibilityProperty);
+        get => (Visibility)GetValue(CoverRingVisibilityProperty);
         internal set => SetValue(CoverRingVisibilityProperty, value);
     }
 
     /// <summary>
-    ///     Re-draws <see cref="Arc.EndAngle" /> depending on <see cref="Progress" />.
+    /// Re-draws <see cref="Arc.EndAngle"/> depending on <see cref="Progress"/>.
     /// </summary>
     protected void UpdateProgressAngle()
     {
@@ -146,7 +150,7 @@ public class ProgressRing : Control
     }
 
     /// <summary>
-    ///     Validates the entered <see cref="Progress" /> and redraws the <see cref="Arc" />.
+    /// Validates the entered <see cref="Progress"/> and redraws the <see cref="Arc"/>.
     /// </summary>
     protected static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

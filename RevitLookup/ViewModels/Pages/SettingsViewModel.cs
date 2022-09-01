@@ -21,12 +21,13 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Interop;
+using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.UI.Appearance;
 using Brushes = System.Windows.Media.Brushes;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class SettingsViewModel : INotifyPropertyChanged
+public sealed class SettingsViewModel : ObservableObject
 {
     private BackgroundType _currentEffect;
     private ThemeType _currentTheme;
@@ -49,11 +50,9 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
 
     public List<BackgroundType> Effects { get; } = new()
     {
-        BackgroundType.Disabled,
-        // BackgroundType.Auto,
-        // BackgroundType.Acrylic,
+        BackgroundType.None,
+        BackgroundType.Acrylic,
         BackgroundType.Mica
-        // BackgroundType.Tabbed
     };
 
     public ThemeType CurrentTheme
@@ -79,8 +78,6 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
 
     private void ApplyTheme(ThemeType theme)
     {
@@ -113,17 +110,11 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
     private void ApplyBackgroundEffect(BackgroundType effect)
     {
         var windowHandle = new WindowInteropHelper(UI.Application.Current).Handle;
-        Background.Remove(windowHandle);
-
-        if (CurrentTheme == ThemeType.Dark)
-            Background.ApplyDarkMode(windowHandle);
-        else
-            Background.RemoveDarkMode(windowHandle);
 
         switch (effect)
         {
             case BackgroundType.Unknown:
-            case BackgroundType.Disabled:
+            case BackgroundType.None:
                 break;
             case BackgroundType.Auto:
             case BackgroundType.Acrylic:
@@ -135,11 +126,5 @@ public sealed class SettingsViewModel : INotifyPropertyChanged
             default:
                 throw new NotSupportedException();
         }
-    }
-
-    [NotifyPropertyChangedInvocator]
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

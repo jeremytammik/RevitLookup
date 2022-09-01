@@ -35,7 +35,7 @@ public class BackgroundTypeConverter : MarkupExtension, IValueConverter
         return backgroundType switch
         {
             BackgroundType.Unknown => "Invalid",
-            BackgroundType.Disabled => "Disabled",
+            BackgroundType.None => "Disabled",
             BackgroundType.Auto => "Windows default",
             BackgroundType.Mica => "Mica",
             BackgroundType.Acrylic => "Acrylic",

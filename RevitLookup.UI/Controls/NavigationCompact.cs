@@ -3,19 +3,22 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Diagnostics;
+using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
-using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Modern navigation styled similar to the Task Manager in Windows 11.
+/// Modern navigation styled similar to the Task Manager in Windows 11.
 /// </summary>
-public class NavigationCompact : Navigation
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(NavigationCompact), "NavigationCompact.bmp")]
+public class NavigationCompact : Navigation.NavigationBase
 {
     /// <summary>
-    ///     Property for <see cref="IsExpanded" />.
+    /// Property for <see cref="IsExpanded"/>.
     /// </summary>
     public static readonly DependencyProperty IsExpandedProperty = DependencyProperty.Register(
         nameof(IsExpanded),
@@ -23,33 +26,31 @@ public class NavigationCompact : Navigation
         new PropertyMetadata(false));
 
     /// <summary>
-    ///     Property for <see cref="TemplateButtonCommand" />.
+    /// Property for <see cref="TemplateButtonCommand"/>.
     /// </summary>
     public static readonly DependencyProperty TemplateButtonCommandProperty =
         DependencyProperty.Register(nameof(TemplateButtonCommand),
-            typeof(IRelayCommand), typeof(NavigationCompact), new PropertyMetadata(null));
+            typeof(Common.IRelayCommand), typeof(NavigationCompact), new PropertyMetadata(null));
 
     /// <summary>
-    ///     Creates new instance and sets default <see cref="TemplateButtonCommandProperty" />.
-    /// </summary>
-    public NavigationCompact()
-    {
-        SetValue(TemplateButtonCommandProperty, new RelayCommand(o => Button_OnClick(this, o)));
-    }
-
-    /// <summary>
-    ///     Gets or sets a value indicating whether the menu is expanded.
+    /// Gets or sets a value indicating whether the menu is expanded.
     /// </summary>
     public bool IsExpanded
     {
-        get => (bool) GetValue(IsExpandedProperty);
+        get => (bool)GetValue(IsExpandedProperty);
         set => SetValue(IsExpandedProperty, value);
     }
 
     /// <summary>
-    ///     Command triggered after clicking the button.
+    /// Command triggered after clicking the button.
     /// </summary>
-    public IRelayCommand TemplateButtonCommand => (IRelayCommand) GetValue(TemplateButtonCommandProperty);
+    public Common.IRelayCommand TemplateButtonCommand => (Common.IRelayCommand)GetValue(TemplateButtonCommandProperty);
+
+    /// <summary>
+    /// Creates new instance and sets default <see cref="TemplateButtonCommandProperty"/>.
+    /// </summary>
+    public NavigationCompact() : base() =>
+        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand(o => Button_OnClick(this, o)));
 
     private void Button_OnClick(object sender, object parameter)
     {
@@ -58,9 +59,6 @@ public class NavigationCompact : Navigation
 
         var param = parameter as string ?? string.Empty;
 
-#if DEBUG
-        Debug.WriteLine($"INFO: {typeof(NavigationCompact)} button clicked with param: {param}", "RevitLookup.UI.NavigationCompact");
-#endif
         if (param == "hamburger")
             IsExpanded = !IsExpanded;
     }

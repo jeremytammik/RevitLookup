@@ -3,41 +3,42 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace RevitLookup.UI.Appearance;
 
 /// <summary>
-///     Allows managing application dictionaries.
+/// Allows managing application dictionaries.
 /// </summary>
 internal class ResourceDictionaryManager
 {
+    /// <summary>
+    /// Namespace, e.g. the library the resource is being searched for.
+    /// </summary>
+    public string SearchNamespace { get; }
+
     public ResourceDictionaryManager(string searchNamespace)
     {
         SearchNamespace = searchNamespace;
     }
 
     /// <summary>
-    ///     Namespace, e.g. the library the resource is being searched for.
-    /// </summary>
-    public string SearchNamespace { get; }
-
-    /// <summary>
-    ///     Shows whether the application contains the <see cref="ResourceDictionary" />.
+    /// Shows whether the application contains the <see cref="ResourceDictionary"/>.
     /// </summary>
     /// <param name="resourceLookup">Any part of the resource name.</param>
-    /// <returns><see langword="false" /> if it doesn't exist.</returns>
+    /// <returns><see langword="false"/> if it doesn't exist.</returns>
     public bool HasDictionary(string resourceLookup)
     {
         return GetDictionary(resourceLookup) != null;
     }
 
     /// <summary>
-    ///     Gets the <see cref="ResourceDictionary" /> if exists.
+    /// Gets the <see cref="ResourceDictionary"/> if exists.
     /// </summary>
     /// <param name="resourceLookup">Any part of the resource name.</param>
-    /// <returns><see cref="ResourceDictionary" />, <see langword="null" /> if it doesn't exist.</returns>
+    /// <returns><see cref="ResourceDictionary"/>, <see langword="null"/> if it doesn't exist.</returns>
     public ResourceDictionary GetDictionary(string resourceLookup)
     {
         var applicationDictionaries = GetAllDictionaries();
@@ -77,10 +78,10 @@ internal class ResourceDictionaryManager
     }
 
     /// <summary>
-    ///     Shows whether the application contains the <see cref="ResourceDictionary" />.
+    /// Shows whether the application contains the <see cref="ResourceDictionary"/>.
     /// </summary>
     /// <param name="resourceLookup">Any part of the resource name.</param>
-    /// <param name="newResourceUri">A valid <see cref="Uri" /> for the replaced resource.</param>
+    /// <param name="newResourceUri">A valid <see cref="Uri"/> for the replaced resource.</param>
     /// <returns></returns>
     public bool UpdateDictionary(string resourceLookup, Uri newResourceUri)
     {
@@ -103,24 +104,26 @@ internal class ResourceDictionaryManager
 
                 if (sourceUri.Contains(SearchNamespace) && sourceUri.Contains(resourceLookup))
                 {
-                    applicationDictionaries[i] = new ResourceDictionary {Source = newResourceUri};
+                    applicationDictionaries[i] = new() { Source = newResourceUri };
 
                     return true;
                 }
             }
 
             for (var j = 0; j < applicationDictionaries[i].MergedDictionaries.Count; j++)
-                if (applicationDictionaries[i].MergedDictionaries[j]?.Source != null)
-                {
-                    sourceUri = applicationDictionaries[i].MergedDictionaries[j].Source.ToString().ToLower().Trim();
+            {
+                if (applicationDictionaries[i].MergedDictionaries[j]?.Source == null)
+                    continue;
 
-                    if (!sourceUri.Contains(SearchNamespace) || !sourceUri.Contains(resourceLookup))
-                        continue;
+                sourceUri = applicationDictionaries[i].MergedDictionaries[j].Source.ToString().ToLower().Trim();
 
-                    applicationDictionaries[i].MergedDictionaries[j] = new ResourceDictionary {Source = newResourceUri};
+                if (!sourceUri.Contains(SearchNamespace) || !sourceUri.Contains(resourceLookup))
+                    continue;
 
-                    return true;
-                }
+                applicationDictionaries[i].MergedDictionaries[j] = new() { Source = newResourceUri };
+
+                return true;
+            }
         }
 
         return false;

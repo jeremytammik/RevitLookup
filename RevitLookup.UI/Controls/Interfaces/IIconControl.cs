@@ -3,22 +3,27 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using RevitLookup.UI.Common;
+using System.Windows.Media;
 
 namespace RevitLookup.UI.Controls.Interfaces;
 
 /// <summary>
-///     UI <see cref="System.Windows.Controls.Control" /> with <see cref="Common.SymbolRegular" /> attributes.
+/// UI <see cref="System.Windows.Controls.Control"/> with <see cref="Common.SymbolRegular"/> attributes.
 /// </summary>
 public interface IIconControl
 {
     /// <summary>
-    ///     Gets or sets displayed <see cref="Common.SymbolRegular" />.
+    /// Gets or sets displayed <see cref="Common.SymbolRegular"/>.
     /// </summary>
-    SymbolRegular Icon { get; set; }
+    Common.SymbolRegular Icon { get; set; }
 
     /// <summary>
-    ///     Defines whether or not we should use the <see cref="Common.SymbolFilled" />.
+    /// Defines whether or not we should use the <see cref="Common.SymbolFilled"/>.
     /// </summary>
     bool IconFilled { get; set; }
+
+    /// <summary>
+    /// Foreground of the <see cref="Common.SymbolRegular"/>.
+    /// </summary>
+    Brush IconForeground { get; set; }
 }

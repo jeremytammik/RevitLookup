@@ -10,62 +10,35 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
-    <Style
-        TargetType="{x:Type controls:Rating}">
-        <Setter
-            Property="Foreground">
+    <Style TargetType="{x:Type controls:Rating}">
+        <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush
-                    Color="{DynamicResource PaletteAmberColor}" />
+                <SolidColorBrush Color="{DynamicResource PaletteAmberColor}" />
             </Setter.Value>
         </Setter>
-        <Setter
-            Property="FontSize"
-            Value="20" />
-        <Setter
-            Property="HorizontalAlignment"
-            Value="Center" />
-        <Setter
-            Property="VerticalAlignment"
-            Value="Center" />
-        <Setter
-            Property="SnapsToDevicePixels"
-            Value="True" />
-        <Setter
-            Property="OverridesDefaultStyle"
-            Value="True" />
-        <Setter
-            Property="Margin"
-            Value="0" />
-        <Setter
-            Property="Padding"
-            Value="0" />
-        <Setter
-            Property="Template">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate
-                    TargetType="{x:Type controls:Rating}">
+                <ControlTemplate TargetType="{x:Type controls:Rating}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto" />
-                            <ColumnDefinition
-                                Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Grid
-                            Grid.Column="0">
+                        <Grid Grid.Column="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition
-                                    Width="*" />
-                                <ColumnDefinition
-                                    Width="*" />
-                                <ColumnDefinition
-                                    Width="*" />
-                                <ColumnDefinition
-                                    Width="*" />
-                                <ColumnDefinition
-                                    Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <controls:SymbolIcon
@@ -105,99 +78,37 @@
                             Grid.Column="1"
                             Margin="8,0,0,0"
                             VerticalAlignment="Center">
-                            <ContentPresenter
-                                TextElement.FontSize="13"
-                                TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                            <ContentPresenter TextElement.FontSize="13" TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger
-                            Property="Content"
-                            Value="{x:Null}">
-                            <Setter
-                                TargetName="ContentGrid"
-                                Property="Margin"
-                                Value="0" />
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="ContentGrid" Property="Margin" Value="0" />
                         </Trigger>
-                        <Trigger
-                            Property="Value"
-                            Value="1">
-                            <Setter
-                                TargetName="Star1"
-                                Property="Filled"
-                                Value="True" />
+                        <Trigger Property="Value" Value="1">
+                            <Setter TargetName="Star1" Property="Filled" Value="True" />
                         </Trigger>
-                        <Trigger
-                            Property="Value"
-                            Value="2">
-                            <Setter
-                                TargetName="Star1"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star2"
-                                Property="Filled"
-                                Value="True" />
+                        <Trigger Property="Value" Value="2">
+                            <Setter TargetName="Star1" Property="Filled" Value="True" />
+                            <Setter TargetName="Star2" Property="Filled" Value="True" />
                         </Trigger>
-                        <Trigger
-                            Property="Value"
-                            Value="3">
-                            <Setter
-                                TargetName="Star1"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star2"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star3"
-                                Property="Filled"
-                                Value="True" />
+                        <Trigger Property="Value" Value="3">
+                            <Setter TargetName="Star1" Property="Filled" Value="True" />
+                            <Setter TargetName="Star2" Property="Filled" Value="True" />
+                            <Setter TargetName="Star3" Property="Filled" Value="True" />
                         </Trigger>
-                        <Trigger
-                            Property="Value"
-                            Value="4">
-                            <Setter
-                                TargetName="Star1"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star2"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star3"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star4"
-                                Property="Filled"
-                                Value="True" />
+                        <Trigger Property="Value" Value="4">
+                            <Setter TargetName="Star1" Property="Filled" Value="True" />
+                            <Setter TargetName="Star2" Property="Filled" Value="True" />
+                            <Setter TargetName="Star3" Property="Filled" Value="True" />
+                            <Setter TargetName="Star4" Property="Filled" Value="True" />
                         </Trigger>
-                        <Trigger
-                            Property="Value"
-                            Value="5">
-                            <Setter
-                                TargetName="Star1"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star2"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star3"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star4"
-                                Property="Filled"
-                                Value="True" />
-                            <Setter
-                                TargetName="Star5"
-                                Property="Filled"
-                                Value="True" />
+                        <Trigger Property="Value" Value="5">
+                            <Setter TargetName="Star1" Property="Filled" Value="True" />
+                            <Setter TargetName="Star2" Property="Filled" Value="True" />
+                            <Setter TargetName="Star3" Property="Filled" Value="True" />
+                            <Setter TargetName="Star4" Property="Filled" Value="True" />
+                            <Setter TargetName="Star5" Property="Filled" Value="True" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

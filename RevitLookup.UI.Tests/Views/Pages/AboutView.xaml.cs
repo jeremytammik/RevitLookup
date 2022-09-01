@@ -18,15 +18,29 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.UI.Tests.ViewModels;
+using System.Windows;
+using RevitLookup.UI.Common.Interfaces;
+using RevitLookup.UI.Controls.Interfaces;
+using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Tests.ViewModels.Pages;
 
 namespace RevitLookup.UI.Tests.Views.Pages;
 
-public partial class AboutView
+public partial class AboutView : INavigableView<AboutViewModel>
 {
-    public AboutView(RevitLookupViewModel lookupViewModel)
+    private readonly IDialogControl _dialogControl;
+
+    public AboutView(AboutViewModel viewModel, IDialogService dialogService)
     {
+        _dialogControl = dialogService.GetDialogControl();
+        ViewModel = viewModel;
         InitializeComponent();
-        DataContext = lookupViewModel.AboutViewModel;
+    }
+
+    public AboutViewModel ViewModel { get; }
+
+    private void ShowOpenSourceSoftware(object sender, RoutedEventArgs e)
+    {
+        _dialogControl.Show("Work", "In progress");
     }
 }

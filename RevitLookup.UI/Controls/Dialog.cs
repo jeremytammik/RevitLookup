@@ -3,68 +3,116 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Diagnostics;
+#nullable enable
+
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using RevitLookup.UI.Common;
+using RevitLookup.UI.Controls.Interfaces;
+using static RevitLookup.UI.Controls.Interfaces.IDialogControl;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Displays a large card with a slightly transparent background and two action buttons.
+/// Displays a large card with a slightly transparent background and two action buttons.
 /// </summary>
-public class Dialog : ContentControl
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(Dialog), "Dialog.bmp")]
+[TemplatePart(Name = "PART_FooterButtonLeft", Type = typeof(System.Windows.Controls.Primitives.ButtonBase))]
+[TemplatePart(Name = "PART_FooterButtonRight", Type = typeof(System.Windows.Controls.Primitives.ButtonBase))]
+public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
 {
-    /// <summary>
-    ///     Property for <see cref="IsShown" />.
-    /// </summary>
-    public static readonly DependencyProperty IsShownProperty = DependencyProperty.Register(nameof(IsShown),
-        typeof(bool), typeof(Dialog), new PropertyMetadata(false, IsShownProperty_OnChange));
+    private TaskCompletionSource<IDialogControl.ButtonPressed>? _tcs = null;
+
+    private bool _automaticHide;
+
+    private System.Windows.Controls.Primitives.ButtonBase? _leftFooterButton = null;
+
+    private System.Windows.Controls.Primitives.ButtonBase? _rightFooterButton = null;
 
     /// <summary>
-    ///     Property for <see cref="DialogWidth" />.
+    /// Template element represented by the <c>PART_FooterButtonLeft</c> name.
+    /// </summary>
+    private const string ElementFooterButtonLeft = "PART_FooterButtonLeft";
+
+    /// <summary>
+    /// Template element represented by the <c>PART_FooterButtonRight</c> name.
+    /// </summary>
+    private const string ElementFooterButtonRight = "PART_FooterButtonRight";
+
+    #region Static properties
+
+    /// <summary>
+    /// Property for <see cref="IsShown"/>.
+    /// </summary>
+    public static readonly DependencyProperty IsShownProperty = DependencyProperty.Register(nameof(IsShown),
+        typeof(bool), typeof(Dialog), new PropertyMetadata(false, OnIsShownChange));
+
+    /// <summary>
+    /// Property for <see cref="Footer"/>.
+    /// </summary>
+    public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(nameof(Footer),
+        typeof(object), typeof(Dialog), new PropertyMetadata(null));
+
+    /// <summary>
+    /// Property for <see cref="Title"/>.
+    /// </summary>
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
+        typeof(string), typeof(Dialog), new PropertyMetadata(string.Empty));
+
+    /// <summary>
+    /// Property for <see cref="Message"/>.
+    /// </summary>
+    public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(nameof(Message),
+        typeof(string), typeof(Dialog), new PropertyMetadata(string.Empty));
+
+    /// <summary>
+    /// Property for <see cref="DialogWidth"/>.
     /// </summary>
     public static readonly DependencyProperty DialogWidthProperty =
         DependencyProperty.Register(nameof(DialogWidth),
             typeof(double), typeof(Dialog), new PropertyMetadata(420.0));
 
     /// <summary>
-    ///     Property for <see cref="DialogHeight" />.
+    /// Property for <see cref="DialogHeight"/>.
     /// </summary>
     public static readonly DependencyProperty DialogHeightProperty =
         DependencyProperty.Register(nameof(DialogHeight),
             typeof(double), typeof(Dialog), new PropertyMetadata(200.0));
 
     /// <summary>
-    ///     Property for <see cref="ButtonLeftName" />.
+    /// Property for <see cref="ButtonLeftName"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftNameProperty = DependencyProperty.Register(
         nameof(ButtonLeftName),
         typeof(string), typeof(Dialog), new PropertyMetadata("Action"));
 
     /// <summary>
-    ///     Routed event for <see cref="ButtonLeftClick" />.
+    /// Routed event for <see cref="ButtonLeftClick"/>.
     /// </summary>
     public static readonly RoutedEvent ButtonLeftClickEvent = EventManager.RegisterRoutedEvent(
         nameof(ButtonLeftClick), RoutingStrategy.Bubble, typeof(Dialog), typeof(Dialog));
 
     /// <summary>
-    ///     Property for <see cref="ButtonRightName" />.
+    /// Property for <see cref="ButtonRightName"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonRightNameProperty = DependencyProperty.Register(
         nameof(ButtonRightName),
         typeof(string), typeof(Dialog), new PropertyMetadata("Close"));
 
     /// <summary>
-    ///     Property for <see cref="ButtonLeftAppearance" />.
+    /// Property for <see cref="ButtonLeftAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftAppearanceProperty = DependencyProperty.Register(
         nameof(ButtonLeftAppearance),
-        typeof(Common.Appearance), typeof(Dialog),
-        new PropertyMetadata(Common.Appearance.Primary));
+        typeof(ControlAppearance), typeof(Dialog),
+        new PropertyMetadata(ControlAppearance.Primary));
 
     /// <summary>
-    ///     Property for <see cref="ButtonLeftVisibility" />.
+    /// Property for <see cref="ButtonLeftVisibility"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftVisibilityProperty = DependencyProperty.Register(
         nameof(ButtonLeftVisibility),
@@ -72,22 +120,22 @@ public class Dialog : ContentControl
         new PropertyMetadata(Visibility.Visible));
 
     /// <summary>
-    ///     Routed event for <see cref="ButtonRightClick" />.
+    /// Routed event for <see cref="ButtonRightClick"/>.
     /// </summary>
     public static readonly RoutedEvent ButtonRightClickEvent = EventManager.RegisterRoutedEvent(
         nameof(ButtonRightClick), RoutingStrategy.Bubble, typeof(Dialog), typeof(Dialog));
 
 
     /// <summary>
-    ///     Property for <see cref="ButtonRightAppearance" />.
+    /// Property for <see cref="ButtonRightAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonRightAppearanceProperty = DependencyProperty.Register(
         nameof(ButtonRightAppearance),
-        typeof(Common.Appearance), typeof(Dialog),
-        new PropertyMetadata(Common.Appearance.Secondary));
+        typeof(ControlAppearance), typeof(Dialog),
+        new PropertyMetadata(ControlAppearance.Secondary));
 
     /// <summary>
-    ///     Property for <see cref="ButtonRightVisibility" />.
+    /// Property for <see cref="ButtonRightVisibility"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonRightVisibilityProperty = DependencyProperty.Register(
         nameof(ButtonRightVisibility),
@@ -95,131 +143,114 @@ public class Dialog : ContentControl
         new PropertyMetadata(Visibility.Visible));
 
     /// <summary>
-    ///     Property for <see cref="TemplateButtonCommand" />.
+    /// Property for <see cref="TemplateButtonCommand"/>.
     /// </summary>
     public static readonly DependencyProperty TemplateButtonCommandProperty =
         DependencyProperty.Register(nameof(TemplateButtonCommand),
             typeof(IRelayCommand), typeof(Dialog), new PropertyMetadata(null));
 
-    /// <summary>
-    ///     Event triggered when <see cref="Dialog" /> opens.
-    /// </summary>
-    public static readonly RoutedEvent OpenedEvent = EventManager.RegisterRoutedEvent(nameof(Opened),
-        RoutingStrategy.Bubble, typeof(RoutedDialogEvent), typeof(Dialog));
+    #endregion Static properties
 
-    /// <summary>
-    ///     Event triggered when <see cref="Dialog" /> opens.
-    /// </summary>
-    public static readonly RoutedEvent ClosedEvent = EventManager.RegisterRoutedEvent(nameof(Closed),
-        RoutingStrategy.Bubble, typeof(RoutedDialogEvent), typeof(Dialog));
-
-    /// <summary>
-    ///     Creates new instance and sets default <see cref="TemplateButtonCommandProperty" />.
-    /// </summary>
-    public Dialog()
-    {
-        SetValue(TemplateButtonCommandProperty, new RelayCommand(o => RelayCommandButton_OnClick(this, o)));
-    }
-
-    /// <summary>
-    ///     Gets or sets information whether the dialog should be displayed.
-    /// </summary>
+    /// <inheritdoc />
     public bool IsShown
     {
-        get => (bool) GetValue(IsShownProperty);
-        set => SetValue(IsShownProperty, value);
+        get => (bool)GetValue(IsShownProperty);
+        protected set => SetValue(IsShownProperty, value);
     }
 
-    /// <summary>
-    ///     Gets or sets maximum dialog width.
-    /// </summary>
+    /// <inheritdoc />
+    public object Footer
+    {
+        get => GetValue(FooterProperty);
+        set => SetValue(FooterProperty, value);
+    }
+
+    /// <inheritdoc />
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    /// <inheritdoc />
+    public string Message
+    {
+        get => (string)GetValue(MessageProperty);
+        set => SetValue(MessageProperty, value);
+    }
+
+    /// <inheritdoc />
     public double DialogWidth
     {
-        get => (int) GetValue(DialogWidthProperty);
+        get => (int)GetValue(DialogWidthProperty);
         set => SetValue(DialogWidthProperty, value);
     }
 
-    /// <summary>
-    ///     Gets or sets dialog height.
-    /// </summary>
+    /// <inheritdoc />
     public double DialogHeight
     {
-        get => (int) GetValue(DialogHeightProperty);
+        get => (int)GetValue(DialogHeightProperty);
         set => SetValue(DialogHeightProperty, value);
     }
 
-    /// <summary>
-    ///     Name of the button on the left side of footer.
-    /// </summary>
+    /// <inheritdoc />
     public string ButtonLeftName
     {
-        get => (string) GetValue(ButtonLeftNameProperty);
+        get => (string)GetValue(ButtonLeftNameProperty);
         set => SetValue(ButtonLeftNameProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets the <see cref="Common.Appearance" /> of the button on the left, if available.
+    /// Gets or sets the <see cref="ControlAppearance"/> of the button on the left, if available.
     /// </summary>
-    public Common.Appearance ButtonLeftAppearance
+    public ControlAppearance ButtonLeftAppearance
     {
-        get => (Common.Appearance) GetValue(ButtonLeftAppearanceProperty);
+        get => (ControlAppearance)GetValue(ButtonLeftAppearanceProperty);
         set => SetValue(ButtonLeftAppearanceProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets the visibility of the button on the left.
+    /// Gets or sets the visibility of the button on the left.
     /// </summary>
     public Visibility ButtonLeftVisibility
     {
-        get => (Visibility) GetValue(ButtonLeftVisibilityProperty);
+        get => (Visibility)GetValue(ButtonLeftVisibilityProperty);
         set => SetValue(ButtonLeftVisibilityProperty, value);
     }
 
-    /// <summary>
-    ///     Name of the button on the right side of footer.
-    /// </summary>
-    public string ButtonRightName
-    {
-        get => (string) GetValue(ButtonRightNameProperty);
-        set => SetValue(ButtonRightNameProperty, value);
-    }
-
-    /// <summary>
-    ///     Gets or sets the <see cref="Common.Appearance" /> of the button on the right, if available.
-    /// </summary>
-    public Common.Appearance ButtonRightAppearance
-    {
-        get => (Common.Appearance) GetValue(ButtonRightAppearanceProperty);
-        set => SetValue(ButtonRightAppearanceProperty, value);
-    }
-
-    /// <summary>
-    ///     Gets or sets the visibility of the button on the right.
-    /// </summary>
-    public Visibility ButtonRightVisibility
-    {
-        get => (Visibility) GetValue(ButtonRightVisibilityProperty);
-        set => SetValue(ButtonRightVisibilityProperty, value);
-    }
-
-    /// <summary>
-    ///     Command triggered after clicking the button on the Footer.
-    /// </summary>
-    public IRelayCommand TemplateButtonCommand =>
-        (IRelayCommand) GetValue(TemplateButtonCommandProperty);
-
-    /// <summary>
-    ///     Action triggered after clicking left button.
-    /// </summary>
+    /// <inheritdoc />
     public event RoutedEventHandler ButtonLeftClick
     {
         add => AddHandler(ButtonLeftClickEvent, value);
         remove => RemoveHandler(ButtonLeftClickEvent, value);
     }
 
+    /// <inheritdoc />
+    public string ButtonRightName
+    {
+        get => (string)GetValue(ButtonRightNameProperty);
+        set => SetValue(ButtonRightNameProperty, value);
+    }
+
     /// <summary>
-    ///     Action triggered after clicking right button.
+    /// Gets or sets the <see cref="ControlAppearance"/> of the button on the right, if available.
     /// </summary>
+    public ControlAppearance ButtonRightAppearance
+    {
+        get => (ControlAppearance)GetValue(ButtonRightAppearanceProperty);
+        set => SetValue(ButtonRightAppearanceProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the visibility of the button on the right.
+    /// </summary>
+    public Visibility ButtonRightVisibility
+    {
+        get => (Visibility)GetValue(ButtonRightVisibilityProperty);
+        set => SetValue(ButtonRightVisibilityProperty, value);
+    }
+
+    /// <inheritdoc />
     public event RoutedEventHandler ButtonRightClick
     {
         add => AddHandler(ButtonRightClickEvent, value);
@@ -227,8 +258,18 @@ public class Dialog : ContentControl
     }
 
     /// <summary>
-    ///     Add / Remove <see cref="OpenedEvent" /> handler.
+    /// Command triggered after clicking the button in the template.
     /// </summary>
+    public IRelayCommand TemplateButtonCommand =>
+        (IRelayCommand)GetValue(TemplateButtonCommandProperty);
+
+    /// <summary>
+    /// Event triggered when <see cref="Dialog"/> opens.
+    /// </summary>
+    public static readonly RoutedEvent OpenedEvent = EventManager.RegisterRoutedEvent(nameof(Opened),
+        RoutingStrategy.Bubble, typeof(RoutedDialogEvent), typeof(Dialog));
+
+    /// <inheritdoc />
     public event RoutedDialogEvent Opened
     {
         add => AddHandler(OpenedEvent, value);
@@ -236,8 +277,12 @@ public class Dialog : ContentControl
     }
 
     /// <summary>
-    ///     Add / Remove <see cref="ClosedEvent" /> handler.
+    /// Event triggered when <see cref="Dialog"/> opens.
     /// </summary>
+    public static readonly RoutedEvent ClosedEvent = EventManager.RegisterRoutedEvent(nameof(Closed),
+        RoutingStrategy.Bubble, typeof(RoutedDialogEvent), typeof(Dialog));
+
+    /// <inheritdoc />
     public event RoutedDialogEvent Closed
     {
         add => AddHandler(ClosedEvent, value);
@@ -245,25 +290,123 @@ public class Dialog : ContentControl
     }
 
     /// <summary>
-    ///     Reveals the <see cref="Dialog" />.
+    /// Creates new instance and sets default <see cref="TemplateButtonCommandProperty"/>.
     /// </summary>
-    public void Show()
+    public Dialog()
     {
-        if (!IsShown)
-            IsShown = true;
+        SetValue(TemplateButtonCommandProperty, new RelayCommand(o => OnTemplateButtonClick(this, o)));
     }
 
-    /// <summary>
-    ///     Hides the <see cref="Dialog" />.
-    /// </summary>
-    public void Hide()
+    /// <inheritdoc />
+    public Task<IDialogControl.ButtonPressed> ShowAndWaitAsync()
+    {
+        _automaticHide = false;
+
+        Show();
+
+        _tcs = new TaskCompletionSource<IDialogControl.ButtonPressed>();
+
+        return _tcs.Task;
+    }
+
+    /// <inheritdoc />
+    public Task<IDialogControl.ButtonPressed> ShowAndWaitAsync(bool hideOnClick)
+    {
+        _automaticHide = hideOnClick;
+
+        Show();
+
+        _tcs = new TaskCompletionSource<IDialogControl.ButtonPressed>();
+
+        return _tcs.Task;
+    }
+
+    /// <inheritdoc />
+    public Task<IDialogControl.ButtonPressed> ShowAndWaitAsync(string title, string message)
+    {
+        _automaticHide = false;
+
+        if (IsShown)
+            Hide();
+
+        Show(title, message);
+
+        _tcs = new TaskCompletionSource<IDialogControl.ButtonPressed>();
+
+        return _tcs.Task;
+    }
+
+    /// <inheritdoc />
+    public Task<IDialogControl.ButtonPressed> ShowAndWaitAsync(string title, string message, bool hideOnClick)
+    {
+        _automaticHide = hideOnClick;
+
+        if (IsShown)
+            Hide();
+
+        Show(title, message);
+
+        _tcs = new TaskCompletionSource<IDialogControl.ButtonPressed>();
+
+        return _tcs.Task;
+    }
+
+    /// <inheritdoc />
+    public bool Show()
     {
         if (IsShown)
-            IsShown = false;
+            return false;
+
+        _automaticHide = false;
+
+        IsShown = true;
+
+        FocusFirstButton();
+
+        return true;
+    }
+
+    /// <inheritdoc />
+    public bool Show(string title, string message)
+    {
+        if (IsShown)
+            Hide();
+
+        _automaticHide = false;
+
+        Title = title;
+        Message = message;
+        IsShown = true;
+
+        FocusFirstButton();
+
+        return true;
+    }
+
+    /// <inheritdoc />
+    public bool Hide()
+    {
+        if (!IsShown)
+            return false;
+
+        IsShown = false;
+
+        return true;
+    }
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        if (GetTemplateChild(ElementFooterButtonLeft) is System.Windows.Controls.Primitives.ButtonBase leftButton)
+            _leftFooterButton = leftButton;
+
+        if (GetTemplateChild(ElementFooterButtonLeft) is System.Windows.Controls.Primitives.ButtonBase rightButton)
+            _rightFooterButton = rightButton;
     }
 
     /// <summary>
-    ///     This virtual method is called when <see cref="Dialog" /> is opening and it raises the <see cref="Opened" /> <see langword="event" />.
+    /// This virtual method is called when <see cref="Dialog"/> is opening and it raises the <see cref="Opened"/> <see langword="event"/>.
     /// </summary>
     protected virtual void OnOpened()
     {
@@ -272,7 +415,7 @@ public class Dialog : ContentControl
     }
 
     /// <summary>
-    ///     This virtual method is called when <see cref="Dialog" /> is closing and it raises the <see cref="Closed" /> <see langword="event" />.
+    /// This virtual method is called when <see cref="Dialog"/> is closing and it raises the <see cref="Closed"/> <see langword="event"/>.
     /// </summary>
     protected virtual void OnClosed()
     {
@@ -280,33 +423,38 @@ public class Dialog : ContentControl
         RaiseEvent(newEvent);
     }
 
-    private void RelayCommandButton_OnClick(object sender, object parameter)
+    /// <summary>
+    /// Triggered by clicking a button in the control template.
+    /// </summary>
+    /// <param name="sender">Sender of the click event.</param>
+    /// <param name="parameter">Additional parameters.</param>
+    protected virtual void OnTemplateButtonClick(object sender, object? parameter)
     {
-        if (parameter == null)
+        if (parameter is not string parameterString)
             return;
 
-        var param = parameter as string ?? string.Empty;
-
-#if DEBUG
-        Debug.WriteLine($"INFO: {typeof(Dialog)} button clicked with param: {param}",
-            "RevitLookup.UI.Dialog");
-#endif
-
-        switch (param)
+        switch (parameterString)
         {
             case "left":
                 RaiseEvent(new RoutedEventArgs(ButtonLeftClickEvent, this));
+
+                _tcs?.TrySetResult(IDialogControl.ButtonPressed.Left);
 
                 break;
 
             case "right":
                 RaiseEvent(new RoutedEventArgs(ButtonRightClickEvent, this));
 
+                _tcs?.TrySetResult(IDialogControl.ButtonPressed.Right);
+
                 break;
         }
+
+        if (_automaticHide)
+            Hide();
     }
 
-    private static void IsShownProperty_OnChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnIsShownChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not Dialog control)
             return;
@@ -315,5 +463,25 @@ public class Dialog : ContentControl
             control.OnOpened();
         else
             control.OnClosed();
+    }
+
+    private void FocusFirstButton()
+    {
+        if (Footer != null)
+            return;
+
+        if (ButtonLeftVisibility == Visibility.Visible)
+        {
+            if (_leftFooterButton != null)
+                _leftFooterButton.Focus();
+
+            return;
+        }
+
+        if (ButtonRightVisibility != Visibility.Visible)
+            return;
+
+        if (_rightFooterButton != null)
+            _rightFooterButton.Focus();
     }
 }

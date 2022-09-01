@@ -18,12 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.NetworkInformation;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
+using System.Runtime.Versioning;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Tests.ViewModels.Enums;
@@ -31,7 +30,7 @@ using RevitLookup.UI.Tests.ViewModels.Objects;
 
 namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
-public sealed class AboutViewModel : INotifyPropertyChanged
+public sealed class AboutViewModel : ObservableObject
 {
     private string _errorMessage;
     private bool _isCheckedUpdates;
@@ -41,12 +40,13 @@ public sealed class AboutViewModel : INotifyPropertyChanged
     private UpdatingState _state;
     private string _version;
     private bool _isDownloading;
+    private string _frameworkVersion;
 
     public AboutViewModel()
     {
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-        var info = FileVersionInfo.GetVersionInfo(assembly.Location);
-        Version = info.ProductVersion;
+        Version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+        FrameworkVersion = new FrameworkName(AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName).Version.ToString();
     }
 
     public UpdatingState State
@@ -67,6 +67,17 @@ public sealed class AboutViewModel : INotifyPropertyChanged
         {
             if (value == _version) return;
             _version = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    public string FrameworkVersion
+    {
+        get => _frameworkVersion;
+        set
+        {
+            if (value == _frameworkVersion) return;
+            _frameworkVersion = value;
             OnPropertyChanged();
         }
     }
@@ -145,8 +156,6 @@ public sealed class AboutViewModel : INotifyPropertyChanged
     public RelayCommand CheckUpdatesCommand => new(CheckUpdates);
     public RelayCommand DownloadCommand => new(DownloadUpdate);
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
     private async void CheckUpdates()
     {
         try
@@ -211,11 +220,5 @@ public sealed class AboutViewModel : INotifyPropertyChanged
         {
             IsDownloading = false;
         }
-    }
-
-    [NotifyPropertyChangedInvocator]
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

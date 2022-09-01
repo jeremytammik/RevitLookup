@@ -3,50 +3,40 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Diagnostics;
+using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Syntax;
-using Clipboard = RevitLookup.UI.Common.Clipboard;
+using Color = System.Windows.Media.Color;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Formats and display a fragment of the source code.
+/// Formats and display a fragment of the source code.
 /// </summary>
-public class CodeBlock : ContentControl
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(CodeBlock), "CodeBlock.bmp")]
+public class CodeBlock : System.Windows.Controls.ContentControl
 {
+    private string _sourceCode = string.Empty;
+
     /// <summary>
-    ///     Property for <see cref="SyntaxContent" />.
+    /// Property for <see cref="SyntaxContent"/>.
     /// </summary>
     public static readonly DependencyProperty SyntaxContentProperty = DependencyProperty.Register(nameof(SyntaxContent),
         typeof(object), typeof(CodeBlock),
         new PropertyMetadata(null));
 
     /// <summary>
-    ///     Property for <see cref="ButtonCommand" />.
+    /// Property for <see cref="ButtonCommand"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonCommandProperty =
         DependencyProperty.Register(nameof(NumberBox),
-            typeof(IRelayCommand), typeof(CodeBlock), new PropertyMetadata(null));
-
-    private string _sourceCode = string.Empty;
+            typeof(Common.IRelayCommand), typeof(CodeBlock), new PropertyMetadata(null));
 
     /// <summary>
-    ///     Creates new instance and assigns <see cref="ButtonCommand" /> default action.
-    /// </summary>
-    public CodeBlock()
-    {
-        SetValue(ButtonCommandProperty, new RelayCommand(o => Button_Click(this, o)));
-
-        Theme.Changed += ThemeOnChanged;
-    }
-
-    /// <summary>
-    ///     Formatted <see cref="System.Windows.Controls.ContentControl.Content" />.
+    /// Formatted <see cref="System.Windows.Controls.ContentControl.Content"/>.
     /// </summary>
     public object SyntaxContent
     {
@@ -55,9 +45,19 @@ public class CodeBlock : ContentControl
     }
 
     /// <summary>
-    ///     Command triggered after clicking the control button.
+    /// Command triggered after clicking the control button.
     /// </summary>
-    public IRelayCommand ButtonCommand => (IRelayCommand) GetValue(ButtonCommandProperty);
+    public Common.IRelayCommand ButtonCommand => (Common.IRelayCommand)GetValue(ButtonCommandProperty);
+
+    /// <summary>
+    /// Creates new instance and assigns <see cref="ButtonCommand"/> default action.
+    /// </summary>
+    public CodeBlock()
+    {
+        SetValue(ButtonCommandProperty, new Common.RelayCommand(o => Button_Click(this, o)));
+
+        Theme.Changed += ThemeOnChanged;
+    }
 
     private void ThemeOnChanged(ThemeType currentTheme, Color systemAccent)
     {
@@ -65,7 +65,7 @@ public class CodeBlock : ContentControl
     }
 
     /// <summary>
-    ///     This method is invoked when the Content property changes.
+    /// This method is invoked when the Content property changes.
     /// </summary>
     /// <param name="oldContent">The old value of the Content property.</param>
     /// <param name="newContent">The new value of the Content property.</param>
@@ -76,15 +76,12 @@ public class CodeBlock : ContentControl
 
     protected virtual void UpdateSyntax()
     {
-        _sourceCode = Highlighter.Clean(Content as string ?? string.Empty);
-        SyntaxContent = Highlighter.Format(_sourceCode);
+        _sourceCode = Syntax.Highlighter.Clean(Content as string ?? string.Empty);
+        SyntaxContent = Syntax.Highlighter.Format(_sourceCode);
     }
 
     private void Button_Click(object sender, object parameter)
     {
-#if DEBUG
-        Debug.WriteLine($"INFO | CodeBlock source: \n{_sourceCode}", "RevitLookup.UI.CodeBlock");
-#endif
-        Clipboard.SetText(_sourceCode);
+        Common.Clipboard.SetText(_sourceCode);
     }
 }

@@ -3,12 +3,13 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics.CodeAnalysis;
 using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-///     Event triggered on successful navigation.
+/// Event triggered on successful navigation.
 /// </summary>
 /// <param name="sender">Current navigation instance.</param>
 #if NET5_0_OR_GREATER

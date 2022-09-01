@@ -3,43 +3,42 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Diagnostics;
+using System;
 using System.Windows;
-using System.Windows.Controls;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Displays the name of the current <see cref="NavigationItem" /> and it's parents that can be navigated using <see cref="INavigation" />.
+/// Displays the name of the current <see cref="NavigationItem"/> and it's parents that can be navigated using <see cref="INavigation"/>.
 /// </summary>
-public class Breadcrumb : Control
+public class Breadcrumb : System.Windows.Controls.Control
 {
     /// <summary>
-    ///     Property for <see cref="Current" />.
+    /// Property for <see cref="Current"/>.
     /// </summary>
     public static readonly DependencyProperty CurrentProperty = DependencyProperty.Register(nameof(Current),
         typeof(string), typeof(Breadcrumb), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Property for <see cref="Navigation" />.
+    /// Property for <see cref="Navigation"/>.
     /// </summary>
     public static readonly DependencyProperty NavigationProperty = DependencyProperty.Register(nameof(Navigation),
         typeof(INavigation), typeof(Breadcrumb),
-        new PropertyMetadata(null, NavigationPropertyChangedCallback));
+        new PropertyMetadata(null, OnNavigationChanged));
 
     /// <summary>
-    ///     <see cref="INavigation" /> based on which <see cref="Breadcrumb" /> displays the titles.
+    /// <see cref="INavigation"/> based on which <see cref="Breadcrumb"/> displays the titles.
     /// </summary>
     public string Current
     {
-        get => (string) GetValue(CurrentProperty);
+        get => (string)GetValue(CurrentProperty);
         set => SetValue(CurrentProperty, value);
     }
 
     /// <summary>
-    ///     <see cref="INavigation" /> based on which <see cref="Breadcrumb" /> displays the titles.
+    /// <see cref="INavigation"/> based on which <see cref="Breadcrumb"/> displays the titles.
     /// </summary>
     public INavigation Navigation
     {
@@ -47,35 +46,31 @@ public class Breadcrumb : Control
         set => SetValue(NavigationProperty, value);
     }
 
-    private void BuildBreadcrumb()
+    protected virtual void OnNavigated(INavigation sender, RoutedNavigationEventArgs e)
     {
-#if DEBUG
-        Debug.WriteLine($"INFO | {typeof(Breadcrumb)} builded, current nav: {Navigation.GetType()}", "RevitLookup.UI.Breadcrumb");
-#endif
-
         //TODO: Navigate with previous levels
 
-        if (Navigation?.Current is INavigationItem item)
-        {
-            var pageName = item.Content as string;
-
-            if (string.IsNullOrEmpty(pageName))
-                return;
-
-            Current = pageName;
-        }
-    }
-
-    private static void NavigationPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not Breadcrumb control)
+        if (Navigation?.Current is not INavigationItem item)
             return;
 
-        control.Navigation.Navigated += control.NavigationOnNavigated;
+        var pageName = item.Content as string;
+
+        if (string.IsNullOrEmpty(pageName))
+            return;
+
+        Current = pageName;
     }
 
-    private void NavigationOnNavigated(INavigation sender, RoutedNavigationEventArgs e)
+    protected virtual void OnNavigationChanged()
     {
-        BuildBreadcrumb();
+        Navigation.Navigated += OnNavigated;
+    }
+
+    private static void OnNavigationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not Breadcrumb breadcrumb)
+            return;
+
+        breadcrumb.OnNavigationChanged();
     }
 }

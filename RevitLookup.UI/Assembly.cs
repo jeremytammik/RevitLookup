@@ -1,19 +1,12 @@
-﻿using System.Windows.Markup;
+﻿using System.Runtime.InteropServices;
+using System.Windows.Markup;
 
-[assembly: XmlnsDefinition("http://revitlookup.com/controls", "RevitLookup.UI.Controls")]
-[assembly: XmlnsPrefix("http://revitlookup.com/controls", "rl")]
-
-namespace RevitLookup.UI;
-
-public static class Assembly
-{
-    /// <summary>
-    ///     Empty method to help Revit find a library
-    /// </summary>
-    /// <remarks>
-    ///     By default, Revit does not load the library because it is not referenced from code
-    /// </remarks>
-    public static void AttachToRevit()
-    {
-    }
-}
+[assembly: ComVisible(false)]
+[assembly: XmlnsPrefix("http://revitlookup.com/xaml", "rl")]
+[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI")]
+[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Controls")]
+[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Common")]
+[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Markup")]
+[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Converters")]
+[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.ValidationRules")]
+[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Controls.Navigation")]

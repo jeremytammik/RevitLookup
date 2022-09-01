@@ -3,18 +3,21 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Represents a text element containing an icon glyph with selectable font family.
+/// Represents a text element containing an icon glyph with selectable font family.
 /// </summary>
-public class FontIcon : Label
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(FontIcon), "FontIcon.bmp")]
+public class FontIcon : System.Windows.Controls.Control
 {
     /// <summary>
-    ///     Property for <see cref="Glyph" />.
+    /// Property for <see cref="Glyph"/>.
     /// </summary>
     public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(
         nameof(Glyph),
@@ -24,11 +27,11 @@ public class FontIcon : Label
     );
 
     /// <summary>
-    ///     Gets or sets displayed <see cref="char" />.
+    /// Gets or sets displayed <see cref="char"/>.
     /// </summary>
     public char Glyph
     {
-        get => (char) GetValue(GlyphProperty);
+        get => (char)GetValue(GlyphProperty);
         set => SetValue(GlyphProperty, value);
     }
 }

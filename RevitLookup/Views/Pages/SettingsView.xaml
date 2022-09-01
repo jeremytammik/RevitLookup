@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:rl="http://revitlookup.com/controls"
+    xmlns:rl="http://revitlookup.com/xaml"
     xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
     xmlns:pages="clr-namespace:RevitLookup.ViewModels.Pages"
     mc:Ignorable="d"
@@ -25,7 +25,7 @@
     <StackPanel
         Margin="24">
         <rl:CardControl
-            Title="Theme"
+            Header="Theme"
             Icon="Color24">
             <ComboBox
                 MinWidth="150"
@@ -40,7 +40,7 @@
             </ComboBox>
         </rl:CardControl>
         <rl:CardControl
-            Title="Effect"
+            Header="Effect"
             Margin="0,6,0,0"
             Icon="ColorBackground24">
             <ComboBox

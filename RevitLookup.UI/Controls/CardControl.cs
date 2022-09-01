@@ -3,72 +3,77 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls.Primitives;
-using RevitLookup.UI.Common;
+using System.Windows.Media;
 using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Inherited from the <see cref="System.Windows.Controls.Primitives.ButtonBase" /> control which displays an additional control on the right side of the card.
+/// Inherited from the <see cref="System.Windows.Controls.Primitives.ButtonBase"/> control which displays an additional control on the right side of the card.
 /// </summary>
-public class CardControl : ButtonBase, IIconControl
+public class CardControl : System.Windows.Controls.Primitives.ButtonBase, IIconControl
 {
     /// <summary>
-    ///     Property for <see cref="Title" />.
+    /// Property for <see cref="Header"/>.
     /// </summary>
-    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
-        typeof(string), typeof(CardControl), new PropertyMetadata(""));
+    public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header),
+        typeof(object), typeof(CardControl), new PropertyMetadata(null));
 
     /// <summary>
-    ///     Property for <see cref="Subtitle" />.
-    /// </summary>
-    public static readonly DependencyProperty SubtitleProperty = DependencyProperty.Register(nameof(Subtitle),
-        typeof(string), typeof(CardControl), new PropertyMetadata(""));
-
-    /// <summary>
-    ///     Property for <see cref="Icon" />.
+    /// Property for <see cref="Icon"/>.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
-        typeof(SymbolRegular), typeof(CardControl),
-        new PropertyMetadata(SymbolRegular.Empty));
+        typeof(Common.SymbolRegular), typeof(CardControl),
+        new PropertyMetadata(Common.SymbolRegular.Empty));
 
     /// <summary>
-    ///     Property for <see cref="IconFilled" />.
+    /// Property for <see cref="IconFilled"/>.
     /// </summary>
     public static readonly DependencyProperty IconFilledProperty = DependencyProperty.Register(nameof(IconFilled),
         typeof(bool), typeof(CardControl), new PropertyMetadata(false));
 
     /// <summary>
-    ///     Gets or sets text displayed on the left side of the card.
+    /// Property for <see cref="IconForeground"/>.
     /// </summary>
-    public string Title
-    {
-        get => (string) GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
+    public static readonly DependencyProperty IconForegroundProperty = DependencyProperty.Register(nameof(IconForeground),
+        typeof(Brush), typeof(CardControl), new FrameworkPropertyMetadata(SystemColors.ControlTextBrush,
+            FrameworkPropertyMetadataOptions.Inherits));
 
     /// <summary>
-    ///     Gets or sets text displayed under main <see cref="Title" />.
+    /// Header is the data used to for the header of each item in the control.
     /// </summary>
-    public string Subtitle
+    [Bindable(true)]
+    public object Header
     {
-        get => (string) GetValue(SubtitleProperty);
-        set => SetValue(SubtitleProperty, value);
+        get => GetValue(HeaderProperty);
+        set => SetValue(HeaderProperty, value);
     }
 
     /// <inheritdoc />
-    public SymbolRegular Icon
+    [Bindable(true), Category("Appearance")]
+    public Common.SymbolRegular Icon
     {
-        get => (SymbolRegular) GetValue(IconProperty);
+        get => (Common.SymbolRegular)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     /// <inheritdoc />
+    [Bindable(true), Category("Appearance")]
     public bool IconFilled
     {
-        get => (bool) GetValue(IconFilledProperty);
+        get => (bool)GetValue(IconFilledProperty);
         set => SetValue(IconFilledProperty, value);
+    }
+
+    /// <summary>
+    /// Foreground of the <see cref="SymbolIcon"/>.
+    /// </summary>
+    [Bindable(true), Category("Appearance")]
+    public Brush IconForeground
+    {
+        get => (Brush)GetValue(IconForegroundProperty);
+        set => SetValue(IconForegroundProperty, value);
     }
 }

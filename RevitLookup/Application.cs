@@ -18,29 +18,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.UI;
+using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Commands;
 
 namespace RevitLookup;
 
 [UsedImplicitly]
-public class Application : IExternalApplication
+public class Application : ExternalApplication
 {
-    public Result OnStartup(UIControlledApplication application)
+    public override void OnStartup()
     {
-        UI.Assembly.AttachToRevit();
-        CreateRibbonPanel(application);
-        return Result.Succeeded;
+        CreateRibbonPanel();
     }
 
-    public Result OnShutdown(UIControlledApplication application)
+    private void CreateRibbonPanel()
     {
-        return Result.Succeeded;
-    }
-
-    private static void CreateRibbonPanel(UIControlledApplication application)
-    {
-        var ribbonPanel = application.CreatePanel("Revit Lookup");
+        var ribbonPanel = Application.CreatePanel("Revit Lookup");
 
         var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "RevitLookup");
 

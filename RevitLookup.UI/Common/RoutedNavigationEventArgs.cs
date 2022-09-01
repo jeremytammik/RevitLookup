@@ -9,24 +9,24 @@ using RevitLookup.UI.Controls.Interfaces;
 namespace RevitLookup.UI.Common;
 
 /// <summary>
-///     <see cref="RoutedEventArgs" /> with additional <see cref="CurrentPage" />.
+/// <see cref="RoutedEventArgs"/> with additional <see cref="CurrentPage"/>.
 /// </summary>
 public class RoutedNavigationEventArgs : RoutedEventArgs
 {
     /// <summary>
-    ///     Constructor for <see cref="RoutedEventArgs" />.
+    /// Currently displayed page.
+    /// </summary>
+    public INavigationItem CurrentPage { get; set; }
+
+    /// <summary>
+    /// Constructor for <see cref="RoutedEventArgs"/>.
     /// </summary>
     /// <param name="source">The new value that the SourceProperty is being set to.</param>
-    /// <param name="routedEvent">The new value that the <see cref="RoutedEvent" /> Property is being set to.</param>
+    /// <param name="routedEvent">The new value that the <see cref="RoutedEvent"/> Property is being set to.</param>
     /// <param name="currentPage">Currently displayed page.</param>
     public RoutedNavigationEventArgs(RoutedEvent routedEvent, object source, INavigationItem currentPage) : base(
         routedEvent, source)
     {
         CurrentPage = currentPage;
     }
-
-    /// <summary>
-    ///     Currently displayed page.
-    /// </summary>
-    public INavigationItem CurrentPage { get; set; }
 }

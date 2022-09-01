@@ -18,15 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.UI.Tests.ViewModels;
-
 namespace RevitLookup.UI.Tests.Views.Pages;
 
 public partial class SnoopSummaryView
 {
-    public SnoopSummaryView(RevitLookupViewModel lookupViewModel)
+    public SnoopSummaryView()
     {
         InitializeComponent();
-        DataContext = lookupViewModel.DashboardViewModel;
     }
 }

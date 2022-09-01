@@ -3,52 +3,54 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Diagnostics;
+using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 
 // https://docs.microsoft.com/en-us/fluent-ui/web-components/components/anchor
 
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address.
+/// Creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address.
 /// </summary>
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(Anchor), "Anchor.bmp")]
 public class Anchor : Button
 {
     /// <summary>
-    ///     Property for <see cref="NavigateUri" />.
+    /// Property for <see cref="NavigateUri"/>.
     /// </summary>
     public static readonly DependencyProperty NavigateUriProperty =
         DependencyProperty.Register(nameof(NavigateUri), typeof(string), typeof(Anchor),
             new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Gets or sets the URL that the hyperlink points to.
+    /// Gets or sets the URL that the hyperlink points to.
     /// </summary>
     public string NavigateUri
     {
-        get => (string) GetValue(NavigateUriProperty);
+        get => (string)GetValue(NavigateUriProperty);
         set => SetValue(NavigateUriProperty, value);
     }
 
     /// <summary>
-    ///     This virtual method is called when button is clicked and it raises the Click event
+    /// This virtual method is called when button is clicked and it raises the Click event
     /// </summary>
     protected override void OnClick()
     {
         var newEvent = new RoutedEventArgs(ClickEvent, this);
         RaiseEvent(newEvent);
 
-#if DEBUG
-        Debug.WriteLine($"INFO | Anchor clicked, with href: {NavigateUri}", "RevitLookup.UI.Anchor");
-#endif
         if (string.IsNullOrEmpty(NavigateUri))
             return;
-        ProcessStartInfo sInfo = new(new Uri(NavigateUri).AbsoluteUri)
+        System.Diagnostics.ProcessStartInfo sInfo = new(new Uri(NavigateUri).AbsoluteUri)
         {
             UseShellExecute = true
         };
 
-        Process.Start(sInfo);
+        System.Diagnostics.Process.Start(sInfo);
     }
 }

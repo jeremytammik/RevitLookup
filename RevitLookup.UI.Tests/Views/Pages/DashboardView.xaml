@@ -1,30 +1,29 @@
-﻿<rl:DynamicScrollViewer
+﻿<rl:UiPage
     x:Class="RevitLookup.UI.Tests.Views.Pages.DashboardView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:rl="http://revitlookup.com/controls"
-    xmlns:pages="clr-namespace:RevitLookup.UI.Tests.ViewModels.Pages"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:pages="clr-namespace:RevitLookup.UI.Tests.Views.Pages"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance pages:DashboardViewModel}"
-    Style="{DynamicResource UiDynamicScrollViewer}">
-    <rl:DynamicScrollViewer.Resources>
+    d:DataContext="{d:DesignInstance pages:DashboardView}">
+    <rl:UiPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary
                     Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" />
                 <ResourceDictionary
-                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Light.xaml" />
+                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Dark.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </rl:DynamicScrollViewer.Resources>
+    </rl:UiPage.Resources>
     <StackPanel
         Margin="24">
         <rl:CardAction
             Margin="0,0,4,0"
             Icon="SelectObject24"
-            Command="{Binding SnoopSelectionCommand}">
+            Command="{Binding  SnoopSelectionCommand}">
             <StackPanel>
                 <TextBlock
                     FontWeight="Medium"
@@ -32,4 +31,4 @@
             </StackPanel>
         </rl:CardAction>
     </StackPanel>
-</rl:DynamicScrollViewer>
+</rl:UiPage>

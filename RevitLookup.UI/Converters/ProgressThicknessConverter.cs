@@ -3,20 +3,20 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Globalization;
+using System;
 using System.Windows.Data;
 
 namespace RevitLookup.UI.Converters;
 
 /// <summary>
-///     Converts Height to Thickness.
+/// Converts Height to Thickness.
 /// </summary>
-internal class ProgressThicknessConverter : IValueConverter
+class ProgressThicknessConverter : IValueConverter
 {
     /// <summary>
-    ///     Checks if the <see cref="Common.SymbolRegular" /> is valid and not empty.
+    /// Checks if the <see cref="Common.SymbolRegular"/> is valid and not empty.
     /// </summary>
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
         // TODO: It's too hardcoded, we should define better formula.
 
@@ -27,11 +27,11 @@ internal class ProgressThicknessConverter : IValueConverter
     }
 
     /// <summary>
-    ///     Not Implemented.
+    /// Not Implemented.
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
     public object ConvertBack(object value, Type targetType, object parameter,
-        CultureInfo culture)
+        System.Globalization.CultureInfo culture)
     {
         throw new NotImplementedException();
     }

@@ -6,37 +6,37 @@
 namespace RevitLookup.UI.Appearance;
 
 /// <summary>
-///     Collection of fluent background types.
+/// Collection of fluent background types.
 /// </summary>
 public enum BackgroundType
 {
     /// <summary>
-    ///     Unknown background type.
+    /// Unknown background type.
     /// </summary>
     Unknown,
 
     /// <summary>
-    ///     Without effects
+    /// No backdrop effect.
     /// </summary>
-    Disabled,
+    None,
 
     /// <summary>
-    ///     Sets <c>DWMWA_SYSTEMBACKDROP_TYPE</c> to <see langword="0"></see>.
+    /// Sets <c>DWMWA_SYSTEMBACKDROP_TYPE</c> to <see langword="0"></see>.
     /// </summary>
     Auto,
 
     /// <summary>
-    ///     Windows 11 Mica effect.
+    /// Windows 11 Mica effect.
     /// </summary>
     Mica,
 
     /// <summary>
-    ///     Windows Acrylic effect.
+    /// Windows Acrylic effect.
     /// </summary>
     Acrylic,
 
     /// <summary>
-    ///     Windows 11 wallpaper blur effect.
+    /// Windows 11 wallpaper blur effect.
     /// </summary>
     Tabbed
 }

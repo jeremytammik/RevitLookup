@@ -3,12 +3,17 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.ComponentModel;
+using System.Drawing;
+
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Modern navigation styled according to the principles of Fluent Design for Windows 11.
+/// Modern navigation styled according to the principles of Fluent Design for Windows 11.
 /// </summary>
-public class NavigationStore : Navigation
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(NavigationStore), "NavigationStore.bmp")]
+public class NavigationStore : Navigation.NavigationBase
 {
     // XAML
 }

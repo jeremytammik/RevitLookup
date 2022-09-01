@@ -3,210 +3,236 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls;
 
-// TODO: Refactor
-// This control is in a very early stage of development. Validations, increments, pasting and especially masks that are not implemented at all should be refined.
+// TODO: Handle backspace
+// TODO: Handle editing
+// TODO: Implement mask
 
 /// <summary>
-///     Text field for entering numbers with the possibility of specifying pattern.
+/// Text field for entering numbers with the possibility of specifying a pattern.
 /// </summary>
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(NumberBox), "NumberBox.bmp")]
 public class NumberBox : TextBox
 {
+    // In both expressions, we allow the lonely characters '-', '.' and ',' so the numbers can be typed in real-time.
+
     /// <summary>
-    ///     Property for <see cref="Value" />.
+    /// Accepts a string of digits separated by a comma or period. Allows for a leading minus sign.
+    /// </summary>
+    private readonly string _decimalExpression = /* language=regex */ @"^\-?(\d+(?:[\.\,]|[\.\,]\d+)?)?$";
+
+    /// <summary>
+    /// Accepts a string of digits only. Allows for a leading minus sign.
+    /// </summary>
+    private readonly string _integerExpression = /* language=regex */ @"^\-?(\d+)*$";
+
+    /// <summary>
+    /// Property for <see cref="Value"/>.
     /// </summary>
     public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value),
-        typeof(double), typeof(NumberBox), new PropertyMetadata(0.0, Value_PropertyChanged));
+        typeof(double), typeof(NumberBox), new PropertyMetadata(0.0d));
 
     /// <summary>
-    ///     Property for <see cref="Step" />.
+    /// Property for <see cref="Step"/>.
     /// </summary>
     public static readonly DependencyProperty StepProperty = DependencyProperty.Register(nameof(Step),
-        typeof(double), typeof(NumberBox), new PropertyMetadata(1.0));
+        typeof(double), typeof(NumberBox), new PropertyMetadata(1.0d));
 
     /// <summary>
-    ///     Property for <see cref="Max" />.
+    /// Property for <see cref="Max"/>.
     /// </summary>
     public static readonly DependencyProperty MaxProperty = DependencyProperty.Register(nameof(Max),
         typeof(double), typeof(NumberBox), new PropertyMetadata(double.MaxValue));
 
     /// <summary>
-    ///     Property for <see cref="Min" />.
+    /// Property for <see cref="Min"/>.
     /// </summary>
     public static readonly DependencyProperty MinProperty = DependencyProperty.Register(nameof(Min),
         typeof(double), typeof(NumberBox), new PropertyMetadata(double.MinValue));
 
     /// <summary>
-    ///     Property for <see cref="DecimalPlaces" />.
+    /// Property for <see cref="DecimalPlaces"/>.
     /// </summary>
     public static readonly DependencyProperty DecimalPlacesProperty = DependencyProperty.Register(nameof(DecimalPlaces),
-        typeof(int), typeof(NumberBox), new PropertyMetadata(2, DecimalPlaces_PropertyChanged));
+        typeof(int), typeof(NumberBox), new PropertyMetadata(2, OnDecimalPlacesChanged));
 
     /// <summary>
-    ///     Property for <see cref="Mask" />.
+    /// Property for <see cref="Mask"/>.
     /// </summary>
     public static readonly DependencyProperty MaskProperty = DependencyProperty.Register(nameof(Mask),
         typeof(string), typeof(NumberBox), new PropertyMetadata(string.Empty));
 
     /// <summary>
-    ///     Property for <see cref="ControlsVisible" />.
+    /// Property for <see cref="SpinButtonsEnabled"/>.
     /// </summary>
-    public static readonly DependencyProperty ControlsVisibleProperty = DependencyProperty.Register(nameof(ControlsVisible),
+    public static readonly DependencyProperty SpinButtonsEnabledProperty = DependencyProperty.Register(nameof(SpinButtonsEnabled),
         typeof(bool), typeof(NumberBox), new PropertyMetadata(true));
 
     /// <summary>
-    ///     Property for <see cref="IntegersOnly" />.
+    /// Property for <see cref="IntegersOnly"/>.
     /// </summary>
     public static readonly DependencyProperty IntegersOnlyProperty = DependencyProperty.Register(nameof(IntegersOnly),
-        typeof(bool), typeof(NumberBox), new PropertyMetadata(false, IntegersOnly_PropertyChanged));
+        typeof(bool), typeof(NumberBox), new PropertyMetadata(false));
 
     /// <summary>
-    ///     Property for <see cref="ButtonCommand" />.
+    /// Routed event for <see cref="Incremented"/>.
     /// </summary>
-    public static readonly DependencyProperty ButtonCommandProperty =
-        DependencyProperty.Register(nameof(NumberBox),
-            typeof(IRelayCommand), typeof(TitleBar), new PropertyMetadata(null));
-
-    internal Regex PatternRegex;
+    public static readonly RoutedEvent IncrementedEvent = EventManager.RegisterRoutedEvent(
+        nameof(Incremented), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(NumberBox));
 
     /// <summary>
-    ///     Creates new instance of <see cref="NumberBox" /> and defines default events for validating provided numbers.
+    /// Routed event for <see cref="Decremented"/>.
     /// </summary>
-    public NumberBox()
+    public static readonly RoutedEvent DecrementedEvent = EventManager.RegisterRoutedEvent(
+        nameof(Decremented), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(NumberBox));
+
+    /// <summary>
+    /// <see cref="NumberBox"/> does no accept returns.
+    /// </summary>
+    public new bool AcceptsReturn
     {
-        SetValue(ButtonCommandProperty, new RelayCommand(o => Button_Click(this, o)));
-
-        PatternRegex = IntegersOnly ? new Regex("[^0-9]+") : new Regex("[^0-9.,]+");
-
-        PreviewTextInput += NumberBox_PreviewTextInput;
-        TextChanged += NumberBox_TextChanged;
-        KeyUp += NumberBox_KeyUp;
-
-        DataObject.AddPastingHandler(this, PastingHandler);
+        get => false;
+        set => throw new NotImplementedException($"{typeof(NumberBox)} does not accept returns.");
     }
 
     /// <summary>
-    ///     Current numeric value.
+    /// <see cref="NumberBox"/> does not accept changes to the number of lines.
+    /// </summary>
+    public new int MaxLines
+    {
+        get => 1;
+        set => throw new NotImplementedException($"{typeof(NumberBox)} does not accept changes to the number of lines.");
+    }
+
+    /// <summary>
+    /// <see cref="NumberBox"/> does not accept changes to the number of lines.
+    /// </summary>
+    public new int MinLines
+    {
+        get => 1;
+        set => throw new NotImplementedException($"{typeof(NumberBox)} does not accept changes to the number of lines.");
+    }
+
+    /// <summary>
+    /// Gets or sets current numeric value.
     /// </summary>
     public double Value
     {
-        get => (double) GetValue(ValueProperty);
+        get => (double)GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets value by which the given number will be increased or decreased after pressing the button.
+    /// Gets or sets value by which the given number will be increased or decreased after pressing the button.
     /// </summary>
     public double Step
     {
-        get => (double) GetValue(StepProperty);
+        get => (double)GetValue(StepProperty);
         set => SetValue(StepProperty, value);
     }
 
     /// <summary>
-    ///     Maximum allowable value.
+    /// Maximum allowable value.
     /// </summary>
     public double Max
     {
-        get => (double) GetValue(MaxProperty);
+        get => (double)GetValue(MaxProperty);
         set => SetValue(MaxProperty, value);
     }
 
     /// <summary>
-    ///     Minimum allowable value.
+    /// Minimum allowable value.
     /// </summary>
     public double Min
     {
-        get => (double) GetValue(MinProperty);
+        get => (double)GetValue(MinProperty);
         set => SetValue(MinProperty, value);
     }
 
     /// <summary>
-    ///     Number of decimal places.
+    /// Number of decimal places.
     /// </summary>
     public int DecimalPlaces
     {
-        get => (int) GetValue(DecimalPlacesProperty);
+        get => (int)GetValue(DecimalPlacesProperty);
         set => SetValue(DecimalPlacesProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets numbers pattern.
+    /// Gets or sets numbers pattern.
     /// </summary>
     public string Mask
     {
-        get => (string) GetValue(MaskProperty);
+        get => (string)GetValue(MaskProperty);
         set => SetValue(MaskProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets value determining whether to display the button controls.
+    /// Gets or sets value determining whether to display the button controls.
     /// </summary>
-    public bool ControlsVisible
+    public bool SpinButtonsEnabled
     {
-        get => (bool) GetValue(ControlsVisibleProperty);
-        set => SetValue(ControlsVisibleProperty, value);
+        get => (bool)GetValue(SpinButtonsEnabledProperty);
+        set => SetValue(SpinButtonsEnabledProperty, value);
     }
 
     /// <summary>
-    ///     Gets or sets value which determines whether only integers can be entered.
+    /// Gets or sets value which determines whether only integers can be entered.
     /// </summary>
     public bool IntegersOnly
     {
-        get => (bool) GetValue(IntegersOnlyProperty);
+        get => (bool)GetValue(IntegersOnlyProperty);
         set => SetValue(IntegersOnlyProperty, value);
     }
 
     /// <summary>
-    ///     Command triggered after clicking the control button.
+    /// Event occurs when a value is incremented by button or arrow key.
     /// </summary>
-    public IRelayCommand ButtonCommand => (IRelayCommand) GetValue(ButtonCommandProperty);
-
-    private static void DecimalPlaces_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    public event RoutedEventHandler Incremented
     {
-        if (d is not NumberBox control)
-            return;
-
-        if (control.DecimalPlaces < 0)
-            control.DecimalPlaces = 0;
-
-        if (control.DecimalPlaces > 4)
-            control.DecimalPlaces = 4;
+        add => AddHandler(IncrementedEvent, value);
+        remove => RemoveHandler(IncrementedEvent, value);
     }
 
-    private static void Value_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    /// <summary>
+    /// Event occurs when a value is decremented by button or arrow key.
+    /// </summary>
+    public event RoutedEventHandler Decremented
     {
-        if (d is not NumberBox control)
-            return;
-
-        if (!string.IsNullOrEmpty(control.Text))
-            return;
-
-        if (control.Value % 1 != 0 && !control.IntegersOnly)
-            control.Text = control.Value.ToString("F" + control.DecimalPlaces, CultureInfo.InvariantCulture);
-        else
-            control.Text = control.Value.ToString("F0", CultureInfo.InvariantCulture);
+        add => AddHandler(DecrementedEvent, value);
+        remove => RemoveHandler(DecrementedEvent, value);
     }
 
-    private static void IntegersOnly_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    /// <summary>
+    /// Creates new instance of <see cref="NumberBox"/>.
+    /// </summary>
+    public NumberBox()
     {
-        if (d is not NumberBox control)
-            return;
+        DataObject.AddPastingHandler(this, OnClipboardPaste);
 
-        control.PatternRegex = control.IntegersOnly ? new Regex("[^0-9]+") : new Regex("[^0-9.,]+");
+        Loaded += OnLoaded;
     }
 
-    private void Button_Click(object sender, object parameter)
+    /// <inheritdoc/>
+    protected override void OnTemplateButtonClick(object sender, object parameter)
     {
-        var command = parameter as string;
+        base.OnTemplateButtonClick(sender, parameter);
+
+        if (sender is not NumberBox)
+            return;
+
+        var command = parameter?.ToString() ?? string.Empty;
 
         switch (command)
         {
@@ -220,112 +246,249 @@ public class NumberBox : TextBox
         }
     }
 
-    private void NumberBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    /// <summary>
+    /// Updates <see cref="Value"/> and <see cref="System.Windows.Controls.TextBox.Text"/>.
+    /// </summary>
+    private void UpdateValue(double value, bool updateText)
     {
-        e.Handled = Validate(e.Text);
-    }
+        Value = value;
 
-    private void NumberBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (sender is not NumberBox control)
+        if (!updateText)
             return;
 
-        if (PlaceholderVisible && control.Text.Length > 0)
-            PlaceholderVisible = false;
+        var newText = FormatDoubleToString(value);
 
-        if (!PlaceholderVisible && control.Text.Length < 1)
-            PlaceholderVisible = true;
-
-        double.TryParse(control.Text, out var number);
-
-        Value = number;
+        Text = newText;
+        CaretIndex = newText.Length;
     }
 
-    private void NumberBox_KeyUp(object sender, KeyEventArgs e)
+    /// <summary>
+    /// Updates <see cref="Value"/> and <see cref="System.Windows.Controls.TextBox.Text"/>.
+    /// </summary>
+    private void UpdateValue(double value, string updateText)
     {
-        if (e.Key == Key.Up)
-            IncrementValue();
+        Value = value;
 
-        if (e.Key == Key.Down)
-            DecrementValue();
+        Text = updateText;
+        CaretIndex = updateText.Length;
     }
 
-    private void PastingHandler(object sender, DataObjectPastingEventArgs e)
-    {
-        if (sender is not NumberBox control)
-            return;
-
-        var clipboardText = (string) e.DataObject.GetData(typeof(string));
-
-        if (Validate(clipboardText))
-            e.CancelCommand();
-    }
-
+    /// <summary>
+    /// Increments current <see cref="Value"/>.
+    /// </summary>
     private void IncrementValue()
     {
         var currentText = Text;
+        var parsedNumber = ParseStringToDouble(currentText) + Step;
 
-        if (string.IsNullOrEmpty(currentText))
+        if (string.IsNullOrWhiteSpace(currentText) || parsedNumber > Max)
         {
-            Text = Step.ToString("F0");
+            UpdateValue(Max, true);
 
             return;
         }
 
-        double.TryParse(currentText, out var number);
+        UpdateValue(parsedNumber, true);
 
-        if (number + Step > Max)
-            return;
-
-        if ((currentText.Contains(".") || currentText.Contains(",")) && !IntegersOnly)
-            Text = (number + Step).ToString("F" + DecimalPlaces, CultureInfo.InvariantCulture);
-        else
-            Text = (number + Step).ToString("F0", CultureInfo.InvariantCulture);
+        OnIncremented();
     }
 
+    /// <summary>
+    /// Decrements current <see cref="Value"/>.
+    /// </summary>
     private void DecrementValue()
     {
         var currentText = Text;
+        var parsedNumber = ParseStringToDouble(currentText) - Step;
 
-        if (string.IsNullOrEmpty(currentText))
+        if (string.IsNullOrWhiteSpace(currentText) || parsedNumber < Min)
         {
-            Text = "-" + Step.ToString("F0");
+            UpdateValue(Min, true);
 
             return;
         }
 
-        double.TryParse(currentText, out var number);
+        UpdateValue(parsedNumber, true);
 
-        if (number - Step < Min)
-            return;
-
-        if ((currentText.Contains(".") || currentText.Contains(",")) && !IntegersOnly)
-            Text = (number - Step).ToString("F" + DecimalPlaces, CultureInfo.InvariantCulture);
-        else
-            Text = (number - Step).ToString("F0", CultureInfo.InvariantCulture);
+        OnDecremented();
     }
 
-    private bool Validate(string input)
+    /// <summary>
+    /// Formats double number according to configuration.
+    /// </summary>
+    private string FormatDoubleToString(double number)
     {
-        if (string.IsNullOrEmpty(input))
-            return true;
+        if (IntegersOnly || DecimalPlaces < 1)
+            return number.ToString("F0", CultureInfo.InvariantCulture);
 
-        if (input.StartsWith(".") || input.EndsWith("."))
+        if (DecimalPlaces < 5)
+            return number.ToString($"F{DecimalPlaces}", CultureInfo.InvariantCulture);
+
+        return number.ToString(CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>
+    /// Tests provided text with regular expression according to configuration.
+    /// </summary>
+    private bool IsNumberTextValid(string inputText)
+    {
+        // If the mask is used this method will not work
+
+        var decimalPlaces = DecimalPlaces;
+        var integerRegex = new Regex(_integerExpression);
+        var decimalRegex = new Regex(_decimalExpression);
+
+        if (IntegersOnly || decimalPlaces < 1)
+            return integerRegex.IsMatch(inputText);
+
+        if (!decimalRegex.IsMatch(inputText))
             return false;
 
-        if (input.StartsWith(",") || input.EndsWith(","))
+        if (inputText.Contains(",") && inputText.Substring(inputText.IndexOf(",")).Length > decimalPlaces)
             return false;
 
-        if (!PatternRegex.IsMatch(input))
+        if (inputText.Contains(".") && inputText.Substring(inputText.IndexOf(".")).Length > decimalPlaces)
             return false;
 
         return true;
     }
 
-    private string Format(string currentInput, string newInput)
+    /// <summary>
+    /// Tries to format provided string according to the mask.
+    /// </summary>
+    private string FormatWithMask(string currentInput, string newInput)
     {
         // TODO: Format text according to MaskProperty
 
         return currentInput;
+    }
+
+    /// <summary>
+    /// Tries to parse provided string to double with invariant culture.
+    /// </summary>
+    private double ParseStringToDouble(string inputText)
+    {
+        double.TryParse(inputText, NumberStyles.Any, CultureInfo.InvariantCulture, out var number);
+
+        return number;
+    }
+
+    /// <summary>
+    /// Occurs when controls is loaded.
+    /// </summary>
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        Text = FormatDoubleToString(Value);
+    }
+
+    /// <inheritdoc />
+    protected override void OnKeyUp(KeyEventArgs e)
+    {
+        if (e.Key == Key.Up)
+        {
+            IncrementValue();
+
+            e.Handled = true;
+        }
+
+        if (e.Key == Key.Down)
+        {
+            DecrementValue();
+
+            e.Handled = true;
+        }
+
+        base.OnKeyUp(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnTextChanged(TextChangedEventArgs e)
+    {
+        base.OnTextChanged(e);
+
+        var currentText = Text;
+        var parsedNumber = ParseStringToDouble(currentText);
+
+        PlaceholderEnabled = currentText.Length < 1;
+
+        // TODO: Meh
+        if (parsedNumber > Max)
+        {
+            UpdateValue(Max, true);
+
+            return;
+        }
+
+        if (parsedNumber < Min)
+        {
+            UpdateValue(Min, true);
+
+            return;
+        }
+
+        UpdateValue(parsedNumber, true);
+    }
+
+    /// <inheritdoc />
+    protected override void OnPreviewTextInput(TextCompositionEventArgs e)
+    {
+        var newText = Text + (e.Text ?? string.Empty);
+
+        if (!string.IsNullOrEmpty(newText))
+            e.Handled = !IsNumberTextValid(newText);
+
+        // Do not allow a leading minus sign if the min value is greater than zero.
+        if (Min >= 0 && newText.StartsWith("-"))
+            e.Handled = true;
+
+
+        base.OnPreviewTextInput(e);
+    }
+
+    /// <summary>
+    /// This virtual method is called after incrementing a value using button or arrow key.
+    /// </summary>
+    protected virtual void OnIncremented()
+    {
+        RaiseEvent(new RoutedEventArgs(IncrementedEvent, this));
+    }
+
+    /// <summary>
+    /// This virtual method is called after decrementing a value using button or arrow key.
+    /// </summary>
+    protected virtual void OnDecremented()
+    {
+        RaiseEvent(new RoutedEventArgs(DecrementedEvent, this));
+    }
+
+    /// <summary>
+    /// This virtual method is called after <see cref="DecimalPlaces"/> is changed.
+    /// </summary>
+    protected virtual void OnDecimalPlacesChanged(int decimalPlaces)
+    {
+        if (decimalPlaces < 0)
+            DecimalPlaces = 0;
+    }
+
+    private static void OnDecimalPlacesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not NumberBox control)
+            return;
+
+        if (e.NewValue is not int newValue)
+            return;
+
+        control.OnDecimalPlacesChanged(newValue);
+    }
+
+    private void OnClipboardPaste(object sender, DataObjectPastingEventArgs e)
+    {
+        if (sender is not NumberBox control)
+            return;
+
+        var clipboardText = (string)e.DataObject.GetData(typeof(string));
+
+        if (!IsNumberTextValid(clipboardText))
+            e.CancelCommand();
     }
 }

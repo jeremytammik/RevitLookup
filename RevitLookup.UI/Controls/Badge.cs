@@ -3,8 +3,9 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
-using System.Windows.Controls;
 using RevitLookup.UI.Controls.Interfaces;
 
 // https://docs.microsoft.com/en-us/fluent-ui/web-components/components/badge
@@ -12,21 +13,23 @@ using RevitLookup.UI.Controls.Interfaces;
 namespace RevitLookup.UI.Controls;
 
 /// <summary>
-///     Used to highlight an item, attract attention or flag status.
+/// Used to highlight an item, attract attention or flag status.
 /// </summary>
-public class Badge : ContentControl, IAppearanceControl
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(Badge), "Badge.bmp")]
+public class Badge : System.Windows.Controls.ContentControl, IAppearanceControl
 {
     /// <summary>
-    ///     Property for <see cref="Appearance" />.
+    /// Property for <see cref="Appearance"/>.
     /// </summary>
     public static readonly DependencyProperty AppearanceProperty = DependencyProperty.Register(nameof(Appearance),
-        typeof(Common.Appearance), typeof(Badge),
-        new PropertyMetadata(Common.Appearance.Primary));
+        typeof(Common.ControlAppearance), typeof(Badge),
+        new PropertyMetadata(Common.ControlAppearance.Primary));
 
     /// <inheritdoc />
-    public Common.Appearance Appearance
+    public Common.ControlAppearance Appearance
     {
-        get => (Common.Appearance) GetValue(AppearanceProperty);
+        get => (Common.ControlAppearance)GetValue(AppearanceProperty);
         set => SetValue(AppearanceProperty, value);
     }
 }

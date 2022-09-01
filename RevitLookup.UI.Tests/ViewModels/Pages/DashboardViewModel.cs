@@ -18,33 +18,17 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
+using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
-public sealed class DashboardViewModel : INotifyPropertyChanged
+public sealed class DashboardViewModel : ObservableObject
 {
-    private readonly RevitLookupViewModel _lookupViewModel;
     private RelayCommand _snoopSelectionCommand;
-
-    public DashboardViewModel(RevitLookupViewModel lookupViewModel)
-    {
-        _lookupViewModel = lookupViewModel;
-    }
 
     public RelayCommand SnoopSelectionCommand => _snoopSelectionCommand ??= new RelayCommand(o =>
     {
-        _lookupViewModel.CurrentPageIndex = 1;
+        
     });
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    [NotifyPropertyChangedInvocator]
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 }

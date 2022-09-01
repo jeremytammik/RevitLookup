@@ -1,25 +1,76 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
-// 
-// Permission to use, copy, modify, and distribute this software in
-// object code form for any purpose and without fee is hereby granted,
-// provided that the above copyright notice appears in all copies and
-// that both that copyright notice and the limited warranty and
-// restricted rights notice below appear in all supporting
-// documentation.
-// 
-// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
-// AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
-// DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
-// UNINTERRUPTED OR ERROR FREE.
-// 
-// Use, duplication, or disclosure by the U.S. Government is subject to
-// restrictions set forth in FAR 52.227-19 (Commercial Computer
-// Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
-// (Rights in Technical Data and Computer Software), as applicable.
+﻿// This Source Code Form is subject to the terms of the MIT License.
+// If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
+// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
+// All Rights Reserved.
+
+using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Mvvm.Services;
+using RevitLookup.UI.Tests.Services;
+using RevitLookup.UI.Tests.ViewModels;
+using RevitLookup.UI.Tests.ViewModels.Pages;
+using RevitLookup.UI.Tests.Views;
+using RevitLookup.UI.Tests.Views.Pages;
 
 namespace RevitLookup.UI.Tests;
 
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
 public partial class App
 {
+    private static readonly IHost Host = Microsoft.Extensions.Hosting.Host
+        .CreateDefaultBuilder()
+        .ConfigureServices((context, services) =>
+        {
+            services.AddHostedService<ApplicationHostService>();
+
+            services.AddSingleton<IThemeService, ThemeService>();
+            services.AddSingleton<IDialogService, DialogService>();
+            services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<IPageService, PageService>();
+            
+            services.AddScoped<INavigationWindow, RevitLookupView>();
+
+            services.AddScoped<AboutView>();
+            services.AddScoped<AboutViewModel>();
+            
+            services.AddScoped<DashboardView>();
+            services.AddScoped<DashboardViewModel>();
+            
+            services.AddScoped<SettingsView>();
+            services.AddScoped<SettingsViewModel>();
+
+            services.AddScoped<SnoopSummaryView>();
+            
+        }).Build();
+
+    /// <summary>
+    /// Gets registered service.
+    /// </summary>
+    /// <typeparam name="T">Type of the service to get.</typeparam>
+    /// <returns>Instance of the service or <see langword="null"/>.</returns>
+    public static T GetService<T>() where T : class
+    {
+        return Host.Services.GetService(typeof(T)) as T;
+    }
+
+    /// <summary>
+    /// Occurs when the application is loading.
+    /// </summary>
+    private async void OnStartup(object sender, StartupEventArgs e)
+    {
+        await Host.StartAsync();
+    }
+
+    /// <summary>
+    /// Occurs when the application is closing.
+    /// </summary>
+    private async void OnExit(object sender, ExitEventArgs e)
+    {
+        await Host.StopAsync();
+        Host.Dispose();
+    }
 }

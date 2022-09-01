@@ -10,35 +10,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:RevitLookup.UI.Converters">
 
-    <converters:BrushToColorConverter
-        x:Key="BrushToColorConverter" />
+    <converters:BrushToColorConverter x:Key="BrushToColorConverter" />
 
-    <Style
-        TargetType="{x:Type ListBoxItem}">
-        <Setter
-            Property="Foreground">
+    <Style TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush
-                    Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter
-            Property="Background"
-            Value="{DynamicResource SystemAccentBrush}" />
-        <Setter
-            Property="BorderBrush"
-            Value="{DynamicResource SystemAccentBrush}" />
-        <Setter
-            Property="SnapsToDevicePixels"
-            Value="True" />
-        <Setter
-            Property="OverridesDefaultStyle"
-            Value="True" />
-        <Setter
-            Property="Template">
+        <Setter Property="Background">
             <Setter.Value>
-                <ControlTemplate
-                    TargetType="{x:Type ListBoxItem}">
+                <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border
                         x:Name="Border"
                         Margin="0,0,0,4"
@@ -46,9 +40,7 @@
                         BorderThickness="1"
                         CornerRadius="4">
                         <Border.Background>
-                            <SolidColorBrush
-                                Opacity="0.0"
-                                Color="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
+                            <SolidColorBrush Opacity="0.0" Color="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, Converter={StaticResource BrushToColorConverter}}" />
                         </Border.Background>
                         <!--
                         <Border.BorderBrush>
@@ -58,9 +50,12 @@
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger
-                            Property="IsSelected"
-                            Value="True">
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource TextOnAccentFillColorPrimary}" />
+                                </Setter.Value>
+                            </Setter>
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -108,54 +103,38 @@
         </Setter>
     </Style>
 
-    <Style
-        TargetType="{x:Type ListBox}">
-        <Setter
-            Property="Foreground">
+    <Style TargetType="{x:Type ListBox}">
+        <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush
-                    Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter
-            Property="Background">
+        <Setter Property="Background">
             <Setter.Value>
-                <SolidColorBrush
-                    Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter
-            Property="BorderBrush"
-            Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter
-            Property="Margin"
-            Value="0" />
-        <Setter
-            Property="Padding"
-            Value="2,2,2,0" />
-        <Setter
-            Property="ScrollViewer.HorizontalScrollBarVisibility"
-            Value="Auto" />
-        <Setter
-            Property="ScrollViewer.VerticalScrollBarVisibility"
-            Value="Auto" />
-        <Setter
-            Property="ScrollViewer.CanContentScroll"
-            Value="True" />
-        <Setter
-            Property="BorderThickness"
-            Value="1" />
-        <Setter
-            Property="SnapsToDevicePixels"
-            Value="True" />
-        <Setter
-            Property="OverridesDefaultStyle"
-            Value="True" />
-        <Setter
-            Property="Template">
+        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="2,2,2,0" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Standard" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="ItemsPanel">
             <Setter.Value>
-                <ControlTemplate
-                    TargetType="{x:Type ListBox}">
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel IsVirtualizing="{TemplateBinding VirtualizingPanel.IsVirtualizing}" VirtualizationMode="{TemplateBinding VirtualizingPanel.VirtualizationMode}" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
                     <Border
                         Name="Border"
                         Padding="{TemplateBinding Padding}"
@@ -165,21 +144,16 @@
                         CornerRadius="4">
                         <ScrollViewer
                             Margin="0"
+                            CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
                             Focusable="False"
                             HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                             VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-                            <VirtualizingStackPanel
-                                Margin="2"
-                                IsItemsHost="True" />
+                            <ItemsPresenter Margin="2" />
                         </ScrollViewer>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger
-                            Property="IsGrouping"
-                            Value="True">
-                            <Setter
-                                Property="ScrollViewer.CanContentScroll"
-                                Value="False" />
+                        <Trigger Property="IsGrouping" Value="True">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

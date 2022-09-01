@@ -3,6 +3,8 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -14,8 +16,8 @@ namespace RevitLookup.UI.Syntax;
 // TODO: This class is work in progress.
 
 /// <summary>
-///     Formats a string of code into <see cref="System.Windows.Controls.TextBox" /> control.
-///     <para>Implementation and regex patterns inspired by <see href="https://github.com/antoniandre/simple-syntax-highlighter" />.</para>
+/// Formats a string of code into <see cref="System.Windows.Controls.TextBox"/> control.
+/// <para>Implementation and regex patterns inspired by <see href="https://github.com/antoniandre/simple-syntax-highlighter"/>.</para>
 /// </summary>
 internal static class Highlighter
 {
@@ -54,76 +56,86 @@ internal static class Highlighter
         var lightTheme = IsLightTheme();
 
         foreach (Match match in rgx.Matches(code))
-        foreach (var group in match.Groups)
         {
-            // Remove whole matches
-            if (group is Match)
-                continue;
-
-            // Cast to group
-            codeMatched = (Group) group;
-
-            // Remove empty groups
-            if (string.IsNullOrEmpty(codeMatched.Value))
-                continue;
-
-            if (codeMatched.Value.Contains("\t"))
+            foreach (var group in match.Groups)
             {
-                returnText.Inlines.Add(Line("  ", Brushes.Transparent));
-            }
-            else if (codeMatched.Value.Contains("/*") || codeMatched.Value.Contains("//"))
-            {
-                returnText.Inlines.Add(Line(codeMatched.Value, Brushes.Orange));
-            }
-            else if (codeMatched.Value.Contains("<") || codeMatched.Value.Contains(">"))
-            {
-                returnText.Inlines.Add(Line(codeMatched.Value,
-                    lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
-            }
-            else if (codeMatched.Value.Contains("\""))
-            {
-                var attributeArray = codeMatched.Value.Split('"');
-                attributeArray = attributeArray.Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
+                // Remove whole matches
+                if (group is Match)
+                    continue;
 
-                if (attributeArray.Length % 2 == 0)
-                    for (var i = 0; i < attributeArray.Length; i += 2)
-                    {
-                        returnText.Inlines.Add(Line(attributeArray[i],
-                            lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
-                        returnText.Inlines.Add(Line("\"",
-                            lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
-                        returnText.Inlines.Add(Line(attributeArray[i + 1], Brushes.Coral));
-                        returnText.Inlines.Add(Line("\"",
-                            lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
-                    }
-                else
+                // Cast to group
+                codeMatched = (Group)group;
+
+                // Remove empty groups
+                if (string.IsNullOrEmpty(codeMatched.Value))
+                    continue;
+
+                if (codeMatched.Value.Contains("\t"))
+                {
+                    returnText.Inlines.Add(Line("  ", Brushes.Transparent));
+                }
+                else if (codeMatched.Value.Contains("/*") || codeMatched.Value.Contains("//"))
+                {
+                    returnText.Inlines.Add(Line(codeMatched.Value, Brushes.Orange));
+                }
+                else if (codeMatched.Value.Contains("<") || codeMatched.Value.Contains(">"))
+                {
                     returnText.Inlines.Add(Line(codeMatched.Value,
-                        lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
-            }
-            else if (codeMatched.Value.Contains("'"))
-            {
-                var attributeArray = codeMatched.Value.Split('\'');
-                attributeArray = attributeArray.Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
+                        lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
+                }
+                else if (codeMatched.Value.Contains("\""))
+                {
+                    var attributeArray = codeMatched.Value.Split('"');
+                    attributeArray = attributeArray.Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
 
-                if (attributeArray.Length % 2 == 0)
-                    for (var i = 0; i < attributeArray.Length; i += 2)
+                    if (attributeArray.Length % 2 == 0)
                     {
-                        returnText.Inlines.Add(Line(attributeArray[i],
-                            lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
-                        returnText.Inlines.Add(
-                            Line("'", lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
-                        returnText.Inlines.Add(Line(attributeArray[i + 1], Brushes.Coral));
-                        returnText.Inlines.Add(
-                            Line("'", lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
+                        for (var i = 0; i < attributeArray.Length; i += 2)
+                        {
+                            returnText.Inlines.Add(Line(attributeArray[i],
+                                lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
+                            returnText.Inlines.Add(Line("\"",
+                                lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
+                            returnText.Inlines.Add(Line(attributeArray[i + 1], Brushes.Coral));
+                            returnText.Inlines.Add(Line("\"",
+                                lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
+                        }
                     }
+                    else
+                    {
+                        returnText.Inlines.Add(Line(codeMatched.Value,
+                            lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
+                    }
+                }
+                else if (codeMatched.Value.Contains("'"))
+                {
+                    var attributeArray = codeMatched.Value.Split('\'');
+                    attributeArray = attributeArray.Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
+
+                    if (attributeArray.Length % 2 == 0)
+                    {
+                        for (var i = 0; i < attributeArray.Length; i += 2)
+                        {
+                            returnText.Inlines.Add(Line(attributeArray[i],
+                                lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
+                            returnText.Inlines.Add(
+                                Line("'", lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
+                            returnText.Inlines.Add(Line(attributeArray[i + 1], Brushes.Coral));
+                            returnText.Inlines.Add(
+                                Line("'", lightTheme ? Brushes.DarkCyan : Brushes.CornflowerBlue));
+                        }
+                    }
+                    else
+                    {
+                        returnText.Inlines.Add(Line(codeMatched.Value,
+                            lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
+                    }
+                }
                 else
+                {
                     returnText.Inlines.Add(Line(codeMatched.Value,
-                        lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
-            }
-            else
-            {
-                returnText.Inlines.Add(Line(codeMatched.Value,
-                    lightTheme ? Brushes.CornflowerBlue : Brushes.Aqua));
+                        lightTheme ? Brushes.CornflowerBlue : Brushes.Aqua));
+                }
             }
         }
 
@@ -145,7 +157,7 @@ internal static class Highlighter
 
     private static Run Line(string line, SolidColorBrush brush)
     {
-        return new Run(line) {Foreground = brush};
+        return new Run(line) { Foreground = brush };
     }
 
     private static bool IsLightTheme()
@@ -153,11 +165,16 @@ internal static class Highlighter
         return Theme.GetAppTheme() == ThemeType.Light;
     }
 
-    private static string GetPattern(SyntaxLanguage language, string code = "")
+    private static string GetPattern(SyntaxLanguage language)
     {
-        var pattern = "";
+        return GetPattern(language, string.Empty);
+    }
 
-        // TODO: Autodected
+    private static string GetPattern(SyntaxLanguage language, string code)
+    {
+        var pattern = string.Empty;
+
+        // TODO: Auto detected
         if (language == SyntaxLanguage.Autodetect)
             language = SyntaxLanguage.XAML;
 

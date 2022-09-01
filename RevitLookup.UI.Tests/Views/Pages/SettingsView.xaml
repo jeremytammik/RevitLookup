@@ -1,36 +1,37 @@
-﻿<rl:DynamicScrollViewer
+﻿<rl:UiPage
     x:Class="RevitLookup.UI.Tests.Views.Pages.SettingsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:rl="http://revitlookup.com/controls"
-    xmlns:pages="clr-namespace:RevitLookup.UI.Tests.ViewModels.Pages"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:pages="clr-namespace:RevitLookup.UI.Tests.Views.Pages"
     xmlns:converters="clr-namespace:RevitLookup.UI.Tests.ViewModels.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="500"
-    Style="{DynamicResource UiDynamicScrollViewer}"
-    d:DataContext="{d:DesignInstance pages:SettingsViewModel}">
-    <!-- <rl:DynamicScrollViewer.Resources> -->
-    <!--     <ResourceDictionary> -->
-    <!--         <ResourceDictionary.MergedDictionaries> -->
-    <!--             <ResourceDictionary -->
-    <!--                 Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" /> -->
-    <!--             <ResourceDictionary -->
-    <!--                 Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Light.xaml" /> -->
-    <!--         </ResourceDictionary.MergedDictionaries> -->
-    <!--     </ResourceDictionary> -->
-    <!-- </rl:DynamicScrollViewer.Resources> -->
-    <StackPanel
-        Margin="24">
+    d:DataContext="{d:DesignInstance pages:SettingsView}">
+    <rl:UiPage.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Dark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </rl:UiPage.Resources>
+    <VirtualizingStackPanel
+        Margin="24"
+        IsVirtualizing="True"
+        VirtualizationMode="Recycling">
         <rl:CardControl
-            Title="Theme"
+            Header="Theme"
             Icon="Color24">
             <ComboBox
                 MinWidth="150"
-                SelectedItem="{Binding CurrentTheme}"
-                ItemsSource="{Binding Themes}">
+                SelectedItem="{Binding ViewModel.CurrentTheme}"
+                ItemsSource="{Binding ViewModel.Themes}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock
@@ -39,21 +40,5 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </rl:CardControl>
-        <rl:CardControl
-            Title="Effect"
-            Margin="0,6,0,0"
-            Icon="ColorBackground24">
-            <ComboBox
-                MinWidth="150"
-                SelectedItem="{Binding CurrentEffect}"
-                ItemsSource="{Binding Effects}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock
-                            Text="{Binding ., Converter={converters:BackgroundTypeConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </rl:CardControl>
-    </StackPanel>
-</rl:DynamicScrollViewer>
+    </VirtualizingStackPanel>
+</rl:UiPage>
