@@ -40,13 +40,15 @@ public sealed class AboutViewModel : ObservableObject
     private UpdatingState _state;
     private string _version;
     private bool _isDownloading;
-    private string _frameworkVersion;
+    private string _netVersion;
+    private string _runtimeVersion;
 
     public AboutViewModel()
     {
         var assembly = System.Reflection.Assembly.GetExecutingAssembly();
         Version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
-        FrameworkVersion = new FrameworkName(AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName).Version.ToString();
+        NetVersion = new FrameworkName(AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName).Version.ToString();
+        RuntimeVersion = Environment.Version.ToString();
     }
 
     public UpdatingState State
@@ -70,17 +72,30 @@ public sealed class AboutViewModel : ObservableObject
             OnPropertyChanged();
         }
     }
-    
-    public string FrameworkVersion
+
+    public string NetVersion
     {
-        get => _frameworkVersion;
+        get => _netVersion;
         set
         {
-            if (value == _frameworkVersion) return;
-            _frameworkVersion = value;
+            if (value == _netVersion) return;
+            _netVersion = value;
             OnPropertyChanged();
         }
     }
+
+    public string RuntimeVersion
+    {
+        get => _runtimeVersion;
+        set
+        {
+            if (value == _runtimeVersion) return;
+            _runtimeVersion = value;
+            OnPropertyChanged();
+        }
+    }
+
+    #region TODO Move to another class
 
     public string LatestCheckDate
     {
@@ -221,4 +236,6 @@ public sealed class AboutViewModel : ObservableObject
             IsDownloading = false;
         }
     }
+
+    #endregion
 }

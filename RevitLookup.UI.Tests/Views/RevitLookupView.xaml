@@ -88,7 +88,6 @@
         </Grid>
         <rl:Dialog
             x:Name="RootDialog"
-            Title="WPF UI"
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"

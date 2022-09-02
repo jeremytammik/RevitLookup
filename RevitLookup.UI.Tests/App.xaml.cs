@@ -12,6 +12,7 @@ using RevitLookup.UI.Tests.Services;
 using RevitLookup.UI.Tests.ViewModels;
 using RevitLookup.UI.Tests.ViewModels.Pages;
 using RevitLookup.UI.Tests.Views;
+using RevitLookup.UI.Tests.Views.Dialogs;
 using RevitLookup.UI.Tests.Views.Pages;
 
 namespace RevitLookup.UI.Tests;

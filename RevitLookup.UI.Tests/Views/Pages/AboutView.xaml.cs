@@ -23,6 +23,7 @@ using RevitLookup.UI.Common.Interfaces;
 using RevitLookup.UI.Controls.Interfaces;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.UI.Tests.ViewModels.Pages;
+using RevitLookup.UI.Tests.Views.Dialogs;
 
 namespace RevitLookup.UI.Tests.Views.Pages;
 
@@ -35,12 +36,34 @@ public partial class AboutView : INavigableView<AboutViewModel>
         _dialogControl = dialogService.GetDialogControl();
         ViewModel = viewModel;
         InitializeComponent();
+        _dialogControl = dialogService.GetDialogControl();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
 
     public AboutViewModel ViewModel { get; }
 
-    private void ShowOpenSourceSoftware(object sender, RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        _dialogControl.Show("Work", "In progress");
+        _dialogControl.ButtonRightClick += DialogControlOnButtonRightClick;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        _dialogControl.ButtonRightClick -= DialogControlOnButtonRightClick;
+    }
+
+    private void ShowSoftwareDialog(object sender, RoutedEventArgs e)
+    {
+        _dialogControl.Title = "Third-Party Software";
+        _dialogControl.DialogWidth = 600;
+        _dialogControl.DialogHeight = 600;
+        _dialogControl.Content = new OpenSourceDialog();
+        _dialogControl.Show();
+    }
+
+    private void DialogControlOnButtonRightClick(object sender, RoutedEventArgs e)
+    {
+        _dialogControl.Hide();
     }
 }

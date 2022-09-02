@@ -8,6 +8,7 @@
     xmlns:converters="clr-namespace:RevitLookup.UI.Tests.ViewModels.Converters"
     xmlns:pages="clr-namespace:RevitLookup.UI.Tests.Views.Pages"
     mc:Ignorable="d"
+    Scrollable="True"
     d:DataContext="{d:DesignInstance pages:AboutView}">
     <rl:UiPage.Resources>
         <ResourceDictionary>
@@ -171,11 +172,25 @@
             <TextBlock
                 Margin="0,12,0,0">
                 <Run
-                    Text=".NET">
+                    Text=".NET:">
                 </Run>
                 <Run
-                    Text="{Binding ViewModel.FrameworkVersion}">
+                    Text="{Binding ViewModel.NetVersion}">
                 </Run>
+            </TextBlock>
+            <TextBlock
+                Margin="0,3,0,0"
+                Text="">
+                <Run
+                    Text="Runtime:">
+                </Run>
+                <Run
+                    Text="{Binding ViewModel.RuntimeVersion}">
+                </Run>
+            </TextBlock>
+            <TextBlock
+                Margin="0,3,0,0"
+                Text="Copyright © 2013-2022 Autodesk Inc.">
             </TextBlock>
 
             <rl:Hyperlink
@@ -188,14 +203,13 @@
                 Icon="Link48"
                 NavigateUri="https://github.com/jeremytammik/RevitLookup" />
             <rl:Hyperlink
-                Margin="0,12,0,0"
                 Content="Powered by open-source software"
                 Icon="Link48"
-                Click="ShowOpenSourceSoftware" />
+                Click="ShowSoftwareDialog" />
             <rl:Hyperlink
                 Content="Contact Us"
                 Icon="Link48"
-                NavigateUri="https://github.com/jeremytammik/RevitLookup/discussions/new" />
+                NavigateUri="https://github.com/jeremytammik/RevitLookup/issues/new" />
         </VirtualizingStackPanel>
     </DockPanel>
 </rl:UiPage>
