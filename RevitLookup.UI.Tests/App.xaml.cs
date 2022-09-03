@@ -3,16 +3,18 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.IO;
+using System.Reflection;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.UI.Mvvm.Services;
 using RevitLookup.UI.Tests.Services;
-using RevitLookup.UI.Tests.ViewModels;
+using RevitLookup.UI.Tests.Services.Contracts;
 using RevitLookup.UI.Tests.ViewModels.Pages;
 using RevitLookup.UI.Tests.Views;
-using RevitLookup.UI.Tests.Views.Dialogs;
 using RevitLookup.UI.Tests.Views.Pages;
 
 namespace RevitLookup.UI.Tests;
@@ -24,6 +26,18 @@ public partial class App
 {
     private static readonly IHost Host = Microsoft.Extensions.Hosting.Host
         .CreateDefaultBuilder()
+        .ConfigureAppConfiguration(builder =>
+        {
+            var assemblyLocation = Assembly.GetEntryAssembly()!.Location;
+            var assemblyDirectory = Path.GetDirectoryName(assemblyLocation)!;
+            builder.SetBasePath(assemblyDirectory);
+            builder.AddInMemoryCollection(new KeyValuePair<string, string>[]
+            {
+                new("Assembly", assemblyLocation),
+                new("ConfigFolder", Path.Combine(assemblyDirectory, "Configurations")),
+                new("DownloadFolder",  Path.Combine(assemblyDirectory, "Downloads"))
+            });
+        })
         .ConfigureServices((context, services) =>
         {
             services.AddHostedService<ApplicationHostService>();
@@ -32,20 +46,20 @@ public partial class App
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IPageService, PageService>();
-            
+            services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
+
             services.AddScoped<INavigationWindow, RevitLookupView>();
 
             services.AddScoped<AboutView>();
             services.AddScoped<AboutViewModel>();
-            
+
             services.AddScoped<DashboardView>();
             services.AddScoped<DashboardViewModel>();
-            
+
             services.AddScoped<SettingsView>();
             services.AddScoped<SettingsViewModel>();
 
             services.AddScoped<SnoopSummaryView>();
-            
         }).Build();
 
     /// <summary>

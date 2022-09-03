@@ -8,6 +8,7 @@
         <TargetFramework>net48</TargetFramework>
         <Configurations>Debug</Configurations>
         <ApplicationManifest>app.manifest</ApplicationManifest>
+        <Version>2020.2.0</Version>
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj" />

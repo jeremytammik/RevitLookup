@@ -18,19 +18,20 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Newtonsoft.Json;
+using RevitLookup.UI.Tests.Services.Enums;
 
-namespace RevitLookup.UI.Tests.ViewModels.Objects;
+namespace RevitLookup.UI.Tests.Services.Contracts;
 
-public class GutHubApiDto
+public interface ISoftwareUpdateService
 {
-    [JsonProperty("html_url")] public string Url { get; set; }
-    [JsonProperty("tag_name")] public string TagName { get; set; }
-    [JsonProperty("published_at")] public DateTimeOffset PublishedDate { get; set; }
-    [JsonProperty("assets")] public List<AssetDto> Assets { get; set; }
-}
+    public SoftwareUpdateState State { get; set; }
+    public string CurrentVersion { get; }
+    public string NewVersion { get; set; }
+    public string LatestCheckDate { get; set; }
+    public string ReleaseNotesUrl { get; set; }
+    public string ErrorMessage { get; set; }
+    public string LocalFilePath { get; set; }
 
-public class AssetDto
-{
-    [JsonProperty("browser_download_url")] public string DownloadUrl { get; set; }
+    Task CheckUpdates();
+    Task DownloadUpdate();
 }

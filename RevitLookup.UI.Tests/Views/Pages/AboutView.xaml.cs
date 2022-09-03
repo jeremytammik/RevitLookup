@@ -56,8 +56,8 @@ public partial class AboutView : INavigableView<AboutViewModel>
     private void ShowSoftwareDialog(object sender, RoutedEventArgs e)
     {
         _dialogControl.Title = "Third-Party Software";
-        _dialogControl.DialogWidth = 600;
-        _dialogControl.DialogHeight = 600;
+        _dialogControl.DialogWidth = 500;
+        _dialogControl.DialogHeight = 450;
         _dialogControl.Content = new OpenSourceDialog();
         _dialogControl.Show();
     }

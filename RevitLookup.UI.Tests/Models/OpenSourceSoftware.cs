@@ -1,4 +1,4 @@
-﻿namespace RevitLookup.UI.Tests.Models.Dialogs;
+﻿namespace RevitLookup.UI.Tests.Models;
 
 public class OpenSourceSoftware
 {

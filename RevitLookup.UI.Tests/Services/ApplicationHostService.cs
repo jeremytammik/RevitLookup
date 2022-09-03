@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using System.Diagnostics;
+using Microsoft.Extensions.Hosting;
+using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Tests.Services.Contracts;
 using RevitLookup.UI.Tests.Views;
 
 namespace RevitLookup.UI.Tests.Services;
@@ -12,14 +15,16 @@ public class ApplicationHostService : IHostedService
     private readonly IServiceProvider _serviceProvider;
     private readonly INavigationService _navigationService;
     private readonly IPageService _pageService;
+    private readonly ISoftwareUpdateService _updateService;
 
     private INavigationWindow _navigationWindow;
 
-    public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IPageService pageService)
+    public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IPageService pageService, ISoftwareUpdateService updateService)
     {
         _serviceProvider = serviceProvider;
         _navigationService = navigationService;
         _pageService = pageService;
+        _updateService = updateService;
     }
 
     /// <summary>
@@ -37,6 +42,18 @@ public class ApplicationHostService : IHostedService
     /// <param name="cancellationToken">Indicates that the shutdown process should no longer be graceful.</param>
     public async Task StopAsync(CancellationToken cancellationToken)
     {
+        if (!string.IsNullOrEmpty(_updateService.LocalFilePath))
+        {
+            try
+            {
+                Process.Start(_updateService.LocalFilePath);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
         await Task.CompletedTask;
     }
 
@@ -53,11 +70,7 @@ public class ApplicationHostService : IHostedService
             _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;
             _navigationWindow!.ShowWindow();
 
-            // NOTICE: You can set this service directly in the window 
-            // _navigationWindow.SetPageService(_pageService);
-
-            // NOTICE: In the case of this window, we navigate to the Dashboard after loading with Container.InitializeUi()
-            // _navigationWindow.Navigate(typeof(Views.Pages.Dashboard));
+            _navigationWindow.Navigate(typeof(Views.Pages.DashboardView));
         }
 
         await Task.CompletedTask;

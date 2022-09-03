@@ -18,68 +18,48 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
-using System.Net.Http;
-using System.Net.NetworkInformation;
 using System.Runtime.Versioning;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Newtonsoft.Json;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Tests.ViewModels.Enums;
-using RevitLookup.UI.Tests.ViewModels.Objects;
+using CommunityToolkit.Mvvm.Input;
+using RevitLookup.UI.Tests.Services.Contracts;
+using RevitLookup.UI.Tests.Services.Enums;
 
 namespace RevitLookup.UI.Tests.ViewModels.Pages;
 
 public sealed class AboutViewModel : ObservableObject
 {
-    private string _errorMessage;
-    private bool _isCheckedUpdates;
-    private string _latestCheckDate = "never";
-    private string _newVersion;
-    private string _releaseNotesUrl;
-    private UpdatingState _state;
-    private string _version;
-    private bool _isDownloading;
-    private string _netVersion;
+    private readonly ISoftwareUpdateService _updateService;
+    private string _dotNetVersion;
     private string _runtimeVersion;
+    private bool _isUpdateChecked;
 
-    public AboutViewModel()
+    public AboutViewModel(ISoftwareUpdateService updateService)
     {
-        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-        Version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
-        NetVersion = new FrameworkName(AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName).Version.ToString();
+        _updateService = updateService;
+        DotNetVersion = new FrameworkName(AppDomain.CurrentDomain.SetupInformation.TargetFrameworkName).Version.ToString();
         RuntimeVersion = Environment.Version.ToString();
+        CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
+        DownloadCommand = new AsyncRelayCommand(DownloadUpdate);
     }
 
-    public UpdatingState State
+    public bool IsUpdateChecked
     {
-        get => _state;
+        get => _isUpdateChecked;
         set
         {
-            if (value == _state) return;
-            _state = value;
+            if (value == _isUpdateChecked) return;
+            _isUpdateChecked = value;
             OnPropertyChanged();
         }
     }
 
-    public string Version
+    public string DotNetVersion
     {
-        get => _version;
+        get => _dotNetVersion;
         set
         {
-            if (value == _version) return;
-            _version = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string NetVersion
-    {
-        get => _netVersion;
-        set
-        {
-            if (value == _netVersion) return;
-            _netVersion = value;
+            if (value == _dotNetVersion) return;
+            _dotNetVersion = value;
             OnPropertyChanged();
         }
     }
@@ -95,147 +75,36 @@ public sealed class AboutViewModel : ObservableObject
         }
     }
 
-    #region TODO Move to another class
+    public IAsyncRelayCommand CheckUpdatesCommand { get; }
+    public IAsyncRelayCommand DownloadCommand { get; }
 
-    public string LatestCheckDate
-    {
-        get => $"Latest check: {_latestCheckDate}";
-        set
-        {
-            if (value == _latestCheckDate) return;
-            _latestCheckDate = value;
-            OnPropertyChanged();
-        }
-    }
+    #region Updater Wrapping
 
-    public string ReleaseNotesUrl
-    {
-        get => _releaseNotesUrl;
-        set
-        {
-            if (value == _releaseNotesUrl) return;
-            _releaseNotesUrl = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string NewVersion
-    {
-        get => _newVersion;
-        set
-        {
-            if (value == _newVersion) return;
-            _newVersion = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string ErrorMessage
-    {
-        get => _errorMessage;
-        set
-        {
-            if (value == _errorMessage) return;
-            _errorMessage = value;
-            OnPropertyChanged();
-        }
-    }
-
-    [JsonIgnore]
-    public bool IsCheckedUpdates
-    {
-        get => _isCheckedUpdates;
-        set
-        {
-            if (value == _isCheckedUpdates) return;
-            _isCheckedUpdates = value;
-            OnPropertyChanged();
-        }
-    }
-
-    [JsonIgnore]
-    public bool IsDownloading
-    {
-        get => _isDownloading;
-        set
-        {
-            if (value == _isDownloading) return;
-            _isDownloading = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string DownloadUrl { get; set; }
-    public string DownloadedInstallerFilename { get; set; }
-
-    public RelayCommand CheckUpdatesCommand => new(CheckUpdates);
-    public RelayCommand DownloadCommand => new(DownloadUpdate);
-
-    private async void CheckUpdates()
-    {
-        try
-        {
-            string releasesJson;
-            using (var gitHubClient = new HttpClient())
-            {
-                gitHubClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "RevitLookup");
-                releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
-            }
-
-            var releases = JsonConvert.DeserializeObject<List<GutHubApiDto>>(releasesJson);
-            if (releases is null)
-            {
-                State = UpdatingState.ErrorChecking;
-                ErrorMessage = "GitHub server unavailable to check for updates";
-            }
-            else
-            {
-                var latestRelease = releases.OrderByDescending(release => release.PublishedDate).First();
-                var newVersion = new Version(latestRelease.TagName);
-                if (newVersion > new Version(Version))
-                {
-                    State = UpdatingState.ReadyToDownload;
-                    NewVersion = newVersion.ToString(3);
-                    DownloadUrl = latestRelease.Assets[0].DownloadUrl;
-                    ReleaseNotesUrl = latestRelease.Url;
-                }
-                else
-                {
-                    State = UpdatingState.UpToDate;
-                }
-            }
-        }
-        catch
-        {
-            State = UpdatingState.ErrorChecking;
-            ErrorMessage = "An error occurred while checking for updates";
-        }
-        finally
-        {
-            IsCheckedUpdates = true;
-            LatestCheckDate = DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
-        }
-    }
-
-    private async void DownloadUpdate()
-    {
-        IsDownloading = true;
-        State = UpdatingState.ReadyToDownload;
-        try
-        {
-            await Task.Run(() => Thread.Sleep(TimeSpan.FromSeconds(3)));
-            throw new NetworkInformationException();
-        }
-        catch
-        {
-            State = UpdatingState.ErrorDownloading;
-            ErrorMessage = "An error occurred while downloading the update";
-        }
-        finally
-        {
-            IsDownloading = false;
-        }
-    }
+    public SoftwareUpdateState State => _updateService.State;
+    public string CurrentVersion => _updateService.CurrentVersion;
+    public string NewVersion => _updateService.NewVersion;
+    public string ErrorMessage => _updateService.ErrorMessage;
+    public string ReleaseNotesUrl => _updateService.ReleaseNotesUrl;
+    public string LatestCheckDate => _updateService.LatestCheckDate;
 
     #endregion
+
+
+    private async Task CheckUpdates()
+    {
+        await _updateService.CheckUpdates();
+        IsUpdateChecked = true;
+        OnPropertyChanged(nameof(State));
+        OnPropertyChanged(nameof(NewVersion));
+        OnPropertyChanged(nameof(ErrorMessage));
+        OnPropertyChanged(nameof(LatestCheckDate));
+        OnPropertyChanged(nameof(ReleaseNotesUrl));
+    }
+
+    private async Task DownloadUpdate()
+    {
+        await _updateService.DownloadUpdate();
+        OnPropertyChanged(nameof(State));
+        OnPropertyChanged(nameof(ErrorMessage));
+    }
 }

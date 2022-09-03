@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.UI.Appearance;
@@ -90,6 +91,66 @@ public class InverseBooleanConverter : MarkupExtension, IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         return value is not null && !(bool) value;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Convert(value, targetType, parameter, culture);
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+[ValueConversion(typeof(bool), typeof(bool))]
+public class StringVisibilityConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not string text) return Visibility.Collapsed;
+        return string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Convert(value, targetType, parameter, culture);
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+[ValueConversion(typeof(bool), typeof(bool))]
+public class BoolVisibilityConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not bool b) return Visibility.Collapsed;
+        return b ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Convert(value, targetType, parameter, culture);
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+[ValueConversion(typeof(bool), typeof(bool))]
+public class InverseBoolVisibilityConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not bool b) return Visibility.Collapsed;
+        return b ? Visibility.Collapsed : Visibility.Visible;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

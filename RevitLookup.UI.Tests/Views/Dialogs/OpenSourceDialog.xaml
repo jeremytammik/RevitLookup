@@ -21,12 +21,13 @@
         ItemsSource="{Binding Software}">
         <DataGrid.Columns>
             <DataGridHyperlinkColumn
-                Width="400"
+                Width="2*"
                 Binding="{Binding SoftwareUri}"
                 ContentBinding="{Binding SoftwareName}"
                 Header="Software">
             </DataGridHyperlinkColumn>
             <DataGridHyperlinkColumn
+                Width="*"
                 Binding="{Binding LicenseUri}"
                 ContentBinding="{Binding LicenseName}"
                 Header="License">

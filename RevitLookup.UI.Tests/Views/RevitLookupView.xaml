@@ -9,6 +9,8 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="500"
+    MinWidth="550"
+    MinHeight="350"
     ExtendsContentIntoTitleBar="True"
     WindowBackdropType="Mica"
     WindowStartupLocation="CenterScreen">
