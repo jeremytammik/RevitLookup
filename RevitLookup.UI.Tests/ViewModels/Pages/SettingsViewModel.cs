@@ -37,7 +37,6 @@ public sealed class SettingsViewModel : ObservableObject
 
     public List<ThemeType> Themes { get; } = new()
     {
-        ThemeType.Auto,
         ThemeType.Dark,
         ThemeType.Light
     };

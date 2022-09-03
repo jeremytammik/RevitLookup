@@ -65,10 +65,10 @@ public class ThemeTypeConverter : MarkupExtension, IValueConverter
         var themeType = (ThemeType) value;
         return themeType switch
         {
-            ThemeType.Unknown => "Invalid",
-            ThemeType.Auto => "Windows default",
             ThemeType.Dark => "Dark",
             ThemeType.Light => "Light",
+            ThemeType.Unknown => "Invalid",
+            ThemeType.Auto => "Windows default",
             ThemeType.HighContrast => "High contrast",
             _ => throw new ArgumentOutOfRangeException()
         };
@@ -104,7 +104,7 @@ public class InverseBooleanConverter : MarkupExtension, IValueConverter
     }
 }
 
-[ValueConversion(typeof(bool), typeof(bool))]
+[ValueConversion(typeof(bool), typeof(Visibility))]
 public class StringVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -124,7 +124,7 @@ public class StringVisibilityConverter : MarkupExtension, IValueConverter
     }
 }
 
-[ValueConversion(typeof(bool), typeof(bool))]
+[ValueConversion(typeof(bool), typeof(Visibility))]
 public class BoolVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -144,7 +144,7 @@ public class BoolVisibilityConverter : MarkupExtension, IValueConverter
     }
 }
 
-[ValueConversion(typeof(bool), typeof(bool))]
+[ValueConversion(typeof(bool), typeof(Visibility))]
 public class InverseBoolVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

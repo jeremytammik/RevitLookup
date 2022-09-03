@@ -29,6 +29,5 @@ public sealed class DashboardViewModel : ObservableObject
 
     public RelayCommand SnoopSelectionCommand => _snoopSelectionCommand ??= new RelayCommand(o =>
     {
-        
     });
 }

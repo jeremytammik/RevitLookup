@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:RevitLookup.UI.Tests.Views"
     xmlns:dialogs="clr-namespace:RevitLookup.UI.Tests.ViewModels.Dialogs"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance dialogs:OpenSourceDialogViewModel}">
@@ -24,14 +23,12 @@
                 Width="2*"
                 Binding="{Binding SoftwareUri}"
                 ContentBinding="{Binding SoftwareName}"
-                Header="Software">
-            </DataGridHyperlinkColumn>
+                Header="Software" />
             <DataGridHyperlinkColumn
                 Width="*"
                 Binding="{Binding LicenseUri}"
                 ContentBinding="{Binding LicenseName}"
-                Header="License">
-            </DataGridHyperlinkColumn>
+                Header="License" />
         </DataGrid.Columns>
     </DataGrid>
 </Grid>

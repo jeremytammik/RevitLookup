@@ -17,10 +17,9 @@
     <rl:UiWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Dark.xaml" />
+                <rl:ThemesDictionary
+                    Theme="Dark" />
+                <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </rl:UiWindow.Resources>
@@ -39,7 +38,7 @@
                 <rl:NavigationItem
                     PageType="{x:Type pages:DashboardView}"
                     Content="Dashboard"
-                    Icon="AppGeneric24"/>
+                    Icon="AppGeneric24" />
                 <rl:NavigationItem
                     PageType="{x:Type pages:SnoopSummaryView}"
                     Content="Snoop summary"
@@ -93,13 +92,13 @@
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            ButtonLeftVisibility="Collapsed"/>
+            ButtonLeftVisibility="Collapsed" />
         <rl:TitleBar
             Title="RevitLookup"
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             UseSnapLayout="True"
-            Margin="42,0,0,0"/>
+            Margin="42,0,0,0" />
     </Grid>
 </rl:UiWindow>

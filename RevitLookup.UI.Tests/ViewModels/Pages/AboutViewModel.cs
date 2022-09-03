@@ -30,8 +30,8 @@ public sealed class AboutViewModel : ObservableObject
 {
     private readonly ISoftwareUpdateService _updateService;
     private string _dotNetVersion;
-    private string _runtimeVersion;
     private bool _isUpdateChecked;
+    private string _runtimeVersion;
 
     public AboutViewModel(ISoftwareUpdateService updateService)
     {
@@ -78,18 +78,6 @@ public sealed class AboutViewModel : ObservableObject
     public IAsyncRelayCommand CheckUpdatesCommand { get; }
     public IAsyncRelayCommand DownloadCommand { get; }
 
-    #region Updater Wrapping
-
-    public SoftwareUpdateState State => _updateService.State;
-    public string CurrentVersion => _updateService.CurrentVersion;
-    public string NewVersion => _updateService.NewVersion;
-    public string ErrorMessage => _updateService.ErrorMessage;
-    public string ReleaseNotesUrl => _updateService.ReleaseNotesUrl;
-    public string LatestCheckDate => _updateService.LatestCheckDate;
-
-    #endregion
-
-
     private async Task CheckUpdates()
     {
         await _updateService.CheckUpdates();
@@ -107,4 +95,15 @@ public sealed class AboutViewModel : ObservableObject
         OnPropertyChanged(nameof(State));
         OnPropertyChanged(nameof(ErrorMessage));
     }
+
+    #region Updater Wrapping
+
+    public SoftwareUpdateState State => _updateService.State;
+    public string CurrentVersion => _updateService.CurrentVersion;
+    public string NewVersion => _updateService.NewVersion;
+    public string ErrorMessage => _updateService.ErrorMessage;
+    public string ReleaseNotesUrl => _updateService.ReleaseNotesUrl;
+    public string LatestCheckDate => _updateService.LatestCheckDate;
+
+    #endregion
 }

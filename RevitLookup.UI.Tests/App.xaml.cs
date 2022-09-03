@@ -20,7 +20,7 @@ using RevitLookup.UI.Tests.Views.Pages;
 namespace RevitLookup.UI.Tests;
 
 /// <summary>
-/// Interaction logic for App.xaml
+///     Interaction logic for App.xaml
 /// </summary>
 public partial class App
 {
@@ -35,7 +35,7 @@ public partial class App
             {
                 new("Assembly", assemblyLocation),
                 new("ConfigFolder", Path.Combine(assemblyDirectory, "Configurations")),
-                new("DownloadFolder",  Path.Combine(assemblyDirectory, "Downloads"))
+                new("DownloadFolder", Path.Combine(assemblyDirectory, "Downloads"))
             });
         })
         .ConfigureServices((context, services) =>
@@ -63,17 +63,17 @@ public partial class App
         }).Build();
 
     /// <summary>
-    /// Gets registered service.
+    ///     Gets registered service.
     /// </summary>
     /// <typeparam name="T">Type of the service to get.</typeparam>
-    /// <returns>Instance of the service or <see langword="null"/>.</returns>
+    /// <returns>Instance of the service or <see langword="null" />.</returns>
     public static T GetService<T>() where T : class
     {
         return Host.Services.GetService(typeof(T)) as T;
     }
 
     /// <summary>
-    /// Occurs when the application is loading.
+    ///     Occurs when the application is loading.
     /// </summary>
     private async void OnStartup(object sender, StartupEventArgs e)
     {
@@ -81,7 +81,7 @@ public partial class App
     }
 
     /// <summary>
-    /// Occurs when the application is closing.
+    ///     Occurs when the application is closing.
     /// </summary>
     private async void OnExit(object sender, ExitEventArgs e)
     {

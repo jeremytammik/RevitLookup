@@ -23,7 +23,7 @@ using RevitLookup.UI.Tests.ViewModels.Pages;
 
 namespace RevitLookup.UI.Tests.Views.Pages;
 
-public partial class SettingsView: INavigableView<SettingsViewModel>
+public partial class SettingsView : INavigableView<SettingsViewModel>
 {
     public SettingsView(SettingsViewModel viewModel)
     {

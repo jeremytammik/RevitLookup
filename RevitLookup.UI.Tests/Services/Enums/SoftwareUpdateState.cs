@@ -18,13 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.UI.Tests.ViewModels.Enums;
+namespace RevitLookup.UI.Tests.Services.Enums;
 
-public enum UpdatingState
+public enum SoftwareUpdateState
 {
     UpToDate,
     ErrorDownloading,
     ErrorChecking,
     ReadyToDownload,
-    ReadyToInstall,
+    ReadyToInstall
 }

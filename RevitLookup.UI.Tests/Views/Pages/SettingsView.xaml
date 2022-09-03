@@ -14,10 +14,9 @@
     <rl:UiPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/RevitLookup.UI.xaml" />
-                <ResourceDictionary
-                    Source="pack://application:,,,/RevitLookup.UI;component/Styles/Theme/Dark.xaml" />
+                <rl:ThemesDictionary
+                    Theme="Dark" />
+                <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </rl:UiPage.Resources>

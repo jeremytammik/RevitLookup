@@ -33,6 +33,7 @@ namespace RevitLookup.UI.Tests.Services;
 public class SoftwareUpdateService : ISoftwareUpdateService
 {
     private readonly IConfiguration _configuration;
+    private string _downloadUrl;
 
     public SoftwareUpdateService(IConfiguration configuration)
     {
@@ -47,20 +48,18 @@ public class SoftwareUpdateService : ISoftwareUpdateService
     public string LatestCheckDate { get; set; }
     public string ReleaseNotesUrl { get; set; }
     public string ErrorMessage { get; set; }
-    public string DownloadUrl { get; set; }
     public string LocalFilePath { get; set; }
+
     public async Task CheckUpdates()
     {
         try
         {
             if (!string.IsNullOrEmpty(LocalFilePath))
-            {
                 if (LocalFilePath.Contains(NewVersion))
                 {
                     State = SoftwareUpdateState.ReadyToInstall;
                     return;
                 }
-            }
 
             string releasesJson;
             using (var gitHubClient = new HttpClient())
@@ -79,11 +78,10 @@ public class SoftwareUpdateService : ISoftwareUpdateService
             {
                 var latestRelease = releases.OrderByDescending(release => release.PublishedDate).First();
                 var releaseTag = new Version(latestRelease.TagName);
-                
+
                 var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
                 var newVersion = releaseTag.ToString(3);
                 foreach (var file in Directory.EnumerateFiles(downloadFolder))
-                {
                     if (file.Contains(newVersion))
                     {
                         LocalFilePath = file;
@@ -91,13 +89,12 @@ public class SoftwareUpdateService : ISoftwareUpdateService
                         State = SoftwareUpdateState.ReadyToInstall;
                         return;
                     }
-                }
-                
+
                 if (releaseTag > new Version(CurrentVersion))
                 {
                     State = SoftwareUpdateState.ReadyToDownload;
                     NewVersion = newVersion;
-                    DownloadUrl = latestRelease.Assets[0].DownloadUrl;
+                    _downloadUrl = latestRelease.Assets[0].DownloadUrl;
                     ReleaseNotesUrl = latestRelease.Url;
                 }
                 else
@@ -110,7 +107,7 @@ public class SoftwareUpdateService : ISoftwareUpdateService
         {
             State = SoftwareUpdateState.ErrorChecking;
             ErrorMessage = "An error occurred while checking for updates. GitHub request limit exceeded";
-        }   
+        }
         catch
         {
             State = SoftwareUpdateState.ErrorChecking;
@@ -129,9 +126,9 @@ public class SoftwareUpdateService : ISoftwareUpdateService
             var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
             Directory.CreateDirectory(downloadFolder);
             var fileName = Path.Combine(downloadFolder, $"RevitLookup-{NewVersion}.msi");
-            
+
             using var webClient = new WebClient();
-            await webClient.DownloadFileTaskAsync(DownloadUrl, fileName);
+            await webClient.DownloadFileTaskAsync(_downloadUrl, fileName);
             LocalFilePath = fileName;
             State = SoftwareUpdateState.ReadyToInstall;
         }
