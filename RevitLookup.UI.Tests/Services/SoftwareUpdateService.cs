@@ -33,8 +33,8 @@ namespace RevitLookup.UI.Tests.Services;
 
 public class SoftwareUpdateService : ISoftwareUpdateService
 {
-    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     private readonly IConfiguration _configuration;
+    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     private string _downloadUrl;
 
     public SoftwareUpdateService(IConfiguration configuration)
@@ -107,7 +107,6 @@ public class SoftwareUpdateService : ISoftwareUpdateService
                 // Checking downloaded releases
                 var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
                 if (Directory.Exists(downloadFolder))
-                {
                     foreach (var file in Directory.EnumerateFiles(downloadFolder))
                         if (file.Contains(newVersionTag.ToString(3)))
                         {
@@ -115,7 +114,6 @@ public class SoftwareUpdateService : ISoftwareUpdateService
                             State = SoftwareUpdateState.ReadyToInstall;
                             return;
                         }
-                }
 
                 State = SoftwareUpdateState.ReadyToDownload;
                 ReleaseNotesUrl = latestRelease.Url;

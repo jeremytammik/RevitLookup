@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.IO;
@@ -26,7 +25,7 @@ partial class Build : NukeBuild
         if (configurations.Count == 0) throw new Exception($"Can't find configurations in the solution by patterns: {string.Join(" | ", startPatterns)}.");
         return configurations;
     }
-    
+
     IEnumerable<DirectoryInfo> EnumerateBuildDirectories()
     {
         var directories = new List<DirectoryInfo>();

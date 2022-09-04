@@ -10,10 +10,10 @@ using Serilog;
 
 partial class Build
 {
+    readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
     [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
     readonly Regex VersionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     [Parameter] string GitHubToken { get; set; }
-    readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
 
     Target PublishGitHubRelease => _ => _
         .TriggeredBy(CreateInstaller)

@@ -25,12 +25,12 @@ partial class Build
                 .ToList();
 
             var exeFile = installerProject.GetExePath(BuildConfiguration);
-            
+
             foreach (var buildDirectory in buildDirectories)
             {
                 var proc = new Process();
                 proc.StartInfo.FileName = exeFile;
-                proc.StartInfo.Arguments = BuildExeArguments(new []{buildDirectory});
+                proc.StartInfo.Arguments = BuildExeArguments(new[] {buildDirectory});
                 proc.StartInfo.RedirectStandardOutput = true;
                 proc.Start();
                 while (!proc.StandardOutput.EndOfStream) ParseProcessOutput(proc.StandardOutput.ReadLine());
