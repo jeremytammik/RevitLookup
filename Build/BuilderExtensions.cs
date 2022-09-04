@@ -9,7 +9,7 @@ static class BuilderExtensions
 
     public static AbsolutePath GetBinDirectory(this Project project) => project.Directory / "bin";
 
-    static AbsolutePath GetExePath(this Project project, string configuration) => project.GetBinDirectory() / configuration / $"{project.Name}.exe";
+    public static AbsolutePath GetExePath(this Project project, string configuration) => project.GetBinDirectory() / configuration / $"{project.Name}.exe";
 
     public static AbsolutePath GetExecutableFile(this Project project, IEnumerable<string> configurations, List<DirectoryInfo> directories)
     {

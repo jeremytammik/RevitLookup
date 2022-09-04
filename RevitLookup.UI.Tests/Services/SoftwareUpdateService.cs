@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using RevitLookup.UI.Tests.Models;
@@ -32,6 +33,7 @@ namespace RevitLookup.UI.Tests.Services;
 
 public class SoftwareUpdateService : ISoftwareUpdateService
 {
+    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     private readonly IConfiguration _configuration;
     private string _downloadUrl;
 
@@ -69,44 +71,66 @@ public class SoftwareUpdateService : ISoftwareUpdateService
             }
 
             var releases = JsonConvert.DeserializeObject<List<GutHubResponse>>(releasesJson);
-            if (releases is null)
+            if (releases is not null)
+            {
+                var latestRelease = releases.OrderByDescending(release => release.PublishedDate).First();
+                var currentTag = new Version(CurrentVersion);
+
+                // Finding a new version
+                Version newVersionTag = null;
+                foreach (var asset in latestRelease.Assets)
+                {
+                    var match = _versionRegex.Match(asset.Name);
+                    if (!match.Success) continue;
+
+                    if (match.Value.StartsWith(currentTag.Major.ToString()))
+                    {
+                        newVersionTag = new Version(match.Value);
+                        _downloadUrl = asset.DownloadUrl;
+                    }
+                }
+
+                // Checking available releases
+                if (newVersionTag is null)
+                {
+                    State = SoftwareUpdateState.UpToDate;
+                    return;
+                }
+
+                // Checking for a new release version
+                if (newVersionTag <= currentTag)
+                {
+                    State = SoftwareUpdateState.UpToDate;
+                    return;
+                }
+
+                // Checking downloaded releases
+                var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
+                if (Directory.Exists(downloadFolder))
+                {
+                    foreach (var file in Directory.EnumerateFiles(downloadFolder))
+                        if (file.Contains(newVersionTag.ToString(3)))
+                        {
+                            LocalFilePath = file;
+                            State = SoftwareUpdateState.ReadyToInstall;
+                            return;
+                        }
+                }
+
+                State = SoftwareUpdateState.ReadyToDownload;
+                ReleaseNotesUrl = latestRelease.Url;
+                NewVersion = newVersionTag.ToString(3);
+            }
+            else
             {
                 State = SoftwareUpdateState.ErrorChecking;
                 ErrorMessage = "GitHub server unavailable to check for updates";
             }
-            else
-            {
-                var latestRelease = releases.OrderByDescending(release => release.PublishedDate).First();
-                var releaseTag = new Version(latestRelease.TagName);
-
-                var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
-                var newVersion = releaseTag.ToString(3);
-                foreach (var file in Directory.EnumerateFiles(downloadFolder))
-                    if (file.Contains(newVersion))
-                    {
-                        LocalFilePath = file;
-                        NewVersion = newVersion;
-                        State = SoftwareUpdateState.ReadyToInstall;
-                        return;
-                    }
-
-                if (releaseTag > new Version(CurrentVersion))
-                {
-                    State = SoftwareUpdateState.ReadyToDownload;
-                    NewVersion = newVersion;
-                    _downloadUrl = latestRelease.Assets[0].DownloadUrl;
-                    ReleaseNotesUrl = latestRelease.Url;
-                }
-                else
-                {
-                    State = SoftwareUpdateState.UpToDate;
-                }
-            }
         }
         catch (HttpRequestException)
         {
-            State = SoftwareUpdateState.ErrorChecking;
-            ErrorMessage = "An error occurred while checking for updates. GitHub request limit exceeded";
+            // GitHub request limit exceeded
+            State = SoftwareUpdateState.UpToDate;
         }
         catch
         {

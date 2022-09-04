@@ -15,36 +15,22 @@ partial class Build
         .OnlyWhenStatic(() => IsLocalBuild || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
-            var installerProject = BuilderExtensions.GetProject(Solution, InstallerProject);
-            var buildDirectories = GetBuildDirectories();
-            var configurations = GetConfigurations(InstallerConfiguration);
-
             var releasesDirectory = Solution.Directory / "Releases";
-            var releasesInfos = new DirectoryInfo(releasesDirectory)
-                .EnumerateDirectories()
-                .OrderByDescending(info => info.Name)
+            var installerProject = BuilderExtensions.GetProject(Solution, InstallerProject);
+
+            var buildDirectories = EnumerateBuildDirectories()
+                .Concat(new DirectoryInfo(releasesDirectory).EnumerateDirectories())
                 .Select(info => info.FullName)
+                .OrderByDescending(info => info)
                 .ToList();
 
-            foreach (var directoryGroup in buildDirectories)
+            var exeFile = installerProject.GetExePath(BuildConfiguration);
+            
+            foreach (var buildDirectory in buildDirectories)
             {
-                var directories = directoryGroup
-                    .OrderByDescending(info => info.Name)
-                    .ToList();
-                var exeArguments = BuildExeArguments(directories
-                    .Select(info => info.FullName)
-                    .Concat(releasesInfos)
-                    .ToList());
-                var exeFile = installerProject.GetExecutableFile(configurations, directories);
-                if (string.IsNullOrEmpty(exeFile))
-                {
-                    Log.Warning("No installer executable was found for these packages:\n {Directories}", string.Join("\n", directories));
-                    continue;
-                }
-
                 var proc = new Process();
                 proc.StartInfo.FileName = exeFile;
-                proc.StartInfo.Arguments = exeArguments;
+                proc.StartInfo.Arguments = BuildExeArguments(new []{buildDirectory});
                 proc.StartInfo.RedirectStandardOutput = true;
                 proc.Start();
                 while (!proc.StandardOutput.EndOfStream) ParseProcessOutput(proc.StandardOutput.ReadLine());

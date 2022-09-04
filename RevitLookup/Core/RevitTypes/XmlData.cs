@@ -48,7 +48,7 @@ public class XmlData : Data
                 xmlDoc.LoadXml(_value);
             return xmlDoc;
         }
-        catch (XmlException e)
+        catch (XmlException)
         {
             
         }

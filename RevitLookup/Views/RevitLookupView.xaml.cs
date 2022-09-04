@@ -30,9 +30,6 @@ public partial class RevitLookupView
         UI.Application.Current = this;
         InitializeComponent();
         var lookupViewModel = new RevitLookupViewModel();
-        DashboardNavigationItem.Page = new DashboardView(lookupViewModel);
-        SettingsNavigationItem.Page = new SettingsView(lookupViewModel);
-        AboutNavigationItem.Page = new AboutView(lookupViewModel);
         DataContext = lookupViewModel;
     }
 }

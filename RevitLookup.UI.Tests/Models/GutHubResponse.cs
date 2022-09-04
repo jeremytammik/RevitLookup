@@ -32,5 +32,6 @@ public class GutHubResponse
 
 public class GutHubResponseAsset
 {
+    [JsonProperty("name")] public string Name { get; set; }
     [JsonProperty("browser_download_url")] public string DownloadUrl { get; set; }
 }

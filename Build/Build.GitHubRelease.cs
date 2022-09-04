@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Nuke.Common;
 using Nuke.Common.Git;
+using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using Octokit;
@@ -10,8 +11,9 @@ using Serilog;
 partial class Build
 {
     [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
-    [Parameter] string GitHubToken { get; set; }
     readonly Regex VersionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
+    [Parameter] string GitHubToken { get; set; }
+    readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
 
     Target PublishGitHubRelease => _ => _
         .TriggeredBy(CreateInstaller)
@@ -20,7 +22,7 @@ partial class Build
         .Requires(() => GitVersion)
         .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch())
         .OnlyWhenStatic(() => IsServerBuild)
-        .Executes(() =>
+        .Executes(async () =>
         {
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(Solution.Name))
             {
@@ -32,7 +34,7 @@ partial class Build
             var artifacts = Directory.GetFiles(ArtifactsDirectory, "*");
             var version = GetProductVersion(artifacts);
 
-            CheckTags(gitHubOwner, gitHubName, version);
+            await CheckTagsAsync(gitHubOwner, gitHubName, version);
             Log.Information("Detected Tag: {Version}", version);
 
             var newRelease = new NewRelease(version)
@@ -43,9 +45,9 @@ partial class Build
                 TargetCommitish = GitVersion.Sha
             };
 
-            var draft = CreatedDraft(gitHubOwner, gitHubName, newRelease);
-            UploadArtifacts(draft, artifacts);
-            ReleaseDraft(gitHubOwner, gitHubName, draft);
+            var draft = await CreatedDraftAsync(gitHubOwner, gitHubName, newRelease);
+            await UploadArtifactsAsync(draft, artifacts);
+            await ReleaseDraftAsync(gitHubOwner, gitHubName, draft);
         });
 
     string CreateChangelog(string version)
@@ -80,12 +82,9 @@ partial class Build
         return logBuilder.ToString();
     }
 
-    static void CheckTags(string gitHubOwner, string gitHubName, string version)
+    static async Task CheckTagsAsync(string gitHubOwner, string gitHubName, string version)
     {
-        var gitHubTags = GitHubTasks.GitHubClient.Repository
-            .GetAllTags(gitHubOwner, gitHubName)
-            .Result;
-
+        var gitHubTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
         if (gitHubTags.Select(tag => tag.Name).Contains(version)) throw new ArgumentException($"The repository already contains a Release with the tag: {version}");
     }
 
@@ -112,7 +111,7 @@ partial class Build
         return stringVersion;
     }
 
-    static void UploadArtifacts(Release createdRelease, IEnumerable<string> artifacts)
+    static async Task UploadArtifactsAsync(Release createdRelease, IEnumerable<string> artifacts)
     {
         foreach (var file in artifacts)
         {
@@ -122,20 +121,15 @@ partial class Build
                 FileName = Path.GetFileName(file),
                 RawData = File.OpenRead(file)
             };
-            var _ = GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload).Result;
+
+            await GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload);
             Log.Information("Added artifact: {Path}", file);
         }
     }
 
-    static Release CreatedDraft(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
-        GitHubTasks.GitHubClient.Repository.Release
-            .Create(gitHubOwner, gitHubName, newRelease)
-            .Result;
+    static async Task<Release> CreatedDraftAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
+        await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
 
-    static void ReleaseDraft(string gitHubOwner, string gitHubName, Release draft)
-    {
-        var _ = GitHubTasks.GitHubClient.Repository.Release
-            .Edit(gitHubOwner, gitHubName, draft.Id, new ReleaseUpdate {Draft = false})
-            .Result;
-    }
+    static async Task ReleaseDraftAsync(string gitHubOwner, string gitHubName, Release draft) =>
+        await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draft.Id, new ReleaseUpdate {Draft = false});
 }

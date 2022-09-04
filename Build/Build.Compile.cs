@@ -1,7 +1,6 @@
 ﻿using Nuke.Common;
-using Nuke.Common.Tooling;
-using Nuke.Common.Tools.MSBuild;
-using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
+using Nuke.Common.Tools.DotNet;
+using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 partial class Build
 {
@@ -9,16 +8,17 @@ partial class Build
         .TriggeredBy(Cleaning)
         .Executes(() =>
         {
-            var configurations = GetConfigurations(BuildConfiguration, InstallerConfiguration);
-            configurations.ForEach(configuration =>
+            var buildConfig = GetConfigurations(BuildConfiguration, InstallerConfiguration);
+            buildConfig.ForEach(configuration =>
             {
-                MSBuild(s => s
-                    .SetTargets("Rebuild")
-                    .SetProcessToolPath(MsBuildPath.Value)
-                    .SetConfiguration(configuration)
-                    .SetVerbosity(MSBuildVerbosity.Minimal)
-                    .DisableNodeReuse()
-                    .EnableRestore());
+                DotNetBuild(settings =>
+                {
+                    if (VersionMap.ContainsKey(configuration))
+                        settings = settings.SetVersion(VersionMap[configuration]);
+
+                    return settings.SetConfiguration(configuration)
+                        .SetVerbosity(DotNetVerbosity.Minimal);
+                });
             });
         });
 }
