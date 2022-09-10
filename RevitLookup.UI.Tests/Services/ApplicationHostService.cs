@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.UI.Tests.Services.Contracts;
@@ -42,15 +43,10 @@ public class ApplicationHostService : IHostedService
     /// <param name="cancellationToken">Indicates that the shutdown process should no longer be graceful.</param>
     public async Task StopAsync(CancellationToken cancellationToken)
     {
-        if (!string.IsNullOrEmpty(_updateService.LocalFilePath))
-            try
-            {
-                Process.Start(_updateService.LocalFilePath);
-            }
-            catch
-            {
-                // ignored
-            }
+        if (File.Exists(_updateService.LocalFilePath))
+        {
+            Process.Start(_updateService.LocalFilePath);
+        }
 
         await Task.CompletedTask;
     }

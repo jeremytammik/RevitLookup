@@ -26,6 +26,8 @@ public class GutHubResponse
 {
     [JsonProperty("html_url")] public string Url { get; set; }
     [JsonProperty("tag_name")] public string TagName { get; set; }
+    [JsonProperty("draft")] public bool Draft { get; set; }
+    [JsonProperty("prerelease")] public bool PreRelease { get; set; }
     [JsonProperty("published_at")] public DateTimeOffset PublishedDate { get; set; }
     [JsonProperty("assets")] public List<GutHubResponseAsset> Assets { get; set; }
 }

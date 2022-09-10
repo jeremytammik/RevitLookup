@@ -73,11 +73,15 @@ public class SoftwareUpdateService : ISoftwareUpdateService
             var releases = JsonConvert.DeserializeObject<List<GutHubResponse>>(releasesJson);
             if (releases is not null)
             {
-                var latestRelease = releases.OrderByDescending(release => release.PublishedDate).First();
-                var currentTag = new Version(CurrentVersion);
+                var latestRelease = releases
+                    .Where(response => !response.Draft)
+                    .Where(response => !response.PreRelease)
+                    .OrderByDescending(release => release.PublishedDate)
+                    .First();
 
                 // Finding a new version
                 Version newVersionTag = null;
+                var currentTag = new Version(CurrentVersion);
                 foreach (var asset in latestRelease.Assets)
                 {
                     var match = _versionRegex.Match(asset.Name);

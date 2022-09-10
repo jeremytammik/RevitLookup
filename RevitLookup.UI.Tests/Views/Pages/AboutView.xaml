@@ -210,7 +210,7 @@
                     Text="{Binding ViewModel.DotNetVersion}" />
             </TextBlock>
             <TextBlock
-                Margin="0,3,0,0"
+                Margin="0,6,0,0"
                 Text="">
                 <Run
                     Text="Runtime:" />
@@ -218,7 +218,7 @@
                     Text="{Binding ViewModel.RuntimeVersion}" />
             </TextBlock>
             <TextBlock
-                Margin="0,3,0,0"
+                Margin="0,6,0,0"
                 Text="Copyright © 2013-2022 Autodesk Inc." />
             <rl:Hyperlink
                 Margin="0,12,0,0"
