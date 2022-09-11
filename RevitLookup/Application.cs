@@ -125,10 +125,7 @@ public class Application : ExternalApplication
     private static void UpdateSoftware()
     {
         var updateService = GetService<ISoftwareUpdateService>();
-        if (File.Exists(updateService.LocalFilePath))
-        {
-            Process.Start(updateService.LocalFilePath);
-        }
+        if (File.Exists(updateService.LocalFilePath)) Process.Start(updateService.LocalFilePath);
     }
 
     /// <summary>
@@ -139,7 +136,7 @@ public class Application : ExternalApplication
     public static T GetService<T>() where T : class
     {
         return _host.Services.GetService(typeof(T)) as T;
-    } 
+    }
 
     /// <summary>
     ///     Gets registered service.
@@ -149,5 +146,5 @@ public class Application : ExternalApplication
     public static INavigationWindow Show()
     {
         return _host.Services.GetService(typeof(INavigationWindow)) as INavigationWindow;
-    } 
+    }
 }

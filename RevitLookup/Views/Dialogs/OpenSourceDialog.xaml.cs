@@ -20,7 +20,6 @@
 
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using RevitLookup.ViewModels.Dialogs;
 
@@ -32,7 +31,6 @@ public partial class OpenSourceDialog
     {
         InitializeComponent();
         DataContext = new OpenSourceDialogViewModel();
-        // EventManager.RegisterClassHandler(typeof(TextBlock), Hyperlink.ClickEvent, new RoutedEventHandler(OpenLink));
     }
 
     private void OpenLink(object sender, RoutedEventArgs e)
