@@ -19,26 +19,17 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using RevitLookup.Commands.Handlers;
-using RevitLookup.Core;
-using RevitLookup.Views;
+using Nice3point.Revit.Toolkit.External;
+using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
 
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
-public class DashboardCommand : IExternalCommand
+public class DashboardCommand : ExternalCommand
 {
-    public static readonly CollectDataHandler CollectDataHandler = new();
-    public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+    public override void Execute()
     {
-        RevitApi.UiApplication = commandData.Application;
-        
-        var view = new RevitLookupView();
-        view.Show();
-
-        return Result.Succeeded;
+        RevitLookup.Application.Show().Navigate(typeof(DashboardView));
     }
 }

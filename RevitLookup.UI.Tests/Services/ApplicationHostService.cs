@@ -58,7 +58,6 @@ public class ApplicationHostService : IHostedService
     {
         await Task.CompletedTask;
 
-        _navigationService.SetPageService(_pageService);
         if (!System.Windows.Application.Current.Windows.OfType<RevitLookupView>().Any())
         {
             _navigationWindow = _serviceProvider.GetService(typeof(INavigationWindow)) as INavigationWindow;

@@ -22,10 +22,9 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using Microsoft.Extensions.DependencyInjection;
-using RevitLookup.UI.Tests.Services.Enums;
+using RevitLookup.Services.Enums;
 
-namespace RevitLookup.UI.Tests.ViewModels.Converters;
+namespace RevitLookup.ViewModels.Converters;
 
 [ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
 public class UpToDateVisibilityConverter : MarkupExtension, IMultiValueConverter

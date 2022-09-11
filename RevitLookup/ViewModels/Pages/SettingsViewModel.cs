@@ -18,41 +18,27 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Interop;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.UI.Appearance;
-using Brushes = System.Windows.Media.Brushes;
+using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed class SettingsViewModel : ObservableObject
 {
-    private BackgroundType _currentEffect;
+    private readonly IThemeService _themeService;
     private ThemeType _currentTheme;
 
-    public SettingsViewModel()
+    public SettingsViewModel(IThemeService themeService)
     {
-        UI.Application.Current.Loaded += (_, _) =>
-        {
-            CurrentTheme = ThemeType.Dark;
-            CurrentEffect = BackgroundType.Mica;
-        };
+        _themeService = themeService;
+        CurrentTheme = themeService.GetTheme();
     }
 
     public List<ThemeType> Themes { get; } = new()
     {
-        ThemeType.Auto,
         ThemeType.Dark,
         ThemeType.Light
-    };
-
-    public List<BackgroundType> Effects { get; } = new()
-    {
-        BackgroundType.None,
-        BackgroundType.Acrylic,
-        BackgroundType.Mica
     };
 
     public ThemeType CurrentTheme
@@ -62,69 +48,8 @@ public sealed class SettingsViewModel : ObservableObject
         {
             if (value == _currentTheme) return;
             _currentTheme = value;
-            ApplyTheme(value);
+            _themeService.SetTheme(value);
             OnPropertyChanged();
-        }
-    }
-
-    public BackgroundType CurrentEffect
-    {
-        get => _currentEffect;
-        set
-        {
-            if (value == _currentEffect) return;
-            _currentEffect = value;
-            ApplyBackgroundEffect(value);
-            OnPropertyChanged();
-        }
-    }
-
-    private void ApplyTheme(ThemeType theme)
-    {
-        switch (theme)
-        {
-            case ThemeType.Auto:
-                if (new WindowInteropHelper(UI.Application.Current).Handle == IntPtr.Zero)
-                    UI.Application.Current.Loaded += (_, _) =>
-                    {
-                        Watcher.Watch(UI.Application.Current, CurrentEffect, true, true);
-                    };
-                else
-                    Watcher.Watch(UI.Application.Current, CurrentEffect, true, true);
-                return;
-            case ThemeType.Dark:
-                Theme.Apply(ThemeType.Dark);
-                break;
-            case ThemeType.Light:
-                Theme.Apply(ThemeType.Light);
-                break;
-            case ThemeType.Unknown:
-            case ThemeType.HighContrast:
-            default:
-                throw new NotSupportedException();
-        }
-
-        ApplyBackgroundEffect(CurrentEffect);
-    }
-
-    private void ApplyBackgroundEffect(BackgroundType effect)
-    {
-        var windowHandle = new WindowInteropHelper(UI.Application.Current).Handle;
-
-        switch (effect)
-        {
-            case BackgroundType.Unknown:
-            case BackgroundType.None:
-                break;
-            case BackgroundType.Auto:
-            case BackgroundType.Acrylic:
-            case BackgroundType.Mica:
-            case BackgroundType.Tabbed:
-                UI.Application.Current.Background = Brushes.Transparent;
-                Background.Apply(windowHandle, effect, true);
-                break;
-            default:
-                throw new NotSupportedException();
         }
     }
 }

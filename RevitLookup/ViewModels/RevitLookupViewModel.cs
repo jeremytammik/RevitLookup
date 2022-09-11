@@ -18,31 +18,10 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using RevitLookup.ViewModels.Pages;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace RevitLookup.ViewModels;
 
-public sealed class RevitLookupViewModel : INotifyPropertyChanged
+public sealed class RevitLookupViewModel : ObservableObject
 {
-    public RevitLookupViewModel()
-    {
-        DashboardViewModel = new DashboardViewModel(this);
-        SettingsViewModel = new SettingsViewModel();
-        AboutViewModel = new AboutViewModel();
-    }
-
-    public int CurrentPageIndex { get; set; }
-    public DashboardViewModel DashboardViewModel { get; }
-    public SettingsViewModel SettingsViewModel { get; }
-    public AboutViewModel AboutViewModel { get; }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    [NotifyPropertyChangedInvocator]
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 }

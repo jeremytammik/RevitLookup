@@ -18,52 +18,92 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Configuration;
+using RevitLookup.Services.Contracts;
+using RevitLookup.Services.Enums;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class AboutViewModel : INotifyPropertyChanged
+public sealed class AboutViewModel : ObservableObject
 {
-    private string _latestCheck;
-    private string _version;
+    private readonly ISoftwareUpdateService _updateService;
+    private string _dotNetVersion;
+    private bool _isUpdateChecked;
+    private string _runtimeVersion;
 
-    public AboutViewModel()
+    public AboutViewModel(ISoftwareUpdateService updateService, IConfiguration configuration)
     {
-        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-        var info = FileVersionInfo.GetVersionInfo(assembly.Location);
-        Version = info.ProductVersion;
-        LatestCheck = $"Latest check: {DateTime.Now:yyyy.MM.dd HH:mm:ss}";
+        _updateService = updateService;
+        DotNetVersion = configuration.GetValue<string>("Framework");
+        RuntimeVersion = Environment.Version.ToString();
+        CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
+        DownloadCommand = new AsyncRelayCommand(DownloadUpdate);
     }
 
-    public string Version
+    public bool IsUpdateChecked
     {
-        get => _version;
+        get => _isUpdateChecked;
         set
         {
-            if (value == _version) return;
-            _version = value;
+            if (value == _isUpdateChecked) return;
+            _isUpdateChecked = value;
             OnPropertyChanged();
         }
     }
 
-    public string LatestCheck
+    public string DotNetVersion
     {
-        get => _latestCheck;
+        get => _dotNetVersion;
         set
         {
-            if (value == _latestCheck) return;
-            _latestCheck = value;
+            if (value == _dotNetVersion) return;
+            _dotNetVersion = value;
             OnPropertyChanged();
         }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    [NotifyPropertyChangedInvocator]
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    public string RuntimeVersion
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        get => _runtimeVersion;
+        set
+        {
+            if (value == _runtimeVersion) return;
+            _runtimeVersion = value;
+            OnPropertyChanged();
+        }
     }
+
+    public IAsyncRelayCommand CheckUpdatesCommand { get; }
+    public IAsyncRelayCommand DownloadCommand { get; }
+
+    private async Task CheckUpdates()
+    {
+        await _updateService.CheckUpdates();
+        IsUpdateChecked = true;
+        OnPropertyChanged(nameof(State));
+        OnPropertyChanged(nameof(NewVersion));
+        OnPropertyChanged(nameof(ErrorMessage));
+        OnPropertyChanged(nameof(LatestCheckDate));
+        OnPropertyChanged(nameof(ReleaseNotesUrl));
+    }
+
+    private async Task DownloadUpdate()
+    {
+        await _updateService.DownloadUpdate();
+        OnPropertyChanged(nameof(State));
+        OnPropertyChanged(nameof(ErrorMessage));
+    }
+
+    #region Updater Wrapping
+
+    public SoftwareUpdateState State => _updateService.State;
+    public string CurrentVersion => _updateService.CurrentVersion;
+    public string NewVersion => _updateService.NewVersion;
+    public string ErrorMessage => _updateService.ErrorMessage;
+    public string ReleaseNotesUrl => _updateService.ReleaseNotesUrl;
+    public string LatestCheckDate => _updateService.LatestCheckDate;
+
+    #endregion
 }

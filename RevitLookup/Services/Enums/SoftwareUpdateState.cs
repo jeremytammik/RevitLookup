@@ -18,16 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.UI.Common;
+namespace RevitLookup.Services.Enums;
 
-namespace RevitLookup.ViewModels.Pages;
-
-public sealed class DashboardViewModel : ObservableObject
+public enum SoftwareUpdateState
 {
-    private RelayCommand _snoopSelectionCommand;
-
-    public RelayCommand SnoopSelectionCommand => _snoopSelectionCommand ??= new RelayCommand(o =>
-    {
-    });
+    UpToDate,
+    ErrorDownloading,
+    ErrorChecking,
+    ReadyToDownload,
+    ReadyToInstall
 }

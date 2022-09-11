@@ -18,18 +18,66 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.ViewModels;
-using RevitLookup.Views.Pages;
+using System.Windows;
+using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using RevitLookup.Core;
+using RevitLookup.UI.Controls.Interfaces;
+using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.Views;
 
-public partial class RevitLookupView
+public partial class RevitLookupView : INavigationWindow
 {
-    public RevitLookupView()
+    private readonly IServiceScope _serviceScope;
+
+    public RevitLookupView(IServiceScopeFactory scopeFactory)
     {
         UI.Application.Current = this;
         InitializeComponent();
-        var lookupViewModel = new RevitLookupViewModel();
-        DataContext = lookupViewModel;
+
+        _serviceScope = scopeFactory.CreateScope();
+        var pageService = _serviceScope.ServiceProvider.GetService<IPageService>();
+        var dialogService = _serviceScope.ServiceProvider.GetService<IDialogService>()!;
+
+        SetPageService(pageService);
+        dialogService.SetDialogControl(RootDialog);
+
+        Unloaded += UnloadServices;
+    }
+
+    public Frame GetFrame()
+    {
+        return RootFrame;
+    }
+
+    public INavigation GetNavigation()
+    {
+        return RootNavigation;
+    }
+
+    public bool Navigate(Type pageType)
+    {
+        return RootNavigation.Navigate(pageType);
+    }
+
+    public void SetPageService(IPageService pageService)
+    {
+        RootNavigation.PageService = pageService;
+    }
+
+    public void ShowWindow()
+    {
+        this.Show(RevitApi.UiApplication.MainWindowHandle);
+    }
+
+    public void CloseWindow()
+    {
+        Close();
+    }
+
+    private void UnloadServices(object sender, RoutedEventArgs e)
+    {
+        _serviceScope.Dispose();
     }
 }

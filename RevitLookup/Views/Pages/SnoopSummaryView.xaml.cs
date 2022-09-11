@@ -18,16 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.UI.Common;
+namespace RevitLookup.Views.Pages;
 
-namespace RevitLookup.ViewModels.Pages;
-
-public sealed class DashboardViewModel : ObservableObject
+public partial class SnoopSummaryView
 {
-    private RelayCommand _snoopSelectionCommand;
-
-    public RelayCommand SnoopSelectionCommand => _snoopSelectionCommand ??= new RelayCommand(o =>
+    public SnoopSummaryView()
     {
-    });
+        InitializeComponent();
+    }
 }

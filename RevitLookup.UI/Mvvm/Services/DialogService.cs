@@ -5,7 +5,6 @@
 
 #nullable enable
 
-using System;
 using RevitLookup.UI.Controls.Interfaces;
 using RevitLookup.UI.Mvvm.Contracts;
 

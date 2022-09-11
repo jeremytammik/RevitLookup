@@ -18,15 +18,18 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.ViewModels;
+using RevitLookup.UI.Common.Interfaces;
+using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.Views.Pages;
 
-public partial class DashboardView
+public partial class DashboardView : INavigableView<DashboardViewModel>
 {
-    public DashboardView(RevitLookupViewModel lookupViewModel)
+    public DashboardView(DashboardViewModel viewModel)
     {
+        ViewModel = viewModel;
         InitializeComponent();
-        DataContext = lookupViewModel.DashboardViewModel;
     }
+
+    public DashboardViewModel ViewModel { get; }
 }

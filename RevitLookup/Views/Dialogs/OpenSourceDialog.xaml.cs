@@ -18,16 +18,26 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.UI.Common;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using RevitLookup.ViewModels.Dialogs;
 
-namespace RevitLookup.ViewModels.Pages;
+namespace RevitLookup.Views.Dialogs;
 
-public sealed class DashboardViewModel : ObservableObject
+public partial class OpenSourceDialog
 {
-    private RelayCommand _snoopSelectionCommand;
-
-    public RelayCommand SnoopSelectionCommand => _snoopSelectionCommand ??= new RelayCommand(o =>
+    public OpenSourceDialog()
     {
-    });
+        InitializeComponent();
+        DataContext = new OpenSourceDialogViewModel();
+        // EventManager.RegisterClassHandler(typeof(TextBlock), Hyperlink.ClickEvent, new RoutedEventHandler(OpenLink));
+    }
+
+    private void OpenLink(object sender, RoutedEventArgs e)
+    {
+        if (e.OriginalSource is not Hyperlink link) return;
+        Process.Start(link.NavigateUri.OriginalString);
+    }
 }
