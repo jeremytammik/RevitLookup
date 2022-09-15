@@ -57,7 +57,7 @@ public class BackgroundTypeConverter : MarkupExtension, IValueConverter
 }
 
 [ValueConversion(typeof(ThemeType), typeof(string))]
-public class ThemeTypeConverter : MarkupExtension, IValueConverter
+public sealed class ThemeTypeConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -105,7 +105,7 @@ public class InverseBooleanConverter : MarkupExtension, IValueConverter
 }
 
 [ValueConversion(typeof(bool), typeof(Visibility))]
-public class StringVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class StringVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -125,7 +125,7 @@ public class StringVisibilityConverter : MarkupExtension, IValueConverter
 }
 
 [ValueConversion(typeof(bool), typeof(Visibility))]
-public class BoolVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class BoolVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -145,7 +145,7 @@ public class BoolVisibilityConverter : MarkupExtension, IValueConverter
 }
 
 [ValueConversion(typeof(bool), typeof(Visibility))]
-public class InverseBoolVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class InverseBoolVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

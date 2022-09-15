@@ -31,7 +31,7 @@ using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Services;
 
-public class SoftwareUpdateService : ISoftwareUpdateService
+public sealed class SoftwareUpdateService : ISoftwareUpdateService
 {
     private readonly IConfiguration _configuration;
     private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);

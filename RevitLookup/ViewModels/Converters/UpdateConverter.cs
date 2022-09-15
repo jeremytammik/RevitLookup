@@ -27,7 +27,7 @@ using RevitLookup.Services.Enums;
 namespace RevitLookup.ViewModels.Converters;
 
 [ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
-public class UpToDateVisibilityConverter : MarkupExtension, IMultiValueConverter
+public sealed class UpToDateVisibilityConverter : MarkupExtension, IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
@@ -49,7 +49,7 @@ public class UpToDateVisibilityConverter : MarkupExtension, IMultiValueConverter
 }
 
 [ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
-public class UpdateAvailableCardVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class UpdateAvailableCardVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -69,7 +69,7 @@ public class UpdateAvailableCardVisibilityConverter : MarkupExtension, IValueCon
 }
 
 [ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
-public class UpdateDownloadedVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class UpdateDownloadedVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -109,7 +109,7 @@ public class InverseUpdateDownloadedVisibilityConverter : MarkupExtension, IValu
 }
 
 [ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
-public class ErrorCardVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class ErrorCardVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

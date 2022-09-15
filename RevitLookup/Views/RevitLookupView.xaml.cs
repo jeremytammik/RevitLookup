@@ -21,13 +21,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
-using RevitLookup.Core;
 using RevitLookup.UI.Controls.Interfaces;
 using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.Views;
 
-public partial class RevitLookupView : INavigationWindow
+public sealed partial class RevitLookupView : INavigationWindow
 {
     private readonly IServiceScope _serviceScope;
 
@@ -37,10 +36,12 @@ public partial class RevitLookupView : INavigationWindow
         InitializeComponent();
 
         _serviceScope = scopeFactory.CreateScope();
+        var navigationService = _serviceScope.ServiceProvider.GetService<INavigationService>()!;
         var pageService = _serviceScope.ServiceProvider.GetService<IPageService>();
         var dialogService = _serviceScope.ServiceProvider.GetService<IDialogService>()!;
 
-        SetPageService(pageService);
+        navigationService.SetNavigationControl(RootNavigation);
+        navigationService.SetPageService(pageService);
         dialogService.SetDialogControl(RootDialog);
 
         Unloaded += UnloadServices;
@@ -68,7 +69,8 @@ public partial class RevitLookupView : INavigationWindow
 
     public void ShowWindow()
     {
-        this.Show(RevitApi.UiApplication.MainWindowHandle);
+        Show();
+        // this.Show(RevitApi.UiApplication.MainWindowHandle);
     }
 
     public void CloseWindow()

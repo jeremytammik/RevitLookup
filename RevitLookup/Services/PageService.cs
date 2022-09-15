@@ -13,7 +13,7 @@ namespace RevitLookup.Services;
 /// <summary>
 ///     Service that provides pages for navigation.
 /// </summary>
-public class PageService : IPageService
+public sealed class PageService : IPageService
 {
     /// <summary>
     ///     Service which provides the instances of pages.

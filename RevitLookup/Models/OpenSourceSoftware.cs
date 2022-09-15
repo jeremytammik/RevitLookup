@@ -1,6 +1,6 @@
 ﻿namespace RevitLookup.Models;
 
-public class OpenSourceSoftware
+public sealed class OpenSourceSoftware
 {
     public string SoftwareName { get; set; }
     public string SoftwareUri { get; set; }

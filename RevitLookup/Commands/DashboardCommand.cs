@@ -20,6 +20,7 @@
 
 using Autodesk.Revit.Attributes;
 using Nice3point.Revit.Toolkit.External;
+using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
@@ -30,6 +31,8 @@ public class DashboardCommand : ExternalCommand
 {
     public override void Execute()
     {
-        RevitLookup.Application.Show().Navigate(typeof(DashboardView));
+        var window = Host.GetService<INavigationWindow>();
+        window.ShowWindow();
+        window.Navigate(typeof(DashboardView));
     }
 }

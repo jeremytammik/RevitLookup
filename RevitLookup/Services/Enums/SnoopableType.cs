@@ -18,18 +18,17 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.UI.Common.Interfaces;
-using RevitLookup.UI.Tests.ViewModels.Pages;
+namespace RevitLookup.Services.Enums;
 
-namespace RevitLookup.UI.Tests.Views.Pages;
-
-public partial class DashboardView : INavigableView<DashboardViewModel>
+public enum SnoopableType
 {
-    public DashboardView(DashboardViewModel viewModel)
-    {
-        ViewModel = viewModel;
-        InitializeComponent();
-    }
-
-    public DashboardViewModel ViewModel { get; }
+    Application,
+    Document,
+    View,
+    Selection,
+    Database,
+    Face,
+    Edge,
+    LinkedElement,
+    DependentElements
 }

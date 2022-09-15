@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace RevitLookup.Models;
 
-public class GutHubResponse
+public sealed class GutHubResponse
 {
     [JsonProperty("html_url")] public string Url { get; set; }
     [JsonProperty("tag_name")] public string TagName { get; set; }
@@ -32,7 +32,7 @@ public class GutHubResponse
     [JsonProperty("assets")] public List<GutHubResponseAsset> Assets { get; set; }
 }
 
-public class GutHubResponseAsset
+public sealed class GutHubResponseAsset
 {
     [JsonProperty("name")] public string Name { get; set; }
     [JsonProperty("browser_download_url")] public string DownloadUrl { get; set; }

@@ -18,22 +18,18 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Newtonsoft.Json;
+using RevitLookup.UI.Common.Interfaces;
+using RevitLookup.ViewModels.Pages;
 
-namespace RevitLookup.UI.Tests.Models;
+namespace RevitLookup.Views.Pages;
 
-public class GutHubResponse
+public sealed partial class SnoopView : INavigableView<SnoopViewModel>
 {
-    [JsonProperty("html_url")] public string Url { get; set; }
-    [JsonProperty("tag_name")] public string TagName { get; set; }
-    [JsonProperty("draft")] public bool Draft { get; set; }
-    [JsonProperty("prerelease")] public bool PreRelease { get; set; }
-    [JsonProperty("published_at")] public DateTimeOffset PublishedDate { get; set; }
-    [JsonProperty("assets")] public List<GutHubResponseAsset> Assets { get; set; }
-}
+    public SnoopView(SnoopViewModel viewModel)
+    {
+        ViewModel = viewModel;
+        InitializeComponent();
+    }
 
-public class GutHubResponseAsset
-{
-    [JsonProperty("name")] public string Name { get; set; }
-    [JsonProperty("browser_download_url")] public string DownloadUrl { get; set; }
+    public SnoopViewModel ViewModel { get; }
 }

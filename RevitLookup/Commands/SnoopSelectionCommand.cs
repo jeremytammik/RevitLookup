@@ -18,20 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.UI.Tests.Services.Enums;
+using Autodesk.Revit.Attributes;
+using Nice3point.Revit.Toolkit.External;
+using RevitLookup.Services.Contracts;
+using RevitLookup.Services.Enums;
+using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.Views.Pages;
 
-namespace RevitLookup.UI.Tests.Services.Contracts;
+namespace RevitLookup.Commands;
 
-public interface ISoftwareUpdateService
+[UsedImplicitly]
+[Transaction(TransactionMode.Manual)]
+public class SnoopSelectionCommand : ExternalCommand
 {
-    public SoftwareUpdateState State { get; set; }
-    public string CurrentVersion { get; }
-    public string NewVersion { get; set; }
-    public string LatestCheckDate { get; set; }
-    public string ReleaseNotesUrl { get; set; }
-    public string ErrorMessage { get; set; }
-    public string LocalFilePath { get; set; }
-
-    Task CheckUpdates();
-    Task DownloadUpdate();
+    public override void Execute()
+    {
+        var window = Host.GetService<INavigationWindow>();
+        window.ShowWindow();
+        window.Navigate(typeof(SnoopView));
+        Host.GetService<ISnoopService>().Snoop(SnoopableType.Selection);
+    }
 }

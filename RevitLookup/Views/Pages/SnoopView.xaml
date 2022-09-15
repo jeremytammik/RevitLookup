@@ -1,5 +1,6 @@
 ﻿<rl:UiPage
-    x:Class="RevitLookup.Views.Pages.SnoopSummaryView"
+<rl:UiPage
+    x:Class="RevitLookup.Views.Pages.SnoopView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,7 +9,7 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     Scrollable="True"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance pages:SnoopSummaryView, IsDesignTimeCreatable=False}">
+    d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
     <rl:UiPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -18,8 +19,20 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </rl:UiPage.Resources>
-    <StackPanel
+    <Grid
         Margin="24">
-        <TreeView />
-    </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition
+                Width="*" />
+            <ColumnDefinition
+                Width="40" />
+            <ColumnDefinition
+                Width="2*" />
+        </Grid.ColumnDefinitions>
+        <TreeView
+            Grid.Column="0"
+            ItemsSource="{Binding ViewModel.SnoopableObjects}" />
+        <DataGrid
+            Grid.Column="2" />
+    </Grid>
 </rl:UiPage>

@@ -23,7 +23,7 @@ using RevitLookup.Models;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public class OpenSourceDialogViewModel : ObservableObject
+public sealed class OpenSourceDialogViewModel : ObservableObject
 {
     public OpenSourceDialogViewModel()
     {

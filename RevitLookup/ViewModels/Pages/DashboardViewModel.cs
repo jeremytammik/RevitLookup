@@ -19,15 +19,95 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.UI.Common;
+using CommunityToolkit.Mvvm.Input;
+using RevitLookup.Services.Contracts;
+using RevitLookup.Services.Enums;
+using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.Views.Pages;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed class DashboardViewModel : ObservableObject
 {
-    private RelayCommand _snoopSelectionCommand;
+    private readonly INavigationService _navigationService;
+    private readonly ISnoopService _snoopService;
 
-    public RelayCommand SnoopSelectionCommand => _snoopSelectionCommand ??= new RelayCommand(o =>
+    public DashboardViewModel(INavigationService navigationService, ISnoopService snoopService)
     {
-    });
+        _navigationService = navigationService;
+        _snoopService = snoopService;
+        SnoopSelectionCommand = new RelayCommand(SnoopSelection);
+        SnoopApplicationCommand = new RelayCommand(SnoopApplication);
+        SnoopDocumentCommand = new RelayCommand(SnoopDocument);
+        SnoopViewCommand = new RelayCommand(SnoopView);
+        SnoopDatabaseCommand = new RelayCommand(SnoopDatabase);
+        SnoopEdgeCommand = new RelayCommand(SnoopEdge);
+        SnoopFaceCommand = new RelayCommand(SnoopFace);
+        SnoopDependentElementsCommand = new RelayCommand(SnoopDependentElements);
+        SnoopLinkedElementCommand = new RelayCommand(SnoopLinkedElement);
+    }
+
+    public RelayCommand SnoopSelectionCommand { get; }
+    public RelayCommand SnoopApplicationCommand { get; }
+    public RelayCommand SnoopDocumentCommand { get; }
+    public RelayCommand SnoopViewCommand { get; }
+    public RelayCommand SnoopDatabaseCommand { get; }
+    public RelayCommand SnoopEdgeCommand { get; }
+    public RelayCommand SnoopFaceCommand { get; }
+    public RelayCommand SnoopDependentElementsCommand { get; }
+    public RelayCommand SnoopLinkedElementCommand { get; }
+
+    private void SnoopSelection()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.Selection);
+    }
+
+    private void SnoopApplication()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.Application);
+    }
+
+    private void SnoopDocument()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.Document);
+    }
+
+    private void SnoopView()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.View);
+    }
+
+    private void SnoopDatabase()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.Database);
+    }
+
+    private void SnoopEdge()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.Edge);
+    }
+
+    private void SnoopFace()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.Face);
+    }
+
+    private void SnoopDependentElements()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.DependentElements);
+    }
+
+    private void SnoopLinkedElement()
+    {
+        _navigationService.Navigate(typeof(SnoopView));
+        _snoopService.Snoop(SnoopableType.LinkedElement);
+    }
 }

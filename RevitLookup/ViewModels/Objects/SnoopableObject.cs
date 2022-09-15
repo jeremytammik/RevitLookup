@@ -1,4 +1,5 @@
 ﻿// Copyright 2003-2022 by Autodesk, Inc.
+// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,38 +19,23 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Mvvm.Contracts;
+using Autodesk.Revit.DB;
 
-namespace RevitLookup.UI.Tests.ViewModels.Pages;
+namespace RevitLookup.ViewModels.Objects;
 
-public sealed class SettingsViewModel : ObservableObject
+public sealed class SnoopableObject
 {
-    private readonly IThemeService _themeService;
-    private ThemeType _currentTheme;
-
-    public SettingsViewModel(IThemeService themeService)
+    public SnoopableObject(object o)
     {
-        _themeService = themeService;
-        CurrentTheme = themeService.GetTheme();
+        Object = o;
     }
 
-    public List<ThemeType> Themes { get; } = new()
+    public SnoopableObject(Document document, object obj)
     {
-        ThemeType.Dark,
-        ThemeType.Light
-    };
-
-    public ThemeType CurrentTheme
-    {
-        get => _currentTheme;
-        set
-        {
-            if (value == _currentTheme) return;
-            _currentTheme = value;
-            _themeService.SetTheme(value);
-            OnPropertyChanged();
-        }
+        Document = document;
+        Object = obj;
     }
+
+    public Document Document { get; set; }
+    public object Object { get; }
 }

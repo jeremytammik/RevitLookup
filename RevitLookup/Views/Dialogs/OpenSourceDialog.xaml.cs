@@ -25,7 +25,7 @@ using RevitLookup.ViewModels.Dialogs;
 
 namespace RevitLookup.Views.Dialogs;
 
-public partial class OpenSourceDialog
+public sealed partial class OpenSourceDialog
 {
     public OpenSourceDialog()
     {

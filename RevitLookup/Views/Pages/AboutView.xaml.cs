@@ -27,7 +27,7 @@ using RevitLookup.Views.Dialogs;
 
 namespace RevitLookup.Views.Pages;
 
-public partial class AboutView : INavigableView<AboutViewModel>
+public sealed partial class AboutView : INavigableView<AboutViewModel>
 {
     private readonly IDialogControl _dialogControl;
 

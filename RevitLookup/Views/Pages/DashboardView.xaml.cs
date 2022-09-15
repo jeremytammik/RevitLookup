@@ -23,7 +23,7 @@ using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.Views.Pages;
 
-public partial class DashboardView : INavigableView<DashboardViewModel>
+public sealed partial class DashboardView : INavigableView<DashboardViewModel>
 {
     public DashboardView(DashboardViewModel viewModel)
     {
