@@ -20,51 +20,70 @@
 
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
+using RevitLookup.Services.Enums;
 using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Core;
 
 public static class Snooper
 {
-    public static IReadOnlyList<SnoopableObject> SnoopView()
+    public static IReadOnlyList<SnoopableObject> Snoop(SnoopableType type)
+    {
+        return type switch
+        {
+            SnoopableType.Selection => SnoopSelection(),
+            SnoopableType.Application => SnoopApplication(),
+            SnoopableType.Document => SnoopDocument(),
+            SnoopableType.View => SnoopView(),
+            SnoopableType.Database => SnoopDatabase(),
+            SnoopableType.Face => SnoopFace(),
+            SnoopableType.Edge => SnoopEdge(),
+            SnoopableType.LinkedElement => SnoopLinkedElement(),
+            SnoopableType.DependentElements => SnoopDependentElements(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        };
+    }
+
+    private static IReadOnlyList<SnoopableObject> SnoopView()
     {
         return new SnoopableObject[] {new(RevitApi.ActiveView)};
     }
 
-    public static IReadOnlyList<SnoopableObject> SnoopDocument()
+    private static IReadOnlyList<SnoopableObject> SnoopDocument()
     {
         return new SnoopableObject[] {new(RevitApi.Document)};
     }
 
-    public static IReadOnlyList<SnoopableObject> SnoopApplication()
+    private static IReadOnlyList<SnoopableObject> SnoopApplication()
     {
         return new SnoopableObject[] {new(RevitApi.Application)};
     }
 
-    public static IReadOnlyList<SnoopableObject> SnoopEdge()
+    private static IReadOnlyList<SnoopableObject> SnoopEdge()
     {
         var geometryObject = SelectObject(ObjectType.Edge);
         return new[] {geometryObject};
     }
 
-    public static IReadOnlyList<SnoopableObject> SnoopFace()
+    private static IReadOnlyList<SnoopableObject> SnoopFace()
     {
         var geometryObject = SelectObject(ObjectType.Face);
         return new[] {geometryObject};
     }
 
-    public static IReadOnlyList<SnoopableObject> SnoopLinkedElement()
+    private static IReadOnlyList<SnoopableObject> SnoopLinkedElement()
     {
         var geometryObject = SelectObject(ObjectType.LinkedElement);
         return new[] {geometryObject};
     }
 
-    public static IReadOnlyList<SnoopableObject> SnoopSelection()
+    private static IReadOnlyList<SnoopableObject> SnoopSelection()
     {
         var selectedIds = RevitApi.UiApplication.ActiveUIDocument.Selection.GetElementIds();
         if (selectedIds.Count > 0)
             return RevitApi.Document
                 .GetElements(selectedIds)
+                .WherePasses(new ElementIdSetFilter(selectedIds))
                 .Select(element => new SnoopableObject(RevitApi.Document, element))
                 .ToList();
 
@@ -74,7 +93,7 @@ public static class Snooper
             .ToList();
     }
 
-    public static IReadOnlyList<SnoopableObject> SnoopDatabase()
+    private static IReadOnlyList<SnoopableObject> SnoopDatabase()
     {
         var elementTypes = RevitApi.Document.GetElements().WhereElementIsElementType();
         var elementInstances = RevitApi.Document.GetElements().WhereElementIsNotElementType();
@@ -84,7 +103,7 @@ public static class Snooper
             .ToList();
     }
 
-    public static IReadOnlyList<SnoopableObject> SnoopDependentElements()
+    private static IReadOnlyList<SnoopableObject> SnoopDependentElements()
     {
         var selectedIds = RevitApi.UiDocument.Selection.GetElementIds();
         if (selectedIds.Count == 0) return Array.Empty<SnoopableObject>();

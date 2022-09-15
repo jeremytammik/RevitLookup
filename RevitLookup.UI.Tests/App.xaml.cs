@@ -4,7 +4,7 @@
 // All Rights Reserved.
 
 using System.Windows;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.Services.Contracts;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.UI.Tests;
@@ -14,7 +14,7 @@ public sealed partial class App
     private async void OnStartup(object sender, StartupEventArgs e)
     {
         await Host.StartHost();
-        var window = Host.GetService<INavigationWindow>();
+        var window = Host.GetService<ILookupInstance>();
         window.ShowWindow();
         window.Navigate(typeof(DashboardView));
     }

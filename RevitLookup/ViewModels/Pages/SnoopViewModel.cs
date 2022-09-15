@@ -19,15 +19,27 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
+using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Objects;
+using RevitLookup.Views.Pages;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class SnoopViewModel : ObservableObject, ISnoopService
+public sealed class SnoopViewModel : ObservableObject
 {
+    private readonly INavigationService _navigationService;
+
+    public SnoopViewModel(INavigationService navigationService)
+    {
+        _navigationService = navigationService;
+        SnoopSelectionCommand = new RelayCommand(SnoopSelection);
+    }
+
     private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public IReadOnlyList<SnoopableObject> SnoopableObjects
@@ -41,20 +53,54 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopService
         }
     }
 
-    public void Snoop(SnoopableType type)
+    public RelayCommand SnoopSelectionCommand { get; }
+
+    public void SnoopSelection()
     {
-        SnoopableObjects = type switch
-        {
-            SnoopableType.Selection => Snooper.SnoopSelection(),
-            SnoopableType.Application => Snooper.SnoopApplication(),
-            SnoopableType.Document => Snooper.SnoopDocument(),
-            SnoopableType.View => Snooper.SnoopView(),
-            SnoopableType.Database => Snooper.SnoopDatabase(),
-            SnoopableType.Face => Snooper.SnoopFace(),
-            SnoopableType.Edge => Snooper.SnoopEdge(),
-            SnoopableType.LinkedElement => Snooper.SnoopLinkedElement(),
-            SnoopableType.DependentElements => Snooper.SnoopDependentElements(),
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-        };
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
+        _navigationService.GetNavigationWindow().Focus();
+    }
+
+    public void SnoopApplication()
+    {
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Application);
+    }
+
+    public void SnoopDocument()
+    {
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Document);
+    }
+
+    public void SnoopView()
+    {
+        SnoopableObjects = Snooper.Snoop(SnoopableType.View);
+    }
+
+    public void SnoopDatabase()
+    {
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Database);
+    }
+
+    public void SnoopEdge()
+    {
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Edge);
+        _navigationService.GetNavigationWindow().Focus();
+    }
+
+    public void SnoopFace()
+    {
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Face);
+        _navigationService.GetNavigationWindow().Focus();
+    }
+
+    public void SnoopLinkedElement()
+    {
+        SnoopableObjects = Snooper.Snoop(SnoopableType.LinkedElement);
+        _navigationService.GetNavigationWindow().Focus();
+    }
+
+    public void SnoopDependentElements()
+    {
+        SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
     }
 }

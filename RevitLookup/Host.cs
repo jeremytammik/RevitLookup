@@ -58,9 +58,8 @@ public static class Host
                 services.AddScoped<SettingsViewModel>();
                 services.AddScoped<SnoopView>();
                 services.AddScoped<SnoopViewModel>();
-                services.AddScoped<ISnoopService, SnoopViewModel>();
 
-                services.AddTransient<INavigationWindow, RevitLookupView>();
+                services.AddTransient<ILookupInstance, RevitLookupView>();
             }).Build();
 
         await _host.StartAsync();

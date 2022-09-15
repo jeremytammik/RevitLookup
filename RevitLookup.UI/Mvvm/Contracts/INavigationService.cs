@@ -4,6 +4,7 @@
 // All Rights Reserved.
 
 using System;
+using System.Windows;
 using System.Windows.Controls;
 using RevitLookup.UI.Controls.Interfaces;
 
@@ -38,6 +39,18 @@ public interface INavigationService
     /// </summary>
     /// <param name="navigation">Instance of the <see cref="INavigation"/>.</param>
     void SetNavigationControl(INavigation navigation);
+    
+    /// <summary>
+    /// Provides direct access to the window responsible for navigation.
+    /// </summary>
+    /// <returns>Instance of the <see cref="Window"/> control.</returns>
+    Window GetNavigationWindow();
+    
+    /// <summary>
+    /// Lets you attach the window that represents the <see cref="INavigation"/>.
+    /// </summary>
+    /// <param name="window">Instance of the <see cref="Window"/>.</param>
+    void SetNavigationWindow(Window window);
 
     /// <summary>
     /// Lets you attach the service that delivers page instances to <see cref="INavigation"/>.

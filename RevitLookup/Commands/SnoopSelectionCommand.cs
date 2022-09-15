@@ -19,10 +19,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services.Contracts;
-using RevitLookup.Services.Enums;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
@@ -33,9 +33,9 @@ public class SnoopSelectionCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<INavigationWindow>();
-        window.ShowWindow();
+        var window = Host.GetService<ILookupInstance>();
+        window.ShowWindow(UiApplication.MainWindowHandle);
         window.Navigate(typeof(SnoopView));
-        Host.GetService<ISnoopService>().Snoop(SnoopableType.Selection);
+        window.Context.GetService<SnoopViewModel>()!.SnoopSelection();
     }
 }

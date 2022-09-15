@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
+using System.Windows;
 using System.Windows.Controls;
 using RevitLookup.UI.Controls.Interfaces;
 using RevitLookup.UI.Mvvm.Contracts;
@@ -13,8 +13,12 @@ namespace RevitLookup.UI.Mvvm.Services;
 /// <summary>
 /// A service that provides methods related to navigation.
 /// </summary>
-public partial class NavigationService : INavigationService
+public class NavigationService : INavigationService
 {
+    public NavigationService()
+    {
+    }
+
     /// <summary>
     /// Locally attached page service.
     /// </summary>
@@ -24,6 +28,11 @@ public partial class NavigationService : INavigationService
     /// Control representing navigation.
     /// </summary>
     protected INavigation NavigationControl;
+    
+    /// <summary>
+    /// Window representing navigation.
+    /// </summary>
+    private Window _window;
 
     /// <inheritdoc />
     public Frame GetFrame()
@@ -53,6 +62,18 @@ public partial class NavigationService : INavigationService
 
         if (_pageService != null)
             NavigationControl.PageService = _pageService;
+    }
+
+    /// <inheritdoc />
+    public Window GetNavigationWindow()
+    {
+        return _window;
+    }
+
+    /// <inheritdoc />
+    public void SetNavigationWindow(Window window)
+    {
+        _window = window;
     }
 
     /// <inheritdoc />

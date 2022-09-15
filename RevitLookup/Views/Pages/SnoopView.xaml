@@ -6,8 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
-    Scrollable="True"
+    xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     mc:Ignorable="d"
+    d:DesignHeight="500"
+    d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
     <rl:UiPage.Resources>
         <ResourceDictionary>
@@ -18,20 +20,51 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </rl:UiPage.Resources>
-    <Grid
-        Margin="24">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition
-                Width="*" />
-            <ColumnDefinition
-                Width="40" />
-            <ColumnDefinition
-                Width="2*" />
-        </Grid.ColumnDefinitions>
-        <TreeView
-            Grid.Column="0"
-            ItemsSource="{Binding ViewModel.SnoopableObjects}" />
-        <DataGrid
-            Grid.Column="2" />
+    <Grid>
+        <Grid
+            Visibility="{Binding ViewModel.SnoopableObjects,
+                Converter={converters:CollectionEmptyVisibilityConverter}}">
+            <Path
+                Stroke="{DynamicResource ControlFillColorDefaultBrush}"
+                StrokeThickness="1"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Margin="200 130 0 0"
+                Data="M159.1 110.6C94.1 204.3 -147.8 214.7 -203.8 126.1C-259.8 37.5 -129.9 -150 -8.9 -155.2C112 -160.3 224 16.8 159.1 110.6">
+            </Path>
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock
+                    FontSize="24"
+                    FontWeight="Medium"
+                    Text="Nothing to show">
+                </TextBlock>
+                <Button
+                    HorizontalAlignment="Center"
+                    Margin="0 8 0 0"
+                    Content="Snoop selection"
+                    Command="{Binding ViewModel.SnoopSelectionCommand}">
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid
+            Visibility="{Binding ViewModel.SnoopableObjects,
+                Converter={converters:InverseCollectionSizeVisibilityConverter}}"
+            Margin="24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="40" />
+                <ColumnDefinition
+                    Width="2*" />
+            </Grid.ColumnDefinitions>
+            <TreeView
+                Grid.Column="0"
+                ItemsSource="{Binding ViewModel.SnoopableObjects}" />
+            <DataGrid
+                Grid.Column="2" />
+        </Grid>
     </Grid>
 </rl:UiPage>

@@ -24,13 +24,13 @@ namespace RevitLookup.Services.Contracts;
 
 public interface ISoftwareUpdateService
 {
-    public SoftwareUpdateState State { get; set; }
+    public SoftwareUpdateState State { get; }
     public string CurrentVersion { get; }
-    public string NewVersion { get; set; }
-    public string LatestCheckDate { get; set; }
-    public string ReleaseNotesUrl { get; set; }
-    public string ErrorMessage { get; set; }
-    public string LocalFilePath { get; set; }
+    public string NewVersion { get; }
+    public string LatestCheckDate { get; }
+    public string ReleaseNotesUrl { get; }
+    public string ErrorMessage { get; }
+    public string LocalFilePath { get; }
 
     Task CheckUpdates();
     Task DownloadUpdate();

@@ -49,7 +49,8 @@
                 Grid.Column="0"
                 Margin="0,0,4,0"
                 Icon="SquareHint24"
-                Command="{Binding  ViewModel.SnoopSelectionCommand}">
+                CommandParameter="selection"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -61,7 +62,8 @@
                 Grid.Column="1"
                 Margin="4,0,4,0"
                 Icon="ContentView24"
-                Command="{Binding  ViewModel.SnoopViewCommand}">
+                CommandParameter="view"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -73,7 +75,8 @@
                 Grid.Column="2"
                 Margin="4,0,4,0"
                 Icon="Document24"
-                Command="{Binding  ViewModel.SnoopDocumentCommand}">
+                CommandParameter="document"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -85,7 +88,8 @@
                 Grid.Column="3"
                 Margin="4,0,0,0"
                 Icon="Apps24"
-                Command="{Binding  ViewModel.SnoopApplicationCommand}">
+                CommandParameter="application"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -97,7 +101,8 @@
                 Grid.Column="0"
                 Margin="0,8,4,0"
                 Icon="Database24"
-                Command="{Binding  ViewModel.SnoopDatabaseCommand}">
+                CommandParameter="database"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -109,7 +114,8 @@
                 Grid.Column="1"
                 Margin="4,8,4,0"
                 Icon="LinkSquare24"
-                Command="{Binding  ViewModel.SnoopLinkedElementCommand}">
+                CommandParameter="linked"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -121,7 +127,8 @@
                 Grid.Column="0"
                 Margin="0,8,4,0"
                 Icon="DataLine24"
-                Command="{Binding  ViewModel.SnoopDependentElementsCommand}">
+                CommandParameter="dependents"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -133,7 +140,8 @@
                 Grid.Column="2"
                 Margin="4,8,4,0"
                 Icon="SurfaceHub24"
-                Command="{Binding  ViewModel.SnoopFaceCommand}">
+                CommandParameter="face"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -145,7 +153,8 @@
                 Grid.Column="3"
                 Margin="4,8,0,0"
                 Icon="Line24"
-                Command="{Binding  ViewModel.SnoopEdgeCommand}">
+                CommandParameter="edge"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -154,38 +163,38 @@
             </rl:CardAction>
         </Grid>
 
-        <TextBlock
-            Margin="0,24,0,0"
-            FontSize="16"
-            Text="Tools" />
-        <Grid
-            Margin="0 8 0 0">
-            <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="*" />
-                <ColumnDefinition
-                    Width="*" />
-                <ColumnDefinition
-                    Width="*" />
-                <ColumnDefinition
-                    Width="*" />
-            </Grid.ColumnDefinitions>
-            <rl:CardAction
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="0,0,4,0"
-                Icon="DesktopPulse24"
-                Command="{Binding  ViewModel.SnoopSelectionCommand}">
-                <StackPanel>
-                    <TextBlock
-                        FontWeight="Medium"
-                        Text="Event monitor" />
-                </StackPanel>
-            </rl:CardAction>
-        </Grid>
+        <!-- <TextBlock -->
+        <!--     Margin="0,24,0,0" -->
+        <!--     FontSize="16" -->
+        <!--     Text="Tools" /> -->
+        <!-- <Grid -->
+        <!--     Margin="0 8 0 0"> -->
+        <!--     <Grid.RowDefinitions> -->
+        <!--         <RowDefinition -->
+        <!--             Height="Auto" /> -->
+        <!--     </Grid.RowDefinitions> -->
+        <!--     <Grid.ColumnDefinitions> -->
+        <!--         <ColumnDefinition -->
+        <!--             Width="*" /> -->
+        <!--         <ColumnDefinition -->
+        <!--             Width="*" /> -->
+        <!--         <ColumnDefinition -->
+        <!--             Width="*" /> -->
+        <!--         <ColumnDefinition -->
+        <!--             Width="*" /> -->
+        <!--     </Grid.ColumnDefinitions> -->
+        <!--     <rl:CardAction -->
+        <!--         Grid.Row="0" -->
+        <!--         Grid.Column="0" -->
+        <!--         Margin="0,0,4,0" -->
+        <!--         Icon="DesktopPulse24" -->
+        <!--         Command="{Binding  ViewModel.NavigateSnoopCommand}"> -->
+        <!--         <StackPanel> -->
+        <!--             <TextBlock -->
+        <!--                 FontWeight="Medium" -->
+        <!--                 Text="Event monitor" /> -->
+        <!--         </StackPanel> -->
+        <!--     </rl:CardAction> -->
+        <!-- </Grid> -->
     </VirtualizingStackPanel>
 </rl:UiPage>

@@ -45,6 +45,11 @@ public interface INavigationWindow
     void ShowWindow();
 
     /// <summary>
+    /// Triggers the command to open a window.
+    /// </summary>
+    void ShowWindow(IntPtr handle);
+
+    /// <summary>
     /// Triggers the command to close a window.
     /// </summary>
     void CloseWindow();

@@ -18,11 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Services.Enums;
+using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.Services.Contracts;
 
-public interface ISnoopService
+public interface ILookupInstance : INavigationWindow
 {
-    public void Snoop(SnoopableType type);
+    IServiceProvider Context { get; }
 }
