@@ -22,6 +22,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.Views.Pages;
 
@@ -41,37 +42,37 @@ public sealed class DashboardViewModel : ObservableObject
 
     private void NavigateSnoopPage(string parameter)
     {
-        var snoopViewModel = _serviceProvider.GetService<SnoopViewModel>()!;
+        var snoopService = _serviceProvider.GetService<ISnoopService>()!;
         var navigationService = _serviceProvider.GetService<INavigationService>()!;
         navigationService.Navigate(typeof(SnoopView));
         switch (parameter)
         {
             case "selection":
-                snoopViewModel.SnoopSelection();
+                snoopService.SnoopSelection();
                 break;
             case "document":
-                snoopViewModel.SnoopDocument();
+                snoopService.SnoopDocument();
                 break;
             case "database":
-                snoopViewModel.SnoopDatabase();
+                snoopService.SnoopDatabase();
                 break;
             case "view":
-                snoopViewModel.SnoopView();
+                snoopService.SnoopView();
                 break;
             case "application":
-                snoopViewModel.SnoopApplication();
+                snoopService.SnoopApplication();
                 break;
             case "linked":
-                snoopViewModel.SnoopLinkedElement();
+                snoopService.SnoopLinkedElement();
                 break;
             case "dependents":
-                snoopViewModel.SnoopDependentElements();
+                snoopService.SnoopDependentElements();
                 break;
             case "face":
-                snoopViewModel.SnoopFace();
+                snoopService.SnoopFace();
                 break;
             case "edge":
-                snoopViewModel.SnoopEdge();
+                snoopService.SnoopEdge();
                 break;
         }
     }

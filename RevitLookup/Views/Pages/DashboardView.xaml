@@ -61,7 +61,7 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Margin="4,0,4,0"
-                Icon="ContentView24"
+                Icon="Image24"
                 CommandParameter="view"
                 Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
@@ -139,7 +139,7 @@
                 Grid.Row="1"
                 Grid.Column="2"
                 Margin="4,8,4,0"
-                Icon="SurfaceHub24"
+                Icon="LayerDiagonal20"
                 CommandParameter="face"
                 Command="{Binding  ViewModel.NavigateSnoopCommand}">
                 <StackPanel>
@@ -163,38 +163,38 @@
             </rl:CardAction>
         </Grid>
 
-        <!-- <TextBlock -->
-        <!--     Margin="0,24,0,0" -->
-        <!--     FontSize="16" -->
-        <!--     Text="Tools" /> -->
-        <!-- <Grid -->
-        <!--     Margin="0 8 0 0"> -->
-        <!--     <Grid.RowDefinitions> -->
-        <!--         <RowDefinition -->
-        <!--             Height="Auto" /> -->
-        <!--     </Grid.RowDefinitions> -->
-        <!--     <Grid.ColumnDefinitions> -->
-        <!--         <ColumnDefinition -->
-        <!--             Width="*" /> -->
-        <!--         <ColumnDefinition -->
-        <!--             Width="*" /> -->
-        <!--         <ColumnDefinition -->
-        <!--             Width="*" /> -->
-        <!--         <ColumnDefinition -->
-        <!--             Width="*" /> -->
-        <!--     </Grid.ColumnDefinitions> -->
-        <!--     <rl:CardAction -->
-        <!--         Grid.Row="0" -->
-        <!--         Grid.Column="0" -->
-        <!--         Margin="0,0,4,0" -->
-        <!--         Icon="DesktopPulse24" -->
-        <!--         Command="{Binding  ViewModel.NavigateSnoopCommand}"> -->
-        <!--         <StackPanel> -->
-        <!--             <TextBlock -->
-        <!--                 FontWeight="Medium" -->
-        <!--                 Text="Event monitor" /> -->
-        <!--         </StackPanel> -->
-        <!--     </rl:CardAction> -->
-        <!-- </Grid> -->
+        <TextBlock
+            Margin="0,24,0,0"
+            FontSize="16"
+            Text="Tools" />
+        <Grid
+            Margin="0 8 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="*" />
+            </Grid.ColumnDefinitions>
+            <rl:CardAction
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="0,0,4,0"
+                Icon="DesktopPulse24"
+                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                <StackPanel>
+                    <TextBlock
+                        FontWeight="Medium"
+                        Text="Event monitor" />
+                </StackPanel>
+            </rl:CardAction>
+        </Grid>
     </VirtualizingStackPanel>
 </rl:UiPage>

@@ -57,7 +57,7 @@ public static class Host
                 services.AddScoped<SettingsView>();
                 services.AddScoped<SettingsViewModel>();
                 services.AddScoped<SnoopView>();
-                services.AddScoped<SnoopViewModel>();
+                services.AddScoped<ISnoopService, SnoopViewModel>();
 
                 services.AddTransient<ILookupInstance, RevitLookupView>();
             }).Build();

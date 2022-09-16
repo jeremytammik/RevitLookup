@@ -21,16 +21,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
-using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Objects;
-using RevitLookup.Views.Pages;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class SnoopViewModel : ObservableObject
+public sealed class SnoopViewModel : ObservableObject, ISnoopService
 {
     private readonly INavigationService _navigationService;
 

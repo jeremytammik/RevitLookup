@@ -18,19 +18,17 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Common.Interfaces;
-using RevitLookup.ViewModels.Pages;
+namespace RevitLookup.Services.Contracts;
 
-namespace RevitLookup.Views.Pages;
-
-public sealed partial class SnoopView : INavigableView<SnoopViewModel>
+public interface ISnoopService
 {
-    public SnoopView(ISnoopService viewModel)
-    {
-        ViewModel = (SnoopViewModel) viewModel;
-        InitializeComponent();
-    }
-
-    public SnoopViewModel ViewModel { get; }
+    void SnoopSelection();
+    void SnoopDocument();
+    void SnoopDatabase();
+    void SnoopView();
+    void SnoopApplication();
+    void SnoopLinkedElement();
+    void SnoopDependentElements();
+    void SnoopFace();
+    void SnoopEdge();
 }

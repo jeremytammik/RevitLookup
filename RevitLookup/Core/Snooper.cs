@@ -29,6 +29,7 @@ public static class Snooper
 {
     public static IReadOnlyList<SnoopableObject> Snoop(SnoopableType type)
     {
+        if (RevitApi.UiDocument is null) return Array.Empty<SnoopableObject>();
         return type switch
         {
             SnoopableType.Selection => SnoopSelection(),
@@ -117,7 +118,8 @@ public static class Snooper
             foreach (var dependentElement in dependentElements) elements.Add(dependentElement);
         }
 
-        return new FilteredElementCollector(RevitApi.Document, elements)
+        return RevitApi.Document.GetElements()
+            .WherePasses(new ElementIdSetFilter(elements))
             .Select(element => new SnoopableObject(RevitApi.Document, element))
             .ToList();
     }

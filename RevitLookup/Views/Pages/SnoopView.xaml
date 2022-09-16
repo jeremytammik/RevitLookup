@@ -24,28 +24,38 @@
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:CollectionEmptyVisibilityConverter}}">
-            <Path
-                Stroke="{DynamicResource ControlFillColorDefaultBrush}"
-                StrokeThickness="1"
+            <Image
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
-                Margin="200 130 0 0"
-                Data="M159.1 110.6C94.1 204.3 -147.8 214.7 -203.8 126.1C-259.8 37.5 -129.9 -150 -8.9 -155.2C112 -160.3 224 16.8 159.1 110.6">
-            </Path>
+                MaxHeight="300">
+                <Image.Source>
+                    <DrawingImage>
+                        <DrawingImage.Drawing>
+                            <GeometryDrawing
+                                Geometry="M159.1 110.6C94.1 204.3 -147.8 214.7 -203.8 126.1C-259.8 37.5 -129.9 -150 -8.9 -155.2C112 -160.3 224 16.8 159.1 110.6">
+                                <GeometryDrawing.Pen>
+                                    <Pen
+                                        Brush="{DynamicResource ControlFillColorDefaultBrush}"
+                                        Thickness="1" />
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+                </Image.Source>
+            </Image>
             <StackPanel
+                Margin="0 40 0 0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
                 <TextBlock
                     FontSize="24"
                     FontWeight="Medium"
-                    Text="Nothing to show">
-                </TextBlock>
+                    Text="Nothing to show" />
                 <Button
                     HorizontalAlignment="Center"
                     Margin="0 8 0 0"
                     Content="Snoop selection"
-                    Command="{Binding ViewModel.SnoopSelectionCommand}">
-                </Button>
+                    Command="{Binding ViewModel.SnoopSelectionCommand}" />
             </StackPanel>
         </Grid>
         <Grid

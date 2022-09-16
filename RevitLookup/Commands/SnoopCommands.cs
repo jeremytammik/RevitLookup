@@ -22,7 +22,6 @@ using Autodesk.Revit.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services.Contracts;
-using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
@@ -36,6 +35,6 @@ public class SnoopSelectionCommand : ExternalCommand
         var window = Host.GetService<ILookupInstance>();
         window.ShowWindow(UiApplication.MainWindowHandle);
         window.Navigate(typeof(SnoopView));
-        window.Context.GetService<SnoopViewModel>()!.SnoopSelection();
+        window.Context.GetService<ISnoopService>()!.SnoopSelection();
     }
 }
