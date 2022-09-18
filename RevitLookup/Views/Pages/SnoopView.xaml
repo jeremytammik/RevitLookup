@@ -61,7 +61,7 @@
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:InverseCollectionSizeVisibilityConverter}}"
-            Margin="24">
+            Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
                     Width="*" />
@@ -72,7 +72,14 @@
             </Grid.ColumnDefinitions>
             <TreeView
                 Grid.Column="0"
-                ItemsSource="{Binding ViewModel.SnoopableObjects}" />
+                ItemsSource="{Binding ViewModel.SnoopableObjects}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={converters:SnoopableObjectLabelConverter}}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
             <DataGrid
                 Grid.Column="2" />
         </Grid>
