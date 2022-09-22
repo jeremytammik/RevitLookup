@@ -56,7 +56,6 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopService
     public void SnoopSelection()
     {
         SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
-        _navigationService.GetNavigationWindow().Focus();
     }
 
     public void SnoopApplication()
@@ -81,20 +80,23 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopService
 
     public void SnoopEdge()
     {
+        _navigationService.GetNavigationWindow().Hide();
         SnoopableObjects = Snooper.Snoop(SnoopableType.Edge);
-        _navigationService.GetNavigationWindow().Focus();
+        _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopFace()
     {
+        _navigationService.GetNavigationWindow().Hide();
         SnoopableObjects = Snooper.Snoop(SnoopableType.Face);
-        _navigationService.GetNavigationWindow().Focus();
+        _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopLinkedElement()
     {
+        _navigationService.GetNavigationWindow().Hide();
         SnoopableObjects = Snooper.Snoop(SnoopableType.LinkedElement);
-        _navigationService.GetNavigationWindow().Focus();
+        _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopDependentElements()

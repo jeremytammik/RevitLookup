@@ -43,8 +43,6 @@ public sealed class DashboardViewModel : ObservableObject
     private void NavigateSnoopPage(string parameter)
     {
         var snoopService = _serviceProvider.GetService<ISnoopService>()!;
-        var navigationService = _serviceProvider.GetService<INavigationService>()!;
-        navigationService.Navigate(typeof(SnoopView));
         switch (parameter)
         {
             case "selection":
@@ -75,5 +73,8 @@ public sealed class DashboardViewModel : ObservableObject
                 snoopService.SnoopEdge();
                 break;
         }
+
+        var navigationService = _serviceProvider.GetService<INavigationService>()!;
+        navigationService.Navigate(typeof(SnoopView));
     }
 }

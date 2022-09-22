@@ -62,20 +62,23 @@ public static class Snooper
 
     private static IReadOnlyList<SnoopableObject> SnoopEdge()
     {
-        var geometryObject = SelectObject(ObjectType.Edge);
-        return new[] {geometryObject};
+        return TrySelectObject(ObjectType.Edge, out var geometryObject)
+            ? new[] {geometryObject}
+            : Array.Empty<SnoopableObject>();
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopFace()
     {
-        var geometryObject = SelectObject(ObjectType.Face);
-        return new[] {geometryObject};
+        return TrySelectObject(ObjectType.Face, out var geometryObject)
+            ? new[] {geometryObject}
+            : Array.Empty<SnoopableObject>();
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopLinkedElement()
     {
-        var geometryObject = SelectObject(ObjectType.LinkedElement);
-        return new[] {geometryObject};
+        return TrySelectObject(ObjectType.LinkedElement, out var geometryObject)
+            ? new[] {geometryObject}
+            : Array.Empty<SnoopableObject>();
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopSelection()
@@ -124,19 +127,19 @@ public static class Snooper
             .ToList();
     }
 
-    private static SnoopableObject SelectObject(ObjectType objectType)
+    private static bool TrySelectObject(ObjectType objectType, out SnoopableObject selection)
     {
-        Reference reference = null;
+        Reference reference;
         try
         {
             reference = RevitApi.UiDocument.Selection.PickObject(objectType);
         }
         catch
         {
-            // ignored, canceled by user
+            // canceled by user
+            selection = null;
+            return false;
         }
-
-        if (reference is null) return new SnoopableObject(RevitApi.Document, RevitApi.ActiveView);
 
         object element;
         Document document;
@@ -162,6 +165,7 @@ public static class Snooper
                 throw new NotSupportedException();
         }
 
-        return new SnoopableObject(document, element);
+        selection = new SnoopableObject(document, element);
+        return true;
     }
 }

@@ -39,9 +39,6 @@ public sealed class OpenSourceDialogViewModel : ObservableObject
         Software.Add(new OpenSourceSoftware()
             .AddSoftware("WPF-UI", "https://github.com/lepoco/wpfui")
             .AddLicense("MIT License", "https://github.com/lepoco/wpfui/blob/main/LICENSE"));
-        Software.Add(new OpenSourceSoftware()
-            .AddSoftware("Newtonsoft.Json", "https://github.com/JamesNK/Newtonsoft.Json")
-            .AddLicense("MIT License", "https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md"));
     }
 
     public List<OpenSourceSoftware> Software { get; } = new();

@@ -72,11 +72,13 @@
             </Grid.ColumnDefinitions>
             <TreeView
                 Grid.Column="0"
+                VirtualizingStackPanel.IsVirtualizing="True"
+                VirtualizingStackPanel.VirtualizationMode="Recycling"
                 ItemsSource="{Binding ViewModel.SnoopableObjects}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate>
                         <TextBlock
-                            Text="{Binding Converter={converters:SnoopableObjectLabelConverter}}" />
+                            Text="{Binding Descriptor.Label}" />
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>

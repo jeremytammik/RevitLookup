@@ -22,9 +22,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using RevitLookup.Models;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
@@ -70,7 +70,7 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
                 releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
             }
 
-            var releases = JsonConvert.DeserializeObject<List<GutHubResponse>>(releasesJson);
+            var releases = JsonSerializer.Deserialize<List<GutHubResponse>>(releasesJson);
             if (releases is not null)
             {
                 var latestRelease = releases

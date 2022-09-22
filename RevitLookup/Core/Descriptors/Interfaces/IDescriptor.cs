@@ -18,26 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Markup;
+using RevitLookup.ViewModels.Objects;
 
-namespace RevitLookup.Views.Converters;
+namespace RevitLookup.Core.Descriptors.Interfaces;
 
-public class SnoopableObjectLabelConverter : MarkupExtension, IValueConverter
+public interface IDescriptor
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        return "Hello";
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
+    public string Label { get; }
+    public Func<IReadOnlyList<SnoopableObject>> SnoopHandler { get; }
 }

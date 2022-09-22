@@ -1,5 +1,4 @@
 ﻿// Copyright 2003-2022 by Autodesk, Inc.
-// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,24 +18,20 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
-using RevitLookup.Core.Descriptors.Interfaces;
-using RevitLookup.Core.Descriptors.Utils;
+namespace RevitLookup.Core.Descriptors;
 
-namespace RevitLookup.ViewModels.Objects;
-
-public sealed class SnoopableObject
+public sealed class BoolDescriptor : Descriptor
 {
-    public SnoopableObject(object o)
+    public BoolDescriptor(bool value)
     {
-        Descriptor = DescriptorUtils.FindSuitableDescriptor(o);
+        Label = value ? "True" : "False";
     }
+}
 
-    public SnoopableObject(Document document, object obj) : this(obj)
+public sealed class ObjectDescriptor : Descriptor
+{
+    public ObjectDescriptor(object value)
     {
-        Document = document;
+        Label = value.GetType().Name;
     }
-
-    public Document Document { get; }
-    public IDescriptor Descriptor { get; }
 }

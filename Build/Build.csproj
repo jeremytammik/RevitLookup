@@ -12,9 +12,8 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Nuke.Common" Version="6.2.1"/>
-        <PackageReference Include="vswhere" Version="2.*"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageDownload Include="GitVersion.Tool" Version="[5.8.1]"/>
+        <PackageDownload Include="GitVersion.Tool" Version="[5.10.3]"/>
     </ItemGroup>
 </Project>

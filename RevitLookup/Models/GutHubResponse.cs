@@ -18,22 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace RevitLookup.Models;
 
+[Serializable]
 public sealed class GutHubResponse
 {
-    [JsonProperty("html_url")] public string Url { get; set; }
-    [JsonProperty("tag_name")] public string TagName { get; set; }
-    [JsonProperty("draft")] public bool Draft { get; set; }
-    [JsonProperty("prerelease")] public bool PreRelease { get; set; }
-    [JsonProperty("published_at")] public DateTimeOffset PublishedDate { get; set; }
-    [JsonProperty("assets")] public List<GutHubResponseAsset> Assets { get; set; }
+    [JsonPropertyName("html_url")] public string Url { get; set; }
+    [JsonPropertyName("tag_name")] public string TagName { get; set; }
+    [JsonPropertyName("draft")] public bool Draft { get; set; }
+    [JsonPropertyName("prerelease")] public bool PreRelease { get; set; }
+    [JsonPropertyName("published_at")] public DateTimeOffset PublishedDate { get; set; }
+    [JsonPropertyName("assets")] public List<GutHubResponseAsset> Assets { get; set; }
 }
 
+[Serializable]
 public sealed class GutHubResponseAsset
 {
-    [JsonProperty("name")] public string Name { get; set; }
-    [JsonProperty("browser_download_url")] public string DownloadUrl { get; set; }
+    [JsonPropertyName("name")] public string Name { get; set; }
+    [JsonPropertyName("browser_download_url")] public string DownloadUrl { get; set; }
 }
