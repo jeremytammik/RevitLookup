@@ -49,12 +49,12 @@ public class Application : ExternalApplication
         var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "RevitLookup");
 
         var dashboardButton = splitButton.AddPushButton<DashboardCommand>("Dashboard");
-        dashboardButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        dashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        dashboardButton.SetImage("/RevitLookup;component/Resources/Images/Icon16.png");
+        dashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/Icon32.png");
 
         var snoopSelection = splitButton.AddPushButton<SnoopSelectionCommand>("Snoop selection");
-        snoopSelection.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        snoopSelection.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        snoopSelection.SetImage("/RevitLookup;component/Resources/Images/Icon16.png");
+        snoopSelection.SetLargeImage("/RevitLookup;component/Resources/Images/Icon32.png");
     }
 
     private static void UpdateSoftware()

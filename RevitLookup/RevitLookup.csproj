@@ -37,6 +37,18 @@
         <StartProgram>C:\Program Files\Autodesk\Revit $(RevitVersion)\Revit.exe</StartProgram>
         <StartArguments>/language ENG</StartArguments>
     </PropertyGroup>
+    <ItemGroup>
+      <None Remove="Resources\Images\Icon16.png" />
+      <None Remove="Resources\Images\Icon32.png" />
+      <None Remove="Resources\Images\RibbonIcon16.png" />
+      <None Remove="Resources\Images\RibbonIcon32.png" />
+    </ItemGroup>
+    <ItemGroup>
+      <Resource Include="Resources\Images\Icon16.png" />
+      <Resource Include="Resources\Images\Icon32.png" />
+      <Resource Include="Resources\Images\RibbonIcon16.png" />
+      <Resource Include="Resources\Images\RibbonIcon32.png" />
+    </ItemGroup>
 
     <ItemGroup>
         <Using Include="Nice3point.Revit.Extensions" />
@@ -58,11 +70,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Resource Include="Resources\Images\RibbonIcon16.png" />
-        <Resource Include="Resources\Images\RibbonIcon32.png" />
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
