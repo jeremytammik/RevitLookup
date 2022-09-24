@@ -28,4 +28,5 @@ public interface ISnoopViewModel : ISnoopService
 {
     IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
     RelayCommand SnoopSelectionCommand { get; }
+    RelayCommand<SnoopableObject> RefreshCommand { get; }
 }

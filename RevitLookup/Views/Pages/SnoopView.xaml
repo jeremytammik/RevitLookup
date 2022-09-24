@@ -73,24 +73,24 @@
             </Grid.ColumnDefinitions>
             <TreeView
                 Grid.Column="0"
+                x:Name="TreeView"
                 VirtualizingStackPanel.IsVirtualizing="True"
                 VirtualizingStackPanel.VirtualizationMode="Recycling"
-                ItemsSource="{Binding ViewModel.SnoopableObjects}"
-                SelectedItemChanged="TreeView_OnSelectedItemChanged">
+                ItemsSource="{Binding ViewModel.SnoopableObjects}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate>
                         <TextBlock
                             Text="{Binding Descriptor.Label}" />
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
-                <!-- <i:Interaction.Triggers> -->
-                <!--     <i:EventTrigger -->
-                <!--         EventName="SelectedItemChanged"> -->
-                <!--         <i:CallMethodAction -->
-                <!--             TargetObject="{Binding ViewModel}" -->
-                <!--             MethodName=""/> -->
-                <!--     </i:EventTrigger> -->
-                <!-- </i:Interaction.Triggers> -->
+                <i:Interaction.Triggers>
+                    <i:EventTrigger
+                        EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction
+                            Command="{Binding ViewModel.RefreshCommand}"
+                            CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </TreeView>
             <DataGrid
                 Grid.Column="2" />

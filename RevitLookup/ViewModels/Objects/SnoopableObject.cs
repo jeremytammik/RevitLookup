@@ -35,6 +35,7 @@ public sealed class SnoopableObject
 
     public SnoopableObject(Document document, object obj) : this(obj)
     {
+        //TODO temporary for UI tests
         Context = new SnoopableContext
         {
             Document = document

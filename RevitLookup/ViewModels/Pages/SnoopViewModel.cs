@@ -37,6 +37,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     {
         _navigationService = navigationService;
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
+        RefreshCommand = new RelayCommand<SnoopableObject>(Refresh);
     }
 
     public IReadOnlyList<SnoopableObject> SnoopableObjects
@@ -51,6 +52,12 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     public RelayCommand SnoopSelectionCommand { get; }
+    public RelayCommand<SnoopableObject> RefreshCommand { get; }
+
+    public void Refresh(SnoopableObject snoopableObject)
+    {
+        
+    }
 
     public void SnoopSelection()
     {

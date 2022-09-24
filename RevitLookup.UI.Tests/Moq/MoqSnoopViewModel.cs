@@ -33,6 +33,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     public MoqSnoopViewModel()
     {
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
+        RefreshCommand = new RelayCommand<SnoopableObject>(Refresh);
     }
 
     public IReadOnlyList<SnoopableObject> SnoopableObjects
@@ -47,6 +48,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     public RelayCommand SnoopSelectionCommand { get; }
+    public RelayCommand<SnoopableObject> RefreshCommand { get; }
 
     public void SnoopSelection()
     {
@@ -109,5 +111,10 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
             .Generate(100);
+    }
+
+    private void Refresh(SnoopableObject obj)
+    {
+        
     }
 }
