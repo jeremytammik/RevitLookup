@@ -15,6 +15,9 @@
         <ProjectReference Include="..\RevitLookup\RevitLookup.csproj" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Bogus" Version="34.0.2" />
         <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="2023.0.1" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="2023.0.1" />
     </ItemGroup>
 </Project>

@@ -18,25 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
+using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Common.Interfaces;
-using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Pages;
+using RevitLookup.ViewModels.Objects;
 
-namespace RevitLookup.Views.Pages;
+namespace RevitLookup.ViewModels.Contracts;
 
-public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
+public interface ISnoopViewModel : ISnoopService
 {
-    public SnoopView(ISnoopService viewModel)
-    {
-        ViewModel = (ISnoopViewModel) viewModel;
-        InitializeComponent();
-    }
-
-    public ISnoopViewModel ViewModel { get; }
-
-    private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-    {
-    }
+    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
+    RelayCommand SnoopSelectionCommand { get; }
 }
