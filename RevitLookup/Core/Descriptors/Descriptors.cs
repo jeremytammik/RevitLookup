@@ -28,6 +28,22 @@ public sealed class BoolDescriptor : Descriptor
     }
 }
 
+public sealed class StringDescriptor : Descriptor
+{
+    public StringDescriptor(string value)
+    {
+        Label = value;
+    }
+}
+
+public sealed class IntDescriptor : Descriptor
+{
+    public IntDescriptor(int value)
+    {
+        Label = value.ToString();
+    }
+}
+
 public sealed class ObjectDescriptor : Descriptor
 {
     public ObjectDescriptor(object value)

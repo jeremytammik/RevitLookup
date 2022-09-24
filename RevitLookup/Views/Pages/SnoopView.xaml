@@ -7,6 +7,7 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
@@ -74,13 +75,22 @@
                 Grid.Column="0"
                 VirtualizingStackPanel.IsVirtualizing="True"
                 VirtualizingStackPanel.VirtualizationMode="Recycling"
-                ItemsSource="{Binding ViewModel.SnoopableObjects}">
+                ItemsSource="{Binding ViewModel.SnoopableObjects}"
+                SelectedItemChanged="TreeView_OnSelectedItemChanged">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate>
                         <TextBlock
                             Text="{Binding Descriptor.Label}" />
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
+                <!-- <i:Interaction.Triggers> -->
+                <!--     <i:EventTrigger -->
+                <!--         EventName="SelectedItemChanged"> -->
+                <!--         <i:CallMethodAction -->
+                <!--             TargetObject="{Binding ViewModel}" -->
+                <!--             MethodName=""/> -->
+                <!--     </i:EventTrigger> -->
+                <!-- </i:Interaction.Triggers> -->
             </TreeView>
             <DataGrid
                 Grid.Column="2" />

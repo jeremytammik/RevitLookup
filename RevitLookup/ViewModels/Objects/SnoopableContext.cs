@@ -18,21 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Descriptors.Interfaces;
+using Autodesk.Revit.DB;
+using RevitLookup.ViewModels.Contracts;
 
-namespace RevitLookup.Core.Descriptors.Utils;
+namespace RevitLookup.ViewModels.Objects;
 
-public static class DescriptorUtils
+public sealed class SnoopableContext : ISnoopableContext
 {
-    public static IDescriptor FindSuitableDescriptor(object o)
-    {
-        return o switch
-        {
-            null => new BoolDescriptor(true),
-            bool boolValue => new BoolDescriptor(boolValue),
-            string stringValue => new StringDescriptor(stringValue),
-            int intValue => new IntDescriptor(intValue),
-            _ => new ObjectDescriptor(o)
-        };
-    }
+    public Document Document { get; set; }
 }

@@ -18,24 +18,20 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core;
-using RevitLookup.Services.Enums;
-using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
 
-namespace RevitLookup.ViewModels.Pages;
+namespace RevitLookup.UI.Tests.Moq;
 
-public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
+public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private readonly INavigationService _navigationService;
     private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
-    public SnoopViewModel(INavigationService navigationService)
+    public MoqSnoopViewModel()
     {
-        _navigationService = navigationService;
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
     }
 
@@ -54,52 +50,64 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void SnoopSelection()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopApplication()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Application);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDocument()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Document);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopView()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.View);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDatabase()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Database);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopEdge()
     {
-        _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Edge);
-        _navigationService.GetNavigationWindow().Show();
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopFace()
     {
-        _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Face);
-        _navigationService.GetNavigationWindow().Show();
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopLinkedElement()
     {
-        _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.LinkedElement);
-        _navigationService.GetNavigationWindow().Show();
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 }

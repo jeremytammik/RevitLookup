@@ -30,10 +30,7 @@ public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IValue
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is IReadOnlyList<SnoopableObject> collection)
-        {
-            return collection.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-        }
+        if (value is IReadOnlyList<SnoopableObject> collection) return collection.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 
         return Visibility.Visible;
     }
@@ -53,10 +50,7 @@ public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, 
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is IReadOnlyList<SnoopableObject> collection)
-        {
-            return collection.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
-        }
+        if (value is IReadOnlyList<SnoopableObject> collection) return collection.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
 
         return Visibility.Collapsed;
     }
@@ -65,7 +59,7 @@ public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, 
     {
         throw new NotSupportedException();
     }
-    
+
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;

@@ -11,10 +11,11 @@
         <Version>2023.2.0</Version>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj" />
-        <ProjectReference Include="..\RevitLookup\RevitLookup.csproj" />
+        <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj"/>
+        <ProjectReference Include="..\RevitLookup\RevitLookup.csproj"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
+        <PackageReference Include="Bogus" Version="34.0.2"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2022.1.0"/>
     </ItemGroup>
 </Project>

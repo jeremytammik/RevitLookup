@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,21 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Descriptors.Interfaces;
+using Autodesk.Revit.DB;
 
-namespace RevitLookup.Core.Descriptors.Utils;
+namespace RevitLookup.ViewModels.Contracts;
 
-public static class DescriptorUtils
+public interface ISnoopableContext
 {
-    public static IDescriptor FindSuitableDescriptor(object o)
-    {
-        return o switch
-        {
-            null => new BoolDescriptor(true),
-            bool boolValue => new BoolDescriptor(boolValue),
-            string stringValue => new StringDescriptor(stringValue),
-            int intValue => new IntDescriptor(intValue),
-            _ => new ObjectDescriptor(o)
-        };
-    }
+    Document Document { get; }
 }
