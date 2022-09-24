@@ -22,7 +22,6 @@ using System.Windows;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common.Interfaces;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.Views.Pages;
 

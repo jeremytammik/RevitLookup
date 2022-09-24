@@ -28,12 +28,12 @@ namespace RevitLookup.UI.Tests.Moq;
 
 public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
+    private IReadOnlyList<SnoopableObject> _snoopableObjects;
+
     public MoqSnoopViewModel()
     {
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
     }
-
-    private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public IReadOnlyList<SnoopableObject> SnoopableObjects
     {

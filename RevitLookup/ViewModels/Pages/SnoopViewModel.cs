@@ -31,14 +31,13 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly INavigationService _navigationService;
+    private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public SnoopViewModel(INavigationService navigationService)
     {
         _navigationService = navigationService;
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
     }
-
-    private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public IReadOnlyList<SnoopableObject> SnoopableObjects
     {
