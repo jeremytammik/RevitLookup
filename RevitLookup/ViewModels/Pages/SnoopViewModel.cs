@@ -32,6 +32,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly INavigationService _navigationService;
     private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    private IReadOnlyList<SnoopableObject> _snoopableData;
 
     public SnoopViewModel(INavigationService navigationService)
     {
@@ -50,14 +51,20 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
             OnPropertyChanged();
         }
     }
+    
+    public IReadOnlyList<SnoopableObject> SnoopableData
+    {
+        get => _snoopableData;
+        set
+        {
+            if (Equals(value, _snoopableData)) return;
+            _snoopableData = value;
+            OnPropertyChanged();
+        }
+    }
 
     public RelayCommand SnoopSelectionCommand { get; }
     public RelayCommand<SnoopableObject> RefreshCommand { get; }
-
-    public void Refresh(SnoopableObject snoopableObject)
-    {
-        
-    }
 
     public void SnoopSelection()
     {
@@ -108,5 +115,10 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     public void SnoopDependentElements()
     {
         SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
+    }
+
+    public void Refresh(SnoopableObject snoopableObject)
+    {
+        
     }
 }

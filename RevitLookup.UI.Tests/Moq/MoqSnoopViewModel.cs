@@ -29,6 +29,7 @@ namespace RevitLookup.UI.Tests.Moq;
 public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    private IReadOnlyList<SnoopableObject> _snoopableData;
 
     public MoqSnoopViewModel()
     {
@@ -43,6 +44,17 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         {
             if (Equals(value, _snoopableObjects)) return;
             _snoopableObjects = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public IReadOnlyList<SnoopableObject> SnoopableData
+    {
+        get => _snoopableData;
+        set
+        {
+            if (Equals(value, _snoopableData)) return;
+            _snoopableData = value;
             OnPropertyChanged();
         }
     }
@@ -115,6 +127,8 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 
     private void Refresh(SnoopableObject obj)
     {
-        
+        SnoopableData = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 }

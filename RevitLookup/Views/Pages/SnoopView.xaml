@@ -67,7 +67,7 @@
                 <ColumnDefinition
                     Width="*" />
                 <ColumnDefinition
-                    Width="40" />
+                    Width="10" />
                 <ColumnDefinition
                     Width="2*" />
             </Grid.ColumnDefinitions>
@@ -93,7 +93,32 @@
                 </i:Interaction.Triggers>
             </TreeView>
             <DataGrid
-                Grid.Column="2" />
+                Grid.Column="2"
+                Margin="0 0 6 2"
+                AutoGenerateColumns="False"
+                GridLinesVisibility="All"
+                IsReadOnly="True"
+                HeadersVisibility="Column"
+                HorizontalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
+                VerticalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
+                ColumnHeaderHeight="30"
+                RowHeight="25"
+                CanUserReorderColumns="False"
+                CanUserResizeColumns="True"
+                ItemsSource="{Binding ViewModel.SnoopableData}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding Descriptor.Label}"
+                        Header="Field">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Descriptor.Label}"
+                        Header="Value">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </rl:UiPage>
