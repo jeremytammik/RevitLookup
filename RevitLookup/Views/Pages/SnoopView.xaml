@@ -83,14 +83,14 @@
                             Text="{Binding Descriptor.Label}" />
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger
-                        EventName="SelectedItemChanged">
-                        <i:CallMethodAction
-                            TargetObject="{Binding ViewModel}"
-                            MethodName=""/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <!-- <i:Interaction.Triggers> -->
+                <!--     <i:EventTrigger -->
+                <!--         EventName="SelectedItemChanged"> -->
+                <!--         <i:CallMethodAction -->
+                <!--             TargetObject="{Binding ViewModel}" -->
+                <!--             MethodName=""/> -->
+                <!--     </i:EventTrigger> -->
+                <!-- </i:Interaction.Triggers> -->
             </TreeView>
             <DataGrid
                 Grid.Column="2" />

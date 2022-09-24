@@ -51,63 +51,63 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     public void SnoopSelection()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopApplication()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDocument()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopView()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDatabase()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopEdge()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopFace()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopLinkedElement()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDependentElements()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Text()))
-            .Generate(15);
+            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+            .Generate(100);
     }
 }

@@ -22,6 +22,7 @@
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Descriptors.Interfaces;
 using RevitLookup.Core.Descriptors.Utils;
+using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.ViewModels.Objects;
 
@@ -34,9 +35,12 @@ public sealed class SnoopableObject
 
     public SnoopableObject(Document document, object obj) : this(obj)
     {
-        Document = document;
+        Context = new SnoopableContext
+        {
+            Document = document
+        };
     }
 
-    public Document Document { get; }
+    public ISnoopableContext Context { get; }
     public IDescriptor Descriptor { get; }
 }
