@@ -38,3 +38,16 @@ public class SnoopSelectionCommand : ExternalCommand
         window.Context.GetService<ISnoopService>()!.SnoopSelection();
     }
 }
+
+[UsedImplicitly]
+[Transaction(TransactionMode.Manual)]
+public class SnoopDocumentCommand : ExternalCommand
+{
+    public override void Execute()
+    {
+        var window = Host.GetService<ILookupInstance>();
+        window.ShowWindow(UiApplication.MainWindowHandle);
+        window.Navigate(typeof(SnoopView));
+        window.Context.GetService<ISnoopService>()!.SnoopDocument();
+    }
+}

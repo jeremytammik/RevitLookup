@@ -46,15 +46,20 @@ public class Application : ExternalApplication
     private void CreateRibbonPanel()
     {
         var ribbonPanel = Application.CreatePanel("Revit Lookup");
-        var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "RevitLookup");
 
-        var dashboardButton = splitButton.AddPushButton<DashboardCommand>("Dashboard");
+        var dashboardButton = ribbonPanel.AddPushButton<DashboardCommand>("Dashboard");
         dashboardButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         dashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
+        var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "RevitLookup");
+        
         var snoopSelection = splitButton.AddPushButton<SnoopSelectionCommand>("Snoop selection");
         snoopSelection.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         snoopSelection.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+
+        var snoopDocument = splitButton.AddPushButton<SnoopDocumentCommand>("Snoop document");
+        snoopDocument.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        snoopDocument.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
     }
 
     private static void UpdateSoftware()
