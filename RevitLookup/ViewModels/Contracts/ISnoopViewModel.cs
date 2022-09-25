@@ -31,5 +31,4 @@ public interface ISnoopViewModel : ISnoopService
     ObservableCollection<SnoopableObject> SnoopableObjects { get; }
     ICommand SnoopSelectionCommand { get; }
     ICommand SnoopObjectCommand { get; }
-    public event EventHandler SelectionChanged;
 }

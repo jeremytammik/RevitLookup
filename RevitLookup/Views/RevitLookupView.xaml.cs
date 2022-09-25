@@ -33,6 +33,7 @@ public sealed partial class RevitLookupView : ILookupInstance
 
     public RevitLookupView(IServiceScopeFactory scopeFactory)
     {
+        var _ = new Microsoft.Xaml.Behaviors.EventTrigger();
         UI.Application.Current = this;
         InitializeComponent();
 
