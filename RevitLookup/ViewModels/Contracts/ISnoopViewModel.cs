@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,6 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Objects;
@@ -26,6 +28,8 @@ namespace RevitLookup.ViewModels.Contracts;
 
 public interface ISnoopViewModel : ISnoopService
 {
-    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
-    RelayCommand SnoopSelectionCommand { get; }
+    ObservableCollection<SnoopableObject> SnoopableObjects { get; }
+    ICommand SnoopSelectionCommand { get; }
+    ICommand SnoopObjectCommand { get; }
+    public event EventHandler SelectionChanged;
 }

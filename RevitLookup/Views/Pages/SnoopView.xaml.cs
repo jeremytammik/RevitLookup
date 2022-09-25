@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -33,9 +33,15 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         InitializeComponent();
     }
 
+    //private void ViewModel_SelectionChanged(object sender, EventArgs e)
+    //{
+    //    if (treeView.Items.Count > 0)
+    //    {
+    //        if (treeView.ItemContainerGenerator.ContainerFromItem(treeView.Items[0]) is TreeViewItem tvi)
+    //        {
+    //            tvi.IsSelected = true;
+    //        }
+    //    }
+    //}
     public ISnoopViewModel ViewModel { get; }
-
-    private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-    {
-    }
 }

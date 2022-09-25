@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,6 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
@@ -31,7 +33,9 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly INavigationService _navigationService;
-    private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    private ObservableCollection<SnoopableObject> _snoopableObjects;
+
+    public event EventHandler SelectionChanged;
 
     public SnoopViewModel(INavigationService navigationService)
     {
@@ -39,7 +43,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
     }
 
-    public IReadOnlyList<SnoopableObject> SnoopableObjects
+    public ObservableCollection<SnoopableObject> SnoopableObjects
     {
         get => _snoopableObjects;
         private set
@@ -50,56 +54,64 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
     }
 
-    public RelayCommand SnoopSelectionCommand { get; }
+    public ICommand SnoopSelectionCommand { get; }
 
     public void SnoopSelection()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
     }
 
     public void SnoopApplication()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Application);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
     }
 
     public void SnoopDocument()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Document);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
     }
 
     public void SnoopView()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.View);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
     }
 
     public void SnoopDatabase()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Database);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
     }
 
     public void SnoopEdge()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Edge);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopFace()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Face);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopLinkedElement()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.LinkedElement);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
+        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
     }
+
+    private ICommand _snoopObjectCommand;
+
+    [UsedImplicitly]
+    public ICommand SnoopObjectCommand => _snoopObjectCommand ??= new RelayCommand(() =>
+    {
+        
+    });
 }
