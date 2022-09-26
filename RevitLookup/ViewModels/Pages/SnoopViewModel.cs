@@ -33,7 +33,7 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly INavigationService _navigationService;
-    private ObservableCollection<SnoopableObject> _snoopableObjects;
+    private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public event EventHandler SelectionChanged;
 
@@ -43,7 +43,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
     }
 
-    public ObservableCollection<SnoopableObject> SnoopableObjects
+    public IReadOnlyList<SnoopableObject> SnoopableObjects
     {
         get => _snoopableObjects;
         private set
@@ -73,38 +73,38 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void SnoopView()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
     }
 
     public void SnoopDatabase()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
     }
 
     public void SnoopEdge()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopFace()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopLinkedElement()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(Snooper.Snoop(SnoopableType.Selection));
+        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
     }
 
     private ICommand _snoopObjectCommand;

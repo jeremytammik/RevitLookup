@@ -31,7 +31,7 @@ namespace RevitLookup.UI.Tests.Moq;
 
 public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private ObservableCollection<SnoopableObject> _snoopableObjects;
+    private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public MoqSnoopViewModel()
     {
@@ -52,7 +52,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
 
-    public ObservableCollection<SnoopableObject> SnoopableObjects
+    public IReadOnlyList<SnoopableObject> SnoopableObjects
     {
         get => _snoopableObjects;
         private set
@@ -68,65 +68,65 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void SnoopSelection()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     public void SnoopApplication()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     public void SnoopDocument()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     public void SnoopView()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     public void SnoopDatabase()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     public void SnoopEdge()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     public void SnoopFace()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     public void SnoopLinkedElement()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>(new Faker<SnoopableObject>()
+        SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
-            .Generate(100));
+            .Generate(100);
     }
 
     private ICommand _snoopObjectCommand;

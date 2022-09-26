@@ -18,9 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Objects;
 
@@ -28,7 +26,7 @@ namespace RevitLookup.ViewModels.Contracts;
 
 public interface ISnoopViewModel : ISnoopService
 {
-    ObservableCollection<SnoopableObject> SnoopableObjects { get; }
+    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
     ICommand SnoopSelectionCommand { get; }
     ICommand SnoopObjectCommand { get; }
 }
