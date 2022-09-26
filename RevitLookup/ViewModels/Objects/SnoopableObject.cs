@@ -28,6 +28,7 @@ namespace RevitLookup.ViewModels.Objects;
 
 public sealed class SnoopableObject
 {
+    private IReadOnlyList<SnoopableObject> _members;
     public SnoopableObject(object o)
     {
         Descriptor = DescriptorUtils.FindSuitableDescriptor(o);
@@ -44,4 +45,16 @@ public sealed class SnoopableObject
 
     public ISnoopableContext Context { get; }
     public IDescriptor Descriptor { get; }
+
+    public IReadOnlyList<SnoopableObject> GetMembers()
+    {
+        _members = Descriptor.SnoopHandler.Invoke();
+        return _members;
+    }
+
+    public IReadOnlyList<SnoopableObject> GetCachedMembers()
+    {
+        return _members ??= GetMembers();
+    }
+    
 }
