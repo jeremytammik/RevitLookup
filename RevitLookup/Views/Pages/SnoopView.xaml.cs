@@ -34,8 +34,4 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     }
 
     public ISnoopViewModel ViewModel { get; }
-
-    private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-    {
-    }
 }

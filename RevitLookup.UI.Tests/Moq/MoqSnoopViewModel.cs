@@ -28,8 +28,10 @@ namespace RevitLookup.UI.Tests.Moq;
 
 public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
+    private string _searchText;
     private IReadOnlyList<SnoopableObject> _snoopableData;
+    private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public MoqSnoopViewModel()
     {
@@ -44,6 +46,18 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         {
             if (Equals(value, _snoopableObjects)) return;
             _snoopableObjects = value;
+            SearchText = string.Empty;
+            OnPropertyChanged();
+        }
+    }
+
+    public IReadOnlyList<SnoopableObject> FilteredSnoopableObjects
+    {
+        get => _filteredSnoopableObjects;
+        private set
+        {
+            if (Equals(value, _filteredSnoopableObjects)) return;
+            _filteredSnoopableObjects = value;
             OnPropertyChanged();
         }
     }
@@ -56,6 +70,18 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
             if (Equals(value, _snoopableData)) return;
             _snoopableData = value;
             OnPropertyChanged();
+        }
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (value == _searchText) return;
+            _searchText = value;
+            OnPropertyChanged();
+            UpdateSearchResults(value);
         }
     }
 
@@ -127,8 +153,35 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 
     private void Refresh(SnoopableObject obj)
     {
+        if (obj is null)
+        {
+            SnoopableData = Array.Empty<SnoopableObject>();
+            return;
+        }
+
         SnoopableData = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
             .Generate(100);
+    }
+
+    private void UpdateSearchResults(string searchText)
+    {
+        Task.Run(() =>
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                FilteredSnoopableObjects = SnoopableObjects;
+                return;
+            }
+
+            var formattedText = searchText.ToLower().Trim();
+            var searchResults = new List<SnoopableObject>(SnoopableObjects.Count);
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var snoopableObject in SnoopableObjects)
+                if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))
+                    searchResults.Add(snoopableObject);
+
+            FilteredSnoopableObjects = searchResults;
+        });
     }
 }

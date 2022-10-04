@@ -33,6 +33,8 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     private readonly INavigationService _navigationService;
     private IReadOnlyList<SnoopableObject> _snoopableObjects;
     private IReadOnlyList<SnoopableObject> _snoopableData;
+    private string _searchText;
+    private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
 
     public SnoopViewModel(INavigationService navigationService)
     {
@@ -51,7 +53,18 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
             OnPropertyChanged();
         }
     }
-    
+
+    public IReadOnlyList<SnoopableObject> FilteredSnoopableObjects
+    {
+        get => _filteredSnoopableObjects;
+        set
+        {
+            if (Equals(value, _filteredSnoopableObjects)) return;
+            _filteredSnoopableObjects = value;
+            OnPropertyChanged();
+        }
+    }
+
     public IReadOnlyList<SnoopableObject> SnoopableData
     {
         get => _snoopableData;
@@ -117,8 +130,20 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
     }
 
+    [UsedImplicitly]
     public void Refresh(SnoopableObject snoopableObject)
     {
-        
+        SnoopableData = snoopableObject.GetCachedMembers();
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (value == _searchText) return;
+            _searchText = value;
+            OnPropertyChanged();
+        }
     }
 }

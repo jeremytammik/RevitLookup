@@ -48,13 +48,11 @@ public sealed class SnoopableObject
 
     public IReadOnlyList<SnoopableObject> GetMembers()
     {
-        _members = Descriptor.SnoopHandler.Invoke();
-        return _members;
+        return _members = Descriptor.SnoopHandler?.Invoke();
     }
 
     public IReadOnlyList<SnoopableObject> GetCachedMembers()
     {
-        return _members ??= GetMembers();
+        return _members ?? GetMembers();
     }
-    
 }

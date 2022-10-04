@@ -67,31 +67,40 @@
                 <ColumnDefinition
                     Width="*" />
                 <ColumnDefinition
-                    Width="10" />
+                    Width="9" />
                 <ColumnDefinition
                     Width="2*" />
             </Grid.ColumnDefinitions>
-            <TreeView
-                Grid.Column="0"
-                x:Name="TreeView"
-                VirtualizingStackPanel.IsVirtualizing="True"
-                VirtualizingStackPanel.VirtualizationMode="Recycling"
-                ItemsSource="{Binding ViewModel.SnoopableObjects}">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate>
-                        <TextBlock
-                            Text="{Binding Descriptor.Label}" />
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger
-                        EventName="SelectedItemChanged">
-                        <i:InvokeCommandAction
-                            Command="{Binding ViewModel.RefreshCommand}"
-                            CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </TreeView>
+            <DockPanel
+                Margin="5 0 0 0"
+                Grid.Column="0">
+                <rl:AutoSuggestBox
+                    DockPanel.Dock="Top"
+                    PlaceholderText="Search..."
+                    Text="{Binding ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                </rl:AutoSuggestBox>
+                <TreeView
+                    x:Name="TreeView"
+                    Margin="0 8 0 0"
+                    VirtualizingStackPanel.IsVirtualizing="True"
+                    VirtualizingStackPanel.VirtualizationMode="Recycling"
+                    ItemsSource="{Binding ViewModel.FilteredSnoopableObjects}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate>
+                            <TextBlock
+                                Text="{Binding Descriptor.Label}" />
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger
+                            EventName="SelectedItemChanged">
+                            <i:InvokeCommandAction
+                                Command="{Binding ViewModel.RefreshCommand}"
+                                CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TreeView>
+            </DockPanel>
             <DataGrid
                 Grid.Column="2"
                 Margin="0 0 6 2"
@@ -102,18 +111,19 @@
                 HorizontalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
                 VerticalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
                 ColumnHeaderHeight="30"
+                MinColumnWidth="100"
                 RowHeight="25"
                 CanUserReorderColumns="False"
                 CanUserResizeColumns="True"
                 ItemsSource="{Binding ViewModel.SnoopableData}">
                 <DataGrid.Columns>
                     <DataGridTextColumn
-                        Width="2*"
+                        Width="*"
                         Binding="{Binding Descriptor.Label}"
                         Header="Field">
                     </DataGridTextColumn>
                     <DataGridTextColumn
-                        Width="*"
+                        Width="2*"
                         Binding="{Binding Descriptor.Label}"
                         Header="Value">
                     </DataGridTextColumn>
