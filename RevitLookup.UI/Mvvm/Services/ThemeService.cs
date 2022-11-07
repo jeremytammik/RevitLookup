@@ -8,7 +8,7 @@ namespace RevitLookup.UI.Mvvm.Services;
 /// <summary>
 /// Lets you set the app theme.
 /// </summary>
-public partial class ThemeService : IThemeService
+public class ThemeService : IThemeService
 {
     /// <inheritdoc />
     public virtual ThemeType GetTheme() => Theme.GetAppTheme();
@@ -40,7 +40,6 @@ public partial class ThemeService : IThemeService
             return false;
 
         Theme.Apply(themeType);
-
         return true;
     }
 
@@ -48,7 +47,6 @@ public partial class ThemeService : IThemeService
     public bool SetSystemAccent()
     {
         Accent.ApplySystemAccent();
-
         return true;
     }
 
@@ -56,7 +54,6 @@ public partial class ThemeService : IThemeService
     public bool SetAccent(Color accentColor)
     {
         Accent.Apply(accentColor);
-
         return true;
     }
 
@@ -67,7 +64,6 @@ public partial class ThemeService : IThemeService
         color.A = (byte)Math.Round(accentSolidBrush.Opacity * byte.MaxValue);
 
         Accent.Apply(color);
-
         return true;
     }
 }

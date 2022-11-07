@@ -21,10 +21,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
+using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
+using RevitLookup.Views.Pages;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -50,6 +52,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         {
             if (Equals(value, _snoopableObjects)) return;
             _snoopableObjects = value;
+            SearchText = string.Empty;
             OnPropertyChanged();
         }
     }
@@ -73,6 +76,18 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
             if (Equals(value, _snoopableData)) return;
             _snoopableData = value;
             OnPropertyChanged();
+        }
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (value == _searchText) return;
+            _searchText = value;
+            OnPropertyChanged();
+            UpdateSearchResults(value);
         }
     }
 
@@ -133,17 +148,28 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     [UsedImplicitly]
     public void Refresh(SnoopableObject snoopableObject)
     {
+        if (snoopableObject is null) return;
         SnoopableData = snoopableObject.GetCachedMembers();
     }
-
-    public string SearchText
+    
+    private void UpdateSearchResults(string searchText)
     {
-        get => _searchText;
-        set
+        Task.Run(() =>
         {
-            if (value == _searchText) return;
-            _searchText = value;
-            OnPropertyChanged();
-        }
+            if (string.IsNullOrEmpty(searchText))
+            {
+                FilteredSnoopableObjects = SnoopableObjects;
+                return;
+            }
+
+            var formattedText = searchText.ToLower().Trim();
+            var searchResults = new List<SnoopableObject>(SnoopableObjects.Count);
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var snoopableObject in SnoopableObjects)
+                if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))
+                    searchResults.Add(snoopableObject);
+
+            FilteredSnoopableObjects = searchResults;
+        });
     }
 }

@@ -8,6 +8,8 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:pages1="clr-namespace:RevitLookup.ViewModels.Pages"
+    xmlns:objects="clr-namespace:RevitLookup.ViewModels.Objects"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
@@ -103,18 +105,21 @@
             </DockPanel>
             <DataGrid
                 Grid.Column="2"
+                x:Name="DataGrid"
                 Margin="0 0 6 2"
+                IsReadOnly="True"
+                RowHeight="25"
+                MinColumnWidth="100"
+                ColumnHeaderHeight="30"
                 AutoGenerateColumns="False"
                 GridLinesVisibility="All"
-                IsReadOnly="True"
+                SelectionUnit="FullRow"
+                SelectionMode="Extended"
                 HeadersVisibility="Column"
-                HorizontalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
-                VerticalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
-                ColumnHeaderHeight="30"
-                MinColumnWidth="100"
-                RowHeight="25"
                 CanUserReorderColumns="False"
                 CanUserResizeColumns="True"
+                HorizontalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
+                VerticalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
                 ItemsSource="{Binding ViewModel.SnoopableData}">
                 <DataGrid.Columns>
                     <DataGridTextColumn
@@ -128,6 +133,23 @@
                         Header="Value">
                     </DataGridTextColumn>
                 </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style
+                        d:DataContext="{d:DesignInstance objects:SnoopableObject}"
+                        TargetType="DataGridRow"
+                        BasedOn="{StaticResource {x:Type DataGridRow}}">
+                        <EventSetter Event="PreviewMouseLeftButtonUp" Handler="EventSetter_OnHandler"/>
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Path=Descriptor.SnoopHandler, Converter={converters:NullObjectConverter}}"
+                                Value="true">
+                                <Setter
+                                    Property="FontWeight"
+                                    Value="Bold" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
             </DataGrid>
         </Grid>
     </Grid>

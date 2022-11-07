@@ -174,22 +174,22 @@
                         <ContentPresenter
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
-                    <!-- <ControlTemplate.Triggers> -->
-                    <!--     <Trigger Property="IsSelected" Value="True"> -->
-                    <!--         <Setter TargetName="Border" Property="Background"> -->
-                    <!--             <Setter.Value> -->
-                    <!--                 <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" /> -->
-                    <!--             </Setter.Value> -->
-                    <!--         </Setter> -->
-                    <!--     </Trigger> -->
-                    <!--     <Trigger Property="IsMouseOver" Value="True"> -->
-                    <!--         <Setter TargetName="Border" Property="Background"> -->
-                    <!--             <Setter.Value> -->
-                    <!--                 <SolidColorBrush Opacity="0.5" Color="{DynamicResource ControlFillColorDefault}" /> -->
-                    <!--             </Setter.Value> -->
-                    <!--         </Setter> -->
-                    <!--     </Trigger> -->
-                    <!-- </ControlTemplate.Triggers> -->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Opacity="0.5" Color="{DynamicResource ControlFillColorDefault}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
