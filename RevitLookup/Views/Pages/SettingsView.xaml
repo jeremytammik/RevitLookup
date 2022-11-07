@@ -15,7 +15,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <rl:ThemesDictionary
-                    Theme="Dark" />
+                    Theme="Light" />
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

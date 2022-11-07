@@ -16,7 +16,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <rl:ThemesDictionary
-                    Theme="Dark" />
+                    Theme="Light" />
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -36,7 +36,7 @@
                                 Geometry="M159.1 110.6C94.1 204.3 -147.8 214.7 -203.8 126.1C-259.8 37.5 -129.9 -150 -8.9 -155.2C112 -160.3 224 16.8 159.1 110.6">
                                 <GeometryDrawing.Pen>
                                     <Pen
-                                        Brush="{DynamicResource ControlFillColorDefaultBrush}"
+                                        Brush="{DynamicResource ControlStrokeColorTertiaryBrush}"
                                         Thickness="1" />
                                 </GeometryDrawing.Pen>
                             </GeometryDrawing>
