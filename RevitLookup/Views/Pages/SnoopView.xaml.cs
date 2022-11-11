@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
 using System.Windows;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common.Interfaces;
@@ -37,7 +36,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 
     public ISnoopViewModel ViewModel { get; }
 
-    private void EventSetter_OnHandler(object sender, RoutedEventArgs routedEventArgs)
+    private void HandleGridRowClick(object sender, RoutedEventArgs routedEventArgs)
     {
         if (DataGrid.SelectedItems.Count == 1)
         {
