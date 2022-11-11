@@ -57,11 +57,14 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
         try
         {
             if (!string.IsNullOrEmpty(LocalFilePath))
-                if (LocalFilePath.Contains(NewVersion))
+            {
+                var fileName = Path.GetFileName(LocalFilePath);
+                if (fileName.Contains(NewVersion))
                 {
                     State = SoftwareUpdateState.ReadyToInstall;
                     return;
                 }
+            }
 
             string releasesJson;
             using (var gitHubClient = new HttpClient())
@@ -110,9 +113,10 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
 
                 // Checking downloaded releases
                 var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
+                NewVersion = newVersionTag.ToString(3);
                 if (Directory.Exists(downloadFolder))
                     foreach (var file in Directory.EnumerateFiles(downloadFolder))
-                        if (file.Contains(newVersionTag.ToString(3)))
+                        if (file.Contains(NewVersion))
                         {
                             LocalFilePath = file;
                             State = SoftwareUpdateState.ReadyToInstall;
@@ -121,7 +125,6 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
 
                 State = SoftwareUpdateState.ReadyToDownload;
                 ReleaseNotesUrl = latestRelease.Url;
-                NewVersion = newVersionTag.ToString(3);
             }
             else
             {
