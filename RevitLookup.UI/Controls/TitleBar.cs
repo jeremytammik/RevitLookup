@@ -3,7 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -529,16 +528,16 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
         // Can be taken it from the Template, but honestly - a classic - TODO: 
         // ButtonsBackground, but
         _snapLayout.HoverColorLight = new SolidColorBrush(Color.FromArgb(
-            (byte)0x1A,
-            (byte)0x00,
-            (byte)0x00,
-            (byte)0x00)
+            0x1A,
+            0x00,
+            0x00,
+            0x00)
         );
         _snapLayout.HoverColorDark = new SolidColorBrush(Color.FromArgb(
-            (byte)0x17,
-            (byte)0xFF,
-            (byte)0xFF,
-            (byte)0xFF)
+            0x17,
+            0xFF,
+            0xFF,
+            0xFF)
         );
 
         _snapLayout.Theme = Theme;

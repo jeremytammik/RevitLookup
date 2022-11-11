@@ -5,10 +5,8 @@
 // Copyright (C) S. Bäumlisberger, Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -433,7 +431,7 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
     private int GetRowIndex(double location)
     {
         var calculatedRowIndex = (int)Math.Floor(location / GetHeight(ChildSize));
-        var maxRowIndex = (int)Math.Ceiling((double)Items.Count / (double)ItemsPerRowCount);
+        var maxRowIndex = (int)Math.Ceiling(Items.Count / (double)ItemsPerRowCount);
 
         return Math.Max(Math.Min(calculatedRowIndex, maxRowIndex), 0);
     }

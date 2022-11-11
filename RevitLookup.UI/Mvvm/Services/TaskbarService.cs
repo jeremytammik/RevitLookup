@@ -3,8 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
 using RevitLookup.UI.Mvvm.Contracts;
@@ -15,7 +13,7 @@ namespace RevitLookup.UI.Mvvm.Services;
 /// <summary>
 /// Allows you to manage the animations of the window icon in the taskbar.
 /// </summary>
-public partial class TaskBarService : ITaskBarService
+public class TaskBarService : ITaskBarService
 {
     private volatile Dictionary<IntPtr, TaskBarProgressState> _progressStates;
 

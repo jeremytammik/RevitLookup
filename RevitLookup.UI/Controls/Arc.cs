@@ -3,7 +3,6 @@
 // Copyright (C) Mark Feldman, Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;

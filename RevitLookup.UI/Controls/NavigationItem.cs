@@ -3,7 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
@@ -37,13 +36,13 @@ public class NavigationItem : System.Windows.Controls.Primitives.ButtonBase, IUr
     /// Property for <see cref="PageSource"/>.
     /// </summary>
     public static readonly DependencyProperty PageSourceProperty = DependencyProperty.Register(nameof(PageSource),
-        typeof(Uri), typeof(NavigationItem), new PropertyMetadata((Uri)null, OnPageSourceChanged));
+        typeof(Uri), typeof(NavigationItem), new PropertyMetadata(null, OnPageSourceChanged));
 
     /// <summary>
     /// Property for <see cref="PageType"/>.
     /// </summary>
     public static readonly DependencyProperty PageTypeProperty = DependencyProperty.Register(nameof(PageType),
-        typeof(Type), typeof(NavigationItem), new PropertyMetadata((Type)null, OnPageTypeChanged));
+        typeof(Type), typeof(NavigationItem), new PropertyMetadata(null, OnPageTypeChanged));
 
     /// <summary>
     /// Property for <see cref="IsActive"/>.

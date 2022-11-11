@@ -3,11 +3,8 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -54,7 +51,7 @@ public class AutoSuggestBox : TextBox
     /// </summary>
     public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(nameof(ItemsSource),
         typeof(IEnumerable<string>), typeof(AutoSuggestBox),
-        new PropertyMetadata((IEnumerable<string>)null, OnItemsSourceChanged));
+        new PropertyMetadata(null, OnItemsSourceChanged));
 
     /// <summary>
     /// Property for <see cref="FilteredItemsSource"/>.

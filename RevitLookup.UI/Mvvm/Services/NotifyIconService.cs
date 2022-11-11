@@ -18,7 +18,7 @@ public class NotifyIconService : INotifyIconService
 {
     private readonly UI.Services.Internal.NotifyIconService _notifyIconService;
 
-    public Window ParentWindow { get; internal set; } = (Window)null!;
+    public Window ParentWindow { get; internal set; } = null!;
 
     public int Id => _notifyIconService.Id;
 

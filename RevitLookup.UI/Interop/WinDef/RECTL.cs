@@ -6,7 +6,6 @@
 // Copyright (C) Leszek Pomianowski.
 // All Rights Reserved.
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace RevitLookup.UI.Interop.WinDef;

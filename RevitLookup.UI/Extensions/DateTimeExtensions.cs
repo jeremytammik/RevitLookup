@@ -3,8 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
-
 namespace RevitLookup.UI.Extensions;
 
 /// <summary>
@@ -35,6 +33,6 @@ public static class DateTimeExtensions
     public static long GetMicroTimestamp(this DateTime dateTime)
     {
         // Should be 10^-6
-        return (long)dateTime.Subtract(new DateTime(1970, 1, 1)).Ticks / (TimeSpan.TicksPerMillisecond / 1000);
+        return dateTime.Subtract(new DateTime(1970, 1, 1)).Ticks / (TimeSpan.TicksPerMillisecond / 1000);
     }
 }

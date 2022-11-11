@@ -3,7 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
@@ -78,7 +77,7 @@ public class NotifyIcon : FrameworkElement
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
         typeof(ImageSource), typeof(NotifyIcon),
-        new PropertyMetadata((ImageSource)null!, OnIconChanged));
+        new PropertyMetadata(null!, OnIconChanged));
 
     /// <summary>
     /// Property for <see cref="Menu"/>.

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Mvvm.Contracts;
 
@@ -8,7 +7,7 @@ namespace RevitLookup.UI.Mvvm.Services;
 /// <summary>
 /// Lets you set the app theme.
 /// </summary>
-public partial class ThemeService : IThemeService
+public class ThemeService : IThemeService
 {
     /// <inheritdoc />
     public virtual ThemeType GetTheme() => Theme.GetAppTheme();

@@ -3,10 +3,8 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using RevitLookup.UI.Common;

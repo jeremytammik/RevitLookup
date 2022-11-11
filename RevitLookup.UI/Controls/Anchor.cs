@@ -3,11 +3,9 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 
 // https://docs.microsoft.com/en-us/fluent-ui/web-components/components/anchor
 

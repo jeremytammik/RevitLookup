@@ -7,7 +7,6 @@
 #pragma warning disable CS8600
 #pragma warning disable CS8603
 
-using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
@@ -35,14 +34,14 @@ public abstract class NavigationBase : Control, INavigation
     /// </summary>
     public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(nameof(Items),
         typeof(ObservableCollection<INavigationControl>), typeof(NavigationBase),
-        new PropertyMetadata((ObservableCollection<INavigationControl>)null, OnItemsChanged));
+        new PropertyMetadata(null, OnItemsChanged));
 
     /// <summary>
     /// Property for <see cref="Footer"/>.
     /// </summary>
     public static readonly DependencyProperty FooterProperty = DependencyProperty.Register(nameof(Footer),
         typeof(ObservableCollection<INavigationControl>), typeof(NavigationBase),
-        new PropertyMetadata((ObservableCollection<INavigationControl>)null, OnFooterChanged));
+        new PropertyMetadata(null, OnFooterChanged));
 
     /// <summary>
     /// Property for <see cref="Orientation"/>.
@@ -57,7 +56,7 @@ public abstract class NavigationBase : Control, INavigation
     /// </summary>
     public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame),
         typeof(Frame), typeof(NavigationBase),
-        new PropertyMetadata((Frame)null, OnFrameChanged));
+        new PropertyMetadata(null, OnFrameChanged));
 
     /// <summary>
     /// Property for <see cref="TransitionDuration"/>.
@@ -241,7 +240,7 @@ public abstract class NavigationBase : Control, INavigation
     /// </summary>
     protected NavigationBase()
     {
-        Current = (INavigationItem)null;
+        Current = null;
 
         // Prepare individual collections for this navigation
         Items ??= new ObservableCollection<INavigationControl>();
@@ -398,7 +397,7 @@ public abstract class NavigationBase : Control, INavigation
         Items.Clear();
         Footer.Clear();
 
-        Current = (INavigationItem)null;
+        Current = null;
     }
 
     /// <inheritdoc/>

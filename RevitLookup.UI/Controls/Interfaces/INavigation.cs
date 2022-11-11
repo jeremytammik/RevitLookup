@@ -3,7 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;

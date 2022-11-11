@@ -3,7 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Windows;
 using System.Windows.Media;
 using RevitLookup.UI.Interop;
 using RevitLookup.UI.Extensions;

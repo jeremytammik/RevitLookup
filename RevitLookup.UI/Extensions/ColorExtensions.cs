@@ -3,7 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System;
 using System.Windows.Media;
 
 namespace RevitLookup.UI.Extensions;
@@ -16,7 +15,7 @@ public static class ColorExtensions
     /// <summary>
     /// Maximum <see cref="Byte"/> size with the current <see cref="Single"/> precision.
     /// </summary>
-    private static float ByteMax = (float)byte.MaxValue;
+    private static float ByteMax = byte.MaxValue;
 
     /// <summary>
     /// Creates a <see cref="SolidColorBrush"/> from a <see cref="System.Windows.Media.Color"/>.
@@ -47,7 +46,7 @@ public static class ColorExtensions
     {
         var (hue, saturation, luminance) = color.ToHsl();
 
-        return (double)luminance;
+        return luminance;
     }
 
     /// <summary>
@@ -58,7 +57,7 @@ public static class ColorExtensions
     {
         var (hue, saturation, brightness) = color.ToHsv();
 
-        return (double)brightness;
+        return brightness;
     }
 
     /// <summary>
@@ -69,7 +68,7 @@ public static class ColorExtensions
     {
         var (hue, saturation, brightness) = color.ToHsv();
 
-        return (double)hue;
+        return hue;
     }
 
     /// <summary>
@@ -80,7 +79,7 @@ public static class ColorExtensions
     {
         var (hue, saturation, brightness) = color.ToHsv();
 
-        return (double)saturation;
+        return saturation;
     }
 
     /// <summary>

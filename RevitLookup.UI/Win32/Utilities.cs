@@ -8,7 +8,6 @@
 #pragma warning disable CS8601
 #pragma warning disable CS8625
 
-using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 

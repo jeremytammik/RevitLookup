@@ -11,7 +11,6 @@
 // If you have suggestions for the code below, please submit your changes there.
 // https://github.com/lepoco/nativemethods
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace RevitLookup.UI.Interop;

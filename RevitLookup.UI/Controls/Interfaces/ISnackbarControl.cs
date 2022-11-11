@@ -3,7 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Threading.Tasks;
 using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls.Interfaces;
