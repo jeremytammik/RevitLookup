@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using RevitLookup.UI.Controls.Interfaces;
@@ -13,12 +14,8 @@ namespace RevitLookup.UI.Mvvm.Services;
 /// <summary>
 /// A service that provides methods related to navigation.
 /// </summary>
-public class NavigationService : INavigationService
+public partial class NavigationService : INavigationService
 {
-    public NavigationService()
-    {
-    }
-
     /// <summary>
     /// Locally attached page service.
     /// </summary>

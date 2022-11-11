@@ -7,7 +7,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
-using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Interop;
 
@@ -18,7 +17,7 @@ namespace RevitLookup.UI.Controls;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(MessageBox), "MessageBox.bmp")]
-public class MessageBox : Window
+public class MessageBox : System.Windows.Window
 {
     /// <summary>
     /// Property for <see cref="Footer"/>.
@@ -54,8 +53,8 @@ public class MessageBox : Window
     /// Property for <see cref="ButtonLeftAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftAppearanceProperty = DependencyProperty.Register(nameof(ButtonLeftAppearance),
-        typeof(ControlAppearance), typeof(MessageBox),
-        new PropertyMetadata(ControlAppearance.Primary));
+        typeof(Common.ControlAppearance), typeof(MessageBox),
+        new PropertyMetadata(Common.ControlAppearance.Primary));
 
     /// <summary>
     /// Routed event for <see cref="ButtonLeftClick"/>.
@@ -73,8 +72,8 @@ public class MessageBox : Window
     /// Property for <see cref="ButtonRightAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonRightAppearanceProperty = DependencyProperty.Register(nameof(ButtonRightAppearance),
-        typeof(ControlAppearance), typeof(MessageBox),
-        new PropertyMetadata(ControlAppearance.Secondary));
+        typeof(Common.ControlAppearance), typeof(MessageBox),
+        new PropertyMetadata(Common.ControlAppearance.Secondary));
 
     /// <summary>
     /// Routed event for <see cref="ButtonRightClick"/>.
@@ -87,7 +86,7 @@ public class MessageBox : Window
     /// </summary>
     public static readonly DependencyProperty TemplateButtonCommandProperty =
         DependencyProperty.Register(nameof(TemplateButtonCommand),
-            typeof(IRelayCommand), typeof(MessageBox), new PropertyMetadata(null));
+            typeof(Common.IRelayCommand), typeof(MessageBox), new PropertyMetadata(null));
 
     /// <summary>
     /// Gets or sets a content of the <see cref="MessageBox"/> bottom element.
@@ -108,7 +107,7 @@ public class MessageBox : Window
     }
 
     /// <summary>
-    /// Gets or sets a value that determines whether to show the <see cref="System.Windows.Window.Title"/> in <see cref="TitleBar"/>.
+    /// Gets or sets a value that determines whether to show the <see cref="System.Windows.Window.Title"/> in <see cref="Wpf.Ui.Controls.TitleBar"/>.
     /// </summary>
     public bool ShowTitle
     {
@@ -117,7 +116,7 @@ public class MessageBox : Window
     }
 
     /// <summary>
-    /// Gets or sets a value that determines whether <see cref="MessageBox"/> should contain a <see cref="BackgroundType.Mica"/> effect.
+    /// Gets or sets a value that determines whether <see cref="MessageBox"/> should contain a <see cref="Wpf.Ui.Appearance.BackgroundType.Mica"/> effect.
     /// </summary>
     public bool MicaEnabled
     {
@@ -137,9 +136,9 @@ public class MessageBox : Window
     /// <summary>
     /// Gets or sets the <see cref="ControlAppearance"/> of the button on the left, if available.
     /// </summary>
-    public ControlAppearance ButtonLeftAppearance
+    public Common.ControlAppearance ButtonLeftAppearance
     {
-        get => (ControlAppearance)GetValue(ButtonLeftAppearanceProperty);
+        get => (Common.ControlAppearance)GetValue(ButtonLeftAppearanceProperty);
         set => SetValue(ButtonLeftAppearanceProperty, value);
     }
 
@@ -164,9 +163,9 @@ public class MessageBox : Window
     /// <summary>
     /// Gets or sets the <see cref="ControlAppearance"/> of the button on the right, if available.
     /// </summary>
-    public ControlAppearance ButtonRightAppearance
+    public Common.ControlAppearance ButtonRightAppearance
     {
-        get => (ControlAppearance)GetValue(ButtonRightAppearanceProperty);
+        get => (Common.ControlAppearance)GetValue(ButtonRightAppearanceProperty);
         set => SetValue(ButtonRightAppearanceProperty, value);
     }
 
@@ -182,15 +181,14 @@ public class MessageBox : Window
     /// <summary>
     /// Command triggered after clicking the button on the Footer.
     /// </summary>
-    public IRelayCommand TemplateButtonCommand => (IRelayCommand)GetValue(TemplateButtonCommandProperty);
+    public Common.IRelayCommand TemplateButtonCommand => (Common.IRelayCommand)GetValue(TemplateButtonCommandProperty);
 
     /// <summary>
     /// Creates new instance and sets default <see cref="FrameworkElement.Loaded"/> event.
     /// </summary>
     public MessageBox()
     {
-        Owner = Application.Current;
-
+        SetWindowStartupLocation();
         Topmost = true;
 
         Height = 200;
@@ -198,7 +196,7 @@ public class MessageBox : Window
 
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-        SetValue(TemplateButtonCommandProperty, new RelayCommand(o => Button_OnClick(this, o)));
+        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand(o => Button_OnClick(this, o)));
     }
 
     /// Shows a <see cref="System.Windows.MessageBox"/>.
@@ -206,7 +204,7 @@ public class MessageBox : Window
     {
         UnsafeNativeMethods.RemoveWindowTitlebar(this);
 
-        Appearance.Background.Apply(this, Appearance.BackgroundType.Mica);
+        RevitLookup.UI.Appearance.Background.Apply(this, RevitLookup.UI.Appearance.BackgroundType.Mica);
 
         base.Show();
     }
@@ -232,21 +230,29 @@ public class MessageBox : Window
     //    System.Diagnostics.Debug.WriteLine(newContent.GetType());
 
     //    if (newContent != null && newContent.GetType() == typeof(System.Windows.Controls.Grid))
-    //    {
     //        Height = (newContent as System.Windows.Controls.Grid).ActualHeight;
-    //    }
 
     //    base.OnContentChanged(oldContent, newContent);
     //}
 
+    private void SetWindowStartupLocation()
+    {
+        if (Application.Current != null)
+            Owner = Application.Current;
+        else
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+    }
+
     private void Button_OnClick(object sender, object parameter)
     {
         if (parameter == null)
-        {
             return;
-        }
 
-        var param = parameter as string ?? string.Empty;
+        string param = parameter as string ?? String.Empty;
+
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(MessageBox)} button clicked with param: {param}", "RevitLookup.UI.MessageBox");
+#endif
 
         switch (param)
         {

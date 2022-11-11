@@ -23,7 +23,7 @@ namespace RevitLookup.UI.Controls;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(NumberBox), "NumberBox.bmp")]
-public class NumberBox : TextBox
+public class NumberBox : RevitLookup.UI.Controls.TextBox
 {
     // In both expressions, we allow the lonely characters '-', '.' and ',' so the numbers can be typed in real-time.
 
@@ -41,7 +41,7 @@ public class NumberBox : TextBox
     /// Property for <see cref="Value"/>.
     /// </summary>
     public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(nameof(Value),
-        typeof(double), typeof(NumberBox), new PropertyMetadata(0.0d));
+        typeof(double), typeof(NumberBox), new PropertyMetadata(0.0d, OnValuePropertyChanged));
 
     /// <summary>
     /// Property for <see cref="Step"/>.
@@ -53,13 +53,13 @@ public class NumberBox : TextBox
     /// Property for <see cref="Max"/>.
     /// </summary>
     public static readonly DependencyProperty MaxProperty = DependencyProperty.Register(nameof(Max),
-        typeof(double), typeof(NumberBox), new PropertyMetadata(double.MaxValue));
+        typeof(double), typeof(NumberBox), new PropertyMetadata(Double.MaxValue));
 
     /// <summary>
     /// Property for <see cref="Min"/>.
     /// </summary>
     public static readonly DependencyProperty MinProperty = DependencyProperty.Register(nameof(Min),
-        typeof(double), typeof(NumberBox), new PropertyMetadata(double.MinValue));
+        typeof(double), typeof(NumberBox), new PropertyMetadata(Double.MinValue));
 
     /// <summary>
     /// Property for <see cref="DecimalPlaces"/>.
@@ -71,7 +71,7 @@ public class NumberBox : TextBox
     /// Property for <see cref="Mask"/>.
     /// </summary>
     public static readonly DependencyProperty MaskProperty = DependencyProperty.Register(nameof(Mask),
-        typeof(string), typeof(NumberBox), new PropertyMetadata(string.Empty));
+        typeof(string), typeof(NumberBox), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Property for <see cref="SpinButtonsEnabled"/>.
@@ -214,6 +214,13 @@ public class NumberBox : TextBox
         remove => RemoveHandler(DecrementedEvent, value);
     }
 
+    static NumberBox()
+    {
+        AcceptsReturnProperty.OverrideMetadata(typeof(PasswordBox), new FrameworkPropertyMetadata(false));
+        MaxLinesProperty.OverrideMetadata(typeof(PasswordBox), new FrameworkPropertyMetadata(1));
+        MinLinesProperty.OverrideMetadata(typeof(PasswordBox), new FrameworkPropertyMetadata(1));
+    }
+
     /// <summary>
     /// Creates new instance of <see cref="NumberBox"/>.
     /// </summary>
@@ -224,6 +231,11 @@ public class NumberBox : TextBox
         Loaded += OnLoaded;
     }
 
+    protected virtual void OnValueChanged()
+    {
+
+    }
+
     /// <inheritdoc/>
     protected override void OnTemplateButtonClick(object sender, object parameter)
     {
@@ -232,9 +244,10 @@ public class NumberBox : TextBox
         if (sender is not NumberBox)
             return;
 
-        var command = parameter?.ToString() ?? string.Empty;
+        if (parameter is not string parameterString)
+            return;
 
-        switch (command)
+        switch (parameterString)
         {
             case "increment":
                 IncrementValue();
@@ -281,7 +294,7 @@ public class NumberBox : TextBox
         var currentText = Text;
         var parsedNumber = ParseStringToDouble(currentText) + Step;
 
-        if (string.IsNullOrWhiteSpace(currentText) || parsedNumber > Max)
+        if (String.IsNullOrWhiteSpace(currentText) || parsedNumber > Max)
         {
             UpdateValue(Max, true);
 
@@ -301,7 +314,7 @@ public class NumberBox : TextBox
         var currentText = Text;
         var parsedNumber = ParseStringToDouble(currentText) - Step;
 
-        if (string.IsNullOrWhiteSpace(currentText) || parsedNumber < Min)
+        if (String.IsNullOrWhiteSpace(currentText) || parsedNumber < Min)
         {
             UpdateValue(Min, true);
 
@@ -368,7 +381,7 @@ public class NumberBox : TextBox
     /// </summary>
     private double ParseStringToDouble(string inputText)
     {
-        double.TryParse(inputText, NumberStyles.Any, CultureInfo.InvariantCulture, out var number);
+        Double.TryParse(inputText, NumberStyles.Any, CultureInfo.InvariantCulture, out double number);
 
         return number;
     }
@@ -432,9 +445,9 @@ public class NumberBox : TextBox
     /// <inheritdoc />
     protected override void OnPreviewTextInput(TextCompositionEventArgs e)
     {
-        var newText = Text + (e.Text ?? string.Empty);
+        var newText = Text + (e.Text ?? String.Empty);
 
-        if (!string.IsNullOrEmpty(newText))
+        if (!String.IsNullOrEmpty(newText))
             e.Handled = !IsNumberTextValid(newText);
 
         // Do not allow a leading minus sign if the min value is greater than zero.
@@ -470,16 +483,7 @@ public class NumberBox : TextBox
             DecimalPlaces = 0;
     }
 
-    private static void OnDecimalPlacesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        if (d is not NumberBox control)
-            return;
 
-        if (e.NewValue is not int newValue)
-            return;
-
-        control.OnDecimalPlacesChanged(newValue);
-    }
 
     private void OnClipboardPaste(object sender, DataObjectPastingEventArgs e)
     {
@@ -490,5 +494,24 @@ public class NumberBox : TextBox
 
         if (!IsNumberTextValid(clipboardText))
             e.CancelCommand();
+    }
+
+    private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not NumberBox numberBox)
+            return;
+
+        numberBox.OnValueChanged();
+    }
+
+    private static void OnDecimalPlacesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not NumberBox control)
+            return;
+
+        if (e.NewValue is not int newValue)
+            return;
+
+        control.OnDecimalPlacesChanged(newValue);
     }
 }
