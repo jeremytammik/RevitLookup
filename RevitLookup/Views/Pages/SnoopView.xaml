@@ -8,7 +8,6 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:pages1="clr-namespace:RevitLookup.ViewModels.Pages"
     xmlns:objects="clr-namespace:RevitLookup.ViewModels.Objects"
     mc:Ignorable="d"
     d:DesignHeight="500"
@@ -124,13 +123,23 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
-                        Binding="{Binding Descriptor.Label}"
-                        Header="Field">
+                        Binding="{Binding Descriptor.Label}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock
+                                FontWeight="Bold"
+                                Text="Field">
+                            </TextBlock>
+                        </DataGridTextColumn.Header>
                     </DataGridTextColumn>
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Descriptor.Label}"
-                        Header="Value">
+                        Binding="{Binding Descriptor.Label}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock
+                                FontWeight="Bold"
+                                Text="Value">
+                            </TextBlock>
+                        </DataGridTextColumn.Header>
                     </DataGridTextColumn>
                 </DataGrid.Columns>
                 <DataGrid.RowStyle>
@@ -147,7 +156,7 @@
                                 Value="true">
                                 <Setter
                                     Property="FontWeight"
-                                    Value="Bold" />
+                                    Value="DemiBold" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
