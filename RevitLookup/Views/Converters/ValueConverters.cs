@@ -22,6 +22,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Views.Converters;
@@ -30,9 +31,8 @@ public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IValue
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is IReadOnlyList<SnoopableObject> collection) return collection.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-
-        return Visibility.Visible;
+        var collection = (IReadOnlyList<ISnoopableObject>) value!;
+        return collection.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -50,9 +50,8 @@ public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, 
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is IReadOnlyList<SnoopableObject> collection) return collection.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
-
-        return Visibility.Collapsed;
+        var collection = (IReadOnlyList<ISnoopableObject>) value!;
+        return collection.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

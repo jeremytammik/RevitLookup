@@ -40,7 +40,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     {
         if (DataGrid.SelectedItems.Count == 1)
         {
-            var selectedItem = (SnoopableObject) DataGrid.SelectedItem;
+            var selectedItem = (ISnoopableObject) DataGrid.SelectedItem;
             var members = selectedItem.GetCachedMembers();
             if (members is not null)
             {

@@ -26,32 +26,25 @@ using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.ViewModels.Objects;
 
-public sealed class SnoopableObject
+public sealed class SnoopableObject : ISnoopableObject
 {
     private IReadOnlyList<SnoopableObject> _members;
-    public SnoopableObject(object o)
+
+    public SnoopableObject(Document context, object obj)
     {
-        Descriptor = DescriptorUtils.FindSuitableDescriptor(o);
+        Descriptor = DescriptorUtils.FindSuitableDescriptor(obj);
+        Descriptor.SnoopHandler = DescriptorUtils.FindSuitableHandler(obj);
+        Descriptor.Label = obj.GetType().Name;
     }
 
-    public SnoopableObject(Document document, object obj) : this(obj)
-    {
-        //TODO temporary for UI tests
-        Context = new SnoopableContext
-        {
-            Document = document
-        };
-    }
-
-    public ISnoopableContext Context { get; }
     public IDescriptor Descriptor { get; }
 
-    public IReadOnlyList<SnoopableObject> GetMembers()
+    public IReadOnlyList<ISnoopableObject> GetMembers()
     {
         return _members = Descriptor.SnoopHandler?.Invoke();
     }
 
-    public IReadOnlyList<SnoopableObject> GetCachedMembers()
+    public IReadOnlyList<ISnoopableObject> GetCachedMembers()
     {
         return _members ?? GetMembers();
     }

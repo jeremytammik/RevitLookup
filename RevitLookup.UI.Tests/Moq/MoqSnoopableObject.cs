@@ -1,3 +1,4 @@
+﻿// Copyright 2003-2022 by Autodesk, Inc.
 // Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
@@ -18,11 +19,32 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
+using RevitLookup.Core.Descriptors;
+using RevitLookup.Core.Descriptors.Interfaces;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Objects;
 
-namespace RevitLookup.ViewModels.Contracts;
+namespace RevitLookup.UI.Tests.Moq;
 
-public interface ISnoopableContext
+public sealed class MoqSnoopableObject : ISnoopableObject
 {
-    Document Document { get; }
+    private IReadOnlyList<SnoopableObject> _members;
+
+    public MoqSnoopableObject(string text)
+    {
+        Descriptor = new StringDescriptor(text);
+        Descriptor.Label = "string";
+    }
+
+    public IDescriptor Descriptor { get; }
+
+    public IReadOnlyList<ISnoopableObject> GetMembers()
+    {
+        return _members = Descriptor.SnoopHandler?.Invoke();
+    }
+
+    public IReadOnlyList<ISnoopableObject> GetCachedMembers()
+    {
+        return _members ?? GetMembers();
+    }
 }

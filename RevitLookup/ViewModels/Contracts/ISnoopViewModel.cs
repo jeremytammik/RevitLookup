@@ -20,16 +20,15 @@
 
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
-using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Contracts;
 
 public interface ISnoopViewModel : ISnoopService
 {
-    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
-    IReadOnlyList<SnoopableObject> FilteredSnoopableObjects { get; }
-    IReadOnlyList<SnoopableObject> SnoopableData { get; }
+    IReadOnlyList<ISnoopableObject> SnoopableObjects { get; }
+    IReadOnlyList<ISnoopableObject> FilteredSnoopableObjects { get; }
+    IReadOnlyList<ISnoopableObject> SnoopableData { get; }
     RelayCommand SnoopSelectionCommand { get; }
-    RelayCommand<SnoopableObject> RefreshCommand { get; }
-    public string SearchText { get; set; }
+    RelayCommand<ISnoopableObject> RefreshCommand { get; }
+    string SearchText { get; set; }
 }

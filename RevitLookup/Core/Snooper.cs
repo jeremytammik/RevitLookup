@@ -21,7 +21,9 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
 using RevitLookup.Services.Enums;
+using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
+using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
 namespace RevitLookup.Core;
 
@@ -47,17 +49,17 @@ public static class Snooper
 
     private static IReadOnlyList<SnoopableObject> SnoopView()
     {
-        return new SnoopableObject[] {new(RevitApi.ActiveView)};
+        return new SnoopableObject[] {new(RevitApi.Document, RevitApi.ActiveView)};
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopDocument()
     {
-        return new SnoopableObject[] {new(RevitApi.Document)};
+        return new SnoopableObject[] {new(RevitApi.Document, RevitApi.Document)};
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopApplication()
     {
-        return new SnoopableObject[] {new(RevitApi.Application)};
+        return new SnoopableObject[] {new(RevitApi.Document, RevitApi.Application)};
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopEdge()
@@ -134,9 +136,8 @@ public static class Snooper
         {
             reference = RevitApi.UiDocument.Selection.PickObject(objectType);
         }
-        catch
+        catch (OperationCanceledException)
         {
-            // canceled by user
             selection = null;
             return false;
         }

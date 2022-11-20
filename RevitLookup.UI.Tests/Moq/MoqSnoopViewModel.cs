@@ -22,24 +22,23 @@ using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.UI.Tests.Moq;
 
 public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
+    private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects;
     private string _searchText;
-    private IReadOnlyList<SnoopableObject> _snoopableData;
-    private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    private IReadOnlyList<ISnoopableObject> _snoopableData;
+    private IReadOnlyList<ISnoopableObject> _snoopableObjects;
 
     public MoqSnoopViewModel()
     {
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
-        RefreshCommand = new RelayCommand<SnoopableObject>(Refresh);
+        RefreshCommand = new RelayCommand<ISnoopableObject>(Refresh);
     }
 
-    public IReadOnlyList<SnoopableObject> SnoopableObjects
+    public IReadOnlyList<ISnoopableObject> SnoopableObjects
     {
         get => _snoopableObjects;
         private set
@@ -51,7 +50,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         }
     }
 
-    public IReadOnlyList<SnoopableObject> FilteredSnoopableObjects
+    public IReadOnlyList<ISnoopableObject> FilteredSnoopableObjects
     {
         get => _filteredSnoopableObjects;
         private set
@@ -62,7 +61,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         }
     }
 
-    public IReadOnlyList<SnoopableObject> SnoopableData
+    public IReadOnlyList<ISnoopableObject> SnoopableData
     {
         get => _snoopableData;
         set
@@ -86,81 +85,81 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     public RelayCommand SnoopSelectionCommand { get; }
-    public RelayCommand<SnoopableObject> RefreshCommand { get; }
+    public RelayCommand<ISnoopableObject> RefreshCommand { get; }
 
     public void SnoopSelection()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
     public void SnoopApplication()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
     public void SnoopDocument()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
     public void SnoopView()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
     public void SnoopDatabase()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
     public void SnoopEdge()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
     public void SnoopFace()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
     public void SnoopLinkedElement()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableObjects = new Faker<MoqSnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
-    private void Refresh(SnoopableObject obj)
+    private void Refresh(ISnoopableObject obj)
     {
         if (obj is null)
         {
-            SnoopableData = Array.Empty<SnoopableObject>();
+            SnoopableData = Array.Empty<ISnoopableObject>();
             return;
         }
 
-        SnoopableData = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(faker.Lorem.Word()))
+        SnoopableData = new Faker<ISnoopableObject>()
+            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
             .Generate(100);
     }
 
@@ -175,7 +174,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
             }
 
             var formattedText = searchText.ToLower().Trim();
-            var searchResults = new List<SnoopableObject>(SnoopableObjects.Count);
+            var searchResults = new List<ISnoopableObject>(SnoopableObjects.Count);
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var snoopableObject in SnoopableObjects)
                 if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))

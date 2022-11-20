@@ -18,21 +18,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using RevitLookup.Core.Descriptors.Interfaces;
+using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Core.Descriptors.Utils;
 
 public static class DescriptorUtils
 {
-    public static IDescriptor FindSuitableDescriptor(object o)
+    public static IDescriptor FindSuitableDescriptor(object obj)
     {
-        return o switch
+        return obj switch
         {
-            null => new BoolDescriptor(true),
             bool boolValue => new BoolDescriptor(boolValue),
             string stringValue => new StringDescriptor(stringValue),
             int intValue => new IntDescriptor(intValue),
-            _ => new ObjectDescriptor(o)
+            _ => new ObjectDescriptor(obj)
         };
+    }
+
+    public static Func<IReadOnlyList<SnoopableObject>> FindSuitableHandler(object obj)
+    {
+        Func<IReadOnlyList<SnoopableObject>> handler = null;
+        if (obj is Element element)
+        {
+            
+        }
+
+        return handler;
     }
 }

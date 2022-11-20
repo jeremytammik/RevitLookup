@@ -24,6 +24,7 @@ namespace RevitLookup.Core.Descriptors.Interfaces;
 
 public interface IDescriptor
 {
-    public string Label { get; }
-    public Func<IReadOnlyList<SnoopableObject>> SnoopHandler { get; }
+    public string Label { get; set; }
+    public string Value { get; set; }
+    public Func<IReadOnlyList<SnoopableObject>> SnoopHandler { get; set; }
 }

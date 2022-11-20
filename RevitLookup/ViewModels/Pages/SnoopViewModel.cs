@@ -21,31 +21,28 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
-using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Objects;
-using RevitLookup.Views.Pages;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private readonly INavigationService _navigationService;
-    private IReadOnlyList<SnoopableObject> _snoopableObjects;
-    private IReadOnlyList<SnoopableObject> _snoopableData;
     private string _searchText;
-    private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
+    private readonly INavigationService _navigationService;
+    private IReadOnlyList<ISnoopableObject> _snoopableObjects;
+    private IReadOnlyList<ISnoopableObject> _snoopableData;
+    private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects;
 
     public SnoopViewModel(INavigationService navigationService)
     {
         _navigationService = navigationService;
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
-        RefreshCommand = new RelayCommand<SnoopableObject>(Refresh);
+        RefreshCommand = new RelayCommand<ISnoopableObject>(Refresh);
     }
 
-    public IReadOnlyList<SnoopableObject> SnoopableObjects
+    public IReadOnlyList<ISnoopableObject> SnoopableObjects
     {
         get => _snoopableObjects;
         private set
@@ -57,7 +54,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
     }
 
-    public IReadOnlyList<SnoopableObject> FilteredSnoopableObjects
+    public IReadOnlyList<ISnoopableObject> FilteredSnoopableObjects
     {
         get => _filteredSnoopableObjects;
         set
@@ -68,7 +65,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
     }
 
-    public IReadOnlyList<SnoopableObject> SnoopableData
+    public IReadOnlyList<ISnoopableObject> SnoopableData
     {
         get => _snoopableData;
         set
@@ -92,7 +89,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     public RelayCommand SnoopSelectionCommand { get; }
-    public RelayCommand<SnoopableObject> RefreshCommand { get; }
+    public RelayCommand<ISnoopableObject> RefreshCommand { get; }
 
     public void SnoopSelection()
     {
@@ -146,12 +143,12 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     [UsedImplicitly]
-    public void Refresh(SnoopableObject snoopableObject)
+    public void Refresh(ISnoopableObject snoopableObject)
     {
         if (snoopableObject is null) return;
-        SnoopableData = snoopableObject.GetCachedMembers();
+        SnoopableData = snoopableObject.GetMembers();
     }
-    
+
     private void UpdateSearchResults(string searchText)
     {
         Task.Run(() =>
@@ -163,7 +160,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
             }
 
             var formattedText = searchText.ToLower().Trim();
-            var searchResults = new List<SnoopableObject>(SnoopableObjects.Count);
+            var searchResults = new List<ISnoopableObject>(SnoopableObjects.Count);
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var snoopableObject in SnoopableObjects)
                 if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))

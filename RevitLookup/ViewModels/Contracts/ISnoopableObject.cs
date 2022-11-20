@@ -18,12 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
-using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Core.Descriptors.Interfaces;
 
-namespace RevitLookup.ViewModels.Objects;
+namespace RevitLookup.ViewModels.Contracts;
 
-public sealed class SnoopableContext : ISnoopableContext
+public interface ISnoopableObject
 {
-    public Document Document { get; set; }
+    IDescriptor Descriptor { get; }
+    IReadOnlyList<ISnoopableObject> GetMembers();
+    IReadOnlyList<ISnoopableObject> GetCachedMembers();
 }
