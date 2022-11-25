@@ -24,20 +24,21 @@
         Margin="24"
         IsVirtualizing="True"
         VirtualizationMode="Recycling">
-        <!-- <rl:CardControl -->
-        <!--     Header="Theme" -->
-        <!--     Icon="Color24"> -->
-        <!--     <ComboBox -->
-        <!--         MinWidth="150" -->
-        <!--         SelectedItem="{Binding ViewModel.CurrentTheme}" -->
-        <!--         ItemsSource="{Binding ViewModel.Themes}"> -->
-        <!--         <ComboBox.ItemTemplate> -->
-        <!--             <DataTemplate> -->
-        <!--                 <TextBlock -->
-        <!--                     Text="{Binding ., Converter={converters:ThemeTypeConverter}}" /> -->
-        <!--             </DataTemplate> -->
-        <!--         </ComboBox.ItemTemplate> -->
-        <!--     </ComboBox> -->
-        <!-- </rl:CardControl> -->
+        <rl:CardControl
+            Header="Theme"
+            Icon="Color24">
+            <ComboBox
+                MinWidth="150"
+                IsEnabled="False"
+                SelectedItem="{Binding ViewModel.CurrentTheme}"
+                ItemsSource="{Binding ViewModel.Themes}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding ., Converter={converters:ThemeTypeConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </rl:CardControl>
     </VirtualizingStackPanel>
 </rl:UiPage>

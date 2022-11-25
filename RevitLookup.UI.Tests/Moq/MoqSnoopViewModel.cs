@@ -27,10 +27,10 @@ namespace RevitLookup.UI.Tests.Moq;
 
 public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects;
     private string _searchText;
-    private IReadOnlyList<ISnoopableObject> _snoopableData;
-    private IReadOnlyList<ISnoopableObject> _snoopableObjects;
+    private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects = Array.Empty<ISnoopableObject>();
+    private IReadOnlyList<ISnoopableObject> _snoopableData = Array.Empty<ISnoopableObject>();
+    private IReadOnlyList<ISnoopableObject> _snoopableObjects = Array.Empty<ISnoopableObject>();
 
     public MoqSnoopViewModel()
     {

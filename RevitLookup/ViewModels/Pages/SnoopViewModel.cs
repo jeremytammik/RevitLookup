@@ -31,9 +31,9 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private string _searchText;
     private readonly INavigationService _navigationService;
-    private IReadOnlyList<ISnoopableObject> _snoopableObjects;
-    private IReadOnlyList<ISnoopableObject> _snoopableData;
-    private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects;
+    private IReadOnlyList<ISnoopableObject> _snoopableObjects = Array.Empty<ISnoopableObject>();
+    private IReadOnlyList<ISnoopableObject> _snoopableData = Array.Empty<ISnoopableObject>();
+    private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects = Array.Empty<ISnoopableObject>();
 
     public SnoopViewModel(INavigationService navigationService)
     {
