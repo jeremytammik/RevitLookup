@@ -26,7 +26,7 @@ using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.UI.Tests.Moq;
 
-public sealed class MoqSnoopableObject : ISnoopableObject
+public sealed class MoqSnoopableObject : ISnoopableObject, IComparable<MoqSnoopableObject>, IComparable
 {
     private IReadOnlyList<SnoopableObject> _members;
 
@@ -46,5 +46,17 @@ public sealed class MoqSnoopableObject : ISnoopableObject
     public IReadOnlyList<ISnoopableObject> GetCachedMembers()
     {
         return _members ?? GetMembers();
+    }
+
+    public int CompareTo(MoqSnoopableObject other)
+    {
+        return string.CompareOrdinal(Descriptor.Label, other.Descriptor.Label);
+    }
+
+    public int CompareTo(object obj)
+    {
+        if (ReferenceEquals(null, obj)) return 1;
+        if (ReferenceEquals(this, obj)) return 0;
+        return obj is MoqSnoopableObject other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(MoqSnoopableObject)}");
     }
 }

@@ -26,7 +26,7 @@ using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.ViewModels.Objects;
 
-public sealed class SnoopableObject : ISnoopableObject
+public sealed class SnoopableObject : ISnoopableObject, IComparable<SnoopableObject>, IComparable
 {
     private IReadOnlyList<SnoopableObject> _members;
 
@@ -53,5 +53,17 @@ public sealed class SnoopableObject : ISnoopableObject
     private void ValidateLabel()
     {
         Descriptor.Label ??= Descriptor.Type;
+    }
+
+    public int CompareTo(SnoopableObject other)
+    {
+        return string.CompareOrdinal(Descriptor.Label, other.Descriptor.Label);
+    }
+
+    public int CompareTo(object obj)
+    {
+        if (ReferenceEquals(null, obj)) return 1;
+        if (ReferenceEquals(this, obj)) return 0;
+        return obj is SnoopableObject other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(SnoopableObject)}");
     }
 }

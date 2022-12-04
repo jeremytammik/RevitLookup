@@ -9,9 +9,11 @@
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:objects="clr-namespace:RevitLookup.ViewModels.Objects"
+    xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
+    Loaded="SnoopView_OnLoaded"
     d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
     <rl:UiPage.Resources>
         <ResourceDictionary>
@@ -85,13 +87,13 @@
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
-                    ItemsSource="{Binding ViewModel.FilteredSnoopableObjects}">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate>
-                            <TextBlock
-                                Text="{Binding Descriptor.Label}" />
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
+                    ItemsSource="{Binding 
+                        ViewModel.FilteredSnoopableObjects,
+                        Converter={converters:TreeViewGroupConverter}}"
+                    ItemTemplate="{Binding
+                        ItemsSource,
+                        RelativeSource={RelativeSource Self},
+                        Converter={converters:TreeViewTemplateConverter}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger
                             EventName="SelectedItemChanged">

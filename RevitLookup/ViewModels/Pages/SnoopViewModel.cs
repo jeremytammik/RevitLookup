@@ -39,7 +39,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     {
         _navigationService = navigationService;
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
-        RefreshCommand = new RelayCommand<ISnoopableObject>(Refresh);
+        RefreshCommand = new RelayCommand<object>(Refresh);
     }
 
     public IReadOnlyList<ISnoopableObject> SnoopableObjects
@@ -89,7 +89,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     public RelayCommand SnoopSelectionCommand { get; }
-    public RelayCommand<ISnoopableObject> RefreshCommand { get; }
+    public RelayCommand<object> RefreshCommand { get; }
 
     public void SnoopSelection()
     {
@@ -142,10 +142,15 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
     }
 
-    [UsedImplicitly]
-    public void Refresh(ISnoopableObject snoopableObject)
+    private void Refresh(object param)
     {
-        if (snoopableObject is null) return;
+        if (param is null)
+        {
+            SnoopableData = Array.Empty<ISnoopableObject>();
+            return;
+        }
+
+        if (param is not ISnoopableObject snoopableObject) return;
         SnoopableData = snoopableObject.GetMembers();
     }
 

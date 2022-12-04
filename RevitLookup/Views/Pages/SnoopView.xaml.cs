@@ -50,4 +50,9 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
             }
         }
     }
+
+    private void SnoopView_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        var itemTemplate = TreeView.ItemTemplate.Template;
+    }
 }

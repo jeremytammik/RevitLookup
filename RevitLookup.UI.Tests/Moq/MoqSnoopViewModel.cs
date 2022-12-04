@@ -35,7 +35,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     public MoqSnoopViewModel()
     {
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
-        RefreshCommand = new RelayCommand<ISnoopableObject>(Refresh);
+        RefreshCommand = new RelayCommand<object>(Refresh);
     }
 
     public IReadOnlyList<ISnoopableObject> SnoopableObjects
@@ -45,7 +45,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         {
             if (Equals(value, _snoopableObjects)) return;
             _snoopableObjects = value;
-            SearchText = string.Empty;
+            UpdateSearchResults(SearchText);
             OnPropertyChanged();
         }
     }
@@ -85,7 +85,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     public RelayCommand SnoopSelectionCommand { get; }
-    public RelayCommand<ISnoopableObject> RefreshCommand { get; }
+    public RelayCommand<object> RefreshCommand { get; }
 
     public void SnoopSelection()
     {
@@ -150,13 +150,15 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
             .Generate(100);
     }
 
-    private void Refresh(ISnoopableObject obj)
+    private void Refresh(object param)
     {
-        if (obj is null)
+        if (param is null)
         {
             SnoopableData = Array.Empty<ISnoopableObject>();
             return;
         }
+
+        if (param is not ISnoopableObject) return;
 
         SnoopableData = new Faker<ISnoopableObject>()
             .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
@@ -165,22 +167,19 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 
     private void UpdateSearchResults(string searchText)
     {
-        Task.Run(() =>
+        if (string.IsNullOrEmpty(searchText))
         {
-            if (string.IsNullOrEmpty(searchText))
-            {
-                FilteredSnoopableObjects = SnoopableObjects;
-                return;
-            }
+            FilteredSnoopableObjects = SnoopableObjects;
+            return;
+        }
 
-            var formattedText = searchText.ToLower().Trim();
-            var searchResults = new List<ISnoopableObject>(SnoopableObjects.Count);
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var snoopableObject in SnoopableObjects)
-                if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))
-                    searchResults.Add(snoopableObject);
+        var formattedText = searchText.ToLower().Trim();
+        var searchResults = new List<ISnoopableObject>(SnoopableObjects.Count);
+        // ReSharper disable once LoopCanBeConvertedToQuery
+        foreach (var snoopableObject in SnoopableObjects)
+            if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))
+                searchResults.Add(snoopableObject);
 
-            FilteredSnoopableObjects = searchResults;
-        });
+        FilteredSnoopableObjects = searchResults;
     }
 }
