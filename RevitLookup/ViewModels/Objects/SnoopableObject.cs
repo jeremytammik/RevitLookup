@@ -34,7 +34,8 @@ public sealed class SnoopableObject : ISnoopableObject
     {
         Descriptor = DescriptorUtils.FindSuitableDescriptor(obj);
         Descriptor.SnoopHandler = DescriptorUtils.FindSuitableHandler(obj);
-        Descriptor.Label = obj.GetType().Name;
+        Descriptor.Type = obj.GetType().Name;
+        ValidateLabel();
     }
 
     public IDescriptor Descriptor { get; }
@@ -47,5 +48,10 @@ public sealed class SnoopableObject : ISnoopableObject
     public IReadOnlyList<ISnoopableObject> GetCachedMembers()
     {
         return _members ?? GetMembers();
+    }
+
+    private void ValidateLabel()
+    {
+        Descriptor.Label ??= Descriptor.Type;
     }
 }

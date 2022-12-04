@@ -25,7 +25,7 @@ namespace RevitLookup.Core.Descriptors;
 
 public abstract class Descriptor : IDescriptor
 {
+    public string Type { get; set; }
     public string Label { get; set; }
-    public string Value { get; set; }
     public Func<IReadOnlyList<SnoopableObject>> SnoopHandler { get; set; }
 }

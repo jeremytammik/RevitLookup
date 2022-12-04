@@ -33,7 +33,7 @@ public sealed class MoqSnoopableObject : ISnoopableObject
     public MoqSnoopableObject(string text)
     {
         Descriptor = new StringDescriptor(text);
-        Descriptor.Label = "string";
+        Descriptor.Type = nameof(String);
     }
 
     public IDescriptor Descriptor { get; }

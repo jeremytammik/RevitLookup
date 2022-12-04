@@ -24,7 +24,7 @@ public sealed class BoolDescriptor : Descriptor
 {
     public BoolDescriptor(bool value)
     {
-        Value = value ? "True" : "False";
+        Label = value ? "True" : "False";
     }
 }
 
@@ -32,7 +32,7 @@ public sealed class StringDescriptor : Descriptor
 {
     public StringDescriptor(string value)
     {
-        Value = value;
+        Label = value;
     }
 }
 
@@ -40,7 +40,7 @@ public sealed class IntDescriptor : Descriptor
 {
     public IntDescriptor(int value)
     {
-        Value = value.ToString();
+        Label = value.ToString();
     }
 }
 
@@ -48,6 +48,6 @@ public sealed class ObjectDescriptor : Descriptor
 {
     public ObjectDescriptor(object value)
     {
-        Value = value.GetType().Name;
+        Label = $"Unsupported type: {value}";
     }
 }
