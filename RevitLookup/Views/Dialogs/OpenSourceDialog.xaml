@@ -13,7 +13,6 @@
         GridLinesVisibility="None"
         IsReadOnly="True"
         HeadersVisibility="Column"
-        RowHeight="40"
         ColumnHeaderHeight="30"
         CanUserReorderColumns="False"
         CanUserResizeColumns="False"
@@ -46,5 +45,13 @@
                 </DataGridHyperlinkColumn.ElementStyle>
             </DataGridHyperlinkColumn>
         </DataGrid.Columns>
+        <DataGrid.CellStyle>
+            <Style
+                TargetType="DataGridCell">
+                <Setter
+                    Property="Margin"
+                    Value="0 10" />
+            </Style>
+        </DataGrid.CellStyle>
     </DataGrid>
 </Grid>

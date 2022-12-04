@@ -123,7 +123,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
-                        Binding="{Binding Descriptor.Label}">
+                        Binding="{Binding Descriptor.Type}">
                         <DataGridTextColumn.Header>
                             <TextBlock
                                 FontWeight="Bold"
@@ -133,7 +133,7 @@
                     </DataGridTextColumn>
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Descriptor.Value}">
+                        Binding="{Binding Descriptor.Label}">
                         <DataGridTextColumn.Header>
                             <TextBlock
                                 FontWeight="Bold"

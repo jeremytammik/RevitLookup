@@ -71,7 +71,7 @@
                             Visibility="{Binding ViewModel.LatestCheckDate, Converter={converters:StringVisibilityConverter}}"
                             Text="{Binding ViewModel.LatestCheckDate, StringFormat=Latest check: {0}}" />
                         <rl:Hyperlink
-                            Padding="0"
+                            Padding="0 3 0 0"
                             Content="Release Notes"
                             FontWeight="Medium"
                             NavigateUri="https://github.com/jeremytammik/RevitLookup/releases" />
