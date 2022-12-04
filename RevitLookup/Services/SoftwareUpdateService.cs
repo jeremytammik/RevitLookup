@@ -58,11 +58,14 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
         {
             if (!string.IsNullOrEmpty(LocalFilePath))
             {
-                var fileName = Path.GetFileName(LocalFilePath);
-                if (fileName.Contains(NewVersion))
+                if (File.Exists(LocalFilePath))
                 {
-                    State = SoftwareUpdateState.ReadyToInstall;
-                    return;
+                    var fileName = Path.GetFileName(LocalFilePath);
+                    if (fileName.Contains(NewVersion))
+                    {
+                        State = SoftwareUpdateState.ReadyToInstall;
+                        return;
+                    }
                 }
             }
 
