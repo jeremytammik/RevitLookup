@@ -47,6 +47,7 @@ public sealed partial class RevitLookupView : ILookupInstance
         dialogService.SetDialogControl(RootDialog);
 
         Unloaded += UnloadServices;
+        GotFocus += (sender, _) => { UI.Application.Current = (Window) sender; };
     }
 
     public IServiceProvider Context => _serviceScope.ServiceProvider;

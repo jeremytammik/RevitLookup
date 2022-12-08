@@ -32,7 +32,7 @@ public sealed class SettingsViewModel : ObservableObject
     public SettingsViewModel(ISettingsService settingsService)
     {
         _settingsService = settingsService;
-        CurrentTheme = settingsService.GetTheme();
+        _currentTheme = settingsService.GetTheme();
     }
 
     public ThemeType CurrentTheme
@@ -49,7 +49,7 @@ public sealed class SettingsViewModel : ObservableObject
 
     public List<ThemeType> Themes { get; } = new()
     {
-        ThemeType.Dark,
-        ThemeType.Light
+        ThemeType.Light,
+        ThemeType.Dark
     };
 }

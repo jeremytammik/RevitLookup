@@ -36,8 +36,8 @@ public sealed class AboutViewModel : ObservableObject
     public AboutViewModel(ISoftwareUpdateService updateService, IConfiguration configuration)
     {
         _updateService = updateService;
-        DotNetVersion = configuration.GetValue<string>("Framework");
-        RuntimeVersion = Environment.Version.ToString();
+        _dotNetVersion = configuration.GetValue<string>("Framework");
+        _runtimeVersion = Environment.Version.ToString();
         CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
         DownloadCommand = new AsyncRelayCommand(DownloadUpdate);
     }
