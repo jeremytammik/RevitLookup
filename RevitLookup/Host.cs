@@ -37,7 +37,7 @@ public static class Host
                 {
                     new("Assembly", assemblyLocation),
                     new("Framework", targetFramework),
-                    new("SettingsFolder", Path.Combine(assemblyDirectory, "Settings")),
+                    new("ConfigFolder", Path.Combine(assemblyDirectory, "Config")),
                     new("DownloadFolder", Path.Combine(assemblyDirectory, "Downloads"))
                 });
             })

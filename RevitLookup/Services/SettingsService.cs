@@ -34,7 +34,7 @@ public sealed class SettingsService : ISettingsService
 
     public SettingsService(IConfiguration configuration)
     {
-        _settingsFile = configuration.GetValue<string>("SettingsFolder").AppendPath("Settings.json");
+        _settingsFile = configuration.GetValue<string>("ConfigFolder").AppendPath("Settings.cfg");
         _settings = LoadSettings();
     }
 
