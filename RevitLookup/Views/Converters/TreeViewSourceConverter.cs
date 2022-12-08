@@ -30,7 +30,7 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var source = (IReadOnlyList<ISnoopableObject>) value!;
-        var groups = new SortedDictionary<string, SortedSet<ISnoopableObject>>(StringComparer.Ordinal);
+        var groups = new SortedList<string, List<ISnoopableObject>>(StringComparer.Ordinal);
 
         foreach (var item in source)
         {
@@ -40,7 +40,7 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
             }
             else
             {
-                groups.Add(item.Descriptor.Type, new SortedSet<ISnoopableObject>
+                groups.Add(item.Descriptor.Type, new List<ISnoopableObject>
                 {
                     item
                 });

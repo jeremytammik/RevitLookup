@@ -37,7 +37,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
         RefreshCommand = new RelayCommand<object>(Refresh);
     }
-
+ 
     public IReadOnlyList<ISnoopableObject> SnoopableObjects
     {
         get => _snoopableObjects;
@@ -45,7 +45,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         {
             if (Equals(value, _snoopableObjects)) return;
             _snoopableObjects = value;
-            UpdateSearchResults(SearchText);
+            SearchText = string.Empty;
             OnPropertyChanged();
         }
     }
@@ -77,7 +77,6 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         get => _searchText;
         set
         {
-            if (value == _searchText) return;
             _searchText = value;
             OnPropertyChanged();
             UpdateSearchResults(value);

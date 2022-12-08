@@ -138,7 +138,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
-                            Visibility="Collapsed" />
+                            Visibility="Collapsed"/>
                         <VisualStateManager.VisualStateGroups>
                             <!--
                             <VisualStateGroup Name="CommonStates">

@@ -81,7 +81,6 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         get => _searchText;
         set
         {
-            if (value == _searchText) return;
             _searchText = value;
             OnPropertyChanged();
             UpdateSearchResults(value);
@@ -156,22 +155,19 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     private void UpdateSearchResults(string searchText)
     {
-        Task.Run(() =>
+        if (string.IsNullOrEmpty(searchText))
         {
-            if (string.IsNullOrEmpty(searchText))
-            {
-                FilteredSnoopableObjects = SnoopableObjects;
-                return;
-            }
+            FilteredSnoopableObjects = SnoopableObjects;
+            return;
+        }
 
-            var formattedText = searchText.ToLower().Trim();
-            var searchResults = new List<ISnoopableObject>(SnoopableObjects.Count);
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var snoopableObject in SnoopableObjects)
-                if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))
-                    searchResults.Add(snoopableObject);
+        var formattedText = searchText.ToLower().Trim();
+        var searchResults = new List<ISnoopableObject>(SnoopableObjects.Count);
+        // ReSharper disable once LoopCanBeConvertedToQuery
+        foreach (var snoopableObject in SnoopableObjects)
+            if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))
+                searchResults.Add(snoopableObject);
 
-            FilteredSnoopableObjects = searchResults;
-        });
+        FilteredSnoopableObjects = searchResults;
     }
 }
