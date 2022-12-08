@@ -5,9 +5,10 @@
 
 using System.Windows;
 using System.Windows.Markup;
+using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Appearance;
 
-namespace RevitLookup.UI.Markup;
+namespace RevitLookup.Views.Markup;
 
 /// <summary>
 /// Provides a dictionary implementation that contains <c>WPF UI</c> theme resources used by components and other elements of a WPF application.
@@ -15,25 +16,18 @@ namespace RevitLookup.UI.Markup;
 [Localizability(LocalizationCategory.Ignore)]
 [Ambient]
 [UsableDuringInitialization(true)]
-public class ThemesDictionary : ResourceDictionary
+public sealed class ThemesDictionary : ResourceDictionary
 {
-    /// <summary>
-    /// Sets the default application theme.
-    /// </summary>
-    public ThemeType Theme
+    public ThemesDictionary()
     {
-        set
+        var theme = Host.GetService<ISettingsService>().Theme;
+        var themeName = theme switch
         {
-            var themeName = value switch
-            {
-                ThemeType.Light => "Light",
-                ThemeType.Dark => "Dark",
-                ThemeType.HighContrast => "HighContrast",
-                _ => "Light"
-            };
+            ThemeType.Dark => "Dark",
+            ThemeType.HighContrast => "HighContrast",
+            _ => "Light"
+        };
 
-            Source = new Uri($"{AppearanceData.LibraryThemeDictionariesUri}{themeName}.xaml", UriKind.Absolute);
-        }
+        Source = new Uri($"{AppearanceData.LibraryThemeDictionariesUri}{themeName}.xaml", UriKind.Absolute);
     }
 }
-

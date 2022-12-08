@@ -7,14 +7,14 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
+    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
     Scrollable="True"
     d:DataContext="{d:DesignInstance pages:AboutView}">
     <rl:UiPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <rl:ThemesDictionary
-                    Theme="Light" />
+                <markup:ThemesDictionary />
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

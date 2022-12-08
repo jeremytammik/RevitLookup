@@ -10,6 +10,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:objects="clr-namespace:RevitLookup.ViewModels.Objects"
     xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
@@ -18,8 +19,7 @@
     <rl:UiPage.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <rl:ThemesDictionary
-                    Theme="Light" />
+                <markup:ThemesDictionary />
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Mvvm.Contracts;
 
@@ -26,13 +27,13 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed class SettingsViewModel : ObservableObject
 {
-    private readonly IThemeService _themeService;
+    private readonly ISettingsService _settingsService;
     private ThemeType _currentTheme;
 
-    public SettingsViewModel(IThemeService themeService)
+    public SettingsViewModel(ISettingsService settingsService)
     {
-        _themeService = themeService;
-        CurrentTheme = themeService.GetTheme();
+        _settingsService = settingsService;
+        CurrentTheme = settingsService.Theme;
     }
 
     public List<ThemeType> Themes { get; } = new()
@@ -48,7 +49,7 @@ public sealed class SettingsViewModel : ObservableObject
         {
             if (value == _currentTheme) return;
             _currentTheme = value;
-            _themeService.SetTheme(value);
+            _settingsService.Theme = value;
             OnPropertyChanged();
         }
     }
