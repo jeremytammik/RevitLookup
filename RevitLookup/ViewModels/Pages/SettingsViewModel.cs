@@ -21,7 +21,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -33,14 +32,8 @@ public sealed class SettingsViewModel : ObservableObject
     public SettingsViewModel(ISettingsService settingsService)
     {
         _settingsService = settingsService;
-        CurrentTheme = settingsService.Theme;
+        CurrentTheme = settingsService.GetTheme();
     }
-
-    public List<ThemeType> Themes { get; } = new()
-    {
-        ThemeType.Dark,
-        ThemeType.Light
-    };
 
     public ThemeType CurrentTheme
     {
@@ -49,8 +42,14 @@ public sealed class SettingsViewModel : ObservableObject
         {
             if (value == _currentTheme) return;
             _currentTheme = value;
-            _settingsService.Theme = value;
+            _settingsService.SetTheme(value);
             OnPropertyChanged();
         }
     }
+
+    public List<ThemeType> Themes { get; } = new()
+    {
+        ThemeType.Dark,
+        ThemeType.Light
+    };
 }

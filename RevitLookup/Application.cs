@@ -39,6 +39,7 @@ public class Application : ExternalApplication
 
     public override async void OnShutdown()
     {
+        SaveSettings();
         UpdateSoftware();
         await Host.StopHost();
     }
@@ -66,5 +67,11 @@ public class Application : ExternalApplication
     {
         var updateService = Host.GetService<ISoftwareUpdateService>();
         if (File.Exists(updateService.LocalFilePath)) Process.Start(updateService.LocalFilePath);
+    }
+    
+    private static void SaveSettings()
+    {
+        var settingsService = Host.GetService<ISettingsService>();
+        settingsService.Save();
     }
 }

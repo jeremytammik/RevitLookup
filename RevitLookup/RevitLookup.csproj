@@ -68,6 +68,7 @@
 
     <ItemGroup>
       <Folder Include="Core\SnoopHandlers" />
+      <Folder Include="Utils" />
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">

@@ -18,12 +18,79 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.Configuration;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Appearance;
 
 namespace RevitLookup.Services;
 
-public class SettingsService : ISettingsService
+public sealed class SettingsService : ISettingsService
+{
+    private readonly Settings _settings;
+    private readonly string _settingsFile;
+
+    public SettingsService(IConfiguration configuration)
+    {
+        _settingsFile = configuration.GetValue<string>("SettingsFolder").AppendPath("Settings.json");
+        _settings = LoadSettings();
+    }
+
+    public void SetTheme(ThemeType theme)
+    {
+        _settings.Theme = theme;
+        if (Theme.GetAppTheme() == theme) return;
+
+        Theme.Apply(theme);
+    }
+
+    public ThemeType GetTheme() => _settings.Theme;
+
+    public void Save()
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(_settingsFile)!);
+
+        var jsonSerializerOptions = new JsonSerializerOptions
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Converters =
+            {
+                new JsonStringEnumConverter()
+            }
+        };
+
+        var json = JsonSerializer.Serialize(_settings, jsonSerializerOptions);
+
+        File.WriteAllText(_settingsFile, json);
+    }
+
+    private Settings LoadSettings()
+    {
+        if (!File.Exists(_settingsFile)) return new Settings();
+
+        try
+        {
+            var config = File.ReadAllText(_settingsFile);
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                Converters =
+                {
+                    new JsonStringEnumConverter()
+                }
+            };
+            var json = JsonSerializer.Deserialize<Settings>(config, jsonSerializerOptions);
+            return json;
+        }
+        catch
+        {
+            return new Settings();
+        }
+    }
+}
+
+internal sealed class Settings
 {
     public ThemeType Theme { get; set; } = ThemeType.Light;
 }

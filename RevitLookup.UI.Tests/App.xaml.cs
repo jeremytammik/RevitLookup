@@ -34,6 +34,9 @@ public sealed partial class App
 
     private async void OnExit(object sender, ExitEventArgs e)
     {
+        var settingsService = Host.GetService<ISettingsService>();
+        settingsService.Save();
+        
         await Host.StopHost();
     }
 
@@ -56,7 +59,7 @@ public sealed partial class App
                 {
                     new("Assembly", assemblyLocation),
                     new("Framework", targetFramework),
-                    new("ConfigFolder", Path.Combine(assemblyDirectory, "Configurations")),
+                    new("SettingsFolder", Path.Combine(assemblyDirectory, "Settings")),
                     new("DownloadFolder", Path.Combine(assemblyDirectory, "Downloads"))
                 });
             })

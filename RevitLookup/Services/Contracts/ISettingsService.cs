@@ -24,5 +24,7 @@ namespace RevitLookup.Services.Contracts;
 
 public interface ISettingsService
 {
-    ThemeType Theme { get; set; }
+    void SetTheme(ThemeType theme);
+    ThemeType GetTheme();
+    void Save();
 }
