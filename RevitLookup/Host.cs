@@ -43,7 +43,7 @@ public static class Host
             })
             .ConfigureServices((context, services) =>
             {
-                services.AddSingleton<IThemeService, ThemeService>();
+                services.AddSingleton<ISettingsService, SettingsService>();
                 services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
 
                 services.AddScoped<INavigationService, NavigationService>();
@@ -63,6 +63,12 @@ public static class Host
             }).Build();
 
         await _host.StartAsync();
+    }
+    
+    public static async Task StartHost(IHost host)
+    {
+        _host = host;
+        await host.StartAsync();
     }
 
     public static async Task StopHost()
