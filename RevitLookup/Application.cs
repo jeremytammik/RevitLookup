@@ -20,6 +20,7 @@
 
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Commands;
 using RevitLookup.Core;
@@ -34,6 +35,7 @@ public class Application : ExternalApplication
     {
         RevitApi.UiApplication = UiApplication;
         CreateRibbonPanel();
+        Assembly.Load("Microsoft.Xaml.Behaviors");
         await Host.StartHost();
     }
 
@@ -53,7 +55,7 @@ public class Application : ExternalApplication
         dashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
         var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "RevitLookup");
-        
+
         var snoopSelection = splitButton.AddPushButton<SnoopSelectionCommand>("Snoop selection");
         snoopSelection.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         snoopSelection.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
@@ -68,7 +70,7 @@ public class Application : ExternalApplication
         var updateService = Host.GetService<ISoftwareUpdateService>();
         if (File.Exists(updateService.LocalFilePath)) Process.Start(updateService.LocalFilePath);
     }
-    
+
     private static void SaveSettings()
     {
         var settingsService = Host.GetService<ISettingsService>();
