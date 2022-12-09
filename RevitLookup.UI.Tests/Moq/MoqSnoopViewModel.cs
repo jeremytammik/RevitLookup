@@ -90,7 +90,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     {
         SnoopableObjects = new Faker<MoqSnoopableObject>()
             .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
-            .Generate(100);
+            .Generate(1000);
     }
 
     public void SnoopApplication()

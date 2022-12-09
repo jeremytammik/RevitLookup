@@ -9,7 +9,6 @@
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:objects="clr-namespace:RevitLookup.ViewModels.Objects"
-    xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
     d:DesignHeight="500"
@@ -87,7 +86,7 @@
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
-                    ItemsSource="{Binding 
+                    ItemsSource="{Binding
                         ViewModel.FilteredSnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"
                     ItemTemplate="{Binding
