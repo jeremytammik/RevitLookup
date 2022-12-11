@@ -33,9 +33,9 @@ public class Application : ExternalApplication
 {
     public override async void OnStartup()
     {
+        Assembly.Load("Microsoft.Xaml.Behaviors");
         RevitApi.UiApplication = UiApplication;
         CreateRibbonPanel();
-        Assembly.Load("Microsoft.Xaml.Behaviors");
         await Host.StartHost();
     }
 

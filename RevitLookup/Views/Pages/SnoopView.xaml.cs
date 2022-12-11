@@ -18,11 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
 using System.Windows;
+using System.Windows.Controls;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common.Interfaces;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Views.Pages;
 
@@ -51,8 +52,11 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         }
     }
 
-    private void SnoopView_OnLoaded(object sender, RoutedEventArgs e)
+    private void TreeView_OnItemsSourceChanged(object sender, IEnumerable e)
     {
-        var itemTemplate = TreeView.ItemTemplate.Template;
+        //TODO Select first tree item
+        var treeView = (TreeView) sender;
+        var source = (SortedList<string, List<ISnoopableObject>>) treeView.ItemsSource;
+        var treeViewItems = treeView.ItemContainerGenerator.ContainerFromItem(source.First().Value[0]);
     }
 }

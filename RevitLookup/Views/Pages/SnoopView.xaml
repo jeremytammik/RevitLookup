@@ -13,7 +13,6 @@
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
-    Loaded="SnoopView_OnLoaded"
     d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
     <rl:UiPage.Resources>
         <ResourceDictionary>
@@ -81,11 +80,12 @@
                     PlaceholderText="Search..."
                     Text="{Binding ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </rl:AutoSuggestBox>
-                <TreeView
+                <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
+                    ItemsSourceChanged="TreeView_OnItemsSourceChanged"
                     ItemsSource="{Binding
                         ViewModel.FilteredSnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"
@@ -101,7 +101,7 @@
                                 CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </TreeView>
+                </rl:TreeView>
             </DockPanel>
             <DataGrid
                 Grid.Column="2"
