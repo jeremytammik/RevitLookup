@@ -51,12 +51,4 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
             }
         }
     }
-
-    private void TreeView_OnItemsSourceChanged(object sender, IEnumerable e)
-    {
-        //TODO Select first tree item
-        var treeView = (TreeView) sender;
-        var source = (SortedList<string, List<ISnoopableObject>>) treeView.ItemsSource;
-        var treeViewItems = treeView.ItemContainerGenerator.ContainerFromItem(source.First().Value[0]);
-    }
 }

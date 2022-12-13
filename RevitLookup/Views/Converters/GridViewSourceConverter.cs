@@ -18,17 +18,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
+using RevitLookup.ViewModels.Contracts;
 
-namespace RevitLookup.UI.Controls;
+namespace RevitLookup.Views.Converters;
 
-public class TreeView : System.Windows.Controls.TreeView
+public sealed class GridViewSourceConverter : MarkupExtension, IValueConverter
 {
-    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        base.OnItemsSourceChanged(oldValue, newValue);
-        ItemsSourceChanged?.Invoke(this, newValue);
+        var source = (IReadOnlyList<ISnoopableObject>) value!;
+        var viewSource = new CollectionViewSource
+        {
+            Source = source
+        };
+        viewSource.GroupDescriptions.Add(new PropertyGroupDescription("Descriptor.Type"));
+        return viewSource;
     }
 
-    public event EventHandler<IEnumerable> ItemsSourceChanged;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
 }

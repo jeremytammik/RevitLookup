@@ -80,12 +80,11 @@
                     PlaceholderText="Search..."
                     Text="{Binding ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </rl:AutoSuggestBox>
-                <rl:TreeView
+                <TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
-                    ItemsSourceChanged="TreeView_OnItemsSourceChanged"
                     ItemsSource="{Binding
                         ViewModel.FilteredSnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"
@@ -101,7 +100,7 @@
                                 CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </rl:TreeView>
+                </TreeView>
             </DockPanel>
             <DataGrid
                 Grid.Column="2"
@@ -120,48 +119,83 @@
                 CanUserResizeColumns="True"
                 HorizontalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
                 VerticalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
-                ItemsSource="{Binding ViewModel.SnoopableData}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="*"
-                        Binding="{Binding Descriptor.Type}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock
-                                FontWeight="Bold"
-                                Text="Field">
-                            </TextBlock>
-                        </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn
-                        Width="2*"
-                        Binding="{Binding Descriptor.Label}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock
-                                FontWeight="Bold"
-                                Text="Value">
-                            </TextBlock>
-                        </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-                <DataGrid.RowStyle>
-                    <Style
-                        d:DataContext="{d:DesignInstance objects:SnoopableObject}"
-                        TargetType="DataGridRow"
-                        BasedOn="{StaticResource {x:Type DataGridRow}}">
-                        <EventSetter
-                            Event="PreviewMouseLeftButtonUp"
-                            Handler="HandleGridRowClick" />
-                        <Style.Triggers>
-                            <DataTrigger
-                                Binding="{Binding Path=Descriptor.SnoopHandler, Converter={converters:NullObjectConverter}}"
-                                Value="false">
-                                <Setter
-                                    Property="FontWeight"
-                                    Value="DemiBold" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.RowStyle>
+                ItemsSource="{Binding ViewModel.SnoopableData, Converter={converters:GridViewSourceConverter}}">
+                <!-- <DataGrid.GroupStyle> -->
+                <!--     <GroupStyle -->
+                <!--         d:DataContext="{d:DesignInstance CollectionViewGroup}"> -->
+                <!--         <GroupStyle.ContainerStyle> -->
+                <!--             <Style -->
+                <!--                 TargetType="{x:Type GroupItem}"> -->
+                <!--                 <Setter -->
+                <!--                     Property="Template"> -->
+                <!--                     <Setter.Value> -->
+                <!--                         <ControlTemplate -->
+                <!--                             TargetType="{x:Type GroupItem}"> -->
+                <!--                             <StackPanel> -->
+                <!--                                 <TextBlock -->
+                <!--                                     Text="{Binding Name}" /> -->
+                <!--                                 <ItemsPresenter /> -->
+                <!--                             </StackPanel> -->
+                <!--                         </ControlTemplate> -->
+                <!--                     </Setter.Value> -->
+                <!--                 </Setter> -->
+                <!--             </Style> -->
+                <!--         </GroupStyle.ContainerStyle> -->
+                <!--     </GroupStyle> -->
+                <!--     <GroupStyle -->
+                <!--         d:DataContext="{d:DesignInstance CollectionViewGroup}"> -->
+                <!--         <GroupStyle.Panel> -->
+                <!--             <ItemsPanelTemplate> -->
+                <!--                 <StackPanel> -->
+                <!--                     <TextBlock -->
+                <!--                         Text="Label"> -->
+                <!--                     </TextBlock> -->
+                <!--                 </StackPanel> -->
+                <!--             </ItemsPanelTemplate> -->
+                <!--         </GroupStyle.Panel> -->
+                <!--     </GroupStyle> -->
+                <!-- </DataGrid.GroupStyle> -->
+                <!-- <DataGrid.Columns> -->
+                <!--     <DataGridTextColumn -->
+                <!--         Width="*" -->
+                <!--         Binding="{Binding Key}"> -->
+                <!--         <DataGridTextColumn.Header> -->
+                <!--             <TextBlock -->
+                <!--                 FontWeight="Bold" -->
+                <!--                 Text="Field"> -->
+                <!--             </TextBlock> -->
+                <!--         </DataGridTextColumn.Header> -->
+                <!--     </DataGridTextColumn> -->
+                <!--     <DataGridTextColumn -->
+                <!--         Width="2*" -->
+                <!--         Binding="{Binding Value}"> -->
+                <!--         <DataGridTextColumn.Header> -->
+                <!--             <TextBlock -->
+                <!--                 FontWeight="Bold" -->
+                <!--                 Text="Value"> -->
+                <!--             </TextBlock> -->
+                <!--         </DataGridTextColumn.Header> -->
+                <!--     </DataGridTextColumn> -->
+                <!-- </DataGrid.Columns> -->
+                <!-- <DataGrid.RowStyle> -->
+                <!--     <Style -->
+                <!--         d:DataContext="{d:DesignInstance objects:SnoopableObject}" -->
+                <!--         TargetType="DataGridRow" -->
+                <!--         BasedOn="{StaticResource {x:Type DataGridRow}}"> -->
+                <!--         <EventSetter -->
+                <!--             Event="PreviewMouseLeftButtonUp" -->
+                <!--             Handler="HandleGridRowClick" /> -->
+                <!--         <Style.Triggers> -->
+                <!--             <DataTrigger -->
+                <!--                 Binding="{Binding Path=Descriptor.SnoopHandler, Converter={converters:NullObjectConverter}}" -->
+                <!--                 Value="false"> -->
+                <!--                 <Setter -->
+                <!--                     Property="FontWeight" -->
+                <!--                     Value="DemiBold" /> -->
+                <!--             </DataTrigger> -->
+                <!--         </Style.Triggers> -->
+                <!--     </Style> -->
+                <!-- </DataGrid.RowStyle> -->
             </DataGrid>
         </Grid>
     </Grid>
