@@ -37,7 +37,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         SnoopSelectionCommand = new RelayCommand(SnoopSelection);
         RefreshCommand = new RelayCommand<object>(Refresh);
     }
- 
+
     public IReadOnlyList<ISnoopableObject> SnoopableObjects
     {
         get => _snoopableObjects;
@@ -89,8 +89,16 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
     public void SnoopSelection()
     {
         SnoopableObjects = new Faker<MoqSnoopableObject>()
-            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
-            .Generate(1000);
+            .CustomInstantiator(faker =>
+            {
+                if (faker.IndexFaker % 4 == 0)
+                    return new MoqSnoopableObject(faker.Lorem.Word());
+                if (faker.IndexFaker % 3 == 0)
+                    return new MoqSnoopableObject(faker.Random.Bool());
+
+                return new MoqSnoopableObject(faker.Random.Int(0));
+            })
+            .Generate(500);
     }
 
     public void SnoopApplication()
@@ -160,7 +168,15 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         if (param is not ISnoopableObject) return;
 
         SnoopableData = new Faker<ISnoopableObject>()
-            .CustomInstantiator(faker => new MoqSnoopableObject(faker.Lorem.Word()))
+            .CustomInstantiator(faker =>
+            {
+                if (faker.IndexFaker % 4 == 0)
+                    return new MoqSnoopableObject(faker.Lorem.Word());
+                if (faker.IndexFaker % 3 == 0)
+                    return new MoqSnoopableObject(faker.Random.Bool());
+
+                return new MoqSnoopableObject(faker.Random.Int(0));
+            })
             .Generate(100);
     }
 

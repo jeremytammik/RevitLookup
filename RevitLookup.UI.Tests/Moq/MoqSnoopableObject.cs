@@ -30,10 +30,22 @@ public sealed class MoqSnoopableObject : ISnoopableObject, IComparable<MoqSnoopa
 {
     private IReadOnlyList<SnoopableObject> _members;
 
-    public MoqSnoopableObject(string text)
+    public MoqSnoopableObject(string value)
     {
-        Descriptor = new StringDescriptor(text);
-        Descriptor.Type = nameof(String);
+        Descriptor = new StringDescriptor(value);
+        Descriptor.Type = value.GetType().Name;
+    }
+
+    public MoqSnoopableObject(int value)
+    {
+        Descriptor = new IntDescriptor(value);
+        Descriptor.Type = value.GetType().Name;
+    }
+    
+    public MoqSnoopableObject(bool value)
+    {
+        Descriptor = new BoolDescriptor(value);
+        Descriptor.Type = value.GetType().Name;
     }
 
     public IDescriptor Descriptor { get; }
