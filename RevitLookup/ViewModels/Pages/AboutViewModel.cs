@@ -26,58 +26,21 @@ using RevitLookup.Services.Enums;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class AboutViewModel : ObservableObject
+public sealed partial class AboutViewModel : ObservableObject
 {
     private readonly ISoftwareUpdateService _updateService;
-    private string _dotNetVersion;
-    private bool _isUpdateChecked;
-    private string _runtimeVersion;
+    [ObservableProperty] private string _dotNetVersion;
+    [ObservableProperty] private bool _isUpdateChecked;
+    [ObservableProperty] private string _runtimeVersion;
 
     public AboutViewModel(ISoftwareUpdateService updateService, IConfiguration configuration)
     {
         _updateService = updateService;
         _dotNetVersion = configuration.GetValue<string>("Framework");
         _runtimeVersion = Environment.Version.ToString();
-        CheckUpdatesCommand = new AsyncRelayCommand(CheckUpdates);
-        DownloadCommand = new AsyncRelayCommand(DownloadUpdate);
     }
 
-    public bool IsUpdateChecked
-    {
-        get => _isUpdateChecked;
-        set
-        {
-            if (value == _isUpdateChecked) return;
-            _isUpdateChecked = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string DotNetVersion
-    {
-        get => _dotNetVersion;
-        set
-        {
-            if (value == _dotNetVersion) return;
-            _dotNetVersion = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string RuntimeVersion
-    {
-        get => _runtimeVersion;
-        set
-        {
-            if (value == _runtimeVersion) return;
-            _runtimeVersion = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public IAsyncRelayCommand CheckUpdatesCommand { get; }
-    public IAsyncRelayCommand DownloadCommand { get; }
-
+    [RelayCommand]
     private async Task CheckUpdates()
     {
         await _updateService.CheckUpdates();
@@ -89,6 +52,7 @@ public sealed class AboutViewModel : ObservableObject
         OnPropertyChanged(nameof(ReleaseNotesUrl));
     }
 
+    [RelayCommand]
     private async Task DownloadUpdate()
     {
         await _updateService.DownloadUpdate();

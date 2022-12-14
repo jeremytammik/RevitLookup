@@ -25,50 +25,20 @@ using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.UI.Tests.Moq;
 
-public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
+public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private string _searchText;
-    private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects = Array.Empty<ISnoopableObject>();
-    private IReadOnlyList<ISnoopableObject> _snoopableData = Array.Empty<ISnoopableObject>();
     private IReadOnlyList<ISnoopableObject> _snoopableObjects = Array.Empty<ISnoopableObject>();
-
-    public MoqSnoopViewModel()
-    {
-        SnoopSelectionCommand = new RelayCommand(SnoopSelection);
-        RefreshCommand = new RelayCommand<object>(Refresh);
-    }
+    [ObservableProperty] private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects = Array.Empty<ISnoopableObject>();
+    [ObservableProperty] private IReadOnlyList<ISnoopableObject> _snoopableData = Array.Empty<ISnoopableObject>();
 
     public IReadOnlyList<ISnoopableObject> SnoopableObjects
     {
         get => _snoopableObjects;
         private set
         {
-            if (Equals(value, _snoopableObjects)) return;
-            _snoopableObjects = value;
+            SetProperty(ref _snoopableObjects, value);
             SearchText = string.Empty;
-            OnPropertyChanged();
-        }
-    }
-
-    public IReadOnlyList<ISnoopableObject> FilteredSnoopableObjects
-    {
-        get => _filteredSnoopableObjects;
-        private set
-        {
-            if (Equals(value, _filteredSnoopableObjects)) return;
-            _filteredSnoopableObjects = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public IReadOnlyList<ISnoopableObject> SnoopableData
-    {
-        get => _snoopableData;
-        set
-        {
-            if (Equals(value, _snoopableData)) return;
-            _snoopableData = value;
-            OnPropertyChanged();
         }
     }
 
@@ -77,15 +47,12 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
         get => _searchText;
         set
         {
-            _searchText = value;
-            OnPropertyChanged();
+            SetProperty(ref _searchText, value);
             UpdateSearchResults(value);
         }
     }
 
-    public RelayCommand SnoopSelectionCommand { get; }
-    public RelayCommand<object> RefreshCommand { get; }
-
+    [RelayCommand]
     public void SnoopSelection()
     {
         SnoopableObjects = new Faker<MoqSnoopableObject>()
@@ -157,6 +124,7 @@ public sealed class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
             .Generate(100);
     }
 
+    [RelayCommand]
     private void Refresh(object param)
     {
         if (param is null)

@@ -27,19 +27,17 @@ using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
+public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private string _searchText;
     private readonly INavigationService _navigationService;
     private IReadOnlyList<ISnoopableObject> _snoopableObjects = Array.Empty<ISnoopableObject>();
-    private IReadOnlyList<ISnoopableObject> _snoopableData = Array.Empty<ISnoopableObject>();
-    private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects = Array.Empty<ISnoopableObject>();
+    [ObservableProperty] private IReadOnlyList<ISnoopableObject> _snoopableData = Array.Empty<ISnoopableObject>();
+    [ObservableProperty] private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects = Array.Empty<ISnoopableObject>();
 
     public SnoopViewModel(INavigationService navigationService)
     {
         _navigationService = navigationService;
-        SnoopSelectionCommand = new RelayCommand(SnoopSelection);
-        RefreshCommand = new RelayCommand<object>(Refresh);
     }
 
     public IReadOnlyList<ISnoopableObject> SnoopableObjects
@@ -47,32 +45,8 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         get => _snoopableObjects;
         private set
         {
-            if (Equals(value, _snoopableObjects)) return;
-            _snoopableObjects = value;
+            SetProperty(ref _snoopableObjects, value);
             SearchText = string.Empty;
-            OnPropertyChanged();
-        }
-    }
-
-    public IReadOnlyList<ISnoopableObject> FilteredSnoopableObjects
-    {
-        get => _filteredSnoopableObjects;
-        set
-        {
-            if (Equals(value, _filteredSnoopableObjects)) return;
-            _filteredSnoopableObjects = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public IReadOnlyList<ISnoopableObject> SnoopableData
-    {
-        get => _snoopableData;
-        set
-        {
-            if (Equals(value, _snoopableData)) return;
-            _snoopableData = value;
-            OnPropertyChanged();
         }
     }
 
@@ -81,15 +55,12 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         get => _searchText;
         set
         {
-            _searchText = value;
-            OnPropertyChanged();
+            SetProperty(ref _searchText, value);
             UpdateSearchResults(value);
         }
     }
 
-    public RelayCommand SnoopSelectionCommand { get; }
-    public RelayCommand<object> RefreshCommand { get; }
-
+    [RelayCommand]
     public void SnoopSelection()
     {
         SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
@@ -141,6 +112,7 @@ public sealed class SnoopViewModel : ObservableObject, ISnoopViewModel
         SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
     }
 
+    [RelayCommand]
     private void Refresh(object param)
     {
         if (param is null)

@@ -28,18 +28,16 @@ using RevitLookup.Views.Pages;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class DashboardViewModel : ObservableObject
+public sealed partial class DashboardViewModel : ObservableObject
 {
     private readonly IServiceProvider _serviceProvider;
 
     public DashboardViewModel(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        NavigateSnoopCommand = new RelayCommand<string>(NavigateSnoopPage);
     }
 
-    public ICommand NavigateSnoopCommand { get; }
-
+    [RelayCommand]
     private void NavigateSnoopPage(string parameter)
     {
         var snoopService = _serviceProvider.GetService<ISnoopService>()!;

@@ -58,7 +58,7 @@
                         Margin="9 0 0 0"
                         Appearance="Secondary"
                         Content="Check for updates"
-                        Visibility="{Binding ViewModel.DownloadCommand.IsRunning, Converter={converters:InverseBoolVisibilityConverter}}"
+                        Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:InverseBoolVisibilityConverter}}"
                         Command="{Binding ViewModel.CheckUpdatesCommand}" />
                 </StackPanel>
                 <rl:CardControl.Header>
@@ -134,12 +134,12 @@
                             Height="20"
                             IsIndeterminate="True"
                             VerticalAlignment="Center"
-                            Visibility="{Binding ViewModel.DownloadCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
+                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
                         <rl:Button
                             Margin="9,0,0,0"
                             Appearance="Secondary"
                             Content="Download &amp; Install"
-                            Command="{Binding ViewModel.DownloadCommand}" />
+                            Command="{Binding ViewModel.DownloadUpdateCommand}" />
                     </StackPanel>
                 </Grid>
             </rl:Card>

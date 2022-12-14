@@ -50,7 +50,7 @@
                 Margin="0,0,4,0"
                 Icon="SquareHint24"
                 CommandParameter="selection"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -63,7 +63,7 @@
                 Margin="4,0,4,0"
                 Icon="Image24"
                 CommandParameter="view"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -76,7 +76,7 @@
                 Margin="4,0,4,0"
                 Icon="Document24"
                 CommandParameter="document"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -89,7 +89,7 @@
                 Margin="4,0,0,0"
                 Icon="Apps24"
                 CommandParameter="application"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -102,7 +102,7 @@
                 Margin="0,8,4,0"
                 Icon="Database24"
                 CommandParameter="database"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -115,7 +115,7 @@
                 Margin="4,8,4,0"
                 Icon="LinkSquare24"
                 CommandParameter="linked"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -128,7 +128,7 @@
                 Margin="0,8,4,0"
                 Icon="DataLine24"
                 CommandParameter="dependents"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -141,7 +141,7 @@
                 Margin="4,8,4,0"
                 Icon="LayerDiagonal20"
                 CommandParameter="face"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -154,7 +154,7 @@
                 Margin="4,8,0,0"
                 Icon="Line24"
                 CommandParameter="edge"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"
@@ -188,7 +188,7 @@
                 Grid.Column="0"
                 Margin="0,0,4,0"
                 Icon="DesktopPulse24"
-                Command="{Binding  ViewModel.NavigateSnoopCommand}">
+                Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
                         FontWeight="Medium"

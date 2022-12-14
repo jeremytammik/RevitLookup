@@ -40,10 +40,8 @@ public sealed class SettingsViewModel : ObservableObject
         get => _currentTheme;
         set
         {
-            if (value == _currentTheme) return;
-            _currentTheme = value;
+            SetProperty(ref _currentTheme, value);
             _settingsService.SetTheme(value);
-            OnPropertyChanged();
         }
     }
 
