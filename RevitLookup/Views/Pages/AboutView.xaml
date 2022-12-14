@@ -100,7 +100,7 @@
                         Margin="8,0,0,0"
                         Symbol="CheckmarkCircle24"
                         Filled="True"
-                        Foreground="Green"
+                        Foreground="{DynamicResource PaletteGreenBrush}"
                         VerticalAlignment="Center" />
                     <TextBlock
                         Grid.Row="0"
@@ -145,22 +145,24 @@
             </rl:Card>
             <rl:Card
                 Margin="0 3 0 0"
+                Background="{DynamicResource PaletteGreenBrush}"
                 Visibility="{Binding ViewModel.State, Converter={converters:UpdateDownloadedVisibilityConverter}}">
                 <StackPanel
                     Margin="8,0,0,0"
                     Orientation="Horizontal">
                     <rl:SymbolIcon
                         Symbol="CheckmarkCircle24"
-                        Filled="True"
-                        Foreground="Green" />
+                        Foreground="White" />
                     <TextBlock
                         Margin="20,0,0,0"
                         FontWeight="Medium"
+                        Foreground="White"
                         Text="The new version has been downloaded and will be installed when Revit is closed" />
                 </StackPanel>
             </rl:Card>
             <rl:Card
-                Margin="0,3,0,0">
+                Margin="0,3,0,0"
+                Background="{DynamicResource PaletteGreenBrush}">
                 <rl:Card.Visibility>
                     <MultiBinding
                         Converter="{converters:UpToDateVisibilityConverter}">
@@ -177,28 +179,28 @@
                     Orientation="Horizontal">
                     <rl:SymbolIcon
                         Symbol="CheckmarkCircle24"
-                        Filled="True"
-                        Foreground="Green" />
+                        Foreground="White" />
                     <TextBlock
                         Margin="20,0,0,0"
                         FontWeight="Medium"
+                        Foreground="White"
                         Text="RevitLookup is up to date" />
                 </StackPanel>
             </rl:Card>
             <rl:Card
                 Margin="0,3,0,0"
-                Background="#ffcccb"
+                Background="{DynamicResource PaletteRedBrush}"
                 Visibility="{Binding ViewModel.State, Converter={converters:ErrorCardVisibilityConverter}}">
                 <StackPanel
                     Orientation="Horizontal">
                     <rl:SymbolIcon
                         Margin="8,0,0,0"
                         Symbol="ErrorCircle24"
-                        Filled="True"
-                        Foreground="Red" />
+                        Foreground="White" />
                     <TextBlock
                         Margin="20,0,0,0"
                         FontWeight="Medium"
+                        Foreground="White"
                         Text="{Binding ViewModel.ErrorMessage}" />
                 </StackPanel>
             </rl:Card>
