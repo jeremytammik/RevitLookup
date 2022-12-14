@@ -18,9 +18,10 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common.Interfaces;
 using RevitLookup.ViewModels.Contracts;
@@ -42,6 +43,8 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         if (DataGrid.SelectedItems.Count == 1)
         {
             var selectedItem = (ISnoopableObject) DataGrid.SelectedItem;
+            if (selectedItem.Descriptor.SnoopHandler is null) return;
+
             var members = selectedItem.GetCachedMembers();
             if (members is not null)
             {

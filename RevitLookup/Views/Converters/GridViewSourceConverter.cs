@@ -29,13 +29,14 @@ public sealed class GridViewSourceConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var source = (IReadOnlyList<ISnoopableObject>) value!;
         var viewSource = new CollectionViewSource
         {
-            Source = source
+            Source = (IReadOnlyList<ISnoopableObject>) value!
         };
+
         viewSource.GroupDescriptions.Add(new PropertyGroupDescription("Descriptor.Type"));
-        return viewSource;
+
+        return viewSource.View;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
