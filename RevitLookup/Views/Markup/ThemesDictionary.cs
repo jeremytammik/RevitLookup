@@ -20,7 +20,20 @@ public sealed class ThemesDictionary : ResourceDictionary
 {
     public ThemesDictionary()
     {
+#if DEBUG
+        ThemeType theme;
+        try
+        {
+            theme = Host.GetService<ISettingsService>().GetTheme();
+        }
+        catch
+        {
+            //UnHosted build
+            theme = ThemeType.Light;
+        }
+#else
         var theme = Host.GetService<ISettingsService>().GetTheme();
+#endif
         var themeName = theme switch
         {
             ThemeType.Dark => "Dark",
