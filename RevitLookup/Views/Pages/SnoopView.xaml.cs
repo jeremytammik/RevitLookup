@@ -21,7 +21,6 @@
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common.Interfaces;
 using RevitLookup.ViewModels.Contracts;
