@@ -36,6 +36,7 @@ public sealed class GridViewSourceConverter : MarkupExtension, IValueConverter
         {
             Source = objects
         };
+
         viewSource.GroupDescriptions.Add(new PropertyGroupDescription("Descriptor.Type"));
         return viewSource.View;
     }

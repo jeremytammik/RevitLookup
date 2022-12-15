@@ -27,47 +27,106 @@
     -->
 
     <!--  TODO  -->
-    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <system:Double x:Key="DefaultDataGridFontSize">14</system:Double>
+    <BooleanToVisibilityConverter
+        x:Key="BooleanToVisibilityConverter" />
+    <system:Double
+        x:Key="DefaultDataGridFontSize">
+        14
+    </system:Double>
 
-    <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
-    <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
-    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
+    <Color
+        x:Key="DisabledControlLightColor">
+        #FFE8EDF9
+    </Color>
+    <Color
+        x:Key="DisabledControlDarkColor">
+        #FFC5CBF9
+    </Color>
+    <Color
+        x:Key="DisabledForegroundColor">
+        #FF888888
+    </Color>
 
-    <Color x:Key="ControlLightColor">White</Color>
-    <Color x:Key="ControlMediumColor">#FF7381F9</Color>
-    <Color x:Key="ControlDarkColor">#FF211AA9</Color>
+    <Color
+        x:Key="ControlLightColor">
+        White
+    </Color>
+    <Color
+        x:Key="ControlMediumColor">
+        #FF7381F9
+    </Color>
+    <Color
+        x:Key="ControlDarkColor">
+        #FF211AA9
+    </Color>
 
-    <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
-    <Color x:Key="ControlPressedColor">#FF211AA9</Color>
-    <Color x:Key="GlyphColor">#FF444444</Color>
+    <Color
+        x:Key="ControlMouseOverColor">
+        #FF3843C4
+    </Color>
+    <Color
+        x:Key="ControlPressedColor">
+        #FF211AA9
+    </Color>
+    <Color
+        x:Key="GlyphColor">
+        #FF444444
+    </Color>
 
-    <LinearGradientBrush x:Key="MenuPopupBrush" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Offset="0" Color="{DynamicResource ControlLightColor}" />
-        <GradientStop Offset="0.5" Color="{DynamicResource ControlMediumColor}" />
-        <GradientStop Offset="1" Color="{DynamicResource ControlLightColor}" />
+    <LinearGradientBrush
+        x:Key="MenuPopupBrush"
+        StartPoint="0.5,0"
+        EndPoint="0.5,1">
+        <GradientStop
+            Offset="0"
+            Color="{DynamicResource ControlLightColor}" />
+        <GradientStop
+            Offset="0.5"
+            Color="{DynamicResource ControlMediumColor}" />
+        <GradientStop
+            Offset="1"
+            Color="{DynamicResource ControlLightColor}" />
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
+    <LinearGradientBrush
+        x:Key="ProgressBarIndicatorAnimatedFill"
+        StartPoint="0,0"
+        EndPoint="1,0">
         <LinearGradientBrush.GradientStops>
             <GradientStopCollection>
-                <GradientStop Offset="0" Color="#000000FF" />
-                <GradientStop Offset="0.4" Color="#600000FF" />
-                <GradientStop Offset="0.6" Color="#600000FF" />
-                <GradientStop Offset="1" Color="#000000FF" />
+                <GradientStop
+                    Offset="0"
+                    Color="#000000FF" />
+                <GradientStop
+                    Offset="0.4"
+                    Color="#600000FF" />
+                <GradientStop
+                    Offset="0.6"
+                    Color="#600000FF" />
+                <GradientStop
+                    Offset="1"
+                    Color="#000000FF" />
             </GradientStopCollection>
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
 
     <!--  END REMOVE COLORS  -->
 
-    <Style x:Key="DefaultDataGridCheckBoxColumnCellStyle" TargetType="{x:Type DataGridColumn}" />
+    <Style
+        x:Key="DefaultDataGridCheckBoxColumnCellStyle"
+        TargetType="{x:Type DataGridColumn}" />
 
-    <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}"
+        TargetType="{x:Type Button}">
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
+                <ControlTemplate
+                    TargetType="{x:Type Button}">
                     <Grid>
                         <Rectangle
                             x:Name="Border"
@@ -83,22 +142,31 @@
                             Points="0,10 10,10 10,0"
                             Stretch="Uniform">
                             <Polygon.Fill>
-                                <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                                <SolidColorBrush
+                                    Color="{DynamicResource GlyphColor}" />
                             </Polygon.Fill>
                         </Polygon>
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver">
+                            <VisualStateGroup
+                                x:Name="CommonStates">
+                                <VisualState
+                                    x:Name="Normal" />
+                                <VisualState
+                                    x:Name="MouseOver">
 
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource ControlMouseOverColor}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="Border"
+                                            Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{StaticResource ControlMouseOverColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
 
                                 </VisualState>
-                                <VisualState x:Name="Pressed">
+                                <VisualState
+                                    x:Name="Pressed">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Shape.Fill).                       (GradientBrush.GradientStops)[1].(GradientStop.Color)">
@@ -107,7 +175,8 @@
                                     </Storyboard>
                                     -->
                                 </VisualState>
-                                <VisualState x:Name="Disabled">
+                                <VisualState
+                                    x:Name="Disabled">
                                     <!--
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow" Storyboard.TargetProperty="(UIElement.Visibility)">
@@ -125,15 +194,29 @@
     </Style>
 
     <!--  Style and template for the DataGridCell.  -->
-    <Style x:Key="DefaultDataGridCellStyle" TargetType="{x:Type DataGridCell}">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="MinHeight" Value="32" />
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="DefaultDataGridCellStyle"
+        TargetType="{x:Type DataGridCell}">
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="Stretch" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="Center" />
+        <Setter
+            Property="MinHeight"
+            Value="32" />
+        <Setter
+            Property="IsTabStop"
+            Value="False" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                <ControlTemplate
+                    TargetType="{x:Type DataGridCell}">
                     <Border
                         x:Name="Border"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
@@ -142,15 +225,22 @@
                         BorderBrush="Transparent"
                         BorderThickness="0"
                         SnapsToDevicePixels="True">
-                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <ContentPresenter
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="FocusStates">
-                                <VisualState x:Name="Unfocused" />
-                                <VisualState x:Name="Focused" />
+                            <VisualStateGroup
+                                x:Name="FocusStates">
+                                <VisualState
+                                    x:Name="Unfocused" />
+                                <VisualState
+                                    x:Name="Focused" />
                             </VisualStateGroup>
-                            <VisualStateGroup x:Name="CurrentStates">
-                                <VisualState x:Name="Regular" />
-                                <VisualState x:Name="Current">
+                            <VisualStateGroup
+                                x:Name="CurrentStates">
+                                <VisualState
+                                    x:Name="Regular" />
+                                <VisualState
+                                    x:Name="Current">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
@@ -168,14 +258,29 @@
     </Style>
 
     <!--  Style and template for the DataGridRow.  -->
-    <Style x:Key="DefaultDataGridRowStyle" TargetType="{x:Type DataGridRow}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-        <Setter Property="ValidationErrorTemplate">
+    <Style
+        x:Key="DefaultDataGridRowStyle"
+        TargetType="{x:Type DataGridRow}">
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="BorderBrush"
+            Value="Transparent" />
+        <Setter
+            Property="IsTabStop"
+            Value="False" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Validation.ErrorTemplate"
+            Value="{x:Null}" />
+        <Setter
+            Property="ValidationErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <TextBlock
@@ -186,9 +291,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Template">
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                <ControlTemplate
+                    TargetType="{x:Type DataGridRow}">
                     <Border
                         x:Name="DGR_Border"
                         Background="Transparent"
@@ -197,12 +304,16 @@
                         SnapsToDevicePixels="True">
                         <SelectiveScrollingGrid>
                             <SelectiveScrollingGrid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition
+                                    Width="Auto" />
+                                <ColumnDefinition
+                                    Width="*" />
                             </SelectiveScrollingGrid.ColumnDefinitions>
                             <SelectiveScrollingGrid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition
+                                    Height="*" />
+                                <RowDefinition
+                                    Height="Auto" />
                             </SelectiveScrollingGrid.RowDefinitions>
                             <DataGridCellsPresenter
                                 Grid.Column="1"
@@ -221,11 +332,14 @@
                                 Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Row}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
                         </SelectiveScrollingGrid>
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
+                            <VisualStateGroup
+                                x:Name="CommonStates">
+                                <VisualState
+                                    x:Name="Normal" />
 
                                 <!--  Provide a different appearance for every other row.  -->
-                                <VisualState x:Name="Normal_AlternatingRow">
+                                <VisualState
+                                    x:Name="Normal_AlternatingRow">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -246,7 +360,8 @@
                                     MouseOver_Editing, MouseOver_Unfocused_Editing,
                                     and Unfocused_Editing are identical.
                                 -->
-                                <VisualState x:Name="Normal_Selected">
+                                <VisualState
+                                    x:Name="Normal_Selected">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -259,7 +374,8 @@
                                     -->
                                 </VisualState>
 
-                                <VisualState x:Name="Unfocused_Selected">
+                                <VisualState
+                                    x:Name="Unfocused_Selected">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).                       (GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -272,7 +388,8 @@
                                     -->
                                 </VisualState>
 
-                                <VisualState x:Name="Normal_Editing">
+                                <VisualState
+                                    x:Name="Normal_Editing">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).                       (GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -285,7 +402,8 @@
                                     -->
                                 </VisualState>
 
-                                <VisualState x:Name="MouseOver_Editing">
+                                <VisualState
+                                    x:Name="MouseOver_Editing">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).                       (GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -298,7 +416,8 @@
                                     -->
                                 </VisualState>
 
-                                <VisualState x:Name="MouseOver_Unfocused_Editing">
+                                <VisualState
+                                    x:Name="MouseOver_Unfocused_Editing">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).                       (GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -311,7 +430,8 @@
                                     -->
                                 </VisualState>
 
-                                <VisualState x:Name="Unfocused_Editing">
+                                <VisualState
+                                    x:Name="Unfocused_Editing">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).                       (GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -324,7 +444,8 @@
                                     -->
                                 </VisualState>
 
-                                <VisualState x:Name="MouseOver">
+                                <VisualState
+                                    x:Name="MouseOver">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).                       (GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -343,7 +464,8 @@
                                     whether the row is selected.  In other words, the states
                                     MouseOver_Editing and MouseOver_Unfocused_Editing are identical.
                                 -->
-                                <VisualState x:Name="MouseOver_Selected">
+                                <VisualState
+                                    x:Name="MouseOver_Selected">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).                       (GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -356,7 +478,8 @@
                                     -->
                                 </VisualState>
 
-                                <VisualState x:Name="MouseOver_Unfocused_Selected">
+                                <VisualState
+                                    x:Name="MouseOver_Unfocused_Selected">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="DGR_Border" Storyboard.TargetProperty="(Panel.Background).                       (GradientBrush.GradientStops)[0].(GradientStop.Color)">
@@ -377,28 +500,52 @@
     </Style>
 
     <!--  Style and template for the resize control on the DataGridRowHeader.  -->
-    <Style x:Key="RowHeaderGripperStyle" TargetType="{x:Type Thumb}">
-        <Setter Property="Height" Value="8" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Cursor" Value="SizeNS" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="RowHeaderGripperStyle"
+        TargetType="{x:Type Thumb}">
+        <Setter
+            Property="Height"
+            Value="8" />
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="Cursor"
+            Value="SizeNS" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" />
+                <ControlTemplate
+                    TargetType="{x:Type Thumb}">
+                    <Border
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!--  Style and template for the DataGridRowHeader.  -->
-    <Style x:Key="DefaultDataGridRowHeaderStyle" TargetType="{x:Type DataGridRowHeader}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="DefaultDataGridRowHeaderStyle"
+        TargetType="{x:Type DataGridRowHeader}">
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                <ControlTemplate
+                    TargetType="{x:Type DataGridRowHeader}">
                     <Grid>
                         <Border
                             x:Name="rowHeaderBorder"
@@ -406,8 +553,11 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="0,0,1,0">
-                            <StackPanel Orientation="Horizontal">
-                                <ContentPresenter VerticalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <StackPanel
+                                Orientation="Horizontal">
+                                <ContentPresenter
+                                    VerticalAlignment="Center"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <Control
                                     SnapsToDevicePixels="False"
                                     Template="{Binding ValidationErrorTemplate, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}"
@@ -430,12 +580,18 @@
                                 to change the appearance of the DataGridRowHeader when it is
                                 in a specific state.
                             -->
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="Normal_CurrentRow" />
-                                <VisualState x:Name="Unfocused_EditingRow" />
-                                <VisualState x:Name="Normal_EditingRow" />
-                                <VisualState x:Name="MouseOver">
+                            <VisualStateGroup
+                                x:Name="CommonStates">
+                                <VisualState
+                                    x:Name="Normal" />
+                                <VisualState
+                                    x:Name="Normal_CurrentRow" />
+                                <VisualState
+                                    x:Name="Unfocused_EditingRow" />
+                                <VisualState
+                                    x:Name="Normal_EditingRow" />
+                                <VisualState
+                                    x:Name="MouseOver">
                                     <!--
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="rowHeaderBorder" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
@@ -444,17 +600,28 @@
                                     </Storyboard>
                                     -->
                                 </VisualState>
-                                <VisualState x:Name="MouseOver_CurrentRow" />
-                                <VisualState x:Name="MouseOver_Unfocused_EditingRow" />
-                                <VisualState x:Name="MouseOver_EditingRow" />
-                                <VisualState x:Name="MouseOver_Unfocused_Selected" />
-                                <VisualState x:Name="MouseOver_Selected" />
-                                <VisualState x:Name="MouseOver_Unfocused_CurrentRow_Selected" />
-                                <VisualState x:Name="MouseOver_CurrentRow_Selected" />
-                                <VisualState x:Name="Unfocused_Selected" />
-                                <VisualState x:Name="Unfocused_CurrentRow_Selected" />
-                                <VisualState x:Name="Normal_CurrentRow_Selected" />
-                                <VisualState x:Name="Normal_Selected" />
+                                <VisualState
+                                    x:Name="MouseOver_CurrentRow" />
+                                <VisualState
+                                    x:Name="MouseOver_Unfocused_EditingRow" />
+                                <VisualState
+                                    x:Name="MouseOver_EditingRow" />
+                                <VisualState
+                                    x:Name="MouseOver_Unfocused_Selected" />
+                                <VisualState
+                                    x:Name="MouseOver_Selected" />
+                                <VisualState
+                                    x:Name="MouseOver_Unfocused_CurrentRow_Selected" />
+                                <VisualState
+                                    x:Name="MouseOver_CurrentRow_Selected" />
+                                <VisualState
+                                    x:Name="Unfocused_Selected" />
+                                <VisualState
+                                    x:Name="Unfocused_CurrentRow_Selected" />
+                                <VisualState
+                                    x:Name="Normal_CurrentRow_Selected" />
+                                <VisualState
+                                    x:Name="Normal_Selected" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
@@ -464,35 +631,73 @@
     </Style>
 
     <!--  Style and template for the resize control on the DataGridColumnHeader.  -->
-    <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
-        <Setter Property="Width" Value="8" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Cursor" Value="SizeWE" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="ColumnHeaderGripperStyle"
+        TargetType="{x:Type Thumb}">
+        <Setter
+            Property="Width"
+            Value="8" />
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="Cursor"
+            Value="SizeWE" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" />
+                <ControlTemplate
+                    TargetType="{x:Type Thumb}">
+                    <Border
+                        Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <!--  Style and template for the DataGridColumnHeader.  -->
-    <Style x:Key="DefaultDataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="Padding" Value="12,0,0,0" />
-        <Setter Property="MinHeight" Value="32" />
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="SeparatorBrush" Value="{DynamicResource ControlFillColorDefault}" />
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="DefaultDataGridColumnHeaderStyle"
+        TargetType="{x:Type DataGridColumnHeader}">
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="Padding"
+            Value="12,0,0,0" />
+        <Setter
+            Property="MinHeight"
+            Value="32" />
+        <Setter
+            Property="FocusVisualStyle"
+            Value="{x:Null}" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="Stretch" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="Center" />
+        <Setter
+            Property="SeparatorBrush"
+            Value="{DynamicResource ControlFillColorDefault}" />
+        <Setter
+            Property="IsTabStop"
+            Value="False" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                <ControlTemplate
+                    TargetType="{x:Type DataGridColumnHeader}">
                     <Grid>
                         <Border
                             x:Name="columnHeaderBorder"
@@ -521,11 +726,17 @@
     </Style>
 
     <!--  Style and template for the DataGridColumnHeadersPresenter.  -->
-    <Style x:Key="DefaultDataGridColumnHeadersPresenterStyle" TargetType="{x:Type DataGridColumnHeadersPresenter}">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="DefaultDataGridColumnHeadersPresenterStyle"
+        TargetType="{x:Type DataGridColumnHeadersPresenter}">
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGridColumnHeadersPresenter}">
+                <ControlTemplate
+                    TargetType="{x:Type DataGridColumnHeadersPresenter}">
                     <Grid>
                         <DataGridColumnHeader
                             x:Name="PART_FillerColumnHeader"
@@ -538,11 +749,17 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DefaultDataGridCellsPresenterStyle" TargetType="{x:Type DataGridCellsPresenter}">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="DefaultDataGridCellsPresenterStyle"
+        TargetType="{x:Type DataGridCellsPresenter}">
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGridColumnHeadersPresenter}">
+                <ControlTemplate
+                    TargetType="{x:Type DataGridColumnHeadersPresenter}">
                     <Grid>
                         <DataGridColumnHeader
                             x:Name="PART_FillerColumnHeader"
@@ -555,24 +772,39 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DefaultDragIndicatorStyleStyle" TargetType="{x:Type ContentControl}">
-        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+    <Style
+        x:Key="DefaultDragIndicatorStyleStyle"
+        TargetType="{x:Type ContentControl}">
+        <Setter
+            Property="Foreground"
+            Value="{DynamicResource TextFillColorPrimaryBrush}" />
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Grid Background="{TemplateBinding Background}">
+                <ControlTemplate
+                    TargetType="ContentControl">
+                    <Grid
+                        Background="{TemplateBinding Background}">
                         <Grid
                             Margin="{TemplateBinding Padding}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" MinWidth="32" />
+                                <ColumnDefinition
+                                    Width="*" />
+                                <ColumnDefinition
+                                    Width="Auto"
+                                    MinWidth="32" />
                             </Grid.ColumnDefinitions>
 
-                            <ContentPresenter Content="{TemplateBinding Content}" />
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}" />
 
                             <controls:SymbolIcon
                                 x:Name="SortIcon"
@@ -584,9 +816,12 @@
                                 Symbol="TextSortAscending24" />
                         </Grid>
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="SortStates">
-                                <VisualState x:Name="Unsorted" />
-                                <VisualState x:Name="SortAscending">
+                            <VisualStateGroup
+                                x:Name="SortStates">
+                                <VisualState
+                                    x:Name="Unsorted" />
+                                <VisualState
+                                    x:Name="SortAscending">
                                     <Storyboard>
                                         <DoubleAnimation
                                             Storyboard.TargetName="SortIcon"
@@ -595,7 +830,8 @@
                                             Duration="0" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="SortDescending">
+                                <VisualState
+                                    x:Name="SortDescending">
                                     <Storyboard>
                                         <DoubleAnimation
                                             Storyboard.TargetName="SortIcon"
@@ -612,56 +848,121 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TextBoxStyle" TargetType="TextBox">
-        <Setter Property="Margin" Value="3" />
-        <Setter Property="MinWidth" Value="30" />
-        <Setter Property="Height" Value="20" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Background" Value="Yellow" />
+    <Style
+        x:Key="TextBoxStyle"
+        TargetType="TextBox">
+        <Setter
+            Property="Margin"
+            Value="3" />
+        <Setter
+            Property="MinWidth"
+            Value="30" />
+        <Setter
+            Property="Height"
+            Value="20" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="Center" />
+        <Setter
+            Property="VerticalAlignment"
+            Value="Center" />
+        <Setter
+            Property="Background"
+            Value="Yellow" />
         <Style.Triggers>
-            <Trigger Property="IsReadOnly" Value="True">
-                <Setter Property="Background" Value="LightGray" />
+            <Trigger
+                Property="IsReadOnly"
+                Value="True">
+                <Setter
+                    Property="Background"
+                    Value="LightGray" />
             </Trigger>
         </Style.Triggers>
     </Style>
-    <Style TargetType="{x:Type DataGridTextColumn}">
-        <Setter Property="EditingElementStyle" Value="{StaticResource TextBoxStyle}" />
+    <Style
+        TargetType="{x:Type DataGridTextColumn}">
+        <Setter
+            Property="EditingElementStyle"
+            Value="{StaticResource TextBoxStyle}" />
     </Style>
 
     <!--  Style and template for the DataGrid.  -->
-    <Style x:Key="DefaultDataGridStyle" TargetType="{x:Type DataGrid}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Background">
+    <Style
+        x:Key="DefaultDataGridStyle"
+        TargetType="{x:Type DataGrid}">
+        <Setter
+            Property="FocusVisualStyle"
+            Value="{x:Null}" />
+        <Setter
+            Property="Background">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                <SolidColorBrush
+                    Color="{DynamicResource ControlFillColorDefault}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="RowBackground" Value="Transparent" />
-        <Setter Property="Foreground">
+        <Setter
+            Property="RowBackground"
+            Value="Transparent" />
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="FontSize" Value="{StaticResource DefaultDataGridFontSize}" />
-        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
-        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
-        <Setter Property="ScrollViewer.PanningMode" Value="Both" />
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-        <Setter Property="Border.CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="RowStyle" Value="{StaticResource DefaultDataGridRowStyle}" />
-        <Setter Property="RowHeaderStyle" Value="{StaticResource DefaultDataGridRowHeaderStyle}" />
-        <Setter Property="CellStyle" Value="{StaticResource DefaultDataGridCellStyle}" />
-        <Setter Property="ColumnHeaderStyle" Value="{StaticResource DefaultDataGridColumnHeaderStyle}" />
-        <Setter Property="DragIndicatorStyle" Value="{StaticResource DefaultDragIndicatorStyleStyle}" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="HorizontalGridLinesBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="VerticalGridLinesBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="BorderThickness"
+            Value="1" />
+        <Setter
+            Property="FontSize"
+            Value="{StaticResource DefaultDataGridFontSize}" />
+        <Setter
+            Property="RowDetailsVisibilityMode"
+            Value="VisibleWhenSelected" />
+        <Setter
+            Property="ScrollViewer.CanContentScroll"
+            Value="True" />
+        <Setter
+            Property="ScrollViewer.PanningMode"
+            Value="Both" />
+        <Setter
+            Property="Stylus.IsFlicksEnabled"
+            Value="False" />
+        <Setter
+            Property="Border.CornerRadius"
+            Value="{DynamicResource ControlCornerRadius}" />
+        <Setter
+            Property="RowStyle"
+            Value="{StaticResource DefaultDataGridRowStyle}" />
+        <Setter
+            Property="RowHeaderStyle"
+            Value="{StaticResource DefaultDataGridRowHeaderStyle}" />
+        <Setter
+            Property="CellStyle"
+            Value="{StaticResource DefaultDataGridCellStyle}" />
+        <Setter
+            Property="ColumnHeaderStyle"
+            Value="{StaticResource DefaultDataGridColumnHeaderStyle}" />
+        <Setter
+            Property="DragIndicatorStyle"
+            Value="{StaticResource DefaultDragIndicatorStyleStyle}" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGrid}">
+                <ControlTemplate
+                    TargetType="{x:Type DataGrid}">
                     <Border
                         x:Name="border"
                         Padding="{TemplateBinding Padding}"
@@ -670,19 +971,28 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding Border.CornerRadius}"
                         SnapsToDevicePixels="True">
-                        <ScrollViewer x:Name="DG_ScrollViewer" Focusable="False">
+                        <ScrollViewer
+                            x:Name="DG_ScrollViewer"
+                            Focusable="False">
                             <ScrollViewer.Template>
-                                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                <ControlTemplate
+                                    TargetType="{x:Type ScrollViewer}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition
+                                                Width="Auto" />
+                                            <ColumnDefinition
+                                                Width="*" />
+                                            <ColumnDefinition
+                                                Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition
+                                                Height="Auto" />
+                                            <RowDefinition
+                                                Height="*" />
+                                            <RowDefinition
+                                                Height="Auto" />
                                         </Grid.RowDefinitions>
 
                                         <Button
@@ -716,10 +1026,14 @@
                                             Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                             Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
 
-                                        <Grid Grid.Row="2" Grid.Column="1">
+                                        <Grid
+                                            Grid.Row="2"
+                                            Grid.Column="1">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition
+                                                    Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                                                <ColumnDefinition
+                                                    Width="*" />
                                             </Grid.ColumnDefinitions>
 
                                             <ScrollBar
@@ -734,18 +1048,26 @@
                                     </Grid>
                                 </ControlTemplate>
                             </ScrollViewer.Template>
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <ItemsPresenter
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Disabled">
+                            <VisualStateGroup
+                                x:Name="CommonStates">
+                                <VisualState
+                                    x:Name="Disabled">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(Panel.Background).                       (SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource ControlLightColor}" />
+                                        <ColorAnimationUsingKeyFrames
+                                            Storyboard.TargetName="border"
+                                            Storyboard.TargetProperty="(Panel.Background).                       (SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame
+                                                KeyTime="0"
+                                                Value="{DynamicResource ControlLightColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Normal" />
+                                <VisualState
+                                    x:Name="Normal" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Border>
@@ -753,53 +1075,123 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsGrouping" Value="True">
-                <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+            <Trigger
+                Property="IsGrouping"
+                Value="True">
+                <Setter
+                    Property="ScrollViewer.CanContentScroll"
+                    Value="False" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <converters:FallbackBrushConverter x:Key="FallbackBrushConverter" />
+    <converters:FallbackBrushConverter
+        x:Key="FallbackBrushConverter" />
 
-    <Color x:Key="FallbackColor">#FFFF0000</Color>
+    <Color
+        x:Key="FallbackColor">
+        #FFFF0000
+    </Color>
 
-    <Thickness x:Key="CheckBoxPadding">11,5,11,6</Thickness>
-    <Thickness x:Key="CheckBoxBorderThemeThickness">1</Thickness>
-    <Thickness x:Key="CheckBoxContentMargin">8,0,0,0</Thickness>
-    <system:Double x:Key="CheckBoxIconSize">14</system:Double>
-    <system:Double x:Key="CheckBoxHeight">22</system:Double>
-    <system:Double x:Key="CheckBoxWidth">22</system:Double>
+    <Thickness
+        x:Key="CheckBoxPadding">
+        11,5,11,6
+    </Thickness>
+    <Thickness
+        x:Key="CheckBoxBorderThemeThickness">
+        1
+    </Thickness>
+    <Thickness
+        x:Key="CheckBoxContentMargin">
+        8,0,0,0
+    </Thickness>
+    <system:Double
+        x:Key="CheckBoxIconSize">
+        14
+    </system:Double>
+    <system:Double
+        x:Key="CheckBoxHeight">
+        22
+    </system:Double>
+    <system:Double
+        x:Key="CheckBoxWidth">
+        22
+    </system:Double>
 
-    <Style x:Key="DataGridCheckBoxElementDefaultStyle" TargetType="{x:Type CheckBox}">
+    <Style
+        x:Key="DataGridCheckBoxElementDefaultStyle"
+        TargetType="{x:Type CheckBox}">
         <!--  Universal WPF UI focus  -->
-        <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+        <Setter
+            Property="FocusVisualStyle"
+            Value="{DynamicResource DefaultControlFocusVisualStyle}" />
         <!--  Universal WPF UI focus  -->
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground">
+        <Setter
+            Property="Background"
+            Value="Transparent" />
+        <Setter
+            Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
+                <SolidColorBrush
+                    Color="{DynamicResource TextFillColorPrimary}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
-        <Setter Property="BorderThickness" Value="{StaticResource CheckBoxBorderThemeThickness}" />
-        <Setter Property="Padding" Value="{StaticResource CheckBoxPadding}" />
-        <Setter Property="Border.CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
-        <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
-        <Setter Property="Focusable" Value="True" />
-        <Setter Property="MinWidth" Value="120" />
-        <Setter Property="MinHeight" Value="32" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Template">
+        <Setter
+            Property="BorderBrush"
+            Value="{DynamicResource ControlElevationBorderBrush}" />
+        <Setter
+            Property="BorderThickness"
+            Value="{StaticResource CheckBoxBorderThemeThickness}" />
+        <Setter
+            Property="Padding"
+            Value="{StaticResource CheckBoxPadding}" />
+        <Setter
+            Property="Border.CornerRadius"
+            Value="{DynamicResource ControlCornerRadius}" />
+        <Setter
+            Property="HorizontalAlignment"
+            Value="Center" />
+        <Setter
+            Property="VerticalAlignment"
+            Value="Center" />
+        <Setter
+            Property="HorizontalContentAlignment"
+            Value="Left" />
+        <Setter
+            Property="VerticalContentAlignment"
+            Value="Center" />
+        <Setter
+            Property="Cursor"
+            Value="Hand" />
+        <Setter
+            Property="FontSize"
+            Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter
+            Property="FontWeight"
+            Value="Normal" />
+        <Setter
+            Property="KeyboardNavigation.IsTabStop"
+            Value="True" />
+        <Setter
+            Property="Focusable"
+            Value="True" />
+        <Setter
+            Property="MinWidth"
+            Value="120" />
+        <Setter
+            Property="MinHeight"
+            Value="32" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
+        <Setter
+            Property="OverridesDefaultStyle"
+            Value="True" />
+        <Setter
+            Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type CheckBox}">
+                <ControlTemplate
+                    TargetType="{x:Type CheckBox}">
                     <BulletDecorator
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
@@ -827,7 +1219,8 @@
                                         Symbol="Checkmark48"
                                         Visibility="Collapsed">
                                         <controls:SymbolIcon.Foreground>
-                                            <SolidColorBrush Color="{DynamicResource TextOnAccentFillColorPrimary}" />
+                                            <SolidColorBrush
+                                                Color="{DynamicResource TextOnAccentFillColorPrimary}" />
                                         </controls:SymbolIcon.Foreground>
                                     </controls:SymbolIcon>
                                 </Grid>
@@ -841,63 +1234,130 @@
                             RecognizesAccessKey="True" />
                     </BulletDecorator>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Content" Value="{x:Null}">
-                            <Setter TargetName="ContentPresenter" Property="Margin" Value="0" />
+                        <Trigger
+                            Property="Content"
+                            Value="{x:Null}">
+                            <Setter
+                                TargetName="ContentPresenter"
+                                Property="Margin"
+                                Value="0" />
                         </Trigger>
-                        <Trigger Property="Content" Value="">
-                            <Setter TargetName="ContentPresenter" Property="Margin" Value="0" />
+                        <Trigger
+                            Property="Content"
+                            Value="">
+                            <Setter
+                                TargetName="ContentPresenter"
+                                Property="Margin"
+                                Value="0" />
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter TargetName="ControlIcon" Property="Symbol" Value="Subtract16" />
-                            <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="ControlBorderIconPresenter" Property="Background">
+                        <Trigger
+                            Property="IsChecked"
+                            Value="{x:Null}">
+                            <Setter
+                                TargetName="ControlIcon"
+                                Property="Symbol"
+                                Value="Subtract16" />
+                            <Setter
+                                TargetName="ControlIcon"
+                                Property="Visibility"
+                                Value="Visible" />
+                            <Setter
+                                TargetName="ControlBorderIconPresenter"
+                                Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Opacity="1.0" Color="{DynamicResource SystemAccentColorSecondary}" />
+                                    <SolidColorBrush
+                                        Opacity="1.0"
+                                        Color="{DynamicResource SystemAccentColorSecondary}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="ControlIcon" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="ControlBorderIconPresenter" Property="Background">
+                        <Trigger
+                            Property="IsChecked"
+                            Value="True">
+                            <Setter
+                                TargetName="ControlIcon"
+                                Property="Visibility"
+                                Value="Visible" />
+                            <Setter
+                                TargetName="ControlBorderIconPresenter"
+                                Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Opacity="1.0" Color="{DynamicResource SystemAccentColorSecondary}" />
+                                    <SolidColorBrush
+                                        Opacity="1.0"
+                                        Color="{DynamicResource SystemAccentColorSecondary}" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsChecked" Value="False" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                                <Condition
+                                    Property="IsChecked"
+                                    Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="ControlBorderIconPresenter" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                            <Setter
+                                TargetName="ControlBorderIconPresenter"
+                                Property="Background"
+                                Value="{DynamicResource ControlFillColorSecondaryBrush}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsChecked" Value="{x:Null}" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                                <Condition
+                                    Property="IsChecked"
+                                    Value="{x:Null}" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="ControlBorderIconPresenter" Property="Background">
+                            <Setter
+                                TargetName="ControlBorderIconPresenter"
+                                Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Opacity="0.8" Color="{DynamicResource SystemAccentColorSecondary}" />
+                                    <SolidColorBrush
+                                        Opacity="0.8"
+                                        Color="{DynamicResource SystemAccentColorSecondary}" />
                                 </Setter.Value>
                             </Setter>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsChecked" Value="True" />
+                                <Condition
+                                    Property="IsMouseOver"
+                                    Value="True" />
+                                <Condition
+                                    Property="IsChecked"
+                                    Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="ControlBorderIconPresenter" Property="Background">
+                            <Setter
+                                TargetName="ControlBorderIconPresenter"
+                                Property="Background">
                                 <Setter.Value>
-                                    <SolidColorBrush Opacity="0.8" Color="{DynamicResource SystemAccentColorSecondary}" />
+                                    <SolidColorBrush
+                                        Opacity="0.8"
+                                        Color="{DynamicResource SystemAccentColorSecondary}" />
                                 </Setter.Value>
                             </Setter>
                         </MultiTrigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="ControlBorderIconPresenter" Property="Background" Value="{DynamicResource ControlFillColorDisabledBrush}" />
-                            <Setter TargetName="ControlBorderIconPresenter" Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
-                            <Setter TargetName="ControlIcon" Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}" />
+                        <Trigger
+                            Property="IsEnabled"
+                            Value="False">
+                            <Setter
+                                TargetName="ControlBorderIconPresenter"
+                                Property="Background"
+                                Value="{DynamicResource ControlFillColorDisabledBrush}" />
+                            <Setter
+                                TargetName="ControlBorderIconPresenter"
+                                Property="BorderBrush"
+                                Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+                            <Setter
+                                TargetName="ControlIcon"
+                                Property="Foreground"
+                                Value="{DynamicResource TextFillColorDisabledBrush}" />
+                            <Setter
+                                Property="Foreground"
+                                Value="{DynamicResource TextFillColorDisabledBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -909,19 +1369,69 @@
         x:Key="DataGridCheckBoxEditingElementDefaultStyle"
         BasedOn="{StaticResource DataGridCheckBoxElementDefaultStyle}"
         TargetType="{x:Type CheckBox}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter
+            Property="SnapsToDevicePixels"
+            Value="True" />
     </Style>
 
     <Style
         x:Key="DefaultUiDataGridStyle"
         BasedOn="{StaticResource DefaultDataGridStyle}"
         TargetType="{x:Type controls:DataGrid}">
-        <Setter Property="CheckBoxColumnEditingElementStyle" Value="{StaticResource DataGridCheckBoxEditingElementDefaultStyle}" />
-        <Setter Property="CheckBoxColumnElementStyle" Value="{StaticResource DataGridCheckBoxElementDefaultStyle}" />
+        <Setter
+            Property="CheckBoxColumnEditingElementStyle"
+            Value="{StaticResource DataGridCheckBoxEditingElementDefaultStyle}" />
+        <Setter
+            Property="CheckBoxColumnElementStyle"
+            Value="{StaticResource DataGridCheckBoxElementDefaultStyle}" />
     </Style>
 
-    <Style BasedOn="{StaticResource DefaultDataGridColumnHeadersPresenterStyle}" TargetType="{x:Type DataGridColumnHeadersPresenter}" />
-    <Style BasedOn="{StaticResource DefaultDataGridStyle}" TargetType="{x:Type DataGrid}" />
-    <Style BasedOn="{StaticResource DefaultUiDataGridStyle}" TargetType="{x:Type controls:DataGrid}" />
+    <GroupStyle
+        x:Key="GroupStyle">
+        <GroupStyle.ContainerStyle>
+            <Style
+                TargetType="{x:Type GroupItem}">
+                <Setter
+                    Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate
+                            TargetType="{x:Type GroupItem}">
+                            <DockPanel>
+                                <Border
+                                    DockPanel.Dock="Top"
+                                    Height="{Binding RowHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                                    BorderThickness="0 0 1 1"
+                                    BorderBrush="{DynamicResource PaletteGreyBrush}">
+                                    <TextBlock
+                                        Text="{Binding Name}" />
+                                </Border>
+                                <ItemsPresenter
+                                    VirtualizingPanel.IsVirtualizing="False"
+                                    VirtualizingPanel.VirtualizationMode="Recycling" />
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </GroupStyle.ContainerStyle>
+        <GroupStyle.Panel>
+            <ItemsPanelTemplate>
+                <VirtualizingStackPanel
+                    IsVirtualizing="True"
+                    VirtualizationMode="Recycling">
+                </VirtualizingStackPanel>
+            </ItemsPanelTemplate>
+        </GroupStyle.Panel>
+    </GroupStyle>
+
+    <Style
+        BasedOn="{StaticResource DefaultDataGridColumnHeadersPresenterStyle}"
+        TargetType="{x:Type DataGridColumnHeadersPresenter}" />
+    <Style
+        BasedOn="{StaticResource DefaultDataGridStyle}"
+        TargetType="{x:Type DataGrid}" />
+    <Style
+        BasedOn="{StaticResource DefaultUiDataGridStyle}"
+        TargetType="{x:Type controls:DataGrid}" />
 
 </ResourceDictionary>

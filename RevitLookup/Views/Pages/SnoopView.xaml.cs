@@ -18,13 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common.Interfaces;
 using RevitLookup.ViewModels.Contracts;
+using DataGrid = RevitLookup.UI.Controls.DataGrid;
 
 namespace RevitLookup.Views.Pages;
 
@@ -38,7 +39,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 
     public ISnoopViewModel ViewModel { get; }
 
-    private void HandleGridRowClick(object sender, RoutedEventArgs routedEventArgs)
+    private void SnoopSelectedRow(object sender, RoutedEventArgs routedEventArgs)
     {
         if (DataGrid.SelectedItems.Count == 1)
         {
@@ -53,5 +54,21 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
                 window.Navigate(typeof(SnoopView));
             }
         }
+    }
+
+    /// <summary>
+    ///     Bypasses fixed header size when the collection is empty
+    /// </summary>
+    private void UpdateDataGridGroupStyle(object sender, IEnumerable e)
+    {
+        var dataGrid = (DataGrid) sender;
+        if (dataGrid.Items.Count == 0)
+        {
+            if (dataGrid.GroupStyle.Count > 0) dataGrid.GroupStyle.Clear();
+            return;
+        }
+
+        var groupStyle = (GroupStyle) dataGrid.TryFindResource("GroupStyle");
+        dataGrid.GroupStyle.Add(groupStyle);
     }
 }

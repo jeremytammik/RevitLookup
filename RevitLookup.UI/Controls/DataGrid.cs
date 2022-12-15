@@ -4,6 +4,7 @@
 // All Rights Reserved.
 
 
+using System.Collections;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,6 +57,12 @@ public class DataGrid : System.Windows.Controls.DataGrid
         base.OnInitialized(e);
     }
 
+    protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+    {
+        base.OnItemsSourceChanged(oldValue, newValue);
+        ItemsSourceChanged?.Invoke(this, newValue);
+    }
+
     private void ColumnsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         UpdateColumnElementStyles();
@@ -84,4 +91,6 @@ public class DataGrid : System.Windows.Controls.DataGrid
                     new Binding { Path = new PropertyPath(CheckBoxColumnEditingElementStyleProperty), Source = this });
         }
     }
+
+    public event EventHandler<IEnumerable> ItemsSourceChanged;
 }
