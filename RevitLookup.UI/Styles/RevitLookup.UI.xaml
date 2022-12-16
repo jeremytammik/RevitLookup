@@ -41,6 +41,7 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/CardControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/CardColor.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/CardExpander.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/GridCardExpander.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Dialog.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/InfoBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Snackbar.xaml" />
