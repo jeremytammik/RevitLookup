@@ -29,7 +29,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 {
     private string _searchText;
     private IReadOnlyList<ISnoopableObject> _snoopableObjects = Array.Empty<ISnoopableObject>();
-    [ObservableProperty] private IReadOnlyList<ISnoopableObject> _filteredSnoopableObjects = Array.Empty<ISnoopableObject>();
     [ObservableProperty] private IReadOnlyList<ISnoopableObject> _snoopableData = Array.Empty<ISnoopableObject>();
 
     public IReadOnlyList<ISnoopableObject> SnoopableObjects
@@ -48,7 +47,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         set
         {
             SetProperty(ref _searchText, value);
-            UpdateSearchResults(value);
+            // UpdateSearchResults(value);
         }
     }
 
@@ -129,7 +128,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
     {
         if (param is null)
         {
-            SnoopableData = Array.Empty<ISnoopableObject>();
+            _snoopableData = Array.Empty<ISnoopableObject>();
             return;
         }
 
@@ -148,21 +147,22 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
             .Generate(100);
     }
 
-    private void UpdateSearchResults(string searchText)
-    {
-        if (string.IsNullOrEmpty(searchText))
-        {
-            FilteredSnoopableObjects = SnoopableObjects;
-            return;
-        }
-
-        var formattedText = searchText.ToLower().Trim();
-        var searchResults = new List<ISnoopableObject>(SnoopableObjects.Count);
-        // ReSharper disable once LoopCanBeConvertedToQuery
-        foreach (var snoopableObject in SnoopableObjects)
-            if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))
-                searchResults.Add(snoopableObject);
-
-        FilteredSnoopableObjects = searchResults;
-    }
+    //TODO rework
+    // private void UpdateSearchResults(string searchText)
+    // {
+    //     if (string.IsNullOrEmpty(searchText))
+    //     {
+    //         FilteredSnoopableObjects = SnoopableObjects;
+    //         return;
+    //     }
+    //
+    //     var formattedText = searchText.ToLower().Trim();
+    //     var searchResults = new List<ISnoopableObject>(SnoopableObjects.Count);
+    //     // ReSharper disable once LoopCanBeConvertedToQuery
+    //     foreach (var snoopableObject in SnoopableObjects)
+    //         if (snoopableObject.Descriptor.Label.ToLower().Contains(formattedText))
+    //             searchResults.Add(snoopableObject);
+    //
+    //     FilteredSnoopableObjects = searchResults;
+    // }
 }

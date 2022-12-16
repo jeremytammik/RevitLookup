@@ -86,7 +86,7 @@
                     VirtualizingStackPanel.IsVirtualizing="True"
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
                     ItemsSource="{Binding
-                        ViewModel.FilteredSnoopableObjects,
+                        ViewModel.SnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"
                     ItemTemplate="{Binding
                         ItemsSource,
@@ -107,7 +107,6 @@
                 x:Name="DataGrid"
                 Margin="0 0 6 2"
                 IsReadOnly="True"
-                RowHeight="25"
                 MinColumnWidth="100"
                 ColumnHeaderHeight="30"
                 SelectionUnit="FullRow"
@@ -118,8 +117,6 @@
                 CanUserSortColumns="False"
                 GridLinesVisibility="All"
                 VerticalScrollBarVisibility="Visible"
-                HorizontalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
-                VerticalGridLinesBrush="{DynamicResource PaletteGreyBrush}"
                 ItemsSource="{Binding ViewModel.SnoopableData, Converter={converters:GridViewSourceConverter}}"
                 ItemsSourceChanged="UpdateDataGridGroupStyle">
                 <rl:DataGrid.Columns>
@@ -148,7 +145,7 @@
                     <Style
                         d:DataContext="{d:DesignInstance objects:SnoopableObject}"
                         TargetType="DataGridRow"
-                        BasedOn="{StaticResource {x:Type DataGridRow}}">
+                        BasedOn="{StaticResource DefaultDataGridRowStyle}">
                         <EventSetter
                             Event="PreviewMouseLeftButtonUp"
                             Handler="SnoopSelectedRow" />
