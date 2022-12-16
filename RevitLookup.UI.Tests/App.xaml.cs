@@ -63,7 +63,7 @@ public sealed partial class App
                     new("DownloadFolder", Path.Combine(assemblyDirectory, "Downloads"))
                 });
             })
-            .ConfigureServices((context, services) =>
+            .ConfigureServices((_, services) =>
             {
                 services.AddSingleton<ISettingsService, SettingsService>();
                 services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
