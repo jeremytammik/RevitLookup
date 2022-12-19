@@ -13,7 +13,8 @@
     MinWidth="630"
     MinHeight="380"
     ExtendsContentIntoTitleBar="True"
-    WindowBackdropType="Mica"
+    WindowBackdropType="None"
+    Icon="../Resources/Images/ShellIcon.ico"
     WindowStartupLocation="CenterScreen">
     <rl:UiWindow.Resources>
         <ResourceDictionary>

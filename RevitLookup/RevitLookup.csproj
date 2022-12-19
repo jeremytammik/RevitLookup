@@ -65,6 +65,8 @@
         <Resource Include="Resources\Images\RibbonIcon16.png" />
         <Resource Include="Resources\Images\RibbonIcon32.png" />
         <Resource Include="Resources\Images\AboutLogo200.png" />
+        <None Remove="Resources\Images\ShellIcon.ico" />
+        <Resource Include="Resources\Images\ShellIcon.ico" />
     </ItemGroup>
 
     <ItemGroup>
