@@ -92,5 +92,5 @@ public sealed class SettingsService : ISettingsService
 
 internal sealed class Settings
 {
-    public ThemeType Theme { get; set; } = ThemeType.Light;
+    public ThemeType Theme { get; set; } = ThemeType.Dark;
 }
