@@ -125,6 +125,7 @@
                         Binding="{Binding Descriptor.Type}">
                         <DataGridTextColumn.Header>
                             <TextBlock
+                                Margin="4 0 4 0"
                                 FontWeight="Bold"
                                 Text="Field">
                             </TextBlock>
@@ -135,6 +136,7 @@
                         Binding="{Binding Descriptor.Label}">
                         <DataGridTextColumn.Header>
                             <TextBlock
+                                Margin="3 0 3 0"
                                 FontWeight="Bold"
                                 Text="Value">
                             </TextBlock>

@@ -227,6 +227,7 @@
                         SnapsToDevicePixels="True">
                         <ContentPresenter
                             VerticalAlignment="Center"
+                            Margin="4,0,4,0"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup
@@ -1421,7 +1422,7 @@
                                     BorderBrush="{DynamicResource ControlElevationBorderBrush}">
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        Margin="3,0,3,0"
+                                        Margin="6,0,6,0"
                                         FontWeight="Medium"
                                         Text="{Binding Name}" />
                                 </Border>
