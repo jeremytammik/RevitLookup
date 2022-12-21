@@ -121,6 +121,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
 
         if (param is not ISnoopableObject snoopableObject) return;
+        if (snoopableObject.Descriptor.SnoopHandler is null) return;
         SnoopableData = snoopableObject.GetMembers();
     }
 
