@@ -22,6 +22,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using RevitLookup.Core.Descriptors;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
 
@@ -31,7 +32,7 @@ public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IValue
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var collection = (IReadOnlyList<ISnoopableObject>) value!;
+        var collection = (IReadOnlyList<SnoopableObject>) value!;
         return collection.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -50,7 +51,7 @@ public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, 
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var collection = (IReadOnlyList<ISnoopableObject>) value!;
+        var collection = (IReadOnlyList<SnoopableObject>) value!;
         return collection.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
     }
 
@@ -65,11 +66,12 @@ public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, 
     }
 }
 
-public sealed class NullObjectConverter : MarkupExtension, IValueConverter
+public sealed class NullMembersConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return value is null;
+        var snoopableObject = (Descriptor) value!;
+        return snoopableObject.Child.GetCachedMembers() is null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

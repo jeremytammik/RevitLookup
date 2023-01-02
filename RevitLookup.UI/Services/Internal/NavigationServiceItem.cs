@@ -9,7 +9,7 @@ using RevitLookup.UI.Controls.Interfaces;
 namespace RevitLookup.UI.Services.Internal;
 
 /// <summary>
-/// Represents <see cref="Interfaces.INavigationItem"/> in <see cref="INavigation"/> internal methods.
+/// Represents <see cref="INavigationItem"/> in <see cref="INavigation"/> internal methods.
 /// </summary>
 internal class NavigationServiceItem
 {

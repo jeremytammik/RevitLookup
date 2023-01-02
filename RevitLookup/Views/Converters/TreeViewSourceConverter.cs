@@ -22,6 +22,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Views.Converters;
 
@@ -29,8 +30,8 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var source = (IReadOnlyList<ISnoopableObject>) value!;
-        var groups = new SortedList<string, List<ISnoopableObject>>(StringComparer.Ordinal);
+        var source = (IReadOnlyList<SnoopableObject>) value!;
+        var groups = new SortedList<string, List<SnoopableObject>>(StringComparer.Ordinal);
 
         foreach (var item in source)
         {
@@ -40,7 +41,7 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
             }
             else
             {
-                groups.Add(item.Descriptor.Type, new List<ISnoopableObject>
+                groups.Add(item.Descriptor.Type, new List<SnoopableObject>
                 {
                     item
                 });

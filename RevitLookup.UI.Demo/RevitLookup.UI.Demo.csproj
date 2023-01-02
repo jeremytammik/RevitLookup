@@ -18,4 +18,12 @@
         <PackageReference Include="Bogus" Version="34.0.2" />
         <PackageReference Include="JetBrains.Annotations" Version="2022.*" />
     </ItemGroup>
+    <ItemGroup>
+      <Reference Include="RevitAPI">
+        <HintPath>C:\Program Files\Autodesk\Revit 2023\RevitAPI.dll</HintPath>
+      </Reference>
+      <Reference Include="RevitAPIUI">
+        <HintPath>C:\Program Files\Autodesk\Revit 2023\RevitAPIUI.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>

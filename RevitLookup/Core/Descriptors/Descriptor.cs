@@ -18,14 +18,38 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Descriptors.Interfaces;
+using System.Reflection;
 using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Core.Descriptors;
 
-public abstract class Descriptor : IDescriptor
+public abstract class Descriptor : IComparable<Descriptor>, IComparable
 {
     public string Type { get; set; }
     public string Label { get; set; }
-    public Func<IReadOnlyList<SnoopableObject>> SnoopHandler { get; set; }
+    public SnoopableObject Child { get; set; }
+
+    public virtual bool TryInvoke(out IReadOnlyList<Descriptor> members)
+    {
+        members = null;
+        return false;
+    }
+    
+    public virtual bool TryInvoke(string methodName, ParameterInfo[] args, out object result)
+    {
+        result = null;
+        return false;
+    }
+
+    public int CompareTo(Descriptor other)
+    {
+        return string.CompareOrdinal(Label, other.Label);
+    }
+
+    public int CompareTo(object obj)
+    {
+        if (ReferenceEquals(null, obj)) return 1;
+        if (ReferenceEquals(this, obj)) return 0;
+        return obj is Descriptor other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Descriptor)}");
+    }
 }

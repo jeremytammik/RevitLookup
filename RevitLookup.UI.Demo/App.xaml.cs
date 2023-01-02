@@ -12,19 +12,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
+using RevitLookup.UI.Demo.Moq;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.UI.Mvvm.Services;
-using RevitLookup.UI.Tests.Moq;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
 
-namespace RevitLookup.UI.Tests;
+namespace RevitLookup.UI.Demo;
 
 public sealed partial class App
 {
     private async void OnStartup(object sender, StartupEventArgs e)
     {
+        AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
         var host = CreateHost();
         await Host.StartHost(host);
         var window = Host.GetService<ILookupInstance>();
@@ -36,7 +37,7 @@ public sealed partial class App
     {
         var settingsService = Host.GetService<ISettingsService>();
         settingsService.Save();
-        
+
         await Host.StopHost();
     }
 
@@ -84,5 +85,17 @@ public sealed partial class App
                 services.AddTransient<ILookupInstance, RevitLookupView>();
             }).Build();
         return host;
+    }
+
+    private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
+    {
+        var assemblyName = new AssemblyName(args.Name);
+        var revitPath = $@"C:\Program Files\Autodesk\Revit 20{assemblyName.Version.Major}";
+        if (!Directory.Exists(revitPath)) return null;
+
+        return Directory.EnumerateFiles(revitPath, $"{assemblyName.Name}.dll")
+            .Select(enumerateFile => new FileInfo(enumerateFile))
+            .Select(fileInfo => Assembly.LoadFile(fileInfo.FullName))
+            .FirstOrDefault();
     }
 }

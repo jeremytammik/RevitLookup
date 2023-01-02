@@ -18,28 +18,20 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core;
 using RevitLookup.Core.Descriptors;
-using RevitLookup.Services.Enums;
-using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
 
-namespace RevitLookup.ViewModels.Pages;
+namespace RevitLookup.UI.Demo.Moq;
 
-public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
+public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    [ObservableProperty] private string _searchText;
-    private readonly INavigationService _navigationService;
     private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
-
-    public SnoopViewModel(INavigationService navigationService)
-    {
-        _navigationService = navigationService;
-    }
 
     public IReadOnlyList<SnoopableObject> SnoopableObjects
     {
@@ -53,59 +45,79 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void Snoop(SnoopableObject snoopableObject)
     {
-        SnoopableObjects = new[] {snoopableObject};
+        SnoopableObjects = new []{snoopableObject};
     }
 
     [RelayCommand]
     public void SnoopSelection()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker =>
+            {
+                if (faker.IndexFaker % 4 == 0)
+                    return new SnoopableObject(null, faker.Lorem.Word());
+                if (faker.IndexFaker % 3 == 0)
+                    return new SnoopableObject(null, faker.Random.Bool());
+
+                return new SnoopableObject(null, faker.Random.Int(0));
+            })
+            .Generate(500);
     }
 
     public void SnoopApplication()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Application);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDocument()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Document);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopView()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.View);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDatabase()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Database);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopEdge()
     {
-        _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Edge);
-        _navigationService.GetNavigationWindow().Show();
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopFace()
     {
-        _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Face);
-        _navigationService.GetNavigationWindow().Show();
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopLinkedElement()
     {
-        _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.LinkedElement);
-        _navigationService.GetNavigationWindow().Show();
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
+            .Generate(100);
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
+        SnoopableObjects = new Faker<SnoopableObject>()
+            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
+            .Generate(100);
     }
 
     [RelayCommand]
@@ -113,7 +125,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     {
         if (param is null)
         {
-            SnoopableData = Array.Empty<Descriptor>();
+            _snoopableData = Array.Empty<Descriptor>();
             return;
         }
 

@@ -18,10 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using RevitLookup.Core.Descriptors;
+using RevitLookup.ViewModels.Objects;
+
 namespace RevitLookup.Services.Contracts;
 
 public interface ISnoopService
 {
+    void Snoop(SnoopableObject snoopableObject);
     void SnoopSelection();
     void SnoopDocument();
     void SnoopDatabase();

@@ -21,7 +21,9 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
+using RevitLookup.Core.Descriptors;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Views.Converters;
 
@@ -29,7 +31,7 @@ public sealed class GridViewSourceConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var objects = (IReadOnlyList<ISnoopableObject>) value!;
+        var objects = (IReadOnlyList<Descriptor>) value!;
         if (objects.Count == 0) return value;
 
         var viewSource = new CollectionViewSource
@@ -37,7 +39,7 @@ public sealed class GridViewSourceConverter : MarkupExtension, IValueConverter
             Source = objects
         };
 
-        viewSource.GroupDescriptions.Add(new PropertyGroupDescription("Descriptor.Type"));
+        viewSource.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
         return viewSource.View;
     }
 

@@ -20,50 +20,31 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using RevitLookup.Core.Descriptors.Interfaces;
+using RevitLookup.Core.Descriptors;
 using RevitLookup.Core.Descriptors.Utils;
-using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.ViewModels.Objects;
 
-public sealed class SnoopableObject : ISnoopableObject, IComparable<SnoopableObject>, IComparable
+public sealed class SnoopableObject
 {
-    private IReadOnlyList<SnoopableObject> _members;
+    private IReadOnlyList<Descriptor> _members;
 
     public SnoopableObject(Document context, object obj)
     {
-        Descriptor = DescriptorUtils.FindSuitableDescriptor(obj);
-        Descriptor.SnoopHandler = DescriptorUtils.FindSuitableHandler(obj);
-        Descriptor.Type = obj.GetType().Name;
-        ValidateLabel();
+        Descriptor = DescriptorUtils.FindSuitableDescriptor(context, obj);
     }
 
-    public IDescriptor Descriptor { get; }
+    public Descriptor Descriptor { get; }
 
-    public IReadOnlyList<ISnoopableObject> GetMembers()
+    [CanBeNull]
+    public IReadOnlyList<Descriptor> GetMembers()
     {
-        return _members = Descriptor.SnoopHandler?.Invoke();
+        return Descriptor.TryInvoke(out _members) ? _members : null;
     }
 
-    public IReadOnlyList<ISnoopableObject> GetCachedMembers()
+    [CanBeNull]
+    public IReadOnlyList<Descriptor> GetCachedMembers()
     {
         return _members ?? GetMembers();
-    }
-
-    private void ValidateLabel()
-    {
-        Descriptor.Label ??= Descriptor.Type;
-    }
-
-    public int CompareTo(SnoopableObject other)
-    {
-        return string.CompareOrdinal(Descriptor.Label, other.Descriptor.Label);
-    }
-
-    public int CompareTo(object obj)
-    {
-        if (ReferenceEquals(null, obj)) return 1;
-        if (ReferenceEquals(this, obj)) return 0;
-        return obj is SnoopableObject other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(SnoopableObject)}");
     }
 }

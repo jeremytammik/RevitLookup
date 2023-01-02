@@ -18,21 +18,45 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
+using Autodesk.Revit.DB;
+using RevitLookup.Core.Descriptors.Utils;
+
 namespace RevitLookup.Core.Descriptors;
 
 public sealed class BoolDescriptor : Descriptor
 {
     public BoolDescriptor(bool value)
     {
-        Label = value ? "True" : "False";
+        Label = value ? "true" : "false";
     }
 }
 
 public sealed class StringDescriptor : Descriptor
 {
+    private readonly string _value;
+
     public StringDescriptor(string value)
     {
+        _value = value;
         Label = value;
+    }
+
+    public override bool TryInvoke(out IReadOnlyList<Descriptor> members)
+    {
+        members = HandlerUtils.HandleMethods(this, _value);
+        return true;
+    }
+
+    public override bool TryInvoke(string methodName, ParameterInfo[] args, out object result)
+    {
+        if (methodName == nameof(object.Equals))
+        {
+            result = true;
+            return true;
+        }
+
+        return base.TryInvoke(methodName, args, out result);
     }
 }
 
@@ -44,10 +68,34 @@ public sealed class IntDescriptor : Descriptor
     }
 }
 
+public sealed class ExceptionDescriptor : Descriptor
+{
+    public ExceptionDescriptor(Exception value)
+    {
+        if (value.InnerException is null)
+            Label = value.Message;
+        else
+            Label = string.IsNullOrEmpty(value.InnerException.Message) ? value.Message : value.InnerException.Message;
+    }
+}
+
+public sealed class ElementDescriptor : Descriptor
+{
+    public ElementDescriptor(Element value)
+    {
+        var name = value.Name == string.Empty ? "<empty>" : value.Name;
+        Label = $"{name}, ID{value.Id}";
+    }
+}
+
 public sealed class ObjectDescriptor : Descriptor
 {
+    public ObjectDescriptor()
+    {
+    }
+
     public ObjectDescriptor(object value)
     {
-        Label = $"Unsupported type: {value}";
+        Label = value.ToString();
     }
 }

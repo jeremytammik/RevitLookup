@@ -6,6 +6,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
+using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Interop;
 
@@ -106,7 +107,7 @@ public class MessageBox : System.Windows.Window
     }
 
     /// <summary>
-    /// Gets or sets a value that determines whether to show the <see cref="System.Windows.Window.Title"/> in <see cref="Wpf.Ui.Controls.TitleBar"/>.
+    /// Gets or sets a value that determines whether to show the <see cref="System.Windows.Window.Title"/> in <see cref="TitleBar"/>.
     /// </summary>
     public bool ShowTitle
     {
@@ -115,7 +116,7 @@ public class MessageBox : System.Windows.Window
     }
 
     /// <summary>
-    /// Gets or sets a value that determines whether <see cref="MessageBox"/> should contain a <see cref="Wpf.Ui.Appearance.BackgroundType.Mica"/> effect.
+    /// Gets or sets a value that determines whether <see cref="MessageBox"/> should contain a <see cref="BackgroundType.Mica"/> effect.
     /// </summary>
     public bool MicaEnabled
     {

@@ -19,14 +19,16 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.Input;
+using RevitLookup.Core.Descriptors;
 using RevitLookup.Services.Contracts;
+using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Contracts;
 
 public interface ISnoopViewModel : ISnoopService
 {
-    IReadOnlyList<ISnoopableObject> SnoopableObjects { get; }
-    IReadOnlyList<ISnoopableObject> SnoopableData { get; }
+    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
+    IReadOnlyList<Descriptor> SnoopableData { get; }
     IRelayCommand SnoopSelectionCommand { get; }
     IRelayCommand<object> RefreshCommand { get; }
     string SearchText { get; set; }

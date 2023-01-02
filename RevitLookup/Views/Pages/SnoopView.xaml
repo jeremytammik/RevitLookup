@@ -8,8 +8,8 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:objects="clr-namespace:RevitLookup.ViewModels.Objects"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
+    xmlns:descriptors="clr-namespace:RevitLookup.Core.Descriptors"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
@@ -122,7 +122,7 @@
                 <rl:DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
-                        Binding="{Binding Descriptor.Type}">
+                        Binding="{Binding Label}">
                         <DataGridTextColumn.Header>
                             <TextBlock
                                 Margin="4 0 4 0"
@@ -133,7 +133,7 @@
                     </DataGridTextColumn>
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Descriptor.Label}">
+                        Binding="{Binding Child.Descriptor.Label}">
                         <DataGridTextColumn.Header>
                             <TextBlock
                                 Margin="3 0 3 0"
@@ -145,7 +145,7 @@
                 </rl:DataGrid.Columns>
                 <rl:DataGrid.RowStyle>
                     <Style
-                        d:DataContext="{d:DesignInstance objects:SnoopableObject}"
+                        d:DataContext="{d:DesignInstance descriptors:Descriptor}"
                         TargetType="DataGridRow"
                         BasedOn="{StaticResource DefaultDataGridRowStyle}">
                         <EventSetter
@@ -153,7 +153,7 @@
                             Handler="SnoopSelectedRow" />
                         <Style.Triggers>
                             <DataTrigger
-                                Binding="{Binding Path=Descriptor.SnoopHandler, Converter={converters:NullObjectConverter}}"
+                                Binding="{Binding Converter={converters:NullMembersConverter}}"
                                 Value="false">
                                 <Setter
                                     Property="FontWeight"
