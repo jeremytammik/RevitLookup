@@ -47,7 +47,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         if (DataGrid.SelectedItems.Count != 1) return;
 
         var selectedItem = (Descriptor) DataGrid.SelectedItem;
-        if (selectedItem.Value.Descriptor is not IHandledDescriptor) return;
+        if (selectedItem.Value.Descriptor is not IDescriptorCollector) return;
 
         var window = Host.GetService<ILookupInstance>();
         window.ShowWindow();

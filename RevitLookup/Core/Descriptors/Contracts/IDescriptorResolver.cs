@@ -20,7 +20,7 @@
 
 namespace RevitLookup.Core.Descriptors.Contracts;
 
-public interface IHandledDescriptor
+public interface IDescriptorResolver
 {
-    
+    void RegisterResolvers(IResolverManager manager);
 }

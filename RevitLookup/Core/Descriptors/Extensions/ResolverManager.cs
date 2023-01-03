@@ -18,33 +18,30 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
-using RevitLookup.ViewModels.Objects;
+using System.Reflection;
+using RevitLookup.Core.Descriptors.Contracts;
 
-namespace RevitLookup.Core.Descriptors;
+namespace RevitLookup.Core.Descriptors.Extensions;
 
-public sealed class ExtensionManager
+public sealed class ResolverManager : IResolverManager
 {
-    private readonly Descriptor _descriptor;
-    private readonly Document _context;
-    private readonly List<Descriptor> _members;
+    private readonly string _memberName;
 
-    public ExtensionManager(Descriptor descriptor, Document context, List<Descriptor> members)
+    public ResolverManager(string memberName, ParameterInfo[] args)
     {
-        _descriptor = descriptor;
-        _context = context;
-        _members = members;
+        _memberName = memberName;
+        Parameters = args;
     }
 
-    public void Register(string name, object value)
-    {
-        var descriptor = new ObjectDescriptor
-        {
-            Type = _descriptor.Type,
-            Label = name,
-            Value = new SnoopableObject(_context, value)
-        };
+    public object Result { get; private set; }
+    public bool IsResolved { get; private set; }
+    public ParameterInfo[] Parameters { get; }
 
-        _members.Add(descriptor);
+    public void Register(string memberName, object result)
+    {
+        if (memberName != _memberName) return;
+
+        Result = result;
+        IsResolved = true;
     }
 }

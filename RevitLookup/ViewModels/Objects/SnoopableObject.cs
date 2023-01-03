@@ -22,6 +22,7 @@
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Descriptors;
 using RevitLookup.Core.Descriptors.Contracts;
+using RevitLookup.Core.Descriptors.Extensions;
 using RevitLookup.Core.Descriptors.Utils;
 
 namespace RevitLookup.ViewModels.Objects;
@@ -43,15 +44,15 @@ public sealed class SnoopableObject
 
     public IReadOnlyList<Descriptor> GetMembers()
     {
-        if (Descriptor is IHandledDescriptor)
+        if (Descriptor is IDescriptorCollector)
         {
-            ReflectionUtils.HandleProperties(Descriptor, _context, _members, _obj);
-            ReflectionUtils.HandleMethods(Descriptor, _context, _members, _obj);
+            ReflectionUtils.CollectProperties(Descriptor, _context, _members, _obj);
+            ReflectionUtils.CollectMethods(Descriptor, _context, _members, _obj);
         }
 
-        if (Descriptor is IDescriptorExtension descriptorExtension)
+        if (Descriptor is IDescriptorExtension extension)
         {
-            descriptorExtension.RegisterExtensions(new ExtensionManager(Descriptor, _context, _members));
+            extension.RegisterExtensions(new ExtensionManager(Descriptor, _context, _members));
         }
 
         return _members;

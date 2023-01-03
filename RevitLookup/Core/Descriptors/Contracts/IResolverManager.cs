@@ -22,7 +22,8 @@ using System.Reflection;
 
 namespace RevitLookup.Core.Descriptors.Contracts;
 
-public interface IInvokedDescriptor
+public interface IResolverManager
 {
-    bool TryInvoke(string methodName, ParameterInfo[] args, out object result);
+    ParameterInfo[] Parameters { get; }
+    void Register(string memberName, object result);
 }

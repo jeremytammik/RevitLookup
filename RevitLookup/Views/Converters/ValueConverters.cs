@@ -72,7 +72,26 @@ public sealed class HandledDescriptorConverter : MarkupExtension, IValueConverte
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var descriptor = (Descriptor) value!;
-        return descriptor is IHandledDescriptor;
+        return descriptor is IDescriptorCollector;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+public sealed class ExceptionDescriptorConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var descriptor = (Descriptor) value!;
+        return descriptor is ExceptionDescriptor;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

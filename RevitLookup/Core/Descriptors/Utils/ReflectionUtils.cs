@@ -1,41 +1,44 @@
 ﻿using System.Reflection;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using RevitLookup.Core.Descriptors.Contracts;
+using RevitLookup.Core.Descriptors.Extensions;
 using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Core.Descriptors.Utils;
 
 public static class ReflectionUtils
 {
-    public static void HandleMethods(Descriptor descriptor, Document context, List<Descriptor> members, object obj)
+    public static void CollectMethods(Descriptor descriptor, Document context, List<Descriptor> members, object obj)
     {
         var type = obj.GetType();
         var methods = type
             .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
             .OrderBy(info => info.Name);
 
-        foreach (var methodInfo in methods)
+        foreach (var method in methods)
         {
-            if (methodInfo.IsSpecialName) continue;
+            if (method.IsSpecialName) continue;
+            if (method.ReturnType.Name == "Void") continue;
 
-            var args = methodInfo.GetParameters();
             var item = new ObjectDescriptor
             {
-                Type = methodInfo.DeclaringType!.Name,
-                Label = methodInfo.Name
+                Type = method.DeclaringType!.Name,
+                Label = method.Name
             };
 
             try
             {
                 object result;
+                var args = method.GetParameters();
                 if (args.Length > 0)
                 {
-                    if (descriptor is IInvokedDescriptor invoker)
+                    if (descriptor is IDescriptorResolver resolver)
                     {
-                        if (!invoker.TryInvoke(methodInfo.Name, args, out result))
-                        {
-                            continue;
-                        }
+                        var manager = new ResolverManager(method.Name, args);
+                        resolver.RegisterResolvers(manager);
+                        if (!manager.IsResolved) continue;
+                        result = manager.Result;
                     }
                     else
                     {
@@ -44,7 +47,7 @@ public static class ReflectionUtils
                 }
                 else
                 {
-                    result = methodInfo.Invoke(obj, null);
+                    result = method.Invoke(obj, null);
                 }
 
                 item.Value = new SnoopableObject(context, result);
@@ -58,24 +61,52 @@ public static class ReflectionUtils
         }
     }
 
-    public static void HandleProperties(Descriptor descriptor, Document context, List<Descriptor> members, object obj)
+    public static void CollectProperties(Descriptor descriptor, Document context, List<Descriptor> members, object obj)
     {
         var type = obj.GetType();
         var properties = type
             .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
             .OrderBy(info => info.Name);
 
-        foreach (var propertyInfo in properties)
+        foreach (var property in properties)
         {
-            if (propertyInfo.IsSpecialName) continue;
-            if (propertyInfo.GetMethod.IsSpecialName) continue;
+            if (property.IsSpecialName) continue;
 
             var item = new ObjectDescriptor
             {
-                Type = propertyInfo.DeclaringType!.Name,
-                Label = propertyInfo.Name,
-                Value = new SnoopableObject(context, propertyInfo.GetValue(obj))
+                Type = property.DeclaringType!.Name,
+                Label = property.Name
             };
+
+            try
+            {
+                object result;
+                var args = property.GetMethod.GetParameters();
+                if (args.Length > 0)
+                {
+                    if (descriptor is IDescriptorResolver resolver)
+                    {
+                        var manager = new ResolverManager(property.Name, args);
+                        resolver.RegisterResolvers(manager);
+                        if (!manager.IsResolved) continue;
+                        result = manager.Result;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    result = property.GetValue(obj);
+                }
+
+                item.Value = new SnoopableObject(context, result);
+            }
+            catch (Exception exception)
+            {
+                item.Value = new SnoopableObject(context, exception);
+            }
 
             members.Add(item);
         }

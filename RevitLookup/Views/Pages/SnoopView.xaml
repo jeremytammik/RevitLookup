@@ -159,6 +159,13 @@
                                     Property="FontWeight"
                                     Value="DemiBold" />
                             </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding Value.Descriptor, Converter={converters:ExceptionDescriptorConverter}}"
+                                Value="true">
+                                <Setter
+                                    Property="Foreground"
+                                    Value="{DynamicResource PaletteRedBrush}" />
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </rl:DataGrid.RowStyle>

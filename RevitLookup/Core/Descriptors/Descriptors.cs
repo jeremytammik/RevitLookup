@@ -21,6 +21,7 @@
 using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Descriptors.Contracts;
+using RevitLookup.Core.Descriptors.Extensions;
 
 namespace RevitLookup.Core.Descriptors;
 
@@ -28,11 +29,11 @@ public sealed class BoolDescriptor : Descriptor
 {
     public BoolDescriptor(bool value)
     {
-        Label = value ? "true" : "false";
+        Label = value ? "True" : "False";
     }
 }
 
-public sealed class StringDescriptor : Descriptor, IHandledDescriptor, IInvokedDescriptor, IDescriptorExtension
+public sealed class StringDescriptor : Descriptor, IDescriptorCollector, IDescriptorResolver, IDescriptorExtension
 {
     private readonly string _value;
 
@@ -42,21 +43,15 @@ public sealed class StringDescriptor : Descriptor, IHandledDescriptor, IInvokedD
         Label = value;
     }
 
-    public bool TryInvoke(string methodName, ParameterInfo[] args, out object result)
+    public void RegisterResolvers(IResolverManager manager)
     {
-        if (methodName == nameof(object.Equals))
-        {
-            result = _value.Equals("Hello");
-            return true;
-        }
-
-        result = null;
-        return false;
+        manager.Register(nameof(object.Equals), _value.Equals("Hello"));
     }
 
     public void RegisterExtensions(ExtensionManager manager)
     {
-        manager.Register("My extension", _value.ToUpper() + " Extended");
+        manager.Register("Group", "My extension1", _value.ToUpper() + " Extended");
+        manager.Register("Group", "My extension2", _value.ToUpper() + " Extended");
     }
 }
 
@@ -79,7 +74,7 @@ public sealed class ExceptionDescriptor : Descriptor
     }
 }
 
-public sealed class ElementDescriptor : Descriptor, IHandledDescriptor
+public sealed class ElementDescriptor : Descriptor, IDescriptorCollector
 {
     public ElementDescriptor(Element value)
     {

@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,26 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
+namespace RevitLookup.Core.Descriptors.Contracts;
 
-namespace RevitLookup.Core.Descriptors.Utils;
-
-public static class DescriptorUtils
+public interface IDescriptorCollector
 {
-    public static Descriptor FindSuitableDescriptor(object obj)
-    {
-        Descriptor descriptor = obj switch
-        {
-            bool value => new BoolDescriptor(value),
-            string value => new StringDescriptor(value),
-            int value => new IntDescriptor(value),
-            Element value => new ElementDescriptor(value),
-            Exception value => new ExceptionDescriptor(value),
-            _ => new ObjectDescriptor(obj)
-        };
-        
-        descriptor.Type ??= obj?.GetType().Name;
-        descriptor.Label ??= descriptor.Type;
-        return descriptor;
-    }
+    
 }
