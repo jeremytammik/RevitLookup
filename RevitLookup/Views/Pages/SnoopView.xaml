@@ -133,7 +133,7 @@
                     </DataGridTextColumn>
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Child.Descriptor.Label}">
+                        Binding="{Binding Value.Descriptor.Label}">
                         <DataGridTextColumn.Header>
                             <TextBlock
                                 Margin="3 0 3 0"
@@ -153,8 +153,8 @@
                             Handler="SnoopSelectedRow" />
                         <Style.Triggers>
                             <DataTrigger
-                                Binding="{Binding Converter={converters:NullMembersConverter}}"
-                                Value="false">
+                                Binding="{Binding Value.Descriptor, Converter={converters:HandledDescriptorConverter}}"
+                                Value="true">
                                 <Setter
                                     Property="FontWeight"
                                     Value="DemiBold" />

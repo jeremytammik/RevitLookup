@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,25 +18,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Core.Descriptors;
 
-public abstract class Descriptor : IComparable<Descriptor>, IComparable
+public sealed class ExtensionManager
 {
-    public string Type { get; set; }
-    public string Label { get; set; }
-    public SnoopableObject Value { get; set; }
+    private readonly Descriptor _descriptor;
+    private readonly Document _context;
+    private readonly List<Descriptor> _members;
 
-    public int CompareTo(Descriptor other)
+    public ExtensionManager(Descriptor descriptor, Document context, List<Descriptor> members)
     {
-        return string.CompareOrdinal(Label, other.Label);
+        _descriptor = descriptor;
+        _context = context;
+        _members = members;
     }
 
-    public int CompareTo(object obj)
+    public void Register(string name, object value)
     {
-        if (ReferenceEquals(null, obj)) return 1;
-        if (ReferenceEquals(this, obj)) return 0;
-        return obj is Descriptor other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Descriptor)}");
+        var descriptor = new ObjectDescriptor
+        {
+            Type = _descriptor.Type,
+            Label = name,
+            Value = new SnoopableObject(_context, value)
+        };
+
+        _members.Add(descriptor);
     }
 }

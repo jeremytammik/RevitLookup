@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.Core.Descriptors;
+using RevitLookup.Core.Descriptors.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
 
@@ -66,12 +67,12 @@ public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, 
     }
 }
 
-public sealed class NullMembersConverter : MarkupExtension, IValueConverter
+public sealed class HandledDescriptorConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var snoopableObject = (Descriptor) value!;
-        return snoopableObject.Child.GetCachedMembers() is null;
+        var descriptor = (Descriptor) value!;
+        return descriptor is IHandledDescriptor;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

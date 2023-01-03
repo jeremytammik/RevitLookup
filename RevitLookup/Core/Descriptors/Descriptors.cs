@@ -20,7 +20,7 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
-using RevitLookup.Core.Descriptors.Utils;
+using RevitLookup.Core.Descriptors.Contracts;
 
 namespace RevitLookup.Core.Descriptors;
 
@@ -32,7 +32,7 @@ public sealed class BoolDescriptor : Descriptor
     }
 }
 
-public sealed class StringDescriptor : Descriptor
+public sealed class StringDescriptor : Descriptor, IHandledDescriptor, IInvokedDescriptor, IDescriptorExtension
 {
     private readonly string _value;
 
@@ -42,21 +42,21 @@ public sealed class StringDescriptor : Descriptor
         Label = value;
     }
 
-    public override bool TryInvoke(out IReadOnlyList<Descriptor> members)
-    {
-        members = HandlerUtils.HandleMethods(this, _value);
-        return true;
-    }
-
-    public override bool TryInvoke(string methodName, ParameterInfo[] args, out object result)
+    public bool TryInvoke(string methodName, ParameterInfo[] args, out object result)
     {
         if (methodName == nameof(object.Equals))
         {
-            result = true;
+            result = _value.Equals("Hello");
             return true;
         }
 
-        return base.TryInvoke(methodName, args, out result);
+        result = null;
+        return false;
+    }
+
+    public void RegisterExtensions(ExtensionManager manager)
+    {
+        manager.Register("My extension", _value.ToUpper() + " Extended");
     }
 }
 
@@ -79,7 +79,7 @@ public sealed class ExceptionDescriptor : Descriptor
     }
 }
 
-public sealed class ElementDescriptor : Descriptor
+public sealed class ElementDescriptor : Descriptor, IHandledDescriptor
 {
     public ElementDescriptor(Element value)
     {
@@ -96,6 +96,6 @@ public sealed class ObjectDescriptor : Descriptor
 
     public ObjectDescriptor(object value)
     {
-        Label = value.ToString();
+        Label = value is null ? "<null>" : value.ToString();
     }
 }

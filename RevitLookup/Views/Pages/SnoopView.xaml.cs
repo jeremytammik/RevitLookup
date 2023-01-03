@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core.Descriptors;
+using RevitLookup.Core.Descriptors.Contracts;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common.Interfaces;
 using RevitLookup.ViewModels.Contracts;
@@ -46,13 +47,12 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         if (DataGrid.SelectedItems.Count != 1) return;
 
         var selectedItem = (Descriptor) DataGrid.SelectedItem;
-        var members = selectedItem.Child.GetCachedMembers();
-        if (members is null) return;
+        if (selectedItem.Value.Descriptor is not IHandledDescriptor) return;
 
         var window = Host.GetService<ILookupInstance>();
         window.ShowWindow();
         window.Navigate(typeof(SnoopView));
-        window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Child);
+        window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 
     /// <summary>

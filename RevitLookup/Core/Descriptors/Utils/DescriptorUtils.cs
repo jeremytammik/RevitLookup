@@ -18,14 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.Core.Descriptors.Utils;
 
 public static class DescriptorUtils
 {
-    public static Descriptor FindSuitableDescriptor(Document context, object obj)
+    public static Descriptor FindSuitableDescriptor(object obj)
     {
         Descriptor descriptor = obj switch
         {
