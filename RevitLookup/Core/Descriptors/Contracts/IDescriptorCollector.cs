@@ -22,5 +22,4 @@ namespace RevitLookup.Core.Descriptors.Contracts;
 
 public interface IDescriptorCollector
 {
-    
 }

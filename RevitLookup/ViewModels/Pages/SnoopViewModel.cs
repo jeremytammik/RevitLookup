@@ -18,10 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
 using RevitLookup.Core.Descriptors;
+using RevitLookup.Core.Descriptors.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
@@ -53,7 +55,20 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void Snoop(SnoopableObject snoopableObject)
     {
-        SnoopableObjects = new[] {snoopableObject};
+        if (snoopableObject.Descriptor is IDescriptorEnumerator enumerator)
+        {
+            var objects = new List<SnoopableObject>();
+            foreach (var obj in enumerator.Enumerate())
+            {
+                objects.Add(new SnoopableObject(snoopableObject.Context, obj));
+            }
+
+            SnoopableObjects = objects;
+        }
+        else
+        {
+            SnoopableObjects = new[] {snoopableObject};
+        }
     }
 
     [RelayCommand]
@@ -109,7 +124,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     [RelayCommand]
-    private void Refresh(object param)
+    private async Task Refresh(object param)
     {
         if (param is null)
         {
@@ -118,7 +133,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
 
         if (param is not SnoopableObject snoopableObject) return;
-        var members = snoopableObject.GetCachedMembers();
+        var members = await snoopableObject.GetCachedMembersAsync();
         if (members is null) return;
 
         SnoopableData = members;

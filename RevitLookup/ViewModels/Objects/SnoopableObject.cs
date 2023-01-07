@@ -21,46 +21,55 @@
 
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Descriptors;
-using RevitLookup.Core.Descriptors.Contracts;
-using RevitLookup.Core.Descriptors.Extensions;
 using RevitLookup.Core.Descriptors.Utils;
 
 namespace RevitLookup.ViewModels.Objects;
 
 public sealed class SnoopableObject
 {
-    private readonly Document _context;
     private readonly object _obj;
-    private readonly List<Descriptor> _members = new(0);
+    private IReadOnlyList<Descriptor> _members = new List<Descriptor>(0);
 
     public SnoopableObject(Document context, object obj)
     {
         _obj = obj;
-        _context = context;
-        Descriptor = DescriptorUtils.FindSuitableDescriptor(obj);
+        Context = context;
+        Descriptor = DescriptorUtils.FindSuitableDescriptor(_obj);
     }
 
-    public Descriptor Descriptor { get; }
+    public Descriptor Descriptor { get; set; }
+    public Document Context { get; }
 
     public IReadOnlyList<Descriptor> GetMembers()
     {
-        if (Descriptor is IDescriptorCollector)
-        {
-            ReflectionUtils.CollectProperties(Descriptor, _context, _members, _obj);
-            ReflectionUtils.CollectMethods(Descriptor, _context, _members, _obj);
-        }
-
-        if (Descriptor is IDescriptorExtension extension)
-        {
-            extension.RegisterExtensions(new ExtensionManager(Descriptor, _context, _members));
-        }
-
-        return _members;
+        var descriptors = new DescriptorBuilder(_obj, Context)
+            .Build(configurator =>
+            {
+                configurator.AddProperties();
+                configurator.AddMethods();
+                configurator.AddClassExtensions();
+                configurator.AddGroupExtensions();
+            });
+        return descriptors;
     }
 
-    [CanBeNull]
-    public IReadOnlyList<Descriptor> GetCachedMembers()
+    public async Task<IReadOnlyList<Descriptor>> GetMembersAsync()
     {
-        return _members.Count == 0 ? GetMembers() : _members;
+        var descriptors = await Application.ExternalHandler.RaiseAsync(_ =>
+        {
+            using var transaction = new Transaction(Context);
+            transaction.Start("RevitLookup");
+            var descriptors = GetMembers();
+            transaction.RollBack();
+            return descriptors;
+        });
+
+        _members = descriptors;
+        return descriptors;
+    }
+
+    public async Task<IReadOnlyList<Descriptor>> GetCachedMembersAsync()
+    {
+        return _members.Count == 0 ? await GetMembersAsync() : _members;
     }
 }

@@ -114,10 +114,12 @@
                 HeadersVisibility="Column"
                 AutoGenerateColumns="False"
                 CanUserReorderColumns="False"
-                CanUserSortColumns="False"
                 GridLinesVisibility="All"
                 VerticalScrollBarVisibility="Visible"
-                ItemsSource="{Binding ViewModel.SnoopableData, Converter={converters:GridViewSourceConverter}}"
+                VirtualizingPanel.IsVirtualizing="True"
+                VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                VirtualizingPanel.VirtualizationMode="Recycling"
+                ItemsSource="{Binding ViewModel.SnoopableData}"
                 ItemsSourceChanged="UpdateDataGridGroupStyle">
                 <rl:DataGrid.Columns>
                     <DataGridTextColumn

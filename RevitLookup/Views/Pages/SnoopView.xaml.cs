@@ -19,15 +19,16 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core.Descriptors;
 using RevitLookup.Core.Descriptors.Contracts;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common.Interfaces;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Objects;
 using DataGrid = RevitLookup.UI.Controls.DataGrid;
 
 namespace RevitLookup.Views.Pages;
@@ -67,6 +68,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
             return;
         }
 
+        if (DataGrid.Items.GroupDescriptions!.Count == 0) DataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
         var groupStyle = (GroupStyle) dataGrid.TryFindResource("GroupStyle");
         dataGrid.GroupStyle.Add(groupStyle);
     }

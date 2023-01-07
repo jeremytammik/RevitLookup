@@ -18,48 +18,61 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
+using System.Collections;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Descriptors.Contracts;
-using RevitLookup.Core.Descriptors.Extensions;
 
 namespace RevitLookup.Core.Descriptors;
+
+public sealed class ColorDescriptor : Descriptor
+{
+    public ColorDescriptor(Color color)
+    {
+        Label = $"RGB: {color.Red} {color.Green} {color.Blue}";
+    }
+}
+
+public sealed class ElementDescriptor : Descriptor, IDescriptorCollector, IDescriptorResolver
+{
+    private readonly Element _value;
+
+    public ElementDescriptor(Element value)
+    {
+        _value = value;
+        var name = value.Name == string.Empty ? "<empty>" : value.Name;
+        Label = $"{name}, ID{value.Id}";
+    }
+
+    public void RegisterResolvers(IResolverManager manager)
+    {
+        manager.Register("BoundingBox", _value.get_BoundingBox(null));
+    }
+}
+
+public sealed class APIObjectDescriptor : Descriptor, IDescriptorCollector
+{
+}
+
+public sealed class IEnumerableDescriptor : Descriptor, IDescriptorEnumerator
+{
+    private readonly IEnumerable _value;
+
+    public IEnumerableDescriptor(IEnumerable value)
+    {
+        _value = value;
+    }
+
+    public IEnumerable Enumerate()
+    {
+        return _value;
+    }
+}
 
 public sealed class BoolDescriptor : Descriptor
 {
     public BoolDescriptor(bool value)
     {
         Label = value ? "True" : "False";
-    }
-}
-
-public sealed class StringDescriptor : Descriptor, IDescriptorCollector, IDescriptorResolver, IDescriptorExtension
-{
-    private readonly string _value;
-
-    public StringDescriptor(string value)
-    {
-        _value = value;
-        Label = value;
-    }
-
-    public void RegisterResolvers(IResolverManager manager)
-    {
-        manager.Register(nameof(object.Equals), _value.Equals("Hello"));
-    }
-
-    public void RegisterExtensions(ExtensionManager manager)
-    {
-        manager.Register("Group", "My extension1", _value.ToUpper() + " Extended");
-        manager.Register("Group", "My extension2", _value.ToUpper() + " Extended");
-    }
-}
-
-public sealed class IntDescriptor : Descriptor
-{
-    public IntDescriptor(int value)
-    {
-        Label = value.ToString();
     }
 }
 
@@ -71,15 +84,6 @@ public sealed class ExceptionDescriptor : Descriptor
             Label = value.Message;
         else
             Label = string.IsNullOrEmpty(value.InnerException.Message) ? value.Message : value.InnerException.Message;
-    }
-}
-
-public sealed class ElementDescriptor : Descriptor, IDescriptorCollector
-{
-    public ElementDescriptor(Element value)
-    {
-        var name = value.Name == string.Empty ? "<empty>" : value.Name;
-        Label = $"{name}, ID{value.Id}";
     }
 }
 

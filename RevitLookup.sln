@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitLookup.UI", "RevitLook
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitLookup.UI.Demo", "RevitLookup.UI.Demo\RevitLookup.UI.Demo.csproj", "{67B8906F-21B0-4CE3-82F7-8E608B9D53CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{827646DF-D373-4D40-8F0B-1E9842E3CE9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug R22|Any CPU = Debug R22|Any CPU
@@ -29,6 +31,7 @@ Global
 		Release R23|Any CPU = Release R23|Any CPU
 		Installer|Any CPU = Installer|Any CPU
 		UI.Demo|Any CPU = UI.Demo|Any CPU
+		Benchmark|Any CPU = Benchmark|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Debug R22|Any CPU.ActiveCfg = Debug R22|Any CPU
@@ -42,12 +45,14 @@ Global
 		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Release R23|Any CPU.Build.0 = Release R23|Any CPU
 		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.UI.Demo|Any CPU.ActiveCfg = Debug R23|Any CPU
 		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.UI.Demo|Any CPU.Build.0 = Debug R23|Any CPU
+		{05C77115-2277-4DFC-8F95-BE37E5F1130F}.Benchmark|Any CPU.ActiveCfg = Release R23|Any CPU
 		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
 		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Debug R23|Any CPU.ActiveCfg = Debug|Any CPU
 		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Installer|Any CPU.ActiveCfg = Release|Any CPU
 		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Release R22|Any CPU.ActiveCfg = Release|Any CPU
 		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Release R23|Any CPU.ActiveCfg = Release|Any CPU
 		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.UI.Demo|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D9C223-D070-46CD-A635-04FD4E1BEC3C}.Benchmark|Any CPU.ActiveCfg = Release|Any CPU
 		{B3814652-9158-4056-A721-1A380DE74BAE}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3814652-9158-4056-A721-1A380DE74BAE}.Debug R23|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3814652-9158-4056-A721-1A380DE74BAE}.Installer|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,6 +60,7 @@ Global
 		{B3814652-9158-4056-A721-1A380DE74BAE}.Release R22|Any CPU.ActiveCfg = Release|Any CPU
 		{B3814652-9158-4056-A721-1A380DE74BAE}.Release R23|Any CPU.ActiveCfg = Release|Any CPU
 		{B3814652-9158-4056-A721-1A380DE74BAE}.UI.Demo|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3814652-9158-4056-A721-1A380DE74BAE}.Benchmark|Any CPU.ActiveCfg = Release|Any CPU
 		{CE5C104B-D76E-49DA-8BD6-BF472224AEC0}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE5C104B-D76E-49DA-8BD6-BF472224AEC0}.Debug R23|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE5C104B-D76E-49DA-8BD6-BF472224AEC0}.Installer|Any CPU.ActiveCfg = Debug|Any CPU
@@ -66,6 +72,7 @@ Global
 		{CE5C104B-D76E-49DA-8BD6-BF472224AEC0}.Release R22|Any CPU.Build.0 = Release|Any CPU
 		{CE5C104B-D76E-49DA-8BD6-BF472224AEC0}.Release R23|Any CPU.ActiveCfg = Release|Any CPU
 		{CE5C104B-D76E-49DA-8BD6-BF472224AEC0}.Release R23|Any CPU.Build.0 = Release|Any CPU
+		{CE5C104B-D76E-49DA-8BD6-BF472224AEC0}.Benchmark|Any CPU.ActiveCfg = Release|Any CPU
 		{67B8906F-21B0-4CE3-82F7-8E608B9D53CA}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
 		{67B8906F-21B0-4CE3-82F7-8E608B9D53CA}.Debug R23|Any CPU.ActiveCfg = Debug|Any CPU
 		{67B8906F-21B0-4CE3-82F7-8E608B9D53CA}.Release R22|Any CPU.ActiveCfg = Debug|Any CPU
@@ -73,6 +80,15 @@ Global
 		{67B8906F-21B0-4CE3-82F7-8E608B9D53CA}.Installer|Any CPU.ActiveCfg = Debug|Any CPU
 		{67B8906F-21B0-4CE3-82F7-8E608B9D53CA}.UI.Demo|Any CPU.ActiveCfg = Debug|Any CPU
 		{67B8906F-21B0-4CE3-82F7-8E608B9D53CA}.UI.Demo|Any CPU.Build.0 = Debug|Any CPU
+		{67B8906F-21B0-4CE3-82F7-8E608B9D53CA}.Benchmark|Any CPU.ActiveCfg = Debug|Any CPU
+		{827646DF-D373-4D40-8F0B-1E9842E3CE9A}.Debug R22|Any CPU.ActiveCfg = Debug|Any CPU
+		{827646DF-D373-4D40-8F0B-1E9842E3CE9A}.Debug R23|Any CPU.ActiveCfg = Debug|Any CPU
+		{827646DF-D373-4D40-8F0B-1E9842E3CE9A}.Release R22|Any CPU.ActiveCfg = Debug|Any CPU
+		{827646DF-D373-4D40-8F0B-1E9842E3CE9A}.Release R23|Any CPU.ActiveCfg = Debug|Any CPU
+		{827646DF-D373-4D40-8F0B-1E9842E3CE9A}.Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{827646DF-D373-4D40-8F0B-1E9842E3CE9A}.UI.Demo|Any CPU.ActiveCfg = Debug|Any CPU
+		{827646DF-D373-4D40-8F0B-1E9842E3CE9A}.Benchmark|Any CPU.ActiveCfg = Release|Any CPU
+		{827646DF-D373-4D40-8F0B-1E9842E3CE9A}.Benchmark|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

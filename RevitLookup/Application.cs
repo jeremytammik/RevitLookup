@@ -22,8 +22,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Nice3point.Revit.Toolkit.External;
+using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Commands;
 using RevitLookup.Core;
+using RevitLookup.Core.Descriptors;
 using RevitLookup.Services.Contracts;
 
 namespace RevitLookup;
@@ -31,8 +33,10 @@ namespace RevitLookup;
 [UsedImplicitly]
 public class Application : ExternalApplication
 {
+    public static AsyncEventHandler<IReadOnlyList<Descriptor>> ExternalHandler { get; private set; }
     public override async void OnStartup()
     {
+        ExternalHandler = new AsyncEventHandler<IReadOnlyList<Descriptor>>();
         Assembly.Load("Microsoft.Xaml.Behaviors");
         RevitApi.UiApplication = UiApplication;
         CreateRibbonPanel();

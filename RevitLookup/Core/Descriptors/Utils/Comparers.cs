@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,20 +18,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.ViewModels.Objects;
+using System.Reflection;
 
-namespace RevitLookup.Services.Contracts;
+namespace RevitLookup.Core.Descriptors.Utils;
 
-public interface ISnoopService
+public class PropertyInfoComparer : IComparer<PropertyInfo>
 {
-    void Snoop(SnoopableObject snoopableObject);
-    void SnoopSelection();
-    void SnoopDocument();
-    void SnoopDatabase();
-    void SnoopView();
-    void SnoopApplication();
-    void SnoopLinkedElement();
-    void SnoopDependentElements();
-    void SnoopFace();
-    void SnoopEdge();
+    public int Compare(PropertyInfo x, PropertyInfo y)
+    {
+        return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
+    }
+}
+
+public class MethodInfoComparer : IComparer<MethodInfo>
+{
+    public int Compare(MethodInfo x, MethodInfo y)
+    {
+        return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
+    }
 }

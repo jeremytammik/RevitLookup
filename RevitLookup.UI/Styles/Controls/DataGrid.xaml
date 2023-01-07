@@ -1419,6 +1419,7 @@
                                     DockPanel.Dock="Top"
                                     Height="25"
                                     BorderThickness="0 0 1 1"
+                                    Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
                                     BorderBrush="{DynamicResource ControlElevationBorderBrush}">
                                     <TextBlock
                                         VerticalAlignment="Center"
@@ -1433,14 +1434,6 @@
                 </Setter>
             </Style>
         </GroupStyle.ContainerStyle>
-        <GroupStyle.Panel>
-            <ItemsPanelTemplate>
-                <VirtualizingStackPanel
-                    IsVirtualizing="True"
-                    VirtualizationMode="Recycling">
-                </VirtualizingStackPanel>
-            </ItemsPanelTemplate>
-        </GroupStyle.Panel>
     </GroupStyle>
 
     <Style

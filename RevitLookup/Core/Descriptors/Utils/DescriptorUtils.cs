@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
 using Autodesk.Revit.DB;
 
 namespace RevitLookup.Core.Descriptors.Utils;
@@ -26,17 +27,27 @@ public static class DescriptorUtils
 {
     public static Descriptor FindSuitableDescriptor(object obj)
     {
+        return FindSuitableDescriptor(obj, null);
+    }
+
+    public static Descriptor FindSuitableDescriptor(object obj, [CanBeNull] string type)
+    {
         Descriptor descriptor = obj switch
         {
-            bool value => new BoolDescriptor(value),
-            string value => new StringDescriptor(value),
-            int value => new IntDescriptor(value),
-            Element value => new ElementDescriptor(value),
+            bool value when type is null or nameof(Boolean) => new BoolDescriptor(value),
+            Element value when type is null or nameof(Element) => new ElementDescriptor(value),
+            Color value when type is null or nameof(Color) => new ColorDescriptor(value),
+            CategoryNameMap {Size: > 0} value => new IEnumerableDescriptor(value),
+            ICollection {Count: > 0} value => new IEnumerableDescriptor(value),
+            CategoryNameMap => new ObjectDescriptor(),
+            ICollection => new ObjectDescriptor(),
+            IEnumerable value and APIObject => new IEnumerableDescriptor(value),
+            APIObject => new APIObjectDescriptor(),
             Exception value => new ExceptionDescriptor(value),
             _ => new ObjectDescriptor(obj)
         };
-        
-        descriptor.Type ??= obj?.GetType().Name;
+
+        descriptor.Type = obj is null ? nameof(Object) : obj.GetType().Name;
         descriptor.Label ??= descriptor.Type;
         return descriptor;
     }

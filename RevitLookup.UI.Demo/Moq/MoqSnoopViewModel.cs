@@ -45,7 +45,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
     public void Snoop(SnoopableObject snoopableObject)
     {
-        SnoopableObjects = new []{snoopableObject};
+        SnoopableObjects = new[] {snoopableObject};
     }
 
     [RelayCommand]
@@ -54,6 +54,8 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker =>
             {
+                if (faker.IndexFaker % 5 == 0)
+                    return new SnoopableObject(null, faker.Random.Int());
                 if (faker.IndexFaker % 4 == 0)
                     return new SnoopableObject(null, faker.Lorem.Word());
                 if (faker.IndexFaker % 3 == 0)
@@ -121,7 +123,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
     }
 
     [RelayCommand]
-    private void Refresh(object param)
+    private async Task Refresh(object param)
     {
         if (param is null)
         {
@@ -130,7 +132,9 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         }
 
         if (param is not SnoopableObject snoopableObject) return;
-        var members = snoopableObject.GetCachedMembers();
+        await Task.CompletedTask;
+        // ReSharper disable once MethodHasAsyncOverload
+        var members = snoopableObject.GetMembers();
         if (members is null) return;
 
         SnoopableData = members;
