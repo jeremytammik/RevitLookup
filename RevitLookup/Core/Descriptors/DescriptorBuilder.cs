@@ -128,7 +128,7 @@ public class DescriptorBuilder : IDescriptorConfigurator
         for (var i = types.Count - 1; i >= 0; i--)
         {
             _type = types[i];
-            _descriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type.Name);
+            _descriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
             configurator(this);
         }
 

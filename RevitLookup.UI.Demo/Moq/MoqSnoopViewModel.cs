@@ -22,6 +22,9 @@ using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Descriptors;
+using RevitLookup.Core.Descriptors.Contracts;
+using RevitLookup.UI.Common;
+using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
 
@@ -29,9 +32,15 @@ namespace RevitLookup.UI.Demo.Moq;
 
 public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
+    private readonly ISnackbarService _snackbarService;
     private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
+
+    public MoqSnoopViewModel(ISnackbarService snackbarService)
+    {
+        _snackbarService = snackbarService;
+    }
 
     public IReadOnlyList<SnoopableObject> SnoopableObjects
     {
@@ -45,7 +54,20 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
     public void Snoop(SnoopableObject snoopableObject)
     {
-        SnoopableObjects = new[] {snoopableObject};
+        if (snoopableObject.Descriptor is IDescriptorEnumerator enumerator)
+        {
+            var objects = new List<SnoopableObject>();
+            foreach (var obj in enumerator.Enumerate())
+            {
+                objects.Add(new SnoopableObject(snoopableObject.Context, obj));
+            }
+
+            SnoopableObjects = objects;
+        }
+        else
+        {
+            SnoopableObjects = new[] {snoopableObject};
+        }
     }
 
     [RelayCommand]
@@ -54,6 +76,12 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker =>
             {
+                if (faker.IndexFaker % 8 == 0)
+                    return new SnoopableObject(null, string.Empty);
+                if (faker.IndexFaker % 7 == 0)
+                    return new SnoopableObject(null, null);
+                if (faker.IndexFaker % 6 == 0)
+                    return new SnoopableObject(null, new {Collection = faker.Make(20, () => faker.Internet.UserName())});
                 if (faker.IndexFaker % 5 == 0)
                     return new SnoopableObject(null, faker.Random.Int());
                 if (faker.IndexFaker % 4 == 0)
@@ -134,9 +162,16 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         if (param is not SnoopableObject snoopableObject) return;
         await Task.CompletedTask;
         // ReSharper disable once MethodHasAsyncOverload
-        var members = snoopableObject.GetMembers();
-        if (members is null) return;
+        try
+        {
+            var members = snoopableObject.GetMembers();
+            if (members is null) return;
 
-        SnoopableData = members;
+            SnoopableData = members;
+        }
+        catch (Exception exception)
+        {
+            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
+        }
     }
 }

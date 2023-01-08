@@ -81,10 +81,14 @@
                             FontSize="14"
                             Navigation="{Binding ElementName=RootNavigation}" />
                     </Border>
-                    <Frame
-                        x:Name="RootFrame"
-                        Grid.Row="1"
-                        Margin="4,8" />
+                    <Grid
+                        Grid.Row="1">
+                        <Frame
+                            x:Name="RootFrame"
+                            Margin="4,8" />
+                        <rl:Snackbar
+                            x:Name="RootSnackbar" />
+                    </Grid>
                 </Grid>
             </Border>
         </Grid>

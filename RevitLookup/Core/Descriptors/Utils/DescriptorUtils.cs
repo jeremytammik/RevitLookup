@@ -27,28 +27,29 @@ public static class DescriptorUtils
 {
     public static Descriptor FindSuitableDescriptor(object obj)
     {
-        return FindSuitableDescriptor(obj, null);
+        var descriptor = FindSuitableDescriptor(obj, null);
+        descriptor.Type = obj is null ? nameof(Object) : obj.GetType().Name;
+        return descriptor;
     }
 
-    public static Descriptor FindSuitableDescriptor(object obj, [CanBeNull] string type)
+    public static Descriptor FindSuitableDescriptor(object obj, Type type)
     {
         Descriptor descriptor = obj switch
         {
-            bool value when type is null or nameof(Boolean) => new BoolDescriptor(value),
-            Element value when type is null or nameof(Element) => new ElementDescriptor(value),
-            Color value when type is null or nameof(Color) => new ColorDescriptor(value),
-            CategoryNameMap {Size: > 0} value => new IEnumerableDescriptor(value),
-            ICollection {Count: > 0} value => new IEnumerableDescriptor(value),
-            CategoryNameMap => new ObjectDescriptor(),
-            ICollection => new ObjectDescriptor(),
+            bool value when type == null || type.Name is nameof(Boolean) => new BoolDescriptor(value),
+            Element value when type == null || type.Name is nameof(Element) => new ElementDescriptor(value),
+            Color value when type == null || type.Name is nameof(Color) => new ColorDescriptor(value),
+            CategoryNameMap value => new IEnumerableDescriptor(value),
+            ICollection value => new IEnumerableDescriptor(value),
             IEnumerable value and APIObject => new IEnumerableDescriptor(value),
             APIObject => new APIObjectDescriptor(),
             Exception value => new ExceptionDescriptor(value),
             _ => new ObjectDescriptor(obj)
         };
 
-        descriptor.Type = obj is null ? nameof(Object) : obj.GetType().Name;
-        descriptor.Label ??= descriptor.Type;
+        if (obj is null) descriptor.Type = nameof(Object);
+        descriptor.Type = type?.Name;
+
         return descriptor;
     }
 }

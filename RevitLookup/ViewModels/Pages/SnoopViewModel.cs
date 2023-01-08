@@ -18,13 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
 using RevitLookup.Core.Descriptors;
 using RevitLookup.Core.Descriptors.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.UI.Common;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Objects;
@@ -35,12 +35,14 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     [ObservableProperty] private string _searchText;
     private readonly INavigationService _navigationService;
+    private readonly ISnackbarService _snackbarService;
     private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
 
-    public SnoopViewModel(INavigationService navigationService)
+    public SnoopViewModel(INavigationService navigationService, ISnackbarService snackbarService)
     {
         _navigationService = navigationService;
+        _snackbarService = snackbarService;
     }
 
     public IReadOnlyList<SnoopableObject> SnoopableObjects
@@ -133,9 +135,16 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
 
         if (param is not SnoopableObject snoopableObject) return;
-        var members = await snoopableObject.GetCachedMembersAsync();
-        if (members is null) return;
+        try
+        {
+            var members = await snoopableObject.GetCachedMembersAsync();
+            if (members is null) return;
 
-        SnoopableData = members;
+            SnoopableData = members;
+        }
+        catch (Exception exception)
+        {
+            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
+        }
     }
 }

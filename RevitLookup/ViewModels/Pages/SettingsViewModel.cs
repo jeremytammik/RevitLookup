@@ -21,17 +21,21 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Appearance;
+using RevitLookup.UI.Common;
+using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed class SettingsViewModel : ObservableObject
 {
     private readonly ISettingsService _settingsService;
+    private readonly ISnackbarService _snackbarService;
     private ThemeType _currentTheme;
 
-    public SettingsViewModel(ISettingsService settingsService)
+    public SettingsViewModel(ISettingsService settingsService, ISnackbarService snackbarService)
     {
         _settingsService = settingsService;
+        _snackbarService = snackbarService;
         _currentTheme = settingsService.GetTheme();
     }
 
@@ -42,6 +46,7 @@ public sealed class SettingsViewModel : ObservableObject
         {
             SetProperty(ref _currentTheme, value);
             _settingsService.SetTheme(value);
+            _snackbarService.Show("Theme changed", "To fully apply the theme, reopen window", SymbolRegular.ChatWarning24, ControlAppearance.Success);
         }
     }
 

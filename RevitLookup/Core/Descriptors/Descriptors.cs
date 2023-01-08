@@ -28,7 +28,7 @@ public sealed class ColorDescriptor : Descriptor
 {
     public ColorDescriptor(Color color)
     {
-        Label = $"RGB: {color.Red} {color.Green} {color.Blue}";
+        Label = color.IsValid ? $"RGB: {color.Red} {color.Green} {color.Blue}" : "The color represents uninitialized/invalid value";
     }
 }
 
@@ -39,8 +39,8 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorCollector, IDescr
     public ElementDescriptor(Element value)
     {
         _value = value;
-        var name = value.Name == string.Empty ? "<empty>" : value.Name;
-        Label = $"{name}, ID{value.Id}";
+        Label = value.Name == string.Empty ? $"ID{value.Id}" : $"{value.Name}, ID{value.Id}";
+        
     }
 
     public void RegisterResolvers(IResolverManager manager)
@@ -95,6 +95,6 @@ public sealed class ObjectDescriptor : Descriptor
 
     public ObjectDescriptor(object value)
     {
-        Label = value is null ? "<null>" : value.ToString();
+        if (value is not null) Label = value.ToString();
     }
 }

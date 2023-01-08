@@ -49,6 +49,7 @@ public static class Host
                 services.AddScoped<INavigationService, NavigationService>();
                 services.AddScoped<IPageService, PageService>();
                 services.AddScoped<IDialogService, DialogService>();
+                services.AddScoped<ISnackbarService, SnackbarService>();
 
                 services.AddScoped<AboutView>();
                 services.AddScoped<AboutViewModel>();
