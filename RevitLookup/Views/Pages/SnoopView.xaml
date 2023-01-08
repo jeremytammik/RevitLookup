@@ -85,6 +85,7 @@
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
+                    IsTextSearchEnabled="True"
                     ItemsSource="{Binding
                         ViewModel.SnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"
@@ -135,7 +136,7 @@
                     </DataGridTextColumn>
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Value.Descriptor.Label}">
+                        Binding="{Binding Value.Descriptor.Label, Converter={converters:InvalidTextConverter}}">
                         <DataGridTextColumn.Header>
                             <TextBlock
                                 Margin="3 0 3 0"
@@ -143,6 +144,27 @@
                                 Text="Value">
                             </TextBlock>
                         </DataGridTextColumn.Header>
+                        <!-- <DataGridTextColumn.ElementStyle> -->
+                        <!--     <Style -->
+                        <!--         TargetType="{x:Type TextBlock}"> -->
+                        <!--         <Style.Triggers> -->
+                        <!--             <Trigger -->
+                        <!--                 Property="Text" -->
+                        <!--                 Value="&lt;null&gt;"> -->
+                        <!--                 <Setter -->
+                        <!--                     Property="FontStyle" -->
+                        <!--                     Value="Italic" /> -->
+                        <!--             </Trigger> -->
+                        <!--             <Trigger -->
+                        <!--                 Property="Text" -->
+                        <!--                 Value="&lt;empty&gt;"> -->
+                        <!--                 <Setter -->
+                        <!--                     Property="FontStyle" -->
+                        <!--                     Value="Italic" /> -->
+                        <!--             </Trigger> -->
+                        <!--         </Style.Triggers> -->
+                        <!--     </Style> -->
+                        <!-- </DataGridTextColumn.ElementStyle> -->
                     </DataGridTextColumn>
                 </rl:DataGrid.Columns>
                 <rl:DataGrid.RowStyle>

@@ -29,6 +29,30 @@ using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Views.Converters;
 
+public sealed class InvalidTextConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var text = (string) value!;
+        return text switch
+        {
+            null => "<null>",
+            "" => "<empty>",
+            _ => value
+        };
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
 public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

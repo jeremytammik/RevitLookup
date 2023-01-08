@@ -62,7 +62,10 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
         };
 
         dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Key"));
-        dataTemplate.ItemTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Descriptor.Label"));
+        dataTemplate.ItemTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Descriptor.Label")
+        {
+            Converter = new InvalidTextConverter()
+        });
 
         return dataTemplate;
     }
