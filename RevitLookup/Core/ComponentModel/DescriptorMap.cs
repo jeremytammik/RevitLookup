@@ -56,6 +56,10 @@ public static class DescriptorMap
             Element value => new ElementDescriptor(value),
             Parameter value => new ParameterDescriptor(value),
             Color value => new ColorDescriptor(value),
+            Category value => new CategoryDescriptor(value),
+            Document value => new DocumentDescriptor(value),
+            Autodesk.Revit.ApplicationServices.Application value => new ApplicationDescriptor(value),
+            PrintManager value => new PrintManagerDescriptor(value),
 
             CategoryNameMap value => new IEnumerableDescriptor(value),
             ICollection value => new IEnumerableDescriptor(value),

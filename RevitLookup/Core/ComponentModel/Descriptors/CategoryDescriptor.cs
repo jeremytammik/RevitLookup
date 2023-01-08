@@ -23,18 +23,10 @@ using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DocumentDescriptor : Descriptor, IDescriptorResolver
+public sealed class CategoryDescriptor : Descriptor, IDescriptorCollector
 {
-    public DocumentDescriptor(Document document)
+    public CategoryDescriptor(Category value)
     {
-        Label = document.Title;
-    }
-
-    public void RegisterResolvers(IResolverManager manager)
-    {
-        if (manager.Parameters.Length == 0)
-        {
-            manager.Register(nameof(Document.Close), false);
-        }
+        Label = value.Name;
     }
 }

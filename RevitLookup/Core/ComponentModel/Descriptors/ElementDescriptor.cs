@@ -25,7 +25,7 @@ using RevitLookup.Core.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ElementDescriptor : Descriptor, IDescriptorCollector, IDescriptorResolver, IDescriptorExtension
+public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
 {
     private readonly Element _value;
 
