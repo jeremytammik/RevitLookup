@@ -21,13 +21,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
-using RevitLookup.Core.Descriptors;
-using RevitLookup.Core.Descriptors.Contracts;
+using RevitLookup.Core.ComponentModel;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Utils;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -76,53 +76,53 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     [RelayCommand]
     public void SnoopSelection()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.Selection);
     }
 
     public void SnoopApplication()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Application);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.Application);
     }
 
     public void SnoopDocument()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Document);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.Document);
     }
 
     public void SnoopView()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.View);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.View);
     }
 
     public void SnoopDatabase()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Database);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.Database);
     }
 
     public void SnoopEdge()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Edge);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.Edge);
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopFace()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Face);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.Face);
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopLinkedElement()
     {
         _navigationService.GetNavigationWindow().Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.LinkedElement);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.LinkedElement);
         _navigationService.GetNavigationWindow().Show();
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
+        SnoopableObjects = CollectorUtils.Snoop(SnoopableType.DependentElements);
     }
 
     [RelayCommand]

@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -20,36 +20,52 @@
 
 using System.Collections;
 using Autodesk.Revit.DB;
+using RevitLookup.Core.ComponentModel.Descriptors;
 
-namespace RevitLookup.Core.Descriptors.Utils;
+namespace RevitLookup.Core.ComponentModel;
 
-public static class DescriptorUtils
+public static class DescriptorMap
 {
-    public static Descriptor FindSuitableDescriptor(object obj)
+    /// <summary>
+    ///     Searching for a descriptor in the inheritance hierarchy
+    /// </summary>
+    /// <remarks>
+    ///     Used by reflection in the analysis of base object types
+    /// </remarks>
+    [CanBeNull]
+    public static Descriptor FindExactDescriptor(object obj, Type type)
     {
-        var descriptor = FindSuitableDescriptor(obj, null);
-        descriptor.Type = obj is null ? nameof(Object) : obj.GetType().Name;
-        return descriptor;
+        return type.Name switch
+        {
+            nameof(Element) => new ElementDescriptor((Element) obj),
+            _ => null
+        };
     }
 
-    public static Descriptor FindSuitableDescriptor(object obj, Type type)
+    /// <summary>
+    ///     Finding the first match of a descriptor type in the inheritance hierarchy
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static Descriptor FindApproximateDescriptor(object obj)
     {
-        Descriptor descriptor = obj switch
+        return obj switch
         {
-            bool value when type == null || type.Name is nameof(Boolean) => new BoolDescriptor(value),
-            Element value when type == null || type.Name is nameof(Element) => new ElementDescriptor(value),
-            Color value when type == null || type.Name is nameof(Color) => new ColorDescriptor(value),
+            bool value => new BoolDescriptor(value),
+
+            Element value => new ElementDescriptor(value),
+            Parameter value => new ParameterDescriptor(value),
+            Color value => new ColorDescriptor(value),
+
             CategoryNameMap value => new IEnumerableDescriptor(value),
             ICollection value => new IEnumerableDescriptor(value),
             IEnumerable value and APIObject => new IEnumerableDescriptor(value),
+
             APIObject => new APIObjectDescriptor(),
             Exception value => new ExceptionDescriptor(value),
+
+            null => new ObjectDescriptor(),
             _ => new ObjectDescriptor(obj)
         };
-
-        if (obj is null) descriptor.Type = nameof(Object);
-        descriptor.Type = type?.Name;
-
-        return descriptor;
     }
 }

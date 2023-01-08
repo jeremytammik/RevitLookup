@@ -18,30 +18,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
-using RevitLookup.Core.Descriptors.Contracts;
+using System.Collections;
+using RevitLookup.Core.Contracts;
 
-namespace RevitLookup.Core.Descriptors.Extensions;
+namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ResolverManager : IResolverManager
+public sealed class IEnumerableDescriptor : Descriptor, IDescriptorEnumerator
 {
-    private readonly string _memberName;
+    private readonly IEnumerable _value;
 
-    public ResolverManager(string memberName, ParameterInfo[] args)
+    public IEnumerableDescriptor(IEnumerable value)
     {
-        _memberName = memberName;
-        Parameters = args;
+        _value = value;
     }
 
-    public object Result { get; private set; }
-    public bool IsResolved { get; private set; }
-    public ParameterInfo[] Parameters { get; }
-
-    public void Register(string memberName, object result)
+    public IEnumerable Enumerate()
     {
-        if (memberName != _memberName) return;
-
-        Result = result;
-        IsResolved = true;
+        return _value;
     }
 }

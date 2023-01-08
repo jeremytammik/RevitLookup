@@ -1,4 +1,4 @@
-﻿namespace RevitLookup.Models;
+﻿namespace RevitLookup.ViewModels.Objects;
 
 public sealed class OpenSourceSoftware
 {

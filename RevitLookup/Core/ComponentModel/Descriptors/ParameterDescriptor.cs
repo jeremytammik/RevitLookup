@@ -18,12 +18,25 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
+using Autodesk.Revit.DB;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Extensions;
 
-namespace RevitLookup.Core.Descriptors.Contracts;
+namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public interface IResolverManager
+public sealed class ParameterDescriptor : Descriptor, IDescriptorCollector, IDescriptorExtension
 {
-    ParameterInfo[] Parameters { get; }
-    void Register(string memberName, object result);
+    private readonly Parameter _parameter;
+
+    public ParameterDescriptor(Parameter parameter)
+    {
+        _parameter = parameter;
+        Label = parameter.Definition.Name;
+    }
+
+    public void RegisterExtensions(ExtensionManager manager)
+    {
+        manager.Register(nameof(ParameterExtensions.AsBool),_parameter.AsBool());
+        manager.Register(nameof(ParameterExtensions.AsColor),_parameter.AsColor());
+    }
 }

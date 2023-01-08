@@ -20,14 +20,13 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
-using RevitLookup.Core.Descriptors.Contracts;
-using RevitLookup.Core.Descriptors.Extensions;
-using RevitLookup.Core.Descriptors.Utils;
-using RevitLookup.ViewModels.Objects;
+using RevitLookup.Core.ComponentModel.Descriptors;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Extensions;
 
-namespace RevitLookup.Core.Descriptors;
+namespace RevitLookup.Core.Utils;
 
-public class DescriptorBuilder : IDescriptorConfigurator
+public class DescriptorBuilder : IBuilderConfigurator
 {
     private readonly object _obj;
     private readonly Document _context;
@@ -113,7 +112,7 @@ public class DescriptorBuilder : IDescriptorConfigurator
     {
     }
 
-    public IReadOnlyList<Descriptor> Build(Action<IDescriptorConfigurator> configurator)
+    public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
     {
         if (_obj is null) return Array.Empty<Descriptor>();
 

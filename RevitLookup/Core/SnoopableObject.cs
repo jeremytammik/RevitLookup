@@ -20,10 +20,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using RevitLookup.Core.Descriptors;
-using RevitLookup.Core.Descriptors.Utils;
+using RevitLookup.Core.Utils;
 
-namespace RevitLookup.ViewModels.Objects;
+namespace RevitLookup.Core;
 
 public sealed class SnoopableObject
 {

@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,22 +18,26 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
+using System.Text.Json.Serialization;
 
-namespace RevitLookup.Core.Descriptors.Utils;
+namespace RevitLookup.Services.DTO;
 
-public class PropertyInfoComparer : IComparer<PropertyInfo>
+[Serializable]
+public sealed class GutHubResponse
 {
-    public int Compare(PropertyInfo x, PropertyInfo y)
-    {
-        return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
-    }
+    [JsonPropertyName("html_url")] public string Url { get; set; }
+    [JsonPropertyName("tag_name")] public string TagName { get; set; }
+    [JsonPropertyName("draft")] public bool Draft { get; set; }
+    [JsonPropertyName("prerelease")] public bool PreRelease { get; set; }
+    [JsonPropertyName("published_at")] public DateTimeOffset PublishedDate { get; set; }
+    [JsonPropertyName("assets")] public List<GutHubResponseAsset> Assets { get; set; }
 }
 
-public class MethodInfoComparer : IComparer<MethodInfo>
+[Serializable]
+public sealed class GutHubResponseAsset
 {
-    public int Compare(MethodInfo x, MethodInfo y)
-    {
-        return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
-    }
+    [JsonPropertyName("name")] public string Name { get; set; }
+
+    [JsonPropertyName("browser_download_url")]
+    public string DownloadUrl { get; set; }
 }

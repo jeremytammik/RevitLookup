@@ -21,12 +21,11 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
 using RevitLookup.Services.Enums;
-using RevitLookup.ViewModels.Objects;
 using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
-namespace RevitLookup.Core;
+namespace RevitLookup.Core.Utils;
 
-public static class Snooper
+public static class CollectorUtils
 {
     public static IReadOnlyList<SnoopableObject> Snoop(SnoopableType type)
     {

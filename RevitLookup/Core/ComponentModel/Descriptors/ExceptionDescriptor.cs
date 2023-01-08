@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,18 +18,15 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core;
-using RevitLookup.Core.ComponentModel;
-using RevitLookup.Services.Contracts;
+namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-namespace RevitLookup.ViewModels.Contracts;
-
-public interface ISnoopViewModel : ISnoopService
+public sealed class ExceptionDescriptor : Descriptor
 {
-    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
-    IReadOnlyList<Descriptor> SnoopableData { get; }
-    IRelayCommand SnoopSelectionCommand { get; }
-    IAsyncRelayCommand<object> RefreshCommand { get; }
-    string SearchText { get; set; }
+    public ExceptionDescriptor(Exception value)
+    {
+        if (value.InnerException is null)
+            Label = value.Message;
+        else
+            Label = string.IsNullOrEmpty(value.InnerException.Message) ? value.Message : value.InnerException.Message;
+    }
 }

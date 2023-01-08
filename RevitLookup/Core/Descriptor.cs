@@ -18,18 +18,23 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core;
-using RevitLookup.Core.ComponentModel;
-using RevitLookup.Services.Contracts;
+namespace RevitLookup.Core;
 
-namespace RevitLookup.ViewModels.Contracts;
-
-public interface ISnoopViewModel : ISnoopService
+public abstract class Descriptor : IComparable<Descriptor>, IComparable
 {
-    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
-    IReadOnlyList<Descriptor> SnoopableData { get; }
-    IRelayCommand SnoopSelectionCommand { get; }
-    IAsyncRelayCommand<object> RefreshCommand { get; }
-    string SearchText { get; set; }
+    public string Type { get; set; }
+    public string Label { get; set; }
+    public SnoopableObject Value { get; set; }
+
+    public int CompareTo(Descriptor other)
+    {
+        return string.CompareOrdinal(Label, other.Label);
+    }
+
+    public int CompareTo(object obj)
+    {
+        if (ReferenceEquals(null, obj)) return 1;
+        if (ReferenceEquals(this, obj)) return 0;
+        return obj is Descriptor other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Descriptor)}");
+    }
 }

@@ -18,9 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Core.Descriptors.Contracts;
+using System.Reflection;
 
-public interface IDescriptorResolver
+namespace RevitLookup.Core.Contracts;
+
+public interface IResolverManager
 {
-    void RegisterResolvers(IResolverManager manager);
+    ParameterInfo[] Parameters { get; }
+    void Register(string memberName, object result);
 }

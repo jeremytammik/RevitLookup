@@ -19,9 +19,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using RevitLookup.ViewModels.Objects;
+using RevitLookup.Core.ComponentModel.Descriptors;
 
-namespace RevitLookup.Core.Descriptors.Extensions;
+namespace RevitLookup.Core.Extensions;
 
 public sealed class ExtensionManager
 {

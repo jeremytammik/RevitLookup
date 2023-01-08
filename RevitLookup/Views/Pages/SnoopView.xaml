@@ -9,7 +9,8 @@
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
-    xmlns:descriptors="clr-namespace:RevitLookup.Core.Descriptors"
+    xmlns:componentModel="clr-namespace:RevitLookup.Core.ComponentModel"
+    xmlns:core="clr-namespace:RevitLookup.Core"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
@@ -169,7 +170,7 @@
                 </rl:DataGrid.Columns>
                 <rl:DataGrid.RowStyle>
                     <Style
-                        d:DataContext="{d:DesignInstance descriptors:Descriptor}"
+                        d:DataContext="{d:DesignInstance core:Descriptor}"
                         TargetType="DataGridRow"
                         BasedOn="{StaticResource DefaultDataGridRowStyle}">
                         <EventSetter

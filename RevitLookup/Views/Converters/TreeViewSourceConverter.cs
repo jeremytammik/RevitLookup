@@ -21,8 +21,8 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
+using RevitLookup.Core;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Views.Converters;
 
@@ -53,7 +53,7 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException();
     }
 
     public override object ProvideValue(IServiceProvider serviceProvider)

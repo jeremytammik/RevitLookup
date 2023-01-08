@@ -18,11 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
+using Autodesk.Revit.DB;
 
-namespace RevitLookup.Core.Descriptors.Contracts;
+namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public interface IDescriptorEnumerator : IDescriptorCollector
+public sealed class ColorDescriptor : Descriptor
 {
-    IEnumerable Enumerate();
+    public ColorDescriptor(Color color)
+    {
+        Label = color.IsValid ? $"RGB: {color.Red} {color.Green} {color.Blue}" : "The color represents uninitialized/invalid value";
+    }
 }

@@ -69,7 +69,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Core\Handlers" />
+      <Folder Include="Models" />
       <Folder Include="Utils" />
     </ItemGroup>
 

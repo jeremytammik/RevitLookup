@@ -18,25 +18,40 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.ViewModels.Objects;
+using RevitLookup.Core.ComponentModel;
 
-namespace RevitLookup.Core.Descriptors;
+namespace RevitLookup.Core.Utils;
 
-public abstract class Descriptor : IComparable<Descriptor>, IComparable
+public static class DescriptorUtils
 {
-    public string Type { get; set; }
-    public string Label { get; set; }
-    public SnoopableObject Value { get; set; }
-
-    public int CompareTo(Descriptor other)
+    public static Descriptor FindSuitableDescriptor([CanBeNull] object obj)
     {
-        return string.CompareOrdinal(Label, other.Label);
+        var descriptor = DescriptorMap.FindApproximateDescriptor(obj);
+        if (obj is null)
+        {
+            descriptor.Type = nameof(Object);
+        }
+        else
+        {
+            var type = obj.GetType();
+            ValidateProperties(descriptor, type);
+        }
+
+        return descriptor;
     }
 
-    public int CompareTo(object obj)
+    public static Descriptor FindSuitableDescriptor([NotNull] object obj, Type type)
     {
-        if (ReferenceEquals(null, obj)) return 1;
-        if (ReferenceEquals(this, obj)) return 0;
-        return obj is Descriptor other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Descriptor)}");
+        var descriptor = DescriptorMap.FindExactDescriptor(obj, type) ??
+                         DescriptorMap.FindApproximateDescriptor(obj);
+
+        ValidateProperties(descriptor, type);
+        return descriptor;
+    }
+
+    private static void ValidateProperties(Descriptor descriptor, Type type)
+    {
+        descriptor.Type = type!.Name;
+        descriptor.Label ??= type.Name;
     }
 }

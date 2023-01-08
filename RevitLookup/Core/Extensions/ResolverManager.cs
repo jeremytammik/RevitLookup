@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,18 +18,30 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core;
-using RevitLookup.Core.ComponentModel;
-using RevitLookup.Services.Contracts;
+using System.Reflection;
+using RevitLookup.Core.Contracts;
 
-namespace RevitLookup.ViewModels.Contracts;
+namespace RevitLookup.Core.Extensions;
 
-public interface ISnoopViewModel : ISnoopService
+public sealed class ResolverManager : IResolverManager
 {
-    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
-    IReadOnlyList<Descriptor> SnoopableData { get; }
-    IRelayCommand SnoopSelectionCommand { get; }
-    IAsyncRelayCommand<object> RefreshCommand { get; }
-    string SearchText { get; set; }
+    private readonly string _memberName;
+
+    public ResolverManager(string memberName, ParameterInfo[] args)
+    {
+        _memberName = memberName;
+        Parameters = args;
+    }
+
+    public object Result { get; private set; }
+    public bool IsResolved { get; private set; }
+    public ParameterInfo[] Parameters { get; }
+
+    public void Register(string memberName, object result)
+    {
+        if (memberName != _memberName) return;
+
+        Result = result;
+        IsResolved = true;
+    }
 }

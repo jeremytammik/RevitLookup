@@ -18,12 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Core.Descriptors.Contracts;
+namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public interface IDescriptorConfigurator
+public sealed class BoolDescriptor : Descriptor
 {
-    void AddProperties();
-    void AddMethods();
-    void AddClassExtensions();
-    void AddGroupExtensions();
+    public BoolDescriptor(bool value)
+    {
+        Label = value ? "True" : "False";
+    }
 }

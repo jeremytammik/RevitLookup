@@ -18,8 +18,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Core.Descriptors.Contracts;
+using System.Reflection;
 
-public interface IDescriptorCollector
+namespace RevitLookup.Core;
+
+public class PropertyInfoComparer : IComparer<PropertyInfo>
 {
+    public int Compare(PropertyInfo x, PropertyInfo y)
+    {
+        return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
+    }
+}
+
+public class MethodInfoComparer : IComparer<MethodInfo>
+{
+    public int Compare(MethodInfo x, MethodInfo y)
+    {
+        return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
+    }
 }

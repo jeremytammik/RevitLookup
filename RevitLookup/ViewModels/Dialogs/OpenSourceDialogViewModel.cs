@@ -19,7 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Models;
+using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Dialogs;
 

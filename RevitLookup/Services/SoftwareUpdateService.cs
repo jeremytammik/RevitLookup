@@ -25,8 +25,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
-using RevitLookup.Models;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Services.DTO;
 using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Services;
