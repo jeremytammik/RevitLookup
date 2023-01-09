@@ -40,18 +40,6 @@ public interface INavigationService
     void SetNavigationControl(INavigation navigation);
     
     /// <summary>
-    /// Provides direct access to the window responsible for navigation.
-    /// </summary>
-    /// <returns>Instance of the <see cref="Window"/> control.</returns>
-    Window GetNavigationWindow();
-    
-    /// <summary>
-    /// Lets you attach the window that represents the <see cref="INavigation"/>.
-    /// </summary>
-    /// <param name="window">Instance of the <see cref="Window"/>.</param>
-    void SetNavigationWindow(Window window);
-
-    /// <summary>
     /// Lets you attach the service that delivers page instances to <see cref="INavigation"/>.
     /// </summary>
     /// <param name="pageService">Instance of the <see cref="IPageService"/> with attached service provider.</param>

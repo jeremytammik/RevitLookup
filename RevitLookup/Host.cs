@@ -46,10 +46,11 @@ public static class Host
                 services.AddSingleton<ISettingsService, SettingsService>();
                 services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
 
+                services.AddScoped<IWindowController, WindowController>();
                 services.AddScoped<INavigationService, NavigationService>();
                 services.AddScoped<IPageService, PageService>();
-                services.AddScoped<IDialogService, DialogService>();
                 services.AddScoped<ISnackbarService, SnackbarService>();
+                services.AddScoped<IDialogService, DialogService>();
 
                 services.AddScoped<AboutView>();
                 services.AddScoped<AboutViewModel>();
@@ -60,7 +61,7 @@ public static class Host
                 services.AddScoped<SnoopView>();
                 services.AddScoped<ISnoopService, SnoopViewModel>();
 
-                services.AddTransient<ILookupInstance, RevitLookupView>();
+                services.AddTransient<IWindow, RevitLookupView>();
             }).Build();
 
         await _host.StartAsync();

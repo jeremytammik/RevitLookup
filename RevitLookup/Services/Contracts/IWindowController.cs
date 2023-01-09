@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,11 +18,26 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.UI.Mvvm.Contracts;
+using System.Windows;
+using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.Services.Contracts;
 
-public interface ILookupInstance : INavigationWindow
+public interface IWindowController
 {
-    IServiceProvider Context { get; }
+    /// <summary>
+    /// Lets you attach the window that represents the <see cref="INavigation"/>.
+    /// </summary>
+    /// <param name="window">Instance of the <see cref="Window"/>.</param>
+    void SetControlledWindow(Window window);
+
+    /// <summary>
+    /// Hide navigation window
+    /// </summary>
+    void Hide();
+
+    /// <summary>
+    /// Show navigation window
+    /// </summary>
+    void Show();
 }

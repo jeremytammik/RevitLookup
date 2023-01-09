@@ -27,7 +27,7 @@ using RevitLookup.UI.Mvvm.Contracts;
 
 namespace RevitLookup.Views;
 
-public sealed partial class RevitLookupView : ILookupInstance
+public sealed partial class RevitLookupView : IWindow
 {
     private readonly IServiceScope _serviceScope;
 
@@ -39,12 +39,14 @@ public sealed partial class RevitLookupView : ILookupInstance
         _serviceScope = scopeFactory.CreateScope();
         var navigationService = _serviceScope.ServiceProvider.GetService<INavigationService>()!;
         var pageService = _serviceScope.ServiceProvider.GetService<IPageService>()!;
+        var windowController = _serviceScope.ServiceProvider.GetService<IWindowController>()!;
         var dialogService = _serviceScope.ServiceProvider.GetService<IDialogService>()!;
         var snackbarService = _serviceScope.ServiceProvider.GetService<ISnackbarService>()!;
-        
-        navigationService.SetNavigationWindow(this);
+
+        windowController.SetControlledWindow(this);
         navigationService.SetPageService(pageService);
         navigationService.SetNavigationControl(RootNavigation);
+
         dialogService.SetDialogControl(RootDialog);
         snackbarService.SetSnackbarControl(RootSnackbar);
         snackbarService.Timeout = 3000;
@@ -80,9 +82,9 @@ public sealed partial class RevitLookupView : ILookupInstance
         Show();
     }
 
-    public void ShowWindow(IntPtr handle)
+    public void Show(IntPtr handle)
     {
-        this.Show(handle);
+        ApplicationExtensions.Show(this, handle);
     }
 
     public void CloseWindow()

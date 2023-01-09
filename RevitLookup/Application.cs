@@ -25,7 +25,6 @@ using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Commands;
 using RevitLookup.Core;
-using RevitLookup.Core.ComponentModel;
 using RevitLookup.Services.Contracts;
 
 namespace RevitLookup;

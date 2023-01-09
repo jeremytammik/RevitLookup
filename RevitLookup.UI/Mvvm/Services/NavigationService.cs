@@ -25,11 +25,6 @@ public class NavigationService : INavigationService
     /// </summary>
     protected INavigation NavigationControl;
     
-    /// <summary>
-    /// Window representing navigation.
-    /// </summary>
-    private Window _window;
-
     /// <inheritdoc />
     public Frame GetFrame()
     {
@@ -58,18 +53,6 @@ public class NavigationService : INavigationService
 
         if (_pageService != null)
             NavigationControl.PageService = _pageService;
-    }
-
-    /// <inheritdoc />
-    public Window GetNavigationWindow()
-    {
-        return _window;
-    }
-
-    /// <inheritdoc />
-    public void SetNavigationWindow(Window window)
-    {
-        _window = window;
     }
 
     /// <inheritdoc />

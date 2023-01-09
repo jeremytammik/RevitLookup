@@ -18,23 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.Attributes;
-using Microsoft.Extensions.DependencyInjection;
-using Nice3point.Revit.Toolkit.External;
-using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Mvvm.Contracts;
-using RevitLookup.Views.Pages;
 
-namespace RevitLookup.Commands;
+namespace RevitLookup.Services.Contracts;
 
-[UsedImplicitly]
-[Transaction(TransactionMode.Manual)]
-public class DashboardCommand : ExternalCommand
+public interface IWindow : INavigationWindow
 {
-    public override void Execute()
-    {
-        var window = Host.GetService<IWindow>();
-        window.Show(UiApplication.MainWindowHandle);
-        window.Context.GetService<INavigationService>().Navigate(typeof(DashboardView));
-    }
+    IServiceProvider Context { get; }
+    void Show();
+    void Show(IntPtr handle);
 }

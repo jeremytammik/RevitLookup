@@ -23,10 +23,8 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.Core;
-using RevitLookup.Core.ComponentModel;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
-using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.Views.Converters;
 

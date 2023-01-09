@@ -22,6 +22,7 @@ using Autodesk.Revit.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services.Contracts;
+using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
@@ -32,9 +33,9 @@ public class SnoopSelectionCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<ILookupInstance>();
-        window.ShowWindow(UiApplication.MainWindowHandle);
-        window.Navigate(typeof(SnoopView));
+        var window = Host.GetService<IWindow>();
+        window.Show(UiApplication.MainWindowHandle);
+        window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
         window.Context.GetService<ISnoopService>()!.SnoopSelection();
     }
 }
@@ -45,9 +46,9 @@ public class SnoopDocumentCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<ILookupInstance>();
-        window.ShowWindow(UiApplication.MainWindowHandle);
-        window.Navigate(typeof(SnoopView));
+        var window = Host.GetService<IWindow>();
+        window.Show(UiApplication.MainWindowHandle);
+        window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
         window.Context.GetService<ISnoopService>()!.SnoopDocument();
     }
 }

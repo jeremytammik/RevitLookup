@@ -9,7 +9,6 @@
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
-    xmlns:componentModel="clr-namespace:RevitLookup.Core.ComponentModel"
     xmlns:core="clr-namespace:RevitLookup.Core"
     mc:Ignorable="d"
     d:DesignHeight="500"

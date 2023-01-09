@@ -15,6 +15,7 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Demo.Moq;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.UI.Mvvm.Services;
+using RevitLookup.ViewModels;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
@@ -28,9 +29,9 @@ public sealed partial class App
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
         var host = CreateHost();
         await Host.StartHost(host);
-        var window = Host.GetService<ILookupInstance>();
+        var window = Host.GetService<IWindow>();
         window.ShowWindow();
-        window.Navigate(typeof(DashboardView));
+        window.Context.GetService<INavigationService>().Navigate(typeof(DashboardView));
     }
 
     private async void OnExit(object sender, ExitEventArgs e)
@@ -69,10 +70,11 @@ public sealed partial class App
                 services.AddSingleton<ISettingsService, SettingsService>();
                 services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
 
+                services.AddScoped<IWindowController, WindowController>();
                 services.AddScoped<INavigationService, NavigationService>();
                 services.AddScoped<IPageService, PageService>();
+                services.AddScoped<ISnackbarService, SnackbarService>();
                 services.AddScoped<IDialogService, DialogService>();
-                services.AddScoped<ISnackbarService, SnackbarService>(); 
 
                 services.AddScoped<AboutView>();
                 services.AddScoped<AboutViewModel>();
@@ -83,7 +85,7 @@ public sealed partial class App
                 services.AddScoped<SnoopView>();
                 services.AddScoped<ISnoopService, MoqSnoopViewModel>();
 
-                services.AddTransient<ILookupInstance, RevitLookupView>();
+                services.AddTransient<IWindow, RevitLookupView>();
             }).Build();
         return host;
     }

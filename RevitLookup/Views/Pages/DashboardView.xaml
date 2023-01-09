@@ -9,7 +9,6 @@
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     Scrollable="True"
     mc:Ignorable="d"
-    Background="Black"
     d:DataContext="{d:DesignInstance pages:DashboardView}">
     <rl:UiPage.Resources>
         <ResourceDictionary>

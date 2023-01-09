@@ -22,7 +22,6 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.Core;
-using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.Views.Converters;
 

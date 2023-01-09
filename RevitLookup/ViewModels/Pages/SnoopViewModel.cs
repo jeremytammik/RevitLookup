@@ -21,9 +21,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
-using RevitLookup.Core.ComponentModel;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Utils;
+using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Mvvm.Contracts;
@@ -34,14 +34,14 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     [ObservableProperty] private string _searchText;
-    private readonly INavigationService _navigationService;
+    private readonly IWindowController _windowController;
     private readonly ISnackbarService _snackbarService;
     private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
 
-    public SnoopViewModel(INavigationService navigationService, ISnackbarService snackbarService)
+    public SnoopViewModel(IWindowController windowController, ISnackbarService snackbarService)
     {
-        _navigationService = navigationService;
+        _windowController = windowController;
         _snackbarService = snackbarService;
     }
 
@@ -101,23 +101,23 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void SnoopEdge()
     {
-        _navigationService.GetNavigationWindow().Hide();
+        _windowController.Hide();
         SnoopableObjects = CollectorUtils.Snoop(SnoopableType.Edge);
-        _navigationService.GetNavigationWindow().Show();
+        _windowController.Show();
     }
 
     public void SnoopFace()
     {
-        _navigationService.GetNavigationWindow().Hide();
+        _windowController.Hide();
         SnoopableObjects = CollectorUtils.Snoop(SnoopableType.Face);
-        _navigationService.GetNavigationWindow().Show();
+        _windowController.Show();
     }
 
     public void SnoopLinkedElement()
     {
-        _navigationService.GetNavigationWindow().Hide();
+        _windowController.Hide();
         SnoopableObjects = CollectorUtils.Snoop(SnoopableType.LinkedElement);
-        _navigationService.GetNavigationWindow().Show();
+        _windowController.Show();
     }
 
     public void SnoopDependentElements()
