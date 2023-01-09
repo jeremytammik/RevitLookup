@@ -41,9 +41,11 @@ public sealed class SettingsService : ISettingsService
     public void SetTheme(ThemeType theme)
     {
         _settings.Theme = theme;
-        if (Theme.GetAppTheme() == theme) return;
 
-        Theme.Apply(theme);
+        // TODO support for pages
+        // if (Theme.GetAppTheme() == theme) return;
+        //
+        // Theme.Apply(theme);
     }
 
     public ThemeType GetTheme() => _settings.Theme;

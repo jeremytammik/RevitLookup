@@ -46,7 +46,7 @@ public sealed class SettingsViewModel : ObservableObject
         {
             SetProperty(ref _currentTheme, value);
             _settingsService.SetTheme(value);
-            _snackbarService.Show("Theme changed", "To fully apply the theme, reopen window", SymbolRegular.ChatWarning24, ControlAppearance.Success);
+            _snackbarService.Show("Theme changed", "The theme will be applied after the window is reopened", SymbolRegular.ChatWarning24, ControlAppearance.Success);
         }
     }
 
