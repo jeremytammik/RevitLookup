@@ -10,6 +10,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="DefaultTreeViewStyle" TargetType="{x:Type TreeView}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground">
             <Setter.Value>
                 <SolidColorBrush Color="{DynamicResource TextFillColorPrimary}" />
@@ -50,7 +51,7 @@
                 <Setter Property="ItemsPanel">
                     <Setter.Value>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel/>
+                            <VirtualizingStackPanel />
                         </ItemsPanelTemplate>
                     </Setter.Value>
                 </Setter>
