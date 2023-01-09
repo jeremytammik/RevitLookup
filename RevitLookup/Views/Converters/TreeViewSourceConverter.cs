@@ -18,10 +18,10 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
-using RevitLookup.Core;
 
 namespace RevitLookup.Views.Converters;
 
@@ -29,25 +29,15 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var source = (IReadOnlyList<SnoopableObject>) value!;
-        var groups = new SortedList<string, List<SnoopableObject>>(StringComparer.Ordinal);
-
-        foreach (var item in source)
+        var viewSource = new CollectionViewSource
         {
-            if (groups.ContainsKey(item.Descriptor.Type))
-            {
-                groups[item.Descriptor.Type].Add(item);
-            }
-            else
-            {
-                groups.Add(item.Descriptor.Type, new List<SnoopableObject>
-                {
-                    item
-                });
-            }
-        }
-        
-        return groups;
+            Source = value
+        };
+
+        viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Type", ListSortDirection.Ascending));
+        viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Label", ListSortDirection.Ascending));
+        viewSource.GroupDescriptions.Add(new PropertyGroupDescription("Descriptor.Type"));
+        return viewSource.View.Groups;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -18,7 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,12 +31,12 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is IDictionary)
+        return value switch
         {
-            return CreateGroupTemplate();
-        }
-
-        throw new NotSupportedException($"Unsupported collection {value}");
+            ReadOnlyObservableCollection<object> => CreateGroupTemplate(),
+            ListCollectionView => CreateSingleTemplate(),
+            _ => throw new NotSupportedException($"Unsupported collection {value}")
+        };
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -49,11 +49,26 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
         return this;
     }
 
+    private static object CreateSingleTemplate()
+    {
+        var dataTemplate = new HierarchicalDataTemplate
+        {
+            VisualTree = new FrameworkElementFactory(typeof(TextBlock)),
+        };
+
+        dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Descriptor.Label")
+        {
+            Converter = new InvalidTextConverter()
+        });
+
+        return dataTemplate;
+    }
+
     private static object CreateGroupTemplate()
     {
         var dataTemplate = new HierarchicalDataTemplate
         {
-            ItemsSource = new Binding("Value"),
+            ItemsSource = new Binding("Items"),
             VisualTree = new FrameworkElementFactory(typeof(TextBlock)),
             ItemTemplate = new DataTemplate
             {
@@ -61,7 +76,7 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
             }
         };
 
-        dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Key"));
+        dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Name"));
         dataTemplate.ItemTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Descriptor.Label")
         {
             Converter = new InvalidTextConverter()

@@ -1389,7 +1389,7 @@
     </Style>
 
     <GroupStyle
-        x:Key="GroupStyle">
+        x:Key="DataGridGroupStyle">
         <GroupStyle.ContainerStyle>
             <Style
                 TargetType="{x:Type GroupItem}">

@@ -85,7 +85,6 @@
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
-                    IsTextSearchEnabled="True"
                     ItemsSource="{Binding
                         ViewModel.SnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"

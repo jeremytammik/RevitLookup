@@ -39,9 +39,17 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     {
         ViewModel = (ISnoopViewModel) viewModel;
         InitializeComponent();
+        // TreeView.Loaded += (sender, args) => SelectFirstElement();
     }
 
     public ISnoopViewModel ViewModel { get; }
+
+    private void SelectFirstElement()
+    {
+        if (ViewModel.SnoopableObjects.Count == 0) return;
+        var item = ViewModel.SnoopableObjects[0];
+        var firstItem = TreeView.ItemContainerGenerator.ContainerFromIndex(0);
+    }
 
     private void SnoopSelectedRow(object sender, RoutedEventArgs routedEventArgs)
     {
@@ -62,14 +70,19 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     private void UpdateDataGridGroupStyle(object sender, IEnumerable e)
     {
         var dataGrid = (DataGrid) sender;
-        if (dataGrid.Items.Count == 0)
+        UpdateItemsControlGroupStyle(dataGrid, "DataGridGroupStyle");
+    }   
+    
+    private void UpdateItemsControlGroupStyle(ItemsControl control, string style)
+    {
+        if (control.Items.Count == 0)
         {
-            if (dataGrid.GroupStyle.Count > 0) dataGrid.GroupStyle.Clear();
+            if (control.GroupStyle.Count > 0) control.GroupStyle.Clear();
             return;
         }
 
         if (DataGrid.Items.GroupDescriptions!.Count == 0) DataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
-        var groupStyle = (GroupStyle) dataGrid.TryFindResource("GroupStyle");
-        dataGrid.GroupStyle.Add(groupStyle);
+        var groupStyle = (GroupStyle) control.TryFindResource(style);
+        control.GroupStyle.Add(groupStyle);
     }
 }
