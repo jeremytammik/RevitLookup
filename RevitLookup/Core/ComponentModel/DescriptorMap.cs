@@ -46,6 +46,8 @@ public static class DescriptorMap
             PrintManager value => new PrintManagerDescriptor(value),
             WorksetTable value => new WorksetTableDescriptor(value),
             Units value => new UnitsDescriptor(value),
+            GuidEnum value => new GuidEnumDescriptor(value),
+            Definition value => new DefinitionDescriptor(value),
             DocumentPreviewSettings value => new DocumentPreviewSettingsDescriptor(value),
             Autodesk.Revit.ApplicationServices.Application value => new ApplicationDescriptor(value),
 

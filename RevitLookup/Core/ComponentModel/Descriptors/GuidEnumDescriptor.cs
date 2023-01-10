@@ -24,15 +24,10 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver
+public class GuidEnumDescriptor : Descriptor, IDescriptorCollector
 {
-    public ForgeTypeIdDescriptor(ForgeTypeId value)
+    public GuidEnumDescriptor(GuidEnum value)
     {
-        Label = value.TypeId;
-    }
-
-    public void RegisterResolvers(IResolverManager manager)
-    {
-        manager.Register(nameof(ForgeTypeId.Clear), false);
+        Label = value.Guid.ToString();
     }
 }

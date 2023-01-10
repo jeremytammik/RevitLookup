@@ -48,13 +48,13 @@ public sealed class IEnumerableDescriptor : Descriptor, IDescriptorEnumerator
             PhaseArray enumerable => enumerable.IsEmpty,
             ProjectLocationSet enumerable => enumerable.IsEmpty,
             PlanTopologySet enumerable => enumerable.IsEmpty,
-            WireTypeSet enumerable => enumerable.IsEmpty,
             CitySet enumerable => enumerable.IsEmpty,
+            WireTypeSet enumerable => enumerable.IsEmpty,
+            PanelTypeSet enumerable => enumerable.IsEmpty,
+            FamilyTypeSet enumerable => enumerable.IsEmpty,
+            MullionTypeSet enumerable => enumerable.IsEmpty,
             VoltageTypeSet enumerable => enumerable.IsEmpty,
             InsulationTypeSet enumerable => enumerable.IsEmpty,
-            FamilyTypeSet enumerable => enumerable.IsEmpty,
-            PanelTypeSet enumerable => enumerable.IsEmpty,
-            MullionTypeSet enumerable => enumerable.IsEmpty,
             TemperatureRatingTypeSet enumerable => enumerable.IsEmpty,
             _ => GetEnumerator().MoveNext()
         };
