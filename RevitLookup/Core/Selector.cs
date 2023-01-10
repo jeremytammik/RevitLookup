@@ -26,7 +26,7 @@ using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledEx
 
 namespace RevitLookup.Core;
 
-public static class Snooper
+public static class Selector
 {
     public static IReadOnlyList<SnoopableObject> Snoop(SnoopableType type)
     {

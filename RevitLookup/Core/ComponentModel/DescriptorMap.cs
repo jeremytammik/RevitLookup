@@ -30,8 +30,6 @@ public static class DescriptorMap
     /// <summary>
     ///     Finding the first match of a descriptor type in the inheritance hierarchy
     /// </summary>
-    /// <param name="obj"></param>
-    /// <returns></returns>
     public static Descriptor FindDescriptor(object obj)
     {
         return obj switch

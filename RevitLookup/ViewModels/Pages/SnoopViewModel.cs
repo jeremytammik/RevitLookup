@@ -23,7 +23,6 @@ using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Core.Utils;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Common;
@@ -74,53 +73,53 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     [RelayCommand]
     public void SnoopSelection()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Selection);
+        SnoopableObjects = Selector.Snoop(SnoopableType.Selection);
     }
 
     public void SnoopApplication()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Application);
+        SnoopableObjects = Selector.Snoop(SnoopableType.Application);
     }
 
     public void SnoopDocument()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Document);
+        SnoopableObjects = Selector.Snoop(SnoopableType.Document);
     }
 
     public void SnoopView()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.View);
+        SnoopableObjects = Selector.Snoop(SnoopableType.View);
     }
 
     public void SnoopDatabase()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Database);
+        SnoopableObjects = Selector.Snoop(SnoopableType.Database);
     }
 
     public void SnoopEdge()
     {
         _windowController.Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Edge);
+        SnoopableObjects = Selector.Snoop(SnoopableType.Edge);
         _windowController.Show();
     }
 
     public void SnoopFace()
     {
         _windowController.Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.Face);
+        SnoopableObjects = Selector.Snoop(SnoopableType.Face);
         _windowController.Show();
     }
 
     public void SnoopLinkedElement()
     {
         _windowController.Hide();
-        SnoopableObjects = Snooper.Snoop(SnoopableType.LinkedElement);
+        SnoopableObjects = Selector.Snoop(SnoopableType.LinkedElement);
         _windowController.Show();
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = Snooper.Snoop(SnoopableType.DependentElements);
+        SnoopableObjects = Selector.Snoop(SnoopableType.DependentElements);
     }
 
     [RelayCommand]
