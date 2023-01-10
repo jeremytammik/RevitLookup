@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Text;
 using RevitLookup.Core.ComponentModel;
 using RevitLookup.Core.Objects;
 
@@ -55,54 +54,21 @@ public static class DescriptorUtils
         descriptor.Label ??= descriptor.Type;
     }
 
-    //Benchmark tested version. Optimized for performance
     private static string MakeGenericTypeName(Type type)
     {
         if (!type.IsGenericType) return type.Name;
 
-        var builder = new StringBuilder();
-        var types = new Stack<Type>();
-        var genericCount = 0;
-        types.Push(type);
-        while (types.Count != 0)
+        var typeName = type.Name;
+        typeName = typeName.AsSpan(0, typeName.Length - 2).ToString();
+        typeName += "<";
+        var genericArguments = type.GetGenericArguments();
+        for (var i = 0; i < genericArguments.Length; i++)
         {
-            var currentType = types.Pop();
-            if (!currentType.IsGenericType)
-            {
-                builder.Append(currentType.Name);
-                if (genericCount > 0)
-                {
-                    builder.Append(new string('>', genericCount));
-                    genericCount = 0;
-                }
-
-                continue;
-            }
-
-            genericCount++;
-            if (currentType.IsGenericTypeDefinition)
-            {
-                builder.Append(currentType.Name.Substring(0, currentType.Name.IndexOf('`')));
-                builder.Append("<");
-                var args = currentType.GetGenericArguments();
-                for (var i = 0; i < args.Length; i++)
-                {
-                    types.Push(args[i]);
-                    if (i < args.Length - 1)
-                    {
-                        builder.Append(", ");
-                    }
-                }
-            }
-            else
-            {
-                builder.Append(currentType.Name);
-                if (genericCount == 0) continue;
-                builder.Append(new string('>', genericCount));
-                genericCount = 0;
-            }
+            typeName += MakeGenericTypeName(genericArguments[i]);
+            if (i < genericArguments.Length - 1) typeName += ", ";
         }
 
-        return builder.ToString();
+        typeName += ">";
+        return typeName;
     }
 }
