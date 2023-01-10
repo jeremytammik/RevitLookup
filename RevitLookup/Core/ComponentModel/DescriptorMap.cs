@@ -21,6 +21,7 @@
 using System.Collections;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.ComponentModel.Descriptors;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel;
 

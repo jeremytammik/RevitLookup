@@ -20,12 +20,13 @@
 
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
+using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
 using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
-namespace RevitLookup.Core.Utils;
+namespace RevitLookup.Core;
 
-public static class CollectorUtils
+public static class Snooper
 {
     public static IReadOnlyList<SnoopableObject> Snoop(SnoopableType type)
     {
@@ -150,9 +151,7 @@ public static class CollectorUtils
                 element = document.GetElement(reference).GetGeometryObjectFromReference(reference);
                 break;
             case ObjectType.LinkedElement:
-                var representation = reference.ConvertToStableRepresentation(RevitApi.Document).Split(':')[0];
-                var parsedReference = Reference.ParseFromStableRepresentation(RevitApi.Document, representation);
-                var revitLinkInstance = (RevitLinkInstance) RevitApi.Document.GetElement(parsedReference);
+                var revitLinkInstance = reference.ElementId.ToElement<RevitLinkInstance>(RevitApi.Document);
                 document = revitLinkInstance.GetLinkDocument();
                 element = document.GetElement(reference.LinkedElementId);
                 break;

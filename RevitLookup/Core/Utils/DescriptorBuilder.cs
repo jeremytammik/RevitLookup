@@ -19,9 +19,11 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using RevitLookup.Core.Comparers;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Extensions;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Utils;
 
@@ -127,9 +129,9 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             _type = types[i];
             
             //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
-            _descriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
+            var descriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
             //And creating an empty descriptor in case of mismatch of base types
-            if (_descriptor.Type != _snoopableObject.Descriptor.Type) _descriptor = new ObjectDescriptor();
+            if (descriptor.Type == _snoopableObject.Descriptor.Type) _descriptor = descriptor;
 
             configurator(this);
         }

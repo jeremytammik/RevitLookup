@@ -21,6 +21,7 @@
 using Autodesk.Revit.DB;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Extensions;
 

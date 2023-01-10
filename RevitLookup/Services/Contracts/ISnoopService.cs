@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Services.Contracts;
 

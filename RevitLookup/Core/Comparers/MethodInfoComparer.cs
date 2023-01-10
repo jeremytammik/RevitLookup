@@ -20,15 +20,7 @@
 
 using System.Reflection;
 
-namespace RevitLookup.Core;
-
-public sealed class PropertyInfoComparer : IComparer<PropertyInfo>
-{
-    public int Compare(PropertyInfo x, PropertyInfo y)
-    {
-        return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
-    }
-}
+namespace RevitLookup.Core.Comparers;
 
 public sealed class MethodInfoComparer : IComparer<MethodInfo>
 {

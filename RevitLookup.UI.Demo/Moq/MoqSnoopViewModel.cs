@@ -23,6 +23,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;

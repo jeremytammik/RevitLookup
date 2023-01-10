@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,17 +18,27 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Objects;
+namespace RevitLookup.Core.Objects;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
-
-public sealed class ExceptionDescriptor : Descriptor
+public abstract class Descriptor : IComparable<Descriptor>, IComparable
 {
-    public ExceptionDescriptor(Exception value)
+    public string Type { get; set; }
+    public string Label { get; set; }
+    public SnoopableObject Value { get; set; }
+
+    public int CompareTo(object obj)
     {
-        if (value.InnerException is null)
-            Label = value.Message;
-        else
-            Label = string.IsNullOrEmpty(value.InnerException.Message) ? value.Message : value.InnerException.Message;
+        if (ReferenceEquals(null, obj)) return 1;
+        if (ReferenceEquals(this, obj)) return 0;
+        return obj is Descriptor other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Descriptor)}");
+    }
+
+    public int CompareTo(Descriptor other)
+    {
+        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(null, other)) return 1;
+        var typeComparison = string.Compare(Type, other.Type, StringComparison.Ordinal);
+        if (typeComparison != 0) return typeComparison;
+        return string.Compare(Label, other.Label, StringComparison.Ordinal);
     }
 }

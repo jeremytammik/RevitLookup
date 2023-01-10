@@ -20,6 +20,7 @@
 
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
+using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.ViewModels.Contracts;

@@ -25,6 +25,7 @@ using System.Windows.Markup;
 using RevitLookup.Core;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Views.Converters;
 

@@ -22,7 +22,7 @@
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Utils;
 
-namespace RevitLookup.Core;
+namespace RevitLookup.Core.Objects;
 
 public sealed class SnoopableObject
 {
@@ -32,7 +32,7 @@ public sealed class SnoopableObject
     {
         Object = obj;
         Context = context;
-        Descriptor = DescriptorUtils.FindSuitableDescriptor(Object);
+        Descriptor = DescriptorUtils.FindSuitableDescriptor(obj);
     }
 
     public object Object { get; }

@@ -19,7 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.ComponentModel;
-using RevitLookup.Core.ComponentModel.Descriptors;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Utils;
 

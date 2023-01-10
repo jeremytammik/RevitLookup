@@ -23,7 +23,7 @@ using Autodesk.Revit.UI;
 
 namespace RevitLookup.Core;
 
-public class RevitApi
+public static class RevitApi
 {
     public static UIApplication UiApplication { get; set; }
     public static Autodesk.Revit.ApplicationServices.Application Application => UiApplication.Application;
