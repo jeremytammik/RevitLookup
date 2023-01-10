@@ -29,12 +29,17 @@ namespace RevitLookup.Core.ComponentModel;
 public static class DescriptorMap
 {
     /// <summary>
-    ///     Finding the first match of a descriptor type in the inheritance hierarchy
+    ///     Search for a descriptor by approximate or exact match
     /// </summary>
+    /// <remarks>
+    ///     Exact search is necessary for the reflection engine, to add extensions and resolve conflicts when calling methods and properties. Type is not null <p/>
+    ///     An approximate search is needed to describe the object, which is displayed to the user. Type is null
+    /// </remarks>
     public static Descriptor FindDescriptor(object obj, Type type)
     {
         return obj switch
         {
+            null => new ObjectDescriptor(),
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
 
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
@@ -45,11 +50,11 @@ public static class DescriptorMap
             ForgeTypeId value when type is null || type == typeof(ForgeTypeId) => new ForgeTypeIdDescriptor(value),
             City value when type is null || type == typeof(City) => new CityDescriptor(value),
             PrintManager value when type is null || type == typeof(PrintManager) => new PrintManagerDescriptor(value),
-            WorksetTable value when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(value),
-            Units value when type is null || type == typeof(Units) => new UnitsDescriptor(value),
+            WorksetTable when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(),
+            Units when type is null || type == typeof(Units) => new UnitsDescriptor(),
             GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
             Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
-            DocumentPreviewSettings value when type is null || type == typeof(DocumentPreviewSettings) => new DocumentPreviewSettingsDescriptor(value),
+            DocumentPreviewSettings when type is null || type == typeof(DocumentPreviewSettings) => new DocumentPreviewSettingsDescriptor(),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
 
             HashSet<ElementId> value when type is null || type == typeof(HashSet<ElementId>) => new IEnumerableDescriptor(value),
@@ -60,7 +65,6 @@ public static class DescriptorMap
             APIObject when type is null || type == typeof(APIObject) => new APIObjectDescriptor(),
             Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
 
-            null => new ObjectDescriptor(),
             _ when type is null => new ObjectDescriptor(obj),
             _ => new ObjectDescriptor()
         };

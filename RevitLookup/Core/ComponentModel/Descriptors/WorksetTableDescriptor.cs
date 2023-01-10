@@ -26,7 +26,4 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public class WorksetTableDescriptor : Descriptor, IDescriptorCollector
 {
-    public WorksetTableDescriptor(WorksetTable value)
-    {
-    }
 }

@@ -26,7 +26,4 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public class DocumentPreviewSettingsDescriptor : Descriptor, IDescriptorCollector
 {
-    public DocumentPreviewSettingsDescriptor(DocumentPreviewSettings value)
-    {
-    }
 }
