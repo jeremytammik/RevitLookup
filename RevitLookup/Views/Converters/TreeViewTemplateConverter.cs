@@ -53,7 +53,7 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
     {
         var dataTemplate = new HierarchicalDataTemplate
         {
-            VisualTree = new FrameworkElementFactory(typeof(TextBlock)),
+            VisualTree = new FrameworkElementFactory(typeof(TextBlock))
         };
 
         dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Descriptor.Label")

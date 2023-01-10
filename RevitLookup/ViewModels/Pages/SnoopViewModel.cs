@@ -33,11 +33,11 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    [ObservableProperty] private string _searchText;
-    private readonly IWindowController _windowController;
     private readonly ISnackbarService _snackbarService;
-    private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    private readonly IWindowController _windowController;
+    [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
+    private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
     public SnoopViewModel(IWindowController windowController, ISnackbarService snackbarService)
     {
@@ -60,10 +60,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         if (snoopableObject.Descriptor is IDescriptorEnumerator enumerator)
         {
             var objects = new List<SnoopableObject>();
-            foreach (var obj in enumerator.Enumerate())
-            {
-                objects.Add(new SnoopableObject(snoopableObject.Context, obj));
-            }
+            foreach (var obj in enumerator.Enumerate()) objects.Add(new SnoopableObject(snoopableObject.Context, obj));
 
             SnoopableObjects = objects;
         }

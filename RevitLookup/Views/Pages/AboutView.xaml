@@ -27,7 +27,7 @@
             Width="200"
             Stretch="Uniform"
             VerticalAlignment="Top"
-            Source="../../Resources/Images/AboutLogo200.png"/>
+            Source="../../Resources/Images/AboutLogo200.png" />
         <VirtualizingStackPanel
             Margin="30,0,0,0"
             IsVirtualizing="True"

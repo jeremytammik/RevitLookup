@@ -35,7 +35,6 @@ public sealed class ExtensionManager : IExtensionManager
         _context = context;
     }
 
-    //Avoiding memory allocation
     [CanBeNull] public List<Descriptor> ClassExtensions { get; private set; }
     [CanBeNull] public List<Descriptor> ObjectExtensions { get; private set; }
 
@@ -53,18 +52,19 @@ public sealed class ExtensionManager : IExtensionManager
 
         var descriptor = new ObjectDescriptor
         {
-            Type = extension.Group ?? _descriptor.Type,
             Label = extension.Name,
             Value = new SnoopableObject(_context, value)
         };
 
         if (extension.Group is null)
         {
+            descriptor.Type = _descriptor.Type;
             ClassExtensions ??= new List<Descriptor>(1);
             ClassExtensions.Add(descriptor);
         }
         else
         {
+            descriptor.Type = extension.Group;
             ObjectExtensions ??= new List<Descriptor>(1);
             ObjectExtensions.Add(descriptor);
         }

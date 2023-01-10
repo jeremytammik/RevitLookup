@@ -22,7 +22,7 @@ using System.Reflection;
 
 namespace RevitLookup.Core;
 
-public class PropertyInfoComparer : IComparer<PropertyInfo>
+public sealed class PropertyInfoComparer : IComparer<PropertyInfo>
 {
     public int Compare(PropertyInfo x, PropertyInfo y)
     {
@@ -30,7 +30,7 @@ public class PropertyInfoComparer : IComparer<PropertyInfo>
     }
 }
 
-public class MethodInfoComparer : IComparer<MethodInfo>
+public sealed class MethodInfoComparer : IComparer<MethodInfo>
 {
     public int Compare(MethodInfo x, MethodInfo y)
     {

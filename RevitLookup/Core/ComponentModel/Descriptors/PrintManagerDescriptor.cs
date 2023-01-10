@@ -32,6 +32,6 @@ public sealed class PrintManagerDescriptor : Descriptor, IDescriptorResolver
 
     public void RegisterResolvers(IResolverManager manager)
     {
-       manager.Register(nameof(PrintManager.SubmitPrint), false);
+        manager.Register(nameof(PrintManager.SubmitPrint), false);
     }
 }

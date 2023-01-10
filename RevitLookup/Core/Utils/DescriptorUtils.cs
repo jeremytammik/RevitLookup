@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.ComponentModel;
+using RevitLookup.Core.ComponentModel.Descriptors;
 
 namespace RevitLookup.Core.Utils;
 
@@ -43,7 +44,7 @@ public static class DescriptorUtils
     public static Descriptor FindSuitableDescriptor([NotNull] object obj, Type type)
     {
         var descriptor = DescriptorMap.FindExactDescriptor(obj, type) ??
-                         DescriptorMap.FindApproximateDescriptor(obj);
+                         new ObjectDescriptor {Type = type.Name};
 
         ValidateProperties(descriptor, type);
         return descriptor;

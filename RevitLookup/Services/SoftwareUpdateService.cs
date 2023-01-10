@@ -57,7 +57,6 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
         try
         {
             if (!string.IsNullOrEmpty(LocalFilePath))
-            {
                 if (File.Exists(LocalFilePath))
                 {
                     var fileName = Path.GetFileName(LocalFilePath);
@@ -67,7 +66,6 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
                         return;
                     }
                 }
-            }
 
             string releasesJson;
             using (var gitHubClient = new HttpClient())

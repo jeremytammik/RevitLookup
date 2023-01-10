@@ -26,18 +26,18 @@ namespace RevitLookup.Services.Contracts;
 public interface IWindowController
 {
     /// <summary>
-    /// Lets you attach the window that represents the <see cref="INavigation"/>.
+    ///     Lets you attach the window that represents the <see cref="INavigation" />.
     /// </summary>
-    /// <param name="window">Instance of the <see cref="Window"/>.</param>
+    /// <param name="window">Instance of the <see cref="Window" />.</param>
     void SetControlledWindow(Window window);
 
     /// <summary>
-    /// Hide navigation window
+    ///     Hide navigation window
     /// </summary>
     void Hide();
 
     /// <summary>
-    /// Show navigation window
+    ///     Show navigation window
     /// </summary>
     void Show();
 }

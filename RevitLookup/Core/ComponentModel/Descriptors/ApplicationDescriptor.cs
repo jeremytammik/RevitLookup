@@ -22,7 +22,7 @@ using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ApplicationDescriptor : Descriptor, IDescriptorCollector
+public sealed class ApplicationDescriptor : Descriptor, IDescriptorCollector
 {
     public ApplicationDescriptor(Autodesk.Revit.ApplicationServices.Application document)
     {

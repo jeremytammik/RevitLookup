@@ -66,7 +66,7 @@ public static class Host
 
         await _host.StartAsync();
     }
-    
+
     public static async Task StartHost(IHost host)
     {
         _host = host;

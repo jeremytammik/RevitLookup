@@ -78,8 +78,7 @@
                 <rl:AutoSuggestBox
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
-                    Text="{Binding ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                </rl:AutoSuggestBox>
+                    Text="{Binding ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
@@ -129,8 +128,7 @@
                             <TextBlock
                                 Margin="4 0 4 0"
                                 FontWeight="Bold"
-                                Text="Field">
-                            </TextBlock>
+                                Text="Field" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
                     <DataGridTextColumn
@@ -140,8 +138,7 @@
                             <TextBlock
                                 Margin="3 0 3 0"
                                 FontWeight="Bold"
-                                Text="Value">
-                            </TextBlock>
+                                Text="Value" />
                         </DataGridTextColumn.Header>
                         <!-- <DataGridTextColumn.ElementStyle> -->
                         <!--     <Style -->

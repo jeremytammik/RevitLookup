@@ -23,7 +23,7 @@ using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DocumentDescriptor : Descriptor, IDescriptorResolver
+public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 {
     public DocumentDescriptor(Document document)
     {
@@ -32,9 +32,6 @@ public class DocumentDescriptor : Descriptor, IDescriptorResolver
 
     public void RegisterResolvers(IResolverManager manager)
     {
-        if (manager.Parameters.Length == 0)
-        {
-            manager.Register(nameof(Document.Close), false);
-        }
+        if (manager.Parameters.Length == 0) manager.Register(nameof(Document.Close), false);
     }
 }

@@ -11,7 +11,7 @@ using RevitLookup.UI.Appearance;
 namespace RevitLookup.Views.Markup;
 
 /// <summary>
-/// Provides a dictionary implementation that contains <c>WPF UI</c> theme resources used by components and other elements of a WPF application.
+///     Provides a dictionary implementation that contains <c>WPF UI</c> theme resources used by components and other elements of a WPF application.
 /// </summary>
 [Localizability(LocalizationCategory.Ignore)]
 [Ambient]

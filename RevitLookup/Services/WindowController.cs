@@ -23,7 +23,7 @@ using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.Services;
 
-public class WindowController : IWindowController
+public sealed class WindowController : IWindowController
 {
     private Window _window;
 

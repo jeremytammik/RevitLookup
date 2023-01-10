@@ -33,6 +33,7 @@ namespace RevitLookup;
 public class Application : ExternalApplication
 {
     public static AsyncEventHandler<IReadOnlyList<Descriptor>> ExternalHandler { get; private set; }
+
     public override async void OnStartup()
     {
         ExternalHandler = new AsyncEventHandler<IReadOnlyList<Descriptor>>();

@@ -26,15 +26,14 @@ using RevitLookup.Core.Extensions;
 
 namespace RevitLookup.Core.Utils;
 
-public class DescriptorBuilder : IBuilderConfigurator
+public sealed class DescriptorBuilder : IBuilderConfigurator
 {
-    private readonly object _obj;
     private readonly Document _context;
     private readonly List<Descriptor> _descriptors;
-    private Type _type;
+    private readonly object _obj;
     private Descriptor _descriptor;
     private ExtensionManager _extensionManager;
-    public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_descriptor, _context);
+    private Type _type;
 
     public DescriptorBuilder(object obj, Document context)
     {
@@ -42,30 +41,8 @@ public class DescriptorBuilder : IBuilderConfigurator
         _context = context;
         _descriptors = new List<Descriptor>(8);
     }
-    
-    public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
-    {
-        if (_obj is null) return Array.Empty<Descriptor>();
 
-        var type = _obj.GetType();
-        var types = new List<Type>();
-        while (type.BaseType is not null)
-        {
-            types.Add(type);
-            type = type.BaseType;
-        }
-
-        for (var i = types.Count - 1; i >= 0; i--)
-        {
-            _type = types[i];
-            _descriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
-            configurator(this);
-        }
-
-        //Adding object extensions to the end of the table
-        if (_extensionManager?.ObjectExtensions is not null) _descriptors.AddRange(_extensionManager.ObjectExtensions);
-        return _descriptors;
-    }
+    public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_descriptor, _context);
 
     public void AddProperties()
     {
@@ -134,6 +111,30 @@ public class DescriptorBuilder : IBuilderConfigurator
 
         extension.RegisterExtensions(ExtensionManager);
         if (_extensionManager.ClassExtensions is not null) _descriptors.AddRange(_extensionManager.ClassExtensions);
+    }
+
+    public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
+    {
+        if (_obj is null) return Array.Empty<Descriptor>();
+
+        var type = _obj.GetType();
+        var types = new List<Type>();
+        while (type.BaseType is not null)
+        {
+            types.Add(type);
+            type = type.BaseType;
+        }
+
+        for (var i = types.Count - 1; i >= 0; i--)
+        {
+            _type = types[i];
+            _descriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
+            configurator(this);
+        }
+
+        //Adding object extensions to the end of the table
+        if (_extensionManager?.ObjectExtensions is not null) _descriptors.AddRange(_extensionManager.ObjectExtensions);
+        return _descriptors;
     }
 
     private bool TryEvaluate(PropertyInfo member, out object value)

@@ -48,7 +48,10 @@ public sealed class SettingsService : ISettingsService
         // Theme.Apply(theme);
     }
 
-    public ThemeType GetTheme() => _settings.Theme;
+    public ThemeType GetTheme()
+    {
+        return _settings.Theme;
+    }
 
     public void Save()
     {

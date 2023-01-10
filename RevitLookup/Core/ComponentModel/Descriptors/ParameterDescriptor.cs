@@ -34,11 +34,6 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
         Label = parameter.Definition.Name;
     }
 
-    public void RegisterResolvers(IResolverManager manager)
-    {
-        manager.Register(nameof(Parameter.ClearValue), false);
-    }
-
     public void RegisterExtensions(ExtensionManager manager)
     {
         manager.Register(new DescriptorExtension<Parameter>(_parameter)
@@ -52,5 +47,10 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             Name = nameof(ParameterExtensions.AsColor),
             Value = parameter => parameter.AsColor()
         });
+    }
+
+    public void RegisterResolvers(IResolverManager manager)
+    {
+        manager.Register(nameof(Parameter.ClearValue), false);
     }
 }

@@ -26,15 +26,15 @@ public abstract class Descriptor : IComparable<Descriptor>, IComparable
     public string Label { get; set; }
     public SnoopableObject Value { get; set; }
 
-    public int CompareTo(Descriptor other)
-    {
-        return string.CompareOrdinal(Label, other.Label);
-    }
-
     public int CompareTo(object obj)
     {
         if (ReferenceEquals(null, obj)) return 1;
         if (ReferenceEquals(this, obj)) return 0;
         return obj is Descriptor other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Descriptor)}");
+    }
+
+    public int CompareTo(Descriptor other)
+    {
+        return string.CompareOrdinal(Label, other.Label);
     }
 }

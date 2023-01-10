@@ -30,14 +30,18 @@ public static class DescriptorMap
     ///     Searching for a descriptor in the inheritance hierarchy
     /// </summary>
     /// <remarks>
-    ///     Used by reflection in the analysis of base object types
+    ///     Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
     /// </remarks>
+    //TODO add source generator
     [CanBeNull]
     public static Descriptor FindExactDescriptor(object obj, Type type)
     {
         return type.Name switch
         {
             nameof(Element) => new ElementDescriptor((Element) obj),
+            nameof(Parameter) => new ParameterDescriptor((Parameter) obj),
+            nameof(Document) => new DocumentDescriptor((Document) obj),
+            nameof(PrintManager) => new PrintManagerDescriptor((PrintManager) obj),
             _ => null
         };
     }

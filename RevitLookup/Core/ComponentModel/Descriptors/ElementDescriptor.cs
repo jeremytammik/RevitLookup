@@ -35,11 +35,6 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
         Label = value.Name == string.Empty ? $"ID{value.Id}" : $"{value.Name}, ID{value.Id}";
     }
 
-    public void RegisterResolvers(IResolverManager manager)
-    {
-        manager.Register("BoundingBox", _value.get_BoundingBox(null));
-    }
-
     public void RegisterExtensions(ExtensionManager manager)
     {
         var schemas = Schema.ListSchemas();
@@ -54,5 +49,10 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
                 Value = tuple => tuple._value.GetEntity(tuple.schema)
             });
         }
+    }
+
+    public void RegisterResolvers(IResolverManager manager)
+    {
+        manager.Register("BoundingBox", _value.get_BoundingBox(null));
     }
 }
