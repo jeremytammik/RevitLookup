@@ -35,7 +35,7 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
         Label = value.Name == string.Empty ? $"ID{value.Id}" : $"{value.Name}, ID{value.Id}";
     }
 
-    public void RegisterExtensions(ExtensionManager manager)
+    public void RegisterExtensions(IExtensionManager manager)
     {
         var schemas = Schema.ListSchemas();
         foreach (var schema in schemas)

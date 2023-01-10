@@ -35,6 +35,10 @@ public abstract class Descriptor : IComparable<Descriptor>, IComparable
 
     public int CompareTo(Descriptor other)
     {
-        return string.CompareOrdinal(Label, other.Label);
+        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(null, other)) return 1;
+        var typeComparison = string.Compare(Type, other.Type, StringComparison.Ordinal);
+        if (typeComparison != 0) return typeComparison;
+        return string.Compare(Label, other.Label, StringComparison.Ordinal);
     }
 }

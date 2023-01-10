@@ -26,22 +26,22 @@ namespace RevitLookup.Core;
 
 public sealed class SnoopableObject
 {
-    private readonly object _obj;
     private IReadOnlyList<Descriptor> _members = new List<Descriptor>(0);
 
     public SnoopableObject(Document context, object obj)
     {
-        _obj = obj;
+        Object = obj;
         Context = context;
-        Descriptor = DescriptorUtils.FindSuitableDescriptor(_obj);
+        Descriptor = DescriptorUtils.FindSuitableDescriptor(Object);
     }
 
+    public object Object { get; }
     public Descriptor Descriptor { get; set; }
     public Document Context { get; }
 
     public IReadOnlyList<Descriptor> GetMembers()
     {
-        return new DescriptorBuilder(_obj, Context)
+        return new DescriptorBuilder(this)
             .Build(configurator =>
             {
                 configurator.AddProperties();

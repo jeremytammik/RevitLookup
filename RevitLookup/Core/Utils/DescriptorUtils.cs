@@ -27,7 +27,7 @@ public static class DescriptorUtils
 {
     public static Descriptor FindSuitableDescriptor([CanBeNull] object obj)
     {
-        var descriptor = DescriptorMap.FindApproximateDescriptor(obj);
+        var descriptor = DescriptorMap.FindDescriptor(obj);
         if (obj is null)
         {
             descriptor.Type = nameof(Object);
@@ -43,9 +43,7 @@ public static class DescriptorUtils
 
     public static Descriptor FindSuitableDescriptor([NotNull] object obj, Type type)
     {
-        var descriptor = DescriptorMap.FindExactDescriptor(obj, type) ??
-                         new ObjectDescriptor {Type = type.Name};
-
+        var descriptor = DescriptorMap.FindDescriptor(obj);
         ValidateProperties(descriptor, type);
         return descriptor;
     }

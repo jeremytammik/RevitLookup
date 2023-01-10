@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Extensions;
@@ -28,21 +27,19 @@ namespace RevitLookup.Core.Utils;
 
 public sealed class DescriptorBuilder : IBuilderConfigurator
 {
-    private readonly Document _context;
+    private readonly SnoopableObject _snoopableObject;
     private readonly List<Descriptor> _descriptors;
-    private readonly object _obj;
     private Descriptor _descriptor;
     private ExtensionManager _extensionManager;
     private Type _type;
 
-    public DescriptorBuilder(object obj, Document context)
+    public DescriptorBuilder(SnoopableObject snoopableObject)
     {
-        _obj = obj;
-        _context = context;
+        _snoopableObject = snoopableObject;
         _descriptors = new List<Descriptor>(8);
     }
 
-    public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_descriptor, _context);
+    public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_descriptor, _snoopableObject.Context);
 
     public void AddProperties()
     {
@@ -67,7 +64,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             {
                 Type = member.DeclaringType!.Name,
                 Label = member.Name,
-                Value = new SnoopableObject(_context, value)
+                Value = new SnoopableObject(_snoopableObject.Context, value)
             };
 
             _descriptors.Add(descriptor);
@@ -98,7 +95,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             {
                 Type = member.DeclaringType!.Name,
                 Label = member.Name,
-                Value = new SnoopableObject(_context, value)
+                Value = new SnoopableObject(_snoopableObject.Context, value)
             };
 
             _descriptors.Add(descriptor);
@@ -115,9 +112,9 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
     public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
     {
-        if (_obj is null) return Array.Empty<Descriptor>();
+        if (_snoopableObject.Object is null) return Array.Empty<Descriptor>();
 
-        var type = _obj.GetType();
+        var type = _snoopableObject.Object.GetType();
         var types = new List<Type>();
         while (type.BaseType is not null)
         {
@@ -128,7 +125,12 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
         for (var i = types.Count - 1; i >= 0; i--)
         {
             _type = types[i];
-            _descriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
+            
+            //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
+            _descriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
+            //And creating an empty descriptor in case of mismatch of base types
+            if (_descriptor.Type != _snoopableObject.Descriptor.Type) _descriptor = new ObjectDescriptor();
+
             configurator(this);
         }
 
@@ -158,9 +160,11 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             return false;
         }
 
-        value = member.GetValue(_obj);
+        value = member.GetValue(_snoopableObject.Object);
 #else
-        value = args.Length > 0 ? new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") : member.GetValue(_obj);
+        value = args.Length > 0 ?
+            new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") :
+            member.GetValue(_snoopableObject.Object);
 #endif
 
         return true;
@@ -187,9 +191,11 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             return false;
         }
 
-        value = member.Invoke(_obj, null);
+        value = member.Invoke(_snoopableObject.Object, null);
 #else
-        value = args.Length > 0 ? new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") : member.Invoke(_obj, null);
+        value = args.Length > 0 ?
+            new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") :
+            member.Invoke(_snoopableObject.Object, null);
 #endif
 
         return true;

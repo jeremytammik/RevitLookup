@@ -34,7 +34,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
         Label = parameter.Definition.Name;
     }
 
-    public void RegisterExtensions(ExtensionManager manager)
+    public void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(new DescriptorExtension<Parameter>(_parameter)
         {
