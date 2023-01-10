@@ -33,12 +33,38 @@ public class DescriptorBuilder : IBuilderConfigurator
     private readonly List<Descriptor> _descriptors;
     private Type _type;
     private Descriptor _descriptor;
+    private ExtensionManager _extensionManager;
+    public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_descriptor, _context);
 
     public DescriptorBuilder(object obj, Document context)
     {
         _obj = obj;
         _context = context;
-        _descriptors = new List<Descriptor>(0);
+        _descriptors = new List<Descriptor>(8);
+    }
+    
+    public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
+    {
+        if (_obj is null) return Array.Empty<Descriptor>();
+
+        var type = _obj.GetType();
+        var types = new List<Type>();
+        while (type.BaseType is not null)
+        {
+            types.Add(type);
+            type = type.BaseType;
+        }
+
+        for (var i = types.Count - 1; i >= 0; i--)
+        {
+            _type = types[i];
+            _descriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
+            configurator(this);
+        }
+
+        //Adding object extensions to the end of the table
+        if (_extensionManager?.ObjectExtensions is not null) _descriptors.AddRange(_extensionManager.ObjectExtensions);
+        return _descriptors;
     }
 
     public void AddProperties()
@@ -102,36 +128,12 @@ public class DescriptorBuilder : IBuilderConfigurator
         }
     }
 
-    public void AddClassExtensions()
+    public void AddExtensions()
     {
         if (_descriptor is not IDescriptorExtension extension) return;
-        extension.RegisterExtensions(new ExtensionManager(_descriptor, _context, _descriptors));
-    }
 
-    public void AddGroupExtensions()
-    {
-    }
-
-    public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
-    {
-        if (_obj is null) return Array.Empty<Descriptor>();
-
-        var type = _obj.GetType();
-        var types = new List<Type>();
-        while (type.BaseType is not null)
-        {
-            types.Add(type);
-            type = type.BaseType;
-        }
-
-        for (var i = types.Count - 1; i >= 0; i--)
-        {
-            _type = types[i];
-            _descriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
-            configurator(this);
-        }
-
-        return _descriptors;
+        extension.RegisterExtensions(ExtensionManager);
+        if (_extensionManager.ClassExtensions is not null) _descriptors.AddRange(_extensionManager.ClassExtensions);
     }
 
     private bool TryEvaluate(PropertyInfo member, out object value)

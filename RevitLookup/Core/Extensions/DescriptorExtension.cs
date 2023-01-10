@@ -18,11 +18,23 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Extensions;
+namespace RevitLookup.Core.Extensions;
 
-namespace RevitLookup.Core.Contracts;
-
-public interface IDescriptorExtension : IDescriptorCollector
+public sealed class DescriptorExtension<T>
 {
-    void RegisterExtensions(ExtensionManager manager);
+    private readonly T _obj;
+
+    public DescriptorExtension(T obj)
+    {
+        _obj = obj;
+    }
+
+    public string Group { get; init; }
+    public required string Name { get; init; }
+    public required Func<T, object> Value { get; init; }
+
+    public object Invoke()
+    {
+        return Value(_obj);
+    }
 }

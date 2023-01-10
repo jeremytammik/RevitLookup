@@ -41,20 +41,18 @@ public sealed class SnoopableObject
 
     public IReadOnlyList<Descriptor> GetMembers()
     {
-        var descriptors = new DescriptorBuilder(_obj, Context)
+        return new DescriptorBuilder(_obj, Context)
             .Build(configurator =>
             {
                 configurator.AddProperties();
                 configurator.AddMethods();
-                configurator.AddClassExtensions();
-                configurator.AddGroupExtensions();
+                configurator.AddExtensions();
             });
-        return descriptors;
     }
 
     public async Task<IReadOnlyList<Descriptor>> GetMembersAsync()
     {
-        var descriptors = await Application.ExternalHandler.RaiseAsync(_ =>
+        return _members = await Application.ExternalHandler.RaiseAsync(_ =>
         {
             using var transaction = new Transaction(Context);
             transaction.Start("RevitLookup");
@@ -62,9 +60,6 @@ public sealed class SnoopableObject
             transaction.RollBack();
             return descriptors;
         });
-
-        _members = descriptors;
-        return descriptors;
     }
 
     public async Task<IReadOnlyList<Descriptor>> GetCachedMembersAsync()

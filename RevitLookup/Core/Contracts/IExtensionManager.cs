@@ -22,7 +22,7 @@ using RevitLookup.Core.Extensions;
 
 namespace RevitLookup.Core.Contracts;
 
-public interface IDescriptorExtension : IDescriptorCollector
+public interface IExtensionManager
 {
-    void RegisterExtensions(ExtensionManager manager);
+    void Register<T>(DescriptorExtension<T> extension);
 }

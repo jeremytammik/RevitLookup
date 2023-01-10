@@ -46,11 +46,13 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
         foreach (var schema in schemas)
         {
             if (!schema.ReadAccessGranted()) continue;
-            var entity = _value.GetEntity(schema);
-            if (entity.IsValid())
+
+            manager.Register(new DescriptorExtension<(Element _value, Schema schema)>((_value, schema))
             {
-                manager.Register("Extensible Storage", schema.SchemaName, entity);
-            }
+                Group = "Extensible Storage",
+                Name = schema.SchemaName,
+                Value = tuple => tuple._value.GetEntity(tuple.schema)
+            });
         }
     }
 }

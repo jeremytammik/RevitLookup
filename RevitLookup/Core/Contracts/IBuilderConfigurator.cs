@@ -24,6 +24,5 @@ public interface IBuilderConfigurator
 {
     void AddProperties();
     void AddMethods();
-    void AddClassExtensions();
-    void AddGroupExtensions();
+    void AddExtensions();
 }

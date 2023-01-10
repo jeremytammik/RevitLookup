@@ -20,43 +20,53 @@
 
 using Autodesk.Revit.DB;
 using RevitLookup.Core.ComponentModel.Descriptors;
+using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.Extensions;
 
-public sealed class ExtensionManager
+public sealed class ExtensionManager : IExtensionManager
 {
-    private readonly Descriptor _descriptor;
     private readonly Document _context;
-    private readonly List<Descriptor> _members;
+    private readonly Descriptor _descriptor;
 
-    public ExtensionManager(Descriptor descriptor, Document context, List<Descriptor> members)
+    public ExtensionManager(Descriptor descriptor, Document context)
     {
         _descriptor = descriptor;
         _context = context;
-        _members = members;
     }
 
-    public void Register(string name, object value)
+    //Avoiding memory allocation
+    [CanBeNull] public List<Descriptor> ClassExtensions { get; private set; }
+    [CanBeNull] public List<Descriptor> ObjectExtensions { get; private set; }
+
+    public void Register<T>(DescriptorExtension<T> extension)
     {
+        object value;
+        try
+        {
+            value = extension.Invoke();
+        }
+        catch (Exception exception)
+        {
+            value = exception;
+        }
+
         var descriptor = new ObjectDescriptor
         {
-            Type = _descriptor.Type,
-            Label = name,
+            Type = extension.Group ?? _descriptor.Type,
+            Label = extension.Name,
             Value = new SnoopableObject(_context, value)
         };
 
-        _members.Add(descriptor);
-    }
-
-    public void Register(string group, string name, object value)
-    {
-        var descriptor = new ObjectDescriptor
+        if (extension.Group is null)
         {
-            Type = group,
-            Label = name,
-            Value = new SnoopableObject(_context, value)
-        };
-
-        _members.Add(descriptor);
+            ClassExtensions ??= new List<Descriptor>(1);
+            ClassExtensions.Add(descriptor);
+        }
+        else
+        {
+            ObjectExtensions ??= new List<Descriptor>(1);
+            ObjectExtensions.Add(descriptor);
+        }
     }
 }

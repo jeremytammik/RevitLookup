@@ -18,9 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
@@ -39,17 +39,25 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     {
         ViewModel = (ISnoopViewModel) viewModel;
         InitializeComponent();
-        // TreeView.Loaded += (sender, args) => SelectFirstElement();
+        // TreeView.ItemContainerGenerator.StatusChanged += SelectItem;
     }
+    //
+    // private void SelectItem(object sender, EventArgs _)
+    // {
+    //     var generator = (ItemContainerGenerator) sender;
+    //     if (generator.Status != GeneratorStatus.ContainersGenerated)
+    //     {
+    //         TreeView.UpdateLayout();
+    //     }
+    //
+    //     if (generator.Items.Count > 0)
+    //     {
+    //         TreeViewItem firstItem = (TreeViewItem)TreeView.ItemContainerGenerator.ContainerFromIndex(0);
+    //         firstItem.IsSelected = true;
+    //     }
+    // }
 
     public ISnoopViewModel ViewModel { get; }
-
-    private void SelectFirstElement()
-    {
-        if (ViewModel.SnoopableObjects.Count == 0) return;
-        var item = ViewModel.SnoopableObjects[0];
-        var firstItem = TreeView.ItemContainerGenerator.ContainerFromIndex(0);
-    }
 
     private void SnoopSelectedRow(object sender, RoutedEventArgs routedEventArgs)
     {
@@ -67,12 +75,12 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     /// <summary>
     ///     Bypasses fixed header size when the collection is empty
     /// </summary>
-    private void UpdateDataGridGroupStyle(object sender, IEnumerable e)
+    private void UpdateDataGridGroupStyle(object sender, EventArgs e)
     {
         var dataGrid = (DataGrid) sender;
         UpdateItemsControlGroupStyle(dataGrid, "DataGridGroupStyle");
-    }   
-    
+    }
+
     private void UpdateItemsControlGroupStyle(ItemsControl control, string style)
     {
         if (control.Items.Count == 0)

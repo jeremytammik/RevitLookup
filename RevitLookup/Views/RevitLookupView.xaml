@@ -15,7 +15,7 @@
     ExtendsContentIntoTitleBar="True"
     WindowBackdropType="None"
     Icon="../Resources/Images/ShellIcon.ico"
-    WindowStartupLocation="CenterScreen">
+    WindowStartupLocation="CenterOwner">
     <rl:UiWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

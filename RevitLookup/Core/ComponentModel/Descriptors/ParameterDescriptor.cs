@@ -24,7 +24,7 @@ using RevitLookup.Core.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ParameterDescriptor : Descriptor, IDescriptorCollector, IDescriptorExtension
+public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
 {
     private readonly Parameter _parameter;
 
@@ -34,9 +34,23 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorCollector, IDes
         Label = parameter.Definition.Name;
     }
 
+    public void RegisterResolvers(IResolverManager manager)
+    {
+        manager.Register(nameof(Parameter.ClearValue), false);
+    }
+
     public void RegisterExtensions(ExtensionManager manager)
     {
-        manager.Register(nameof(ParameterExtensions.AsBool),_parameter.AsBool());
-        manager.Register(nameof(ParameterExtensions.AsColor),_parameter.AsColor());
+        manager.Register(new DescriptorExtension<Parameter>(_parameter)
+        {
+            Name = nameof(ParameterExtensions.AsBool),
+            Value = parameter => parameter.AsBool()
+        });
+
+        manager.Register(new DescriptorExtension<Parameter>(_parameter)
+        {
+            Name = nameof(ParameterExtensions.AsColor),
+            Value = parameter => parameter.AsColor()
+        });
     }
 }
