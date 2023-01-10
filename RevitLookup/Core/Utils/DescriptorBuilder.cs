@@ -29,8 +29,8 @@ namespace RevitLookup.Core.Utils;
 
 public sealed class DescriptorBuilder : IBuilderConfigurator
 {
-    private readonly SnoopableObject _snoopableObject;
     private readonly List<Descriptor> _descriptors;
+    private readonly SnoopableObject _snoopableObject;
     [CanBeNull] private Descriptor _descriptor;
     private ExtensionManager _extensionManager;
     private Type _type;
@@ -55,7 +55,8 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             object value;
             try
             {
-                if (!TryEvaluate(member, out value)) continue;
+                if (!member.CanRead) value = new NotSupportedException("The property only sets the value");
+                else if (!TryEvaluate(member, out value)) continue;
             }
             catch (Exception exception)
             {

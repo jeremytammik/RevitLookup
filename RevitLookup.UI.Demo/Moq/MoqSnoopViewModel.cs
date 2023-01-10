@@ -54,12 +54,13 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
     public void Snoop(SnoopableObject snoopableObject)
     {
-        if (snoopableObject.Descriptor is IDescriptorEnumerator enumerator)
+        if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptorEnumerator)
         {
             var objects = new List<SnoopableObject>();
-            foreach (var obj in enumerator.Enumerate())
+            var enumerator = descriptorEnumerator.GetEnumerator();
+            while (enumerator.MoveNext())
             {
-                objects.Add(new SnoopableObject(snoopableObject.Context, obj));
+                objects.Add(new SnoopableObject(snoopableObject.Context, enumerator.Current));
             }
 
             SnoopableObjects = objects;

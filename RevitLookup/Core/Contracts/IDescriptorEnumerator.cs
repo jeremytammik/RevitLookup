@@ -27,5 +27,6 @@ namespace RevitLookup.Core.Contracts;
 /// </summary>
 public interface IDescriptorEnumerator : IDescriptorCollector
 {
-    IEnumerable Enumerate();
+    bool IsEmpty { get; }
+    IEnumerator GetEnumerator();
 }

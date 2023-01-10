@@ -19,6 +19,8 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Electrical;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -27,14 +29,48 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class IEnumerableDescriptor : Descriptor, IDescriptorEnumerator
 {
     private readonly IEnumerable _value;
+    [CanBeNull] private IEnumerator _enumerator;
 
     public IEnumerableDescriptor(IEnumerable value)
     {
         _value = value;
+        
+        //Checking types to reduce memory allocation when creating an iterator and increase performance
+        IsEmpty = value switch
+        {
+            ICollection enumerable => enumerable.Count == 0,
+            ParameterSet enumerable => enumerable.IsEmpty,
+            ParameterMap enumerable => enumerable.IsEmpty,
+            DefinitionBindingMap enumerable => enumerable.IsEmpty,
+            CategoryNameMap enumerable => enumerable.IsEmpty,
+            HashSet<ElementId> enumerable => enumerable.Count == 0,
+            DocumentSet enumerable => enumerable.IsEmpty,
+            PhaseArray enumerable => enumerable.IsEmpty,
+            ProjectLocationSet enumerable => enumerable.IsEmpty,
+            PlanTopologySet enumerable => enumerable.IsEmpty,
+            WireTypeSet enumerable => enumerable.IsEmpty,
+            CitySet enumerable => enumerable.IsEmpty,
+            VoltageTypeSet enumerable => enumerable.IsEmpty,
+            InsulationTypeSet enumerable => enumerable.IsEmpty,
+            FamilyTypeSet enumerable => enumerable.IsEmpty,
+            PanelTypeSet enumerable => enumerable.IsEmpty,
+            MullionTypeSet enumerable => enumerable.IsEmpty,
+            TemperatureRatingTypeSet enumerable => enumerable.IsEmpty,
+            _ => GetEnumerator().MoveNext()
+        };
     }
 
-    public IEnumerable Enumerate()
+    public IEnumerator GetEnumerator()
     {
-        return _value;
+        if (_enumerator is null)
+        {
+            _enumerator = _value.GetEnumerator();
+            return _enumerator;
+        }
+
+        _enumerator.Reset();
+        return _enumerator;
     }
+
+    public bool IsEmpty { get; }
 }

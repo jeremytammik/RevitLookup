@@ -57,10 +57,11 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void Snoop(SnoopableObject snoopableObject)
     {
-        if (snoopableObject.Descriptor is IDescriptorEnumerator enumerator)
+        if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptorEnumerator)
         {
             var objects = new List<SnoopableObject>();
-            foreach (var obj in enumerator.Enumerate()) objects.Add(new SnoopableObject(snoopableObject.Context, obj));
+            var enumerator = descriptorEnumerator.GetEnumerator();
+            while (enumerator.MoveNext()) objects.Add(new SnoopableObject(snoopableObject.Context, enumerator.Current));
 
             SnoopableObjects = objects;
         }

@@ -59,17 +59,15 @@ public static class DescriptorUtils
         if (!type.IsGenericType) return type.Name;
 
         var typeName = type.Name;
-        typeName = typeName.AsSpan(0, typeName.Length-2).ToString();
+        typeName = typeName.AsSpan(0, typeName.Length - 2).ToString();
         typeName += "<";
         var genericArguments = type.GetGenericArguments();
         for (var i = 0; i < genericArguments.Length; i++)
         {
             typeName += MakeGenericTypeName(genericArguments[i]);
-            if (i < genericArguments.Length - 1)
-            {
-                typeName += ", ";
-            }
+            if (i < genericArguments.Length - 1) typeName += ", ";
         }
+
         typeName += ">";
         return typeName;
     }

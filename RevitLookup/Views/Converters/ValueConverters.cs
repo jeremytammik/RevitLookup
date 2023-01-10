@@ -22,7 +22,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using RevitLookup.Core;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -96,6 +95,7 @@ public sealed class HandledDescriptorConverter : MarkupExtension, IValueConverte
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         var descriptor = (Descriptor) value!;
+        if (descriptor is IDescriptorEnumerator enumerator) return !enumerator.IsEmpty;
         return descriptor is IDescriptorCollector;
     }
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,20 +18,15 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
-namespace RevitLookup.Services.Contracts;
+namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public interface ISnoopService
+public class DocumentPreviewSettingsDescriptor : Descriptor, IDescriptorCollector
 {
-    void Snoop(SnoopableObject snoopableObject);
-    void SnoopSelection();
-    void SnoopDocument();
-    void SnoopDatabase();
-    void SnoopView();
-    void SnoopApplication();
-    void SnoopLinkedElement();
-    void SnoopDependentElements();
-    void SnoopFace();
-    void SnoopEdge();
+    public DocumentPreviewSettingsDescriptor(DocumentPreviewSettings value)
+    {
+    }
 }
