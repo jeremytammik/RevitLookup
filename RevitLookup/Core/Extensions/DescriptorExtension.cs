@@ -30,8 +30,8 @@ public sealed class DescriptorExtension<T>
     }
 
     public string Group { get; init; }
-    public required string Name { get; init; }
-    public required Func<T, object> Value { get; init; }
+    [NotNull] public required string Name { get; init; }
+    [NotNull] public required Func<T, object> Value { get; init; }
 
     public object Invoke()
     {

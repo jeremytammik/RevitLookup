@@ -25,9 +25,10 @@ namespace RevitLookup.Core.Utils;
 
 public static class DescriptorUtils
 {
+    [NotNull]
     public static Descriptor FindSuitableDescriptor([CanBeNull] object obj)
     {
-        var descriptor = DescriptorMap.FindDescriptor(obj);
+        var descriptor = DescriptorMap.FindDescriptor(obj, null);
         if (obj is null)
         {
             descriptor.Type = nameof(Object);
@@ -41,9 +42,10 @@ public static class DescriptorUtils
         return descriptor;
     }
 
+    [CanBeNull]
     public static Descriptor FindSuitableDescriptor([NotNull] object obj, Type type)
     {
-        var descriptor = DescriptorMap.FindDescriptor(obj);
+        var descriptor = DescriptorMap.FindDescriptor(obj, type);
         ValidateProperties(descriptor, type);
         return descriptor;
     }

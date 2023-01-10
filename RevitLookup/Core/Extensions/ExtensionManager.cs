@@ -28,13 +28,13 @@ namespace RevitLookup.Core.Extensions;
 public sealed class ExtensionManager : IExtensionManager
 {
     private readonly Document _context;
-    private readonly Descriptor _descriptor;
 
-    public ExtensionManager(Descriptor descriptor, Document context)
+    public ExtensionManager(Document context)
     {
-        _descriptor = descriptor;
         _context = context;
     }
+    
+    public Descriptor Descriptor { get; set; }
 
     [CanBeNull] public List<Descriptor> ClassExtensions { get; private set; }
     [CanBeNull] public List<Descriptor> ObjectExtensions { get; private set; }
@@ -59,7 +59,7 @@ public sealed class ExtensionManager : IExtensionManager
 
         if (extension.Group is null)
         {
-            descriptor.Type = _descriptor.Type;
+            descriptor.Type = Descriptor.Type;
             ClassExtensions ??= new List<Descriptor>(1);
             ClassExtensions.Add(descriptor);
         }

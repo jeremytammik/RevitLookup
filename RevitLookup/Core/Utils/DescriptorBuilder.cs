@@ -31,7 +31,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 {
     private readonly List<Descriptor> _descriptors;
     private readonly SnoopableObject _snoopableObject;
-    [CanBeNull] private Descriptor _descriptor;
+    [CanBeNull] private Descriptor _currentDescriptor;
     private ExtensionManager _extensionManager;
     private Type _type;
 
@@ -41,7 +41,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
         _descriptors = new List<Descriptor>(8);
     }
 
-    public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_descriptor, _snoopableObject.Context);
+    public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_snoopableObject.Context);
 
     public void AddProperties()
     {
@@ -65,7 +65,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
             var descriptor = new ObjectDescriptor
             {
-                Type = _descriptor is null ? member.DeclaringType!.Name : _descriptor.Type,
+                Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type,
                 Label = member.Name,
                 Value = new SnoopableObject(_snoopableObject.Context, value)
             };
@@ -96,7 +96,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
             var descriptor = new ObjectDescriptor
             {
-                Type = _descriptor is null ? member.DeclaringType!.Name : _descriptor.Type,
+                Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type,
                 Label = member.Name,
                 Value = new SnoopableObject(_snoopableObject.Context, value)
             };
@@ -107,10 +107,14 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
     public void AddExtensions()
     {
-        if (_descriptor is not IDescriptorExtension extension) return;
+        if (_currentDescriptor is not IDescriptorExtension extension) return;
 
+        ExtensionManager.Descriptor = _currentDescriptor;
         extension.RegisterExtensions(ExtensionManager);
-        if (_extensionManager.ClassExtensions is not null) _descriptors.AddRange(_extensionManager.ClassExtensions);
+        if (_extensionManager.ClassExtensions is null) return;
+
+        _descriptors.AddRange(_extensionManager.ClassExtensions);
+        _extensionManager.ClassExtensions.Clear();
     }
 
     public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
@@ -132,7 +136,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
             var descriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
             //And creating an empty descriptor in case of mismatch of base types
-            if (descriptor.Type == _snoopableObject.Descriptor.Type) _descriptor = descriptor;
+            _currentDescriptor = descriptor;
 
             configurator(this);
         }
@@ -145,7 +149,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
     private bool TryEvaluate(PropertyInfo member, out object value)
     {
         var args = member.GetMethod.GetParameters();
-        if (_descriptor is IDescriptorResolver resolver)
+        if (_currentDescriptor is IDescriptorResolver resolver)
         {
             var manager = new ResolverManager(member.Name, args);
             resolver.RegisterResolvers(manager);
@@ -174,7 +178,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
     private bool TryEvaluate(MethodInfo member, out object value)
     {
         var args = member.GetParameters();
-        if (_descriptor is IDescriptorResolver resolver)
+        if (_currentDescriptor is IDescriptorResolver resolver)
         {
             var manager = new ResolverManager(member.Name, args);
             resolver.RegisterResolvers(manager);

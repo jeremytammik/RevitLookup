@@ -22,6 +22,7 @@ using System.Collections;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
+using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
 
 namespace RevitLookup.Core.ComponentModel;
 
@@ -30,37 +31,38 @@ public static class DescriptorMap
     /// <summary>
     ///     Finding the first match of a descriptor type in the inheritance hierarchy
     /// </summary>
-    public static Descriptor FindDescriptor(object obj)
+    public static Descriptor FindDescriptor(object obj, Type type)
     {
         return obj switch
         {
-            bool value => new BoolDescriptor(value),
+            bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
 
-            Element value => new ElementDescriptor(value),
-            Parameter value => new ParameterDescriptor(value),
-            Color value => new ColorDescriptor(value),
-            Category value => new CategoryDescriptor(value),
-            Document value => new DocumentDescriptor(value),
-            ForgeTypeId value => new ForgeTypeIdDescriptor(value),
-            City value => new CityDescriptor(value),
-            PrintManager value => new PrintManagerDescriptor(value),
-            WorksetTable value => new WorksetTableDescriptor(value),
-            Units value => new UnitsDescriptor(value),
-            GuidEnum value => new GuidEnumDescriptor(value),
-            Definition value => new DefinitionDescriptor(value),
-            DocumentPreviewSettings value => new DocumentPreviewSettingsDescriptor(value),
-            Autodesk.Revit.ApplicationServices.Application value => new ApplicationDescriptor(value),
+            Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
+            Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
+            Color value when type is null || type == typeof(Color) => new ColorDescriptor(value),
+            Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
+            Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
+            ForgeTypeId value when type is null || type == typeof(ForgeTypeId) => new ForgeTypeIdDescriptor(value),
+            City value when type is null || type == typeof(City) => new CityDescriptor(value),
+            PrintManager value when type is null || type == typeof(PrintManager) => new PrintManagerDescriptor(value),
+            WorksetTable value when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(value),
+            Units value when type is null || type == typeof(Units) => new UnitsDescriptor(value),
+            GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
+            Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
+            DocumentPreviewSettings value when type is null || type == typeof(DocumentPreviewSettings) => new DocumentPreviewSettingsDescriptor(value),
+            RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
 
+            HashSet<ElementId> value when type is null || type == typeof(HashSet<ElementId>) => new IEnumerableDescriptor(value),
+            CurveLoop value when type is null || type == typeof(CurveLoop) => new IEnumerableDescriptor(value),
             ICollection value => new IEnumerableDescriptor(value),
-            HashSet<ElementId> value => new IEnumerableDescriptor(value),
-            CurveLoop value => new IEnumerableDescriptor(value),
             IEnumerable value and APIObject => new IEnumerableDescriptor(value),
 
-            APIObject => new APIObjectDescriptor(),
-            Exception value => new ExceptionDescriptor(value),
+            APIObject when type is null || type == typeof(APIObject) => new APIObjectDescriptor(),
+            Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
 
             null => new ObjectDescriptor(),
-            _ => new ObjectDescriptor(obj)
+            _ when type is null => new ObjectDescriptor(obj),
+            _ => new ObjectDescriptor()
         };
     }
 }
