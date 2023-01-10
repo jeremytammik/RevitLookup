@@ -31,7 +31,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 {
     private readonly SnoopableObject _snoopableObject;
     private readonly List<Descriptor> _descriptors;
-    private Descriptor _descriptor;
+    [CanBeNull] private Descriptor _descriptor;
     private ExtensionManager _extensionManager;
     private Type _type;
 
@@ -64,7 +64,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
             var descriptor = new ObjectDescriptor
             {
-                Type = member.DeclaringType!.Name,
+                Type = _descriptor is null ? member.DeclaringType!.Name : _descriptor.Type,
                 Label = member.Name,
                 Value = new SnoopableObject(_snoopableObject.Context, value)
             };
@@ -95,7 +95,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
             var descriptor = new ObjectDescriptor
             {
-                Type = member.DeclaringType!.Name,
+                Type = _descriptor is null ? member.DeclaringType!.Name : _descriptor.Type,
                 Label = member.Name,
                 Value = new SnoopableObject(_snoopableObject.Context, value)
             };
@@ -127,7 +127,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
         for (var i = types.Count - 1; i >= 0; i--)
         {
             _type = types[i];
-            
+
             //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
             var descriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
             //And creating an empty descriptor in case of mismatch of base types
@@ -164,9 +164,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
         value = member.GetValue(_snoopableObject.Object);
 #else
-        value = args.Length > 0 ?
-            new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") :
-            member.GetValue(_snoopableObject.Object);
+        value = args.Length > 0 ? new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") : member.GetValue(_snoopableObject.Object);
 #endif
 
         return true;
@@ -195,9 +193,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
         value = member.Invoke(_snoopableObject.Object, null);
 #else
-        value = args.Length > 0 ?
-            new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") :
-            member.Invoke(_snoopableObject.Object, null);
+        value = args.Length > 0 ? new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") : member.Invoke(_snoopableObject.Object, null);
 #endif
 
         return true;

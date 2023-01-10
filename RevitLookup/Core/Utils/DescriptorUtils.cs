@@ -50,7 +50,27 @@ public static class DescriptorUtils
 
     private static void ValidateProperties(Descriptor descriptor, Type type)
     {
-        descriptor.Type = type!.Name;
-        descriptor.Label ??= type.Name;
+        descriptor.Type = MakeGenericTypeName(type);
+        descriptor.Label ??= descriptor.Type;
+    }
+
+    private static string MakeGenericTypeName(Type type)
+    {
+        if (!type.IsGenericType) return type.Name;
+
+        var typeName = type.Name;
+        typeName = typeName.AsSpan(0, typeName.Length-2).ToString();
+        typeName += "<";
+        var genericArguments = type.GetGenericArguments();
+        for (var i = 0; i < genericArguments.Length; i++)
+        {
+            typeName += MakeGenericTypeName(genericArguments[i]);
+            if (i < genericArguments.Length - 1)
+            {
+                typeName += ", ";
+            }
+        }
+        typeName += ">";
+        return typeName;
     }
 }
