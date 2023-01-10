@@ -20,6 +20,9 @@
 
 namespace RevitLookup.Core.Contracts;
 
+/// <summary>
+///     Indicates that the descriptor can decide to call methods/properties with parameters or override their values
+/// </summary>
 public interface IDescriptorResolver : IDescriptorCollector
 {
     void RegisterResolvers(IResolverManager manager);

@@ -22,6 +22,9 @@ using RevitLookup.Core.Extensions;
 
 namespace RevitLookup.Core.Contracts;
 
+/// <summary>
+///     Indicates that additional members can be added to the descriptor
+/// </summary>
 public interface IDescriptorExtension : IDescriptorCollector
 {
     void RegisterExtensions(ExtensionManager manager);

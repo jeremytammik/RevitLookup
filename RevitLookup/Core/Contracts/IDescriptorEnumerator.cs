@@ -22,6 +22,9 @@ using System.Collections;
 
 namespace RevitLookup.Core.Contracts;
 
+/// <summary>
+///     Indicates that the descriptor is handled as a collection of descriptors
+/// </summary>
 public interface IDescriptorEnumerator : IDescriptorCollector
 {
     IEnumerable Enumerate();
