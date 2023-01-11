@@ -32,7 +32,7 @@ partial class Build
             var gitHubName = GitRepository.GetGitHubName();
             var gitHubOwner = GitRepository.GetGitHubOwner();
             var artifacts = Directory.GetFiles(ArtifactsDirectory, "*");
-            var version = GetProductVersion(artifacts);
+            var version = VersionRegex.Match(artifacts[^1]).Value;
 
             await CheckTagsAsync(gitHubOwner, gitHubName, version);
             Log.Information("Detected Tag: {Version}", version);
@@ -88,35 +88,17 @@ partial class Build
         var gitHubTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
         if (gitHubTags.Select(tag => tag.Name).Contains(version)) throw new ArgumentException($"The repository already contains a Release with the tag: {version}");
     }
+    
+    static async Task<Release> CreatedDraftAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
+        await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
 
-    string GetProductVersion(IEnumerable<string> artifacts)
-    {
-        var stringVersion = string.Empty;
-        var doubleVersion = 0d;
-        foreach (var file in artifacts)
-        {
-            var fileInfo = new FileInfo(file);
-            var match = VersionRegex.Match(fileInfo.Name);
-            if (!match.Success) continue;
-            var version = match.Value;
-            var parsedValue = double.Parse(version.Replace(".", ""));
-            if (parsedValue > doubleVersion)
-            {
-                doubleVersion = parsedValue;
-                stringVersion = version;
-            }
-        }
-
-        if (stringVersion.Equals(string.Empty)) throw new ArgumentException("Could not determine product version from artifacts.");
-
-        return stringVersion;
-    }
-
+    static async Task ReleaseDraftAsync(string gitHubOwner, string gitHubName, Release draft) =>
+        await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draft.Id, new ReleaseUpdate {Draft = false});
+    
     static async Task UploadArtifactsAsync(Release createdRelease, string[] artifacts)
     {
-        for (var i = artifacts.Length - 1; i >= 0; i--)
+        foreach (var file in artifacts)
         {
-            var file = artifacts[i];
             var releaseAssetUpload = new ReleaseAssetUpload
             {
                 ContentType = "application/x-binary",
@@ -128,10 +110,4 @@ partial class Build
             Log.Information("Added artifact: {Path}", file);
         }
     }
-
-    static async Task<Release> CreatedDraftAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
-        await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
-
-    static async Task ReleaseDraftAsync(string gitHubOwner, string gitHubName, Release draft) =>
-        await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draft.Id, new ReleaseUpdate {Draft = false});
 }
