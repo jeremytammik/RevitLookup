@@ -55,6 +55,7 @@ public static class DescriptorMap
             GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
             Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
+            PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
             DocumentPreviewSettings when type is null || type == typeof(DocumentPreviewSettings) => new DocumentPreviewSettingsDescriptor(),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
 

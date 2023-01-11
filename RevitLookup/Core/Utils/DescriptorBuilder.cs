@@ -134,10 +134,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             _type = types[i];
 
             //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
-            var descriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
-            //And creating an empty descriptor in case of mismatch of base types
-            _currentDescriptor = descriptor;
-
+            _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
             configurator(this);
         }
 
