@@ -30,7 +30,6 @@ public static class Selector
 {
     public static IReadOnlyList<SnoopableObject> Snoop(SnoopableType type)
     {
-        if (RevitApi.UiDocument is null) return Array.Empty<SnoopableObject>();
         return type switch
         {
             SnoopableType.Selection => SnoopSelection(),

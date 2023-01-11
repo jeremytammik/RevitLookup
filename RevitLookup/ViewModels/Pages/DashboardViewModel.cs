@@ -20,7 +20,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.Views.Pages;
@@ -29,49 +28,52 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class DashboardViewModel : ObservableObject
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly ISnoopService _snoopService;
+    private readonly INavigationService _navigationService;
 
-    public DashboardViewModel(IServiceProvider serviceProvider)
+    public DashboardViewModel(ISnoopService snoopService, INavigationService navigationService)
     {
-        _serviceProvider = serviceProvider;
+        _snoopService = snoopService;
+        _navigationService = navigationService;
     }
 
     [RelayCommand]
     private void NavigateSnoopPage(string parameter)
     {
-        var snoopService = _serviceProvider.GetService<ISnoopService>()!;
         switch (parameter)
         {
             case "selection":
-                snoopService.SnoopSelection();
+                _snoopService.SnoopSelection();
                 break;
             case "document":
-                snoopService.SnoopDocument();
+                _snoopService.SnoopDocument();
                 break;
             case "database":
-                snoopService.SnoopDatabase();
+                _snoopService.SnoopDatabase();
                 break;
             case "view":
-                snoopService.SnoopView();
+                _snoopService.SnoopView();
                 break;
             case "application":
-                snoopService.SnoopApplication();
+                _snoopService.SnoopApplication();
                 break;
             case "linked":
-                snoopService.SnoopLinkedElement();
+                _snoopService.SnoopLinkedElement();
                 break;
             case "dependents":
-                snoopService.SnoopDependentElements();
+                _snoopService.SnoopDependentElements();
                 break;
             case "face":
-                snoopService.SnoopFace();
+                _snoopService.SnoopFace();
                 break;
             case "edge":
-                snoopService.SnoopEdge();
+                _snoopService.SnoopEdge();
+                break;
+            case "eventMonitor":
+                _snoopService.SnoopSelection();
                 break;
         }
 
-        var navigationService = _serviceProvider.GetService<INavigationService>()!;
-        navigationService.Navigate(typeof(SnoopView));
+        _navigationService.Navigate(typeof(SnoopView));
     }
 }

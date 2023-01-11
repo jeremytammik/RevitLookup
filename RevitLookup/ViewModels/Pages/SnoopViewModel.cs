@@ -74,31 +74,37 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     [RelayCommand]
     public void SnoopSelection()
     {
+        if (!ValidateDocuments()) return;
         SnoopableObjects = Selector.Snoop(SnoopableType.Selection);
     }
 
     public void SnoopApplication()
     {
+        if (!ValidateDocuments()) return;
         SnoopableObjects = Selector.Snoop(SnoopableType.Application);
     }
 
     public void SnoopDocument()
     {
+        if (!ValidateDocuments()) return;
         SnoopableObjects = Selector.Snoop(SnoopableType.Document);
     }
 
     public void SnoopView()
     {
+        if (!ValidateDocuments()) return;
         SnoopableObjects = Selector.Snoop(SnoopableType.View);
     }
 
     public void SnoopDatabase()
     {
+        if (!ValidateDocuments()) return;
         SnoopableObjects = Selector.Snoop(SnoopableType.Database);
     }
 
     public void SnoopEdge()
     {
+        if (!ValidateDocuments()) return;
         _windowController.Hide();
         SnoopableObjects = Selector.Snoop(SnoopableType.Edge);
         _windowController.Show();
@@ -106,6 +112,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void SnoopFace()
     {
+        if (!ValidateDocuments()) return;
         _windowController.Hide();
         SnoopableObjects = Selector.Snoop(SnoopableType.Face);
         _windowController.Show();
@@ -113,6 +120,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void SnoopLinkedElement()
     {
+        if (!ValidateDocuments()) return;
         _windowController.Hide();
         SnoopableObjects = Selector.Snoop(SnoopableType.LinkedElement);
         _windowController.Show();
@@ -120,7 +128,17 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public void SnoopDependentElements()
     {
+        if (!ValidateDocuments()) return;
         SnoopableObjects = Selector.Snoop(SnoopableType.DependentElements);
+    }
+    
+    private bool ValidateDocuments()
+    {
+        if (RevitApi.UiDocument is not null) return true;
+
+        _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);
+        SnoopableObjects = Array.Empty<SnoopableObject>();
+        return false;
     }
 
     [RelayCommand]

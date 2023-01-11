@@ -18,11 +18,16 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DocumentPreviewSettingsDescriptor : Descriptor, IDescriptorCollector
+public class FailureMessageDescriptor : Descriptor, IDescriptorCollector
 {
+    public FailureMessageDescriptor(FailureMessage value)
+    {
+        Label = value.GetDescriptionText();
+    }
 }

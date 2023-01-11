@@ -18,8 +18,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </rl:UiPage.Resources>
-    <VirtualizingStackPanel
-        Margin="18,0,18,18">
+    <StackPanel
+        TextBlock.FontWeight="Medium"
+        Margin="24 13 24 24">
         <TextBlock
             FontSize="16"
             Text="Snoop" />
@@ -187,6 +188,7 @@
                 Grid.Column="0"
                 Margin="0,0,4,0"
                 Icon="DesktopPulse24"
+                CommandParameter="eventMonitor"
                 Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                 <StackPanel>
                     <TextBlock
@@ -195,5 +197,5 @@
                 </StackPanel>
             </rl:CardAction>
         </Grid>
-    </VirtualizingStackPanel>
+    </StackPanel>
 </rl:UiPage>

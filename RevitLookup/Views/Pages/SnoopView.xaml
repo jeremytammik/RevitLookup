@@ -45,20 +45,23 @@
                     </DrawingImage>
                 </Image.Source>
             </Image>
-            <StackPanel
+            <!-- <StackPanel -->
+            <!--     Margin="0 40 0 0" -->
+            <!--     HorizontalAlignment="Center" -->
+            <!--     VerticalAlignment="Center"> -->
+            <TextBlock
+                FontSize="24"
                 Margin="0 40 0 0"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-                <TextBlock
-                    FontSize="24"
-                    FontWeight="Medium"
-                    Text="Nothing to show" />
-                <Button
-                    HorizontalAlignment="Center"
-                    Margin="0 8 0 0"
-                    Content="Snoop selection"
-                    Command="{Binding ViewModel.SnoopSelectionCommand}" />
-            </StackPanel>
+                VerticalAlignment="Center"
+                FontWeight="Medium"
+                Text="Nothing to show" />
+            <!-- <Button -->
+            <!--     HorizontalAlignment="Center" -->
+            <!--     Margin="0 8 0 0" -->
+            <!--     Content="Snoop selection" -->
+            <!--     Command="{Binding ViewModel.SnoopSelectionCommand}" /> -->
+            <!-- </StackPanel> -->
         </Grid>
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,

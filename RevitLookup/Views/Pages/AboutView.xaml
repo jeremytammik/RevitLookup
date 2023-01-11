@@ -20,18 +20,16 @@
         </ResourceDictionary>
     </rl:UiPage.Resources>
     <DockPanel
-        Margin="30,0">
+        Margin="24, 1 24 24">
         <Image
             DockPanel.Dock="Left"
-            Margin="0,17,0,0"
+            Margin="0,16,0,0"
             Width="200"
             Stretch="Uniform"
             VerticalAlignment="Top"
             Source="../../Resources/Images/AboutLogo200.png" />
-        <VirtualizingStackPanel
-            Margin="30,0,0,0"
-            IsVirtualizing="True"
-            VirtualizationMode="Recycling">
+        <StackPanel
+            Margin="30,0,0,0">
             <TextBlock
                 Text="RevitLookup"
                 FontSize="48" />
@@ -238,6 +236,6 @@
                 Content="Contact Us"
                 Icon="Link48"
                 NavigateUri="https://github.com/jeremytammik/RevitLookup/issues/new" />
-        </VirtualizingStackPanel>
+        </StackPanel>
     </DockPanel>
 </rl:UiPage>

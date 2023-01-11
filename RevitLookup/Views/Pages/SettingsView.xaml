@@ -20,10 +20,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </rl:UiPage.Resources>
-    <VirtualizingStackPanel
-        Margin="24"
-        IsVirtualizing="True"
-        VirtualizationMode="Recycling">
+    <StackPanel
+        Margin="24 19 24 24">
         <rl:CardControl
             Header="Theme"
             Icon="Color24">
@@ -40,5 +38,5 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </rl:CardControl>
-    </VirtualizingStackPanel>
+    </StackPanel>
 </rl:UiPage>
