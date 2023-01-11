@@ -102,7 +102,10 @@ WixEntity[] GenerateWixEntities()
             if (currentPath == directory)
             {
                 foreach (var file in Directory.GetFiles(currentPath))
+                {
+                    Console.WriteLine($"'{file}'");
                     entities.Add(new WixSharp.File(file));
+                }
             }
             else
             {
@@ -111,7 +114,10 @@ WixEntity[] GenerateWixEntities()
                 entities.Add(currentDir);
 
                 foreach (var file in Directory.GetFiles(currentPath))
+                {
+                    Console.WriteLine($"'{file}'");
                     currentDir.AddFile(new WixSharp.File(file));
+                }
             }
             foreach (var subfolder in Directory.GetDirectories(currentPath))
                 queue.Enqueue(subfolder);

@@ -42,6 +42,7 @@ partial class Build
                 Name = version,
                 Body = CreateChangelog(version),
                 Draft = true,
+                Prerelease = true,
                 TargetCommitish = GitVersion.Sha
             };
 
@@ -111,10 +112,11 @@ partial class Build
         return stringVersion;
     }
 
-    static async Task UploadArtifactsAsync(Release createdRelease, IEnumerable<string> artifacts)
+    static async Task UploadArtifactsAsync(Release createdRelease, string[] artifacts)
     {
-        foreach (var file in artifacts)
+        for (var i = artifacts.Length - 1; i >= 0; i--)
         {
+            var file = artifacts[i];
             var releaseAssetUpload = new ReleaseAssetUpload
             {
                 ContentType = "application/x-binary",
