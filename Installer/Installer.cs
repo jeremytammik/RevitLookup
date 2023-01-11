@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Controls;
 
-const string installationDir = @"%AppDataFolder%\Autodesk\Revit\Addins\";
 const string projectName = "RevitLookup";
-const string outputName = "RevitLookup";
 const string outputDir = "output";
 
 var guidMap = new Dictionary<string, string>
@@ -28,17 +24,16 @@ var guidMap = new Dictionary<string, string>
 };
 
 var version = GetAssemblyVersion(out var dllVersion, out var revitVersion);
-var fileName = new StringBuilder().Append(outputName).Append("-").Append(dllVersion);
+var fileName = $"{projectName}-{dllVersion}";
 
+var wixEntities = GenerateWixEntities();
 var project = new Project
 {
-    Name = projectName,
+    Name = $"{projectName} {dllVersion}",
     OutDir = outputDir,
     Platform = Platform.x64,
     UI = WUI.WixUI_InstallDir,
     Version = new Version(version),
-    OutFileName = fileName.ToString(),
-    InstallScope = InstallScope.perUser,
     MajorUpgrade = MajorUpgrade.Default,
     GUID = new Guid(guidMap[revitVersion]),
     BackgroundImage = @"Installer\Resources\Icons\BackgroundImage.png",
@@ -48,37 +43,82 @@ var project = new Project
         Manufacturer = "Autodesk",
         HelpLink = "https://github.com/jeremytammik/RevitLookup/issues",
         ProductIcon = @"Installer\Resources\Icons\ShellIcon.ico"
-    },
-    Dirs = new Dir[]
-    {
-        new InstallDir(installationDir, GenerateWixEntities())
     }
 };
 
 project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
-project.BuildMsi();
+BuildSingleUserMsi();
+BuildMultiUserUserMsi();
+
+// User Addins:
+// %appdata%\Autodesk\Revit\Addins\
+// %appdata%\Autodesk\ApplicationPlugins\
+//
+// Machine Addins (for all users of the machine):
+// C:\ProgramData\Autodesk\Revit\Addins\
+//
+// Addins packaged for the Autodesk Exchange store:
+// C:\ProgramData\Autodesk\ApplicationPlugins\
+//
+// Autodesk servers and services:
+// C:\Program Files\Autodesk\Revit 2023\AddIns\
+
+void BuildSingleUserMsi()
+{
+    project.InstallScope = InstallScope.perUser;
+    project.OutFileName = $"{fileName}-SingleUser";
+    project.Dirs = new Dir[]
+    {
+        new InstallDir($@"%AppDataFolder%\Autodesk\Revit\Addins\{revitVersion}", wixEntities)
+    };
+    project.BuildMsi();
+}
+
+void BuildMultiUserUserMsi()
+{
+    project.InstallScope = InstallScope.perMachine;
+    project.OutFileName = $"{fileName}-MultiUser";
+    project.Dirs = new Dir[]
+    {
+        new InstallDir($@"%CommonAppDataFolder%\Autodesk\Revit\Addins\{revitVersion}", wixEntities)
+    };
+    project.BuildMsi();
+}
 
 WixEntity[] GenerateWixEntities()
 {
+    var entities = new List<WixEntity>();
     var versionRegex = new Regex(@"\d+.*$");
-    var versionStorages = new Dictionary<string, List<WixEntity>>();
-
     foreach (var directory in args)
     {
-        var directoryInfo = new DirectoryInfo(directory);
-        var fileVersion = versionRegex.Match(directoryInfo.Name).Value;
-        var files = new Files($@"{directory}\*.*");
-        if (versionStorages.ContainsKey(fileVersion))
-            versionStorages[fileVersion].Add(files);
-        else
-            versionStorages.Add(fileVersion, new List<WixEntity> {files});
+        var queue = new Queue<string>();
+        var fileVersion = versionRegex.Match(Path.GetFileName(directory)).Value;
+        queue.Enqueue(directory);
 
-        var assemblies = Directory.GetFiles(directory, "*", SearchOption.AllDirectories);
         Console.WriteLine($"Added '{fileVersion}' version files: ");
-        foreach (var assembly in assemblies) Console.WriteLine($"'{assembly}'");
+        while (queue.Count > 0)
+        {
+            var currentPath = queue.Dequeue();
+            if (currentPath == directory)
+            {
+                foreach (var file in Directory.GetFiles(currentPath))
+                    entities.Add(new WixSharp.File(file));
+            }
+            else
+            {
+                var currentFolder = Path.GetFileName(currentPath);
+                var currentDir = new Dir(currentFolder);
+                entities.Add(currentDir);
+
+                foreach (var file in Directory.GetFiles(currentPath))
+                    currentDir.AddFile(new WixSharp.File(file));
+            }
+            foreach (var subfolder in Directory.GetDirectories(currentPath))
+                queue.Enqueue(subfolder);
+        }
     }
 
-    return versionStorages.Select(storage => new Dir(storage.Key, storage.Value.ToArray())).Cast<WixEntity>().ToArray();
+    return entities.ToArray();
 }
 
 string GetAssemblyVersion(out string originalVersion, out string majorVersion)
