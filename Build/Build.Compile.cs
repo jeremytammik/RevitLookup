@@ -13,8 +13,8 @@ partial class Build
             {
                 DotNetBuild(settings =>
                 {
-                    if (VersionMap.ContainsKey(configuration))
-                        settings = settings.SetVersion(VersionMap[configuration]);
+                    if (VersionMap.TryGetValue(configuration, out var value))
+                        settings = settings.SetVersion(value);
 
                     return settings.SetConfiguration(configuration)
                         .SetVerbosity(DotNetVerbosity.Minimal);
