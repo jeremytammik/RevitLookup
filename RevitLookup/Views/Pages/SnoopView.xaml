@@ -7,7 +7,6 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
     mc:Ignorable="d"
@@ -93,15 +92,8 @@
                     ItemTemplate="{Binding
                         ItemsSource,
                         RelativeSource={RelativeSource Self},
-                        Converter={converters:TreeViewTemplateConverter}}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger
-                            EventName="SelectedItemChanged">
-                            <i:InvokeCommandAction
-                                Command="{Binding ViewModel.RefreshCommand}"
-                                CommandParameter="{Binding SelectedItem, ElementName=TreeView}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                        Converter={converters:TreeViewTemplateConverter}}"
+                    SelectedItemChanged="UpdateDataGridContext">
                 </TreeView>
             </DockPanel>
             <rl:DataGrid

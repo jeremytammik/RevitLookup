@@ -161,14 +161,10 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         }
 
         if (param is not SnoopableObject snoopableObject) return;
-        await Task.CompletedTask;
         // ReSharper disable once MethodHasAsyncOverload
         try
         {
-            var members = snoopableObject.GetMembers();
-            if (members is null) return;
-
-            SnoopableData = members;
+            SnoopableData = snoopableObject.GetMembers();
         }
         catch (Exception exception)
         {

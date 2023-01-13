@@ -131,7 +131,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         if (!ValidateDocuments()) return;
         SnoopableObjects = Selector.Snoop(SnoopableType.DependentElements);
     }
-    
+
     private bool ValidateDocuments()
     {
         if (RevitApi.UiDocument is not null) return true;
@@ -153,10 +153,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         if (param is not SnoopableObject snoopableObject) return;
         try
         {
-            var members = await snoopableObject.GetCachedMembersAsync();
-            if (members is null) return;
-
-            SnoopableData = members;
+            SnoopableData = await snoopableObject.GetCachedMembersAsync();
         }
         catch (Exception exception)
         {

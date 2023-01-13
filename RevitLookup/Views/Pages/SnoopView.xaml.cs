@@ -38,23 +38,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     {
         ViewModel = (ISnoopViewModel) viewModel;
         InitializeComponent();
-        // TreeView.ItemContainerGenerator.StatusChanged += SelectItem;
     }
-    //
-    // private void SelectItem(object sender, EventArgs _)
-    // {
-    //     var generator = (ItemContainerGenerator) sender;
-    //     if (generator.Status != GeneratorStatus.ContainersGenerated)
-    //     {
-    //         TreeView.UpdateLayout();
-    //     }
-    //
-    //     if (generator.Items.Count > 0)
-    //     {
-    //         TreeViewItem firstItem = (TreeViewItem)TreeView.ItemContainerGenerator.ContainerFromIndex(0);
-    //         firstItem.IsSelected = true;
-    //     }
-    // }
 
     public ISnoopViewModel ViewModel { get; }
 
@@ -91,5 +75,11 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         if (DataGrid.Items.GroupDescriptions!.Count == 0) DataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
         var groupStyle = (GroupStyle) control.TryFindResource(style);
         control.GroupStyle.Add(groupStyle);
+    }
+
+    private async void UpdateDataGridContext(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        if (e.NewValue is null) return;
+        await ViewModel.RefreshCommand.ExecuteAsync(e.NewValue);
     }
 }
