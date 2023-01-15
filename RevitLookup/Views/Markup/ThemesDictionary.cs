@@ -24,7 +24,7 @@ public sealed class ThemesDictionary : ResourceDictionary
         ThemeType theme;
         try
         {
-            theme = Host.GetService<ISettingsService>().GetTheme();
+            theme = Host.GetService<ISettingsService>().Theme;
         }
         catch
         {
@@ -32,7 +32,7 @@ public sealed class ThemesDictionary : ResourceDictionary
             theme = ThemeType.Light;
         }
 #else
-        var theme = Host.GetService<ISettingsService>().GetTheme();
+        var theme = Host.GetService<ISettingsService>().Theme;
 #endif
         var themeName = theme switch
         {

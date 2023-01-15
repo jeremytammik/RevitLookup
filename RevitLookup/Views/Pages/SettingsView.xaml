@@ -38,5 +38,30 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </rl:CardControl>
+        <rl:CardControl
+            Header="Background effect"
+            Icon="ColorBackground24"
+            Margin="0,8,0,0">
+            <ComboBox
+                MinWidth="150"
+                IsEnabled="True"
+                SelectedItem="{Binding ViewModel.CurrentBackground}"
+                ItemsSource="{Binding ViewModel.BackgroundEffects}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding ., Converter={converters:BackgroundTypeConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </rl:CardControl>
+        <rl:CardControl
+            Header="Smooth navigation"
+            Icon="VideoClipMultiple24"
+            Margin="0,8,0,0">
+            <rl:ToggleSwitch
+                IsChecked="{Binding ViewModel.IsSmoothEnabled}">
+            </rl:ToggleSwitch>
+        </rl:CardControl>
     </StackPanel>
 </rl:UiPage>

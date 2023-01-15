@@ -34,13 +34,15 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly ISnackbarService _snackbarService;
+    private readonly ISettingsService _settingsService;
     private readonly IWindowController _windowController;
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
     private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
-    public SnoopViewModel(IWindowController windowController, ISnackbarService snackbarService)
+    public SnoopViewModel(ISettingsService settingsService, IWindowController windowController, ISnackbarService snackbarService)
     {
+        _settingsService = settingsService;
         _windowController = windowController;
         _snackbarService = snackbarService;
     }
@@ -153,9 +155,8 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         if (param is not SnoopableObject snoopableObject) return;
         try
         {
-            // TODO add setting options for disable it
             //Await Frame transition. GetMembers freezes the thread and breaks the animation
-            await Task.Delay(300);
+            await Task.Delay(_settingsService.TransitionDuration);
             SnoopableData = await snoopableObject.GetCachedMembersAsync();
         }
         catch (Exception exception)

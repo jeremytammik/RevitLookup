@@ -21,9 +21,9 @@
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.ViewModels.Contracts;
@@ -32,13 +32,15 @@ namespace RevitLookup.UI.Demo.Moq;
 
 public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
+    private readonly ISettingsService _settingsService;
     private readonly ISnackbarService _snackbarService;
     private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
 
-    public MoqSnoopViewModel(ISnackbarService snackbarService)
+    public MoqSnoopViewModel(ISettingsService settingsService,ISnackbarService snackbarService)
     {
+        _settingsService = settingsService;
         _snackbarService = snackbarService;
     }
 
@@ -162,7 +164,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         // ReSharper disable once MethodHasAsyncOverload
         try
         {
-            await Task.Delay(300);
+            await Task.Delay(_settingsService.TransitionDuration);
             SnoopableData = snoopableObject.GetMembers();
         }
         catch (Exception exception)

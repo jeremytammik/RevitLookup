@@ -31,6 +31,7 @@ public sealed class SettingsService : ISettingsService
 {
     private readonly Settings _settings;
     private readonly string _settingsFile;
+    public const int DefaultTransitionDuration = 300;
 
     public SettingsService(IConfiguration configuration)
     {
@@ -38,19 +39,27 @@ public sealed class SettingsService : ISettingsService
         _settings = LoadSettings();
     }
 
-    public void SetTheme(ThemeType theme)
+    public ThemeType Theme
     {
-        _settings.Theme = theme;
-
-        // TODO support for pages
-        // if (Theme.GetAppTheme() == theme) return;
-        //
-        // Theme.Apply(theme);
+        get => _settings.Theme;
+        set => _settings.Theme = value;
     }
 
-    public ThemeType GetTheme()
+    public BackgroundType Background
     {
-        return _settings.Theme;
+        get => _settings.Background;
+        set => _settings.Background = value;
+    }
+
+    public int TransitionDuration
+    {
+        get => _settings.TransitionDuration;
+        private set => _settings.TransitionDuration = value;
+    }
+
+    public int ApplyTransition(bool value)
+    {
+        return TransitionDuration = value ? DefaultTransitionDuration : 0;
     }
 
     public void Save()
@@ -98,4 +107,6 @@ public sealed class SettingsService : ISettingsService
 internal sealed class Settings
 {
     public ThemeType Theme { get; set; } = ThemeType.Light;
+    public BackgroundType Background { get; set; } = BackgroundType.Mica;
+    public int TransitionDuration { get; set; } = SettingsService.DefaultTransitionDuration;
 }

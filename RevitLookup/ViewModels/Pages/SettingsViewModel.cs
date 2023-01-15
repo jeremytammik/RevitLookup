@@ -29,14 +29,20 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed class SettingsViewModel : ObservableObject
 {
     private readonly ISettingsService _settingsService;
+    private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
     private ThemeType _currentTheme;
+    private bool _isSmoothEnabled;
+    private BackgroundType _currentBackground;
 
-    public SettingsViewModel(ISettingsService settingsService, ISnackbarService snackbarService)
+    public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
     {
         _settingsService = settingsService;
+        _navigationService = navigationService;
         _snackbarService = snackbarService;
-        _currentTheme = settingsService.GetTheme();
+        _currentTheme = settingsService.Theme;
+        _currentBackground = settingsService.Background;
+        _isSmoothEnabled = settingsService.TransitionDuration > 0;
     }
 
     public ThemeType CurrentTheme
@@ -45,8 +51,32 @@ public sealed class SettingsViewModel : ObservableObject
         set
         {
             SetProperty(ref _currentTheme, value);
-            _settingsService.SetTheme(value);
+            _settingsService.Theme = value;
+            Theme.Apply(value, CurrentBackground);
             _snackbarService.Show("Theme changed", "The theme will be applied after the window is reopened", SymbolRegular.ChatWarning24, ControlAppearance.Success);
+        }
+    }
+
+    public BackgroundType CurrentBackground
+    {
+        get => _currentBackground;
+        set
+        {
+            SetProperty(ref _currentBackground, value);
+            _settingsService.Background = value;
+            Theme.UpdateBackground(CurrentTheme, value);
+            _snackbarService.Show("Background effect changed", "The theme will be applied after the window is reopened", SymbolRegular.ChatWarning24, ControlAppearance.Success);
+        }
+    }
+
+    public bool IsSmoothEnabled
+    {
+        get => _isSmoothEnabled;
+        set
+        {
+            SetProperty(ref _isSmoothEnabled, value);
+            var transitionDuration = _settingsService.ApplyTransition(value);
+            _navigationService.GetNavigationControl().TransitionDuration = transitionDuration;
         }
     }
 
@@ -54,5 +84,11 @@ public sealed class SettingsViewModel : ObservableObject
     {
         ThemeType.Light,
         ThemeType.Dark
+    };
+
+    public List<BackgroundType> BackgroundEffects { get; } = new()
+    {
+        BackgroundType.None,
+        BackgroundType.Mica
     };
 }

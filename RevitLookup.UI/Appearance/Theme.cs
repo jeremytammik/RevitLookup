@@ -233,7 +233,7 @@ public static class Theme
     /// <summary>
     /// Forces change to application background. Required if custom background effect was previously applied.
     /// </summary>
-    private static void UpdateBackground(ThemeType themeType,
+    public static void UpdateBackground(ThemeType themeType,
         BackgroundType backgroundEffect = BackgroundType.Unknown, bool forceBackground = false)
     {
         // TODO: All windows

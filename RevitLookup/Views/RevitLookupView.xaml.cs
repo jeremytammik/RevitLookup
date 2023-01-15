@@ -31,7 +31,7 @@ public sealed partial class RevitLookupView : IWindow
 {
     private readonly IServiceScope _serviceScope;
 
-    public RevitLookupView(IServiceScopeFactory scopeFactory)
+    public RevitLookupView(IServiceScopeFactory scopeFactory, ISettingsService settingsService)
     {
         UI.Application.Current = this;
         InitializeComponent();
@@ -50,6 +50,9 @@ public sealed partial class RevitLookupView : IWindow
         dialogService.SetDialogControl(RootDialog);
         snackbarService.SetSnackbarControl(RootSnackbar);
         snackbarService.Timeout = 3000;
+
+        RootNavigation.TransitionDuration = settingsService.TransitionDuration;
+        WindowBackdropType = settingsService.Background;
 
         Unloaded += UnloadServices;
         GotFocus += (sender, _) => { UI.Application.Current = (Window) sender; };
