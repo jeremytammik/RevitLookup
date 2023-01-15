@@ -50,8 +50,8 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         get => _snoopableObjects;
         private set
         {
+            SnoopableData = Array.Empty<Descriptor>();
             SetProperty(ref _snoopableObjects, value);
-            SearchText = string.Empty;
         }
     }
 
@@ -153,6 +153,9 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         if (param is not SnoopableObject snoopableObject) return;
         try
         {
+            // TODO add setting options for disable it
+            //Await Frame transition. GetMembers freezes the thread and breaks the animation
+            await Task.Delay(300);
             SnoopableData = await snoopableObject.GetCachedMembersAsync();
         }
         catch (Exception exception)

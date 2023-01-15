@@ -60,6 +60,7 @@
         </Style.Triggers>
     </Style>
 
+    <Style BasedOn="{StaticResource DefaultTreeViewStyle}" TargetType="{x:Type controls:TreeView}" />
     <Style BasedOn="{StaticResource DefaultTreeViewStyle}" TargetType="{x:Type TreeView}" />
 
 </ResourceDictionary>

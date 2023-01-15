@@ -47,8 +47,8 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         get => _snoopableObjects;
         private set
         {
+            SnoopableData = Array.Empty<Descriptor>();
             SetProperty(ref _snoopableObjects, value);
-            SearchText = string.Empty;
         }
     }
 
@@ -127,28 +127,26 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
     {
         SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(100);
+            .Generate(66);
     }
 
     public void SnoopFace()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(100);
+            .Generate(10);
     }
 
     public void SnoopLinkedElement()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(100);
+            .Generate(1);
     }
 
     public void SnoopDependentElements()
     {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(100);
+        SnoopableObjects = Array.Empty<SnoopableObject>();
     }
 
     [RelayCommand]
@@ -164,6 +162,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         // ReSharper disable once MethodHasAsyncOverload
         try
         {
+            await Task.Delay(300);
             SnoopableData = snoopableObject.GetMembers();
         }
         catch (Exception exception)

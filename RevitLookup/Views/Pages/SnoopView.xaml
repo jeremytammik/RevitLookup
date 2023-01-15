@@ -44,10 +44,6 @@
                     </DrawingImage>
                 </Image.Source>
             </Image>
-            <!-- <StackPanel -->
-            <!--     Margin="0 40 0 0" -->
-            <!--     HorizontalAlignment="Center" -->
-            <!--     VerticalAlignment="Center"> -->
             <TextBlock
                 FontSize="24"
                 Margin="0 40 0 0"
@@ -55,12 +51,6 @@
                 VerticalAlignment="Center"
                 FontWeight="Medium"
                 Text="Nothing to show" />
-            <!-- <Button -->
-            <!--     HorizontalAlignment="Center" -->
-            <!--     Margin="0 8 0 0" -->
-            <!--     Content="Snoop selection" -->
-            <!--     Command="{Binding ViewModel.SnoopSelectionCommand}" /> -->
-            <!-- </StackPanel> -->
         </Grid>
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
@@ -81,7 +71,7 @@
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
                     Text="{Binding ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <TreeView
+                <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
@@ -92,9 +82,8 @@
                     ItemTemplate="{Binding
                         ItemsSource,
                         RelativeSource={RelativeSource Self},
-                        Converter={converters:TreeViewTemplateConverter}}"
-                    SelectedItemChanged="UpdateDataGridContext">
-                </TreeView>
+                        Converter={converters:TreeViewTemplateConverter}}">
+                </rl:TreeView>
             </DockPanel>
             <rl:DataGrid
                 Grid.Column="2"

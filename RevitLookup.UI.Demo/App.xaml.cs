@@ -15,7 +15,6 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Demo.Moq;
 using RevitLookup.UI.Mvvm.Contracts;
 using RevitLookup.UI.Mvvm.Services;
-using RevitLookup.ViewModels;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
