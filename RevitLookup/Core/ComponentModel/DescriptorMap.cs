@@ -32,7 +32,7 @@ public static class DescriptorMap
     ///     Search for a descriptor by approximate or exact match
     /// </summary>
     /// <remarks>
-    ///     Exact search is necessary for the reflection engine, to add extensions and resolve conflicts when calling methods and properties. Type is not null <p/>
+    ///     Exact search is necessary for the reflection engine, to add extensions and resolve conflicts when calling methods and properties. Type is not null <p />
     ///     An approximate search is needed to describe the object, which is displayed to the user. Type is null
     /// </remarks>
     public static Descriptor FindDescriptor(object obj, Type type)

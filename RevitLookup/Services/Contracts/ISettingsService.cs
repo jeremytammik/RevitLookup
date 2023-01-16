@@ -25,9 +25,9 @@ namespace RevitLookup.Services.Contracts;
 
 public interface ISettingsService
 {
-    void Save();
     ThemeType Theme { get; set; }
     WindowBackdropType Background { get; set; }
     int TransitionDuration { get; }
+    void Save();
     int ApplyTransition(bool value);
 }

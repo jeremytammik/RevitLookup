@@ -34,7 +34,7 @@ public sealed class IEnumerableDescriptor : Descriptor, IDescriptorEnumerator
     public IEnumerableDescriptor(IEnumerable value)
     {
         _value = value;
-        
+
         //Checking types to reduce memory allocation when creating an iterator and increase performance
         IsEmpty = value switch
         {

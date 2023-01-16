@@ -34,8 +34,8 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private readonly ISnackbarService _snackbarService;
     private readonly ISettingsService _settingsService;
+    private readonly ISnackbarService _snackbarService;
     private readonly IWindowController _windowController;
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();

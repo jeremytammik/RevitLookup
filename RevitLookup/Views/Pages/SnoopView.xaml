@@ -13,8 +13,6 @@
     d:DesignHeight="500"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}"
-    rl:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-    rl:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}">
     <Page.Resources>
         <ResourceDictionary>
@@ -85,8 +83,7 @@
                     ItemTemplate="{Binding
                         ItemsSource,
                         RelativeSource={RelativeSource Self},
-                        Converter={converters:TreeViewTemplateConverter}}">
-                </rl:TreeView>
+                        Converter={converters:TreeViewTemplateConverter}}" />
             </DockPanel>
             <rl:DataGrid
                 Grid.Column="2"

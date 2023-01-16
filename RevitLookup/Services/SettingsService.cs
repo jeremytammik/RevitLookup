@@ -30,9 +30,9 @@ namespace RevitLookup.Services;
 
 public sealed class SettingsService : ISettingsService
 {
+    public const int DefaultTransitionDuration = 300;
     private readonly Settings _settings;
     private readonly string _settingsFile;
-    public const int DefaultTransitionDuration = 300;
 
     public SettingsService(IConfiguration configuration)
     {

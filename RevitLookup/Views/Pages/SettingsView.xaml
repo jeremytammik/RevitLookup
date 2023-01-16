@@ -12,8 +12,6 @@
     d:DesignHeight="300"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SettingsView}"
-    rl:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-    rl:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}">
     <Page.Resources>
         <ResourceDictionary>
@@ -64,8 +62,7 @@
                 Icon="VideoClipMultiple24"
                 Margin="0,4,0,0">
                 <rl:ToggleSwitch
-                    IsChecked="{Binding ViewModel.IsSmoothEnabled}">
-                </rl:ToggleSwitch>
+                    IsChecked="{Binding ViewModel.IsSmoothEnabled}" />
             </rl:CardControl>
         </StackPanel>
     </rl:DynamicScrollViewer>

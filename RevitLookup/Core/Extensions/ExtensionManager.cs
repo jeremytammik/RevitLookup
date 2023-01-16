@@ -33,7 +33,7 @@ public sealed class ExtensionManager : IExtensionManager
     {
         _context = context;
     }
-    
+
     public Descriptor Descriptor { get; set; }
 
     [CanBeNull] public List<Descriptor> ClassExtensions { get; private set; }

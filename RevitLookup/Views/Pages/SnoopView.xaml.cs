@@ -46,6 +46,8 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         TreeView.ItemsSourceChanged += SelectTreeViewItem;
     }
 
+    public ISnoopViewModel ViewModel { get; }
+
     private void SelectTreeViewItem(object sender, IEnumerable enumerable)
     {
         TreeView.SelectedItemChanged -= UpdateDataGrid;
@@ -86,8 +88,6 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         if (e.NewValue is null) return;
         await ViewModel.RefreshCommand.ExecuteAsync(e.NewValue);
     }
-
-    public ISnoopViewModel ViewModel { get; }
 
     private void SnoopSelectedRow(object sender, RoutedEventArgs routedEventArgs)
     {

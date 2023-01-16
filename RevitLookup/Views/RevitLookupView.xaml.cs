@@ -64,17 +64,17 @@ public sealed partial class RevitLookupView : IWindow
     {
         return RootFrame;
     }
-    
+
     public INavigation GetNavigation()
     {
         return RootNavigation;
     }
-    
+
     public bool Navigate(Type pageType)
     {
         return RootNavigation.Navigate(pageType);
     }
-    
+
     public void SetPageService(IPageService pageService)
     {
         RootNavigation.PageService = pageService;

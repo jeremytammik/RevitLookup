@@ -28,8 +28,8 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class DashboardViewModel : ObservableObject
 {
-    private readonly ISnoopService _snoopService;
     private readonly INavigationService _navigationService;
+    private readonly ISnoopService _snoopService;
 
     public DashboardViewModel(ISnoopService snoopService, INavigationService navigationService)
     {

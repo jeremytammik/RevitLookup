@@ -30,12 +30,12 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed class SettingsViewModel : ObservableObject
 {
-    private readonly ISettingsService _settingsService;
     private readonly INavigationService _navigationService;
+    private readonly ISettingsService _settingsService;
     private readonly ISnackbarService _snackbarService;
+    private WindowBackdropType _currentBackground;
     private ThemeType _currentTheme;
     private bool _isSmoothEnabled;
-    private WindowBackdropType _currentBackground;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
     {
