@@ -39,7 +39,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
 
-    public MoqSnoopViewModel(ISettingsService settingsService,ISnackbarService snackbarService)
+    public MoqSnoopViewModel(ISettingsService settingsService, ISnackbarService snackbarService)
     {
         _settingsService = settingsService;
         _snackbarService = snackbarService;

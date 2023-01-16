@@ -30,7 +30,6 @@ using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Contracts;
 using static System.Windows.Controls.Primitives.GeneratorStatus;
-using DataGrid = RevitLookup.UI.Controls.DataGrid;
 
 namespace RevitLookup.Views.Pages;
 
@@ -41,7 +40,8 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         ViewModel = (ISnoopViewModel) viewModel;
         DataContext = this;
         InitializeComponent();
-
+        DataGrid.Items.GroupDescriptions!.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
+        
         SelectTreeViewItem(TreeView, TreeView.Items);
         TreeView.ItemsSourceChanged += SelectTreeViewItem;
     }
@@ -100,27 +100,5 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         window.Show();
         window.Context.GetService<INavigationService>()!.Navigate(typeof(SnoopView));
         window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
-    }
-
-    /// <summary>
-    ///     Bypasses fixed header size when the collection is empty
-    /// </summary>
-    private void UpdateDataGridGroupStyle(object sender, EventArgs e)
-    {
-        var dataGrid = (DataGrid) sender;
-        UpdateItemsControlGroupStyle(dataGrid, "DataGridGroupStyle");
-    }
-
-    private void UpdateItemsControlGroupStyle(ItemsControl control, string style)
-    {
-        if (control.Items.Count == 0)
-        {
-            if (control.GroupStyle.Count > 0) control.GroupStyle.Clear();
-            return;
-        }
-
-        if (DataGrid.Items.GroupDescriptions!.Count == 0) DataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
-        var groupStyle = (GroupStyle) control.TryFindResource(style);
-        control.GroupStyle.Add(groupStyle);
     }
 }

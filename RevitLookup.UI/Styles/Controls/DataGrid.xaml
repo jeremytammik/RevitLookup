@@ -923,38 +923,6 @@
         <Setter Property="CheckBoxColumnElementStyle" Value="{StaticResource DataGridCheckBoxElementDefaultStyle}" />
     </Style>
 
-    <GroupStyle
-        x:Key="DataGridGroupStyle">
-        <GroupStyle.ContainerStyle>
-            <Style
-                TargetType="{x:Type GroupItem}">
-                <Setter
-                    Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate
-                            TargetType="{x:Type GroupItem}">
-                            <DockPanel>
-                                <Border
-                                    DockPanel.Dock="Top"
-                                    Height="25"
-                                    BorderThickness="0 0 1 1"
-                                    Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
-                                    BorderBrush="{DynamicResource ControlElevationBorderBrush}">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        Margin="6,0,6,0"
-                                        FontWeight="Medium"
-                                        Text="{Binding Name}" />
-                                </Border>
-                                <ItemsPresenter />
-                            </DockPanel>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </GroupStyle.ContainerStyle>
-    </GroupStyle>
-
     <Style BasedOn="{StaticResource DefaultDataGridColumnHeadersPresenterStyle}" TargetType="{x:Type DataGridColumnHeadersPresenter}" />
     <Style BasedOn="{StaticResource DefaultDataGridStyle}" TargetType="{x:Type DataGrid}" />
     <Style BasedOn="{StaticResource DefaultUiDataGridStyle}" TargetType="{x:Type controls:DataGrid}" />

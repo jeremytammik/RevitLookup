@@ -107,14 +107,14 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
     public void AddExtensions()
     {
-        if (_currentDescriptor is not IDescriptorExtension extension) return;
-
-        ExtensionManager.Descriptor = _currentDescriptor;
-        extension.RegisterExtensions(ExtensionManager);
-        if (_extensionManager.ClassExtensions is null) return;
-
-        _descriptors.AddRange(_extensionManager.ClassExtensions);
-        _extensionManager.ClassExtensions.Clear();
+        // if (_currentDescriptor is not IDescriptorExtension extension) return;
+        //
+        // ExtensionManager.Descriptor = _currentDescriptor;
+        // extension.RegisterExtensions(ExtensionManager);
+        // if (_extensionManager.ClassExtensions is null) return;
+        //
+        // _descriptors.AddRange(_extensionManager.ClassExtensions);
+        // _extensionManager.ClassExtensions.Clear();
     }
 
     public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
@@ -146,16 +146,16 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
     private bool TryEvaluate(PropertyInfo member, out object value)
     {
         var args = member.GetMethod.GetParameters();
-        if (_currentDescriptor is IDescriptorResolver resolver)
-        {
-            var manager = new ResolverManager(member.Name, args);
-            resolver.RegisterResolvers(manager);
-            if (manager.IsResolved)
-            {
-                value = manager.Result;
-                return true;
-            }
-        }
+        // if (_currentDescriptor is IDescriptorResolver resolver)
+        // {
+        //     var manager = new ResolverManager(member.Name, args);
+        //     resolver.RegisterResolvers(manager);
+        //     if (manager.IsResolved)
+        //     {
+        //         value = manager.Result;
+        //         return true;
+        //     }
+        // }
         //TODO add settings
 #if RELEASE
         if (args.Length > 0)
@@ -175,16 +175,16 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
     private bool TryEvaluate(MethodInfo member, out object value)
     {
         var args = member.GetParameters();
-        if (_currentDescriptor is IDescriptorResolver resolver)
-        {
-            var manager = new ResolverManager(member.Name, args);
-            resolver.RegisterResolvers(manager);
-            if (manager.IsResolved)
-            {
-                value = manager.Result;
-                return true;
-            }
-        }
+        // if (_currentDescriptor is IDescriptorResolver resolver)
+        // {
+        //     var manager = new ResolverManager(member.Name, args);
+        //     resolver.RegisterResolvers(manager);
+        //     if (manager.IsResolved)
+        //     {
+        //         value = manager.Result;
+        //         return true;
+        //     }
+        // }
         //TODO add settings
 #if RELEASE
         if (args.Length > 0)

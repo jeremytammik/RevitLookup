@@ -18,14 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class BoolDescriptor : Descriptor
+public sealed class BoolDescriptor : Descriptor, IDescriptorResolver
 {
     public BoolDescriptor(bool value)
     {
         Label = value ? "True" : "False";
+    }
+
+    public void RegisterResolvers(IResolverManager manager)
+    {
+        var vel = 12 - 12;
+        manager.Register("ToString", 23/vel);
     }
 }
