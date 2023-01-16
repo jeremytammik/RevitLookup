@@ -11,8 +11,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="500"
-    d:DataContext="{d:DesignInstance pages:SettingsView}"
-    Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+    d:DataContext="{d:DesignInstance pages:SettingsView}">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -43,7 +42,7 @@
             <rl:CardControl
                 Header="Background effect"
                 Icon="ColorBackground24"
-                Margin="0,4,0,0">
+                Margin="0,8,0,0">
                 <ComboBox
                     MinWidth="150"
                     IsEnabled="True"
@@ -60,7 +59,7 @@
             <rl:CardControl
                 Header="Smooth navigation"
                 Icon="VideoClipMultiple24"
-                Margin="0,4,0,0">
+                Margin="0,8,0,0">
                 <rl:ToggleSwitch
                     IsChecked="{Binding ViewModel.IsSmoothEnabled}" />
             </rl:CardControl>

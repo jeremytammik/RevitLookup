@@ -9,10 +9,7 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance pages:AboutView}"
-    rl:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
-    rl:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-    Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+    d:DataContext="{d:DesignInstance pages:AboutView}">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -83,7 +80,7 @@
                     </rl:CardControl.Header>
                 </rl:CardControl>
                 <rl:Card
-                    Margin="0,3,0,0"
+                    Margin="0,4,0,0"
                     Visibility="{Binding ViewModel.State, Converter={converters:UpdateAvailableCardVisibilityConverter}}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -148,7 +145,7 @@
                     </Grid>
                 </rl:Card>
                 <rl:Card
-                    Margin="0 3 0 0"
+                    Margin="0 4 0 0"
                     Background="{DynamicResource PaletteGreenBrush}"
                     Visibility="{Binding ViewModel.State, Converter={converters:UpdateDownloadedVisibilityConverter}}">
                     <StackPanel
@@ -165,7 +162,7 @@
                     </StackPanel>
                 </rl:Card>
                 <rl:Card
-                    Margin="0,3,0,0"
+                    Margin="0,4,0,0"
                     Background="{DynamicResource PaletteGreenBrush}">
                     <rl:Card.Visibility>
                         <MultiBinding
@@ -192,7 +189,7 @@
                     </StackPanel>
                 </rl:Card>
                 <rl:Card
-                    Margin="0,3,0,0"
+                    Margin="0,4,0,0"
                     Background="{DynamicResource PaletteRedBrush}"
                     Visibility="{Binding ViewModel.State, Converter={converters:ErrorCardVisibilityConverter}}">
                     <StackPanel

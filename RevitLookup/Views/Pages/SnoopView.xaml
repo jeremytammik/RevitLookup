@@ -12,8 +12,7 @@
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
-    d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}"
-    Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+    d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
