@@ -7,6 +7,7 @@
 
 #nullable enable
 
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reflection;
@@ -107,7 +108,7 @@ public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
             /* Use reflection to access internal method because the public 
                  * GetItemsOwner method does always return the itmes control instead 
                  * of the real items owner for example the group item when grouping */
-            var getItemsOwnerInternalMethod = typeof(ItemsControl).GetMethod(
+            MethodInfo getItemsOwnerInternalMethod = typeof(ItemsControl).GetMethod(
                 "GetItemsOwnerInternal",
                 BindingFlags.Static | BindingFlags.NonPublic,
                 null,
@@ -285,7 +286,7 @@ public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
     /// <inheritdoc />
     public virtual Rect MakeVisible(Visual visual, Rect rectangle)
     {
-        var pos = visual.TransformToAncestor(this).Transform(Offset);
+        Point pos = visual.TransformToAncestor(this).Transform(Offset);
 
         var scrollAmountX = 0d;
         var scrollAmountY = 0d;
@@ -488,13 +489,13 @@ public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
          * property of the ScrollOwner is false. To prevent a infinite circle the mesasure call is ignored. */
         if (ScrollOwner != null)
         {
-            var verticalScrollBarGotHidden = ScrollOwner.VerticalScrollBarVisibility == ScrollBarVisibility.Auto
-                                             && ScrollOwner.ComputedVerticalScrollBarVisibility !=
-                                             Visibility.Visible
-                                             && ScrollOwner.ComputedVerticalScrollBarVisibility !=
-                                             _previousVerticalScrollBarVisibility;
+            bool verticalScrollBarGotHidden = ScrollOwner.VerticalScrollBarVisibility == ScrollBarVisibility.Auto
+                                              && ScrollOwner.ComputedVerticalScrollBarVisibility !=
+                                              Visibility.Visible
+                                              && ScrollOwner.ComputedVerticalScrollBarVisibility !=
+                                              _previousVerticalScrollBarVisibility;
 
-            var horizontalScrollBarGotHidden =
+            bool horizontalScrollBarGotHidden =
                 ScrollOwner.HorizontalScrollBarVisibility == ScrollBarVisibility.Auto
                 && ScrollOwner.ComputedHorizontalScrollBarVisibility != Visibility.Visible
                 && ScrollOwner.ComputedHorizontalScrollBarVisibility != _previousHorizontalScrollBarVisibility;
@@ -517,8 +518,8 @@ public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
              * Therfore the vieport size provided by the group item is used. */
             var viewportSize = groupItem.Constraints.Viewport.Size;
             var headerSize = groupItem.HeaderDesiredSizes.PixelSize;
-            var availableWidth = Math.Max(viewportSize.Width - 5, 0); // left margin of 5 dp
-            var availableHeight = Math.Max(viewportSize.Height - headerSize.Height, 0);
+            double availableWidth = Math.Max(viewportSize.Width - 5, 0); // left margin of 5 dp
+            double availableHeight = Math.Max(viewportSize.Height - headerSize.Height, 0);
             availableSize = new Size(availableWidth, availableHeight);
 
             extent = CalculateExtent(availableSize);
@@ -534,8 +535,8 @@ public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
         else
         {
             extent = CalculateExtent(availableSize);
-            var desiredWidth = Math.Min(availableSize.Width, extent.Width);
-            var desiredHeight = Math.Min(availableSize.Height, extent.Height);
+            double desiredWidth = Math.Min(availableSize.Width, extent.Width);
+            double desiredHeight = Math.Min(availableSize.Height, extent.Height);
             desiredSize = new Size(desiredWidth, desiredHeight);
 
             UpdateScrollInfo(desiredSize, extent);
@@ -559,11 +560,11 @@ public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
         var startPosition = ItemContainerGenerator.GeneratorPositionFromIndex(ItemRange.StartIndex);
         var childIndex = startPosition.Offset == 0 ? startPosition.Index : startPosition.Index + 1;
 
-        using var at = ItemContainerGenerator.StartAt(startPosition, GeneratorDirection.Forward, true);
+        using IDisposable at = ItemContainerGenerator.StartAt(startPosition, GeneratorDirection.Forward, true);
 
-        for (var i = ItemRange.StartIndex; i <= ItemRange.EndIndex; i++, childIndex++)
+        for (int i = ItemRange.StartIndex; i <= ItemRange.EndIndex; i++, childIndex++)
         {
-            var child = (UIElement)ItemContainerGenerator.GenerateNext(out var isNewlyRealized);
+            var child = (UIElement)ItemContainerGenerator.GenerateNext(out bool isNewlyRealized);
 
             if (isNewlyRealized || /*recycled*/!InternalChildren.Contains(child))
             {
@@ -594,7 +595,7 @@ public abstract class VirtualizingPanelBase : VirtualizingPanel, IScrollInfo
     /// </summary>
     protected virtual void VirtualizeItems()
     {
-        for (var childIndex = InternalChildren.Count - 1; childIndex >= 0; childIndex--)
+        for (int childIndex = InternalChildren.Count - 1; childIndex >= 0; childIndex--)
         {
             var generatorPosition = GetGeneratorPositionFromChildIndex(childIndex);
 

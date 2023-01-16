@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -15,7 +16,7 @@ namespace RevitLookup.UI.Animations;
 /// </summary>
 public static class Transitions
 {
-    private const double DecelerationRatio = 0.7;
+    private const double DecelerationRatio = 0.7D;
 
     /// <summary>
     /// Attempts to apply an animation effect while adding content to the frame.

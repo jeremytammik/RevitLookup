@@ -1,9 +1,10 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
+﻿// This Source Code is partially based on the source code provided by the .NET Foundation.
+// This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
-// This Source Code is partially based on the source code provided by the .NET Foundation.
-// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
+// Copyright (C) .NET Foundation Contributors, WPF UI Contributors, Leszek Pomianowski.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;

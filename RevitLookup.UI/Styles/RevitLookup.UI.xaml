@@ -4,9 +4,10 @@
     Copyright (C) Leszek Pomianowski and WPF UI Contributors.
     All Rights Reserved.
 -->
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Assets/Variables.xaml" />
@@ -23,15 +24,6 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ToolTip.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Flyout.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/TitleBar.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Navigation.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationHeader.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationSeparator.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationFluent.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationStore.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationCompact.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationView.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationBackButton.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Breadcrumb.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/FontIcon.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/SymbolIcon.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Hyperlink.xaml" />
@@ -41,7 +33,6 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/CardControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/CardColor.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/CardExpander.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/GridCardExpander.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Dialog.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/InfoBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Snackbar.xaml" />
@@ -49,7 +40,7 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/TextBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NumberBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/AutoSuggestBox.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Rating.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/RatingControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ThumbRate.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/MessageBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/LoadingScreen.xaml" />
@@ -59,6 +50,13 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/SplitButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/DynamicScrollBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/DynamicScrollViewer.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationViewContentPresenter.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationViewItemHeader.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationViewItemSeparator.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationViewBreadcrumb.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/NavigationCompact.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Breadcrumb.xaml" />
 
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/TextBlock.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ScrollBar.xaml" />
@@ -83,7 +81,9 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/PasswordBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/RichTextBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ListBoxItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ListView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ListViewItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/DataGrid.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ItemsControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/TreeView.xaml" />
@@ -94,8 +94,7 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/Expander.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/ProgressBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/TreeGrid.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/UiPage.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/UiWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/FluentWindow.xaml" />
 
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/VirtualizingItemsControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Styles/Controls/VirtualizingWrapPanel.xaml" />

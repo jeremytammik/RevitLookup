@@ -3,12 +3,13 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Controls.Interfaces;
 using Brush = System.Windows.Media.Brush;
 using SystemColors = System.Windows.SystemColors;
 
@@ -39,8 +40,8 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     /// Property for <see cref="Icon"/>.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
-        typeof(SymbolRegular), typeof(Snackbar),
-        new PropertyMetadata(SymbolRegular.Empty));
+        typeof(Common.SymbolRegular), typeof(Snackbar),
+        new PropertyMetadata(Common.SymbolRegular.Empty));
 
     /// <summary>
     /// Property for <see cref="IconFilled"/>.
@@ -60,13 +61,13 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     /// Property for <see cref="Title"/>.
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
-        typeof(string), typeof(Snackbar), new PropertyMetadata(string.Empty));
+        typeof(string), typeof(Snackbar), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Property for <see cref="Message"/>.
     /// </summary>
     public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(nameof(Message),
-        typeof(string), typeof(Snackbar), new PropertyMetadata(string.Empty));
+        typeof(string), typeof(Snackbar), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Property for <see cref="MessageForeground"/>.
@@ -80,8 +81,8 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     /// Property for <see cref="Appearance"/>.
     /// </summary>
     public static readonly DependencyProperty AppearanceProperty = DependencyProperty.Register(nameof(Appearance),
-        typeof(ControlAppearance), typeof(Snackbar),
-        new PropertyMetadata(ControlAppearance.Secondary));
+        typeof(Controls.ControlAppearance), typeof(Snackbar),
+        new PropertyMetadata(Controls.ControlAppearance.Secondary));
 
     /// <summary>
     /// Property for <see cref="CloseButtonEnabled"/>.
@@ -102,7 +103,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     /// </summary>
     public static readonly DependencyProperty TemplateButtonCommandProperty =
         DependencyProperty.Register(nameof(TemplateButtonCommand),
-            typeof(IRelayCommand), typeof(Snackbar), new PropertyMetadata(null));
+            typeof(Common.IRelayCommand), typeof(Snackbar), new PropertyMetadata(null));
 
     /// <inheritdoc/>
     public bool IsShown
@@ -120,9 +121,9 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
 
     /// <inheritdoc />
     [Bindable(true), Category("Appearance")]
-    public SymbolRegular Icon
+    public Common.SymbolRegular Icon
     {
-        get => (SymbolRegular)GetValue(IconProperty);
+        get => (Common.SymbolRegular)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
@@ -170,9 +171,9 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
 
     /// <inheritdoc />
     [Bindable(true), Category("Appearance")]
-    public ControlAppearance Appearance
+    public Controls.ControlAppearance Appearance
     {
-        get => (ControlAppearance)GetValue(AppearanceProperty);
+        get => (Controls.ControlAppearance)GetValue(AppearanceProperty);
         set => SetValue(AppearanceProperty, value);
     }
 
@@ -219,9 +220,9 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     }
 
     /// <summary>
-    /// Gets the <see cref="Common.RelayCommand"/> triggered after clicking close button.
+    /// Gets the <see cref="Common.RelayCommand{T}"/> triggered after clicking close button.
     /// </summary>
-    public IRelayCommand TemplateButtonCommand => (IRelayCommand)GetValue(TemplateButtonCommandProperty);
+    public Common.IRelayCommand TemplateButtonCommand => (Common.IRelayCommand)GetValue(TemplateButtonCommandProperty);
 
 
     /// <inheritdoc />
@@ -229,7 +230,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     {
         _eventIdentifier = new EventIdentifier();
 
-        SetValue(TemplateButtonCommandProperty, new RelayCommand(o => OnTemplateButtonClick(this, o)));
+        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand<string>(o => OnTemplateButtonClick(o ?? String.Empty)));
     }
 
     /// <inheritdoc />
@@ -321,14 +322,9 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     /// <summary>
     /// Triggered by clicking a button in the control template.
     /// </summary>
-    /// <param name="sender">Sender of the click event.</param>
-    /// <param name="parameter">Additional parameters.</param>
-    protected virtual async void OnTemplateButtonClick(object sender, object parameter)
+    protected virtual async void OnTemplateButtonClick(string parameter)
     {
-        if (parameter is not string parameterString)
-            return;
-
-        if (parameterString == "close")
+        if (parameter == "close")
             await HideAsync();
     }
 
@@ -338,7 +334,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     protected virtual void OnOpened()
     {
         RaiseEvent(new RoutedEventArgs(
-            OpenedEvent,
+            Snackbar.OpenedEvent,
             this));
     }
 
@@ -348,7 +344,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     protected virtual void OnClosed()
     {
         RaiseEvent(new RoutedEventArgs(
-            ClosedEvent,
+            Snackbar.ClosedEvent,
             this));
     }
 

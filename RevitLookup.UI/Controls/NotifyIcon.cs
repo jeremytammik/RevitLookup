@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
@@ -20,7 +21,7 @@ namespace RevitLookup.UI.Controls;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(NotifyIcon), "NotifyIcon.bmp")]
-public class NotifyIcon : FrameworkElement
+public class NotifyIcon : System.Windows.FrameworkElement
 {
     private readonly NotifyIconService _notifyIconService;
 
@@ -40,7 +41,7 @@ public class NotifyIcon : FrameworkElement
     public bool IsRegistered => _notifyIconService.IsRegistered;
 
     /// <inheritdoc />
-    public HwndSource HookWindow { get; set; }
+    public HwndSource? HookWindow { get; set; }
 
     /// <inheritdoc />
     public IntPtr ParentHandle { get; set; }
@@ -54,7 +55,7 @@ public class NotifyIcon : FrameworkElement
     /// </summary>
     public static readonly DependencyProperty TooltipTextProperty = DependencyProperty.Register(nameof(TooltipText),
         typeof(string), typeof(NotifyIcon),
-        new PropertyMetadata(string.Empty, OnTooltipTextChanged));
+        new PropertyMetadata(String.Empty, OnTooltipTextChanged));
 
     /// <summary>
     /// Property for <see cref="FocusOnLeftClick"/>.
@@ -77,7 +78,7 @@ public class NotifyIcon : FrameworkElement
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
         typeof(ImageSource), typeof(NotifyIcon),
-        new PropertyMetadata(null!, OnIconChanged));
+        new PropertyMetadata((ImageSource)null!, OnIconChanged));
 
     /// <summary>
     /// Property for <see cref="Menu"/>.
@@ -369,6 +370,10 @@ public class NotifyIcon : FrameworkElement
         if (!disposing)
             return;
 
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(NotifyIcon)} disposed.", "Wpf.Ui.NotifyIcon");
+#endif
+
         Unregister();
 
         _notifyIconService.Dispose();
@@ -391,7 +396,7 @@ public class NotifyIcon : FrameworkElement
         if (d is not NotifyIcon notifyIcon)
             return;
 
-        notifyIcon.TooltipText = e.NewValue as string ?? string.Empty;
+        notifyIcon.TooltipText = e.NewValue as string ?? String.Empty;
     }
 
     private static void OnIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -399,7 +404,8 @@ public class NotifyIcon : FrameworkElement
         if (d is not NotifyIcon notifyIcon)
             return;
 
-        notifyIcon.Icon = e.NewValue as ImageSource;
+        notifyIcon._notifyIconService.Icon = e.NewValue as ImageSource;
+        notifyIcon._notifyIconService.ModifyIcon();
     }
 
     private static void OnFocusOnLeftClickChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -22,8 +22,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Controls.Interfaces;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Contracts;
+using RevitLookup.UI.Controls.Navigation;
 
 namespace RevitLookup.Views;
 
@@ -64,35 +64,25 @@ public sealed partial class RevitLookupView : IWindow
     {
         return RootFrame;
     }
-
+    
     public INavigation GetNavigation()
     {
         return RootNavigation;
     }
-
+    
     public bool Navigate(Type pageType)
     {
         return RootNavigation.Navigate(pageType);
     }
-
+    
     public void SetPageService(IPageService pageService)
     {
         RootNavigation.PageService = pageService;
     }
 
-    public void ShowWindow()
-    {
-        Show();
-    }
-
     public void Show(IntPtr handle)
     {
         ApplicationExtensions.Show(this, handle);
-    }
-
-    public void CloseWindow()
-    {
-        Close();
     }
 
     private void UnloadServices(object sender, RoutedEventArgs e)

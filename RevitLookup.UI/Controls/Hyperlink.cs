@@ -3,8 +3,8 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
-using static System.String;
 
 namespace RevitLookup.UI.Controls;
 
@@ -16,15 +16,15 @@ public class Hyperlink : Button
     /// <summary>
     /// Property for <see cref="NavigateUri"/>.
     /// </summary>
-    public static readonly DependencyProperty NavigateUriProperty = DependencyProperty.Register("NavigateUri",
-        typeof(string), typeof(Hyperlink), new PropertyMetadata(Empty));
+    public static readonly DependencyProperty NavigateUriProperty = DependencyProperty.Register(nameof(NavigateUri),
+        typeof(string), typeof(Hyperlink), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// The URL (or application shortcut) to open.
     /// </summary>
     public string NavigateUri
     {
-        get => GetValue(NavigateUriProperty) as string;
+        get => GetValue(NavigateUriProperty) as string ?? String.Empty;
         set => SetValue(NavigateUriProperty, value);
     }
 
@@ -35,8 +35,9 @@ public class Hyperlink : Button
 
     private void RequestNavigate(object sender, RoutedEventArgs eventArgs)
     {
-        if (IsNullOrEmpty(NavigateUri))
+        if (String.IsNullOrEmpty(NavigateUri))
             return;
+
         System.Diagnostics.ProcessStartInfo sInfo = new(new Uri(NavigateUri).AbsoluteUri)
         {
             UseShellExecute = true

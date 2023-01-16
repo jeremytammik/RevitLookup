@@ -26,8 +26,8 @@ using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Common.Interfaces;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Contracts;
+using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Contracts;
 using static System.Windows.Controls.Primitives.GeneratorStatus;
 using DataGrid = RevitLookup.UI.Controls.DataGrid;
@@ -39,6 +39,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     public SnoopView(ISnoopService viewModel)
     {
         ViewModel = (ISnoopViewModel) viewModel;
+        DataContext = this;
         InitializeComponent();
 
         SelectTreeViewItem(TreeView, TreeView.Items);

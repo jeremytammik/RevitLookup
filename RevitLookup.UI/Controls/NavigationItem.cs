@@ -11,7 +11,6 @@ using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Controls.Interfaces;
 using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.UI.Extensions;
 using Brush = System.Windows.Media.Brush;

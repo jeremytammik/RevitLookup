@@ -3,6 +3,7 @@
 // Copyright (C) Mark Feldman, Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
@@ -87,7 +88,7 @@ public class Arc : System.Windows.Shapes.Shape
             Math.Max(0, (RenderSize.Height - StrokeThickness) / 2)
         );
 
-        using (var context = geometryStream.Open())
+        using (StreamGeometryContext context = geometryStream.Open())
         {
             context.BeginFigure(
                 PointAtAngle(Math.Min(StartAngle, EndAngle)),

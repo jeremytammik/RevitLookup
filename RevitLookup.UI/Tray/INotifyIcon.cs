@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -75,6 +76,11 @@ internal interface INotifyIcon
     /// Tries to register the <see cref="INotifyIcon"/> in the shell.
     /// </summary>
     bool Register(Window parentWindow);
+
+    /// <summary>
+    /// Tries to modify the icon of the <see cref="INotifyIcon"/> in the shell.
+    /// </summary>
+    bool ModifyIcon();
 
     /// <summary>
     /// Tries to remove the <see cref="INotifyIcon"/> from the shell.

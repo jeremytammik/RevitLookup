@@ -6,7 +6,7 @@
 #nullable enable
 
 using System.Windows;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Contracts;
 
 namespace RevitLookup.Services;
 

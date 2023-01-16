@@ -1,4 +1,4 @@
-﻿<rl:UiPage
+﻿<Page
     x:Class="RevitLookup.Views.Pages.AboutView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,233 +9,237 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
-    Scrollable="True"
-    d:DataContext="{d:DesignInstance pages:AboutView}">
-    <rl:UiPage.Resources>
+    d:DataContext="{d:DesignInstance pages:AboutView}"
+    rl:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    rl:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+    <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <markup:ThemesDictionary />
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </rl:UiPage.Resources>
-    <DockPanel
-        Margin="24, 1 24 24">
-        <Image
-            DockPanel.Dock="Left"
-            Margin="0,16,0,0"
-            Width="200"
-            Stretch="Uniform"
-            VerticalAlignment="Top"
-            Source="../../Resources/Images/AboutLogo200.png" />
-        <StackPanel
-            Margin="30,0,0,0">
-            <TextBlock
-                Text="RevitLookup"
-                FontSize="48" />
-            <TextBlock
-                TextWrapping="Wrap"
-                Margin="0,15,0,0"
-                HorizontalAlignment="Left"
-                Foreground="{DynamicResource PaletteGreyBrush}"
-                Text="Interactive Revit RFA and RVT project database exploration tool to view and navigate BIM element parameters, properties and relationships." />
-            <TextBlock
-                FontWeight="Medium"
-                Margin="0,15,0,0"
-                Text="Version" />
-            <rl:CardControl
-                Margin="0,12,0,0"
-                Icon="ArrowSync24">
-                <StackPanel
-                    Orientation="Horizontal">
-                    <rl:ProgressRing
-                        Width="20"
-                        Height="20"
-                        IsIndeterminate="True"
-                        VerticalAlignment="Center"
-                        Visibility="{Binding ViewModel.CheckUpdatesCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
-                    <rl:Button
-                        Margin="9 0 0 0"
-                        Appearance="Secondary"
-                        Content="Check for updates"
-                        Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:InverseBoolVisibilityConverter}}"
-                        Command="{Binding ViewModel.CheckUpdatesCommand}" />
-                </StackPanel>
-                <rl:CardControl.Header>
-                    <StackPanel>
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            Text="{Binding ViewModel.CurrentVersion}" />
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            Visibility="{Binding ViewModel.LatestCheckDate, Converter={converters:StringVisibilityConverter}}"
-                            Text="{Binding ViewModel.LatestCheckDate, StringFormat=Latest check: {0}}" />
-                        <rl:Hyperlink
-                            Margin="0 3 0 0"
-                            Padding="0"
-                            Content="Release Notes"
-                            FontWeight="Medium"
-                            NavigateUri="https://github.com/jeremytammik/RevitLookup/releases" />
-                    </StackPanel>
-                </rl:CardControl.Header>
-            </rl:CardControl>
-            <rl:Card
-                Margin="0,3,0,0"
-                Visibility="{Binding ViewModel.State, Converter={converters:UpdateAvailableCardVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition
-                            Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <rl:SymbolIcon
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Margin="8,0,0,0"
-                        Symbol="CheckmarkCircle24"
-                        Filled="True"
-                        Foreground="{DynamicResource PaletteGreenBrush}"
-                        VerticalAlignment="Center" />
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="20,0,0,0"
-                        FontWeight="Medium"
-                        VerticalAlignment="Center"
-                        Text="An update is available" />
+    </Page.Resources>
+    <rl:DynamicScrollViewer>
+        <DockPanel
+            Margin="24, 1 24 24">
+            <Image
+                DockPanel.Dock="Left"
+                Margin="0,16,0,0"
+                Width="200"
+                Stretch="Uniform"
+                VerticalAlignment="Top"
+                Source="../../Resources/Images/AboutLogo200.png" />
+            <StackPanel
+                Margin="30,0,0,0">
+                <TextBlock
+                    Text="RevitLookup"
+                    FontSize="48" />
+                <TextBlock
+                    TextWrapping="Wrap"
+                    Margin="0,15,0,0"
+                    HorizontalAlignment="Left"
+                    Foreground="{DynamicResource PaletteGreyBrush}"
+                    Text="Interactive Revit RFA and RVT project database exploration tool to view and navigate BIM element parameters, properties and relationships." />
+                <TextBlock
+                    FontWeight="Medium"
+                    Margin="0,15,0,0"
+                    Text="Version" />
+                <rl:CardControl
+                    Margin="0,12,0,0"
+                    Icon="ArrowSync24">
                     <StackPanel
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Margin="8,0,0,0"
-                        Orientation="Horizontal">
-                        <TextBlock
-                            Margin="10,0,0,0"
-                            VerticalAlignment="Center"
-                            Text="{Binding ViewModel.NewVersion}" />
-                        <rl:Hyperlink
-                            Margin="10,0,0,0"
-                            Padding="0"
-                            Content="See what's new in this version"
-                            FontWeight="Medium"
-                            NavigateUri="{Binding ViewModel.ReleaseNotesUrl}" />
-                    </StackPanel>
-                    <StackPanel
-                        Grid.Row="0"
-                        Grid.Column="2"
                         Orientation="Horizontal">
                         <rl:ProgressRing
                             Width="20"
                             Height="20"
                             IsIndeterminate="True"
                             VerticalAlignment="Center"
-                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
+                            Visibility="{Binding ViewModel.CheckUpdatesCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
                         <rl:Button
-                            Margin="9,0,0,0"
+                            Margin="9 0 0 0"
                             Appearance="Secondary"
-                            Content="Download &amp; Install"
-                            Command="{Binding ViewModel.DownloadUpdateCommand}" />
+                            Content="Check for updates"
+                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:InverseBoolVisibilityConverter}}"
+                            Command="{Binding ViewModel.CheckUpdatesCommand}" />
                     </StackPanel>
-                </Grid>
-            </rl:Card>
-            <rl:Card
-                Margin="0 3 0 0"
-                Background="{DynamicResource PaletteGreenBrush}"
-                Visibility="{Binding ViewModel.State, Converter={converters:UpdateDownloadedVisibilityConverter}}">
-                <StackPanel
-                    Margin="8,0,0,0"
-                    Orientation="Horizontal">
-                    <rl:SymbolIcon
-                        Symbol="CheckmarkCircle24"
-                        Foreground="White" />
-                    <TextBlock
-                        Margin="20,0,0,0"
-                        FontWeight="Medium"
-                        Foreground="White"
-                        Text="The new version has been downloaded and will be installed when Revit is closed" />
-                </StackPanel>
-            </rl:Card>
-            <rl:Card
-                Margin="0,3,0,0"
-                Background="{DynamicResource PaletteGreenBrush}">
-                <rl:Card.Visibility>
-                    <MultiBinding
-                        Converter="{converters:UpToDateVisibilityConverter}">
-                        <Binding
-                            Path="ViewModel.State" />
-                        <Binding
-                            Path="ViewModel.CheckUpdatesCommand.IsRunning" />
-                        <Binding
-                            Path="ViewModel.IsUpdateChecked" />
-                    </MultiBinding>
-                </rl:Card.Visibility>
-                <StackPanel
-                    Margin="8,0,0,0"
-                    Orientation="Horizontal">
-                    <rl:SymbolIcon
-                        Symbol="CheckmarkCircle24"
-                        Foreground="White" />
-                    <TextBlock
-                        Margin="20,0,0,0"
-                        FontWeight="Medium"
-                        Foreground="White"
-                        Text="RevitLookup is up to date" />
-                </StackPanel>
-            </rl:Card>
-            <rl:Card
-                Margin="0,3,0,0"
-                Background="{DynamicResource PaletteRedBrush}"
-                Visibility="{Binding ViewModel.State, Converter={converters:ErrorCardVisibilityConverter}}">
-                <StackPanel
-                    Orientation="Horizontal">
-                    <rl:SymbolIcon
+                    <rl:CardControl.Header>
+                        <StackPanel>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="{Binding ViewModel.CurrentVersion}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Visibility="{Binding ViewModel.LatestCheckDate, Converter={converters:StringVisibilityConverter}}"
+                                Text="{Binding ViewModel.LatestCheckDate, StringFormat=Latest check: {0}}" />
+                            <rl:Hyperlink
+                                Margin="0 3 0 0"
+                                Padding="0"
+                                Content="Release Notes"
+                                FontWeight="Medium"
+                                NavigateUri="https://github.com/jeremytammik/RevitLookup/releases" />
+                        </StackPanel>
+                    </rl:CardControl.Header>
+                </rl:CardControl>
+                <rl:Card
+                    Margin="0,3,0,0"
+                    Visibility="{Binding ViewModel.State, Converter={converters:UpdateAvailableCardVisibilityConverter}}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition
+                                Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <rl:SymbolIcon
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="8,0,0,0"
+                            Symbol="CheckmarkCircle24"
+                            Filled="True"
+                            Foreground="{DynamicResource PaletteGreenBrush}"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="20,0,0,0"
+                            FontWeight="Medium"
+                            VerticalAlignment="Center"
+                            Text="An update is available" />
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="8,0,0,0"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                Margin="10,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding ViewModel.NewVersion}" />
+                            <rl:Hyperlink
+                                Margin="10,0,0,0"
+                                Padding="0"
+                                Content="See what's new in this version"
+                                FontWeight="Medium"
+                                NavigateUri="{Binding ViewModel.ReleaseNotesUrl}" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Orientation="Horizontal">
+                            <rl:ProgressRing
+                                Width="20"
+                                Height="20"
+                                IsIndeterminate="True"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
+                            <rl:Button
+                                Margin="9,0,0,0"
+                                Appearance="Secondary"
+                                Content="Download &amp; Install"
+                                Command="{Binding ViewModel.DownloadUpdateCommand}" />
+                        </StackPanel>
+                    </Grid>
+                </rl:Card>
+                <rl:Card
+                    Margin="0 3 0 0"
+                    Background="{DynamicResource PaletteGreenBrush}"
+                    Visibility="{Binding ViewModel.State, Converter={converters:UpdateDownloadedVisibilityConverter}}">
+                    <StackPanel
                         Margin="8,0,0,0"
-                        Symbol="ErrorCircle24"
-                        Foreground="White" />
-                    <TextBlock
-                        Margin="20,0,0,0"
-                        FontWeight="Medium"
-                        Foreground="White"
-                        Text="{Binding ViewModel.ErrorMessage}" />
-                </StackPanel>
-            </rl:Card>
-            <TextBlock
-                Margin="0,12,0,0"
-                Text="{Binding ViewModel.DotNetVersion}" />
-            <TextBlock
-                Margin="0,6,0,0"
-                Text="">
-                <Run
-                    Text="Runtime" />
-                <Run
-                    Text="{Binding ViewModel.RuntimeVersion}" />
-            </TextBlock>
-            <TextBlock
-                Margin="0,6,0,0"
-                Text="Copyright © 2013-2022 Autodesk Inc." />
-            <rl:Hyperlink
-                Margin="0,12,0,0"
-                Content="Project website"
-                Icon="Link48"
-                NavigateUri="https://thebuildingcoder.typepad.com" />
-            <rl:Hyperlink
-                Content="Source repository on GitHub"
-                Icon="Link48"
-                NavigateUri="https://github.com/jeremytammik/RevitLookup" />
-            <rl:Hyperlink
-                Content="Powered by open-source software"
-                Icon="Link48"
-                Click="ShowSoftwareDialog" />
-            <rl:Hyperlink
-                Content="Contact Us"
-                Icon="Link48"
-                NavigateUri="https://github.com/jeremytammik/RevitLookup/issues/new" />
-        </StackPanel>
-    </DockPanel>
-</rl:UiPage>
+                        Orientation="Horizontal">
+                        <rl:SymbolIcon
+                            Symbol="CheckmarkCircle24"
+                            Foreground="White" />
+                        <TextBlock
+                            Margin="20,0,0,0"
+                            FontWeight="Medium"
+                            Foreground="White"
+                            Text="The new version has been downloaded and will be installed when Revit is closed" />
+                    </StackPanel>
+                </rl:Card>
+                <rl:Card
+                    Margin="0,3,0,0"
+                    Background="{DynamicResource PaletteGreenBrush}">
+                    <rl:Card.Visibility>
+                        <MultiBinding
+                            Converter="{converters:UpToDateVisibilityConverter}">
+                            <Binding
+                                Path="ViewModel.State" />
+                            <Binding
+                                Path="ViewModel.CheckUpdatesCommand.IsRunning" />
+                            <Binding
+                                Path="ViewModel.IsUpdateChecked" />
+                        </MultiBinding>
+                    </rl:Card.Visibility>
+                    <StackPanel
+                        Margin="8,0,0,0"
+                        Orientation="Horizontal">
+                        <rl:SymbolIcon
+                            Symbol="CheckmarkCircle24"
+                            Foreground="White" />
+                        <TextBlock
+                            Margin="20,0,0,0"
+                            FontWeight="Medium"
+                            Foreground="White"
+                            Text="RevitLookup is up to date" />
+                    </StackPanel>
+                </rl:Card>
+                <rl:Card
+                    Margin="0,3,0,0"
+                    Background="{DynamicResource PaletteRedBrush}"
+                    Visibility="{Binding ViewModel.State, Converter={converters:ErrorCardVisibilityConverter}}">
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <rl:SymbolIcon
+                            Margin="8,0,0,0"
+                            Symbol="ErrorCircle24"
+                            Foreground="White" />
+                        <TextBlock
+                            Margin="20,0,0,0"
+                            FontWeight="Medium"
+                            Foreground="White"
+                            Text="{Binding ViewModel.ErrorMessage}" />
+                    </StackPanel>
+                </rl:Card>
+                <TextBlock
+                    Margin="0,12,0,0"
+                    Text="{Binding ViewModel.DotNetVersion}" />
+                <TextBlock
+                    Margin="0,6,0,0"
+                    Text="">
+                    <Run
+                        Text="Runtime" />
+                    <Run
+                        Text="{Binding ViewModel.RuntimeVersion}" />
+                </TextBlock>
+                <TextBlock
+                    Margin="0,6,0,0"
+                    Text="Copyright © 2013-2022 Autodesk Inc." />
+                <rl:Hyperlink
+                    Margin="0,12,0,0"
+                    Content="Project website"
+                    Icon="Link48"
+                    NavigateUri="https://thebuildingcoder.typepad.com" />
+                <rl:Hyperlink
+                    Content="Source repository on GitHub"
+                    Icon="Link48"
+                    NavigateUri="https://github.com/jeremytammik/RevitLookup" />
+                <rl:Hyperlink
+                    Content="Powered by open-source software"
+                    Icon="Link48"
+                    Click="ShowSoftwareDialog" />
+                <rl:Hyperlink
+                    Content="Contact Us"
+                    Icon="Link48"
+                    NavigateUri="https://github.com/jeremytammik/RevitLookup/issues/new" />
+            </StackPanel>
+        </DockPanel>
+    </rl:DynamicScrollViewer>
+</Page>

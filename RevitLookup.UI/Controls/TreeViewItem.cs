@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.UI.Controls;
 
@@ -37,7 +36,7 @@ public class TreeViewItem : System.Windows.Controls.TreeViewItem, IIconControl
             FrameworkPropertyMetadataOptions.Inherits));
 
     /// <summary>
-    /// Gets or sets displayed <see cref="Common.SymbolRegular"/>.
+    /// Gets or sets displayed <see cref="SymbolRegular"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public Common.SymbolRegular Icon
@@ -47,7 +46,7 @@ public class TreeViewItem : System.Windows.Controls.TreeViewItem, IIconControl
     }
 
     /// <summary>
-    /// Defines whether or not we should use the <see cref="Common.SymbolFilled"/>.
+    /// Defines whether or not we should use the <see cref="SymbolFilled"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public bool IconFilled
@@ -57,7 +56,7 @@ public class TreeViewItem : System.Windows.Controls.TreeViewItem, IIconControl
     }
 
     ///// <summary>
-    ///// Foreground of the <see cref="RevitLookup.UI.Common.SymbolRegular"/>.
+    ///// Foreground of the <see cref="Wpf.Ui.Common.SymbolRegular"/>.
     ///// </summary>
     [Bindable(true), Category("Appearance")]
     public Brush IconForeground
@@ -66,4 +65,3 @@ public class TreeViewItem : System.Windows.Controls.TreeViewItem, IIconControl
         set => SetValue(IconForegroundProperty, value);
     }
 }
-

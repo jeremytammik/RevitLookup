@@ -5,11 +5,13 @@
 
 #nullable enable
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Controls.Interfaces;
+using static RevitLookup.UI.Controls.IDialogControl;
 
 namespace RevitLookup.UI.Controls;
 
@@ -22,7 +24,7 @@ namespace RevitLookup.UI.Controls;
 [TemplatePart(Name = "PART_FooterButtonRight", Type = typeof(System.Windows.Controls.Primitives.ButtonBase))]
 public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
 {
-    private TaskCompletionSource<IDialogControl.ButtonPressed>? _tcs = null;
+    private TaskCompletionSource<ButtonPressed>? _tcs = null;
 
     private bool _automaticHide;
 
@@ -58,13 +60,13 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// Property for <see cref="Title"/>.
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
-        typeof(string), typeof(Dialog), new PropertyMetadata(string.Empty));
+        typeof(string), typeof(Dialog), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Property for <see cref="Message"/>.
     /// </summary>
     public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(nameof(Message),
-        typeof(string), typeof(Dialog), new PropertyMetadata(string.Empty));
+        typeof(string), typeof(Dialog), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Property for <see cref="DialogWidth"/>.
@@ -98,23 +100,23 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// </summary>
     public static readonly DependencyProperty ButtonRightNameProperty = DependencyProperty.Register(
         nameof(ButtonRightName),
-        typeof(string), typeof(Dialog), new PropertyMetadata("Close"));
+        typeof(string), typeof(Dialog), new PropertyMetadata("Hide"));
 
     /// <summary>
     /// Property for <see cref="ButtonLeftAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftAppearanceProperty = DependencyProperty.Register(
         nameof(ButtonLeftAppearance),
-        typeof(ControlAppearance), typeof(Dialog),
-        new PropertyMetadata(ControlAppearance.Primary));
+        typeof(Controls.ControlAppearance), typeof(Dialog),
+        new PropertyMetadata(Controls.ControlAppearance.Primary));
 
     /// <summary>
     /// Property for <see cref="ButtonLeftVisibility"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftVisibilityProperty = DependencyProperty.Register(
         nameof(ButtonLeftVisibility),
-        typeof(Visibility), typeof(Dialog),
-        new PropertyMetadata(Visibility.Visible));
+        typeof(System.Windows.Visibility), typeof(Dialog),
+        new PropertyMetadata(System.Windows.Visibility.Visible));
 
     /// <summary>
     /// Routed event for <see cref="ButtonRightClick"/>.
@@ -128,23 +130,23 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// </summary>
     public static readonly DependencyProperty ButtonRightAppearanceProperty = DependencyProperty.Register(
         nameof(ButtonRightAppearance),
-        typeof(ControlAppearance), typeof(Dialog),
-        new PropertyMetadata(ControlAppearance.Secondary));
+        typeof(Controls.ControlAppearance), typeof(Dialog),
+        new PropertyMetadata(Controls.ControlAppearance.Secondary));
 
     /// <summary>
     /// Property for <see cref="ButtonRightVisibility"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonRightVisibilityProperty = DependencyProperty.Register(
         nameof(ButtonRightVisibility),
-        typeof(Visibility), typeof(Dialog),
-        new PropertyMetadata(Visibility.Visible));
+        typeof(System.Windows.Visibility), typeof(Dialog),
+        new PropertyMetadata(System.Windows.Visibility.Visible));
 
     /// <summary>
     /// Property for <see cref="TemplateButtonCommand"/>.
     /// </summary>
     public static readonly DependencyProperty TemplateButtonCommandProperty =
         DependencyProperty.Register(nameof(TemplateButtonCommand),
-            typeof(IRelayCommand), typeof(Dialog), new PropertyMetadata(null));
+            typeof(Common.IRelayCommand), typeof(Dialog), new PropertyMetadata(null));
 
     #endregion Static properties
 
@@ -200,18 +202,18 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// <summary>
     /// Gets or sets the <see cref="ControlAppearance"/> of the button on the left, if available.
     /// </summary>
-    public ControlAppearance ButtonLeftAppearance
+    public Controls.ControlAppearance ButtonLeftAppearance
     {
-        get => (ControlAppearance)GetValue(ButtonLeftAppearanceProperty);
+        get => (Controls.ControlAppearance)GetValue(ButtonLeftAppearanceProperty);
         set => SetValue(ButtonLeftAppearanceProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the visibility of the button on the left.
     /// </summary>
-    public Visibility ButtonLeftVisibility
+    public System.Windows.Visibility ButtonLeftVisibility
     {
-        get => (Visibility)GetValue(ButtonLeftVisibilityProperty);
+        get => (System.Windows.Visibility)GetValue(ButtonLeftVisibilityProperty);
         set => SetValue(ButtonLeftVisibilityProperty, value);
     }
 
@@ -232,18 +234,18 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// <summary>
     /// Gets or sets the <see cref="ControlAppearance"/> of the button on the right, if available.
     /// </summary>
-    public ControlAppearance ButtonRightAppearance
+    public Controls.ControlAppearance ButtonRightAppearance
     {
-        get => (ControlAppearance)GetValue(ButtonRightAppearanceProperty);
+        get => (Controls.ControlAppearance)GetValue(ButtonRightAppearanceProperty);
         set => SetValue(ButtonRightAppearanceProperty, value);
     }
 
     /// <summary>
     /// Gets or sets the visibility of the button on the right.
     /// </summary>
-    public Visibility ButtonRightVisibility
+    public System.Windows.Visibility ButtonRightVisibility
     {
-        get => (Visibility)GetValue(ButtonRightVisibilityProperty);
+        get => (System.Windows.Visibility)GetValue(ButtonRightVisibilityProperty);
         set => SetValue(ButtonRightVisibilityProperty, value);
     }
 
@@ -257,8 +259,8 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// <summary>
     /// Command triggered after clicking the button in the template.
     /// </summary>
-    public IRelayCommand TemplateButtonCommand =>
-        (IRelayCommand)GetValue(TemplateButtonCommandProperty);
+    public Common.IRelayCommand TemplateButtonCommand =>
+        (Common.IRelayCommand)GetValue(TemplateButtonCommandProperty);
 
     /// <summary>
     /// Event triggered when <see cref="Dialog"/> opens.
@@ -291,35 +293,35 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// </summary>
     public Dialog()
     {
-        SetValue(TemplateButtonCommandProperty, new RelayCommand(o => OnTemplateButtonClick(this, o)));
+        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand<string>(o => OnTemplateButtonClick(o ?? String.Empty)));
     }
 
     /// <inheritdoc />
-    public Task<IDialogControl.ButtonPressed> ShowAndWaitAsync()
+    public Task<ButtonPressed> ShowAndWaitAsync()
     {
         _automaticHide = false;
 
         Show();
 
-        _tcs = new TaskCompletionSource<IDialogControl.ButtonPressed>();
+        _tcs = new TaskCompletionSource<ButtonPressed>();
 
         return _tcs.Task;
     }
 
     /// <inheritdoc />
-    public Task<IDialogControl.ButtonPressed> ShowAndWaitAsync(bool hideOnClick)
+    public Task<ButtonPressed> ShowAndWaitAsync(bool hideOnClick)
     {
         _automaticHide = hideOnClick;
 
         Show();
 
-        _tcs = new TaskCompletionSource<IDialogControl.ButtonPressed>();
+        _tcs = new TaskCompletionSource<ButtonPressed>();
 
         return _tcs.Task;
     }
 
     /// <inheritdoc />
-    public Task<IDialogControl.ButtonPressed> ShowAndWaitAsync(string title, string message)
+    public Task<ButtonPressed> ShowAndWaitAsync(string title, string message)
     {
         _automaticHide = false;
 
@@ -328,13 +330,13 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
 
         Show(title, message);
 
-        _tcs = new TaskCompletionSource<IDialogControl.ButtonPressed>();
+        _tcs = new TaskCompletionSource<ButtonPressed>();
 
         return _tcs.Task;
     }
 
     /// <inheritdoc />
-    public Task<IDialogControl.ButtonPressed> ShowAndWaitAsync(string title, string message, bool hideOnClick)
+    public Task<ButtonPressed> ShowAndWaitAsync(string title, string message, bool hideOnClick)
     {
         _automaticHide = hideOnClick;
 
@@ -343,7 +345,7 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
 
         Show(title, message);
 
-        _tcs = new TaskCompletionSource<IDialogControl.ButtonPressed>();
+        _tcs = new TaskCompletionSource<ButtonPressed>();
 
         return _tcs.Task;
     }
@@ -407,7 +409,7 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// </summary>
     protected virtual void OnOpened()
     {
-        var newEvent = new RoutedEventArgs(OpenedEvent, this);
+        var newEvent = new RoutedEventArgs(Dialog.OpenedEvent, this);
         RaiseEvent(newEvent);
     }
 
@@ -416,33 +418,33 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// </summary>
     protected virtual void OnClosed()
     {
-        var newEvent = new RoutedEventArgs(ClosedEvent, this);
+        var newEvent = new RoutedEventArgs(Dialog.ClosedEvent, this);
         RaiseEvent(newEvent);
     }
 
     /// <summary>
     /// Triggered by clicking a button in the control template.
     /// </summary>
-    /// <param name="sender">Sender of the click event.</param>
-    /// <param name="parameter">Additional parameters.</param>
-    protected virtual void OnTemplateButtonClick(object sender, object? parameter)
+    protected virtual void OnTemplateButtonClick(string parameter)
     {
-        if (parameter is not string parameterString)
-            return;
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO: {typeof(Dialog)} button clicked with param: {parameter}",
+            "Wpf.Ui.Dialog");
+#endif
 
-        switch (parameterString)
+        switch (parameter)
         {
             case "left":
                 RaiseEvent(new RoutedEventArgs(ButtonLeftClickEvent, this));
 
-                _tcs?.TrySetResult(IDialogControl.ButtonPressed.Left);
+                _tcs?.TrySetResult(ButtonPressed.Left);
 
                 break;
 
             case "right":
                 RaiseEvent(new RoutedEventArgs(ButtonRightClickEvent, this));
 
-                _tcs?.TrySetResult(IDialogControl.ButtonPressed.Right);
+                _tcs?.TrySetResult(ButtonPressed.Right);
 
                 break;
         }

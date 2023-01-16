@@ -24,6 +24,7 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Appearance;
+using RevitLookup.UI.Controls.Window;
 
 namespace RevitLookup.Services;
 
@@ -45,7 +46,7 @@ public sealed class SettingsService : ISettingsService
         set => _settings.Theme = value;
     }
 
-    public BackgroundType Background
+    public WindowBackdropType Background
     {
         get => _settings.Background;
         set => _settings.Background = value;
@@ -107,6 +108,6 @@ public sealed class SettingsService : ISettingsService
 internal sealed class Settings
 {
     public ThemeType Theme { get; set; } = ThemeType.Light;
-    public BackgroundType Background { get; set; } = BackgroundType.Mica;
+    public WindowBackdropType Background { get; set; } = WindowBackdropType.Mica;
     public int TransitionDuration { get; set; } = SettingsService.DefaultTransitionDuration;
 }

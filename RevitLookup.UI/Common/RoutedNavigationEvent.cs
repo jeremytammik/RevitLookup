@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using RevitLookup.UI.Controls.Interfaces;
+using RevitLookup.UI.Controls.Navigation;
 
 namespace RevitLookup.UI.Common;
 

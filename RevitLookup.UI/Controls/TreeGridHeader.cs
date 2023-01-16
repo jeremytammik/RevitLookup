@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -11,19 +12,19 @@ namespace RevitLookup.UI.Controls;
 /// <summary>
 /// Work in progress.
 /// </summary>
-public class TreeGridHeader : FrameworkElement
+public class TreeGridHeader : System.Windows.FrameworkElement
 {
     /// <summary>
     /// Property for <see cref="Title"/>.
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
-        typeof(string), typeof(TreeGridHeader), new PropertyMetadata(string.Empty, OnTitleChanged));
+        typeof(string), typeof(TreeGridHeader), new PropertyMetadata(String.Empty, OnTitleChanged));
 
     /// <summary>
     /// Property for <see cref="Group"/>.
     /// </summary>
     public static readonly DependencyProperty GroupProperty = DependencyProperty.Register(nameof(Group),
-        typeof(string), typeof(TreeGridHeader), new PropertyMetadata(string.Empty));
+        typeof(string), typeof(TreeGridHeader), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Gets or sets the title that will be displayed.
@@ -52,7 +53,7 @@ public class TreeGridHeader : FrameworkElement
     {
         var title = Title;
 
-        if (!string.IsNullOrEmpty(Group) || string.IsNullOrEmpty(title))
+        if (!String.IsNullOrEmpty(Group) || String.IsNullOrEmpty(title))
             return;
 
         Group = title.ToLower().Trim();

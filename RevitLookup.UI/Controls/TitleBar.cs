@@ -7,7 +7,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using RevitLookup.UI.Controls.Interfaces;
 using RevitLookup.UI.Dpi;
 using RevitLookup.UI.TitleBar;
 
@@ -27,7 +26,7 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
 
     private const string ElementRestoreButton = "PART_RestoreButton";
 
-    private Window _parent;
+    private System.Windows.Window _parent;
 
     internal Interop.WinDef.POINT _doubleClickPoint;
 
@@ -362,24 +361,24 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
     /// <summary>
     /// Lets you override the behavior of the Maximize/Restore button with an <see cref="Action"/>.
     /// </summary>
-    public Action<TitleBar, Window> MaximizeActionOverride { get; set; } = null;
+    public Action<TitleBar, System.Windows.Window> MaximizeActionOverride { get; set; } = null!;
 
     /// <summary>
     /// Lets you override the behavior of the Minimize button with an <see cref="Action"/>.
     /// </summary>
-    public Action<TitleBar, Window> MinimizeActionOverride { get; set; } = null;
+    public Action<TitleBar, System.Windows.Window> MinimizeActionOverride { get; set; } = null!;
 
     /// <summary>
     /// Window containing the TitleBar.
     /// </summary>
-    internal Window ParentWindow => _parent ??= Window.GetWindow(this);
+    internal System.Windows.Window ParentWindow => _parent ??= System.Windows.Window.GetWindow(this);
 
     /// <summary>
     /// Creates a new instance of the class and sets the default <see cref="FrameworkElement.Loaded"/> event.
     /// </summary>
     public TitleBar()
     {
-        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand(o => OnTemplateButtonClick(this, o)));
+        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand<string>(o => OnTemplateButtonClick(o ?? String.Empty)));
 
         Loaded += OnLoaded;
     }
@@ -426,6 +425,10 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
     /// </summary>
     protected virtual void OnThemeChanged(Appearance.ThemeType currentTheme, Color systemAccent)
     {
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(TitleBar)} received theme -  {currentTheme}",
+            "Wpf.Ui.TitleBar");
+#endif
         Theme = currentTheme;
 
         if (_snapLayout != null)
@@ -434,13 +437,18 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
 
     private void CloseWindow()
     {
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(TitleBar)}.CloseWindow:ForceShutdown -  {ForceShutdown}",
+            "Wpf.Ui.TitleBar");
+#endif
+
         if (ForceShutdown)
         {
             Application.Current.Close();
 
             return;
         }
-
+        Appearance.Theme.Changed -= OnThemeChanged;
         ParentWindow.Close();
     }
 
@@ -528,16 +536,16 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
         // Can be taken it from the Template, but honestly - a classic - TODO: 
         // ButtonsBackground, but
         _snapLayout.HoverColorLight = new SolidColorBrush(Color.FromArgb(
-            0x1A,
-            0x00,
-            0x00,
-            0x00)
+            (byte)0x1A,
+            (byte)0x00,
+            (byte)0x00,
+            (byte)0x00)
         );
         _snapLayout.HoverColorDark = new SolidColorBrush(Color.FromArgb(
-            0x17,
-            0xFF,
-            0xFF,
-            0xFF)
+            (byte)0x17,
+            (byte)0xFF,
+            (byte)0xFF,
+            (byte)0xFF)
         );
 
         _snapLayout.Theme = Theme;
@@ -603,11 +611,9 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
         MaximizeWindow();
     }
 
-    private void OnTemplateButtonClick(TitleBar sender, object parameter)
+    private void OnTemplateButtonClick(string parameter)
     {
-        var command = parameter as string;
-
-        switch (command)
+        switch (parameter)
         {
             case "maximize":
                 RaiseEvent(new RoutedEventArgs(MaximizeClickedEvent, this));

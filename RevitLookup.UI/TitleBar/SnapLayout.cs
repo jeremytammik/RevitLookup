@@ -3,11 +3,12 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Controls.Interfaces;
+using RevitLookup.UI.Controls;
 using RevitLookup.UI.Dpi;
 
 namespace RevitLookup.UI.TitleBar;
@@ -17,10 +18,9 @@ namespace RevitLookup.UI.TitleBar;
 /// </summary>
 internal sealed class SnapLayout : IThemeControl
 {
-    /// <summary>
-    /// List of snap layout buttons.
-    /// </summary>
-    private readonly SnapLayoutButton[] _buttons;
+    private readonly SnapLayoutButton _maximizeButton;
+
+    private readonly SnapLayoutButton _restoreButton;
 
     /// <summary>
     /// Currently used theme.
@@ -63,7 +63,7 @@ internal sealed class SnapLayout : IThemeControl
     /// <summary>
     /// Creates new instance.
     /// </summary>
-    private SnapLayout(Window window, Controls.Button maximizeButton, Controls.Button restoreButton)
+    private SnapLayout(Window window, Button maximizeButton, Button restoreButton)
     {
         if (window == null)
             return;
@@ -75,16 +75,18 @@ internal sealed class SnapLayout : IThemeControl
 
         var windowDpi = DpiHelper.GetWindowDpi(windowHandle);
 
-        _buttons = new[]
-        {
-            new SnapLayoutButton(maximizeButton, TitleBarButton.Maximize, windowDpi.DpiScaleX),
-            new SnapLayoutButton(restoreButton, TitleBarButton.Restore, windowDpi.DpiScaleX),
-        };
+        _maximizeButton = new SnapLayoutButton(maximizeButton, TitleBarButton.Maximize, windowDpi.DpiScaleX);
+        _restoreButton = new SnapLayoutButton(restoreButton, TitleBarButton.Restore, windowDpi.DpiScaleX);
 
-        var windowSource = HwndSource.FromHwnd(windowHandle);
+        HwndSource hwnd = (HwndSource)PresentationSource.FromVisual(maximizeButton);
 
-        if (windowSource != null)
-            windowSource.AddHook(HwndSourceHook);
+        if (hwnd != null)
+            hwnd.AddHook(HwndSourceHook);
+
+        //var windowSource = HwndSource.FromHwnd(windowHandle);
+
+        //if (windowSource != null)
+        //    windowSource.AddHook(HwndSourceHook);
     }
 
     /// <summary>
@@ -98,7 +100,7 @@ internal sealed class SnapLayout : IThemeControl
     /// <summary>
     /// Registers the snap layout for provided buttons and window.
     /// </summary>
-    public static SnapLayout Register(Window window, Controls.Button maximizeButton, Controls.Button restoreButton)
+    public static SnapLayout Register(Window window, Button maximizeButton, Button restoreButton)
     {
         return new SnapLayout(window, maximizeButton, restoreButton);
     }
@@ -116,6 +118,8 @@ internal sealed class SnapLayout : IThemeControl
     {
         var mouseNotification = (Interop.User32.WM)uMsg;
 
+        System.Diagnostics.Debug.WriteLine($"INFO | MESSAGE: {mouseNotification}, OVER MAX: {_maximizeButton.IsMouseOver(lParam)}, OVER REST: {_restoreButton.IsMouseOver(lParam)}");
+
         switch (mouseNotification)
         {
             case Interop.User32.WM.MOVE:
@@ -124,23 +128,23 @@ internal sealed class SnapLayout : IThemeControl
 
             // Mouse leaves the window
             case Interop.User32.WM.NCMOUSELEAVE:
-                _buttons[0].RemoveHover(DefaultButtonBackground);
-                _buttons[1].RemoveHover(DefaultButtonBackground);
+                _maximizeButton.RemoveHover(DefaultButtonBackground);
+                _restoreButton.RemoveHover(DefaultButtonBackground);
 
                 break;
 
             // Left button clicked down
             case Interop.User32.WM.NCLBUTTONDOWN:
-                if (_buttons[0].IsMouseOver(lParam))
+                if (_maximizeButton.IsMouseOver(lParam))
                 {
-                    _buttons[0].IsClickedDown = true;
+                    _maximizeButton.IsClickedDown = true;
 
                     handled = true;
                 }
 
-                if (_buttons[1].IsMouseOver(lParam))
+                if (_restoreButton.IsMouseOver(lParam))
                 {
-                    _buttons[1].IsClickedDown = true;
+                    _restoreButton.IsClickedDown = true;
 
                     handled = true;
                 }
@@ -149,18 +153,18 @@ internal sealed class SnapLayout : IThemeControl
 
             // Left button clicked up
             case Interop.User32.WM.NCLBUTTONUP:
-                if (_buttons[0].IsClickedDown && _buttons[0].IsMouseOver(lParam))
+                if (_maximizeButton.IsClickedDown && _maximizeButton.IsMouseOver(lParam))
                 {
-                    _buttons[0].InvokeClick();
+                    _maximizeButton.InvokeClick();
 
                     handled = true;
 
                     break;
                 }
 
-                if (_buttons[1].IsClickedDown && _buttons[1].IsMouseOver(lParam))
+                if (_restoreButton.IsClickedDown && _restoreButton.IsMouseOver(lParam))
                 {
-                    _buttons[1].InvokeClick();
+                    _restoreButton.InvokeClick();
 
                     handled = true;
                 }
@@ -169,27 +173,27 @@ internal sealed class SnapLayout : IThemeControl
 
             // Hit test, for determining whether the mouse cursor is over one of the buttons
             case Interop.User32.WM.NCHITTEST:
-                if (_buttons[0].IsMouseOver(lParam))
+                if (_maximizeButton.IsMouseOver(lParam))
                 {
-                    _buttons[0].Hover(_currentHoverColor);
+                    _maximizeButton.Hover(_currentHoverColor);
 
                     handled = true;
 
                     return new IntPtr((int)Interop.User32.WM_NCHITTEST.HTMAXBUTTON);
                 }
 
-                _buttons[0].RemoveHover(DefaultButtonBackground);
+                _maximizeButton.RemoveHover(DefaultButtonBackground);
 
-                if (_buttons[1].IsMouseOver(lParam))
+                if (_restoreButton.IsMouseOver(lParam))
                 {
-                    _buttons[1].Hover(_currentHoverColor);
+                    _restoreButton.Hover(_currentHoverColor);
 
                     handled = true;
 
                     return new IntPtr((int)Interop.User32.WM_NCHITTEST.HTMAXBUTTON);
                 }
 
-                _buttons[1].RemoveHover(DefaultButtonBackground);
+                _restoreButton.RemoveHover(DefaultButtonBackground);
 
                 return IntPtr.Zero;
         }

@@ -22,7 +22,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Contracts;
+using RevitLookup.UI.Controls;
+using RevitLookup.UI.Controls.Window;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -33,7 +35,7 @@ public sealed class SettingsViewModel : ObservableObject
     private readonly ISnackbarService _snackbarService;
     private ThemeType _currentTheme;
     private bool _isSmoothEnabled;
-    private BackgroundType _currentBackground;
+    private WindowBackdropType _currentBackground;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
     {
@@ -57,15 +59,15 @@ public sealed class SettingsViewModel : ObservableObject
         }
     }
 
-    public BackgroundType CurrentBackground
+    public WindowBackdropType CurrentBackground
     {
         get => _currentBackground;
         set
         {
             SetProperty(ref _currentBackground, value);
             _settingsService.Background = value;
-            Theme.UpdateBackground(CurrentTheme, value);
-            _snackbarService.Show("Background effect changed", "The theme will be applied after the window is reopened", SymbolRegular.ChatWarning24, ControlAppearance.Success);
+            var window = (FluentWindow) UI.Application.Current;
+            window.WindowBackdropType = value;
         }
     }
 
@@ -86,9 +88,9 @@ public sealed class SettingsViewModel : ObservableObject
         ThemeType.Dark
     };
 
-    public List<BackgroundType> BackgroundEffects { get; } = new()
+    public List<WindowBackdropType> BackgroundEffects { get; } = new()
     {
-        BackgroundType.None,
-        BackgroundType.Mica
+        WindowBackdropType.None,
+        WindowBackdropType.Mica
     };
 }

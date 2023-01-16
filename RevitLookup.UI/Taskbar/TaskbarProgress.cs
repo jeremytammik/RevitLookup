@@ -3,11 +3,12 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Interop;
 using RevitLookup.UI.Interop;
 
-namespace RevitLookup.UI.TaskBar;
+namespace RevitLookup.UI.Taskbar;
 
 /// <summary>
 /// Allows to change the status of the displayed notification in the application icon on the TaskBar.

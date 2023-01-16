@@ -12,9 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
+using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Demo.Moq;
-using RevitLookup.UI.Mvvm.Contracts;
-using RevitLookup.UI.Mvvm.Services;
+using RevitLookup.UI.Services;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
@@ -29,7 +29,7 @@ public sealed partial class App
         var host = CreateHost();
         await Host.StartHost(host);
         var window = Host.GetService<IWindow>();
-        window.ShowWindow();
+        window.Show();
         window.Context.GetService<INavigationService>().Navigate(typeof(DashboardView));
     }
 

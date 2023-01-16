@@ -11,6 +11,7 @@
 // If you have suggestions for the code below, please submit your changes there.
 // https://github.com/lepoco/nativemethods
 
+using System;
 using System.Runtime.InteropServices;
 
 namespace RevitLookup.UI.Interop;
@@ -171,7 +172,7 @@ internal static class ShObjIdl
 
         // ITaskbarList3
         [PreserveSig]
-        void SetProgressValue(IntPtr hwnd, ulong ullCompleted, ulong ullTotal);
+        void SetProgressValue(IntPtr hwnd, UInt64 ullCompleted, UInt64 ullTotal);
         [PreserveSig]
         void SetProgressState(IntPtr hwnd, TBPFLAG tbpFlags);
         [PreserveSig]

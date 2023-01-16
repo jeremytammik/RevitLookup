@@ -4,8 +4,8 @@
 // All Rights Reserved.
 
 using System.Windows.Media;
-using RevitLookup.UI.Interop;
 using RevitLookup.UI.Extensions;
+using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Appearance;
 
@@ -177,8 +177,18 @@ public static class Accent
     private static void UpdateColorResources(Color systemAccent, Color primaryAccent,
         Color secondaryAccent, Color tertiaryAccent)
     {
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine("INFO | SystemAccentColor: " + systemAccent, "Wpf.Ui.Accent");
+        System.Diagnostics.Debug.WriteLine("INFO | SystemAccentColorPrimary: " + primaryAccent, "Wpf.Ui.Accent");
+        System.Diagnostics.Debug.WriteLine("INFO | SystemAccentColorSecondary: " + secondaryAccent, "Wpf.Ui.Accent");
+        System.Diagnostics.Debug.WriteLine("INFO | SystemAccentColorTertiary: " + tertiaryAccent, "Wpf.Ui.Accent");
+#endif
+
         if (secondaryAccent.GetBrightness() > BackgroundBrightnessThresholdValue)
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("INFO | Text on accent is DARK", "Wpf.Ui.Accent");
+#endif
             Application.Current.Resources["TextOnAccentFillColorPrimary"] = Color.FromArgb(0xFF, 0x00, 0x00, 0x00);
             Application.Current.Resources["TextOnAccentFillColorSecondary"] = Color.FromArgb(0x80, 0x00, 0x00, 0x00);
             Application.Current.Resources["TextOnAccentFillColorDisabled"] = Color.FromArgb(0x77, 0x00, 0x00, 0x00);
@@ -187,6 +197,9 @@ public static class Accent
         }
         else
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine("INFO | Text on accent is LIGHT", "Wpf.Ui.Accent");
+#endif
             Application.Current.Resources["TextOnAccentFillColorPrimary"] = Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
             Application.Current.Resources["TextOnAccentFillColorSecondary"] = Color.FromArgb(0x80, 0xFF, 0xFF, 0xFF);
             Application.Current.Resources["TextOnAccentFillColorDisabled"] = Color.FromArgb(0x87, 0xFF, 0xFF, 0xFF);

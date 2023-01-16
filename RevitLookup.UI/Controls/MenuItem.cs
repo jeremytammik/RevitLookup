@@ -33,7 +33,7 @@ public class MenuItem : System.Windows.Controls.MenuItem
     ///// </summary>
     //public static readonly DependencyProperty SymbolIconForegroundProperty = DependencyProperty.Register(
     //    nameof(SymbolIconForeground),
-    //    typeof(Brush), typeof(RevitLookup.UI.Controls.MenuItem), new FrameworkPropertyMetadata(
+    //    typeof(Brush), typeof(Wpf.Ui.Controls.MenuItem), new FrameworkPropertyMetadata(
     //        System.Windows.SystemColors.ControlTextBrush,
     //        FrameworkPropertyMetadataOptions.Inherits));
 
@@ -58,7 +58,7 @@ public class MenuItem : System.Windows.Controls.MenuItem
     }
 
     ///// <summary>
-    ///// Foreground of the <see cref="RevitLookup.UI.Common.SymbolRegular"/>.
+    ///// Foreground of the <see cref="Wpf.Ui.Common.SymbolRegular"/>.
     ///// </summary>
     //[Bindable(true), Category("Appearance")]
     //public Brush SymbolIconForeground

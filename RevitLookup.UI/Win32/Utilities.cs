@@ -1,13 +1,14 @@
 ﻿// This Source Code is partially based on the source code provided by the .NET Foundation.
 // This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
-// Copyright (C) Leszek Pomianowski.
+// Copyright (C) .NET Foundation Contributors, WPF UI Contributors, Leszek Pomianowski.
 // All Rights Reserved.
 
 #nullable enable
 #pragma warning disable CS8601
 #pragma warning disable CS8625
 
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -99,7 +100,7 @@ internal class Utilities
 
     public static void SafeRelease<T>(ref T comObject) where T : class
     {
-        var t = comObject;
+        T t = comObject;
         comObject = default(T);
 
         if (null == t)
@@ -115,7 +116,7 @@ internal class Utilities
     /// </summary>
     private static Version GetOSVersionFromRegistry()
     {
-        var major = 0;
+        int major = 0;
         {
             // The 'CurrentMajorVersionNumber' string value in the CurrentVersion key is new for Windows 10, 
             // and will most likely (hopefully) be there for some time before MS decides to change this - again...
@@ -131,23 +132,23 @@ internal class Utilities
             else if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentVersion",
                          out var version))
             {
-                version ??= string.Empty;
+                version ??= String.Empty;
 
                 var versionParts = ((string)version).Split('.');
 
                 if (versionParts.Length >= 2)
-                    major = int.TryParse(versionParts[0], out var majorAsInt) ? majorAsInt : 0;
+                    major = int.TryParse(versionParts[0], out int majorAsInt) ? majorAsInt : 0;
             }
         }
 
-        var minor = 0;
+        int minor = 0;
         {
             // The 'CurrentMinorVersionNumber' string value in the CurrentVersion key is new for Windows 10, 
             // and will most likely (hopefully) be there for some time before MS decides to change this - again...
             if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentMinorVersionNumber",
                     out var minorObj))
             {
-                minorObj ??= string.Empty;
+                minorObj ??= String.Empty;
 
                 minor = (int)minorObj;
             }
@@ -156,23 +157,23 @@ internal class Utilities
             else if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentVersion",
                          out var version))
             {
-                version ??= string.Empty;
+                version ??= String.Empty;
 
                 var versionParts = ((string)version).Split('.');
 
                 if (versionParts.Length >= 2)
-                    minor = int.TryParse(versionParts[1], out var minorAsInt) ? minorAsInt : 0;
+                    minor = int.TryParse(versionParts[1], out int minorAsInt) ? minorAsInt : 0;
             }
         }
 
-        var build = 0;
+        int build = 0;
         {
             if (TryGetRegistryKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentBuildNumber",
                     out var buildObj))
             {
-                buildObj ??= string.Empty;
+                buildObj ??= String.Empty;
 
-                build = int.TryParse((string)buildObj, out var buildAsInt) ? buildAsInt : 0;
+                build = int.TryParse((string)buildObj, out int buildAsInt) ? buildAsInt : 0;
             }
         }
 

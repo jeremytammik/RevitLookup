@@ -1,4 +1,4 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
+// This Source Code Form is subject to the terms of the MIT License.
 // If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
@@ -10,10 +10,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using RevitLookup.UI.Animations;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Common.Interfaces;
-using RevitLookup.UI.Controls.Interfaces;
-using RevitLookup.UI.Mvvm.Contracts;
-using RevitLookup.UI.Mvvm.Interfaces;
+using RevitLookup.UI.Contracts;
+using RevitLookup.UI.Controls.Navigation;
 
 namespace RevitLookup.UI.Services.Internal;
 
@@ -713,9 +711,6 @@ internal sealed class NavigationService : IDisposable
         if (extraData.DataContext != null && _frame.Content is FrameworkElement)
         {
             ((FrameworkElement)_frame.Content).DataContext = extraData.DataContext;
-
-            if (extraData.DataContext is IViewModel)
-                ((IViewModel)extraData.DataContext).OnMounted((FrameworkElement)_frame.Content);
         }
 
         if (!extraData.Cache)

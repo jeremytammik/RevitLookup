@@ -3,8 +3,10 @@
 // Copyright (C) Leszek Pomianowski, Ch0pstix and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Interop;
+using RevitLookup.UI.Controls.Window;
 
 namespace RevitLookup.UI.Appearance;
 
@@ -17,9 +19,9 @@ namespace RevitLookup.UI.Appearance;
 public sealed class Watcher
 {
     /// <summary>
-    /// Gets or sets a value that indicates whether the <see cref="Watcher"/> uses custom <see cref="BackgroundType"/>.
+    /// Gets or sets a value that indicates whether the <see cref="Watcher"/> uses custom <see cref="WindowBackdropType"/>.
     /// </summary>
-    public BackgroundType BackgroundEffect { get; set; } = BackgroundType.Unknown;
+    public WindowBackdropType BackgroundEffect { get; set; } = WindowBackdropType.None;
 
     /// <summary>
     /// Gets or sets a value that indicates whether the <see cref="Watcher"/> uses <see cref="Accent"/>.
@@ -31,7 +33,7 @@ public sealed class Watcher
     /// </summary>
     public bool ForceBackground { get; set; } = false;
 
-    //public static void Register(Application app, BackgroundType backgroundEffect = BackgroundType.Mica,
+    //public static void Register(Application app, WindowBackdropType backgroundEffect = WindowBackdropType.Mica,
     //    bool updateAccents = true)
     //{
     // //TO DO
@@ -44,7 +46,7 @@ public sealed class Watcher
     /// <param name="backgroundEffect">Background effect to be applied when changing the theme.</param>
     /// <param name="updateAccents">If <see langword="true"/>, the accents will be updated when the change is detected.</param>
     /// <param name="forceBackground">If <see langword="true"/>, bypasses the app's theme compatibility check and tries to force the change of a background effect.</param>
-    public static void Watch(Window window, BackgroundType backgroundEffect = BackgroundType.Mica,
+    public static void Watch(Window window, WindowBackdropType backgroundEffect = WindowBackdropType.Mica,
         bool updateAccents = true, bool forceBackground = false)
     {
         if (window == null)
@@ -92,7 +94,7 @@ public sealed class Watcher
     /// <param name="backgroundEffect">Background effect to be applied when changing the theme.</param>
     /// <param name="updateAccents">If <see langword="true"/>, the accents will be updated when the change is detected.</param>
     /// <param name="forceBackground">If <see langword="true"/>, bypasses the app's theme compatibility check and tries to force the change of a background effect.</param>
-    public Watcher(IntPtr hWnd, BackgroundType backgroundEffect, bool updateAccents, bool forceBackground)
+    public Watcher(IntPtr hWnd, WindowBackdropType backgroundEffect, bool updateAccents, bool forceBackground)
     {
         var hWndSource = HwndSource.FromHwnd(hWnd);
 
@@ -127,5 +129,14 @@ public sealed class Watcher
             themeToSet = ThemeType.Dark;
 
         Theme.Apply(themeToSet, BackgroundEffect, UpdateAccents, ForceBackground);
+
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(Watcher)} changed the app theme.", "Wpf.Ui.Watcher");
+        System.Diagnostics.Debug.WriteLine($"INFO | Current accent: {Accent.SystemAccent}", "Wpf.Ui.Watcher");
+        System.Diagnostics.Debug.WriteLine($"INFO | Current app theme: {AppearanceData.ApplicationTheme}",
+            "Wpf.Ui.Watcher");
+        System.Diagnostics.Debug.WriteLine($"INFO | Current system theme: {AppearanceData.SystemTheme}",
+            "Wpf.Ui.Watcher");
+#endif
     }
 }

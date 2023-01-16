@@ -5,17 +5,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
+    xmlns:rl="http://revitlookup.com/xaml"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance dialogs:OpenSourceDialogViewModel}">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <rl:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Grid.Resources>
     <DataGrid
         Margin="0 20 0 20"
         AutoGenerateColumns="False"
         GridLinesVisibility="None"
-        IsReadOnly="True"
         HeadersVisibility="Column"
+        IsReadOnly="True"
         ColumnHeaderHeight="30"
         CanUserReorderColumns="False"
         CanUserResizeColumns="False"
+        CanUserSortColumns="False"
         ItemsSource="{Binding Software}">
         <DataGrid.Columns>
             <DataGridHyperlinkColumn
@@ -47,7 +56,8 @@
         </DataGrid.Columns>
         <DataGrid.CellStyle>
             <Style
-                TargetType="DataGridCell">
+                TargetType="DataGridCell"
+                BasedOn="{StaticResource DefaultDataGridCellStyle}">
                 <Setter
                     Property="Margin"
                     Value="0 10" />

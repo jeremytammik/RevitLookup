@@ -11,8 +11,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:RevitLookup.UI.Controls"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
     <Thickness x:Key="TextBoxBorderThemeThickness">1,1,1,0</Thickness>
     <Thickness x:Key="TextBoxAccentBorderThemeThickness">0,0,0,1</Thickness>
@@ -240,6 +240,7 @@
                                     Padding="0"
                                     VerticalAlignment="Top"
                                     Filled="{TemplateBinding IconFilled}"
+                                    FontSize="16"
                                     Foreground="{TemplateBinding IconForeground}"
                                     Symbol="{TemplateBinding Icon}" />
                                 <Grid Grid.Column="1" Margin="{TemplateBinding Padding}">
@@ -295,6 +296,7 @@
                                     Padding="0"
                                     VerticalAlignment="Top"
                                     Filled="{TemplateBinding IconFilled}"
+                                    FontSize="16"
                                     Foreground="{TemplateBinding IconForeground}"
                                     Symbol="{TemplateBinding Icon}" />
                             </Grid>
@@ -362,6 +364,10 @@
                                 </Setter.Value>
                             </Setter>
                         </MultiTrigger>
+                        <Trigger Property="IsReadOnly" Value="True">
+                            <Setter TargetName="ClearButton" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="ClearButton" Property="Margin" Value="0" />
+                        </Trigger>
                         <Trigger Property="IsEnabled" Value="True">
                             <Setter Property="Cursor" Value="IBeam" />
                         </Trigger>

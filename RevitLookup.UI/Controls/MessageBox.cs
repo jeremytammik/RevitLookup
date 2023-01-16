@@ -3,11 +3,12 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
-using RevitLookup.UI.Appearance;
 using RevitLookup.UI.Common;
+using RevitLookup.UI.Controls.Window;
 using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Controls;
@@ -53,8 +54,8 @@ public class MessageBox : System.Windows.Window
     /// Property for <see cref="ButtonLeftAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonLeftAppearanceProperty = DependencyProperty.Register(nameof(ButtonLeftAppearance),
-        typeof(Common.ControlAppearance), typeof(MessageBox),
-        new PropertyMetadata(Common.ControlAppearance.Primary));
+        typeof(Controls.ControlAppearance), typeof(MessageBox),
+        new PropertyMetadata(Controls.ControlAppearance.Primary));
 
     /// <summary>
     /// Routed event for <see cref="ButtonLeftClick"/>.
@@ -72,8 +73,8 @@ public class MessageBox : System.Windows.Window
     /// Property for <see cref="ButtonRightAppearance"/>.
     /// </summary>
     public static readonly DependencyProperty ButtonRightAppearanceProperty = DependencyProperty.Register(nameof(ButtonRightAppearance),
-        typeof(Common.ControlAppearance), typeof(MessageBox),
-        new PropertyMetadata(Common.ControlAppearance.Secondary));
+        typeof(Controls.ControlAppearance), typeof(MessageBox),
+        new PropertyMetadata(Controls.ControlAppearance.Secondary));
 
     /// <summary>
     /// Routed event for <see cref="ButtonRightClick"/>.
@@ -116,7 +117,7 @@ public class MessageBox : System.Windows.Window
     }
 
     /// <summary>
-    /// Gets or sets a value that determines whether <see cref="MessageBox"/> should contain a <see cref="BackgroundType.Mica"/> effect.
+    /// Gets or sets a value that determines whether <see cref="MessageBox"/> should contain a <see cref="Wpf.Ui.Appearance.BackgroundType.Mica"/> effect.
     /// </summary>
     public bool MicaEnabled
     {
@@ -136,9 +137,9 @@ public class MessageBox : System.Windows.Window
     /// <summary>
     /// Gets or sets the <see cref="ControlAppearance"/> of the button on the left, if available.
     /// </summary>
-    public Common.ControlAppearance ButtonLeftAppearance
+    public Controls.ControlAppearance ButtonLeftAppearance
     {
-        get => (Common.ControlAppearance)GetValue(ButtonLeftAppearanceProperty);
+        get => (Controls.ControlAppearance)GetValue(ButtonLeftAppearanceProperty);
         set => SetValue(ButtonLeftAppearanceProperty, value);
     }
 
@@ -163,9 +164,9 @@ public class MessageBox : System.Windows.Window
     /// <summary>
     /// Gets or sets the <see cref="ControlAppearance"/> of the button on the right, if available.
     /// </summary>
-    public Common.ControlAppearance ButtonRightAppearance
+    public Controls.ControlAppearance ButtonRightAppearance
     {
-        get => (Common.ControlAppearance)GetValue(ButtonRightAppearanceProperty);
+        get => (Controls.ControlAppearance)GetValue(ButtonRightAppearanceProperty);
         set => SetValue(ButtonRightAppearanceProperty, value);
     }
 
@@ -181,7 +182,7 @@ public class MessageBox : System.Windows.Window
     /// <summary>
     /// Command triggered after clicking the button on the Footer.
     /// </summary>
-    public Common.IRelayCommand TemplateButtonCommand => (Common.IRelayCommand)GetValue(TemplateButtonCommandProperty);
+    public IRelayCommand TemplateButtonCommand => (IRelayCommand)GetValue(TemplateButtonCommandProperty);
 
     /// <summary>
     /// Creates new instance and sets default <see cref="FrameworkElement.Loaded"/> event.
@@ -196,15 +197,14 @@ public class MessageBox : System.Windows.Window
 
         WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand(o => Button_OnClick(this, o)));
+        SetValue(TemplateButtonCommandProperty, new RelayCommand<string>(o => OnTemplateButtonClick(o ?? String.Empty)));
     }
 
     /// Shows a <see cref="System.Windows.MessageBox"/>.
     public new void Show()
     {
-        UnsafeNativeMethods.RemoveWindowTitlebar(this);
-
-        RevitLookup.UI.Appearance.Background.Apply(this, RevitLookup.UI.Appearance.BackgroundType.Mica);
+        UnsafeNativeMethods.RemoveWindowTitlebarContents(this);
+        WindowBackdrop.ApplyBackdrop(this, WindowBackdropType.Mica);
 
         base.Show();
     }
@@ -243,18 +243,13 @@ public class MessageBox : System.Windows.Window
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
     }
 
-    private void Button_OnClick(object sender, object parameter)
+    private void OnTemplateButtonClick(string parameter)
     {
-        if (parameter == null)
-            return;
-
-        string param = parameter as string ?? String.Empty;
-
 #if DEBUG
-        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(MessageBox)} button clicked with param: {param}", "RevitLookup.UI.MessageBox");
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(MessageBox)} button clicked with param: {parameter}", "Wpf.Ui.MessageBox");
 #endif
 
-        switch (param)
+        switch (parameter)
         {
             case "left":
                 RaiseEvent(new RoutedEventArgs(ButtonLeftClickEvent, this));

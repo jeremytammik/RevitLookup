@@ -3,14 +3,15 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Media;
 using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Tray;
 using RevitLookup.UI.Extensions;
+using RevitLookup.UI.Tray;
 
 namespace RevitLookup.UI.Services.Internal;
 
@@ -31,7 +32,7 @@ internal class NotifyIconService : IDisposable, INotifyIcon
     public bool IsRegistered { get; set; } = false;
 
     /// <inheritdoc />
-    public string TooltipText { get; set; } = string.Empty;
+    public string TooltipText { get; set; } = String.Empty;
 
     /// <inheritdoc />
     public ImageSource Icon { get; set; } = null!;
@@ -107,6 +108,12 @@ internal class NotifyIconService : IDisposable, INotifyIcon
     }
 
     /// <inheritdoc />
+    public virtual bool ModifyIcon()
+    {
+        return TrayManager.ModifyIcon(this);
+    }
+
+    /// <inheritdoc />
     public virtual bool Unregister()
     {
         return TrayManager.Unregister(this);
@@ -126,6 +133,10 @@ internal class NotifyIconService : IDisposable, INotifyIcon
     /// </summary>
     protected virtual void FocusApp()
     {
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(TrayHandler)} invoked {nameof(FocusApp)} method.",
+            "Wpf.Ui.NotifyIcon");
+#endif
         var mainWindow = Application.Current;
 
         if (mainWindow == null)
@@ -155,6 +166,10 @@ internal class NotifyIconService : IDisposable, INotifyIcon
     /// </summary>
     protected virtual void OpenMenu()
     {
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(TrayHandler)} invoked {nameof(OpenMenu)} method.",
+            "Wpf.Ui.NotifyIcon");
+#endif
         if (ContextMenu == null)
             return;
 
@@ -232,6 +247,10 @@ internal class NotifyIconService : IDisposable, INotifyIcon
         if (!disposing)
             return;
 
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | {typeof(NotifyIconService)} disposed.", "Wpf.Ui.NotifyIcon");
+#endif
+
         Unregister();
     }
 
@@ -243,6 +262,10 @@ internal class NotifyIconService : IDisposable, INotifyIcon
         switch (uMsg)
         {
             case Interop.User32.WM.DESTROY:
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine($"INFO | {typeof(TrayHandler)} received {uMsg} message.",
+                    "Wpf.Ui.NotifyIcon");
+#endif
                 Dispose();
 
                 handled = true;
@@ -250,11 +273,19 @@ internal class NotifyIconService : IDisposable, INotifyIcon
                 return IntPtr.Zero;
 
             case Interop.User32.WM.NCDESTROY:
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine($"INFO | {typeof(TrayHandler)} received {uMsg} message.",
+                    "Wpf.Ui.NotifyIcon");
+#endif
                 handled = false;
 
                 return IntPtr.Zero;
 
             case Interop.User32.WM.CLOSE:
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine($"INFO | {typeof(TrayHandler)} received {uMsg} message.",
+                    "Wpf.Ui.NotifyIcon");
+#endif
                 handled = true;
 
                 return IntPtr.Zero;

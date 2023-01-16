@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.UI.Appearance;
+using RevitLookup.UI.Controls.Window;
 
 namespace RevitLookup.Services.Contracts;
 
@@ -26,7 +27,7 @@ public interface ISettingsService
 {
     void Save();
     ThemeType Theme { get; set; }
-    BackgroundType Background { get; set; }
+    WindowBackdropType Background { get; set; }
     int TransitionDuration { get; }
     int ApplyTransition(bool value);
 }

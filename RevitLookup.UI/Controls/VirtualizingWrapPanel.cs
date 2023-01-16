@@ -5,8 +5,10 @@
 // Copyright (C) S. Bäumlisberger, Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -143,7 +145,7 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
     private void UpdateChildSize(Size availableSize)
     {
         if (ItemsOwner is IHierarchicalVirtualizationAndScrollInfo groupItem
-            && GetIsVirtualizingWhenGrouping(ItemsControl))
+            && VirtualizingPanel.GetIsVirtualizingWhenGrouping(ItemsControl))
         {
             if (Orientation == Orientation.Vertical)
             {
@@ -165,7 +167,7 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
             ChildSize = CalculateChildSize(availableSize);
 
         ItemsPerRowCount
-            = double.IsInfinity(GetWidth(availableSize))
+            = Double.IsInfinity(GetWidth(availableSize))
                 ? Items.Count
                 : Math.Max(1, (int)Math.Floor(GetWidth(availableSize) / GetWidth(ChildSize)));
 
@@ -182,7 +184,7 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
 
         var startPosition = ItemContainerGenerator.GeneratorPositionFromIndex(0);
 
-        using var at = ItemContainerGenerator.StartAt(startPosition, GeneratorDirection.Forward, true);
+        using IDisposable at = ItemContainerGenerator.StartAt(startPosition, GeneratorDirection.Forward, true);
 
         var child = (UIElement)ItemContainerGenerator.GenerateNext();
         AddInternalChild(child);
@@ -214,14 +216,14 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
     /// </summary>
     protected void CalculateSpacing(Size finalSize, out double innerSpacing, out double outerSpacing)
     {
-        var childSize = CalculateChildArrangeSize(finalSize);
+        Size childSize = CalculateChildArrangeSize(finalSize);
 
-        var finalWidth = GetWidth(finalSize);
+        double finalWidth = GetWidth(finalSize);
 
-        var totalItemsWidth = Math.Min(GetWidth(childSize) * ItemsPerRowCount, finalWidth);
-        var unusedWidth = finalWidth - totalItemsWidth;
+        double totalItemsWidth = Math.Min(GetWidth(childSize) * ItemsPerRowCount, finalWidth);
+        double unusedWidth = finalWidth - totalItemsWidth;
 
-        var spacingMode = SpacingMode;
+        SpacingMode spacingMode = SpacingMode;
 
         switch (spacingMode)
         {
@@ -257,21 +259,21 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
         if (ItemsOwner is IHierarchicalVirtualizationAndScrollInfo groupItem)
             offsetY = 0;
 
-        var childSize = CalculateChildArrangeSize(finalSize);
+        Size childSize = CalculateChildArrangeSize(finalSize);
 
-        CalculateSpacing(finalSize, out var innerSpacing, out var outerSpacing);
+        CalculateSpacing(finalSize, out double innerSpacing, out double outerSpacing);
 
-        for (var childIndex = 0; childIndex < InternalChildren.Count; childIndex++)
+        for (int childIndex = 0; childIndex < InternalChildren.Count; childIndex++)
         {
-            var child = InternalChildren[childIndex];
+            UIElement child = InternalChildren[childIndex];
 
-            var itemIndex = GetItemIndexFromChildIndex(childIndex);
+            int itemIndex = GetItemIndexFromChildIndex(childIndex);
 
-            var columnIndex = itemIndex % ItemsPerRowCount;
-            var rowIndex = itemIndex / ItemsPerRowCount;
+            int columnIndex = itemIndex % ItemsPerRowCount;
+            int rowIndex = itemIndex / ItemsPerRowCount;
 
-            var x = outerSpacing + columnIndex * (GetWidth(childSize) + innerSpacing);
-            var y = rowIndex * GetHeight(childSize);
+            double x = outerSpacing + columnIndex * (GetWidth(childSize) + innerSpacing);
+            double y = rowIndex * GetHeight(childSize);
 
             if (GetHeight(finalSize) == 0.0)
             {
@@ -339,7 +341,7 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
 
         if (ItemsOwner is IHierarchicalVirtualizationAndScrollInfo groupItem)
         {
-            if (!GetIsVirtualizingWhenGrouping(ItemsControl))
+            if (!VirtualizingPanel.GetIsVirtualizingWhenGrouping(ItemsControl))
                 return new ItemRange(0, Items.Count - 1);
 
             var offset = new Point(Offset.X, groupItem.Constraints.Viewport.Location.Y);
@@ -361,7 +363,7 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
                 offsetRowIndex = GetRowIndex(offsetInPixel);
             }
 
-            var viewportHeight = Math.Min(GetHeight(Viewport), Math.Max(GetHeight(Extent) - offsetInPixel, 0));
+            double viewportHeight = Math.Min(GetHeight(Viewport), Math.Max(GetHeight(Extent) - offsetInPixel, 0));
 
             rowCountInViewport = (int)Math.Ceiling((offsetInPixel + viewportHeight) / GetHeight(ChildSize)) -
                                  (int)Math.Floor(offsetInPixel / GetHeight(ChildSize));
@@ -378,8 +380,8 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
                     CacheLength.CacheAfterViewport,
                     GetHeight(Extent) - viewportHeight - offsetInPixel);
 
-                var rowCountInCacheBefore = (int)(cacheBeforeInPixel / GetHeight(ChildSize));
-                var rowCountInCacheAfter =
+                int rowCountInCacheBefore = (int)(cacheBeforeInPixel / GetHeight(ChildSize));
+                int rowCountInCacheAfter =
                     ((int)Math.Ceiling((offsetInPixel + viewportHeight + cacheAfterInPixel) / GetHeight(ChildSize))) -
                     (int)Math.Ceiling((offsetInPixel + viewportHeight) / GetHeight(ChildSize));
 
@@ -403,15 +405,15 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
                 viewportEndPos = Math.Min(viewportEndPos + CacheLength.CacheAfterViewport, GetHeight(Extent));
             }
 
-            var startRowIndex = GetRowIndex(viewportSartPos);
+            int startRowIndex = GetRowIndex(viewportSartPos);
             startIndex = startRowIndex * ItemsPerRowCount;
 
-            var endRowIndex = GetRowIndex(viewportEndPos);
+            int endRowIndex = GetRowIndex(viewportEndPos);
             endIndex = Math.Min(endRowIndex * ItemsPerRowCount + (ItemsPerRowCount - 1), Items.Count - 1);
 
             if (CacheLengthUnit == VirtualizationCacheLengthUnit.Page)
             {
-                var itemsPerPage = endIndex - startIndex + 1;
+                int itemsPerPage = endIndex - startIndex + 1;
                 startIndex = Math.Max(startIndex - (int)CacheLength.CacheBeforeViewport * itemsPerPage, 0);
                 endIndex = Math.Min(endIndex + (int)CacheLength.CacheAfterViewport * itemsPerPage, Items.Count - 1);
             }
@@ -431,7 +433,7 @@ public class VirtualizingWrapPanel : VirtualizingPanelBase
     private int GetRowIndex(double location)
     {
         var calculatedRowIndex = (int)Math.Floor(location / GetHeight(ChildSize));
-        var maxRowIndex = (int)Math.Ceiling(Items.Count / (double)ItemsPerRowCount);
+        var maxRowIndex = (int)Math.Ceiling((double)Items.Count / (double)ItemsPerRowCount);
 
         return Math.Max(Math.Min(calculatedRowIndex, maxRowIndex), 0);
     }

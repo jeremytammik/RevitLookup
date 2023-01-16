@@ -26,7 +26,8 @@ using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Contracts;
+using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.ViewModels.Pages;

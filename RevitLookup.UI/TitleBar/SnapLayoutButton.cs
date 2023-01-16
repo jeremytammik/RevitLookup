@@ -3,10 +3,12 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Automation.Provider;
 using System.Windows.Media;
+using RevitLookup.UI.Controls;
 
 namespace RevitLookup.UI.TitleBar;
 
@@ -18,7 +20,7 @@ internal class SnapLayoutButton
     /// <summary>
     /// Visual controls of the button.
     /// </summary>
-    private readonly Controls.Button _visual;
+    private readonly Button _visual;
 
     /// <summary>
     /// Type of the button.
@@ -29,6 +31,16 @@ internal class SnapLayoutButton
     /// Rendered size of the button control.
     /// </summary>
     private Size _renderedSize;
+
+    /// <summary>
+    /// Width - Default is 0, must be non-negative
+    /// </summary>
+    public double Width => _renderedSize.Width;
+
+    /// <summary>
+    /// Height - Default is 0, must be non-negative
+    /// </summary>
+    public double Height => _renderedSize.Height;
 
     /// <summary>
     /// Whether the button is clicked.
@@ -43,7 +55,7 @@ internal class SnapLayoutButton
     /// <summary>
     /// Creates new instance and sets internals.
     /// </summary>
-    public SnapLayoutButton(Controls.Button button, TitleBarButton type, double dpiScale)
+    public SnapLayoutButton(Button button, TitleBarButton type, double dpiScale)
     {
         _visual = button ?? throw new InvalidOperationException($"Parameter button of the {typeof(SnapLayoutButton)} cannot be null.");
 
@@ -125,7 +137,12 @@ internal class SnapLayoutButton
         if (_renderedSize.Height == 0 && _renderedSize.Width == 0)
             return false;
 
-        var positionWords = positionPointer.ToInt32();
+        var positionPointerLong = positionPointer.ToInt64();
+
+        if (positionPointerLong > 2147483647 || positionPointerLong < -2145629296)
+            return false;
+
+        var positionWords = (int)positionPointerLong;
 
         if (positionWords < 1)
             return false;
@@ -151,6 +168,9 @@ internal class SnapLayoutButton
         }
         catch (Exception e)
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine($"ERROR | {e}", "Wpf.Ui.SnapLayout");
+#endif
             return false; // or not to false, that is the question
         }
 

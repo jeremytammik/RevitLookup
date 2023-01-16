@@ -19,9 +19,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
-using RevitLookup.UI.Common.Interfaces;
-using RevitLookup.UI.Controls.Interfaces;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Contracts;
+using RevitLookup.UI.Controls;
+using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views.Dialogs;
 
@@ -34,6 +34,7 @@ public sealed partial class AboutView : INavigableView<AboutViewModel>
     public AboutView(AboutViewModel viewModel, IDialogService dialogService)
     {
         ViewModel = viewModel;
+        DataContext = this;
         InitializeComponent();
         _dialogControl = dialogService.GetDialogControl();
         Loaded += OnLoaded;

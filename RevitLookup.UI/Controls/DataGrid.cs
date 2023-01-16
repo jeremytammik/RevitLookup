@@ -4,8 +4,12 @@
 // All Rights Reserved.
 
 
+using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace RevitLookup.UI.Controls;
 
@@ -32,7 +36,7 @@ public class DataGrid : System.Windows.Controls.DataGrid
     /// </summary>
     public Style CheckBoxColumnElementStyle
     {
-        get => (Style) GetValue(CheckBoxColumnElementStyleProperty);
+        get => (Style)GetValue(CheckBoxColumnElementStyleProperty);
         set => SetValue(CheckBoxColumnElementStyleProperty, value);
     }
 
@@ -41,7 +45,7 @@ public class DataGrid : System.Windows.Controls.DataGrid
     /// </summary>
     public Style CheckBoxColumnEditingElementStyle
     {
-        get => (Style) GetValue(CheckBoxColumnEditingElementStyleProperty);
+        get => (Style)GetValue(CheckBoxColumnEditingElementStyleProperty);
         set => SetValue(CheckBoxColumnEditingElementStyleProperty, value);
     }
     
@@ -52,8 +56,7 @@ public class DataGrid : System.Windows.Controls.DataGrid
     }
 
     public event EventHandler ItemsSourceChanged;
-    
-    //
+
     // protected override void OnInitialized(EventArgs e)
     // {
     //     Columns.CollectionChanged += ColumnsOnCollectionChanged;
@@ -63,15 +66,17 @@ public class DataGrid : System.Windows.Controls.DataGrid
     //     base.OnInitialized(e);
     // }
     //
-    // private void ColumnsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    // private void ColumnsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     // {
     //     UpdateColumnElementStyles();
     // }
+    //
     // private void UpdateColumnElementStyles()
     // {
     //     foreach (var singleColumn in Columns)
     //         UpdateSingleColumn(singleColumn);
     // }
+    //
     // private void UpdateSingleColumn(DataGridColumn dataGridColumn)
     // {
     //     if (dataGridColumn is DataGridCheckBoxColumn checkBoxColumn)

@@ -11,6 +11,7 @@
 // If you have suggestions for the code below, please submit your changes there.
 // https://github.com/lepoco/nativemethods
 
+using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -1015,7 +1016,7 @@ internal static class User32
         [In, Optional] IntPtr hInstance,
         [In, Optional] IntPtr lpParam)
     {
-        var ret = CreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent,
+        IntPtr ret = CreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent,
             hMenu, hInstance, lpParam);
         if (IntPtr.Zero == ret)
         {
@@ -1455,7 +1456,7 @@ internal static class User32
     public static MF EnableMenuItem([In] IntPtr hMenu, [In] SC uIDEnableItem, [In] MF uEnable)
     {
         // Returns the previous state of the menu item, or -1 if the menu item does not exist.
-        var iRet = _EnableMenuItem(hMenu, uIDEnableItem, uEnable);
+        int iRet = _EnableMenuItem(hMenu, uIDEnableItem, uEnable);
         return (MF)iRet;
     }
 
@@ -1471,7 +1472,7 @@ internal static class User32
     /// <exception cref="Win32Exception">Native method returned HRESULT.</exception>
     public static void SetWindowRgn([In] IntPtr hWnd, [In] IntPtr hRgn, [In] bool bRedraw)
     {
-        var err = _SetWindowRgn(hWnd, hRgn, bRedraw);
+        int err = _SetWindowRgn(hWnd, hRgn, bRedraw);
 
         if (0 == err)
         {

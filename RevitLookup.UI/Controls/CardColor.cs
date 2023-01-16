@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Media;
 
@@ -17,13 +18,13 @@ public class CardColor : System.Windows.Controls.Control
     /// Property for <see cref="Title"/>.
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title),
-        typeof(string), typeof(CardColor), new PropertyMetadata(string.Empty));
+        typeof(string), typeof(CardColor), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Property for <see cref="Subtitle"/>.
     /// </summary>
     public static readonly DependencyProperty SubtitleProperty = DependencyProperty.Register(nameof(Subtitle),
-        typeof(string), typeof(CardColor), new PropertyMetadata(string.Empty, OnSubtitlePropertyChanged));
+        typeof(string), typeof(CardColor), new PropertyMetadata(String.Empty, OnSubtitlePropertyChanged));
 
     /// <summary>
     /// Property for <see cref="SubtitleFontSize"/>.

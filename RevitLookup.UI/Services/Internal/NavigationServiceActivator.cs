@@ -7,8 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Reflection;
 using RevitLookup.UI.Common;
+using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
-using RevitLookup.UI.Controls.Interfaces;
+using RevitLookup.UI.Controls.Navigation;
 
 namespace RevitLookup.UI.Services.Internal;
 
@@ -58,7 +59,7 @@ internal static class NavigationServiceActivator
             {
                 var selectedCtor = FitBestConstructor(pageConstructors, dataContext);
                 if (selectedCtor == null)
-                    throw new InvalidOperationException($"The {pageType} page does not have a parameterless constructor or the required services have not been configured for dependency injection. Use the static {nameof(ControlsServices)} class to initialize the GUI library with your service provider. If you are using {typeof(Mvvm.Contracts.IPageService)} do not navigate initially and don't use Cache or Precache.");
+                    throw new InvalidOperationException($"The {pageType} page does not have a parameterless constructor or the required services have not been configured for dependency injection. Use the static {nameof(ControlsServices)} class to initialize the GUI library with your service provider. If you are using {typeof(IPageService)} do not navigate initially and don't use Cache or Precache.");
 
                 instance = InvokeElementConstructor(selectedCtor, dataContext);
                 SetDataContext(instance, dataContext);
@@ -74,7 +75,7 @@ internal static class NavigationServiceActivator
 
         var emptyConstructor = FindParameterlessConstructor(pageType);
         if (emptyConstructor == null)
-            throw new InvalidOperationException($"The {pageType} page does not have a parameterless constructor. If you are using {typeof(Mvvm.Contracts.IPageService)} do not navigate initially and don't use Cache or Precache.");
+            throw new InvalidOperationException($"The {pageType} page does not have a parameterless constructor. If you are using {typeof(IPageService)} do not navigate initially and don't use Cache or Precache.");
 
         instance = emptyConstructor.Invoke(null) as FrameworkElement;
         SetDataContext(instance, dataContext);

@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.TaskBar;
+namespace RevitLookup.UI.Taskbar;
 
 /// <summary>
 /// Specifies the state of the progress indicator in the Windows task bar.

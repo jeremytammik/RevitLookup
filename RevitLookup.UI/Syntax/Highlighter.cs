@@ -3,6 +3,8 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -42,20 +44,20 @@ internal static class Highlighter
 
     public static TextBlock Format(object code)
     {
-        return Format(code as string ?? string.Empty);
+        return Format(code as string ?? String.Empty);
     }
 
     public static TextBlock Format(string code, SyntaxLanguage language = SyntaxLanguage.Autodetect)
     {
-        var returnText = new TextBlock();
+        TextBlock returnText = new TextBlock();
         Regex rgx = new(GetPattern(language, code));
 
         Group codeMatched;
-        var lightTheme = IsLightTheme();
+        bool lightTheme = IsLightTheme();
 
         foreach (Match match in rgx.Matches(code))
         {
-            foreach (var group in match.Groups)
+            foreach (object group in match.Groups)
             {
                 // Remove whole matches
                 if (group is Match)
@@ -65,7 +67,7 @@ internal static class Highlighter
                 codeMatched = (Group)group;
 
                 // Remove empty groups
-                if (string.IsNullOrEmpty(codeMatched.Value))
+                if (String.IsNullOrEmpty(codeMatched.Value))
                     continue;
 
                 if (codeMatched.Value.Contains("\t"))
@@ -83,12 +85,12 @@ internal static class Highlighter
                 }
                 else if (codeMatched.Value.Contains("\""))
                 {
-                    var attributeArray = codeMatched.Value.Split('"');
+                    string[] attributeArray = codeMatched.Value.Split('"');
                     attributeArray = attributeArray.Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
 
                     if (attributeArray.Length % 2 == 0)
                     {
-                        for (var i = 0; i < attributeArray.Length; i += 2)
+                        for (int i = 0; i < attributeArray.Length; i += 2)
                         {
                             returnText.Inlines.Add(Line(attributeArray[i],
                                 lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
@@ -107,12 +109,12 @@ internal static class Highlighter
                 }
                 else if (codeMatched.Value.Contains("'"))
                 {
-                    var attributeArray = codeMatched.Value.Split('\'');
+                    string[] attributeArray = codeMatched.Value.Split('\'');
                     attributeArray = attributeArray.Where(x => !string.IsNullOrEmpty(x.Trim())).ToArray();
 
                     if (attributeArray.Length % 2 == 0)
                     {
-                        for (var i = 0; i < attributeArray.Length; i += 2)
+                        for (int i = 0; i < attributeArray.Length; i += 2)
                         {
                             returnText.Inlines.Add(Line(attributeArray[i],
                                 lightTheme ? Brushes.DarkSlateGray : Brushes.WhiteSmoke));
@@ -160,17 +162,17 @@ internal static class Highlighter
 
     private static bool IsLightTheme()
     {
-        return Theme.GetAppTheme() == ThemeType.Light;
+        return Appearance.Theme.GetAppTheme() == ThemeType.Light;
     }
 
     private static string GetPattern(SyntaxLanguage language)
     {
-        return GetPattern(language, string.Empty);
+        return GetPattern(language, String.Empty);
     }
 
     private static string GetPattern(SyntaxLanguage language, string code)
     {
-        var pattern = string.Empty;
+        var pattern = String.Empty;
 
         // TODO: Auto detected
         if (language == SyntaxLanguage.Autodetect)

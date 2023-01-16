@@ -3,7 +3,9 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
+using RevitLookup.UI.Controls.Window;
 using RevitLookup.UI.Interop;
 
 namespace RevitLookup.UI.Appearance;
@@ -16,7 +18,7 @@ public static class Theme
     /// <summary>
     /// Event triggered when the application's theme is changed.
     /// </summary>
-    public static event ThemeChangedEvent Changed;
+    public static event ThemeChangedEvent? Changed;
 
     /// <summary>
     /// Gets a value that indicates whether the application is currently using the high contrast theme.
@@ -37,7 +39,7 @@ public static class Theme
     /// <param name="backgroundEffect">Whether the custom background effect should be applied.</param>
     /// <param name="updateAccent">Whether the color accents should be changed.</param>
     /// <param name="forceBackground">If <see langword="true"/>, bypasses the app's theme compatibility check and tries to force the change of a background effect.</param>
-    public static void Apply(ThemeType themeType, BackgroundType backgroundEffect = BackgroundType.Mica,
+    public static void Apply(ThemeType themeType, WindowBackdropType backgroundEffect = WindowBackdropType.Mica,
         bool updateAccent = true, bool forceBackground = false)
     {
         if (updateAccent)
@@ -76,7 +78,7 @@ public static class Theme
         //var isCoreUpdated = appDictionaries.UpdateDictionary(
         //    "wpf.ui",
         //    new Uri(
-        //        AppearanceData.LibraryDictionariesUri + "RevitLookup.UI.xaml",
+        //        AppearanceData.LibraryDictionariesUri + "Wpf.Ui.xaml",
         //        UriKind.Absolute
         //    )
         //);
@@ -89,6 +91,11 @@ public static class Theme
         //        )
         //    );
 
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine(
+            $"INFO | {typeof(Theme)} tries to update theme to {themeDictionaryName} ({themeType}): {isUpdated}",
+            "Wpf.Ui.Theme");
+#endif
         if (!isUpdated)
             return;
 
@@ -233,14 +240,22 @@ public static class Theme
     /// <summary>
     /// Forces change to application background. Required if custom background effect was previously applied.
     /// </summary>
-    public static void UpdateBackground(ThemeType themeType,
-        BackgroundType backgroundEffect = BackgroundType.Unknown, bool forceBackground = false)
+    private static void UpdateBackground(ThemeType themeType,
+        WindowBackdropType backgroundEffect = WindowBackdropType.None, bool forceBackground = false)
     {
+        var handles = AppearanceData.ModifiedBackgroundHandles;
+
+        foreach (var singleHandle in handles)
+        {
+            WindowBackdrop.ApplyBackdrop(singleHandle, backgroundEffect);
+        }
         // TODO: All windows
-        Background.UpdateAll(themeType, backgroundEffect);
 
         if (!AppearanceData.HasHandle(Application.Current))
-            Background.Apply(Application.Current, backgroundEffect, forceBackground);
+        {
+            WindowBackdrop.ApplyBackdrop(Application.Current, backgroundEffect);
+            AppearanceData.AddHandle(Application.Current);
+        }
 
         // Do we really neeed this?
         //if (!Win32.Utilities.IsOSWindows11OrNewer)
@@ -267,7 +282,7 @@ public static class Theme
         //            mainWindow.Background = new SolidColorBrush(color);
 
         //#if DEBUG
-        //        System.Diagnostics.Debug.WriteLine($"INFO | Current background color: {backgroundColor}", "RevitLookup.UI.Theme");
+        //        System.Diagnostics.Debug.WriteLine($"INFO | Current background color: {backgroundColor}", "Wpf.Ui.Theme");
         //#endif
 
         //        var windowHandle = new WindowInteropHelper(mainWindow).Handle;

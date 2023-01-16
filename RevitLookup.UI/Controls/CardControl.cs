@@ -6,7 +6,6 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
-using RevitLookup.UI.Controls.Interfaces;
 
 namespace RevitLookup.UI.Controls;
 

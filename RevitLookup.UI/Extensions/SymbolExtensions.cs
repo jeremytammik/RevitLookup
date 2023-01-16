@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Extensions;
@@ -18,7 +19,7 @@ public static class SymbolExtensions
     public static SymbolFilled Swap(this SymbolRegular icon)
     {
         // It is possible that the alternative icon does not exist
-        return Glyph.ParseFilled(icon.ToString());
+        return SymbolGlyph.ParseFilled(icon.ToString());
     }
 
     /// <summary>
@@ -27,7 +28,7 @@ public static class SymbolExtensions
     public static SymbolRegular Swap(this SymbolFilled icon)
     {
         // It is possible that the alternative icon does not exist
-        return Glyph.Parse(icon.ToString());
+        return SymbolGlyph.Parse(icon.ToString());
     }
 
     /// <summary>

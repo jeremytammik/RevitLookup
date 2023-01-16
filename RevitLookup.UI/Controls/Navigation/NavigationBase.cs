@@ -13,9 +13,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using RevitLookup.UI.Common;
-using RevitLookup.UI.Controls.Interfaces;
-using RevitLookup.UI.Mvvm.Contracts;
-using RevitLookup.UI.Mvvm.Interfaces;
+using RevitLookup.UI.Contracts;
+using RevitLookup.UI.Services.Internal;
 
 namespace RevitLookup.UI.Controls.Navigation;
 
@@ -27,7 +26,7 @@ public abstract class NavigationBase : Control, INavigation
     /// <summary>
     /// Service used for navigation purposes.
     /// </summary>
-    private readonly Services.Internal.NavigationService? _navigationService;
+    private readonly NavigationService? _navigationService;
 
     /// <summary>
     /// Property for <see cref="Items"/>.
@@ -368,9 +367,6 @@ public abstract class NavigationBase : Control, INavigation
             return;
 
         ((FrameworkElement)Frame.Content).DataContext = dataContext;
-
-        if (dataContext is IViewModel)
-            ((IViewModel)dataContext).OnMounted(((FrameworkElement)Frame.Content));
     }
 
     /// <inheritdoc/>

@@ -8,8 +8,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:RevitLookup.UI.Controls"
-    xmlns:converters="clr-namespace:RevitLookup.UI.Converters">
+    xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
     <Style TargetType="{x:Type controls:TreeGridItem}">
         <Setter Property="Margin" Value="0" />

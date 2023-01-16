@@ -3,6 +3,9 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
+using System.Linq;
+
 namespace RevitLookup.UI.Extensions;
 
 /// <summary>
@@ -46,7 +49,7 @@ public static class UriExtensions
         if (!uri.IsAbsoluteUri)
             return uri; // or throw?
 
-        return new Uri(segments.Aggregate(uri.AbsoluteUri, (current, path) => string.Format("{0}/{1}", current.TrimEnd('/').TrimEnd('\\'), path.TrimStart('/').TrimStart('\\'))));
+        return new Uri(segments.Aggregate(uri.AbsoluteUri, (current, path) => String.Format("{0}/{1}", current.TrimEnd('/').TrimEnd('\\'), path.TrimStart('/').TrimStart('\\'))));
     }
 
     /// <summary>
@@ -54,7 +57,7 @@ public static class UriExtensions
     /// </summary>
     public static Uri Append(this Uri uri, Uri value)
     {
-        return new Uri(string.Format("{0}/{1}", uri.ToString().TrimEnd('/').TrimEnd('\\'), value.ToString().TrimStart('/').TrimStart('\\')), UriKind.RelativeOrAbsolute);
+        return new Uri(String.Format("{0}/{1}", uri.ToString().TrimEnd('/').TrimEnd('\\'), value.ToString().TrimStart('/').TrimStart('\\')), UriKind.RelativeOrAbsolute);
     }
 }
 

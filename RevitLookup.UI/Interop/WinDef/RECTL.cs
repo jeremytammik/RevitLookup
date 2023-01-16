@@ -6,6 +6,7 @@
 // Copyright (C) Leszek Pomianowski.
 // All Rights Reserved.
 
+using System;
 using System.Runtime.InteropServices;
 
 namespace RevitLookup.UI.Interop.WinDef;
@@ -116,7 +117,7 @@ public struct RECTL
     }
 
     /// <inheritdoc />
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not RECTL)
             return false;

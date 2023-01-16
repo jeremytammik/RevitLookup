@@ -6,6 +6,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
+using RevitLookup.UI.Common;
 
 namespace RevitLookup.UI.Controls;
 
@@ -49,7 +50,7 @@ public class NavigationCompact : Navigation.NavigationBase
     /// Creates new instance and sets default <see cref="TemplateButtonCommandProperty"/>.
     /// </summary>
     public NavigationCompact() : base() =>
-        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand(o => Button_OnClick(this, o)));
+        SetValue(TemplateButtonCommandProperty, new RelayCommand<object>(o => Button_OnClick(this, o)));
 
     private void Button_OnClick(object sender, object parameter)
     {

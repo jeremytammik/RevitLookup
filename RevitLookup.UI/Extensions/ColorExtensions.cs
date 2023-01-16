@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows.Media;
 
 namespace RevitLookup.UI.Extensions;
@@ -15,7 +16,7 @@ public static class ColorExtensions
     /// <summary>
     /// Maximum <see cref="Byte"/> size with the current <see cref="Single"/> precision.
     /// </summary>
-    private static float ByteMax = byte.MaxValue;
+    private static float ByteMax = (float)Byte.MaxValue;
 
     /// <summary>
     /// Creates a <see cref="SolidColorBrush"/> from a <see cref="System.Windows.Media.Color"/>.
@@ -46,7 +47,7 @@ public static class ColorExtensions
     {
         var (hue, saturation, luminance) = color.ToHsl();
 
-        return luminance;
+        return (double)luminance;
     }
 
     /// <summary>
@@ -57,7 +58,7 @@ public static class ColorExtensions
     {
         var (hue, saturation, brightness) = color.ToHsv();
 
-        return brightness;
+        return (double)brightness;
     }
 
     /// <summary>
@@ -68,7 +69,7 @@ public static class ColorExtensions
     {
         var (hue, saturation, brightness) = color.ToHsv();
 
-        return hue;
+        return (double)hue;
     }
 
     /// <summary>
@@ -79,7 +80,7 @@ public static class ColorExtensions
     {
         var (hue, saturation, brightness) = color.ToHsv();
 
-        return saturation;
+        return (double)saturation;
     }
 
     /// <summary>
@@ -226,7 +227,7 @@ public static class ColorExtensions
         var max = Math.Max(red, Math.Max(green, blue));
         var min = Math.Min(red, Math.Min(green, blue));
 
-        var fDelta = (max - min) / ByteMax;
+        float fDelta = (max - min) / ByteMax;
 
         float hue, saturation, lightness;
 
@@ -267,7 +268,7 @@ public static class ColorExtensions
         var max = Math.Max(red, Math.Max(green, blue));
         var min = Math.Min(red, Math.Min(green, blue));
 
-        var fDelta = (max - min) / ByteMax;
+        float fDelta = (max - min) / ByteMax;
 
         float hue, saturation, value;
 
@@ -308,7 +309,7 @@ public static class ColorExtensions
         lightness /= 100f;
         saturation /= 100f;
 
-        var hueAngle = hue / 360f;
+        float hueAngle = hue / 360f;
 
         return (
             CalcHslChannel(hueAngle + 0.333333333f, saturation, lightness),
@@ -335,12 +336,12 @@ public static class ColorExtensions
         brightness /= 100f;
         saturation /= 100f;
 
-        var hueAngle = (hue - (float)Math.Floor(hue)) * 6.0f;
-        var f = hueAngle - (float)Math.Floor(hueAngle);
+        float hueAngle = (hue - (float)Math.Floor(hue)) * 6.0f;
+        float f = hueAngle - (float)Math.Floor(hueAngle);
 
-        var p = brightness * (1.0f - saturation);
-        var q = brightness * (1.0f - saturation * f);
-        var t = brightness * (1.0f - (saturation * (1.0f - f)));
+        float p = brightness * (1.0f - saturation);
+        float q = brightness * (1.0f - saturation * f);
+        float t = brightness * (1.0f - (saturation * (1.0f - f)));
 
         switch ((int)hueAngle)
         {
@@ -423,7 +424,7 @@ public static class ColorExtensions
     private static bool AlmostEquals(float numberOne, float numberTwo, float precision = 0)
     {
         if (precision <= 0)
-            precision = float.Epsilon;
+            precision = Single.Epsilon;
 
         return numberOne >= (numberTwo - precision) && numberOne <= (numberTwo + precision);
     }
@@ -446,11 +447,11 @@ public static class ColorExtensions
     /// </summary>
     private static byte ToColorByte(int value)
     {
-        if (value > byte.MaxValue)
-            value = byte.MaxValue;
+        if (value > Byte.MaxValue)
+            value = Byte.MaxValue;
 
-        if (value < byte.MinValue)
-            value = byte.MinValue;
+        if (value < Byte.MinValue)
+            value = Byte.MinValue;
 
         return Convert.ToByte(value);
     }

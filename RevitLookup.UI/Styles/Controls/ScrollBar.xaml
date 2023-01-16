@@ -8,10 +8,10 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:common="clr-namespace:RevitLookup.UI.Common"
-    xmlns:controls="clr-namespace:RevitLookup.UI.Controls"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:RevitLookup.UI.Converters"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    xmlns:controls="clr-namespace:RevitLookup.UI.Controls"
+    xmlns:common="clr-namespace:RevitLookup.UI.Common">
 
     <Duration x:Key="ScrollAnimationDuration">0:0:0.16</Duration>
     <Duration x:Key="ButtonHoverAnimationDuration">0:0:0.16</Duration>

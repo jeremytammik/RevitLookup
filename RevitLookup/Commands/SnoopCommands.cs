@@ -22,7 +22,7 @@ using Autodesk.Revit.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Mvvm.Contracts;
+using RevitLookup.UI.Contracts;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;

@@ -3,9 +3,11 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 
 // https://docs.microsoft.com/en-us/fluent-ui/web-components/components/anchor
 
@@ -23,7 +25,7 @@ public class Anchor : Button
     /// </summary>
     public static readonly DependencyProperty NavigateUriProperty =
         DependencyProperty.Register(nameof(NavigateUri), typeof(string), typeof(Anchor),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Gets or sets the URL that the hyperlink points to.
@@ -39,10 +41,13 @@ public class Anchor : Button
     /// </summary>
     protected override void OnClick()
     {
-        var newEvent = new RoutedEventArgs(ClickEvent, this);
+        RoutedEventArgs newEvent = new RoutedEventArgs(ButtonBase.ClickEvent, this);
         RaiseEvent(newEvent);
 
-        if (string.IsNullOrEmpty(NavigateUri))
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | Anchor clicked, with href: {NavigateUri}", "Wpf.Ui.Anchor");
+#endif
+        if (String.IsNullOrEmpty(NavigateUri))
             return;
         System.Diagnostics.ProcessStartInfo sInfo = new(new Uri(NavigateUri).AbsoluteUri)
         {

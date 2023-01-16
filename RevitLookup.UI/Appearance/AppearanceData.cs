@@ -3,6 +3,8 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -16,12 +18,12 @@ public static class AppearanceData
     /// <summary>
     /// Collection of handles that have a background effect applied.
     /// </summary>
-    internal static List<IntPtr> ModifiedBackgroundHandles = new();
+    public static List<IntPtr> ModifiedBackgroundHandles = new();
 
     /// <summary>
     /// Namespace for the XAML dictionaries.
     /// </summary>
-    internal const string LibraryNamespace = "ui;";
+    public const string LibraryNamespace = "ui;";
 
     /// <summary>
     /// Main dictionary for WPF UI controls.
@@ -41,17 +43,17 @@ public static class AppearanceData
     /// <summary>
     /// Current system theme.
     /// </summary>
-    internal static SystemThemeType SystemTheme = SystemThemeType.Unknown;
+    public static SystemThemeType SystemTheme = SystemThemeType.Unknown;
 
     /// <summary>
     /// Current application theme.
     /// </summary>
-    internal static ThemeType ApplicationTheme = ThemeType.Unknown;
+    public static ThemeType ApplicationTheme = ThemeType.Unknown;
 
     /// <summary>
     /// Adds given window to list of modified handles.
     /// </summary>
-    internal static void AddHandle(Window window)
+    public static void AddHandle(Window window)
     {
         AddHandle(new WindowInteropHelper(window).Handle);
     }
@@ -59,7 +61,7 @@ public static class AppearanceData
     /// <summary>
     /// Adds given handle to list of modified handles.
     /// </summary>
-    internal static void AddHandle(IntPtr hWnd)
+    public static void AddHandle(IntPtr hWnd)
     {
         if (!ModifiedBackgroundHandles.Contains(hWnd))
             ModifiedBackgroundHandles.Add(hWnd);
@@ -68,7 +70,7 @@ public static class AppearanceData
     /// <summary>
     /// Removes given window from list of modified handles.
     /// </summary>
-    internal static void RemoveHandle(Window window)
+    public static void RemoveHandle(Window window)
     {
         RemoveHandle(new WindowInteropHelper(window).Handle);
     }
@@ -76,7 +78,7 @@ public static class AppearanceData
     /// <summary>
     /// Removes given handle from list of modified handles.
     /// </summary>
-    internal static void RemoveHandle(IntPtr hWnd)
+    public static void RemoveHandle(IntPtr hWnd)
     {
         if (!ModifiedBackgroundHandles.Contains(hWnd))
             ModifiedBackgroundHandles.Remove(hWnd);
@@ -85,7 +87,7 @@ public static class AppearanceData
     /// <summary>
     /// Returns a value indicating whether the given window had a modified background.
     /// </summary>
-    internal static bool HasHandle(Window window)
+    public static bool HasHandle(Window window)
     {
         return HasHandle(new WindowInteropHelper(window).Handle);
     }
@@ -93,7 +95,7 @@ public static class AppearanceData
     /// <summary>
     /// Returns a value indicating whether the given handle had a modified background.
     /// </summary>
-    internal static bool HasHandle(IntPtr hWnd)
+    public static bool HasHandle(IntPtr hWnd)
     {
         return ModifiedBackgroundHandles.Contains(hWnd);
     }

@@ -3,10 +3,12 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
 using RevitLookup.UI.Appearance;
+using Clipboard = RevitLookup.UI.Common.Clipboard;
 using Color = System.Windows.Media.Color;
 
 namespace RevitLookup.UI.Controls;
@@ -18,7 +20,7 @@ namespace RevitLookup.UI.Controls;
 [ToolboxBitmap(typeof(CodeBlock), "CodeBlock.bmp")]
 public class CodeBlock : System.Windows.Controls.ContentControl
 {
-    private string _sourceCode = string.Empty;
+    private string _sourceCode = String.Empty;
 
     /// <summary>
     /// Property for <see cref="SyntaxContent"/>.
@@ -53,9 +55,9 @@ public class CodeBlock : System.Windows.Controls.ContentControl
     /// </summary>
     public CodeBlock()
     {
-        SetValue(ButtonCommandProperty, new Common.RelayCommand(o => Button_Click(this, o)));
+        SetValue(ButtonCommandProperty, new Common.RelayCommand<string>(o => OnTemplateButtonClick(o ?? String.Empty)));
 
-        Theme.Changed += ThemeOnChanged;
+        Appearance.Theme.Changed += ThemeOnChanged;
     }
 
     private void ThemeOnChanged(ThemeType currentTheme, Color systemAccent)
@@ -75,12 +77,15 @@ public class CodeBlock : System.Windows.Controls.ContentControl
 
     protected virtual void UpdateSyntax()
     {
-        _sourceCode = Syntax.Highlighter.Clean(Content as string ?? string.Empty);
+        _sourceCode = Syntax.Highlighter.Clean(Content as string ?? String.Empty);
         SyntaxContent = Syntax.Highlighter.Format(_sourceCode);
     }
 
-    private void Button_Click(object sender, object parameter)
+    private void OnTemplateButtonClick(string parameter)
     {
-        Common.Clipboard.SetText(_sourceCode);
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO | CodeBlock source: \n{_sourceCode}", "Wpf.Ui.CodeBlock");
+#endif
+        Clipboard.SetText(_sourceCode);
     }
 }

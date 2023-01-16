@@ -11,8 +11,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:RevitLookup.UI.Controls"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
 
     <Thickness x:Key="CardExpanderPadding">14,16,14,16</Thickness>
     <Thickness x:Key="CardExpanderBorderThemeThickness">1</Thickness>

@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows.Data;
 
 namespace RevitLookup.UI.Converters;
@@ -14,7 +15,7 @@ internal class TextToAsteriskConverter : IValueConverter
     /// </summary>
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-        return new string('*', value?.ToString()?.Length ?? 0);
+        return new String('*', value?.ToString()?.Length ?? 0);
     }
 
     /// <summary>

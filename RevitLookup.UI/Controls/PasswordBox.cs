@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,7 +19,7 @@ namespace RevitLookup.UI.Controls;
 /// <summary>
 /// The modified password control.
 /// </summary>
-public class PasswordBox : RevitLookup.UI.Controls.TextBox
+public class PasswordBox : TextBox
 {
     private bool _lockUpdatingContents;
 
@@ -169,18 +170,15 @@ public class PasswordBox : RevitLookup.UI.Controls.TextBox
     /// </summary>
     /// <param name="sender">Sender of the click event.</param>
     /// <param name="parameter">Additional parameters.</param>
-    protected override void OnTemplateButtonClick(object sender, object parameter)
+    protected override void OnTemplateButtonClick(string parameter)
     {
-        base.OnTemplateButtonClick(sender, parameter);
-
-        if (parameter is not string parameterString)
-            return;
+        base.OnTemplateButtonClick(parameter);
 
 #if DEBUG
-        System.Diagnostics.Debug.WriteLine($"INFO: {typeof(PasswordBox)} button clicked with param: {parameterString}", "RevitLookup.UI.PasswordBox");
+        System.Diagnostics.Debug.WriteLine($"INFO: {typeof(PasswordBox)} button clicked with param: {parameter}", "Wpf.Ui.PasswordBox");
 #endif
 
-        switch (parameterString)
+        switch (parameter)
         {
             case "reveal":
                 IsPasswordRevealed = !IsPasswordRevealed;

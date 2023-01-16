@@ -18,7 +18,7 @@ namespace RevitLookup.UI.Controls;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(VirtualizingItemsControl), "VirtualizingItemsControl.bmp")]
-public class VirtualizingItemsControl : ItemsControl
+public class VirtualizingItemsControl : System.Windows.Controls.ItemsControl
 {
     /// <summary>
     /// Property for <see cref="CacheLengthUnit"/>.

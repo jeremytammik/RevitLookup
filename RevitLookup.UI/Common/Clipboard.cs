@@ -3,6 +3,9 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
+using System.Threading;
+
 namespace RevitLookup.UI.Common;
 
 /// <summary>

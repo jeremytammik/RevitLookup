@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -38,7 +39,7 @@ internal class ResourceDictionaryManager
     /// </summary>
     /// <param name="resourceLookup">Any part of the resource name.</param>
     /// <returns><see cref="ResourceDictionary"/>, <see langword="null"/> if it doesn't exist.</returns>
-    public ResourceDictionary GetDictionary(string resourceLookup)
+    public ResourceDictionary? GetDictionary(string resourceLookup)
     {
         var applicationDictionaries = GetAllDictionaries();
 
@@ -84,7 +85,7 @@ internal class ResourceDictionaryManager
     /// <returns></returns>
     public bool UpdateDictionary(string resourceLookup, Uri newResourceUri)
     {
-        var applicationDictionaries = Application.Current.Resources.MergedDictionaries;
+        Collection<ResourceDictionary> applicationDictionaries = Application.Current.Resources.MergedDictionaries;
         if (applicationDictionaries.Count == 0)
             return false;
 
@@ -93,7 +94,7 @@ internal class ResourceDictionaryManager
 
         resourceLookup = resourceLookup.ToLower().Trim();
 
-        for (var i = 0; i < applicationDictionaries.Count; i++)
+        for (int i = 0; i < applicationDictionaries.Count; i++)
         {
             string sourceUri;
 
@@ -109,7 +110,7 @@ internal class ResourceDictionaryManager
                 }
             }
 
-            for (var j = 0; j < applicationDictionaries[i].MergedDictionaries.Count; j++)
+            for (int j = 0; j < applicationDictionaries[i].MergedDictionaries.Count; j++)
             {
                 if (applicationDictionaries[i].MergedDictionaries[j]?.Source == null)
                     continue;

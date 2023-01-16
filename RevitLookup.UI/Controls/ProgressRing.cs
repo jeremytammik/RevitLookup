@@ -69,8 +69,8 @@ public class ProgressRing : System.Windows.Controls.Control
     /// </summary>
     public static readonly DependencyProperty CoverRingVisibilityProperty = DependencyProperty.Register(
         nameof(CoverRingVisibility),
-        typeof(Visibility), typeof(ProgressRing),
-        new PropertyMetadata(Visibility.Visible));
+        typeof(System.Windows.Visibility), typeof(ProgressRing),
+        new PropertyMetadata(System.Windows.Visibility.Visible));
 
     /// <summary>
     /// Gets or sets the progress.
@@ -121,9 +121,9 @@ public class ProgressRing : System.Windows.Controls.Control
     /// <summary>
     /// Background ring visibility.
     /// </summary>
-    public Visibility CoverRingVisibility
+    public System.Windows.Visibility CoverRingVisibility
     {
-        get => (Visibility)GetValue(CoverRingVisibilityProperty);
+        get => (System.Windows.Visibility)GetValue(CoverRingVisibilityProperty);
         internal set => SetValue(CoverRingVisibilityProperty, value);
     }
 

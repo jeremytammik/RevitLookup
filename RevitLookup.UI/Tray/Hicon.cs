@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -28,10 +29,10 @@ internal static class Hicon
         {
             var processName = Process.GetCurrentProcess().MainModule?.FileName;
 
-            if (string.IsNullOrEmpty(processName))
+            if (String.IsNullOrEmpty(processName))
                 return IntPtr.Zero;
 
-            var appIconsExtractIcon = Icon.ExtractAssociatedIcon(processName);
+            var appIconsExtractIcon = System.Drawing.Icon.ExtractAssociatedIcon(processName);
 
             if (appIconsExtractIcon == null)
                 return IntPtr.Zero;
@@ -42,7 +43,12 @@ internal static class Hicon
         }
         catch (Exception e)
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine($"ERROR | Unable to get application hIcon - {e}", "Wpf.Ui.Hicon");
+            throw;
+#else
             return IntPtr.Zero;
+#endif
         }
     }
 
@@ -53,33 +59,44 @@ internal static class Hicon
     public static IntPtr FromSource(ImageSource source)
     {
         var hIcon = IntPtr.Zero;
+        var bitmapSource = source as BitmapSource;
         var bitmapFrame = source as BitmapFrame;
 
-        if (bitmapFrame?.Decoder == null || bitmapFrame.Decoder.Frames.Count < 1)
+        if (bitmapSource == null)
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine($"ERROR | Unable to allocate hIcon, ImageSource is not a BitmapSource", "Wpf.Ui.Hicon");
+#endif
             return IntPtr.Zero;
         }
 
-        // Gets first bitmap frame.
-        bitmapFrame = bitmapFrame.Decoder.Frames[0];
+        if ((bitmapFrame?.Decoder?.Frames?.Count ?? 0) > 1)
+        {
+            // Gets first bitmap frame.
+            bitmapSource = bitmapFrame!.Decoder!.Frames![0];
+        }
 
-        var stride = bitmapFrame.PixelWidth * ((bitmapFrame.Format.BitsPerPixel + 7) / 8);
-        var pixels = new byte[bitmapFrame.PixelHeight * stride];
+        var stride = bitmapSource!.PixelWidth * ((bitmapSource.Format.BitsPerPixel + 7) / 8);
+        var pixels = new byte[bitmapSource.PixelHeight * stride];
 
-        bitmapFrame.CopyPixels(pixels, stride, 0);
+        bitmapSource.CopyPixels(pixels, stride, 0);
 
         // Allocate pixels to unmanaged memory
         var gcHandle = GCHandle.Alloc(pixels, GCHandleType.Pinned);
 
         if (!gcHandle.IsAllocated)
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine($"ERROR | Unable to allocate hIcon, allocation failed.", "Wpf.Ui.Hicon");
+#endif
+
             return IntPtr.Zero;
         }
 
 
         // Specifies that the format is 32 bits per pixel; 8 bits each are used for the alpha, red, green, and blue components.
         // The red, green, and blue components are premultiplied, according to the alpha component.
-        var bitmap = new Bitmap(bitmapFrame.PixelWidth, bitmapFrame.PixelHeight, stride,
+        var bitmap = new Bitmap(bitmapSource.PixelWidth, bitmapSource.PixelHeight, stride,
             System.Drawing.Imaging.PixelFormat.Format32bppPArgb, gcHandle.AddrOfPinnedObject());
 
         hIcon = bitmap.GetHicon();

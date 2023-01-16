@@ -8,5 +8,5 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Common")]
 [assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Markup")]
 [assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Converters")]
-[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.ValidationRules")]
 [assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Controls.Navigation")]
+[assembly: XmlnsDefinition("http://revitlookup.com/xaml", "RevitLookup.UI.Controls.Window")]

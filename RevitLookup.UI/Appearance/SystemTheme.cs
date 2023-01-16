@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Media;
 using Microsoft.Win32;
@@ -30,9 +31,9 @@ internal static class SystemTheme
     {
         var currentTheme =
             Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Themes",
-                "CurrentTheme", "aero.theme") as string ?? string.Empty;
+                "CurrentTheme", "aero.theme") as string ?? String.Empty;
 
-        if (string.IsNullOrEmpty(currentTheme))
+        if (String.IsNullOrEmpty(currentTheme))
             return SystemThemeType.Unknown;
 
         currentTheme = currentTheme.ToLower().Trim();

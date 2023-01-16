@@ -5,6 +5,7 @@
 
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using RevitLookup.UI.Common;
@@ -17,7 +18,7 @@ namespace RevitLookup.UI.Controls;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(DynamicScrollViewer), "DynamicScrollViewer.bmp")]
 [DefaultEvent("ScrollChangedEvent")]
-public class DynamicScrollViewer : ScrollViewer
+public class DynamicScrollViewer : System.Windows.Controls.ScrollViewer
 {
     private readonly EventIdentifier _verticalIdentifier = new();
 
@@ -117,6 +118,11 @@ public class DynamicScrollViewer : ScrollViewer
     protected override void OnScrollChanged(ScrollChangedEventArgs e)
     {
         base.OnScrollChanged(e);
+
+        //#if DEBUG
+        //            System.Diagnostics.Debug.WriteLine($"DEBUG | {typeof(DynamicScrollBar)}.{nameof(e.VerticalChange)} - {e.VerticalChange}", "WPFUI");
+        //            System.Diagnostics.Debug.WriteLine($"DEBUG | {typeof(DynamicScrollBar)}.{nameof(e.HorizontalChange)} - {e.HorizontalChange}", "WPFUI");
+        //#endif
 
         if (e.HorizontalChange > _minimalChange || e.HorizontalChange < -_minimalChange)
             UpdateHorizontalScrollingState();

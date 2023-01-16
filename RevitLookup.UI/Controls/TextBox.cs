@@ -3,13 +3,12 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using RevitLookup.UI.Controls.Interfaces;
+using RevitLookup.UI.Common;
 using Brush = System.Windows.Media.Brush;
 using SystemColors = System.Windows.SystemColors;
-
-// TODO: Fix clear button
 
 namespace RevitLookup.UI.Controls;
 
@@ -22,16 +21,16 @@ public class TextBox : System.Windows.Controls.TextBox, IIconControl
     /// Property for <see cref="Icon"/>.
     /// </summary>
     public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon),
-        typeof(Common.SymbolRegular), typeof(TextBox),
-        new PropertyMetadata(Common.SymbolRegular.Empty));
+        typeof(SymbolRegular), typeof(TextBox),
+        new PropertyMetadata(SymbolRegular.Empty));
 
     /// <summary>
     /// Property for <see cref="IconPlacement"/>.
     /// </summary>
     public static readonly DependencyProperty IconPlacementProperty = DependencyProperty.Register(
         nameof(IconPlacement),
-        typeof(Common.ElementPlacement), typeof(TextBox),
-        new PropertyMetadata(Common.ElementPlacement.Left));
+        typeof(ElementPlacement), typeof(TextBox),
+        new PropertyMetadata(ElementPlacement.Left));
 
     /// <summary>
     /// Property for <see cref="IconFilled"/>.
@@ -55,7 +54,7 @@ public class TextBox : System.Windows.Controls.TextBox, IIconControl
     /// Property for <see cref="PlaceholderText"/>.
     /// </summary>
     public static readonly DependencyProperty PlaceholderTextProperty = DependencyProperty.Register(nameof(PlaceholderText),
-        typeof(string), typeof(TextBox), new PropertyMetadata(string.Empty));
+        typeof(string), typeof(TextBox), new PropertyMetadata(String.Empty));
 
     /// <summary>
     /// Property for <see cref="PlaceholderEnabled"/>.
@@ -81,21 +80,21 @@ public class TextBox : System.Windows.Controls.TextBox, IIconControl
     /// </summary>
     public static readonly DependencyProperty TemplateButtonCommandProperty =
         DependencyProperty.Register(nameof(TemplateButtonCommand),
-            typeof(Common.IRelayCommand), typeof(TextBox), new PropertyMetadata(null));
+            typeof(IRelayCommand), typeof(TextBox), new PropertyMetadata(null));
 
     /// <inheritdoc />
-    public Common.SymbolRegular Icon
+    public SymbolRegular Icon
     {
-        get => (Common.SymbolRegular)GetValue(IconProperty);
+        get => (SymbolRegular)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     /// <summary>
     /// Defines which side the icon should be placed on.
     /// </summary>
-    public Common.ElementPlacement IconPlacement
+    public ElementPlacement IconPlacement
     {
-        get => (Common.ElementPlacement)GetValue(IconPlacementProperty);
+        get => (ElementPlacement)GetValue(IconPlacementProperty);
         set => SetValue(IconPlacementProperty, value);
     }
 
@@ -154,14 +153,14 @@ public class TextBox : System.Windows.Controls.TextBox, IIconControl
     /// <summary>
     /// Command triggered after clicking the button.
     /// </summary>
-    public Common.IRelayCommand TemplateButtonCommand => (Common.IRelayCommand)GetValue(TemplateButtonCommandProperty);
+    public IRelayCommand TemplateButtonCommand => (IRelayCommand)GetValue(TemplateButtonCommandProperty);
 
     /// <summary>
     /// Creates a new instance and assigns default events.
     /// </summary>
     public TextBox()
     {
-        SetValue(TemplateButtonCommandProperty, new Common.RelayCommand(o => OnTemplateButtonClick(this, o)));
+        SetValue(TemplateButtonCommandProperty, new RelayCommand<string>(o => OnTemplateButtonClick(o ?? String.Empty)));
     }
 
     /// <inheritdoc />
@@ -213,22 +212,27 @@ public class TextBox : System.Windows.Controls.TextBox, IIconControl
     }
 
     /// <summary>
+    /// Triggered when the user clicks the clear text button.
+    /// </summary>
+    protected virtual void OnClearButtonClick()
+    {
+        if (Text.Length > 0)
+            Text = String.Empty;
+    }
+
+    /// <summary>
     /// Triggered by clicking a button in the control template.
     /// </summary>
-    /// <param name="sender">Sender of the click event.</param>
-    /// <param name="parameter">Additional parameters.</param>
-    protected virtual void OnTemplateButtonClick(object sender, object parameter)
+    protected virtual void OnTemplateButtonClick(string parameter)
     {
-        if (parameter == null)
-            return;
+#if DEBUG
+        System.Diagnostics.Debug.WriteLine($"INFO: {typeof(TextBox)} button clicked with param: {parameter}", "Wpf.Ui.TextBox");
+#endif
 
-        var param = parameter as string ?? string.Empty;
-
-        switch (param)
+        switch (parameter)
         {
             case "clear":
-                if (Text.Length > 0)
-                    Text = string.Empty;
+                OnClearButtonClick();
 
                 break;
         }

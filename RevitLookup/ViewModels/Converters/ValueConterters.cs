@@ -23,24 +23,23 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.UI.Appearance;
+using RevitLookup.UI.Controls.Window;
 
 namespace RevitLookup.ViewModels.Converters;
 
-[ValueConversion(typeof(BackgroundType), typeof(string))]
+[ValueConversion(typeof(WindowBackdropType), typeof(string))]
 public class BackgroundTypeConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is null) return null;
-        var backgroundType = (BackgroundType) value;
+        var backgroundType = (WindowBackdropType) value!;
         return backgroundType switch
         {
-            BackgroundType.Unknown => "Invalid",
-            BackgroundType.None => "Disabled",
-            BackgroundType.Auto => "Windows default",
-            BackgroundType.Mica => "Mica",
-            BackgroundType.Acrylic => "Acrylic",
-            BackgroundType.Tabbed => "Tabbed",
+            WindowBackdropType.None => "Disabled",
+            WindowBackdropType.Auto => "Windows default",
+            WindowBackdropType.Mica => "Mica",
+            WindowBackdropType.Acrylic => "Acrylic",
+            WindowBackdropType.Tabbed => "Tabbed",
             _ => throw new ArgumentOutOfRangeException()
         };
     }
@@ -61,14 +60,12 @@ public sealed class ThemeTypeConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is null) return null;
-        var themeType = (ThemeType) value;
+        var themeType = (ThemeType) value!;
         return themeType switch
         {
             ThemeType.Dark => "Dark",
             ThemeType.Light => "Light",
             ThemeType.Unknown => "Invalid",
-            ThemeType.Auto => "Windows default",
             ThemeType.HighContrast => "High contrast",
             _ => throw new ArgumentOutOfRangeException()
         };

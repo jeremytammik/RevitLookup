@@ -1,4 +1,4 @@
-<rl:UiPage
+<Page
     x:Class="RevitLookup.Views.Pages.SnoopView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,15 +12,18 @@
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
-    d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
-    <rl:UiPage.Resources>
+    d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}"
+    rl:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    rl:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}">
+    <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <markup:ThemesDictionary />
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </rl:UiPage.Resources>
+    </Page.Resources>
     <Grid>
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
@@ -176,4 +179,4 @@
             </rl:DataGrid>
         </Grid>
     </Grid>
-</rl:UiPage>
+</Page>
