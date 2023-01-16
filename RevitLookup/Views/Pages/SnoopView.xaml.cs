@@ -40,8 +40,11 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         ViewModel = (ISnoopViewModel) viewModel;
         DataContext = this;
         InitializeComponent();
-        DataGrid.Items.GroupDescriptions!.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
-        
+
+        //Clear shapingStorage for remove duplications
+        DataGrid.Items.GroupDescriptions!.Clear();
+        DataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
+
         SelectTreeViewItem(TreeView, TreeView.Items);
         TreeView.ItemsSourceChanged += SelectTreeViewItem;
     }
@@ -54,7 +57,9 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 
         var collection = (IList) enumerable;
         if (collection.Count == 0) return;
-        if (collection.Count < 5)
+
+        //Expand rule
+        if (collection.Count < 3)
         {
             var viewGroup = (CollectionViewGroup) collection[0];
             ViewModel.RefreshCommand.Execute(viewGroup.Items[0]);
