@@ -62,7 +62,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         if (collection.Count < 3)
         {
             var viewGroup = (CollectionViewGroup) collection[0];
-            ViewModel.RefreshCommand.Execute(viewGroup.Items[0]);
+            ViewModel.CollectMembersCommand.Execute(viewGroup.Items[0]);
 
             var treeView = (TreeView) sender;
             treeView.ItemContainerGenerator.StatusChanged += ExpandTreeView;
@@ -88,10 +88,10 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         TreeView.SelectedItemChanged += UpdateDataGrid;
     }
 
-    private async void UpdateDataGrid(object sender, RoutedPropertyChangedEventArgs<object> e)
+    private void UpdateDataGrid(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
         if (e.NewValue is null) return;
-        await ViewModel.RefreshCommand.ExecuteAsync(e.NewValue);
+        ViewModel.CollectMembersCommand.ExecuteAsync(e.NewValue);
     }
 
     private void SnoopSelectedRow(object sender, RoutedEventArgs routedEventArgs)

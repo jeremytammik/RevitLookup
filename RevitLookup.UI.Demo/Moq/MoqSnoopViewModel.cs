@@ -23,7 +23,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
@@ -33,26 +32,14 @@ namespace RevitLookup.UI.Demo.Moq;
 
 public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private readonly ISettingsService _settingsService;
     private readonly ISnackbarService _snackbarService;
-    private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
-    public MoqSnoopViewModel(ISettingsService settingsService, ISnackbarService snackbarService)
+    public MoqSnoopViewModel(ISnackbarService snackbarService)
     {
-        _settingsService = settingsService;
         _snackbarService = snackbarService;
-    }
-
-    public IReadOnlyList<SnoopableObject> SnoopableObjects
-    {
-        get => _snoopableObjects;
-        private set
-        {
-            SnoopableData = Array.Empty<Descriptor>();
-            SetProperty(ref _snoopableObjects, value);
-        }
     }
 
     public void Snoop(SnoopableObject snoopableObject)
@@ -74,7 +61,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         }
     }
 
-    [RelayCommand]
     public void SnoopSelection()
     {
         SnoopableObjects = new Faker<SnoopableObject>()
@@ -153,19 +139,11 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
     }
 
     [RelayCommand]
-    private async Task Refresh(object param)
+    private async Task CollectMembersAsync(SnoopableObject snoopableObject)
     {
-        if (param is null)
-        {
-            _snoopableData = Array.Empty<Descriptor>();
-            return;
-        }
-
-        if (param is not SnoopableObject snoopableObject) return;
-        // ReSharper disable once MethodHasAsyncOverload
         try
         {
-            await Task.Delay(_settingsService.TransitionDuration);
+            // ReSharper disable once MethodHasAsyncOverload
             SnoopableData = snoopableObject.GetMembers();
         }
         catch (Exception exception)

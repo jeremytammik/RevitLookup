@@ -34,28 +34,16 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private readonly ISettingsService _settingsService;
     private readonly ISnackbarService _snackbarService;
     private readonly IWindowController _windowController;
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
-    private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
-    public SnoopViewModel(ISettingsService settingsService, IWindowController windowController, ISnackbarService snackbarService)
+    public SnoopViewModel(IWindowController windowController, ISnackbarService snackbarService)
     {
-        _settingsService = settingsService;
         _windowController = windowController;
         _snackbarService = snackbarService;
-    }
-
-    public IReadOnlyList<SnoopableObject> SnoopableObjects
-    {
-        get => _snoopableObjects;
-        private set
-        {
-            SnoopableData = Array.Empty<Descriptor>();
-            SetProperty(ref _snoopableObjects, value);
-        }
     }
 
     public void Snoop(SnoopableObject snoopableObject)
@@ -74,7 +62,6 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
     }
 
-    [RelayCommand]
     public void SnoopSelection()
     {
         if (!ValidateDocuments()) return;
@@ -145,19 +132,10 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     [RelayCommand]
-    private async Task Refresh(object param)
+    private async Task CollectMembersAsync(SnoopableObject snoopableObject)
     {
-        if (param is null)
-        {
-            SnoopableData = Array.Empty<Descriptor>();
-            return;
-        }
-
-        if (param is not SnoopableObject snoopableObject) return;
         try
         {
-            //Await Frame transition. GetMembers freezes the thread and breaks the animation
-            await Task.Delay(_settingsService.TransitionDuration);
             SnoopableData = await snoopableObject.GetCachedMembersAsync();
         }
         catch (Exception exception)

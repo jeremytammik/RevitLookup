@@ -38,8 +38,10 @@ public sealed partial class DashboardViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void NavigateSnoopPage(string parameter)
+    private async Task NavigateSnoopPage(string parameter)
     {
+        _navigationService.Navigate(typeof(SnoopView));
+        await Task.Delay(300);
         switch (parameter)
         {
             case "selection":
@@ -70,10 +72,7 @@ public sealed partial class DashboardViewModel : ObservableObject
                 _snoopService.SnoopEdge();
                 break;
             case "eventMonitor":
-                _snoopService.SnoopSelection();
                 break;
         }
-
-        _navigationService.Navigate(typeof(SnoopView));
     }
 }
