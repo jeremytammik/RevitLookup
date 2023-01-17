@@ -25,6 +25,6 @@ namespace RevitLookup.Services.Contracts;
 
 public interface ISnoopService
 {
-    Task Snoop(SnoopableObject snoopableObject);
+    void Snoop(SnoopableObject snoopableObject);
     Task Snoop(SnoopableType snoopableType);
 }

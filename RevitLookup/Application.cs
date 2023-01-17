@@ -33,13 +33,16 @@ namespace RevitLookup;
 [UsedImplicitly]
 public class Application : ExternalApplication
 {
-    public static AsyncEventHandler<IReadOnlyList<Descriptor>> ExternalHandler { get; private set; }
+    public static AsyncEventHandler<IReadOnlyList<SnoopableObject>> ExternalElementHandler { get; private set; }
+    public static AsyncEventHandler<IReadOnlyList<Descriptor>> ExternalDescriptorHandler { get; private set; }
 
     public override async void OnStartup()
     {
-        ExternalHandler = new AsyncEventHandler<IReadOnlyList<Descriptor>>();
-        Assembly.Load("Microsoft.Xaml.Behaviors");
         RevitApi.UiApplication = UiApplication;
+
+        ExternalElementHandler = new AsyncEventHandler<IReadOnlyList<SnoopableObject>>();
+        ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyList<Descriptor>>();
+
         CreateRibbonPanel();
         await Host.StartHost();
     }
@@ -68,6 +71,10 @@ public class Application : ExternalApplication
         var snoopDocument = splitButton.AddPushButton<SnoopDocumentCommand>("Snoop document");
         snoopDocument.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         snoopDocument.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+
+        var snoopDatabase = splitButton.AddPushButton<SnoopDatabaseCommand>("Snoop database");
+        snoopDatabase.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        snoopDatabase.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
     }
 
     private static void UpdateSoftware()

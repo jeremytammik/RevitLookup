@@ -37,7 +37,6 @@ public class SnoopSelectionCommand : ExternalCommand
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
         window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
-        window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
     }
 }
 
@@ -50,6 +49,19 @@ public class SnoopDocumentCommand : ExternalCommand
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
         window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Document);
+        window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
+    }
+}
+
+[UsedImplicitly]
+[Transaction(TransactionMode.Manual)]
+public class SnoopDatabaseCommand : ExternalCommand
+{
+    public override void Execute()
+    {
+        var window = Host.GetService<IWindow>();
+        window.Show(UiApplication.MainWindowHandle);
+        window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
         window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
     }
 }

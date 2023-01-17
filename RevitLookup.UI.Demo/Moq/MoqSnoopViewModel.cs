@@ -44,9 +44,8 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         _snackbarService = snackbarService;
     }
 
-    public async Task Snoop(SnoopableObject snoopableObject)
+    public void Snoop(SnoopableObject snoopableObject)
     {
-        await Task.CompletedTask;
         if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptorEnumerator)
         {
             var objects = new List<SnoopableObject>();
@@ -64,7 +63,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
     public async Task Snoop(SnoopableType snoopableType)
     {
-        await Task.CompletedTask;
         SnoopableData = Array.Empty<Descriptor>();
 
         int generationCount;
@@ -101,27 +99,30 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
                 throw new ArgumentOutOfRangeException(nameof(snoopableType), snoopableType, null);
         }
 
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker =>
-            {
-                if (faker.IndexFaker == 0)
-                    return new SnoopableObject(null, faker.Lorem.Word());
-                if (faker.IndexFaker % 1000 == 0)
-                    return new SnoopableObject(null, new {Collection = faker.Make(20, () => faker.Internet.UserName())});
-                if (faker.IndexFaker % 500 == 0)
-                    return new SnoopableObject(null, null);
-                if (faker.IndexFaker % 200 == 0)
-                    return new SnoopableObject(null, string.Empty);
-                if (faker.IndexFaker % 100 == 0)
-                    return new SnoopableObject(null, new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
-                if (faker.IndexFaker % 5 == 0)
-                    return new SnoopableObject(null, faker.Random.Int(0));
-                if (faker.IndexFaker % 3 == 0)
-                    return new SnoopableObject(null, faker.Random.Bool());
+        SnoopableObjects = await Task.Run(() =>
+        {
+            return new Faker<SnoopableObject>()
+                .CustomInstantiator(faker =>
+                {
+                    if (faker.IndexFaker == 0)
+                        return new SnoopableObject(null, faker.Lorem.Word());
+                    if (faker.IndexFaker % 1000 == 0)
+                        return new SnoopableObject(null, new {Collection = faker.Make(20, () => faker.Internet.UserName())});
+                    if (faker.IndexFaker % 500 == 0)
+                        return new SnoopableObject(null, null);
+                    if (faker.IndexFaker % 200 == 0)
+                        return new SnoopableObject(null, string.Empty);
+                    if (faker.IndexFaker % 100 == 0)
+                        return new SnoopableObject(null, new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
+                    if (faker.IndexFaker % 5 == 0)
+                        return new SnoopableObject(null, faker.Random.Int(0));
+                    if (faker.IndexFaker % 3 == 0)
+                        return new SnoopableObject(null, faker.Random.Bool());
 
-                return new SnoopableObject(null, faker.Lorem.Word());
-            })
-            .Generate(generationCount);
+                    return new SnoopableObject(null, faker.Lorem.Word());
+                })
+                .Generate(generationCount);
+        });
     }
 
     [RelayCommand]

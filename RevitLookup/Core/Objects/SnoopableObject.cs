@@ -52,7 +52,7 @@ public sealed class SnoopableObject
 
     public async Task<IReadOnlyList<Descriptor>> GetMembersAsync()
     {
-        return _members = await Application.ExternalHandler.RaiseAsync(_ =>
+        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ =>
         {
             using var transaction = new Transaction(Context);
             transaction.Start("RevitLookup");

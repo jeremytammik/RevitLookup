@@ -62,23 +62,17 @@ public static class Selector
 
     private static IReadOnlyList<SnoopableObject> SnoopEdge()
     {
-        return TrySelectObject(ObjectType.Edge, out var geometryObject)
-            ? new[] {geometryObject}
-            : Array.Empty<SnoopableObject>();
+        return new[] {SelectObject(ObjectType.Edge)};
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopFace()
     {
-        return TrySelectObject(ObjectType.Face, out var geometryObject)
-            ? new[] {geometryObject}
-            : Array.Empty<SnoopableObject>();
+        return new[] {SelectObject(ObjectType.Face)};
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopLinkedElement()
     {
-        return TrySelectObject(ObjectType.LinkedElement, out var geometryObject)
-            ? new[] {geometryObject}
-            : Array.Empty<SnoopableObject>();
+        return new[] {SelectObject(ObjectType.LinkedElement)};
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopSelection()
@@ -127,18 +121,9 @@ public static class Selector
             .ToList();
     }
 
-    private static bool TrySelectObject(ObjectType objectType, out SnoopableObject selection)
+    private static SnoopableObject SelectObject(ObjectType objectType)
     {
-        Reference reference;
-        try
-        {
-            reference = RevitApi.UiDocument.Selection.PickObject(objectType);
-        }
-        catch (OperationCanceledException)
-        {
-            selection = null;
-            return false;
-        }
+        var reference = RevitApi.UiDocument.Selection.PickObject(objectType);
 
         object element;
         Document document;
@@ -162,7 +147,6 @@ public static class Selector
                 throw new NotSupportedException();
         }
 
-        selection = new SnoopableObject(document, element);
-        return true;
+        return new SnoopableObject(document, element);
     }
 }

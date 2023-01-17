@@ -73,8 +73,6 @@ public sealed partial class DashboardViewModel : ObservableObject
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);
         }
-
-        _navigationService.Navigate(typeof(SnoopView));
     }
 
     [RelayCommand]

@@ -29,6 +29,8 @@ using RevitLookup.UI.Common;
 using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Pages;
+using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -36,19 +38,20 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly ISnackbarService _snackbarService;
     private readonly IWindowController _windowController;
+    private readonly INavigationService _navigationService;
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
-    public SnoopViewModel(IWindowController windowController, ISnackbarService snackbarService)
+    public SnoopViewModel(IWindowController windowController, INavigationService navigationService, ISnackbarService snackbarService)
     {
         _windowController = windowController;
+        _navigationService = navigationService;
         _snackbarService = snackbarService;
     }
 
-    public async Task Snoop(SnoopableObject snoopableObject)
+    public void Snoop(SnoopableObject snoopableObject)
     {
-        await Task.CompletedTask;
         if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptorEnumerator)
         {
             var objects = new List<SnoopableObject>();
@@ -65,34 +68,53 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
     public async Task Snoop(SnoopableType snoopableType)
     {
-        await Task.CompletedTask;
         if (!Validate()) return;
 
-        switch (snoopableType)
+        try
         {
-            case SnoopableType.Application:
-            case SnoopableType.Document:
-            case SnoopableType.View:
-            case SnoopableType.Selection:
-            case SnoopableType.Database:
-            case SnoopableType.DependentElements:
-                SnoopableObjects = Selector.Snoop(snoopableType);
-                break;
-            case SnoopableType.Face:
-            case SnoopableType.Edge:
-            case SnoopableType.LinkedElement:
-                _windowController.Hide();
-                SnoopableObjects = Selector.Snoop(snoopableType);
-                _windowController.Show();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(snoopableType), snoopableType, null);
+            SnoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ =>
+            {
+                switch (snoopableType)
+                {
+                    case SnoopableType.Application:
+                    case SnoopableType.Document:
+                    case SnoopableType.View:
+                    case SnoopableType.Selection:
+                    case SnoopableType.Database:
+                    case SnoopableType.DependentElements:
+                        return Selector.Snoop(snoopableType);
+                    case SnoopableType.Face:
+                    case SnoopableType.Edge:
+                    case SnoopableType.LinkedElement:
+                        _windowController.Hide();
+                        try
+                        {
+                            return Selector.Snoop(snoopableType);
+                        }
+                        finally
+                        {
+                            _windowController.Show();
+                        }
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(snoopableType));
+                }
+            });
+
+            SnoopableData = Array.Empty<Descriptor>();
+            _navigationService.Navigate(typeof(SnoopView));
+        }
+        catch (OperationCanceledException exception)
+        {
+            await _snackbarService.ShowAsync("Operation cancelled", exception.Message, SymbolRegular.Warning24, ControlAppearance.Caution);
+        }
+        catch (Exception exception)
+        {
+            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
         }
     }
 
     private bool Validate()
     {
-        SnoopableData = Array.Empty<Descriptor>();
         if (RevitApi.UiDocument is not null) return true;
 
         _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);
