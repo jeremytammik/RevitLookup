@@ -188,7 +188,7 @@
                                                     DockPanel.Dock="Top"
                                                     Height="25"
                                                     BorderThickness="0 0 1 1"
-                                                    Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+                                                    Background="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"
                                                     BorderBrush="{DynamicResource ControlElevationBorderBrush}">
                                                     <TextBlock
                                                         VerticalAlignment="Center"

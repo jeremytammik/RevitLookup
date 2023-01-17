@@ -54,8 +54,9 @@ public sealed class SettingsViewModel : ObservableObject
         {
             SetProperty(ref _currentTheme, value);
             _settingsService.Theme = value;
-            Theme.Apply(value, CurrentBackground);
-            _snackbarService.Show("Theme changed", "The theme will be applied after the window is reopened", SymbolRegular.ChatWarning24, ControlAppearance.Success);
+            ApplyTheme(value);
+            // Theme.Apply(value, CurrentBackground); not supported for pages
+            _snackbarService.Show("Theme changed", "Changes will take effect for new windows", SymbolRegular.ChatWarning24, ControlAppearance.Success);
         }
     }
 
@@ -93,4 +94,10 @@ public sealed class SettingsViewModel : ObservableObject
         WindowBackdropType.None,
         WindowBackdropType.Mica
     };
+
+    private static void ApplyTheme(ThemeType themeType)
+    {
+        Accent.Apply(Accent.GetColorizationColor(), themeType);
+        AppearanceData.ApplicationTheme = themeType;
+    }
 }
