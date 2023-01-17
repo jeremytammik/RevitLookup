@@ -35,6 +35,7 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
         {
             ReadOnlyObservableCollection<object> => CreateGroupTemplate(),
             ListCollectionView => CreateSingleTemplate(),
+            null => Binding.DoNothing,
             _ => throw new NotSupportedException($"Unsupported collection {value}")
         };
     }

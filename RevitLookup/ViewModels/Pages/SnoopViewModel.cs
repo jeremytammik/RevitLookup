@@ -46,8 +46,9 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         _snackbarService = snackbarService;
     }
 
-    public void Snoop(SnoopableObject snoopableObject)
+    public async Task Snoop(SnoopableObject snoopableObject)
     {
+        await Task.CompletedTask;
         if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptorEnumerator)
         {
             var objects = new List<SnoopableObject>();
@@ -62,68 +63,36 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
     }
 
-    public void SnoopSelection()
+    public async Task Snoop(SnoopableType snoopableType)
     {
-        if (!ValidateDocuments()) return;
-        SnoopableObjects = Selector.Snoop(SnoopableType.Selection);
+        await Task.CompletedTask;
+        if (!Validate()) return;
+
+        switch (snoopableType)
+        {
+            case SnoopableType.Application:
+            case SnoopableType.Document:
+            case SnoopableType.View:
+            case SnoopableType.Selection:
+            case SnoopableType.Database:
+            case SnoopableType.DependentElements:
+                SnoopableObjects = Selector.Snoop(snoopableType);
+                break;
+            case SnoopableType.Face:
+            case SnoopableType.Edge:
+            case SnoopableType.LinkedElement:
+                _windowController.Hide();
+                SnoopableObjects = Selector.Snoop(snoopableType);
+                _windowController.Show();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(snoopableType), snoopableType, null);
+        }
     }
 
-    public void SnoopApplication()
+    private bool Validate()
     {
-        if (!ValidateDocuments()) return;
-        SnoopableObjects = Selector.Snoop(SnoopableType.Application);
-    }
-
-    public void SnoopDocument()
-    {
-        if (!ValidateDocuments()) return;
-        SnoopableObjects = Selector.Snoop(SnoopableType.Document);
-    }
-
-    public void SnoopView()
-    {
-        if (!ValidateDocuments()) return;
-        SnoopableObjects = Selector.Snoop(SnoopableType.View);
-    }
-
-    public void SnoopDatabase()
-    {
-        if (!ValidateDocuments()) return;
-        SnoopableObjects = Selector.Snoop(SnoopableType.Database);
-    }
-
-    public void SnoopEdge()
-    {
-        if (!ValidateDocuments()) return;
-        _windowController.Hide();
-        SnoopableObjects = Selector.Snoop(SnoopableType.Edge);
-        _windowController.Show();
-    }
-
-    public void SnoopFace()
-    {
-        if (!ValidateDocuments()) return;
-        _windowController.Hide();
-        SnoopableObjects = Selector.Snoop(SnoopableType.Face);
-        _windowController.Show();
-    }
-
-    public void SnoopLinkedElement()
-    {
-        if (!ValidateDocuments()) return;
-        _windowController.Hide();
-        SnoopableObjects = Selector.Snoop(SnoopableType.LinkedElement);
-        _windowController.Show();
-    }
-
-    public void SnoopDependentElements()
-    {
-        if (!ValidateDocuments()) return;
-        SnoopableObjects = Selector.Snoop(SnoopableType.DependentElements);
-    }
-
-    private bool ValidateDocuments()
-    {
+        SnoopableData = Array.Empty<Descriptor>();
         if (RevitApi.UiDocument is not null) return true;
 
         _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);

@@ -163,40 +163,39 @@
                 </rl:CardAction>
             </Grid>
 
-            <TextBlock
-                Margin="0,24,0,0"
-                FontSize="16"
-                Text="Tools" />
-            <Grid
-                Margin="0 8 0 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition
-                        Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="*" />
-                    <ColumnDefinition
-                        Width="*" />
-                    <ColumnDefinition
-                        Width="*" />
-                    <ColumnDefinition
-                        Width="*" />
-                </Grid.ColumnDefinitions>
-                <rl:CardAction
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="0,0,4,0"
-                    Icon="DesktopPulse24"
-                    CommandParameter="eventMonitor"
-                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
-                    <StackPanel>
-                        <TextBlock
-                            FontWeight="Medium"
-                            Text="Event monitor" />
-                    </StackPanel>
-                </rl:CardAction>
-            </Grid>
+            <!-- <TextBlock -->
+            <!--     Margin="0,24,0,0" -->
+            <!--     FontSize="16" -->
+            <!--     Text="Tools" /> -->
+            <!-- <Grid -->
+            <!--     Margin="0 8 0 0"> -->
+            <!--     <Grid.RowDefinitions> -->
+            <!--         <RowDefinition -->
+            <!--             Height="Auto" /> -->
+            <!--     </Grid.RowDefinitions> -->
+            <!--     <Grid.ColumnDefinitions> -->
+            <!--         <ColumnDefinition -->
+            <!--             Width="*" /> -->
+            <!--         <ColumnDefinition -->
+            <!--             Width="*" /> -->
+            <!--         <ColumnDefinition -->
+            <!--             Width="*" /> -->
+            <!--         <ColumnDefinition -->
+            <!--             Width="*" /> -->
+            <!--     </Grid.ColumnDefinitions> -->
+            <!--     <rl:CardAction -->
+            <!--         Grid.Row="0" -->
+            <!--         Grid.Column="0" -->
+            <!--         Margin="0,0,4,0" -->
+            <!--         Icon="DesktopPulse24" -->
+            <!--         Command="{Binding  ViewModel.NavigateEventPageCommand}"> -->
+            <!--         <StackPanel> -->
+            <!--             <TextBlock -->
+            <!--                 FontWeight="Medium" -->
+            <!--                 Text="Event monitor" /> -->
+            <!--         </StackPanel> -->
+            <!--     </rl:CardAction> -->
+            <!-- </Grid> -->
         </StackPanel>
     </rl:DynamicScrollViewer>
 </Page>

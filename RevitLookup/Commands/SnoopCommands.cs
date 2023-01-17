@@ -22,6 +22,7 @@ using Autodesk.Revit.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Services.Enums;
 using RevitLookup.UI.Contracts;
 using RevitLookup.Views.Pages;
 
@@ -35,7 +36,7 @@ public class SnoopSelectionCommand : ExternalCommand
     {
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
-        window.Context.GetService<ISnoopService>()!.SnoopSelection();
+        window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
         window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
     }
 }
@@ -48,7 +49,7 @@ public class SnoopDocumentCommand : ExternalCommand
     {
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
-        window.Context.GetService<ISnoopService>()!.SnoopDocument();
+        window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Document);
         window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
     }
 }

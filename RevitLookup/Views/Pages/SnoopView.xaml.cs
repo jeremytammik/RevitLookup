@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -35,17 +36,20 @@ namespace RevitLookup.Views.Pages;
 
 public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 {
-    public SnoopView(ISnoopService viewModel)
+    private readonly ISettingsService _settingsService;
+
+    public SnoopView(ISnoopService viewModel, ISettingsService settingsService)
     {
+        _settingsService = settingsService;
         ViewModel = (ISnoopViewModel) viewModel;
-        DataContext = this;
         InitializeComponent();
+        DataContext = this;
 
         //Clear shapingStorage for remove duplications
         DataGrid.Items.GroupDescriptions!.Clear();
         DataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
 
-        SelectTreeViewItem(TreeView, TreeView.Items);
+        TreeView.SelectedItemChanged += UpdateDataGrid;
         TreeView.ItemsSourceChanged += SelectTreeViewItem;
     }
 
@@ -53,45 +57,33 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 
     private void SelectTreeViewItem(object sender, IEnumerable enumerable)
     {
-        TreeView.SelectedItemChanged -= UpdateDataGrid;
-
         var collection = (IList) enumerable;
-        if (collection.Count == 0) return;
+        if (collection.Count is < 0 or > 3) return;
 
-        //Expand rule
-        if (collection.Count < 3)
-        {
-            var viewGroup = (CollectionViewGroup) collection[0];
-            ViewModel.CollectMembersCommand.Execute(viewGroup.Items[0]);
-
-            var treeView = (TreeView) sender;
-            treeView.ItemContainerGenerator.StatusChanged += ExpandTreeView;
-            return;
-        }
-
-        TreeView.SelectedItemChanged += UpdateDataGrid;
+        var treeView = (TreeView) sender;
+        treeView.ItemContainerGenerator.StatusChanged += ExpandTreeView;
     }
 
-    private void ExpandTreeView(object sender, EventArgs _)
+    private async void ExpandTreeView(object sender, EventArgs _)
     {
         var generator = (ItemContainerGenerator) sender;
         if (generator.Status != ContainersGenerated) return;
 
         generator.StatusChanged -= ExpandTreeView;
 
-        //Select first item
+        //Await Frame transition. GetMembers freezes the thread and breaks the animation
+        await Task.Delay(_settingsService.TransitionDuration);
+
         var treeViewItem = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
         treeViewItem.ExpandSubtree();
         treeViewItem = (TreeViewItem) treeViewItem.ItemContainerGenerator.ContainerFromIndex(0);
         treeViewItem.IsSelected = true;
-
-        TreeView.SelectedItemChanged += UpdateDataGrid;
     }
 
-    private void UpdateDataGrid(object sender, RoutedPropertyChangedEventArgs<object> e)
+    private async void UpdateDataGrid(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
-        if (e.NewValue is null) return;
-        ViewModel.CollectMembersCommand.ExecuteAsync(e.NewValue);
+        if (e.NewValue is not SnoopableObject snoopableObject) return;
+        await ViewModel.CollectMembersCommand.ExecuteAsync(snoopableObject);
     }
 
     private void SnoopSelectedRow(object sender, RoutedEventArgs routedEventArgs)

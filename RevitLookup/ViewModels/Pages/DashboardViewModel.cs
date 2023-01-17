@@ -21,6 +21,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Services.Enums;
 using RevitLookup.UI.Contracts;
 using RevitLookup.Views.Pages;
 
@@ -40,39 +41,46 @@ public sealed partial class DashboardViewModel : ObservableObject
     [RelayCommand]
     private async Task NavigateSnoopPage(string parameter)
     {
-        _navigationService.Navigate(typeof(SnoopView));
-        await Task.Delay(300);
         switch (parameter)
         {
             case "selection":
-                _snoopService.SnoopSelection();
+                await _snoopService.Snoop(SnoopableType.Selection);
                 break;
             case "document":
-                _snoopService.SnoopDocument();
+                await _snoopService.Snoop(SnoopableType.Document);
                 break;
             case "database":
-                _snoopService.SnoopDatabase();
+                await _snoopService.Snoop(SnoopableType.Database);
                 break;
             case "view":
-                _snoopService.SnoopView();
+                await _snoopService.Snoop(SnoopableType.View);
                 break;
             case "application":
-                _snoopService.SnoopApplication();
+                await _snoopService.Snoop(SnoopableType.Application);
                 break;
             case "linked":
-                _snoopService.SnoopLinkedElement();
+                await _snoopService.Snoop(SnoopableType.LinkedElement);
                 break;
             case "dependents":
-                _snoopService.SnoopDependentElements();
+                await _snoopService.Snoop(SnoopableType.DependentElements);
                 break;
             case "face":
-                _snoopService.SnoopFace();
+                await _snoopService.Snoop(SnoopableType.Face);
                 break;
             case "edge":
-                _snoopService.SnoopEdge();
+                await _snoopService.Snoop(SnoopableType.Edge);
                 break;
-            case "eventMonitor":
-                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(parameter), parameter);
         }
+
+        _navigationService.Navigate(typeof(SnoopView));
+    }
+
+    [RelayCommand]
+    private async Task NavigateEventPage()
+    {
+        await Task.CompletedTask;
+        // _navigationService.Navigate(typeof(EventsView));
     }
 }

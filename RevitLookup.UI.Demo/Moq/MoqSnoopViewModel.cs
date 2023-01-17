@@ -18,11 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Services.Enums;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
@@ -42,8 +44,9 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         _snackbarService = snackbarService;
     }
 
-    public void Snoop(SnoopableObject snoopableObject)
+    public async Task Snoop(SnoopableObject snoopableObject)
     {
+        await Task.CompletedTask;
         if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptorEnumerator)
         {
             var objects = new List<SnoopableObject>();
@@ -61,81 +64,66 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         }
     }
 
-    public void SnoopSelection()
+    public async Task Snoop(SnoopableType snoopableType)
     {
+        await Task.CompletedTask;
+        SnoopableData = Array.Empty<Descriptor>();
+
+        int generationCount;
+        switch (snoopableType)
+        {
+            case SnoopableType.Selection:
+                generationCount = 10_000;
+                break;
+            case SnoopableType.View:
+                generationCount = 1_000;
+                break;
+            case SnoopableType.Document:
+                generationCount = 100;
+                break;
+            case SnoopableType.Application:
+                generationCount = 50;
+                break;
+            case SnoopableType.Database:
+                generationCount = 10;
+                break;
+            case SnoopableType.LinkedElement:
+                generationCount = 5;
+                break;
+            case SnoopableType.Face:
+                generationCount = 2;
+                break;
+            case SnoopableType.Edge:
+                generationCount = 1;
+                break;
+            case SnoopableType.DependentElements:
+                SnoopableObjects = Array.Empty<SnoopableObject>();
+                return;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(snoopableType), snoopableType, null);
+        }
+
         SnoopableObjects = new Faker<SnoopableObject>()
             .CustomInstantiator(faker =>
             {
-                if (faker.IndexFaker % 8 == 0)
-                    return new SnoopableObject(null, string.Empty);
-                if (faker.IndexFaker % 7 == 0)
-                    return new SnoopableObject(null, null);
-                if (faker.IndexFaker % 6 == 0)
-                    return new SnoopableObject(null, new {Collection = faker.Make(20, () => faker.Internet.UserName())});
-                if (faker.IndexFaker % 5 == 0)
-                    return new SnoopableObject(null, faker.Random.Int());
-                if (faker.IndexFaker % 4 == 0)
+                if (faker.IndexFaker == 0)
                     return new SnoopableObject(null, faker.Lorem.Word());
+                if (faker.IndexFaker % 1000 == 0)
+                    return new SnoopableObject(null, new {Collection = faker.Make(20, () => faker.Internet.UserName())});
+                if (faker.IndexFaker % 500 == 0)
+                    return new SnoopableObject(null, null);
+                if (faker.IndexFaker % 200 == 0)
+                    return new SnoopableObject(null, string.Empty);
+                if (faker.IndexFaker % 100 == 0)
+                    return new SnoopableObject(null, new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
+                if (faker.IndexFaker % 5 == 0)
+                    return new SnoopableObject(null, faker.Random.Int(0));
                 if (faker.IndexFaker % 3 == 0)
                     return new SnoopableObject(null, faker.Random.Bool());
 
-                return new SnoopableObject(null, faker.Random.Int(0));
+                return new SnoopableObject(null, faker.Lorem.Word());
             })
-            .Generate(500);
-    }
-
-    public void SnoopApplication()
-    {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(100);
-    }
-
-    public void SnoopDocument()
-    {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(100);
-    }
-
-    public void SnoopView()
-    {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(100);
-    }
-
-    public void SnoopDatabase()
-    {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(100);
-    }
-
-    public void SnoopEdge()
-    {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(66);
-    }
-
-    public void SnoopFace()
-    {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(10);
-    }
-
-    public void SnoopLinkedElement()
-    {
-        SnoopableObjects = new Faker<SnoopableObject>()
-            .CustomInstantiator(faker => new SnoopableObject(null, faker.Lorem.Word()))
-            .Generate(1);
-    }
-
-    public void SnoopDependentElements()
-    {
-        SnoopableObjects = Array.Empty<SnoopableObject>();
+            .Generate(generationCount);
     }
 
     [RelayCommand]

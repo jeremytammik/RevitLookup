@@ -19,19 +19,12 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.Objects;
+using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Services.Contracts;
 
 public interface ISnoopService
 {
-    void Snoop(SnoopableObject snoopableObject);
-    void SnoopSelection();
-    void SnoopDocument();
-    void SnoopDatabase();
-    void SnoopView();
-    void SnoopApplication();
-    void SnoopLinkedElement();
-    void SnoopDependentElements();
-    void SnoopFace();
-    void SnoopEdge();
+    Task Snoop(SnoopableObject snoopableObject);
+    Task Snoop(SnoopableType snoopableType);
 }
