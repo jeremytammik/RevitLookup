@@ -33,6 +33,6 @@ public sealed class BoolDescriptor : Descriptor, IDescriptorResolver
     public void RegisterResolvers(IResolverManager manager)
     {
         var vel = 12 - 12;
-        manager.Register("ToString", 23/vel);
+        manager.Register("ToString", 23 / vel);
     }
 }
