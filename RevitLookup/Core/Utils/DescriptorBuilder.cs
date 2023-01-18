@@ -24,21 +24,24 @@ using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Extensions;
 using RevitLookup.Core.Objects;
+using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.Core.Utils;
 
 public sealed class DescriptorBuilder : IBuilderConfigurator
 {
-    private readonly List<Descriptor> _descriptors;
-    private readonly SnoopableObject _snoopableObject;
     [CanBeNull] private Descriptor _currentDescriptor;
+    private readonly SnoopableObject _snoopableObject;
+    private readonly List<Descriptor> _descriptors;
     private ExtensionManager _extensionManager;
+    private ISettingsService _settingsService;
     private Type _type;
 
     public DescriptorBuilder(SnoopableObject snoopableObject)
     {
         _snoopableObject = snoopableObject;
         _descriptors = new List<Descriptor>(8);
+        _settingsService = Host.GetService<ISettingsService>();
     }
 
     public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_snoopableObject.Context);
@@ -156,19 +159,9 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
         //         return true;
         //     }
         // }
-        //TODO add settings
-#if RELEASE
-        if (args.Length > 0)
-        {
-            value = null;
-            return false;
-        }
+        if (args.Length > 0) return TrySetException("Unsupported property", out value);
 
         value = member.GetValue(_snoopableObject.Object);
-#else
-        value = args.Length > 0 ? new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") : member.GetValue(_snoopableObject.Object);
-#endif
-
         return true;
     }
 
@@ -185,19 +178,22 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
         //         return true;
         //     }
         // }
-        //TODO add settings
-#if RELEASE
-        if (args.Length > 0)
-        {
-            value = null;
-            return false;
-        }
+
+        if (args.Length > 0) return TrySetException("Unsupported method", out value);
 
         value = member.Invoke(_snoopableObject.Object, null);
-#else
-        value = args.Length > 0 ? new NotSupportedException("Unsupported property. Try implement IDescriptorResolver") : member.Invoke(_snoopableObject.Object, null);
-#endif
-
         return true;
+    }
+
+    private bool TrySetException(string message, out object value)
+    {
+        if (_settingsService.IsUnsupportedAllowed)
+        {
+            value = new Exception(message);
+            return true;
+        }
+
+        value = null;
+        return false;
     }
 }

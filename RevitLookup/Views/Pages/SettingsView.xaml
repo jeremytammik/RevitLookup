@@ -64,18 +64,18 @@
                     IsChecked="{Binding ViewModel.IsSmoothEnabled}" />
             </rl:CardControl>
             <rl:CardControl
-                Header="Show unsupported methods"
-                Icon="EyeOff24"
-                Margin="0,8,0,0">
-                <rl:ToggleSwitch
-                    IsChecked="{Binding ViewModel.IsUnsupportedAllowed}" />
-            </rl:CardControl>
-            <rl:CardControl
                 Header="Extensions"
                 Icon="PuzzlePiece24"
                 Margin="0,8,0,0">
                 <rl:ToggleSwitch
                     IsChecked="{Binding ViewModel.IsExtensionsAllowed}" />
+            </rl:CardControl>
+            <rl:CardControl
+                Header="Show unsupported methods"
+                Icon="EyeOff24"
+                Margin="0,8,0,0">
+                <rl:ToggleSwitch
+                    IsChecked="{Binding ViewModel.IsUnsupportedAllowed}" />
             </rl:CardControl>
         </StackPanel>
     </rl:DynamicScrollViewer>

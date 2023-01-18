@@ -29,19 +29,22 @@ using RevitLookup.UI.Common;
 using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Pages;
 
 namespace RevitLookup.UI.Demo.Moq;
 
 public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly ISnackbarService _snackbarService;
+    private readonly INavigationService _navigationService;
     [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
-    public MoqSnoopViewModel(ISnackbarService snackbarService)
+    public MoqSnoopViewModel(ISnackbarService snackbarService, INavigationService navigationService)
     {
         _snackbarService = snackbarService;
+        _navigationService = navigationService;
     }
 
     public void Snoop(SnoopableObject snoopableObject)
@@ -63,8 +66,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
     public async Task Snoop(SnoopableType snoopableType)
     {
-        SnoopableData = Array.Empty<Descriptor>();
-
         int generationCount;
         switch (snoopableType)
         {
@@ -123,6 +124,9 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
                 })
                 .Generate(generationCount);
         });
+        
+        SnoopableData = Array.Empty<Descriptor>();
+        _navigationService.Navigate(typeof(SnoopView));
     }
 
     [RelayCommand]

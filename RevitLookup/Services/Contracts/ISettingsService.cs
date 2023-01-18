@@ -30,6 +30,6 @@ public interface ISettingsService
     int TransitionDuration { get; }
     bool IsExtensionsAllowed { get; set; }
     bool IsUnsupportedAllowed { get; set; }
-    void Save();
     int ApplyTransition(bool value);
+    void Save();
 }
