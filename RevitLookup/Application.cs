@@ -20,13 +20,18 @@
 
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using Autodesk.Windows;
+using CommunityToolkit.Mvvm.Input;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Commands;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
+using RibbonButton = Autodesk.Windows.RibbonButton;
+using RibbonPanel = Autodesk.Windows.RibbonPanel;
 
 namespace RevitLookup;
 
@@ -54,6 +59,18 @@ public class Application : ExternalApplication
         await Host.StopHost();
     }
 
+    private static void UpdateSoftware()
+    {
+        var updateService = Host.GetService<ISoftwareUpdateService>();
+        if (File.Exists(updateService.LocalFilePath)) Process.Start(updateService.LocalFilePath);
+    }
+
+    private static void SaveSettings()
+    {
+        var settingsService = Host.GetService<ISettingsService>();
+        settingsService.Save();
+    }
+
     private void CreateRibbonPanel()
     {
         var ribbonPanel = Application.CreatePanel("Revit Lookup");
@@ -75,17 +92,34 @@ public class Application : ExternalApplication
         var snoopDatabase = splitButton.AddPushButton<SnoopDatabaseCommand>("Snoop database");
         snoopDatabase.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         snoopDatabase.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-    }
 
-    private static void UpdateSoftware()
-    {
-        var updateService = Host.GetService<ISoftwareUpdateService>();
-        if (File.Exists(updateService.LocalFilePath)) Process.Start(updateService.LocalFilePath);
-    }
+        //Add button to modify tab
+        foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
+        {
+            if (ribbonTab.Id != "Modify") continue;
+            var modifyPanel = new RibbonPanel
+            {
+                Source = new RibbonPanelSource
+                {
+                    Title = "RevitLookup",
+                    Items =
+                    {
+                        new RibbonButton
+                        {
+                            ShowText = true,
+                            Text = "Snoop\nselection",
+                            Size = RibbonItemSize.Large,
+                            Orientation = Orientation.Vertical,
+                            CommandHandler = new RelayCommand(() => SnoopSelectionCommand.Execute(RevitApi.UiApplication)),
+                            Image = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon16.png", UriKind.RelativeOrAbsolute)),
+                            LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute)),
+                        }
+                    }
+                }
+            };
 
-    private static void SaveSettings()
-    {
-        var settingsService = Host.GetService<ISettingsService>();
-        settingsService.Save();
+            ribbonTab.Panels.Add(modifyPanel);
+            break;
+        }
     }
 }

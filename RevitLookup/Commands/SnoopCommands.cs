@@ -19,12 +19,11 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.Attributes;
+using Autodesk.Revit.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using RevitLookup.UI.Contracts;
-using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
 
@@ -34,8 +33,16 @@ public class SnoopSelectionCommand : ExternalCommand
 {
     public override void Execute()
     {
+        Execute(UiApplication);
+    }
+
+    /// <summary>
+    ///     Modify tab command support
+    /// </summary>
+    public static void Execute(UIApplication application)
+    {
         var window = Host.GetService<IWindow>();
-        window.Show(UiApplication.MainWindowHandle);
+        window.Show(application.MainWindowHandle);
         window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
     }
 }
@@ -49,7 +56,6 @@ public class SnoopDocumentCommand : ExternalCommand
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
         window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Document);
-        window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
     }
 }
 
@@ -62,6 +68,5 @@ public class SnoopDatabaseCommand : ExternalCommand
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
         window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
-        window.Context.GetService<INavigationService>().Navigate(typeof(SnoopView));
     }
 }
