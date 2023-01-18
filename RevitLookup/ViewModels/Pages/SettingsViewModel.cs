@@ -33,26 +33,30 @@ public sealed class SettingsViewModel : ObservableObject
     private readonly INavigationService _navigationService;
     private readonly ISettingsService _settingsService;
     private readonly ISnackbarService _snackbarService;
-    private WindowBackdropType _currentBackground;
-    private ThemeType _currentTheme;
+    private WindowBackdropType _background;
+    private ThemeType _theme;
     private bool _isSmoothEnabled;
+    private bool _isUnsupportedAllowed;
+    private bool _isExtensionsAllowed;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
     {
         _settingsService = settingsService;
         _navigationService = navigationService;
         _snackbarService = snackbarService;
-        _currentTheme = settingsService.Theme;
-        _currentBackground = settingsService.Background;
+        _theme = settingsService.Theme;
+        _background = settingsService.Background;
         _isSmoothEnabled = settingsService.TransitionDuration > 0;
+        _isUnsupportedAllowed = settingsService.IsUnsupportedAllowed;
+        _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
     }
 
-    public ThemeType CurrentTheme
+    public ThemeType Theme
     {
-        get => _currentTheme;
+        get => _theme;
         set
         {
-            SetProperty(ref _currentTheme, value);
+            SetProperty(ref _theme, value);
             _settingsService.Theme = value;
             ApplyTheme(value);
             // Theme.Apply(value, CurrentBackground); not supported for pages
@@ -60,12 +64,12 @@ public sealed class SettingsViewModel : ObservableObject
         }
     }
 
-    public WindowBackdropType CurrentBackground
+    public WindowBackdropType Background
     {
-        get => _currentBackground;
+        get => _background;
         set
         {
-            SetProperty(ref _currentBackground, value);
+            SetProperty(ref _background, value);
             _settingsService.Background = value;
             var window = (FluentWindow) UI.Application.Current;
             window.WindowBackdropType = value;
@@ -83,6 +87,26 @@ public sealed class SettingsViewModel : ObservableObject
         }
     }
 
+    public bool IsUnsupportedAllowed
+    {
+        get => _isUnsupportedAllowed;
+        set
+        {
+            SetProperty(ref _isUnsupportedAllowed, value);
+            _settingsService.IsUnsupportedAllowed = value;
+        }
+    }
+
+    public bool IsExtensionsAllowed
+    {
+        get => _isExtensionsAllowed;
+        set
+        {
+            SetProperty(ref _isExtensionsAllowed, value);
+            _settingsService.IsExtensionsAllowed = value;
+        }
+    }
+
     public List<ThemeType> Themes { get; } = new()
     {
         ThemeType.Light,
@@ -97,7 +121,7 @@ public sealed class SettingsViewModel : ObservableObject
 
     private static void ApplyTheme(ThemeType themeType)
     {
-        Accent.Apply(Accent.GetColorizationColor(), themeType);
+        // Accent.Apply(Accent.GetColorizationColor(), themeType);
         AppearanceData.ApplicationTheme = themeType;
     }
 }

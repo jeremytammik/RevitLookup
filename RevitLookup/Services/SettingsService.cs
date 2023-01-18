@@ -58,6 +58,18 @@ public sealed class SettingsService : ISettingsService
         private set => _settings.TransitionDuration = value;
     }
 
+    public bool IsExtensionsAllowed
+    {
+        get => _settings.IsExtensionsAllowed;
+        set => _settings.IsExtensionsAllowed = value;
+    }
+
+    public bool IsUnsupportedAllowed
+    {
+        get => _settings.IsUnsupportedAllowed;
+        set => _settings.IsUnsupportedAllowed = value;
+    }
+
     public int ApplyTransition(bool value)
     {
         return TransitionDuration = value ? DefaultTransitionDuration : 0;
@@ -110,4 +122,6 @@ internal sealed class Settings
     public ThemeType Theme { get; set; } = ThemeType.Light;
     public WindowBackdropType Background { get; set; } = WindowBackdropType.Mica;
     public int TransitionDuration { get; set; } = SettingsService.DefaultTransitionDuration;
+    public bool IsExtensionsAllowed { get; set; } = true;
+    public bool IsUnsupportedAllowed { get; set; }
 }

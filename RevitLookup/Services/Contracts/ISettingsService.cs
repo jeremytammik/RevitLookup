@@ -28,6 +28,8 @@ public interface ISettingsService
     ThemeType Theme { get; set; }
     WindowBackdropType Background { get; set; }
     int TransitionDuration { get; }
+    bool IsExtensionsAllowed { get; set; }
+    bool IsUnsupportedAllowed { get; set; }
     void Save();
     int ApplyTransition(bool value);
 }

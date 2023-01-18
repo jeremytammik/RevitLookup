@@ -9,7 +9,7 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
-    d:DesignHeight="300"
+    d:DesignHeight="800"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SettingsView}">
     <Page.Resources>
@@ -29,7 +29,7 @@
                 <ComboBox
                     MinWidth="150"
                     IsEnabled="True"
-                    SelectedItem="{Binding ViewModel.CurrentTheme}"
+                    SelectedItem="{Binding ViewModel.Theme}"
                     ItemsSource="{Binding ViewModel.Themes}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -46,7 +46,7 @@
                 <ComboBox
                     MinWidth="150"
                     IsEnabled="True"
-                    SelectedItem="{Binding ViewModel.CurrentBackground}"
+                    SelectedItem="{Binding ViewModel.Background}"
                     ItemsSource="{Binding ViewModel.BackgroundEffects}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -62,6 +62,20 @@
                 Margin="0,8,0,0">
                 <rl:ToggleSwitch
                     IsChecked="{Binding ViewModel.IsSmoothEnabled}" />
+            </rl:CardControl>
+            <rl:CardControl
+                Header="Show unsupported methods"
+                Icon="EyeOff24"
+                Margin="0,8,0,0">
+                <rl:ToggleSwitch
+                    IsChecked="{Binding ViewModel.IsUnsupportedAllowed}" />
+            </rl:CardControl>
+            <rl:CardControl
+                Header="Extensions"
+                Icon="PuzzlePiece24"
+                Margin="0,8,0,0">
+                <rl:ToggleSwitch
+                    IsChecked="{Binding ViewModel.IsExtensionsAllowed}" />
             </rl:CardControl>
         </StackPanel>
     </rl:DynamicScrollViewer>
