@@ -51,7 +51,8 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock
-                                Text="{Binding ., Converter={converters:BackgroundTypeConverter}}" />
+                                Text="{Binding ., 
+                                    Converter={converters:BackgroundTypeConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -71,11 +72,12 @@
                     IsChecked="{Binding ViewModel.IsExtensionsAllowed}" />
             </rl:CardControl>
             <rl:CardControl
-                Header="Show unsupported methods"
+                Header="Hide unsupported members"
                 Icon="EyeOff24"
                 Margin="0,8,0,0">
                 <rl:ToggleSwitch
-                    IsChecked="{Binding ViewModel.IsUnsupportedAllowed}" />
+                    IsChecked="{Binding ViewModel.IsUnsupportedAllowed, 
+                        Converter={converters:InverseBooleanConverter}}" />
             </rl:CardControl>
         </StackPanel>
     </rl:DynamicScrollViewer>
