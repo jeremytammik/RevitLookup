@@ -41,13 +41,7 @@ public sealed class SnoopableObject
 
     public IReadOnlyList<Descriptor> GetMembers()
     {
-        return new DescriptorBuilder(this)
-            .Build(configurator =>
-            {
-                configurator.AddProperties();
-                configurator.AddMethods();
-                configurator.AddExtensions();
-            });
+        return new DescriptorBuilder(this).Build();
     }
 
     public async Task<IReadOnlyList<Descriptor>> GetMembersAsync()

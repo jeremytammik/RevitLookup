@@ -28,22 +28,22 @@ using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.Core.Utils;
 
-public sealed class DescriptorBuilder : IBuilderConfigurator
+public sealed class DescriptorBuilder
 {
     [CanBeNull] private Descriptor _currentDescriptor;
     private readonly SnoopableObject _snoopableObject;
     private readonly List<Descriptor> _descriptors;
     private ExtensionManager _extensionManager;
-    private ISettingsService _settingsService;
     private Type _type;
 
     public DescriptorBuilder(SnoopableObject snoopableObject)
     {
         _snoopableObject = snoopableObject;
         _descriptors = new List<Descriptor>(8);
-        _settingsService = Host.GetService<ISettingsService>();
+        Settings = Host.GetService<ISettingsService>();
     }
 
+    public ISettingsService Settings { get; set; }
     public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_snoopableObject.Context);
 
     public void AddProperties()
@@ -58,21 +58,14 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
             object value;
             try
             {
-                if (!member.CanRead) value = new NotSupportedException("The property only sets the value");
-                else if (!TryEvaluate(member, out value)) continue;
+                if (!TryEvaluate(member, out value)) continue;
             }
             catch (Exception exception)
             {
                 value = exception;
             }
 
-            var descriptor = new ObjectDescriptor
-            {
-                Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type,
-                Label = member.Name,
-                Value = new SnoopableObject(_snoopableObject.Context, value)
-            };
-
+            var descriptor = CreateMemberDescriptor(member, value);
             _descriptors.Add(descriptor);
         }
     }
@@ -80,7 +73,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
     public void AddMethods()
     {
         var members = _type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-        Array.Sort(members, new MethodInfoComparer());
+        var descriptors = new List<Descriptor>(members.Length);
 
         foreach (var member in members)
         {
@@ -97,30 +90,29 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
                 value = exception;
             }
 
-            var descriptor = new ObjectDescriptor
-            {
-                Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type,
-                Label = member.Name,
-                Value = new SnoopableObject(_snoopableObject.Context, value)
-            };
-
-            _descriptors.Add(descriptor);
+            var descriptor = CreateMemberDescriptor(member, value);
+            descriptors.Add(descriptor);
         }
+
+        if (Settings.IsExtensionsAllowed) AddExtensions(descriptors);
+
+        descriptors.Sort();
+        _descriptors.AddRange(descriptors);
     }
 
-    public void AddExtensions()
+    private void AddExtensions(List<Descriptor> descriptors)
     {
-        // if (_currentDescriptor is not IDescriptorExtension extension) return;
-        //
-        // ExtensionManager.Descriptor = _currentDescriptor;
-        // extension.RegisterExtensions(ExtensionManager);
-        // if (_extensionManager.ClassExtensions is null) return;
-        //
-        // _descriptors.AddRange(_extensionManager.ClassExtensions);
-        // _extensionManager.ClassExtensions.Clear();
+        if (_currentDescriptor is not IDescriptorExtension extension) return;
+
+        ExtensionManager.Descriptor = _currentDescriptor;
+        extension.RegisterExtensions(ExtensionManager);
+        if (_extensionManager.ClassExtensions is null) return;
+
+        descriptors.AddRange(_extensionManager.ClassExtensions);
+        _extensionManager.ClassExtensions.Clear();
     }
 
-    public IReadOnlyList<Descriptor> Build(Action<IBuilderConfigurator> configurator)
+    public IReadOnlyList<Descriptor> Build()
     {
         if (_snoopableObject.Object is null) return Array.Empty<Descriptor>();
 
@@ -138,7 +130,8 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
             //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
             _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
-            configurator(this);
+            AddMethods();
+            AddProperties();
         }
 
         //Adding object extensions to the end of the table
@@ -159,7 +152,8 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
         //         return true;
         //     }
         // }
-        if (args.Length > 0) return TrySetException("Unsupported property", out value);
+        if (args.Length > 0) 
+            return TrySetException($"Unsupported property overload: {string.Join(", ", args.Select(info => info.ParameterType.Name))}", out value);
 
         value = member.GetValue(_snoopableObject.Object);
         return true;
@@ -179,7 +173,8 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
         //     }
         // }
 
-        if (args.Length > 0) return TrySetException("Unsupported method", out value);
+        if (args.Length > 0)
+            return TrySetException($"Unsupported method overload: {string.Join(", ", args.Select(info => info.ParameterType.Name))}", out value);
 
         value = member.Invoke(_snoopableObject.Object, null);
         return true;
@@ -187,7 +182,7 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
     private bool TrySetException(string message, out object value)
     {
-        if (_settingsService.IsUnsupportedAllowed)
+        if (Settings.IsUnsupportedAllowed)
         {
             value = new Exception(message);
             return true;
@@ -195,5 +190,15 @@ public sealed class DescriptorBuilder : IBuilderConfigurator
 
         value = null;
         return false;
+    }
+
+    private ObjectDescriptor CreateMemberDescriptor(MemberInfo member, object value)
+    {
+        return new ObjectDescriptor
+        {
+            Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type,
+            Label = member.Name,
+            Value = new SnoopableObject(_snoopableObject.Context, value)
+        };
     }
 }
