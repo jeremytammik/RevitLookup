@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,6 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
+using RevitLookup.Core.Objects;
+
 namespace RevitLookup.Core.Contracts;
 
 /// <summary>
@@ -25,5 +28,5 @@ namespace RevitLookup.Core.Contracts;
 /// </summary>
 public interface IDescriptorResolver : IDescriptorCollector
 {
-    void RegisterResolvers(IResolverManager manager);
+    ResolveSummary Resolve(string name, ParameterInfo[] parameters);
 }

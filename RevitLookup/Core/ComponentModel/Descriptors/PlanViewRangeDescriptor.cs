@@ -18,14 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Extensions;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class PlanViewRangeDescriptor : Descriptor, IDescriptorExtension
+public class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly PlanViewRange _value;
 
@@ -34,47 +34,21 @@ public class PlanViewRangeDescriptor : Descriptor, IDescriptorExtension
         _value = value;
     }
 
-    public void RegisterExtensions(IExtensionManager manager)
+    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
     {
-        manager.Register(new DescriptorExtension<PlanViewRange>(_value)
+        return name switch
         {
-            Name = "GetOffset(TopClipPlane)",
-            Value = range => range.GetOffset(PlanViewPlane.TopClipPlane)
-        });
-        manager.Register(new DescriptorExtension<PlanViewRange>(_value)
-        {
-            Name = "GetOffset(CutPlane)",
-            Value = range => range.GetOffset(PlanViewPlane.CutPlane)
-        });
-        manager.Register(new DescriptorExtension<PlanViewRange>(_value)
-        {
-            Name = "GetOffset(BottomClipPlane)",
-            Value = range => range.GetOffset(PlanViewPlane.BottomClipPlane)
-        });
-        manager.Register(new DescriptorExtension<PlanViewRange>(_value)
-        {
-            Name = "GetOffset(UnderlayBottom)",
-            Value = range => range.GetOffset(PlanViewPlane.UnderlayBottom)
-        });
-        manager.Register(new DescriptorExtension<PlanViewRange>(_value)
-        {
-            Name = "GetLevelId(TopClipPlane)",
-            Value = range => range.GetLevelId(PlanViewPlane.TopClipPlane)
-        });
-        manager.Register(new DescriptorExtension<PlanViewRange>(_value)
-        {
-            Name = "GetLevelId(CutPlane)",
-            Value = range => range.GetLevelId(PlanViewPlane.CutPlane)
-        });
-        manager.Register(new DescriptorExtension<PlanViewRange>(_value)
-        {
-            Name = "GetLevelId(BottomClipPlane)",
-            Value = range => range.GetLevelId(PlanViewPlane.BottomClipPlane)
-        });
-        manager.Register(new DescriptorExtension<PlanViewRange>(_value)
-        {
-            Name = "GetLevelId(UnderlayBottom)",
-            Value = range => range.GetLevelId(PlanViewPlane.UnderlayBottom)
-        });
+            nameof(PlanViewRange.GetOffset) => ResolveSummary
+                .Append("Top clip plane", _value.GetOffset(PlanViewPlane.TopClipPlane))
+                .AppendVariant("Cut plane", _value.GetOffset(PlanViewPlane.CutPlane))
+                .AppendVariant("Bottom clip plane", _value.GetOffset(PlanViewPlane.BottomClipPlane))
+                .AppendVariant("Underlay bottom", _value.GetOffset(PlanViewPlane.UnderlayBottom)),
+            nameof(PlanViewRange.GetLevelId) => ResolveSummary
+                .Append("Top clip plane", _value.GetLevelId(PlanViewPlane.TopClipPlane))
+                .AppendVariant("Cut plane", _value.GetLevelId(PlanViewPlane.CutPlane))
+                .AppendVariant("Bottom clip plane", _value.GetLevelId(PlanViewPlane.BottomClipPlane))
+                .AppendVariant("Underlay bottom", _value.GetLevelId(PlanViewPlane.UnderlayBottom)),
+            _ => null
+        };
     }
 }

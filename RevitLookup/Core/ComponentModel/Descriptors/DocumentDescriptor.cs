@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -31,8 +32,12 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
         Label = document.Title;
     }
 
-    public void RegisterResolvers(IResolverManager manager)
+    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
     {
-        if (manager.Parameters.Length == 0) manager.Register(nameof(Document.Close), false);
+        return name switch
+        {
+            nameof(Document.Close) => ResolveSummary.Append(false),
+            _ => null
+        };
     }
 }

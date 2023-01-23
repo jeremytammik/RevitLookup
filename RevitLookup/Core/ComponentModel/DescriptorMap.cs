@@ -39,9 +39,10 @@ public static class DescriptorMap
     {
         return obj switch
         {
-            null => new ObjectDescriptor(),
+            //System
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
 
+            //Hierarchy
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
             Color value when type is null || type == typeof(Color) => new ColorDescriptor(value),
@@ -50,23 +51,20 @@ public static class DescriptorMap
             ForgeTypeId value when type is null || type == typeof(ForgeTypeId) => new ForgeTypeIdDescriptor(value),
             City value when type is null || type == typeof(City) => new CityDescriptor(value),
             PrintManager value when type is null || type == typeof(PrintManager) => new PrintManagerDescriptor(value),
-            WorksetTable when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(),
-            Units when type is null || type == typeof(Units) => new UnitsDescriptor(),
             GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
             Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
-            DocumentPreviewSettings when type is null || type == typeof(DocumentPreviewSettings) => new DocumentPreviewSettingsDescriptor(),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
 
-            HashSet<ElementId> value when type is null || type == typeof(HashSet<ElementId>) => new IEnumerableDescriptor(value),
-            CurveLoop value when type is null || type == typeof(CurveLoop) => new IEnumerableDescriptor(value),
-            ICollection value => new IEnumerableDescriptor(value),
-            IEnumerable value and APIObject => new IEnumerableDescriptor(value),
-
-            APIObject when type is null || type == typeof(APIObject) => new APIObjectDescriptor(),
+            //Root
+            IEnumerable value and not string => new IEnumerableDescriptor(value),
+            APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
+            IDisposable => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
             Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
 
+            //Other
+            null => new ObjectDescriptor(),
             _ when type is null => new ObjectDescriptor(obj),
             _ => new ObjectDescriptor()
         };

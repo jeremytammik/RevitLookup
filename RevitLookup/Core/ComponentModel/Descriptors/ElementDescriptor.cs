@@ -18,10 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Extensions;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
@@ -38,22 +37,29 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
 
     public void RegisterExtensions(IExtensionManager manager)
     {
-        var schemas = Schema.ListSchemas();
-        foreach (var schema in schemas)
-        {
-            if (!schema.ReadAccessGranted()) continue;
-
-            manager.Register(new DescriptorExtension<(Element _value, Schema schema)>((_value, schema))
-            {
-                Group = "Extensible Storage",
-                Name = schema.SchemaName,
-                Value = tuple => tuple._value.GetEntity(tuple.schema)
-            });
-        }
+        //TODO move to get Entity resolver
+        // var schemas = Schema.ListSchemas();
+        // foreach (var schema in schemas)
+        // {
+        //     if (!schema.ReadAccessGranted()) continue;
+        //
+        //     manager.Register(new DescriptorExtension<(Element _value, Schema schema)>((_value, schema))
+        //     {
+        //         Group = "Extensible Storage",
+        //         Name = schema.SchemaName,
+        //         Value = tuple => tuple._value.GetEntity(tuple.schema)
+        //     });
+        // }
     }
 
-    public void RegisterResolvers(IResolverManager manager)
+    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
     {
-        manager.Register("BoundingBox", _value.get_BoundingBox(null));
+        return name switch
+        {
+            "BoundingBox" => ResolveSummary
+                .Append("Model", _value.get_BoundingBox(null))
+                .AppendVariant("Active view", _value.get_BoundingBox(RevitApi.ActiveView)),
+            _ => null
+        };
     }
 }

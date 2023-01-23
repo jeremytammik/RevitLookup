@@ -24,6 +24,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Core.Utils;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Contracts;
@@ -49,14 +50,9 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
     public void Snoop(SnoopableObject snoopableObject)
     {
-        if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptorEnumerator)
+        if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
         {
-            var objects = new List<SnoopableObject>();
-            var enumerator = descriptorEnumerator.GetEnumerator();
-            while (enumerator.MoveNext())
-                objects.Add(new SnoopableObject(snoopableObject.Context, enumerator.Current));
-
-            SnoopableObjects = objects;
+            SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
         }
         else
         {
@@ -124,7 +120,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
                 })
                 .Generate(generationCount);
         });
-        
+
         SnoopableData = Array.Empty<Descriptor>();
         _navigationService.Navigate(typeof(SnoopView));
     }

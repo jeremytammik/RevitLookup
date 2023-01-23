@@ -18,12 +18,35 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 
-namespace RevitLookup.Core.Contracts;
+namespace RevitLookup.Core.Utils;
 
-public interface IResolverManager
+public static class SnoopUtils
 {
-    ParameterInfo[] Parameters { get; }
-    void Register(string memberName, object result);
+    public static IReadOnlyList<SnoopableObject> ParseEnumerable(this IDescriptorEnumerator descriptor, SnoopableObject snoopableObject)
+    {
+        var items = new List<SnoopableObject>();
+        descriptor.Enumerator.Reset();
+
+        while (descriptor.Enumerator.MoveNext())
+        {
+            SnoopableObject item;
+            if (descriptor.Enumerator.Current is ResolveSummary summary)
+            {
+                item = new SnoopableObject(snoopableObject.Context, summary.Result);
+                summary.UpdateLabel(item.Descriptor);
+            }
+            else
+            {
+                item = new SnoopableObject(snoopableObject.Context, descriptor.Enumerator.Current);
+            }
+
+            items.Add(item);
+        }
+
+        descriptor.Enumerator.Reset();
+        return items;
+    }
 }

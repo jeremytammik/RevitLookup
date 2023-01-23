@@ -18,11 +18,17 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
+namespace RevitLookup.Core.Utils;
 
-public class UnitsDescriptor : Descriptor, IDescriptorCollector
+public static class ResolveSummaryUtils
 {
+    public static void UpdateLabel(this ResolveSummary summary, Descriptor descriptor)
+    {
+        if (!string.IsNullOrEmpty(summary.Label) && summary.Result is not null)
+        {
+            descriptor.Label = $"{summary.Label}: {descriptor.Label}";
+        }
+    }
 }

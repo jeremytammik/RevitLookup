@@ -18,14 +18,42 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
+using BenchmarkDotNet.Attributes;
 
-namespace RevitLookup.Core.Comparers;
+namespace Benchmarks;
 
-public sealed class PropertyInfoComparer : IComparer<PropertyInfo>
+[MediumRunJob]
+[MemoryDiagnoser]
+public class ResolveTypeBench
 {
-    public int Compare(PropertyInfo x, PropertyInfo y)
+    public object Obj { get; set; }
+    
+    public ResolveTypeBench()
     {
-        return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
+        Obj = "Text";
+    }
+
+    [Benchmark]
+    public bool TypeIsEquals()
+    {
+        return Obj is IDisposable;
+    }
+    
+    [Benchmark]
+    public bool NamespaceEquals()
+    {
+        return Obj.GetType().Namespace == "System";
+    }
+
+    [Benchmark]
+    public bool NamespaceStartsWith()
+    {
+        return Obj.GetType().Namespace!.StartsWith("System");
+    }
+
+    [Benchmark]
+    public bool AssemblyStartsWith()
+    {
+        return Obj.GetType().Assembly.FullName.StartsWith("Revit");
     }
 }
