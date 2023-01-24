@@ -48,7 +48,7 @@ public sealed class SnoopableObject
     {
         return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ =>
         {
-            using var transaction = new Transaction(Context);
+            // using var transaction = new Transaction(Context);
             // transaction.Start("RevitLookup");
             var descriptors = new DescriptorBuilder(this).Build();
             // transaction.RollBack();
