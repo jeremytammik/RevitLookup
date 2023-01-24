@@ -56,12 +56,12 @@ public static class DescriptorUtils
         descriptor.Label ??= descriptor.Type;
     }
 
-    private static string MakeGenericTypeName(Type type)
+    public static string MakeGenericTypeName(Type type)
     {
         if (!type.IsGenericType) return type.Name;
 
         var typeName = type.Name;
-        typeName = typeName.AsSpan(0, typeName.Length - 2).ToString();
+        typeName = typeName.Substring(0, typeName.Length - 2);
         typeName += "<";
         var genericArguments = type.GetGenericArguments();
         for (var i = 0; i < genericArguments.Length; i++)

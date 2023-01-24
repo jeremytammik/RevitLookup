@@ -18,16 +18,17 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB.ExtensibleStorage;
+using System.Globalization;
+using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FieldDescriptor : Descriptor, IDescriptorCollector
+public sealed class FaceDescriptor : Descriptor, IDescriptorCollector
 {
-    public FieldDescriptor(Field field)
+    public FaceDescriptor(Face face)
     {
-        Label = field.FieldName;
+        Label = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
 }

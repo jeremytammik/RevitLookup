@@ -18,16 +18,38 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB.ExtensibleStorage;
+using System.Globalization;
+using System.Reflection;
+using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FieldDescriptor : Descriptor, IDescriptorCollector
+public sealed class CurveDescriptor : Descriptor, IDescriptorResolver
 {
-    public FieldDescriptor(Field field)
+    private readonly Curve _curve;
+
+    public CurveDescriptor(Curve curve)
     {
-        Label = field.FieldName;
+        _curve = curve;
+        Label = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
+    }
+
+    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
+    {
+        return name switch
+        {
+            nameof(Curve.GetEndPoint) => ResolveSummary
+                .Append(_curve.GetEndPoint(0), "Point 0")
+                .AppendVariant(_curve.GetEndPoint(1), "Point 1"),
+            nameof(Curve.GetEndParameter) => ResolveSummary
+                .Append(_curve.GetEndParameter(0), "Parameter 0")
+                .AppendVariant(_curve.GetEndParameter(1), "Parameter 1"),
+            nameof(Curve.GetEndPointReference) => ResolveSummary
+                .Append(_curve.GetEndPointReference(0), "Reference 0")
+                .AppendVariant(_curve.GetEndPointReference(1), "Reference 1"),
+            _ => null
+        };
     }
 }

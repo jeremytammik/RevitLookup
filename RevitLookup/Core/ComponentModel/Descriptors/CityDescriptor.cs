@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class CityDescriptor : Descriptor, IDescriptorCollector
+public sealed class CityDescriptor : Descriptor, IDescriptorCollector
 {
     public CityDescriptor(City city)
     {

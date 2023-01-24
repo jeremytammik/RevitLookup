@@ -26,7 +26,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class EntityDescriptor : Descriptor, IDescriptorResolver
+public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly Entity _entity;
 

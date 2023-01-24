@@ -58,15 +58,19 @@ public static class DescriptorMap
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             PaperSize value when type is null || type == typeof(PaperSize) => new PaperSizeDescriptor(value),
+            Curve value when type is null || type == typeof(Curve) => new CurveDescriptor(value),
+            Edge value when type is null || type == typeof(Edge) => new EdgeDescriptor(value),
+            Solid value when type is null || type == typeof(Solid) => new SolidDescriptor(value),
+            Face value when type is null || type == typeof(Face) => new FaceDescriptor(value),
 
             //Root
             Entity value => new EntityDescriptor(value),
             Field value => new FieldDescriptor(value),
             Schema value => new SchemaDescriptor(value),
+            Exception value => new ExceptionDescriptor(value),
             IEnumerable value and not string => new EnumerableDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
             IDisposable => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
-            Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
 
             //Other
             null => new ObjectDescriptor(),

@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class SchemaDescriptor : Descriptor, IDescriptorCollector
+public sealed class SchemaDescriptor : Descriptor, IDescriptorCollector
 {
     public SchemaDescriptor(Schema schema)
     {

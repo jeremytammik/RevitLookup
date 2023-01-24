@@ -25,11 +25,11 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver
+public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver
 {
-    public ForgeTypeIdDescriptor(ForgeTypeId value)
+    public ForgeTypeIdDescriptor(ForgeTypeId typeId)
     {
-        Label = value.TypeId;
+        Label = typeId.TypeId;
     }
 
     public ResolveSummary Resolve(string name, ParameterInfo[] parameters)

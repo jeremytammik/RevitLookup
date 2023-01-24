@@ -26,8 +26,8 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class CategoryDescriptor : Descriptor, IDescriptorCollector
 {
-    public CategoryDescriptor(Category value)
+    public CategoryDescriptor(Category category)
     {
-        Label = value.Name;
+        Label = category.Name;
     }
 }

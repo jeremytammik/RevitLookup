@@ -24,10 +24,10 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class FailureMessageDescriptor : Descriptor, IDescriptorCollector
+public sealed class FailureMessageDescriptor : Descriptor, IDescriptorCollector
 {
-    public FailureMessageDescriptor(FailureMessage value)
+    public FailureMessageDescriptor(FailureMessage message)
     {
-        Label = value.GetDescriptionText();
+        Label = message.GetDescriptionText();
     }
 }

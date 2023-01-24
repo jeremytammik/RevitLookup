@@ -24,11 +24,11 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class ExceptionDescriptor : Descriptor
 {
-    public ExceptionDescriptor(Exception value)
+    public ExceptionDescriptor(Exception exception)
     {
-        if (value.InnerException is null)
-            Label = value.Message;
+        if (exception.InnerException is null)
+            Label = exception.Message;
         else
-            Label = string.IsNullOrEmpty(value.InnerException.Message) ? value.Message : value.InnerException.Message;
+            Label = string.IsNullOrEmpty(exception.InnerException.Message) ? exception.Message : exception.InnerException.Message;
     }
 }

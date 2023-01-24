@@ -22,7 +22,6 @@ using System.Collections;
 using System.Reflection;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Extensions;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 
@@ -34,7 +33,6 @@ public sealed class DescriptorBuilder
     [CanBeNull] private Descriptor _currentDescriptor;
     private readonly SnoopableObject _snoopableObject;
     private readonly List<Descriptor> _descriptors;
-    private ExtensionManager _extensionManager;
     private Type _type;
 
     public DescriptorBuilder(SnoopableObject snoopableObject)
@@ -44,9 +42,7 @@ public sealed class DescriptorBuilder
         _settings = Host.GetService<ISettingsService>();
     }
 
-    public ExtensionManager ExtensionManager => _extensionManager ??= new ExtensionManager(_snoopableObject.Context);
-
-    public void AddProperties()
+    private void AddProperties()
     {
         var members = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         var descriptors = new List<Descriptor>(members.Length);
@@ -56,23 +52,24 @@ public sealed class DescriptorBuilder
             if (member.IsSpecialName) continue;
 
             object value;
+            ParameterInfo[] parameters = null;
             try
             {
-                if (!TryEvaluate(member, out value)) continue;
+                if (!TryEvaluate(member, out value, out parameters)) continue;
             }
             catch (Exception exception)
             {
                 value = exception;
             }
 
-            var descriptor = CreateMemberDescriptor(member, value);
+            var descriptor = CreateMemberDescriptor(member, value, parameters);
             descriptors.Add(descriptor);
         }
 
         ApplyGroupCollector(descriptors);
     }
 
-    public void AddMethods()
+    private void AddMethods()
     {
         var members = _type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         var descriptors = new List<Descriptor>(members.Length);
@@ -83,16 +80,17 @@ public sealed class DescriptorBuilder
             if (member.ReturnType.Name == "Void") continue;
 
             object value;
+            ParameterInfo[] parameters = null;
             try
             {
-                if (!TryEvaluate(member, out value)) continue;
+                if (!TryEvaluate(member, out value, out parameters)) continue;
             }
             catch (Exception exception)
             {
                 value = exception;
             }
 
-            var descriptor = CreateMemberDescriptor(member, value);
+            var descriptor = CreateMemberDescriptor(member, value, parameters);
             descriptors.Add(descriptor);
         }
 
@@ -106,14 +104,16 @@ public sealed class DescriptorBuilder
         if (_currentDescriptor is not IDescriptorExtension extension) return;
     }
 
-    private void AddEnumerable(IEnumerable enumerable)
+    private void AddEnumerableItems()
     {
+        if (_snoopableObject.Object is not IEnumerable enumerable) return;
+
         var enumerator = enumerable.GetEnumerator();
         while (enumerator.MoveNext())
         {
             var enumerableDescriptor = new ObjectDescriptor
             {
-                Type = "Items",
+                Type = nameof(IEnumerable),
                 Value = new SnoopableObject(_snoopableObject.Context, enumerator.Current)
             };
 
@@ -144,36 +144,38 @@ public sealed class DescriptorBuilder
             AddProperties();
             AddMethods();
         }
-
-        if (_snoopableObject.Object is IEnumerable enumerable) AddEnumerable(enumerable);
+        
+        AddEnumerableItems();
 
         return _descriptors;
     }
 
-    private bool TryEvaluate(PropertyInfo member, out object value)
+    private bool TryEvaluate(PropertyInfo member, out object value, out ParameterInfo[] parameters)
     {
+        value = null;
+        parameters = null;
+
         if (!member.CanRead)
         {
             value = new Exception("Property does not have a get accessor, it cannot be read");
             return true;
         }
 
-        var args = member.GetMethod.GetParameters();
+        parameters = member.GetMethod.GetParameters();
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
-            value = resolver.Resolve(member.Name, args);
+            value = resolver.Resolve(member.Name, parameters);
             if (value is not null) return true;
         }
 
-        if (args.Length > 0)
+        if (parameters.Length > 0)
         {
             if (_settings.IsUnsupportedAllowed)
             {
-                value = new Exception($"Unsupported property overload: {string.Join(", ", args.Select(info => info.ParameterType.Name))}");
+                value = new Exception("Unsupported property overload");
                 return true;
             }
 
-            value = null;
             return false;
         }
 
@@ -181,20 +183,20 @@ public sealed class DescriptorBuilder
         return true;
     }
 
-    private bool TryEvaluate(MethodInfo member, out object value)
+    private bool TryEvaluate(MethodInfo member, out object value, out ParameterInfo[] parameters)
     {
-        var args = member.GetParameters();
+        parameters = member.GetParameters();
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
-            value = resolver.Resolve(member.Name, args);
+            value = resolver.Resolve(member.Name, parameters);
             if (value is not null) return true;
         }
 
-        if (args.Length > 0)
+        if (parameters.Length > 0)
         {
             if (_settings.IsUnsupportedAllowed)
             {
-                value = new Exception($"Unsupported method overload: {string.Join(", ", args.Select(info => info.ParameterType.Name))}");
+                value = new Exception("Unsupported method overload");
                 return true;
             }
 
@@ -212,13 +214,21 @@ public sealed class DescriptorBuilder
         _descriptors.AddRange(descriptors);
     }
 
-    private ObjectDescriptor CreateMemberDescriptor(MemberInfo member, object value)
+    private ObjectDescriptor CreateMemberDescriptor(MemberInfo member, object value, ParameterInfo[] parameters)
     {
         var descriptor = new ObjectDescriptor
         {
             Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type,
-            Label = member.Name
         };
+
+        if (parameters is null || parameters.Length == 0)
+        {
+            descriptor.Label = member.Name;
+        }
+        else
+        {
+            descriptor.Label = $"{member.Name} ({string.Join(", ", parameters.Select(info => info.ParameterType.Name))})";
+        }
 
         if (value is ResolveSummary summary)
         {
@@ -229,12 +239,12 @@ public sealed class DescriptorBuilder
             }
             else
             {
-                descriptor.Value = new SnoopableObject(_snoopableObject.Context, summary.ResultCollection)
+                descriptor.Value = new SnoopableObject(_snoopableObject.Context, summary.ResultCollection);
+                descriptor.Value.Descriptor.Label = member switch
                 {
-                    Descriptor =
-                    {
-                        Label = member is PropertyInfo property ? $"{property.GetMethod.ReturnType.Name}[]" : $"{((MethodInfo) member).ReturnType.Name}[]"
-                    }
+                    PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
+                    MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
+                    _ => descriptor.Value.Descriptor.Label
                 };
             }
         }

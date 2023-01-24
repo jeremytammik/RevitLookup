@@ -25,8 +25,8 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class ApplicationDescriptor : Descriptor, IDescriptorCollector
 {
-    public ApplicationDescriptor(Autodesk.Revit.ApplicationServices.Application document)
+    public ApplicationDescriptor(Autodesk.Revit.ApplicationServices.Application application)
     {
-        Label = document.VersionName;
+        Label = application.VersionName;
     }
 }

@@ -24,10 +24,10 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DefinitionDescriptor : Descriptor, IDescriptorCollector
+public sealed class DefinitionDescriptor : Descriptor, IDescriptorCollector
 {
-    public DefinitionDescriptor(Definition value)
+    public DefinitionDescriptor(Definition definition)
     {
-        Label = value.Name;
+        Label = definition.Name;
     }
 }

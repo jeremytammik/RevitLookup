@@ -24,10 +24,10 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class GuidEnumDescriptor : Descriptor, IDescriptorCollector
+public sealed class GuidEnumDescriptor : Descriptor, IDescriptorCollector
 {
-    public GuidEnumDescriptor(GuidEnum value)
+    public GuidEnumDescriptor(GuidEnum guidEnum)
     {
-        Label = value.Guid.ToString();
+        Label = guidEnum.Guid.ToString();
     }
 }

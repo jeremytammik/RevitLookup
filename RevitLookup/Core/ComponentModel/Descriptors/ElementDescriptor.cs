@@ -28,72 +28,78 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
 {
-    private readonly Element _value;
+    private readonly Element _element;
 
-    public ElementDescriptor(Element value)
+    public ElementDescriptor(Element element)
     {
-        _value = value;
-        Label = value.Name == string.Empty ? $"ID{value.Id}" : $"{value.Name}, ID{value.Id}";
+        _element = element;
+        Label = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 
     public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
     {
         return name switch
         {
+            nameof(Element.CanBeHidden) => ResolveSummary.Append(_element.CanBeHidden(RevitApi.ActiveView), "Active view"),
+            nameof(Element.IsHidden) => ResolveSummary.Append(_element.IsHidden(RevitApi.ActiveView), "Active view"),
+            nameof(Element.GetDependentElements) => ResolveSummary.Append(_element.GetDependentElements(null)),
+            nameof(Element.GetMaterialIds) => ResolveSummary
+                .Append(_element.GetMaterialIds(true), "Paint materials")
+                .AppendVariant(_element.GetMaterialIds(true), "Geometry and compound structure materials"),
             "BoundingBox" => ResolveSummary
-                .Append(_value.get_BoundingBox(null), "Model")
-                .AppendVariant(_value.get_BoundingBox(RevitApi.ActiveView), "Active view"),
+                .Append(_element.get_BoundingBox(null), "Model")
+                .AppendVariant(_element.get_BoundingBox(RevitApi.ActiveView), "Active view"),
             "Geometry" => ResolveSummary
-                .Append(_value.get_Geometry(new Options
+                .Append(_element.get_Geometry(new Options
                 {
                     View = RevitApi.ActiveView,
                     ComputeReferences = true
                 }), "Active view")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     View = RevitApi.ActiveView,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
                 }), "Active view, including non-visible objects")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
                     ComputeReferences = true
                 }), "Undefined view, coarse detail level")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
                     ComputeReferences = true
                 }), "Undefined view, fine detail level")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
                     ComputeReferences = true
                 }), "Undefined view, medium detail level")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
                     ComputeReferences = true
                 }), "Undefined view, undefined detail level")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
                 }), "Undefined view, coarse detail level, including non-visible objects")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
                 }), "Undefined view, fine detail level, including non-visible objects")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
                 }), "Undefined view, medium detail level, including non-visible objects")
-                .AppendVariant(_value.get_Geometry(new Options
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
                     IncludeNonVisibleObjects = true,
@@ -110,7 +116,7 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
             foreach (var schema in schemas)
             {
                 if (!schema.ReadAccessGranted()) continue;
-                var entity = _value.GetEntity(schema);
+                var entity = _element.GetEntity(schema);
                 if (!entity.IsValid()) continue;
 
                 resolveSummary.AppendVariant(entity, schema.SchemaName);
