@@ -26,10 +26,6 @@ public sealed class ResolveSummary
     public object Result { get; private set; }
     public List<ResolveSummary> ResultCollection { get; private set; }
 
-    private ResolveSummary()
-    {
-    }
-
     public static ResolveSummary Append(object result)
     {
         return new ResolveSummary
@@ -66,6 +62,7 @@ public sealed class ResolveSummary
         if (result is null) return this;
         if (Result is null)
         {
+            Label = label;
             Result = result;
             return this;
         }

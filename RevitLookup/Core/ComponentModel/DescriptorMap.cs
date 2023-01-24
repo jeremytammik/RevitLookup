@@ -20,6 +20,7 @@
 
 using System.Collections;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
@@ -56,8 +57,12 @@ public static class DescriptorMap
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
+            PaperSize value when type is null || type == typeof(PaperSize) => new PaperSizeDescriptor(value),
 
             //Root
+            Entity value => new EntityDescriptor(value),
+            Field value => new FieldDescriptor(value),
+            Schema value => new SchemaDescriptor(value),
             IEnumerable value and not string => new EnumerableDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
             IDisposable => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"

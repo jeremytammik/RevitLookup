@@ -20,12 +20,13 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
+public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly Element _value;
 
@@ -33,23 +34,6 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
     {
         _value = value;
         Label = value.Name == string.Empty ? $"ID{value.Id}" : $"{value.Name}, ID{value.Id}";
-    }
-
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        //TODO move to get Entity resolver
-        // var schemas = Schema.ListSchemas();
-        // foreach (var schema in schemas)
-        // {
-        //     if (!schema.ReadAccessGranted()) continue;
-        //
-        //     manager.Register(new DescriptorExtension<(Element _value, Schema schema)>((_value, schema))
-        //     {
-        //         Group = "Extensible Storage",
-        //         Name = schema.SchemaName,
-        //         Value = tuple => tuple._value.GetEntity(tuple.schema)
-        //     });
-        // }
     }
 
     public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
@@ -115,7 +99,24 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
                 }), "Undefined view, undefined detail level, including non-visible objects"),
+            nameof(Element.GetEntity) => ResolveGetEntity(),
             _ => null
         };
+
+        ResolveSummary ResolveGetEntity()
+        {
+            var resolveSummary = new ResolveSummary();
+            var schemas = Schema.ListSchemas();
+            foreach (var schema in schemas)
+            {
+                if (!schema.ReadAccessGranted()) continue;
+                var entity = _value.GetEntity(schema);
+                if (!entity.IsValid()) continue;
+
+                resolveSummary.AppendVariant(entity, schema.SchemaName);
+            }
+
+            return resolveSummary;
+        }
     }
 }
