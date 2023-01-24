@@ -46,7 +46,6 @@ public static class SnoopUtils
             items.Add(item);
         }
 
-        descriptor.Enumerator.Reset();
         return items;
     }
 }

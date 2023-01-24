@@ -57,8 +57,64 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
         return name switch
         {
             "BoundingBox" => ResolveSummary
-                .Append("Model", _value.get_BoundingBox(null))
-                .AppendVariant("Active view", _value.get_BoundingBox(RevitApi.ActiveView)),
+                .Append(_value.get_BoundingBox(null), "Model")
+                .AppendVariant(_value.get_BoundingBox(RevitApi.ActiveView), "Active view"),
+            "Geometry" => ResolveSummary
+                .Append(_value.get_Geometry(new Options
+                {
+                    View = RevitApi.ActiveView,
+                    ComputeReferences = true
+                }), "Active view")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    View = RevitApi.ActiveView,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Active view, including non-visible objects")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Coarse,
+                    ComputeReferences = true
+                }), "Undefined view, coarse detail level")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Fine,
+                    ComputeReferences = true
+                }), "Undefined view, fine detail level")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Medium,
+                    ComputeReferences = true
+                }), "Undefined view, medium detail level")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Undefined,
+                    ComputeReferences = true
+                }), "Undefined view, undefined detail level")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Coarse,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Undefined view, coarse detail level, including non-visible objects")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Fine,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Undefined view, fine detail level, including non-visible objects")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Medium,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Undefined view, medium detail level, including non-visible objects")
+                .AppendVariant(_value.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Undefined,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Undefined view, undefined detail level, including non-visible objects"),
             _ => null
         };
     }

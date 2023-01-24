@@ -28,7 +28,10 @@ public static class ResolveSummaryUtils
     {
         if (!string.IsNullOrEmpty(summary.Label) && summary.Result is not null)
         {
-            descriptor.Label = $"{summary.Label}: {descriptor.Label}";
+            if (descriptor.Label == descriptor.Type)
+                descriptor.Label = summary.Label;
+            else
+                descriptor.Label = $"{summary.Label}: {descriptor.Label}";
         }
     }
 }

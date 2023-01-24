@@ -58,7 +58,7 @@ public static class DescriptorMap
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
 
             //Root
-            IEnumerable value and not string => new IEnumerableDescriptor(value),
+            IEnumerable value and not string => new EnumerableDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
             IDisposable => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
             Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),

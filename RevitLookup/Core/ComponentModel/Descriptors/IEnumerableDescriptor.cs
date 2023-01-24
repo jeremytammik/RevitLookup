@@ -26,9 +26,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class IEnumerableDescriptor : Descriptor, IDescriptorEnumerator
+public sealed class EnumerableDescriptor : Descriptor, IDescriptorEnumerator
 {
-    public IEnumerableDescriptor(IEnumerable value)
+    public EnumerableDescriptor(IEnumerable value)
     {
         Enumerator = value.GetEnumerator();
 

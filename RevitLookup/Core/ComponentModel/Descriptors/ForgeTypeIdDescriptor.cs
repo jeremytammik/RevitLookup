@@ -36,7 +36,7 @@ public class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver
     {
         return name switch
         {
-            nameof(ForgeTypeId.Clear) => ResolveSummary.Append(false),
+            nameof(ForgeTypeId.Clear) when parameters.Length == 0 => ResolveSummary.Append(false, "Overridden"),
             _ => null
         };
     }

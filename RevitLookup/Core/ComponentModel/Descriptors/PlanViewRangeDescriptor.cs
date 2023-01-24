@@ -39,15 +39,15 @@ public class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
         return name switch
         {
             nameof(PlanViewRange.GetOffset) => ResolveSummary
-                .Append("Top clip plane", _value.GetOffset(PlanViewPlane.TopClipPlane))
-                .AppendVariant("Cut plane", _value.GetOffset(PlanViewPlane.CutPlane))
-                .AppendVariant("Bottom clip plane", _value.GetOffset(PlanViewPlane.BottomClipPlane))
-                .AppendVariant("Underlay bottom", _value.GetOffset(PlanViewPlane.UnderlayBottom)),
+                .Append(_value.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
+                .AppendVariant(_value.GetOffset(PlanViewPlane.CutPlane), "Cut plane")
+                .AppendVariant(_value.GetOffset(PlanViewPlane.BottomClipPlane), "Bottom clip plane")
+                .AppendVariant(_value.GetOffset(PlanViewPlane.UnderlayBottom), "Underlay bottom"),
             nameof(PlanViewRange.GetLevelId) => ResolveSummary
-                .Append("Top clip plane", _value.GetLevelId(PlanViewPlane.TopClipPlane))
-                .AppendVariant("Cut plane", _value.GetLevelId(PlanViewPlane.CutPlane))
-                .AppendVariant("Bottom clip plane", _value.GetLevelId(PlanViewPlane.BottomClipPlane))
-                .AppendVariant("Underlay bottom", _value.GetLevelId(PlanViewPlane.UnderlayBottom)),
+                .Append(_value.GetLevelId(PlanViewPlane.TopClipPlane), "Top clip plane")
+                .AppendVariant(_value.GetLevelId(PlanViewPlane.CutPlane), "Cut plane")
+                .AppendVariant(_value.GetLevelId(PlanViewPlane.BottomClipPlane), "Bottom clip plane")
+                .AppendVariant(_value.GetLevelId(PlanViewPlane.UnderlayBottom), "Underlay bottom"),
             _ => null
         };
     }

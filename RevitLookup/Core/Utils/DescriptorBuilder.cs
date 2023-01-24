@@ -103,14 +103,23 @@ public sealed class DescriptorBuilder
     private void AddExtensions(List<Descriptor> descriptors)
     {
         if (!_settings.IsExtensionsAllowed) return;
-        // if (_currentDescriptor is not IDescriptorExtension extension) return;
-        //
-        // ExtensionManager.Descriptor = _currentDescriptor;
-        // extension.RegisterExtensions(ExtensionManager);
-        // if (_extensionManager.ClassExtensions is null) return;
-        //
-        // descriptors.AddRange(_extensionManager.ClassExtensions);
-        // _extensionManager.ClassExtensions.Clear();
+        if (_currentDescriptor is not IDescriptorExtension extension) return;
+    }
+
+    private void AddEnumerable(IEnumerable enumerable)
+    {
+        var enumerator = enumerable.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            var enumerableDescriptor = new ObjectDescriptor
+            {
+                Type = "Items",
+                Value = new SnoopableObject(_snoopableObject.Context, enumerator.Current)
+            };
+
+            enumerableDescriptor.Label = enumerableDescriptor.Value.Descriptor.Type;
+            _descriptors.Add(enumerableDescriptor);
+        }
     }
 
     public IReadOnlyList<Descriptor> Build()
@@ -136,8 +145,8 @@ public sealed class DescriptorBuilder
             AddMethods();
         }
 
-        //Adding object extensions to the end of the table
-        if (_extensionManager?.ObjectExtensions is not null) _descriptors.AddRange(_extensionManager.ObjectExtensions);
+        if (_snoopableObject.Object is IEnumerable enumerable) AddEnumerable(enumerable);
+
         return _descriptors;
     }
 
@@ -224,9 +233,7 @@ public sealed class DescriptorBuilder
                 {
                     Descriptor =
                     {
-                        Label = member is PropertyInfo property ?
-                            $"{property.GetMethod.ReturnType.Name}[]" :
-                            $"{((MethodInfo) member).ReturnType.Name}[]"
+                        Label = member is PropertyInfo property ? $"{property.GetMethod.ReturnType.Name}[]" : $"{((MethodInfo) member).ReturnType.Name}[]"
                     }
                 };
             }

@@ -36,7 +36,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
     {
         return name switch
         {
-            nameof(Document.Close) => ResolveSummary.Append(false),
+            nameof(Document.Close) when parameters.Length == 0 => ResolveSummary.Append(false, "Overridden"),
             _ => null
         };
     }

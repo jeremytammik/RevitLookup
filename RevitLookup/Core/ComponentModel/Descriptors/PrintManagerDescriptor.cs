@@ -36,7 +36,7 @@ public sealed class PrintManagerDescriptor : Descriptor, IDescriptorResolver
     {
         return name switch
         {
-            nameof(PrintManager.SubmitPrint) => ResolveSummary.Append(false),
+            nameof(PrintManager.SubmitPrint) when parameters.Length == 0 => ResolveSummary.Append(false, "Overridden"),
             _ => null
         };
     }

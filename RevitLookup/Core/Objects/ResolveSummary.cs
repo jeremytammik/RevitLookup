@@ -38,7 +38,7 @@ public sealed class ResolveSummary
         };
     }
 
-    public static ResolveSummary Append(string label, object result)
+    public static ResolveSummary Append(object result, string label)
     {
         return new ResolveSummary
         {
@@ -56,13 +56,12 @@ public sealed class ResolveSummary
             return this;
         }
 
-        ResultCollection ??= new List<ResolveSummary>(2);
-        ResultCollection.Add(this);
+        ResultCollection ??= new List<ResolveSummary>(2) {this};
         ResultCollection.Add(Append(result));
         return this;
     }
 
-    public ResolveSummary AppendVariant(string label, object result)
+    public ResolveSummary AppendVariant(object result, string label)
     {
         if (result is null) return this;
         if (Result is null)
@@ -71,9 +70,8 @@ public sealed class ResolveSummary
             return this;
         }
 
-        ResultCollection ??= new List<ResolveSummary>(2);
-        ResultCollection.Add(this);
-        ResultCollection.Add(Append(label, result));
+        ResultCollection ??= new List<ResolveSummary>(2) {this};
+        ResultCollection.Add(Append(result, label));
         return this;
     }
 }

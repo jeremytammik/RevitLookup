@@ -55,7 +55,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
     {
         return name switch
         {
-            nameof(Parameter.ClearValue) => ResolveSummary.Append(false),
+            nameof(Parameter.ClearValue) when parameters.Length == 0 => ResolveSummary.Append(false, "Overridden"),
             _ => null
         };
     }
