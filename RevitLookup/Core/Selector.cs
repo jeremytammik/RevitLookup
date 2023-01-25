@@ -22,7 +22,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
-using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
 namespace RevitLookup.Core;
 

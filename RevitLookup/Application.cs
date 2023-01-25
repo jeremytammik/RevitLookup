@@ -30,8 +30,6 @@ using RevitLookup.Commands;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
-using RibbonButton = Autodesk.Windows.RibbonButton;
-using RibbonPanel = Autodesk.Windows.RibbonPanel;
 
 namespace RevitLookup;
 
@@ -112,7 +110,7 @@ public class Application : ExternalApplication
                             Orientation = Orientation.Vertical,
                             CommandHandler = new RelayCommand(() => SnoopSelectionCommand.Execute(RevitApi.UiApplication)),
                             Image = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon16.png", UriKind.RelativeOrAbsolute)),
-                            LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute)),
+                            LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute))
                         }
                     }
                 }

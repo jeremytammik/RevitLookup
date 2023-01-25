@@ -34,10 +34,10 @@ public sealed class SettingsViewModel : ObservableObject
     private readonly ISettingsService _settingsService;
     private readonly ISnackbarService _snackbarService;
     private WindowBackdropType _background;
-    private ThemeType _theme;
+    private bool _isExtensionsAllowed;
     private bool _isSmoothEnabled;
     private bool _isUnsupportedAllowed;
-    private bool _isExtensionsAllowed;
+    private ThemeType _theme;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
     {

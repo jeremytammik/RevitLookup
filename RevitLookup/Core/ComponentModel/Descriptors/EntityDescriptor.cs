@@ -54,7 +54,7 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
             {
                 var forgeTypeId = field.GetSpecTypeId();
                 if (!string.IsNullOrEmpty(forgeTypeId.TypeId)) continue;
- 
+
                 var method = _entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field)})!;
                 var genericMethod = method.MakeGenericMethod(field.ValueType);
                 resolveSummary.AppendVariant(genericMethod.Invoke(_entity, new object[] {field}), field.FieldName);
@@ -70,10 +70,10 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
             {
                 var forgeTypeId = field.GetSpecTypeId();
                 if (string.IsNullOrEmpty(forgeTypeId.TypeId)) continue;
- 
+
                 var method = _entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field), typeof(ForgeTypeId)})!;
                 var genericMethod = method.MakeGenericMethod(field.ValueType);
-                resolveSummary.AppendVariant(genericMethod.Invoke(_entity, 
+                resolveSummary.AppendVariant(genericMethod.Invoke(_entity,
                     new object[] {field, UnitUtils.GetValidUnits(forgeTypeId).First()}), field.FieldName);
             }
 

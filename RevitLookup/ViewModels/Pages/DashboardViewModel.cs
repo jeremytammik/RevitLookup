@@ -23,19 +23,16 @@ using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Contracts;
-using RevitLookup.Views.Pages;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class DashboardViewModel : ObservableObject
 {
-    private readonly INavigationService _navigationService;
     private readonly ISnoopService _snoopService;
 
-    public DashboardViewModel(ISnoopService snoopService, INavigationService navigationService)
+    public DashboardViewModel(ISnoopService snoopService)
     {
         _snoopService = snoopService;
-        _navigationService = navigationService;
     }
 
     [RelayCommand]
@@ -79,6 +76,5 @@ public sealed partial class DashboardViewModel : ObservableObject
     private async Task NavigateEventPage()
     {
         await Task.CompletedTask;
-        // _navigationService.Navigate(typeof(EventsView));
     }
 }

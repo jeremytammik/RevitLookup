@@ -30,10 +30,10 @@ namespace RevitLookup.Core.Utils;
 
 public sealed class DescriptorBuilder
 {
-    private readonly ISettingsService _settings;
-    [CanBeNull] private Descriptor _currentDescriptor;
-    private readonly SnoopableObject _snoopableObject;
     private readonly List<Descriptor> _descriptors;
+    private readonly ISettingsService _settings;
+    private readonly SnoopableObject _snoopableObject;
+    [CanBeNull] private Descriptor _currentDescriptor;
     private Type _type;
 
     public DescriptorBuilder(SnoopableObject snoopableObject)
@@ -222,7 +222,7 @@ public sealed class DescriptorBuilder
     {
         var descriptor = new ObjectDescriptor
         {
-            Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type,
+            Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type
         };
 
         if (parameters is null || parameters.Length == 0)
