@@ -18,23 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
+
 namespace RevitLookup.Core.Extensions;
 
 public sealed class DescriptorExtension<T>
 {
-    private readonly T _obj;
-
-    public DescriptorExtension(T obj)
-    {
-        _obj = obj;
-    }
-
-    public string Group { get; init; }
-    [NotNull] public required string Name { get; init; }
-    [NotNull] public required Func<T, object> Value { get; init; }
-
-    public object Invoke()
-    {
-        return Value(_obj);
-    }
+    public required Document Context { get; init; }
+    public required T Value { get; init; }
+    public object Result { get; set; }
 }

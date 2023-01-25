@@ -24,14 +24,13 @@ namespace RevitLookup.Core.Utils;
 
 public static class ResolveSummaryUtils
 {
-    public static void UpdateLabel(this ResolveSummary summary, Descriptor descriptor)
+    public static void UpdateDescriptorLabel(this ResolveSummary summary, Descriptor descriptor)
     {
-        if (!string.IsNullOrEmpty(summary.Label) && summary.Result is not null)
-        {
-            if (descriptor.Label == descriptor.Type)
-                descriptor.Label = summary.Label;
-            else
-                descriptor.Label = $"{summary.Label}: {descriptor.Label}";
-        }
+        if (string.IsNullOrEmpty(summary.Label) || summary.Result is null) return;
+
+        if (descriptor.Label == descriptor.Type)
+            descriptor.Label = summary.Label;
+        else
+            descriptor.Label = $"{summary.Label}: {descriptor.Label}";
     }
 }

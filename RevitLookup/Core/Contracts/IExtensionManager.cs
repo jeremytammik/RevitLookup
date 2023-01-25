@@ -24,5 +24,6 @@ namespace RevitLookup.Core.Contracts;
 
 public interface IExtensionManager
 {
-    void Register<T>(DescriptorExtension<T> extension);
+    void Register(string name, Func<object> result);
+    void Register<T>(string name, T value, Action<DescriptorExtension<T>> extension);
 }

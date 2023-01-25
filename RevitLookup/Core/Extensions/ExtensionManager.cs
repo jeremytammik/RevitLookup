@@ -28,46 +28,61 @@ namespace RevitLookup.Core.Extensions;
 public sealed class ExtensionManager : IExtensionManager
 {
     private readonly Document _context;
+    private readonly Descriptor _descriptor;
 
-    public ExtensionManager(Document context)
+    public ExtensionManager(Document context, Descriptor descriptor)
     {
         _context = context;
+        _descriptor = descriptor;
+        Descriptors = new List<Descriptor>();
     }
 
-    public Descriptor Descriptor { get; set; }
+    public List<Descriptor> Descriptors { get; set; }
 
-    [CanBeNull] public List<Descriptor> ClassExtensions { get; private set; }
-    [CanBeNull] public List<Descriptor> ObjectExtensions { get; private set; }
-
-    public void Register<T>(DescriptorExtension<T> extension)
+    public void Register<T>(string name, T value, Action<DescriptorExtension<T>> extension)
     {
-        object value;
-        try
+        var descriptorExtension = new DescriptorExtension<T>
         {
-            value = extension.Invoke();
-        }
-        catch (Exception exception)
-        {
-            value = exception;
-        }
+            Value = value,
+            Context = _context
+        };
 
         var descriptor = new ObjectDescriptor
         {
-            Label = extension.Name,
-            Value = new SnoopableObject(_context, value)
+            Label = name,
+            Type = _descriptor.Type
         };
 
-        if (extension.Group is null)
+        try
         {
-            descriptor.Type = Descriptor.Type;
-            ClassExtensions ??= new List<Descriptor>(1);
-            ClassExtensions.Add(descriptor);
+            extension.Invoke(descriptorExtension);
+            descriptor.Value = new SnoopableObject(_context, descriptorExtension.Result);
         }
-        else
+        catch (Exception exception)
         {
-            descriptor.Type = extension.Group;
-            ObjectExtensions ??= new List<Descriptor>(1);
-            ObjectExtensions.Add(descriptor);
+            descriptor.Value = new SnoopableObject(_context, exception);
         }
+
+        Descriptors.Add(descriptor);
+    }
+
+    public void Register(string name, Func<object> result)
+    {
+        var descriptor = new ObjectDescriptor
+        {
+            Label = name,
+            Type = _descriptor.Type
+        };
+
+        try
+        {
+            descriptor.Value = new SnoopableObject(_context, result());
+        }
+        catch (Exception exception)
+        {
+            descriptor.Value = new SnoopableObject(_context, exception);
+        }
+
+        Descriptors.Add(descriptor);
     }
 }

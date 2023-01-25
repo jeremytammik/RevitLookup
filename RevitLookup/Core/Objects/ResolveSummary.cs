@@ -24,7 +24,7 @@ public sealed class ResolveSummary
 {
     public string Label { get; private set; }
     public object Result { get; private set; }
-    public List<ResolveSummary> ResultCollection { get; private set; }
+    public List<ResolveSummary> Variants { get; private set; }
 
     public static ResolveSummary Append(object result)
     {
@@ -52,8 +52,8 @@ public sealed class ResolveSummary
             return this;
         }
 
-        ResultCollection ??= new List<ResolveSummary>(2) {this};
-        ResultCollection.Add(Append(result));
+        Variants ??= new List<ResolveSummary>(2) {this};
+        Variants.Add(Append(result));
         return this;
     }
 
@@ -67,8 +67,8 @@ public sealed class ResolveSummary
             return this;
         }
 
-        ResultCollection ??= new List<ResolveSummary>(2) {this};
-        ResultCollection.Add(Append(result, label));
+        Variants ??= new List<ResolveSummary>(2) {this};
+        Variants.Add(Append(result, label));
         return this;
     }
 }

@@ -36,7 +36,7 @@ public static class SnoopUtils
             if (descriptor.Enumerator.Current is ResolveSummary summary)
             {
                 item = new SnoopableObject(snoopableObject.Context, summary.Result);
-                summary.UpdateLabel(item.Descriptor);
+                summary.UpdateDescriptorLabel(item.Descriptor);
             }
             else
             {

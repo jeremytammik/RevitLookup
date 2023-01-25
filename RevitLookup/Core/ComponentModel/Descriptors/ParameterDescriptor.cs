@@ -38,16 +38,14 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
 
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(new DescriptorExtension<Parameter>(_parameter)
+        manager.Register(nameof(ParameterExtensions.AsBool), _parameter, extension =>
         {
-            Name = nameof(ParameterExtensions.AsBool),
-            Value = parameter => parameter.AsBool()
+            extension.Result = extension.Value.AsBool();
         });
 
-        manager.Register(new DescriptorExtension<Parameter>(_parameter)
+        manager.Register(nameof(ParameterExtensions.AsColor), _parameter, extension =>
         {
-            Name = nameof(ParameterExtensions.AsColor),
-            Value = parameter => parameter.AsColor()
+            extension.Result = extension.Value.AsColor();
         });
     }
 

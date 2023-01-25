@@ -22,6 +22,7 @@ using System.Collections;
 using System.Reflection;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Extensions;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 
@@ -102,6 +103,10 @@ public sealed class DescriptorBuilder
     {
         if (!_settings.IsExtensionsAllowed) return;
         if (_currentDescriptor is not IDescriptorExtension extension) return;
+
+        var manager = new ExtensionManager(_snoopableObject.Context, _currentDescriptor);
+        extension.RegisterExtensions(manager);
+        descriptors.AddRange(manager.Descriptors);
     }
 
     private void AddEnumerableItems()
@@ -144,9 +149,8 @@ public sealed class DescriptorBuilder
             AddProperties();
             AddMethods();
         }
-        
-        AddEnumerableItems();
 
+        AddEnumerableItems();
         return _descriptors;
     }
 
@@ -222,37 +226,34 @@ public sealed class DescriptorBuilder
         };
 
         if (parameters is null || parameters.Length == 0)
-        {
             descriptor.Label = member.Name;
-        }
         else
-        {
             descriptor.Label = $"{member.Name} ({string.Join(", ", parameters.Select(info => info.ParameterType.Name))})";
-        }
 
         if (value is ResolveSummary summary)
+            ConvertResolveSummary(summary, member, descriptor);
+        else
+            descriptor.Value = new SnoopableObject(_snoopableObject.Context, value);
+
+        return descriptor;
+    }
+
+    private void ConvertResolveSummary(ResolveSummary summary, MemberInfo member, Descriptor descriptor)
+    {
+        if (summary.Variants is null)
         {
-            if (summary.ResultCollection is null)
-            {
-                descriptor.Value = new SnoopableObject(_snoopableObject.Context, summary.Result);
-                summary.UpdateLabel(descriptor.Value.Descriptor);
-            }
-            else
-            {
-                descriptor.Value = new SnoopableObject(_snoopableObject.Context, summary.ResultCollection);
-                descriptor.Value.Descriptor.Label = member switch
-                {
-                    PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
-                    MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
-                    _ => descriptor.Value.Descriptor.Label
-                };
-            }
+            descriptor.Value = new SnoopableObject(_snoopableObject.Context, summary.Result);
+            summary.UpdateDescriptorLabel(descriptor.Value.Descriptor);
         }
         else
         {
-            descriptor.Value = new SnoopableObject(_snoopableObject.Context, value);
+            descriptor.Value = new SnoopableObject(_snoopableObject.Context, summary.Variants);
+            descriptor.Value.Descriptor.Label = member switch
+            {
+                PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
+                MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
+                _ => descriptor.Value.Descriptor.Label
+            };
         }
-
-        return descriptor;
     }
 }

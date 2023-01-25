@@ -65,46 +65,46 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
                     ComputeReferences = true
-                }), "Undefined view, coarse detail level")
+                }), "Model, coarse detail level")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
                     ComputeReferences = true
-                }), "Undefined view, fine detail level")
+                }), "Model, fine detail level")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
                     ComputeReferences = true
-                }), "Undefined view, medium detail level")
+                }), "Model, medium detail level")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
                     ComputeReferences = true
-                }), "Undefined view, undefined detail level")
+                }), "Model, undefined detail level")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
-                }), "Undefined view, coarse detail level, including non-visible objects")
+                }), "Model, coarse detail level, including non-visible objects")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
-                }), "Undefined view, fine detail level, including non-visible objects")
+                }), "Model, fine detail level, including non-visible objects")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
-                }), "Undefined view, medium detail level, including non-visible objects")
+                }), "Model, medium detail level, including non-visible objects")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
-                }), "Undefined view, undefined detail level, including non-visible objects"),
+                }), "Model, undefined detail level, including non-visible objects"),
             nameof(Element.GetEntity) => ResolveGetEntity(),
             _ => null
         };
