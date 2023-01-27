@@ -30,11 +30,11 @@ namespace RevitLookup.Core.Utils;
 
 public sealed class DescriptorBuilder
 {
-    private Type _type;
-    private readonly ISettingsService _settings;
     private readonly List<Descriptor> _descriptors;
+    private readonly ISettingsService _settings;
     private readonly SnoopableObject _snoopableObject;
     [CanBeNull] private Descriptor _currentDescriptor;
+    private Type _type;
 
     public DescriptorBuilder(SnoopableObject snoopableObject)
     {
@@ -227,7 +227,6 @@ public sealed class DescriptorBuilder
         if (value is not ResolveSummary summary) return new SnoopableObject(_snoopableObject.Context, value);
 
         if (summary.Variants is null)
-        {
             return new SnoopableObject(_snoopableObject.Context, summary.Result)
             {
                 Descriptor =
@@ -235,7 +234,6 @@ public sealed class DescriptorBuilder
                     Description = summary.Description
                 }
             };
-        }
 
         //Restore value name for ResolveSummary results
         var snoopableObject = new SnoopableObject(_snoopableObject.Context, summary.Variants);

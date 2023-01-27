@@ -34,7 +34,6 @@ public static class SnoopUtils
         {
             SnoopableObject item;
             if (descriptor.Enumerator.Current is ResolveSummary summary)
-            {
                 item = new SnoopableObject(snoopableObject.Context, summary.Result)
                 {
                     Descriptor =
@@ -42,11 +41,8 @@ public static class SnoopUtils
                         Name = summary.Description
                     }
                 };
-            }
             else
-            {
                 item = new SnoopableObject(snoopableObject.Context, descriptor.Enumerator.Current);
-            }
 
             items.Add(item);
         }

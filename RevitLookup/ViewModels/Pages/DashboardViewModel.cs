@@ -22,7 +22,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using RevitLookup.UI.Contracts;
 
 namespace RevitLookup.ViewModels.Pages;
 

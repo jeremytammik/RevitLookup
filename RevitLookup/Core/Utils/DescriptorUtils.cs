@@ -33,7 +33,7 @@ public static class DescriptorUtils
         while (descriptor is IDescriptorRedirection redirection)
         {
             if (!redirection.TryRedirect(snoopableObject.Context, out var value)) break;
-            
+
             descriptor = DescriptorMap.FindDescriptor(snoopableObject.Object, null);
             snoopableObject.Object = value;
         }
