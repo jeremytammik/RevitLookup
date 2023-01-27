@@ -28,6 +28,6 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorCollector
 {
     public CategoryDescriptor(Category category)
     {
-        Label = category.Name;
+        Name = category.Name;
     }
 }

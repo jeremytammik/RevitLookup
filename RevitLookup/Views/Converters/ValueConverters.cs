@@ -28,30 +28,6 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Views.Converters;
 
-public sealed class InvalidTextConverter : MarkupExtension, IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        var text = (string) value!;
-        return text switch
-        {
-            null => "<null>",
-            "" => "<empty>",
-            _ => value
-        };
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
-}
-
 public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -116,6 +92,44 @@ public sealed class ExceptionDescriptorConverter : MarkupExtension, IValueConver
     {
         var descriptor = (Descriptor) value!;
         return descriptor is ExceptionDescriptor;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+public sealed class DescriptorLabelConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var descriptor = (Descriptor) value!;
+
+        string text;
+        if (string.IsNullOrEmpty(descriptor.Name))
+        {
+            text = descriptor.Name;
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(descriptor.Description))
+                text = descriptor.Name;
+            else
+                text = $"{descriptor.Description}: {descriptor.Name}";
+        }
+
+        return text switch
+        {
+            null => "<null>",
+            "" => "<empty>",
+            _ => text
+        };
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

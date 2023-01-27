@@ -40,42 +40,46 @@ public static class DescriptorMap
     {
         return obj switch
         {
+            //Interfaces
+            IEnumerable value and not string => new EnumerableDescriptor(value),
+
             //System
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
+            Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
 
-            //Hierarchy
-            Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
+            //APIObjects
+            Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
             Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
             Color value when type is null || type == typeof(Color) => new ColorDescriptor(value),
-            Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
-            Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
-            ForgeTypeId value when type is null || type == typeof(ForgeTypeId) => new ForgeTypeIdDescriptor(value),
-            City value when type is null || type == typeof(City) => new CityDescriptor(value),
-            PrintManager value when type is null || type == typeof(PrintManager) => new PrintManagerDescriptor(value),
-            GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
-            Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
-            FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
-            PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
-            RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
-            PaperSize value when type is null || type == typeof(PaperSize) => new PaperSizeDescriptor(value),
             Curve value when type is null || type == typeof(Curve) => new CurveDescriptor(value),
             Edge value when type is null || type == typeof(Edge) => new EdgeDescriptor(value),
             Solid value when type is null || type == typeof(Solid) => new SolidDescriptor(value),
             Face value when type is null || type == typeof(Face) => new FaceDescriptor(value),
-
-            //Root
-            Entity value => new EntityDescriptor(value),
-            Field value => new FieldDescriptor(value),
-            Schema value => new SchemaDescriptor(value),
-            Exception value => new ExceptionDescriptor(value),
-            IEnumerable value and not string => new EnumerableDescriptor(value),
+            City value when type is null || type == typeof(City) => new CityDescriptor(value),
+            PaperSize value when type is null || type == typeof(PaperSize) => new PaperSizeDescriptor(value),
+            PrintManager value when type is null || type == typeof(PrintManager) => new PrintManagerDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
-            IDisposable => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
+
+            //IDisposables
+            Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
+            Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
+            PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
+            ForgeTypeId value when type is null || type == typeof(ForgeTypeId) => new ForgeTypeIdDescriptor(value),
+            Entity value when type is null || type == typeof(Entity) => new EntityDescriptor(value),
+            Field value when type is null || type == typeof(Field) => new FieldDescriptor(value),
+            Schema value when type is null || type == typeof(Schema) => new SchemaDescriptor(value),
+            FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
+            RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
+            IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
 
             //Other
-            null => new ObjectDescriptor(),
+            GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
+            Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
+
+            //Unknown
+            null when type is null => new ObjectDescriptor(),
             _ when type is null => new ObjectDescriptor(obj),
-            _ => new ObjectDescriptor()
+            _ => null
         };
     }
 }

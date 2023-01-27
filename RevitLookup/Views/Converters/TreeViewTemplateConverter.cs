@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Views.Converters;
 
@@ -57,9 +58,9 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
             VisualTree = new FrameworkElementFactory(typeof(TextBlock))
         };
 
-        dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Descriptor.Label")
+        dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding(nameof(Descriptor))
         {
-            Converter = new InvalidTextConverter()
+            Converter = new DescriptorLabelConverter()
         });
 
         return dataTemplate;
@@ -78,9 +79,9 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
         };
 
         dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Name"));
-        dataTemplate.ItemTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Descriptor.Label")
+        dataTemplate.ItemTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding(nameof(Descriptor))
         {
-            Converter = new InvalidTextConverter()
+            Converter = new DescriptorLabelConverter()
         });
 
         return dataTemplate;

@@ -33,7 +33,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver
     public CurveDescriptor(Curve curve)
     {
         _curve = curve;
-        Label = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
+        Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
     public ResolveSummary Resolve(string name, ParameterInfo[] parameters)

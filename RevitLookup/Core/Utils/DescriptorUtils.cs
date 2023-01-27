@@ -46,6 +46,8 @@ public static class DescriptorUtils
     public static Descriptor FindSuitableDescriptor([NotNull] object obj, Type type)
     {
         var descriptor = DescriptorMap.FindDescriptor(obj, type);
+        if (descriptor is null) return null;
+
         ValidateProperties(descriptor, type);
         return descriptor;
     }
@@ -53,7 +55,7 @@ public static class DescriptorUtils
     private static void ValidateProperties(Descriptor descriptor, Type type)
     {
         descriptor.Type = MakeGenericTypeName(type);
-        descriptor.Label ??= descriptor.Type;
+        descriptor.Name ??= descriptor.Type;
     }
 
     public static string MakeGenericTypeName(Type type)
@@ -61,7 +63,8 @@ public static class DescriptorUtils
         if (!type.IsGenericType) return type.Name;
 
         var typeName = type.Name;
-        typeName = typeName.Substring(0, typeName.Length - 2);
+        var apostropheIndex = typeName.IndexOf('`');
+        if (apostropheIndex > 0) typeName = typeName.Substring(0, apostropheIndex);
         typeName += "<";
         var genericArguments = type.GetGenericArguments();
         for (var i = 0; i < genericArguments.Length; i++)

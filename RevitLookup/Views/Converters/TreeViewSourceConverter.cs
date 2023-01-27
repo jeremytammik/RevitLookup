@@ -35,7 +35,8 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
         };
 
         viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Type", ListSortDirection.Ascending));
-        viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Label", ListSortDirection.Ascending));
+        viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Name", ListSortDirection.Ascending));
+        viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Description", ListSortDirection.Ascending));
         viewSource.GroupDescriptions.Add(new PropertyGroupDescription("Descriptor.Type"));
         return viewSource.View.Groups;
     }

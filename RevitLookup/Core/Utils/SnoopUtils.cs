@@ -35,8 +35,13 @@ public static class SnoopUtils
             SnoopableObject item;
             if (descriptor.Enumerator.Current is ResolveSummary summary)
             {
-                item = new SnoopableObject(snoopableObject.Context, summary.Result);
-                summary.UpdateDescriptorLabel(item.Descriptor);
+                item = new SnoopableObject(snoopableObject.Context, summary.Result)
+                {
+                    Descriptor =
+                    {
+                        Name = summary.Description
+                    }
+                };
             }
             else
             {

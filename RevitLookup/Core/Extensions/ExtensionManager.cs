@@ -34,10 +34,9 @@ public sealed class ExtensionManager : IExtensionManager
     {
         _context = context;
         _descriptor = descriptor;
-        Descriptors = new List<Descriptor>();
     }
 
-    public List<Descriptor> Descriptors { get; set; }
+    public List<Descriptor> Descriptors { get; } = new();
 
     public void Register<T>(string name, T value, Action<DescriptorExtension<T>> extension)
     {
@@ -49,7 +48,7 @@ public sealed class ExtensionManager : IExtensionManager
 
         var descriptor = new ObjectDescriptor
         {
-            Label = name,
+            Name = name,
             Type = _descriptor.Type
         };
 
@@ -70,7 +69,7 @@ public sealed class ExtensionManager : IExtensionManager
     {
         var descriptor = new ObjectDescriptor
         {
-            Label = name,
+            Name = name,
             Type = _descriptor.Type
         };
 

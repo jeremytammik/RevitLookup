@@ -28,6 +28,6 @@ public sealed class CityDescriptor : Descriptor, IDescriptorCollector
 {
     public CityDescriptor(City city)
     {
-        Label = city.Name;
+        Name = city.Name;
     }
 }

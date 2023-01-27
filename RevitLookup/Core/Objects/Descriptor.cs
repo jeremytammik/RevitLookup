@@ -23,7 +23,8 @@ namespace RevitLookup.Core.Objects;
 public abstract class Descriptor : IComparable<Descriptor>, IComparable
 {
     public string Type { get; set; }
-    public string Label { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
     public SnoopableObject Value { get; set; }
 
     public int CompareTo(object obj)
@@ -39,6 +40,6 @@ public abstract class Descriptor : IComparable<Descriptor>, IComparable
         if (ReferenceEquals(null, other)) return 1;
         var typeComparison = string.Compare(Type, other.Type, StringComparison.Ordinal);
         if (typeComparison != 0) return typeComparison;
-        return string.Compare(Label, other.Label, StringComparison.Ordinal);
+        return string.Compare(Name, other.Name, StringComparison.Ordinal);
     }
 }

@@ -28,6 +28,6 @@ public sealed class DefinitionDescriptor : Descriptor, IDescriptorCollector
 {
     public DefinitionDescriptor(Definition definition)
     {
-        Label = definition.Name;
+        Name = definition.Name;
     }
 }

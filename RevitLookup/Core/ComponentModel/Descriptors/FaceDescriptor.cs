@@ -29,6 +29,6 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector
 {
     public FaceDescriptor(Face face)
     {
-        Label = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
+        Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
 }

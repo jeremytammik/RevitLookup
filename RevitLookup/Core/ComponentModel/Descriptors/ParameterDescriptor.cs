@@ -32,7 +32,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
     public ParameterDescriptor(Parameter parameter)
     {
         _parameter = parameter;
-        Label = parameter.Definition.Name;
+        Name = parameter.Definition.Name;
     }
 
     public void RegisterExtensions(IExtensionManager manager)

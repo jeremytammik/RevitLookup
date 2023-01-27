@@ -27,6 +27,6 @@ public sealed class ColorDescriptor : Descriptor
 {
     public ColorDescriptor(Color color)
     {
-        Label = color.IsValid ? $"RGB: {color.Red} {color.Green} {color.Blue}" : "The color represents uninitialized/invalid value";
+        Name = color.IsValid ? $"RGB: {color.Red} {color.Green} {color.Blue}" : "The color represents uninitialized/invalid value";
     }
 }

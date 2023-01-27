@@ -29,7 +29,7 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver
 {
     public ForgeTypeIdDescriptor(ForgeTypeId typeId)
     {
-        Label = typeId.TypeId;
+        Name = typeId.TypeId;
     }
 
     public ResolveSummary Resolve(string name, ParameterInfo[] parameters)

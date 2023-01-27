@@ -29,6 +29,6 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector
 {
     public EdgeDescriptor(Edge edge)
     {
-        Label = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
+        Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
 }

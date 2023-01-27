@@ -27,6 +27,6 @@ public sealed class ApplicationDescriptor : Descriptor, IDescriptorCollector
 {
     public ApplicationDescriptor(Autodesk.Revit.ApplicationServices.Application application)
     {
-        Label = application.VersionName;
+        Name = application.VersionName;
     }
 }

@@ -28,6 +28,6 @@ public sealed class GuidEnumDescriptor : Descriptor, IDescriptorCollector
 {
     public GuidEnumDescriptor(GuidEnum guidEnum)
     {
-        Label = guidEnum.Guid.ToString();
+        Name = guidEnum.Guid.ToString();
     }
 }

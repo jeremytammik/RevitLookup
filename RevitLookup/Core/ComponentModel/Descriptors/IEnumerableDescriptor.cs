@@ -40,6 +40,7 @@ public sealed class EnumerableDescriptor : Descriptor, IDescriptorEnumerator
             ParameterMap enumerable => enumerable.IsEmpty,
             DefinitionBindingMap enumerable => enumerable.IsEmpty,
             CategoryNameMap enumerable => enumerable.IsEmpty,
+            DefinitionGroups enumerable => enumerable.IsEmpty,
             HashSet<ElementId> enumerable => enumerable.Count == 0,
             HashSet<ElectricalSystem> enumerable => enumerable.Count == 0,
             DocumentSet enumerable => enumerable.IsEmpty,

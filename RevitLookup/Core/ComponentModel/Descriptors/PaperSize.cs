@@ -28,6 +28,6 @@ public sealed class PaperSizeDescriptor : Descriptor, IDescriptorCollector
 {
     public PaperSizeDescriptor(PaperSize paperSize)
     {
-        Label = paperSize.Name;
+        Name = paperSize.Name;
     }
 }

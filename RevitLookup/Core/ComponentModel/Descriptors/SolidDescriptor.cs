@@ -29,6 +29,6 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector
 {
     public SolidDescriptor(Solid solid)
     {
-        Label = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
+        Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
     }
 }

@@ -28,6 +28,6 @@ public sealed class FailureMessageDescriptor : Descriptor, IDescriptorCollector
 {
     public FailureMessageDescriptor(FailureMessage message)
     {
-        Label = message.GetDescriptionText();
+        Name = message.GetDescriptionText();
     }
 }

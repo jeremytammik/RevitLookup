@@ -28,6 +28,6 @@ public sealed class FieldDescriptor : Descriptor, IDescriptorCollector
 {
     public FieldDescriptor(Field field)
     {
-        Label = field.FieldName;
+        Name = field.FieldName;
     }
 }

@@ -29,7 +29,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 {
     public DocumentDescriptor(Document document)
     {
-        Label = document.Title;
+        Name = document.Title;
     }
 
     public ResolveSummary Resolve(string name, ParameterInfo[] parameters)

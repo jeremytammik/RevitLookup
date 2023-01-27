@@ -27,8 +27,8 @@ public sealed class ExceptionDescriptor : Descriptor
     public ExceptionDescriptor(Exception exception)
     {
         if (exception.InnerException is null)
-            Label = exception.Message;
+            Name = exception.Message;
         else
-            Label = string.IsNullOrEmpty(exception.InnerException.Message) ? exception.Message : exception.InnerException.Message;
+            Name = string.IsNullOrEmpty(exception.InnerException.Message) ? exception.Message : exception.InnerException.Message;
     }
 }

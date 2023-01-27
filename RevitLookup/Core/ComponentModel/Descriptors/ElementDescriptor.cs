@@ -33,7 +33,7 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
     public ElementDescriptor(Element element)
     {
         _element = element;
-        Label = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
+        Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 
     public ResolveSummary Resolve(string name, ParameterInfo[] parameters)

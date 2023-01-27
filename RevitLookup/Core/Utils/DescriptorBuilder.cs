@@ -30,11 +30,11 @@ namespace RevitLookup.Core.Utils;
 
 public sealed class DescriptorBuilder
 {
-    private readonly List<Descriptor> _descriptors;
+    private Type _type;
     private readonly ISettingsService _settings;
+    private readonly List<Descriptor> _descriptors;
     private readonly SnoopableObject _snoopableObject;
     [CanBeNull] private Descriptor _currentDescriptor;
-    private Type _type;
 
     public DescriptorBuilder(SnoopableObject snoopableObject)
     {
@@ -122,7 +122,7 @@ public sealed class DescriptorBuilder
                 Value = new SnoopableObject(_snoopableObject.Context, enumerator.Current)
             };
 
-            enumerableDescriptor.Label = enumerableDescriptor.Value.Descriptor.Type;
+            enumerableDescriptor.Name = enumerableDescriptor.Value.Descriptor.Type;
             _descriptors.Add(enumerableDescriptor);
         }
     }
@@ -174,13 +174,10 @@ public sealed class DescriptorBuilder
 
         if (parameters.Length > 0)
         {
-            if (_settings.IsUnsupportedAllowed)
-            {
-                value = new Exception("Unsupported property overload");
-                return true;
-            }
+            if (!_settings.IsUnsupportedAllowed) return false;
 
-            return false;
+            value = new Exception("Unsupported property overload");
+            return true;
         }
 
         value = member.GetValue(_snoopableObject.Object);
@@ -189,6 +186,7 @@ public sealed class DescriptorBuilder
 
     private bool TryEvaluate(MethodInfo member, out object value, out ParameterInfo[] parameters)
     {
+        value = null;
         parameters = member.GetParameters();
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
@@ -198,14 +196,10 @@ public sealed class DescriptorBuilder
 
         if (parameters.Length > 0)
         {
-            if (_settings.IsUnsupportedAllowed)
-            {
-                value = new Exception("Unsupported method overload");
-                return true;
-            }
+            if (!_settings.IsUnsupportedAllowed) return false;
 
-            value = null;
-            return false;
+            value = new Exception("Unsupported method overload");
+            return true;
         }
 
         value = member.Invoke(_snoopableObject.Object, null);
@@ -220,40 +214,46 @@ public sealed class DescriptorBuilder
 
     private ObjectDescriptor CreateMemberDescriptor(MemberInfo member, object value, ParameterInfo[] parameters)
     {
-        var descriptor = new ObjectDescriptor
+        return new ObjectDescriptor
         {
-            Type = _currentDescriptor is null ? member.DeclaringType!.Name : _currentDescriptor.Type
+            Type = DescriptorUtils.MakeGenericTypeName(_type),
+            Name = EvaluateDescriptorName(member, parameters),
+            Value = EvaluateDescriptorValue(member, value)
         };
-
-        if (parameters is null || parameters.Length == 0)
-            descriptor.Label = member.Name;
-        else
-            descriptor.Label = $"{member.Name} ({string.Join(", ", parameters.Select(info => info.ParameterType.Name))})";
-
-        if (value is ResolveSummary summary)
-            ConvertResolveSummary(summary, member, descriptor);
-        else
-            descriptor.Value = new SnoopableObject(_snoopableObject.Context, value);
-
-        return descriptor;
     }
 
-    private void ConvertResolveSummary(ResolveSummary summary, MemberInfo member, Descriptor descriptor)
+    private SnoopableObject EvaluateDescriptorValue(MemberInfo member, object value)
     {
+        if (value is not ResolveSummary summary) return new SnoopableObject(_snoopableObject.Context, value);
+
         if (summary.Variants is null)
         {
-            descriptor.Value = new SnoopableObject(_snoopableObject.Context, summary.Result);
-            summary.UpdateDescriptorLabel(descriptor.Value.Descriptor);
-        }
-        else
-        {
-            descriptor.Value = new SnoopableObject(_snoopableObject.Context, summary.Variants);
-            descriptor.Value.Descriptor.Label = member switch
+            return new SnoopableObject(_snoopableObject.Context, summary.Result)
             {
-                PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
-                MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
-                _ => descriptor.Value.Descriptor.Label
+                Descriptor =
+                {
+                    Description = summary.Description
+                }
             };
         }
+
+        //Restore value name for ResolveSummary results
+        var snoopableObject = new SnoopableObject(_snoopableObject.Context, summary.Variants);
+
+        snoopableObject.Descriptor.Name = member switch
+        {
+            PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
+            MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
+            _ => snoopableObject.Descriptor.Name
+        };
+
+        return snoopableObject;
+    }
+
+    private static string EvaluateDescriptorName(MemberInfo member, ParameterInfo[] parameters)
+    {
+        if (parameters is null || parameters.Length == 0) return member.Name;
+
+        return $"{member.Name} ({string.Join(", ", parameters.Select(info => DescriptorUtils.MakeGenericTypeName(info.ParameterType)))})";
     }
 }

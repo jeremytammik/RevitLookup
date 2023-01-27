@@ -29,7 +29,7 @@ public sealed class PrintManagerDescriptor : Descriptor, IDescriptorResolver
 {
     public PrintManagerDescriptor(PrintManager printManager)
     {
-        Label = printManager.PrinterName;
+        Name = printManager.PrinterName;
     }
 
     public ResolveSummary Resolve(string name, ParameterInfo[] parameters)

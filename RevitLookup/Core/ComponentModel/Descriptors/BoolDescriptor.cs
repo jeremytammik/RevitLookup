@@ -26,6 +26,6 @@ public sealed class BoolDescriptor : Descriptor
 {
     public BoolDescriptor(bool value)
     {
-        Label = value ? "True" : "False";
+        Name = value ? "True" : "False";
     }
 }

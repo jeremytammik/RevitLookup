@@ -30,6 +30,6 @@ public sealed class ObjectDescriptor : Descriptor
 
     public ObjectDescriptor(object value)
     {
-        Label = value.ToString();
+        Name = value.ToString();
     }
 }

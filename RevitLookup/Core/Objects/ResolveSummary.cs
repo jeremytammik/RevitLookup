@@ -22,7 +22,7 @@ namespace RevitLookup.Core.Objects;
 
 public sealed class ResolveSummary
 {
-    public string Label { get; private set; }
+    public string Description { get; private set; }
     public object Result { get; private set; }
     public List<ResolveSummary> Variants { get; private set; }
 
@@ -34,11 +34,11 @@ public sealed class ResolveSummary
         };
     }
 
-    public static ResolveSummary Append(object result, string label)
+    public static ResolveSummary Append(object result, string description)
     {
         return new ResolveSummary
         {
-            Label = label,
+            Description = description,
             Result = result
         };
     }
@@ -57,18 +57,18 @@ public sealed class ResolveSummary
         return this;
     }
 
-    public ResolveSummary AppendVariant(object result, string label)
+    public ResolveSummary AppendVariant(object result, string description)
     {
         if (result is null) return this;
         if (Result is null)
         {
-            Label = label;
+            Description = description;
             Result = result;
             return this;
         }
 
         Variants ??= new List<ResolveSummary>(2) {this};
-        Variants.Add(Append(result, label));
+        Variants.Add(Append(result, description));
         return this;
     }
 }

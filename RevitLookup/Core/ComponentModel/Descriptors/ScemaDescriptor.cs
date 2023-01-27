@@ -28,6 +28,6 @@ public sealed class SchemaDescriptor : Descriptor, IDescriptorCollector
 {
     public SchemaDescriptor(Schema schema)
     {
-        Label = schema.SchemaName;
+        Name = schema.SchemaName;
     }
 }
