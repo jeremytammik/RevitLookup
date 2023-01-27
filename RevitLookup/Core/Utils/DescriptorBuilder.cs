@@ -144,7 +144,7 @@ public sealed class DescriptorBuilder
             _type = types[i];
 
             //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
-            _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
+            _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject, _type);
 
             AddProperties();
             AddMethods();

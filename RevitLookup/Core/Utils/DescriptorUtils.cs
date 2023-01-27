@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.ComponentModel;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Utils;
@@ -26,16 +27,24 @@ namespace RevitLookup.Core.Utils;
 public static class DescriptorUtils
 {
     [NotNull]
-    public static Descriptor FindSuitableDescriptor([CanBeNull] object obj)
+    public static Descriptor FindSuitableDescriptor(SnoopableObject snoopableObject)
     {
-        var descriptor = DescriptorMap.FindDescriptor(obj, null);
-        if (obj is null)
+        var descriptor = DescriptorMap.FindDescriptor(snoopableObject.Object, null);
+        while (descriptor is IDescriptorRedirection redirection)
+        {
+            if (!redirection.TryRedirect(snoopableObject.Context, out var value)) break;
+            
+            descriptor = DescriptorMap.FindDescriptor(snoopableObject.Object, null);
+            snoopableObject.Object = value;
+        }
+
+        if (snoopableObject.Object is null)
         {
             descriptor.Type = nameof(Object);
         }
         else
         {
-            var type = obj.GetType();
+            var type = snoopableObject.Object.GetType();
             ValidateProperties(descriptor, type);
         }
 
@@ -43,9 +52,9 @@ public static class DescriptorUtils
     }
 
     [CanBeNull]
-    public static Descriptor FindSuitableDescriptor([NotNull] object obj, Type type)
+    public static Descriptor FindSuitableDescriptor(SnoopableObject snoopableObject, Type type)
     {
-        var descriptor = DescriptorMap.FindDescriptor(obj, type);
+        var descriptor = DescriptorMap.FindDescriptor(snoopableObject.Object, type);
         if (descriptor is null) return null;
 
         ValidateProperties(descriptor, type);

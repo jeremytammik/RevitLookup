@@ -28,7 +28,7 @@ using RevitLookup.UI.Controls.Window;
 namespace RevitLookup.ViewModels.Converters;
 
 [ValueConversion(typeof(WindowBackdropType), typeof(string))]
-public class BackgroundTypeConverter : MarkupExtension, IValueConverter
+public sealed class BackgroundTypeConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -83,7 +83,7 @@ public sealed class ThemeTypeConverter : MarkupExtension, IValueConverter
 }
 
 [ValueConversion(typeof(bool), typeof(bool))]
-public class InverseBooleanConverter : MarkupExtension, IValueConverter
+public sealed class InverseBooleanConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
