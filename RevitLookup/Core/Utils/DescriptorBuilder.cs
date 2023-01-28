@@ -20,7 +20,6 @@
 
 using System.Collections;
 using System.Reflection;
-using RevitLookup.Core.ComponentModel;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Extensions;
@@ -230,14 +229,12 @@ public sealed class DescriptorBuilder
         SnoopUtils.Redirect(member.Name, snoopableObject);
 
         if (isVariants)
-        {
             snoopableObject.Descriptor.Name = member switch
             {
                 PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
                 MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
                 _ => snoopableObject.Descriptor.Name
             };
-        }
 
         return snoopableObject;
     }

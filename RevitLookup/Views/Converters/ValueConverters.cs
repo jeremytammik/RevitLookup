@@ -125,6 +125,11 @@ public abstract class DescriptorConverter : MarkupExtension, IValueConverter
 {
     public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
 
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
     public static string CreateCombinedName(Descriptor descriptor)
     {
         if (string.IsNullOrEmpty(descriptor.Name)) return descriptor.Name;
@@ -145,11 +150,6 @@ public abstract class DescriptorConverter : MarkupExtension, IValueConverter
             "" => "<empty>",
             _ => text
         };
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
     }
 
     public override object ProvideValue(IServiceProvider serviceProvider)
