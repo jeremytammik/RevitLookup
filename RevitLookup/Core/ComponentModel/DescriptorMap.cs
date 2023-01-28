@@ -47,6 +47,11 @@ public static class DescriptorMap
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
             Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
 
+            //Root
+            ElementId value when type is null || type == typeof(ElementId) => new ElementIdDescriptor(value),
+            GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
+            Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
+
             //APIObjects
             Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
             Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
@@ -61,6 +66,7 @@ public static class DescriptorMap
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables
+            RevitLinkType when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
@@ -71,11 +77,6 @@ public static class DescriptorMap
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
-
-            //Other
-            ElementId value when type is null || type == typeof(ElementId) => new ElementIdDescriptor(value),
-            GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
-            Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
 
             //Internal
             ResolveSet value => new ResolveSetDescriptor(value),

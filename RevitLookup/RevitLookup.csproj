@@ -39,39 +39,39 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Using Include="Nice3point.Revit.Extensions"/>
-        <Using Include="JetBrains.Annotations"/>
+        <Using Include="Nice3point.Revit.Extensions" />
+        <Using Include="JetBrains.Annotations" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Api.AdWindows" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*"/>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0"/>
+        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Api.AdWindows" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*" />
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="System.Net.Http"/>
+        <Reference Include="System.Net.Http" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj"/>
+        <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\Images\RibbonIcon16.png"/>
-        <Resource Include="Resources\Images\RibbonIcon32.png"/>
-        <Resource Include="Resources\Images\AboutLogo200.png"/>
-        <Resource Include="Resources\Images\ShellIcon.ico"/>
+        <Resource Include="Resources\Images\RibbonIcon16.png" />
+        <Resource Include="Resources\Images\RibbonIcon32.png" />
+        <Resource Include="Resources\Images\AboutLogo200.png" />
+        <Resource Include="Resources\Images\ShellIcon.ico" />
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
-            <RootItem Include="$(ProjectDir)*.addin"/>
-            <AddinItem Include="$(TargetDir)*"/>
+            <RootItem Include="$(ProjectDir)*.addin" />
+            <AddinItem Include="$(TargetDir)*" />
             <!--<AddinItem Include="$(TargetDir)$(AssemblyName).*" />-->
             <!--<AddinItem Include="$(TargetDir)Nice3point.Revit.Extensions.dll" />-->
         </ItemGroup>
@@ -79,17 +79,17 @@
             <RootDir>bin\AddIn $(RevitVersion) $(Configuration)\</RootDir>
             <AddinDir>$(RootDir)$(AssemblyName)\</AddinDir>
         </PropertyGroup>
-        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)"/>
-        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)"/>
+        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)" />
+        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)" />
 
         <ItemGroup>
-            <AddinFiles Include="$(RootDir)**\*.*"/>
+            <AddinFiles Include="$(RootDir)**\*.*" />
         </ItemGroup>
         <PropertyGroup>
             <RevitAddinFolder>$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)</RevitAddinFolder>
         </PropertyGroup>
 
-        <Message Text="$(MSBuildProjectName) -&gt; Copying files to $(RevitAddinFolder)" Importance="High"/>
-        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)"/>
+        <Message Text="$(MSBuildProjectName) -&gt; Copying files to $(RevitAddinFolder)" Importance="High" />
+        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)" />
     </Target>
 </Project>
