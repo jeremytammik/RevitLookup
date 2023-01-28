@@ -36,20 +36,20 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 
-    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
+    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
-        return name switch
+        return target switch
         {
-            nameof(Element.CanBeHidden) => ResolveSummary.Append(_element.CanBeHidden(RevitApi.ActiveView), "Active view"),
-            nameof(Element.IsHidden) => ResolveSummary.Append(_element.IsHidden(RevitApi.ActiveView), "Active view"),
-            nameof(Element.GetDependentElements) => ResolveSummary.Append(_element.GetDependentElements(null)),
-            nameof(Element.GetMaterialIds) => ResolveSummary
+            nameof(Element.CanBeHidden) => ResolveSet.Append(_element.CanBeHidden(RevitApi.ActiveView), "Active view"),
+            nameof(Element.IsHidden) => ResolveSet.Append(_element.IsHidden(RevitApi.ActiveView), "Active view"),
+            nameof(Element.GetDependentElements) => ResolveSet.Append(_element.GetDependentElements(null)),
+            nameof(Element.GetMaterialIds) => ResolveSet
                 .Append(_element.GetMaterialIds(true), "Paint materials")
                 .AppendVariant(_element.GetMaterialIds(true), "Geometry and compound structure materials"),
-            "BoundingBox" => ResolveSummary
+            "BoundingBox" => ResolveSet
                 .Append(_element.get_BoundingBox(null), "Model")
                 .AppendVariant(_element.get_BoundingBox(RevitApi.ActiveView), "Active view"),
-            "Geometry" => ResolveSummary
+            "Geometry" => ResolveSet
                 .Append(_element.get_Geometry(new Options
                 {
                     View = RevitApi.ActiveView,
@@ -109,9 +109,9 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
 
-        ResolveSummary ResolveGetEntity()
+        ResolveSet ResolveGetEntity()
         {
-            var resolveSummary = new ResolveSummary();
+            var resolveSummary = new ResolveSet();
             var schemas = Schema.ListSchemas();
             foreach (var schema in schemas)
             {

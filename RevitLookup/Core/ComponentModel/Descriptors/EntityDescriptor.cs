@@ -35,9 +35,9 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
         _entity = entity;
     }
 
-    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
+    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
-        return name switch
+        return target switch
         {
             nameof(Entity.Get) when parameters.Length == 1 &&
                                     parameters[0].ParameterType.Name == nameof(String) => ResolveGetByField(),
@@ -47,9 +47,9 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
 
-        ResolveSummary ResolveGetByField()
+        ResolveSet ResolveGetByField()
         {
-            var resolveSummary = new ResolveSummary();
+            var resolveSummary = new ResolveSet();
             foreach (var field in _entity.Schema.ListFields())
             {
                 var forgeTypeId = field.GetSpecTypeId();
@@ -63,9 +63,9 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
             return resolveSummary;
         }
 
-        ResolveSummary ResolveGetByFieldForge()
+        ResolveSet ResolveGetByFieldForge()
         {
-            var resolveSummary = new ResolveSummary();
+            var resolveSummary = new ResolveSet();
             foreach (var field in _entity.Schema.ListFields())
             {
                 var forgeTypeId = field.GetSpecTypeId();

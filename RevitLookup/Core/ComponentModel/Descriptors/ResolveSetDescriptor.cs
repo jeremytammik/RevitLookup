@@ -18,26 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
+public class ResolveSetDescriptor : Descriptor, IDescriptorRedirection
 {
-    public DocumentDescriptor(Document document)
+    private readonly ResolveSet _set;
+
+    public ResolveSetDescriptor(ResolveSet set)
     {
-        Name = document.Title;
+        _set = set;
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public bool TryRedirect(string target, Document context, out object output)
     {
-        return target switch
-        {
-            nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
-            _ => null
-        };
+        output = _set.Variants.Count == 1 ? _set.Variants.Dequeue() : _set.Variants;
+        return true;
     }
 }

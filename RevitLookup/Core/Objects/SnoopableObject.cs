@@ -32,7 +32,7 @@ public sealed class SnoopableObject
     {
         Object = obj;
         Context = context;
-        Descriptor = DescriptorUtils.FindSuitableDescriptor(this);
+        Descriptor = DescriptorUtils.FindSuitableDescriptor(obj);
     }
 
     public object Object { get; set; }

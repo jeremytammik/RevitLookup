@@ -22,53 +22,6 @@ namespace RevitLookup.Core.Objects;
 
 public sealed class ResolveSummary
 {
-    public string Description { get; private set; }
-    public object Result { get; private set; }
-    public List<ResolveSummary> Variants { get; private set; }
-
-    public static ResolveSummary Append(object result)
-    {
-        return new ResolveSummary
-        {
-            Result = result
-        };
-    }
-
-    public static ResolveSummary Append(object result, string description)
-    {
-        return new ResolveSummary
-        {
-            Description = description,
-            Result = result
-        };
-    }
-
-    public ResolveSummary AppendVariant(object result)
-    {
-        if (result is null) return this;
-        if (Result is null)
-        {
-            Result = result;
-            return this;
-        }
-
-        Variants ??= new List<ResolveSummary>(2) {this};
-        Variants.Add(Append(result));
-        return this;
-    }
-
-    public ResolveSummary AppendVariant(object result, string description)
-    {
-        if (result is null) return this;
-        if (Result is null)
-        {
-            Description = description;
-            Result = result;
-            return this;
-        }
-
-        Variants ??= new List<ResolveSummary>(2) {this};
-        Variants.Add(Append(result, description));
-        return this;
-    }
+    public string Description { get; set; }
+    public object Result { get; set; }
 }

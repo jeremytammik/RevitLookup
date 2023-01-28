@@ -31,15 +31,18 @@ public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirection
     public ElementIdDescriptor(ElementId elementId)
     {
         _elementId = elementId;
+        Name = _elementId.ToString();
     }
 
-    public bool TryRedirect(Document context, out object value)
+    public bool TryRedirect(string target, Document context, out object output)
     {
-        value = _elementId.ToElement(context);
-        if (value is not null) return true;
+        output = null;
+        if (target == nameof(Element.Id)) return false;
 
-        //Set name if redirect not possible. Reduce memory allocation
-        Name = _elementId.ToString();
-        return false;
+        var element = _elementId.ToElement(context);
+        if (element is null) return false;
+
+        output = element;
+        return true;
     }
 }

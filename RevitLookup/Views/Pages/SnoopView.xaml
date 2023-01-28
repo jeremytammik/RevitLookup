@@ -112,7 +112,7 @@
                     </DataGridTextColumn>
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Value.Descriptor, Converter={converters:DescriptorLabelConverter}}">
+                        Binding="{Binding Value.Descriptor, Converter={converters:CombinedDescriptorConverter}}">
                         <DataGridTextColumn.Header>
                             <TextBlock
                                 Margin="3 0 3 0"

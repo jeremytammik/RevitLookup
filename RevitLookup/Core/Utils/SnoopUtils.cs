@@ -32,21 +32,29 @@ public static class SnoopUtils
 
         while (descriptor.Enumerator.MoveNext())
         {
-            SnoopableObject item;
-            if (descriptor.Enumerator.Current is ResolveSummary summary)
-                item = new SnoopableObject(snoopableObject.Context, summary.Result)
-                {
-                    Descriptor =
-                    {
-                        Name = summary.Description
-                    }
-                };
-            else
-                item = new SnoopableObject(snoopableObject.Context, descriptor.Enumerator.Current);
-
+            var item = new SnoopableObject(snoopableObject.Context, descriptor.Enumerator.Current);
+            Redirect(item);
             items.Add(item);
         }
 
         return items;
+    }
+
+    public static void Redirect(string target, SnoopableObject snoopableObject)
+    {
+        while (snoopableObject.Descriptor is IDescriptorRedirection redirection)
+        {
+            if (!redirection.TryRedirect(target, snoopableObject.Context, out var output)) break;
+
+            var descriptor  = DescriptorUtils.FindSuitableDescriptor(output);
+            descriptor.Description ??= snoopableObject.Descriptor.Description;
+            snoopableObject.Descriptor = descriptor;
+            snoopableObject.Object = output;
+        }
+    }
+
+    public static void Redirect(SnoopableObject snoopableObject)
+    {
+        Redirect(null, snoopableObject);
     }
 }

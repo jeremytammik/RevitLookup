@@ -34,16 +34,16 @@ public sealed class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
         _viewRange = viewRange;
     }
 
-    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
+    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
-        return name switch
+        return target switch
         {
-            nameof(PlanViewRange.GetOffset) => ResolveSummary
+            nameof(PlanViewRange.GetOffset) => ResolveSet
                 .Append(_viewRange.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
                 .AppendVariant(_viewRange.GetOffset(PlanViewPlane.CutPlane), "Cut plane")
                 .AppendVariant(_viewRange.GetOffset(PlanViewPlane.BottomClipPlane), "Bottom clip plane")
                 .AppendVariant(_viewRange.GetOffset(PlanViewPlane.UnderlayBottom), "Underlay bottom"),
-            nameof(PlanViewRange.GetLevelId) => ResolveSummary
+            nameof(PlanViewRange.GetLevelId) => ResolveSet
                 .Append(_viewRange.GetLevelId(PlanViewPlane.TopClipPlane), "Top clip plane")
                 .AppendVariant(_viewRange.GetLevelId(PlanViewPlane.CutPlane), "Cut plane")
                 .AppendVariant(_viewRange.GetLevelId(PlanViewPlane.BottomClipPlane), "Bottom clip plane")

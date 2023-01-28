@@ -27,24 +27,17 @@ namespace RevitLookup.Core.Utils;
 public static class DescriptorUtils
 {
     [NotNull]
-    public static Descriptor FindSuitableDescriptor(SnoopableObject snoopableObject)
+    public static Descriptor FindSuitableDescriptor(object obj)
     {
-        var descriptor = DescriptorMap.FindDescriptor(snoopableObject.Object, null);
-        while (descriptor is IDescriptorRedirection redirection)
-        {
-            if (!redirection.TryRedirect(snoopableObject.Context, out var value)) break;
+        var descriptor = DescriptorMap.FindDescriptor(obj, null);
 
-            descriptor = DescriptorMap.FindDescriptor(snoopableObject.Object, null);
-            snoopableObject.Object = value;
-        }
-
-        if (snoopableObject.Object is null)
+        if (obj is null)
         {
             descriptor.Type = nameof(Object);
         }
         else
         {
-            var type = snoopableObject.Object.GetType();
+            var type = obj.GetType();
             ValidateProperties(descriptor, type);
         }
 
@@ -52,9 +45,9 @@ public static class DescriptorUtils
     }
 
     [CanBeNull]
-    public static Descriptor FindSuitableDescriptor(SnoopableObject snoopableObject, Type type)
+    public static Descriptor FindSuitableDescriptor(object obj, Type type)
     {
-        var descriptor = DescriptorMap.FindDescriptor(snoopableObject.Object, type);
+        var descriptor = DescriptorMap.FindDescriptor(obj, type);
         if (descriptor is null) return null;
 
         ValidateProperties(descriptor, type);

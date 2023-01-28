@@ -18,26 +18,42 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
-using Autodesk.Revit.DB;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
+namespace RevitLookup.Core.Objects;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
-
-public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
+public sealed class ResolveSet
 {
-    public DocumentDescriptor(Document document)
+    public Queue<ResolveSummary> Variants { get; } = new(1);
+
+    public static ResolveSet Append(object result)
     {
-        Name = document.Title;
+        return new ResolveSet().AppendVariant(result);
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public static ResolveSet Append(object result, string description)
     {
-        return target switch
+        return new ResolveSet().AppendVariant(result, description);
+    }
+
+    public ResolveSet AppendVariant(object result)
+    {
+        if (result is null) return this;
+        Variants.Enqueue(new ResolveSummary
         {
-            nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
-            _ => null
-        };
+            Result = result
+        });
+
+        return this;
+    }
+
+    public ResolveSet AppendVariant(object result, string description)
+    {
+        if (result is null) return this;
+        Variants.Enqueue(new ResolveSummary
+        {
+            Result = result,
+            Description = description
+        });
+
+        return this;
     }
 }

@@ -105,25 +105,40 @@ public sealed class ExceptionDescriptorConverter : MarkupExtension, IValueConver
     }
 }
 
-public sealed class DescriptorLabelConverter : MarkupExtension, IValueConverter
+public sealed class SingleDescriptorConverter : DescriptorConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var descriptor = (Descriptor) value!;
+        return ConvertInvalidNames(CreateSingleName((Descriptor) value!));
+    }
+}
 
-        string text;
-        if (string.IsNullOrEmpty(descriptor.Name))
-        {
-            text = descriptor.Name;
-        }
-        else
-        {
-            if (string.IsNullOrEmpty(descriptor.Description))
-                text = descriptor.Name;
-            else
-                text = $"{descriptor.Description}: {descriptor.Name}";
-        }
+public sealed class CombinedDescriptorConverter : DescriptorConverter
+{
+    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return ConvertInvalidNames(CreateCombinedName((Descriptor) value!));
+    }
+}
 
+public abstract class DescriptorConverter : MarkupExtension, IValueConverter
+{
+    public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
+
+    public static string CreateCombinedName(Descriptor descriptor)
+    {
+        if (string.IsNullOrEmpty(descriptor.Name)) return descriptor.Name;
+        return string.IsNullOrEmpty(descriptor.Description) ? descriptor.Name : $"{descriptor.Description}: {descriptor.Name}";
+    }
+
+    public static string CreateSingleName(Descriptor descriptor)
+    {
+        if (string.IsNullOrEmpty(descriptor.Name)) return descriptor.Name;
+        return string.IsNullOrEmpty(descriptor.Description) ? descriptor.Name : descriptor.Description;
+    }
+
+    public string ConvertInvalidNames(string text)
+    {
         return text switch
         {
             null => "<null>",

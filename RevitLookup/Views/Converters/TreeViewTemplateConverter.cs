@@ -60,7 +60,7 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
 
         dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding(nameof(Descriptor))
         {
-            Converter = new DescriptorLabelConverter()
+            Converter = new SingleDescriptorConverter()
         });
 
         return dataTemplate;
@@ -81,7 +81,7 @@ public sealed class TreeViewTemplateConverter : MarkupExtension, IValueConverter
         dataTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding("Name"));
         dataTemplate.ItemTemplate.VisualTree.SetBinding(TextBlock.TextProperty, new Binding(nameof(Descriptor))
         {
-            Converter = new DescriptorLabelConverter()
+            Converter = new SingleDescriptorConverter()
         });
 
         return dataTemplate;

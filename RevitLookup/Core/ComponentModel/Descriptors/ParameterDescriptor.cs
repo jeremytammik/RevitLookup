@@ -48,11 +48,11 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
         });
     }
 
-    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
+    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
-        return name switch
+        return target switch
         {
-            nameof(Parameter.ClearValue) when parameters.Length == 0 => ResolveSummary.Append(false, "Overridden"),
+            nameof(Parameter.ClearValue) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
             _ => null
         };
     }

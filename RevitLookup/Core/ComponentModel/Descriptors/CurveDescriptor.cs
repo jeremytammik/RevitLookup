@@ -33,20 +33,20 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver
     public CurveDescriptor(Curve curve)
     {
         _curve = curve;
-        Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
+        if (curve.IsBound && curve.IsCyclic) Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
-    public ResolveSummary Resolve(string name, ParameterInfo[] parameters)
+    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
-        return name switch
+        return target switch
         {
-            nameof(Curve.GetEndPoint) => ResolveSummary
+            nameof(Curve.GetEndPoint) => ResolveSet
                 .Append(_curve.GetEndPoint(0), "Point 0")
                 .AppendVariant(_curve.GetEndPoint(1), "Point 1"),
-            nameof(Curve.GetEndParameter) => ResolveSummary
+            nameof(Curve.GetEndParameter) => ResolveSet
                 .Append(_curve.GetEndParameter(0), "Parameter 0")
                 .AppendVariant(_curve.GetEndParameter(1), "Parameter 1"),
-            nameof(Curve.GetEndPointReference) => ResolveSummary
+            nameof(Curve.GetEndPointReference) => ResolveSet
                 .Append(_curve.GetEndPointReference(0), "Reference 0")
                 .AppendVariant(_curve.GetEndPointReference(1), "Reference 1"),
             _ => null

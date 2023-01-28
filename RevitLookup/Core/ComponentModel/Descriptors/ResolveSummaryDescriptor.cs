@@ -18,26 +18,25 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
+public class ResolveSummaryDescriptor : Descriptor, IDescriptorRedirection
 {
-    public DocumentDescriptor(Document document)
+    private readonly ResolveSummary _summary;
+
+    public ResolveSummaryDescriptor(ResolveSummary summary)
     {
-        Name = document.Title;
+        _summary = summary;
+        Description = summary.Description;
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public bool TryRedirect(string target, Document context, out object output)
     {
-        return target switch
-        {
-            nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
-            _ => null
-        };
+        output = _summary.Result;
+        return true;
     }
 }

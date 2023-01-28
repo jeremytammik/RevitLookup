@@ -76,6 +76,10 @@ public static class DescriptorMap
             ElementId value when type is null || type == typeof(ElementId) => new ElementIdDescriptor(value),
             GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
             Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
+            
+            //Internal
+            ResolveSet value => new ResolveSetDescriptor(value),
+            ResolveSummary value => new ResolveSummaryDescriptor(value),
 
             //Unknown
             null when type is null => new ObjectDescriptor(),
