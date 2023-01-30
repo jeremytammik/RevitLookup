@@ -150,6 +150,9 @@
                         <EventSetter
                             Event="PreviewMouseLeftButtonUp"
                             Handler="SnoopSelectedRow" />
+                        <EventSetter
+                            Event="MouseEnter"
+                            Handler="CreateToolTip" />
                         <Style.Triggers>
                             <DataTrigger
                                 Binding="{Binding Value.Descriptor, Converter={converters:HandledDescriptorConverter}}"

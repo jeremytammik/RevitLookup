@@ -19,9 +19,11 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -96,5 +98,34 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         window.Show();
         window.Context.GetService<INavigationService>()!.Navigate(typeof(SnoopView));
         window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
+    }
+
+    private void CreateToolTip(object sender, MouseEventArgs e)
+    {
+        var row = (DataGridRow) sender;
+        if (row.ToolTip is not null) return;
+
+        var descriptor = (Descriptor) row.DataContext;
+        var builder = new StringBuilder();
+        builder.Append("Field: ");
+        builder.AppendLine(descriptor.Name);
+        builder.Append("Type: ");
+        builder.AppendLine(descriptor.Value.Descriptor.Type);
+        builder.Append("Value: ");
+        builder.Append(descriptor.Value.Descriptor.Name);
+        if (descriptor.Value.Descriptor.Description is not null)
+        {
+            builder.AppendLine();
+            builder.Append("Description: ");
+            builder.Append(descriptor.Value.Descriptor.Description);
+        }
+
+        row.ToolTip = new ToolTip
+        {
+            Content = builder.ToString()
+        };
+
+        ToolTipService.SetInitialShowDelay(row, 1000);
+        ToolTipService.SetBetweenShowDelay(row, 1000);
     }
 }
