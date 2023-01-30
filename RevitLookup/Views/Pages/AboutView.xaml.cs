@@ -34,8 +34,8 @@ public sealed partial class AboutView : INavigableView<AboutViewModel>
     public AboutView(AboutViewModel viewModel, IDialogService dialogService)
     {
         ViewModel = viewModel;
-        InitializeComponent();
         DataContext = this;
+        InitializeComponent();
         _dialogControl = dialogService.GetDialogControl();
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;

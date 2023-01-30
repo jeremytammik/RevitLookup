@@ -28,8 +28,8 @@ public sealed partial class SettingsView : INavigableView<SettingsViewModel>
     public SettingsView(SettingsViewModel viewModel)
     {
         ViewModel = viewModel;
-        InitializeComponent();
         DataContext = this;
+        InitializeComponent();
     }
 
     public SettingsViewModel ViewModel { get; }
