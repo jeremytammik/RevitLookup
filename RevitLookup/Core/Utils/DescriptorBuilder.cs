@@ -229,12 +229,15 @@ public sealed class DescriptorBuilder
         SnoopUtils.Redirect(member.Name, snoopableObject);
 
         if (isVariants)
+        {
             snoopableObject.Descriptor.Name = member switch
             {
                 PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
                 MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
                 _ => snoopableObject.Descriptor.Name
             };
+            snoopableObject.Descriptor.Type = snoopableObject.Descriptor.Name;
+        }
 
         return snoopableObject;
     }
