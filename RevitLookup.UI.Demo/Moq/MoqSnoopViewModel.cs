@@ -104,7 +104,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
                     if (faker.IndexFaker == 0)
                         return new SnoopableObject(null, faker.Lorem.Word());
                     if (faker.IndexFaker % 1000 == 0)
-                        return new SnoopableObject(null, new {Collection = faker.Make(20, () => faker.Internet.UserName())});
+                        return new SnoopableObject(null, faker.Make(150, () => faker.Internet.UserName()));
                     if (faker.IndexFaker % 500 == 0)
                         return new SnoopableObject(null, null);
                     if (faker.IndexFaker % 200 == 0)

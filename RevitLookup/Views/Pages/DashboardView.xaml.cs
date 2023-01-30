@@ -28,8 +28,8 @@ public sealed partial class DashboardView : INavigableView<DashboardViewModel>
     public DashboardView(DashboardViewModel viewModel)
     {
         ViewModel = viewModel;
-        DataContext = this;
         InitializeComponent();
+        DataContext = this;
     }
 
     public DashboardViewModel ViewModel { get; }

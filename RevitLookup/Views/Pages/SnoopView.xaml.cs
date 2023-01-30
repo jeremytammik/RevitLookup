@@ -43,8 +43,8 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     {
         _settingsService = settingsService;
         ViewModel = (ISnoopViewModel) viewModel;
-        DataContext = this;
         InitializeComponent();
+        DataContext = this;
 
         //Clear shapingStorage for remove duplications
         DataGrid.Items.GroupDescriptions!.Clear();
@@ -103,8 +103,6 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     private void CreateToolTip(object sender, MouseEventArgs e)
     {
         var row = (DataGridRow) sender;
-        ToolTipService.SetInitialShowDelay(row, 1000);
-        ToolTipService.SetBetweenShowDelay(row, 1000);
         if (row.ToolTip is not null) return;
 
         var descriptor = (Descriptor) row.DataContext;
