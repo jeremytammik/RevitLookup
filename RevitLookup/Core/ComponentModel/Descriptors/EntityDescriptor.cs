@@ -40,10 +40,10 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
         return target switch
         {
             nameof(Entity.Get) when parameters.Length == 1 &&
-                                    parameters[0].ParameterType.Name == nameof(String) => ResolveGetByField(),
+                                    parameters[0].ParameterType == typeof(string) => ResolveGetByField(),
             nameof(Entity.Get) when parameters.Length == 2 &&
-                                    parameters[0].ParameterType.Name == nameof(String) &&
-                                    parameters[1].ParameterType.Name == nameof(ForgeTypeId) => ResolveGetByFieldForge(),
+                                    parameters[0].ParameterType == typeof(string) &&
+                                    parameters[1].ParameterType == typeof(ForgeTypeId) => ResolveGetByFieldForge(),
             _ => null
         };
 

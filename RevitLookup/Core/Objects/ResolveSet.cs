@@ -22,7 +22,17 @@ namespace RevitLookup.Core.Objects;
 
 public sealed class ResolveSet
 {
-    public Queue<ResolveSummary> Variants { get; } = new(1);
+    public ResolveSet()
+    {
+        Variants = new Queue<ResolveSummary>(1);
+    }
+
+    public ResolveSet(int capacity)
+    {
+        Variants = new Queue<ResolveSummary>(capacity);
+    }
+
+    public Queue<ResolveSummary> Variants { get; }
 
     public static ResolveSet Append(object result)
     {

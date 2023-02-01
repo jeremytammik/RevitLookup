@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
+using Autodesk.Windows;
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -90,36 +91,46 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
                 generationCount = 1;
                 break;
             case SnoopableType.DependentElements:
-                SnoopableObjects = Array.Empty<SnoopableObject>();
-                return;
+                generationCount = 1;
+                break;
+            case SnoopableType.ComponentManager:
+                generationCount = 1;
+                break;
+            case SnoopableType.PerformanceAdviser:
+                generationCount = 0;
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(snoopableType), snoopableType, null);
         }
 
-        SnoopableObjects = await Task.Run(() =>
-        {
-            return new Faker<SnoopableObject>()
-                .CustomInstantiator(faker =>
-                {
-                    if (faker.IndexFaker == 0)
-                        return new SnoopableObject(null, faker.Lorem.Word());
-                    if (faker.IndexFaker % 1000 == 0)
-                        return new SnoopableObject(null, faker.Make(150, () => faker.Internet.UserName()));
-                    if (faker.IndexFaker % 500 == 0)
-                        return new SnoopableObject(null, null);
-                    if (faker.IndexFaker % 200 == 0)
-                        return new SnoopableObject(null, string.Empty);
-                    if (faker.IndexFaker % 100 == 0)
-                        return new SnoopableObject(null, new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
-                    if (faker.IndexFaker % 5 == 0)
-                        return new SnoopableObject(null, faker.Random.Int(0));
-                    if (faker.IndexFaker % 3 == 0)
-                        return new SnoopableObject(null, faker.Random.Bool());
+        SnoopableObjects = generationCount == 0
+            ? Array.Empty<SnoopableObject>()
+            : await Task.Run(() =>
+            {
+                return new Faker<SnoopableObject>()
+                    .CustomInstantiator(faker =>
+                    {
+                        if (faker.IndexFaker == 0)
+                            return new SnoopableObject(null, faker.Lorem.Word());
+                        if (faker.IndexFaker % 1000 == 0)
+                            return new SnoopableObject(null, faker.Make(150, () => faker.Internet.UserName()));
+                        if (faker.IndexFaker % 700 == 0)
+                            return new SnoopableObject(typeof(Console));
+                        if (faker.IndexFaker % 500 == 0)
+                            return new SnoopableObject(null, null);
+                        if (faker.IndexFaker % 200 == 0)
+                            return new SnoopableObject(null, string.Empty);
+                        if (faker.IndexFaker % 100 == 0)
+                            return new SnoopableObject(null, new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
+                        if (faker.IndexFaker % 5 == 0)
+                            return new SnoopableObject(null, faker.Random.Int(0));
+                        if (faker.IndexFaker % 3 == 0)
+                            return new SnoopableObject(null, faker.Random.Bool());
 
-                    return new SnoopableObject(null, faker.Lorem.Word());
-                })
-                .Generate(generationCount);
-        });
+                        return new SnoopableObject(null, faker.Lorem.Word());
+                    })
+                    .Generate(generationCount);
+            });
 
         SnoopableData = Array.Empty<Descriptor>();
         _navigationService.Navigate(typeof(SnoopView));

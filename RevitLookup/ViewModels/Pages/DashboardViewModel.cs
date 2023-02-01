@@ -57,14 +57,20 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "linked":
                 await _snoopService.Snoop(SnoopableType.LinkedElement);
                 break;
-            case "dependents":
-                await _snoopService.Snoop(SnoopableType.DependentElements);
-                break;
             case "face":
                 await _snoopService.Snoop(SnoopableType.Face);
                 break;
             case "edge":
                 await _snoopService.Snoop(SnoopableType.Edge);
+                break;
+            case "dependents":
+                await _snoopService.Snoop(SnoopableType.DependentElements);
+                break;
+            case "components":
+                await _snoopService.Snoop(SnoopableType.ComponentManager);
+                break;
+            case "performance":
+                await _snoopService.Snoop(SnoopableType.PerformanceAdviser);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);

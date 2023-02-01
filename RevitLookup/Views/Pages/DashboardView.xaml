@@ -123,19 +123,6 @@
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Margin="0,8,4,0"
-                    Icon="DataLine24"
-                    CommandParameter="dependents"
-                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
-                    <StackPanel>
-                        <TextBlock
-                            FontWeight="Medium"
-                            Text="Dependent elements" />
-                    </StackPanel>
-                </rl:CardAction>
-                <rl:CardAction
                     Grid.Row="1"
                     Grid.Column="2"
                     Margin="4,8,4,0"
@@ -159,6 +146,45 @@
                         <TextBlock
                             FontWeight="Medium"
                             Text="Edge" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0,8,4,0"
+                    Icon="DataLine24"
+                    CommandParameter="dependents"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Dependent elements" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="4,8,4,0"
+                    Icon="SlideLayout24"
+                    CommandParameter="components"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Component manager"/>
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="4,8,4,0"
+                    Icon="HeartPulse24"
+                    CommandParameter="performance"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Performance adviser"/>
                     </StackPanel>
                 </rl:CardAction>
             </Grid>

@@ -75,6 +75,8 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
                     case SnoopableType.Selection:
                     case SnoopableType.Database:
                     case SnoopableType.DependentElements:
+                    case SnoopableType.ComponentManager:
+                    case SnoopableType.PerformanceAdviser:
                         return Selector.Snoop(snoopableType);
                     case SnoopableType.Face:
                     case SnoopableType.Edge:

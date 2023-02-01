@@ -19,10 +19,17 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Threading;
+using Autodesk.Internal.Windows;
+using Autodesk.Private.Windows;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
+using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
+using UIFramework;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
 
 namespace RevitLookup.Core.ComponentModel;
@@ -40,12 +47,10 @@ public static class DescriptorMap
     {
         return obj switch
         {
-            //Interfaces
-            IEnumerable value and not string => new EnumerableDescriptor(value),
-
             //System
-            bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
+            IEnumerable value and not string => new EnumerableDescriptor(value),
             Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
+            bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
 
             //Root
             ElementId value when type is null || type == typeof(ElementId) => new ElementIdDescriptor(value),
@@ -76,11 +81,18 @@ public static class DescriptorMap
             Schema value when type is null || type == typeof(Schema) => new SchemaDescriptor(value),
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
+            PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
-
             //Internal
             ResolveSet value => new ResolveSetDescriptor(value),
             ResolveSummary value => new ResolveSummaryDescriptor(value),
+
+            //ComponentManager
+            UIElement value => new UiElementDescriptor(value),
+            DispatcherObject => new ApiObjectDescriptor(),
+            RibbonTab value => new RibbonTabDescriptor(value),
+            RibbonPanel value => new RibbonPanelDescriptor(value),
+            INotifyPropertyChanged => new ApiObjectDescriptor(),
 
             //Unknown
             null when type is null => new ObjectDescriptor(),

@@ -20,6 +20,7 @@
 
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
+using Autodesk.Windows;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
 
@@ -40,6 +41,8 @@ public static class Selector
             SnoopableType.Edge => SnoopEdge(),
             SnoopableType.LinkedElement => SnoopLinkedElement(),
             SnoopableType.DependentElements => SnoopDependentElements(),
+            SnoopableType.ComponentManager => SnoopComponentManager(),
+            SnoopableType.PerformanceAdviser => SnoopPerformanceAdviser(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
@@ -118,6 +121,16 @@ public static class Selector
             .WherePasses(new ElementIdSetFilter(elements))
             .Select(element => new SnoopableObject(RevitApi.Document, element))
             .ToList();
+    }
+
+    private static IReadOnlyList<SnoopableObject> SnoopComponentManager()
+    {
+        return new []{new SnoopableObject(typeof(ComponentManager))};
+    }
+    
+    private static IReadOnlyList<SnoopableObject> SnoopPerformanceAdviser()
+    {
+        return new []{new SnoopableObject(RevitApi.Document, PerformanceAdviser.GetPerformanceAdviser())};
     }
 
     private static SnoopableObject SelectObject(ObjectType objectType)

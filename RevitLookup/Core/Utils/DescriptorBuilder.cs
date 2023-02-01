@@ -39,13 +39,56 @@ public sealed class DescriptorBuilder
     public DescriptorBuilder(SnoopableObject snoopableObject)
     {
         _snoopableObject = snoopableObject;
-        _descriptors = new List<Descriptor>(8);
+        _descriptors = new List<Descriptor>(16);
         _settings = Host.GetService<ISettingsService>();
     }
 
-    private void AddProperties()
+    public IReadOnlyList<Descriptor> Build()
     {
-        var members = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        return _snoopableObject.Object switch
+        {
+            null => Array.Empty<Descriptor>(),
+            Type staticObjectType => BuildStaticObject(staticObjectType),
+            _ => BuildInstanceObject(_snoopableObject.Object.GetType())
+        };
+    }
+
+    private IReadOnlyList<Descriptor> BuildInstanceObject(Type type)
+    {
+        var types = new List<Type>();
+        while (type.BaseType is not null)
+        {
+            types.Add(type);
+            type = type.BaseType;
+        }
+
+        for (var i = types.Count - 1; i >= 0; i--)
+        {
+            _type = types[i];
+
+            //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
+            _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
+
+            AddProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            AddMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        }
+
+        AddEnumerableItems();
+        return _descriptors;
+    }
+
+    private IReadOnlyList<Descriptor> BuildStaticObject(Type staticObjectType)
+    {
+        _type = staticObjectType;
+        _snoopableObject.Object = null;
+        AddProperties(BindingFlags.Public | BindingFlags.Static);
+        AddMethods(BindingFlags.Public | BindingFlags.Static);
+        return _descriptors;
+    }
+
+    private void AddProperties(BindingFlags bindingFlags)
+    {
+        var members = _type.GetProperties(bindingFlags);
         var descriptors = new List<Descriptor>(members.Length);
 
         foreach (var member in members)
@@ -70,9 +113,9 @@ public sealed class DescriptorBuilder
         ApplyGroupCollector(descriptors);
     }
 
-    private void AddMethods()
+    private void AddMethods(BindingFlags bindingFlags)
     {
-        var members = _type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        var members = _type.GetMethods(bindingFlags);
         var descriptors = new List<Descriptor>(members.Length);
 
         foreach (var member in members)
@@ -125,33 +168,6 @@ public sealed class DescriptorBuilder
             enumerableDescriptor.Name = enumerableDescriptor.Value.Descriptor.Type;
             _descriptors.Add(enumerableDescriptor);
         }
-    }
-
-    public IReadOnlyList<Descriptor> Build()
-    {
-        if (_snoopableObject.Object is null) return Array.Empty<Descriptor>();
-
-        var type = _snoopableObject.Object.GetType();
-        var types = new List<Type>();
-        while (type.BaseType is not null)
-        {
-            types.Add(type);
-            type = type.BaseType;
-        }
-
-        for (var i = types.Count - 1; i >= 0; i--)
-        {
-            _type = types[i];
-
-            //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
-            _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
-
-            AddProperties();
-            AddMethods();
-        }
-
-        AddEnumerableItems();
-        return _descriptors;
     }
 
     private bool TryEvaluate(PropertyInfo member, out object value, out ParameterInfo[] parameters)

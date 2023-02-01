@@ -19,12 +19,21 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.ComponentModel;
+using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Utils;
 
 public static class DescriptorUtils
 {
+    [NotNull]
+    public static Descriptor FindSuitableDescriptor(Type type)
+    {
+        var descriptor = new ObjectDescriptor();
+        ValidateProperties(descriptor, type);
+        return descriptor;
+    }
+
     [NotNull]
     public static Descriptor FindSuitableDescriptor(object obj)
     {

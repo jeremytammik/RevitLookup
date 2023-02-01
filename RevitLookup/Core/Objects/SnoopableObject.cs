@@ -28,6 +28,12 @@ public sealed class SnoopableObject
 {
     private IReadOnlyList<Descriptor> _members;
 
+    public SnoopableObject(Type type)
+    {
+        Object = type;
+        Descriptor = DescriptorUtils.FindSuitableDescriptor(type);
+    }
+
     public SnoopableObject(Document context, object obj)
     {
         Object = obj;
