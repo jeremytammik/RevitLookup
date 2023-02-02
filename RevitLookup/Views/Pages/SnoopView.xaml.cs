@@ -37,6 +37,7 @@ namespace RevitLookup.Views.Pages;
 
 public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 {
+    private int _scrollTick;
     private readonly ISettingsService _settingsService;
 
     public SnoopView(ISnoopService viewModel, ISettingsService settingsService)
@@ -122,7 +123,21 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 
         row.ToolTip = new ToolTip
         {
-            Content = builder.ToString(),
+            Content = builder.ToString()
         };
+
+        row.ToolTipOpening += OnRowOnToolTipOpening;
+    }
+
+    private void OnRowOnToolTipOpening(object o, ToolTipEventArgs args)
+    {
+        //Fixed by the tooltip work in 6.0-preview7 https://github.com/dotnet/wpf/pull/6058
+        //But we use net48
+        if (Environment.TickCount - _scrollTick < 73) args.Handled = true;
+    }
+
+    private void DataGrid_OnScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        if (e.VerticalChange != 0) _scrollTick = Environment.TickCount;
     }
 }

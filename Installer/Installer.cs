@@ -29,7 +29,7 @@ var fileName = $"{projectName}-{dllVersion}";
 var wixEntities = GenerateWixEntities();
 var project = new Project
 {
-    Name = $"{projectName} {dllVersion}",
+    Name = projectName,
     OutDir = outputDir,
     Platform = Platform.x64,
     UI = WUI.WixUI_InstallDir,

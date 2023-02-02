@@ -22,14 +22,11 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
-using Autodesk.Internal.Windows;
-using Autodesk.Private.Windows;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
-using UIFramework;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
 
 namespace RevitLookup.Core.ComponentModel;

@@ -3,6 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Versioning;
@@ -23,6 +24,7 @@ namespace RevitLookup.UI.Demo;
 
 public sealed partial class App
 {
+    private string _revitPath;
     private async void OnStartup(object sender, StartupEventArgs e)
     {
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
@@ -92,10 +94,11 @@ public sealed partial class App
     private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
     {
         var assemblyName = new AssemblyName(args.Name);
-        var revitPath = $@"C:\Program Files\Autodesk\Revit 20{assemblyName.Version.Major}";
-        if (!Directory.Exists(revitPath)) return null;
+        var path = _revitPath ?? $@"C:\Program Files\Autodesk\Revit 20{assemblyName.Version.Major}";
+        if (!Directory.Exists(path)) return null;
+        _revitPath = path;
 
-        return Directory.EnumerateFiles(revitPath, $"{assemblyName.Name}.dll")
+        return Directory.EnumerateFiles(_revitPath, $"{assemblyName.Name}.dll")
             .Select(enumerateFile => new FileInfo(enumerateFile))
             .Select(fileInfo => Assembly.LoadFile(fileInfo.FullName))
             .FirstOrDefault();

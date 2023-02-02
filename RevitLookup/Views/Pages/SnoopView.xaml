@@ -98,7 +98,8 @@
                 CanUserResizeRows="False"
                 CanUserReorderColumns="False"
                 VerticalScrollBarVisibility="Visible"
-                ItemsSource="{Binding ViewModel.SnoopableData}">
+                ItemsSource="{Binding ViewModel.SnoopableData}"
+                ScrollViewer.ScrollChanged="DataGrid_OnScrollChanged">
                 <rl:DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
@@ -153,6 +154,12 @@
                         <EventSetter
                             Event="MouseEnter"
                             Handler="CreateToolTip" />
+                        <Setter
+                            Property="ToolTipService.InitialShowDelay"
+                            Value="666" />
+                        <Setter
+                            Property="ToolTipService.BetweenShowDelay"
+                            Value="0" />
                         <Style.Triggers>
                             <DataTrigger
                                 Binding="{Binding Value.Descriptor, Converter={converters:HandledDescriptorConverter}}"
@@ -160,6 +167,9 @@
                                 <Setter
                                     Property="FontWeight"
                                     Value="DemiBold" />
+                                <Setter
+                                    Property="Cursor"
+                                    Value="Hand" />
                             </DataTrigger>
                             <DataTrigger
                                 Binding="{Binding Value.Descriptor, Converter={converters:ExceptionDescriptorConverter}}"

@@ -18,6 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
+
 namespace RevitLookup.Core.Objects;
 
 public sealed class ResolveSet
@@ -47,6 +49,7 @@ public sealed class ResolveSet
     public ResolveSet AppendVariant(object result)
     {
         if (result is null) return this;
+        if (result is ICollection {Count: 0}) return this;
         Variants.Enqueue(new ResolveSummary
         {
             Result = result
@@ -58,6 +61,7 @@ public sealed class ResolveSet
     public ResolveSet AppendVariant(object result, string description)
     {
         if (result is null) return this;
+        if (result is ICollection {Count: 0}) return this;
         Variants.Enqueue(new ResolveSummary
         {
             Result = result,

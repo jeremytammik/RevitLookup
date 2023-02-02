@@ -27,8 +27,4 @@
         <PackageReference Include="Bogus" Version="34.0.2"/>
         <PackageReference Include="JetBrains.Annotations" Version="2022.*"/>
     </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="2023.*"/>
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="2023.*"/>
-    </ItemGroup>
 </Project>
