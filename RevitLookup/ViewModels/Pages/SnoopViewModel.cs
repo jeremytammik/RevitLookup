@@ -20,6 +20,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -40,7 +41,6 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
     private readonly IWindowController _windowController;
-    [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
@@ -128,5 +128,15 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         {
             await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
         }
+    }
+
+    public void Navigate(Descriptor selectedItem)
+    {
+        if (selectedItem.Value.Descriptor is not IDescriptorCollector or IDescriptorEnumerator {IsEmpty: true}) return;
+
+        var window = Host.GetService<IWindow>();
+        window.Show();
+        window.Context.GetService<INavigationService>()!.Navigate(typeof(SnoopView));
+        window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 }

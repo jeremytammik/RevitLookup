@@ -70,7 +70,7 @@
                 <rl:AutoSuggestBox
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
-                    Text="{Binding ViewModel.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    TextChanged="OnSearchTextChanged"/>
                 <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
@@ -99,7 +99,7 @@
                 CanUserReorderColumns="False"
                 VerticalScrollBarVisibility="Visible"
                 ItemsSource="{Binding ViewModel.SnoopableData}"
-                ScrollViewer.ScrollChanged="DataGrid_OnScrollChanged">
+                ScrollViewer.ScrollChanged="OnDataGridScrollChanged">
                 <rl:DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
@@ -108,7 +108,7 @@
                             <TextBlock
                                 Margin="4 0 4 0"
                                 FontWeight="Bold"
-                                Text="Field" />
+                                Text="Member" />
                         </DataGridTextColumn.Header>
                     </DataGridTextColumn>
                     <DataGridTextColumn

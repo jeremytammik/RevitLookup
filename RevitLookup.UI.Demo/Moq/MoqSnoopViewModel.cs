@@ -19,13 +19,14 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using Autodesk.Windows;
 using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
+using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.UI.Common;
 using RevitLookup.UI.Contracts;
@@ -39,7 +40,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 {
     private readonly ISnackbarService _snackbarService;
     private readonly INavigationService _navigationService;
-    [ObservableProperty] private string _searchText;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
@@ -148,5 +148,15 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         {
             await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
         }
+    }
+
+    public void Navigate(Descriptor selectedItem)
+    {
+        if (selectedItem.Value.Descriptor is not IDescriptorCollector or IDescriptorEnumerator {IsEmpty: true}) return;
+
+        var window = Host.GetService<IWindow>();
+        window.Show();
+        window.Context.GetService<INavigationService>()!.Navigate(typeof(SnoopView));
+        window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 }

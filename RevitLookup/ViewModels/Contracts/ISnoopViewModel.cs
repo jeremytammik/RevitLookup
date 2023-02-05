@@ -29,5 +29,5 @@ public interface ISnoopViewModel : ISnoopService
     IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
     IReadOnlyList<Descriptor> SnoopableData { get; }
     IAsyncRelayCommand<SnoopableObject> CollectMembersCommand { get; }
-    string SearchText { get; set; }
+    void Navigate(Descriptor selectedItem);
 }
