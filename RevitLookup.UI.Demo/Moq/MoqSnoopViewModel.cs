@@ -32,16 +32,21 @@ using RevitLookup.UI.Common;
 using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Enums;
+using RevitLookup.ViewModels.Search;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.UI.Demo.Moq;
 
 public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private readonly ISnackbarService _snackbarService;
     private readonly INavigationService _navigationService;
-    [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    private readonly ISnackbarService _snackbarService;
+    [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
+    private string _searchText;
+    private IReadOnlyList<Descriptor> _snoopableData;
+    private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public MoqSnoopViewModel(ISnackbarService snackbarService, INavigationService navigationService)
     {
@@ -49,16 +54,54 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         _navigationService = navigationService;
     }
 
+    public SnoopableObject SelectedObject { get; set; }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            SetProperty(ref _searchText, value);
+            var unused = UpdateSearchResultsAsync(SearchOption.Objects);
+        }
+    }
+
+    public IReadOnlyList<SnoopableObject> SnoopableObjects
+    {
+        get => _snoopableObjects;
+        private set
+        {
+            SelectedObject = null;
+            SetProperty(ref _snoopableObjects, value);
+            AwaitTask(value);
+
+            async void AwaitTask(IReadOnlyList<SnoopableObject> value)
+            {
+                await UpdateSearchResultsAsync(SearchOption.Objects);
+                TreeSourceChanged?.Invoke(this, value);
+            }
+        }
+    }
+
+    public IReadOnlyList<Descriptor> SnoopableData
+    {
+        get => _snoopableData;
+        private set
+        {
+            SetProperty(ref _snoopableData, value);
+            var unused = UpdateSearchResultsAsync(SearchOption.Selection);
+        }
+    }
+
+    public event EventHandler<IReadOnlyList<SnoopableObject>> TreeSourceChanged;
+    public event EventHandler SearchResultsChanged;
+
     public void Snoop(SnoopableObject snoopableObject)
     {
         if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
-        {
             SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
-        }
         else
-        {
             SnoopableObjects = new[] {snoopableObject};
-        }
     }
 
     public async Task Snoop(SnoopableType snoopableType)
@@ -136,20 +179,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         _navigationService.Navigate(typeof(SnoopView));
     }
 
-    [RelayCommand]
-    private async Task CollectMembersAsync(SnoopableObject snoopableObject)
-    {
-        try
-        {
-            // ReSharper disable once MethodHasAsyncOverload
-            SnoopableData = snoopableObject.GetMembers();
-        }
-        catch (Exception exception)
-        {
-            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
-        }
-    }
-
     public void Navigate(Descriptor selectedItem)
     {
         if (selectedItem.Value.Descriptor is not IDescriptorCollector or IDescriptorEnumerator {IsEmpty: true}) return;
@@ -158,5 +187,40 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         window.Show();
         window.Context.GetService<INavigationService>()!.Navigate(typeof(SnoopView));
         window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
+    }
+
+    private async Task UpdateSearchResultsAsync(SearchOption option)
+    {
+        if (string.IsNullOrEmpty(SearchText))
+        {
+            FilteredSnoopableObjects = SnoopableObjects;
+            FilteredSnoopableData = SnoopableData;
+        }
+        else
+        {
+            await SearchEngine.SearchAsync(this, option);
+        }
+
+        SearchResultsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    [RelayCommand]
+    private async Task CollectMembersAsync()
+    {
+        if (SelectedObject is null)
+        {
+            SnoopableData = Array.Empty<Descriptor>();
+            return;
+        }
+
+        try
+        {
+            // ReSharper disable once MethodHasAsyncOverload
+            SnoopableData = SelectedObject.GetMembers();
+        }
+        catch (Exception exception)
+        {
+            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
+        }
     }
 }

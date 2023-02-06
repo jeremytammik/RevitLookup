@@ -31,6 +31,8 @@ using RevitLookup.UI.Common;
 using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Enums;
+using RevitLookup.ViewModels.Search;
 using RevitLookup.Views.Pages;
 using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
@@ -41,8 +43,11 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
     private readonly IWindowController _windowController;
-    [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData = Array.Empty<Descriptor>();
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
+    private string _searchText;
+    private IReadOnlyList<Descriptor> _snoopableData;
+    private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public SnoopViewModel(IWindowController windowController, INavigationService navigationService, ISnackbarService snackbarService)
     {
@@ -50,6 +55,48 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         _navigationService = navigationService;
         _snackbarService = snackbarService;
     }
+
+    public SnoopableObject SelectedObject { get; set; }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            SetProperty(ref _searchText, value);
+            var unused = UpdateSearchResults(SearchOption.Objects);
+        }
+    }
+
+    public IReadOnlyList<SnoopableObject> SnoopableObjects
+    {
+        get => _snoopableObjects;
+        private set
+        {
+            SelectedObject = null;
+            SetProperty(ref _snoopableObjects, value);
+            UpdateObjectSource(value);
+
+            async void UpdateObjectSource(IReadOnlyList<SnoopableObject> value)
+            {
+                await UpdateSearchResults(SearchOption.Objects);
+                TreeSourceChanged?.Invoke(this, value);
+            }
+        }
+    }
+
+    public IReadOnlyList<Descriptor> SnoopableData
+    {
+        get => _snoopableData;
+        private set
+        {
+            SetProperty(ref _snoopableData, value);
+            var unused = UpdateSearchResults(SearchOption.Selection);
+        }
+    }
+
+    public event EventHandler<IReadOnlyList<SnoopableObject>> TreeSourceChanged;
+    public event EventHandler SearchResultsChanged;
 
     public void Snoop(SnoopableObject snoopableObject)
     {
@@ -100,29 +147,8 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
         catch (OperationCanceledException exception)
         {
-            await _snackbarService.ShowAsync("Operation cancelled", exception.Message, SymbolRegular.Warning24, ControlAppearance.Caution);
-        }
-        catch (Exception exception)
-        {
-            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
-        }
-    }
-
-    private bool Validate()
-    {
-        if (RevitApi.UiDocument is not null) return true;
-
-        _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);
-        SnoopableObjects = Array.Empty<SnoopableObject>();
-        return false;
-    }
-
-    [RelayCommand]
-    private async Task CollectMembersAsync(SnoopableObject snoopableObject)
-    {
-        try
-        {
-            SnoopableData = await snoopableObject.GetCachedMembersAsync();
+            // ReSharper disable once MethodHasAsyncOverload
+            _snackbarService.Show("Operation cancelled", exception.Message, SymbolRegular.Warning24, ControlAppearance.Caution);
         }
         catch (Exception exception)
         {
@@ -138,5 +164,48 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         window.Show();
         window.Context.GetService<INavigationService>()!.Navigate(typeof(SnoopView));
         window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
+    }
+
+    private async Task UpdateSearchResults(SearchOption option)
+    {
+        if (string.IsNullOrEmpty(SearchText))
+        {
+            FilteredSnoopableObjects = SnoopableObjects;
+            FilteredSnoopableData = SnoopableData;
+        }
+        else
+        {
+            await SearchEngine.SearchAsync(this, option);
+        }
+
+        SearchResultsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private bool Validate()
+    {
+        if (RevitApi.UiDocument is not null) return true;
+
+        _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);
+        SnoopableObjects = Array.Empty<SnoopableObject>();
+        return false;
+    }
+
+    [RelayCommand]
+    private async Task CollectMembersAsync()
+    {
+        if (SelectedObject is null)
+        {
+            SnoopableData = Array.Empty<Descriptor>();
+            return;
+        }
+
+        try
+        {
+            SnoopableData = await SelectedObject.GetCachedMembersAsync();
+        }
+        catch (Exception exception)
+        {
+            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
+        }
     }
 }

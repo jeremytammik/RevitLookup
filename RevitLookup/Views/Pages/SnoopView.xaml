@@ -70,19 +70,20 @@
                 <rl:AutoSuggestBox
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
-                    TextChanged="OnSearchTextChanged"/>
+                    Text="{Binding ViewModel.SearchText,
+                        UpdateSourceTrigger=PropertyChanged}"/>
                 <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
                     ItemsSource="{Binding
-                        ViewModel.SnoopableObjects,
+                        ViewModel.FilteredSnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"
                     ItemTemplate="{Binding
                         ItemsSource,
                         RelativeSource={RelativeSource Self},
-                        Converter={converters:TreeViewTemplateConverter}}" />
+                        Converter={converters:TreeViewTemplateConverter}}"/>
             </DockPanel>
             <rl:DataGrid
                 Grid.Column="2"
@@ -98,7 +99,7 @@
                 CanUserResizeRows="False"
                 CanUserReorderColumns="False"
                 VerticalScrollBarVisibility="Visible"
-                ItemsSource="{Binding ViewModel.SnoopableData}"
+                ItemsSource="{Binding ViewModel.FilteredSnoopableData}"
                 ScrollViewer.ScrollChanged="OnDataGridScrollChanged">
                 <rl:DataGrid.Columns>
                     <DataGridTextColumn
@@ -150,10 +151,10 @@
                         BasedOn="{StaticResource DefaultDataGridRowStyle}">
                         <EventSetter
                             Event="PreviewMouseLeftButtonUp"
-                            Handler="SnoopSelectedRow" />
+                            Handler="OnGridMouseButtonUp" />
                         <EventSetter
                             Event="MouseEnter"
-                            Handler="CreateToolTip" />
+                            Handler="OnGridMouseEnter" />
                         <Setter
                             Property="ToolTipService.InitialShowDelay"
                             Value="666" />
