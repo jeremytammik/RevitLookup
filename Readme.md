@@ -2,17 +2,15 @@
 
 Interactive Revit `RFA` and `RVT` project database exploration tool to view and navigate BIM element parameters, properties and relationships.
 
-<div style="text-align: center;">
-  <a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/v/release/jeremytammik/RevitLookup?style=for-the-badge"></a>
-  <a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/downloads/jeremytammik/RevitLookup/total?style=for-the-badge"></a>
-  <a href="https://github.com/jeremytammik/RevitLookup/commits/dev"><img src="https://img.shields.io/github/last-commit/jeremytammik/RevitLookup/dev?style=for-the-badge"></a>
-  <a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto?ref=master"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge%3Fref%3Dmaster&style=for-the-badge"></a>
+<div align="center">
+<a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/v/release/jeremytammik/RevitLookup?style=for-the-badge"></a>
+<a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/downloads/jeremytammik/RevitLookup/total?style=for-the-badge"></a>
+<a href="https://github.com/jeremytammik/RevitLookup/commits/dev"><img src="https://img.shields.io/github/last-commit/jeremytammik/RevitLookup/dev?style=for-the-badge"></a>
+<a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto?ref=master"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge%3Fref%3Dmaster&style=for-the-badge"></a>
 </div>
-
-<div style="text-align: center;">
-    <img 
-        alt="Screenshot" 
-        src="https://user-images.githubusercontent.com/20504884/217068816-92f054e5-85b6-4fb9-bbfb-a0d81bc3b6b4.png"/>
+<br/>
+<div align="center">
+<img alt="Screenshot" src="https://user-images.githubusercontent.com/20504884/217068816-92f054e5-85b6-4fb9-bbfb-a0d81bc3b6b4.png"/>
 </div>
 
 ## Installation
