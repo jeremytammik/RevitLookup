@@ -58,7 +58,7 @@ public sealed partial class RevitLookupView : IWindow
         GotFocus += (sender, _) => { UI.Application.Current = (Window) sender; };
     }
 
-    public IServiceProvider Context => _serviceScope.ServiceProvider;
+    public IServiceProvider Scope => _serviceScope.ServiceProvider;
 
     public Frame GetFrame()
     {

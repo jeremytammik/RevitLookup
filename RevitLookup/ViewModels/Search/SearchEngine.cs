@@ -26,19 +26,19 @@ namespace RevitLookup.ViewModels.Search;
 
 public static class SearchEngine
 {
-    public static async Task SearchAsync(ISnoopViewModel model, SearchOption option)
+    public static void SearchAsync(ISnoopViewModel model, SearchOption option)
     {
         switch (option)
         {
             case SearchOption.Objects:
             {
-                var filteredObjects = await Search(model.SearchText, model.SnoopableObjects);
-                var filteredData = await Search(model.SearchText, model.SnoopableData);
+                var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
+                var filteredData = Search(model.SearchText, model.SnoopableData);
                 var isObjectSelected = false;
 
                 if (model.SelectedObject is not null)
                 {
-                    if (filteredObjects.Count == 0 && filteredData.Count > 0) filteredObjects = await Search(model.SelectedObject, model.SnoopableObjects);
+                    if (filteredObjects.Count == 0 && filteredData.Count > 0) filteredObjects = Search(model.SelectedObject, model.SnoopableObjects);
 
                     if (filteredData.Count > 0)
                     {
@@ -68,7 +68,7 @@ public static class SearchEngine
             }
             case SearchOption.Selection:
             {
-                var filteredData = await Search(model.SearchText, model.SnoopableData);
+                var filteredData = Search(model.SearchText, model.SnoopableData);
                 model.FilteredSnoopableData = filteredData.Count == 0 ? model.SnoopableData : filteredData;
                 break;
             }
@@ -77,43 +77,34 @@ public static class SearchEngine
         }
     }
 
-    private static async Task<List<SnoopableObject>> Search(SnoopableObject query, IEnumerable<SnoopableObject> data)
+    private static List<SnoopableObject> Search(SnoopableObject query, IEnumerable<SnoopableObject> data)
     {
-        return await Task.Run(() =>
-        {
-            var filteredSnoopableObjects = new List<SnoopableObject>();
-            foreach (var item in data)
-                if (item.Descriptor.Type == query.Descriptor.Type)
-                    filteredSnoopableObjects.Add(item);
+        var filteredSnoopableObjects = new List<SnoopableObject>();
+        foreach (var item in data)
+            if (item.Descriptor.Type == query.Descriptor.Type)
+                filteredSnoopableObjects.Add(item);
 
-            return filteredSnoopableObjects;
-        });
+        return filteredSnoopableObjects;
     }
 
-    private static async Task<List<SnoopableObject>> Search(string query, IEnumerable<SnoopableObject> data)
+    private static List<SnoopableObject> Search(string query, IEnumerable<SnoopableObject> data)
     {
-        return await Task.Run(() =>
-        {
-            var filteredSnoopableObjects = new List<SnoopableObject>();
-            foreach (var item in data)
-                if (item.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
-                    filteredSnoopableObjects.Add(item);
-                else if (item.Descriptor.Type.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableObjects.Add(item);
+        var filteredSnoopableObjects = new List<SnoopableObject>();
+        foreach (var item in data)
+            if (item.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+                filteredSnoopableObjects.Add(item);
+            else if (item.Descriptor.Type.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableObjects.Add(item);
 
-            return filteredSnoopableObjects;
-        });
+        return filteredSnoopableObjects;
     }
 
-    private static async Task<List<Descriptor>> Search(string query, IEnumerable<Descriptor> data)
+    private static List<Descriptor> Search(string query, IEnumerable<Descriptor> data)
     {
-        return await Task.Run(() =>
-        {
-            var filteredSnoopableData = new List<Descriptor>();
-            foreach (var item in data)
-                if (item.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableData.Add(item);
-                else if (item.Value.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableData.Add(item);
+        var filteredSnoopableData = new List<Descriptor>();
+        foreach (var item in data)
+            if (item.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableData.Add(item);
+            else if (item.Value.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableData.Add(item);
 
-            return filteredSnoopableData;
-        });
+        return filteredSnoopableData;
     }
 }

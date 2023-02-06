@@ -35,6 +35,6 @@ public class DashboardCommand : ExternalCommand
     {
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
-        window.Context.GetService<INavigationService>().Navigate(typeof(DashboardView));
+        window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
     }
 }

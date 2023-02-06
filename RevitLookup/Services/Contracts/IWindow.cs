@@ -24,7 +24,7 @@ namespace RevitLookup.Services.Contracts;
 
 public interface IWindow : INavigationWindow
 {
-    IServiceProvider Context { get; }
+    IServiceProvider Scope { get; }
     void Show();
     void Show(IntPtr handle);
 }

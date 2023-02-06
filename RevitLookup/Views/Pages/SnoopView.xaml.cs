@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,9 +50,10 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         DataGrid.Items.GroupDescriptions!.Clear();
         DataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
 
-        ViewModel.TreeSourceChanged += OnTreeSourceChanged;
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
+        ViewModel.TreeSourceChanged += OnTreeSourceChanged;
+        SelectFirstTreeViewContainer();
     }
 
     public ISnoopViewModel ViewModel { get; }
@@ -59,9 +61,17 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     /// <summary>
     ///     Expand treeView for first opening
     /// </summary>
-    private void OnTreeSourceChanged(object sender, IReadOnlyList<SnoopableObject> enumerable)
+    private void OnTreeSourceChanged(object sender, EventArgs readOnlyList)
     {
-        if (enumerable.Count is < 0 or > 3) return;
+        SelectFirstTreeViewContainer();
+    }    
+    
+    /// <summary>
+    ///     Expand treeView for first opening
+    /// </summary>
+    private void SelectFirstTreeViewContainer()
+    {
+        if (TreeView.Items.Count > 3) return;
         TreeView.ItemContainerGenerator.StatusChanged += OnGeneratorStatusChanged;
     }
 
@@ -85,7 +95,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     }
 
     /// <summary>
-    ///     Execute collector
+    ///     Execute collector for selection
     /// </summary>
     private async void OnTreeSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {

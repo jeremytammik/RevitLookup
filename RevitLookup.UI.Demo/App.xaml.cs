@@ -32,7 +32,7 @@ public sealed partial class App
         await Host.StartHost(host);
         var window = Host.GetService<IWindow>();
         window.Show();
-        window.Context.GetService<INavigationService>().Navigate(typeof(DashboardView));
+        window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
     }
 
     private async void OnExit(object sender, ExitEventArgs e)

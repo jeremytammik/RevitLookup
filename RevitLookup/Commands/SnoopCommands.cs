@@ -43,7 +43,7 @@ public class SnoopSelectionCommand : ExternalCommand
     {
         var window = Host.GetService<IWindow>();
         window.Show(application.MainWindowHandle);
-        window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
+        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
     }
 }
 
@@ -55,7 +55,7 @@ public class SnoopDocumentCommand : ExternalCommand
     {
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
-        window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Document);
+        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Document);
     }
 }
 
@@ -67,6 +67,6 @@ public class SnoopDatabaseCommand : ExternalCommand
     {
         var window = Host.GetService<IWindow>();
         window.Show(UiApplication.MainWindowHandle);
-        window.Context.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
+        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
     }
 }

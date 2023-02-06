@@ -64,7 +64,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         set
         {
             SetProperty(ref _searchText, value);
-            var unused = UpdateSearchResults(SearchOption.Objects);
+            UpdateSearchResults(SearchOption.Objects);
         }
     }
 
@@ -74,14 +74,10 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         private set
         {
             SelectedObject = null;
-            SetProperty(ref _snoopableObjects, value);
-            UpdateObjectSource(value);
-
-            async void UpdateObjectSource(IReadOnlyList<SnoopableObject> value)
-            {
-                await UpdateSearchResults(SearchOption.Objects);
-                TreeSourceChanged?.Invoke(this, value);
-            }
+            _snoopableObjects = value;
+            UpdateSearchResults(SearchOption.Objects);
+            OnPropertyChanged();
+            TreeSourceChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -91,11 +87,11 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         private set
         {
             SetProperty(ref _snoopableData, value);
-            var unused = UpdateSearchResults(SearchOption.Selection);
+            UpdateSearchResults(SearchOption.Selection);
         }
     }
 
-    public event EventHandler<IReadOnlyList<SnoopableObject>> TreeSourceChanged;
+    public event EventHandler TreeSourceChanged;
     public event EventHandler SearchResultsChanged;
 
     public void Snoop(SnoopableObject snoopableObject)
@@ -104,12 +100,13 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
             SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
         else
             SnoopableObjects = new[] {snoopableObject};
+
+        _navigationService.Navigate(typeof(SnoopView));
     }
 
     public async Task Snoop(SnoopableType snoopableType)
     {
         if (!Validate()) return;
-
         try
         {
             SnoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ =>
@@ -162,11 +159,10 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 
         var window = Host.GetService<IWindow>();
         window.Show();
-        window.Context.GetService<INavigationService>()!.Navigate(typeof(SnoopView));
-        window.Context.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
+        window.Scope.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 
-    private async Task UpdateSearchResults(SearchOption option)
+    private void UpdateSearchResults(SearchOption option)
     {
         if (string.IsNullOrEmpty(SearchText))
         {
@@ -175,7 +171,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
         else
         {
-            await SearchEngine.SearchAsync(this, option);
+            SearchEngine.SearchAsync(this, option);
         }
 
         SearchResultsChanged?.Invoke(this, EventArgs.Empty);
