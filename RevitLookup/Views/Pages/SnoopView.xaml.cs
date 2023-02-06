@@ -41,14 +41,12 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 
     public SnoopView(ISnoopService viewModel, ISettingsService settingsService)
     {
-        _settingsService = settingsService;
         ViewModel = (ISnoopViewModel) viewModel;
-        InitializeComponent();
         DataContext = this;
+        InitializeComponent();
+        _settingsService = settingsService;
 
-        //Clear shapingStorage for remove duplications
-        DataGrid.Items.GroupDescriptions!.Clear();
-        DataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
+        DataGrid.Items.GroupDescriptions!.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
 
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
@@ -85,7 +83,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 
         generator.StatusChanged -= OnGeneratorStatusChanged;
 
-        //Await Frame transition. GetMembers freezes the thread and breaks the animation
+        // Await Frame transition. GetMembers freezes the thread and breaks the animation
         await Task.Delay(_settingsService.TransitionDuration);
 
         var treeViewItem = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
@@ -132,7 +130,6 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         }
         if (TreeView.Items.Count == 1)
         {
-            TreeView.UpdateLayout();
             var containerFromIndex = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
             if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
         }

@@ -33,7 +33,7 @@ using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
-using RevitLookup.ViewModels.Search;
+using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.UI.Demo.Moq;
@@ -63,6 +63,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         {
             SetProperty(ref _searchText, value);
             UpdateSearchResults(SearchOption.Objects);
+            SearchResultsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -197,8 +198,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         {
             SearchEngine.SearchAsync(this, option);
         }
-
-        SearchResultsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand]

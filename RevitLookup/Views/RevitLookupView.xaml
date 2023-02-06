@@ -12,6 +12,7 @@
     d:DesignWidth="500"
     MinWidth="630"
     MinHeight="380"
+    Height="610"
     ExtendsContentIntoTitleBar="True"
     Icon="../Resources/Images/ShellIcon.ico"
     WindowStartupLocation="CenterScreen">

@@ -22,7 +22,7 @@ using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
 
-namespace RevitLookup.ViewModels.Search;
+namespace RevitLookup.ViewModels.Utils;
 
 public static class SearchEngine
 {
@@ -38,8 +38,11 @@ public static class SearchEngine
 
                 if (model.SelectedObject is not null)
                 {
-                    if (filteredObjects.Count == 0 && filteredData.Count > 0) filteredObjects = Search(model.SelectedObject, model.SnoopableObjects);
+                    //Add other types to selection if no objects are found
+                    if (filteredObjects.Count == 0 && filteredData.Count > 0)
+                        filteredObjects = Search(model.SelectedObject, model.SnoopableObjects);
 
+                    //Add selected object to results
                     if (filteredData.Count > 0)
                     {
                         foreach (var item in filteredObjects)
@@ -53,11 +56,13 @@ public static class SearchEngine
                     }
                 }
 
+                //Add data of the selected object if no others are found
                 if (filteredObjects.Count > 0 && filteredData.Count == 0)
                 {
                     model.FilteredSnoopableObjects = filteredObjects;
                     model.FilteredSnoopableData = isObjectSelected ? model.SnoopableData : filteredData;
                 }
+                //Output as is
                 else
                 {
                     model.FilteredSnoopableObjects = filteredObjects;
@@ -68,6 +73,7 @@ public static class SearchEngine
             }
             case SearchOption.Selection:
             {
+                //Filter data for new tree selection
                 var filteredData = Search(model.SearchText, model.SnoopableData);
                 model.FilteredSnoopableData = filteredData.Count == 0 ? model.SnoopableData : filteredData;
                 break;
@@ -77,6 +83,9 @@ public static class SearchEngine
         }
     }
 
+    /// <summary>
+    ///     Search all types for selected object
+    /// </summary>
     private static List<SnoopableObject> Search(SnoopableObject query, IEnumerable<SnoopableObject> data)
     {
         var filteredSnoopableObjects = new List<SnoopableObject>();
@@ -87,6 +96,9 @@ public static class SearchEngine
         return filteredSnoopableObjects;
     }
 
+    /// <summary>
+    ///     Objects filtering
+    /// </summary>
     private static List<SnoopableObject> Search(string query, IEnumerable<SnoopableObject> data)
     {
         var filteredSnoopableObjects = new List<SnoopableObject>();
@@ -98,6 +110,9 @@ public static class SearchEngine
         return filteredSnoopableObjects;
     }
 
+    /// <summary>
+    ///     Data filtering
+    /// </summary>
     private static List<Descriptor> Search(string query, IEnumerable<Descriptor> data)
     {
         var filteredSnoopableData = new List<Descriptor>();

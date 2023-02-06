@@ -32,7 +32,7 @@ using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
-using RevitLookup.ViewModels.Search;
+using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
 using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
@@ -65,6 +65,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         {
             SetProperty(ref _searchText, value);
             UpdateSearchResults(SearchOption.Objects);
+            SearchResultsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -173,8 +174,6 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         {
             SearchEngine.SearchAsync(this, option);
         }
-
-        SearchResultsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private bool Validate()
