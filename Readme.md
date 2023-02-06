@@ -15,8 +15,7 @@ Interactive Revit `RFA` and `RVT` project database exploration tool to view and 
 
 ## Installation
 
-- Go to the [**Releases**](https://github.com/jeremytammik/RevitLookup/releases/latest) section.
-- Download and run MSI file.
+- [Download](https://github.com/jeremytammik/RevitLookup/releases/latest) and run MSI file.
 - The single-user installation does not require administrator rights and is installed for a single user only.
 - The multi-user installation requires administrator rights and is installed for all users.
 
