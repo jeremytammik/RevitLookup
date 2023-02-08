@@ -45,9 +45,9 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     private readonly IWindowController _windowController;
     [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
-    private string _searchText;
-    private IReadOnlyList<Descriptor> _snoopableData;
-    private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    [ObservableProperty] private string _searchText;
+    [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects;
 
     public SnoopViewModel(IWindowController windowController, INavigationService navigationService, ISnackbarService snackbarService)
     {
@@ -57,41 +57,6 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     }
 
     public SnoopableObject SelectedObject { get; set; }
-
-    public string SearchText
-    {
-        get => _searchText;
-        set
-        {
-            SetProperty(ref _searchText, value);
-            UpdateSearchResults(SearchOption.Objects);
-            SearchResultsChanged?.Invoke(this, EventArgs.Empty);
-        }
-    }
-
-    public IReadOnlyList<SnoopableObject> SnoopableObjects
-    {
-        get => _snoopableObjects;
-        private set
-        {
-            SelectedObject = null;
-            _snoopableObjects = value;
-            UpdateSearchResults(SearchOption.Objects);
-            OnPropertyChanged();
-            TreeSourceChanged?.Invoke(this, EventArgs.Empty);
-        }
-    }
-
-    public IReadOnlyList<Descriptor> SnoopableData
-    {
-        get => _snoopableData;
-        private set
-        {
-            SetProperty(ref _snoopableData, value);
-            UpdateSearchResults(SearchOption.Selection);
-        }
-    }
-
     public event EventHandler TreeSourceChanged;
     public event EventHandler SearchResultsChanged;
 
@@ -161,6 +126,24 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         var window = Host.GetService<IWindow>();
         window.Show();
         window.Scope.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
+    }
+
+    partial void OnSearchTextChanged(string value)
+    {
+        UpdateSearchResults(SearchOption.Objects);
+        SearchResultsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    partial void OnSnoopableObjectsChanged(IReadOnlyList<SnoopableObject> value)
+    {
+        SelectedObject = null;
+        UpdateSearchResults(SearchOption.Objects);
+        TreeSourceChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    partial void OnSnoopableDataChanged(IReadOnlyList<Descriptor> value)
+    {
+        UpdateSearchResults(SearchOption.Selection);
     }
 
     private void UpdateSearchResults(SearchOption option)

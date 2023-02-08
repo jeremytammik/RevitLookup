@@ -28,16 +28,16 @@ using RevitLookup.UI.Controls.Window;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class SettingsViewModel : ObservableObject
+public sealed partial class SettingsViewModel : ObservableObject
 {
     private readonly INavigationService _navigationService;
     private readonly ISettingsService _settingsService;
     private readonly ISnackbarService _snackbarService;
-    private WindowBackdropType _background;
-    private bool _isExtensionsAllowed;
-    private bool _isSmoothEnabled;
-    private bool _isUnsupportedAllowed;
-    private ThemeType _theme;
+    [ObservableProperty] private WindowBackdropType _background;
+    [ObservableProperty] private bool _isExtensionsAllowed;
+    [ObservableProperty] private bool _isSmoothEnabled;
+    [ObservableProperty] private bool _isUnsupportedAllowed;
+    [ObservableProperty] private ThemeType _theme;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
     {
@@ -51,60 +51,35 @@ public sealed class SettingsViewModel : ObservableObject
         _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
     }
 
-    public ThemeType Theme
+    partial void OnThemeChanged(ThemeType value)
     {
-        get => _theme;
-        set
-        {
-            SetProperty(ref _theme, value);
-            _settingsService.Theme = value;
-            AppearanceData.ApplicationTheme = value;
-            // Theme.Apply(value, CurrentBackground); not supported for pages
-            _snackbarService.Show("Theme changed", "Changes will take effect for new windows", SymbolRegular.ChatWarning24, ControlAppearance.Success);
-        }
+        _settingsService.Theme = value;
+        AppearanceData.ApplicationTheme = value;
+        // Theme.Apply(value, CurrentBackground); not supported for pages
+        _snackbarService.Show("Theme changed", "Changes will take effect for new windows", SymbolRegular.ChatWarning24, ControlAppearance.Success);
     }
 
-    public WindowBackdropType Background
+    partial void OnBackgroundChanged(WindowBackdropType value)
     {
-        get => _background;
-        set
-        {
-            SetProperty(ref _background, value);
-            _settingsService.Background = value;
-            var window = (FluentWindow) UI.Application.Current;
-            window.WindowBackdropType = value;
-        }
+        _settingsService.Background = value;
+        var window = (FluentWindow) UI.Application.Current;
+        window.WindowBackdropType = value;
     }
 
-    public bool IsSmoothEnabled
+    partial void OnIsSmoothEnabledChanged(bool value)
     {
-        get => _isSmoothEnabled;
-        set
-        {
-            SetProperty(ref _isSmoothEnabled, value);
-            var transitionDuration = _settingsService.ApplyTransition(value);
-            _navigationService.GetNavigationControl().TransitionDuration = transitionDuration;
-        }
+        var transitionDuration = _settingsService.ApplyTransition(value);
+        _navigationService.GetNavigationControl().TransitionDuration = transitionDuration;
     }
 
-    public bool IsUnsupportedAllowed
+    partial void OnIsUnsupportedAllowedChanged(bool value)
     {
-        get => _isUnsupportedAllowed;
-        set
-        {
-            SetProperty(ref _isUnsupportedAllowed, value);
-            _settingsService.IsUnsupportedAllowed = value;
-        }
+        _settingsService.IsUnsupportedAllowed = value;
     }
 
-    public bool IsExtensionsAllowed
+    partial void OnIsExtensionsAllowedChanged(bool value)
     {
-        get => _isExtensionsAllowed;
-        set
-        {
-            SetProperty(ref _isExtensionsAllowed, value);
-            _settingsService.IsExtensionsAllowed = value;
-        }
+        _settingsService.IsExtensionsAllowed = value;
     }
 
     public List<ThemeType> Themes { get; } = new()

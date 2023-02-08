@@ -19,16 +19,19 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Utils;
+using UIFramework;
 using static System.Windows.Controls.Primitives.GeneratorStatus;
 using TreeViewItem = System.Windows.Controls.TreeViewItem;
 
@@ -62,8 +65,8 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     private void OnTreeSourceChanged(object sender, EventArgs readOnlyList)
     {
         SelectFirstTreeViewContainer();
-    }    
-    
+    }
+
     /// <summary>
     ///     Expand treeView for first opening
     /// </summary>
@@ -128,6 +131,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
                 TreeView.SelectedItemChanged += OnTreeSelectionChanged;
             }
         }
+
         if (TreeView.Items.Count == 1)
         {
             var containerFromIndex = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
@@ -140,7 +144,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="routedEventArgs"></param>
-    private void OnGridMouseButtonUp(object sender, RoutedEventArgs routedEventArgs)
+    private void OnGridMouseLeftButtonUp(object sender, RoutedEventArgs routedEventArgs)
     {
         if (DataGrid.SelectedItems.Count != 1) return;
         ViewModel.Navigate((Descriptor) DataGrid.SelectedItem);
@@ -192,5 +196,20 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         };
 
         row.ToolTipOpening += OnGridToolTipOpening;
+    }
+
+    /// <summary>
+    ///     Lazy context menu creation
+    /// </summary>
+    private void OnGridMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        var row = (DataGridRow) sender;
+        if (row.ContextMenu is not null) return;
+
+        var descriptor = (Descriptor) row.DataContext;
+        var contextMenu = new ContextMenu();
+        contextMenu.Items.Add(new MenuItem {Header = "Copy", Command = ApplicationCommands.Copy});
+        contextMenu.Items.Add(new MenuItem {Header = "Copy value", Command = new RelayCommand(() => Clipboard.SetText(descriptor.Value.Descriptor.Name))});
+        row.ContextMenu = contextMenu;
     }
 }

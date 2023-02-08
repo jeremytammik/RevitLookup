@@ -71,7 +71,7 @@
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
                     Text="{Binding ViewModel.SearchText,
-                        UpdateSourceTrigger=PropertyChanged}"/>
+                        UpdateSourceTrigger=PropertyChanged}" />
                 <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
@@ -83,7 +83,7 @@
                     ItemTemplate="{Binding
                         ItemsSource,
                         RelativeSource={RelativeSource Self},
-                        Converter={converters:TreeViewTemplateConverter}}"/>
+                        Converter={converters:TreeViewTemplateConverter}}" />
             </DockPanel>
             <rl:DataGrid
                 Grid.Column="2"
@@ -151,7 +151,10 @@
                         BasedOn="{StaticResource DefaultDataGridRowStyle}">
                         <EventSetter
                             Event="PreviewMouseLeftButtonUp"
-                            Handler="OnGridMouseButtonUp" />
+                            Handler="OnGridMouseLeftButtonUp" />
+                        <EventSetter
+                            Event="PreviewMouseRightButtonDown"
+                            Handler="OnGridMouseRightButtonDown" />
                         <EventSetter
                             Event="MouseEnter"
                             Handler="OnGridMouseEnter" />
