@@ -20,16 +20,19 @@
 
 using System.Collections;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
 using UIFramework;
 using static System.Windows.Controls.Primitives.GeneratorStatus;
@@ -201,15 +204,28 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     /// <summary>
     ///     Lazy context menu creation
     /// </summary>
-    private void OnGridMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    private void OnGridRowLoaded(object sender, RoutedEventArgs routedEventArgs)
     {
         var row = (DataGridRow) sender;
         if (row.ContextMenu is not null) return;
 
         var descriptor = (Descriptor) row.DataContext;
         var contextMenu = new ContextMenu();
-        contextMenu.Items.Add(new MenuItem {Header = "Copy", Command = ApplicationCommands.Copy});
-        contextMenu.Items.Add(new MenuItem {Header = "Copy value", Command = new RelayCommand(() => Clipboard.SetText(descriptor.Value.Descriptor.Name))});
+        contextMenu.AddMenuItem("Copy", ApplicationCommands.Copy);
+        contextMenu.AddMenuItem("Copy value", descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
+            .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
+
+        if (descriptor.Value.Descriptor is IDescriptorConnector connector)
+        {
+            var menuItems = connector.RegisterMenu();
+            foreach (var menuItem in menuItems)
+            {
+                var item = contextMenu.AddMenuItem(menuItem.Name, menuItem.Command);
+                if (menuItem.Parameter is not null) item.CommandParameter = menuItem.Parameter;
+                if (menuItem.Gesture is not null) item.AddShortcut(row, menuItem.Gesture);
+            }
+        }
+        
         row.ContextMenu = contextMenu;
     }
 }

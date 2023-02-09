@@ -153,8 +153,8 @@
                             Event="PreviewMouseLeftButtonUp"
                             Handler="OnGridMouseLeftButtonUp" />
                         <EventSetter
-                            Event="PreviewMouseRightButtonDown"
-                            Handler="OnGridMouseRightButtonDown" />
+                            Event="Loaded"
+                            Handler="OnGridRowLoaded" />
                         <EventSetter
                             Event="MouseEnter"
                             Handler="OnGridMouseEnter" />

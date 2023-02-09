@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows.Input;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Contracts;
@@ -26,7 +27,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
+public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
     private readonly Element _element;
 
@@ -124,5 +125,20 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver
 
             return resolveSummary;
         }
+    }
+
+    public MenuItem[] RegisterMenu()
+    {
+        return new[]
+        {
+            MenuItem.Create("Show element")
+                .AddCommand(_element, element =>
+                {
+                    if (RevitApi.UiDocument is null) return;
+                    RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
+                })
+                .AddGesture(ModifierKeys.Alt, Key.F7)
+        };
     }
 }
