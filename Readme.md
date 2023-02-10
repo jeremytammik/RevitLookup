@@ -28,9 +28,9 @@ Originally implemented by Jim Awe and the Revit API development team at Autodesk
 
 All code contributions, must go through a pull request and be approved by a core developer before being merged. This is to ensure a proper review of all the code.
 
-We truly ❤️ pull requests! If you wish to help, you can learn more about how you can contribute to this project in the [contribution guide](Contributing.md).
+We truly love pull requests! If you wish to help, you can learn more about how you can contribute to this project in the [contribution guide](Contributing.md).
 
-Maintained by Nice3point, Jeremy Tammik, with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/graphs/contributors)
+Maintained by [Nice3point](https://github.com/Nice3point), [Jeremy Tammik](https://github.com/jeremytammik), with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/graphs/contributors)
 from the entire Revit add-in developer community. Thank you, guys!
 
 ## License
