@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -95,6 +96,18 @@ public static class VisualUtils
             {
                 return descendent;
             }
+        }
+
+        return null;
+    }
+
+    public static T FindVisualParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+    {
+        var parentObject = VisualTreeHelper.GetParent(dependencyObject);
+        while (parentObject != null)
+        {
+            if (parentObject is T parent) return parent;
+            parentObject = VisualTreeHelper.GetParent(parentObject);
         }
 
         return null;

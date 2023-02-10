@@ -18,15 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
-using System.ComponentModel;
-using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+using System.Windows.Media;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
@@ -34,7 +31,6 @@ using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
-using UIFramework;
 using static System.Windows.Controls.Primitives.GeneratorStatus;
 using TreeViewItem = System.Windows.Controls.TreeViewItem;
 
@@ -145,8 +141,6 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     /// <summary>
     ///     Navigate selection in new window
     /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="routedEventArgs"></param>
     private void OnGridMouseLeftButtonUp(object sender, RoutedEventArgs routedEventArgs)
     {
         if (DataGrid.SelectedItems.Count != 1) return;
@@ -171,26 +165,62 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     }
 
     /// <summary>
-    ///     Lazy tooltip creation
+    ///     Create tooltip, menu
     /// </summary>
-    private void OnGridMouseEnter(object sender, MouseEventArgs e)
+    private void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
     {
-        var row = (DataGridRow) sender;
-        if (row.ToolTip is not null) return;
+        var element = (FrameworkElement) sender;
+        Descriptor descriptor;
+        switch (element.DataContext)
+        {
+            case SnoopableObject context:
+                descriptor = context.Descriptor;
+                var treeItem = VisualUtils.FindVisualParent<TreeViewItem>((DependencyObject) sender);
+                CreateTreeTooltip(descriptor, treeItem);
+                CreateTreeContextMenu(descriptor, treeItem);
+                break;
+            case Descriptor context:
+                descriptor = context;
+                CreateGridTooltip(descriptor, element);
+                CreateGridContextMenu(descriptor, element);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
 
-        var descriptor = (Descriptor) row.DataContext;
-        var builder = new StringBuilder();
-        builder.Append("Field: ");
-        builder.AppendLine(descriptor.Name);
-        builder.Append("Type: ");
-        builder.AppendLine(descriptor.Value.Descriptor.Type);
-        builder.Append("Value: ");
-        builder.Append(descriptor.Value.Descriptor.Name);
+        //TODO check performance
+    }
+
+    private void CreateTreeTooltip(Descriptor descriptor, FrameworkElement row)
+    {
+        row.ToolTip = new ToolTip
+        {
+            Content = new StringBuilder()
+                .Append("Type: ")
+                .AppendLine(descriptor.Type)
+                .Append("Value: ")
+                .Append(descriptor.Name)
+                .ToString()
+        };
+
+        row.ToolTipOpening += OnGridToolTipOpening;
+    }
+
+    private void CreateGridTooltip(Descriptor descriptor, FrameworkElement row)
+    {
+        var builder = new StringBuilder()
+            .Append("Field: ")
+            .AppendLine(descriptor.Name)
+            .Append("Type: ")
+            .AppendLine(descriptor.Value.Descriptor.Type)
+            .Append("Value: ")
+            .Append(descriptor.Value.Descriptor.Name);
+
         if (descriptor.Value.Descriptor.Description is not null)
         {
-            builder.AppendLine();
-            builder.Append("Description: ");
-            builder.Append(descriptor.Value.Descriptor.Description);
+            builder.AppendLine()
+                .Append("Description: ")
+                .Append(descriptor.Value.Descriptor.Description);
         }
 
         row.ToolTip = new ToolTip
@@ -201,31 +231,35 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         row.ToolTipOpening += OnGridToolTipOpening;
     }
 
-    /// <summary>
-    ///     Lazy context menu creation
-    /// </summary>
-    private void OnGridRowLoaded(object sender, RoutedEventArgs routedEventArgs)
+    private void CreateTreeContextMenu(Descriptor descriptor, FrameworkElement row)
     {
-        var row = (DataGridRow) sender;
-        if (row.ContextMenu is not null) return;
+        var contextMenu = new ContextMenu();
+        contextMenu.AddMenuItem("Copy", descriptor, parameter => Clipboard.SetText(parameter.Name))
+            .AddShortcut(row, ModifierKeys.Control, Key.C);
 
-        var descriptor = (Descriptor) row.DataContext;
+        row.ContextMenu = contextMenu;
+        if (descriptor is IDescriptorConnector connector) AttachMenu(row, connector, contextMenu);
+    }
+
+    private static void CreateGridContextMenu(Descriptor descriptor, FrameworkElement row)
+    {
         var contextMenu = new ContextMenu();
         contextMenu.AddMenuItem("Copy", ApplicationCommands.Copy);
         contextMenu.AddMenuItem("Copy value", descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
             .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
 
-        if (descriptor.Value.Descriptor is IDescriptorConnector connector)
-        {
-            var menuItems = connector.RegisterMenu();
-            foreach (var menuItem in menuItems)
-            {
-                var item = contextMenu.AddMenuItem(menuItem.Name, menuItem.Command);
-                if (menuItem.Parameter is not null) item.CommandParameter = menuItem.Parameter;
-                if (menuItem.Gesture is not null) item.AddShortcut(row, menuItem.Gesture);
-            }
-        }
-        
         row.ContextMenu = contextMenu;
+        if (descriptor.Value.Descriptor is IDescriptorConnector connector) AttachMenu(row, connector, contextMenu);
+    }
+
+    private static void AttachMenu(UIElement row, IDescriptorConnector connector, ContextMenu contextMenu)
+    {
+        var menuItems = connector.RegisterMenu();
+        foreach (var menuItem in menuItems)
+        {
+            var item = contextMenu.AddMenuItem(menuItem.Name, menuItem.Command);
+            if (menuItem.Parameter is not null) item.CommandParameter = menuItem.Parameter;
+            if (menuItem.Gesture is not null) item.AddShortcut(row, menuItem.Gesture);
+        }
     }
 }

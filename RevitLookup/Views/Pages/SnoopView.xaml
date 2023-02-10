@@ -79,11 +79,24 @@
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
                     ItemsSource="{Binding
                         ViewModel.FilteredSnoopableObjects,
-                        Converter={converters:TreeViewGroupConverter}}"
-                    ItemTemplate="{Binding
-                        ItemsSource,
-                        RelativeSource={RelativeSource Self},
-                        Converter={converters:TreeViewTemplateConverter}}" />
+                        Converter={converters:TreeViewGroupConverter}}">
+                    <rl:TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate
+                            ItemsSource="{Binding Items}">
+                            <TextBlock
+                                Text="{Binding Name}">
+                            </TextBlock>
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Loaded="OnRowLoaded"
+                                        Text="{Binding Descriptor, 
+                                            Converter={converters:SingleDescriptorConverter}}" />
+                                </DataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+                        </HierarchicalDataTemplate>
+                    </rl:TreeView.ItemTemplate>
+                </rl:TreeView>
             </DockPanel>
             <rl:DataGrid
                 Grid.Column="2"
@@ -154,10 +167,7 @@
                             Handler="OnGridMouseLeftButtonUp" />
                         <EventSetter
                             Event="Loaded"
-                            Handler="OnGridRowLoaded" />
-                        <EventSetter
-                            Event="MouseEnter"
-                            Handler="OnGridMouseEnter" />
+                            Handler="OnRowLoaded" />
                         <Setter
                             Property="ToolTipService.InitialShowDelay"
                             Value="666" />
