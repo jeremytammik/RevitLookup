@@ -1,12 +1,15 @@
-# RevitLookup
-
-Interactive Revit `RFA` and `RVT` project database exploration tool to view and navigate BIM element parameters, properties and relationships.
-
 <div align="center">
-<a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/v/release/jeremytammik/RevitLookup?style=for-the-badge"></a>
-<a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/downloads/jeremytammik/RevitLookup/total?style=for-the-badge"></a>
-<a href="https://github.com/jeremytammik/RevitLookup/commits/dev"><img src="https://img.shields.io/github/last-commit/jeremytammik/RevitLookup/dev?style=for-the-badge"></a>
-<a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto?ref=master"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge%3Fref%3Dmaster&style=for-the-badge"></a>
+<img alt="RevitLookup" width="600"  src="https://user-images.githubusercontent.com/20504884/218192495-19b13547-ce67-40e3-8fe8-e847f89bddb7.png"/>
+</div>
+
+Interactive Revit project database exploration tool to view and navigate BIM element parameters, properties and relationships.
+
+Whether you are a seasoned professional or just starting out, the RevitLookup is an indispensable tool for anyone who works with Revit projects. Its ease of use and advanced features make it the perfect solution for exploring, analyzing and manipulating Revit databases.
+<div align="center">
+<a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/v/release/jeremytammik/RevitLookup?style=for-the-badge" alt="Badge"></a>
+<a href="https://github.com/jeremytammik/RevitLookup/releases/latest"><img src="https://img.shields.io/github/downloads/jeremytammik/RevitLookup/total?style=for-the-badge" alt="Badge"></a>
+<a href="https://github.com/jeremytammik/RevitLookup/commits/dev"><img src="https://img.shields.io/github/last-commit/jeremytammik/RevitLookup/dev?style=for-the-badge" alt="Badge"></a>
+<a href="https://actions-badge.atrox.dev/jeremytammik/RevitLookup/goto?ref=master"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjeremytammik%2FRevitLookup%2Fbadge%3Fref%3Dmaster&style=for-the-badge" alt="Badge"></a>
 </div>
 <br/>
 <div align="center">
@@ -16,25 +19,19 @@ Interactive Revit `RFA` and `RVT` project database exploration tool to view and 
 ## Installation
 
 - [Download](https://github.com/jeremytammik/RevitLookup/releases/latest) and run MSI file.
-- The single-user installation does not require administrator rights and is installed for a single user only.
-- The multi-user installation requires administrator rights and is installed for all users.
+- Single-user installation is for one user only and does not require administrator rights.
+- Multi-user installation requires administrator rights and is installed for all users
 
-Please refer to the [changelog](Changelog.md) for details.
-
-## Author
+## Contributing
 
 Originally implemented by Jim Awe and the Revit API development team at Autodesk.
 
-Maintained by Nice3point, Jeremy Tammik,
-[The Building Coder](http://thebuildingcoder.typepad.com) and
-[The 3D Web Coder](http://the3dwebcoder.typepad.com),
-[Forge](http://forge.autodesk.com) [Platform](https://developer.autodesk.com) Development,
-[ADN](http://www.autodesk.com/adn)
-[Open](http://www.autodesk.com/adnopen),
-[Autodesk Inc.](http://www.autodesk.com), with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/graphs/contributors)
-from the entire Revit add-in developer community.
+All code contributions, must go through a pull request and be approved by a core developer before being merged. This is to ensure a proper review of all the code.
 
-Thank you, guys!
+We truly ❤️ pull requests! If you wish to help, you can learn more about how you can contribute to this project in the [contribution guide](Contributing.md).
+
+Maintained by Nice3point, Jeremy Tammik, with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/graphs/contributors)
+from the entire Revit add-in developer community. Thank you, guys!
 
 ## License
 

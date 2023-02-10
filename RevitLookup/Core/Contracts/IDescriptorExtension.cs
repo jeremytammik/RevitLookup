@@ -21,7 +21,7 @@
 namespace RevitLookup.Core.Contracts;
 
 /// <summary>
-///     Indicates that additional members can be added to the descriptor
+///     Indicates that the descriptor can interact with the UI and execute commands
 /// </summary>
 public interface IDescriptorExtension : IDescriptorCollector
 {

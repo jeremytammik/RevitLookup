@@ -22,6 +22,9 @@ using Autodesk.Revit.DB;
 
 namespace RevitLookup.Core.Contracts;
 
+/// <summary>
+///     Indicates that the object can be redirected to another
+/// </summary>
 public interface IDescriptorRedirection
 {
     bool TryRedirect(string target, Document context, out object output);
