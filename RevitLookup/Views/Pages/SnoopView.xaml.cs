@@ -48,6 +48,8 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         InitializeComponent();
         _settingsService = settingsService;
 
+        //Clear shapingStorage for remove duplications. WpfBug?
+        DataGrid.Items.GroupDescriptions!.Clear();
         DataGrid.Items.GroupDescriptions!.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
 
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;

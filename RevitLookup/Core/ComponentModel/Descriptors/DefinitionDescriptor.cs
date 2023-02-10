@@ -28,6 +28,13 @@ public sealed class DefinitionDescriptor : Descriptor, IDescriptorCollector
 {
     public DefinitionDescriptor(Definition definition)
     {
+        if (definition is InternalDefinition internalDefinition)
+            if (internalDefinition.BuiltInParameter != BuiltInParameter.INVALID)
+            {
+                Name = internalDefinition.BuiltInParameter.ToString();
+                return;
+            }
+
         Name = definition.Name;
     }
 }
