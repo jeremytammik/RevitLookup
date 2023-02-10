@@ -5,7 +5,8 @@
   - New: resorted commands on the Revit ribbon, frequently used moved to the top
   - New: added Snoop Active Document command
   - Fix: revert support search index from keyboard
-  - Fix: removed label null if ElementID was -1
+  - Fix: removed label <null> if ElementID was -1
+
 - 2022-04-05 **2023.0.0** Revit 2023 support
 - 2022-03-02 **2022.0.4.1** Minor UI changes https://github.com/jeremytammik/RevitLookup/pull/135
 - 2022-03-02 **2022.0.4.0** Minimize, maximize support https://github.com/jeremytammik/RevitLookup/pull/134. Fixed problem with sending a print job https://github.com/jeremytammik/RevitLookup/pull/133
