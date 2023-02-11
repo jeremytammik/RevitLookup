@@ -37,6 +37,12 @@ public sealed class OpenSourceDialogViewModel : ObservableObject
             .AddSoftware("Nice3point.Revit.Templates", "https://github.com/Nice3point/RevitTemplates")
             .AddLicense("Apache License 2.0", "https://github.com/Nice3point/RevitTemplates/blob/main/License.md"));
         Software.Add(new OpenSourceSoftware()
+            .AddSoftware("CommunityToolkit", "https://github.com/CommunityToolkit/dotnet")
+            .AddLicense("MIT License", "https://github.com/CommunityToolkit/dotnet/blob/main/License.md"));
+        Software.Add(new OpenSourceSoftware()
+            .AddSoftware("JetBrains.Annotations", "https://github.com/JetBrains/JetBrains.Annotations")
+            .AddLicense("MIT License", "https://github.com/JetBrains/JetBrains.Annotations/blob/main/license.md"));
+        Software.Add(new OpenSourceSoftware()
             .AddSoftware("WPF-UI", "https://github.com/lepoco/wpfui")
             .AddLicense("MIT License", "https://github.com/lepoco/wpfui/blob/main/LICENSE"));
     }

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Versioning;
+using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Demo.Moq;
 using RevitLookup.UI.Services;
+using RevitLookup.Utils;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
@@ -25,6 +27,7 @@ namespace RevitLookup.UI.Demo;
 public sealed partial class App
 {
     private string _revitPath;
+
     private async void OnStartup(object sender, StartupEventArgs e)
     {
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
@@ -51,8 +54,15 @@ public sealed partial class App
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 var assemblyLocation = assembly.Location;
-                var assemblyDirectory = Path.GetDirectoryName(assemblyLocation)!;
-                builder.SetBasePath(assemblyDirectory);
+                var addinVersion = FileVersionInfo.GetVersionInfo(assemblyLocation).ProductVersion;
+#if RELEASE
+                var userDataLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Autodesk\Revit\Addins\", addinVersion.Split('.')[0], "RevitLookup");
+#else
+                var userDataLocation = Path.GetDirectoryName(assemblyLocation)!;
+#endif
+                var writeAccess = AccessUtils.CheckWriteAccess(assemblyLocation) &&
+                                  !assemblyLocation.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
 
                 var targetFrameworkAttributes = assembly.GetCustomAttributes(typeof(TargetFrameworkAttribute), true);
                 var targetFrameworkAttribute = (TargetFrameworkAttribute) targetFrameworkAttributes.First();
@@ -62,8 +72,10 @@ public sealed partial class App
                 {
                     new("Assembly", assemblyLocation),
                     new("Framework", targetFramework),
-                    new("ConfigFolder", Path.Combine(assemblyDirectory, "Config")),
-                    new("DownloadFolder", Path.Combine(assemblyDirectory, "Downloads"))
+                    new("AddinVersion", addinVersion),
+                    new("ConfigFolder", Path.Combine(userDataLocation, "Config")),
+                    new("DownloadFolder", Path.Combine(userDataLocation, "Downloads")),
+                    new("FolderAccess", writeAccess ? "Write" : "Read")
                 });
             })
             .ConfigureServices((_, services) =>

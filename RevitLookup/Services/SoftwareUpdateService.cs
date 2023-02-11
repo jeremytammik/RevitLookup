@@ -22,6 +22,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
@@ -34,14 +36,15 @@ namespace RevitLookup.Services;
 public sealed class SoftwareUpdateService : ISoftwareUpdateService
 {
     private readonly IConfiguration _configuration;
-    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
+    private readonly bool _writeAccess;
     private string _downloadUrl;
+    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
 
     public SoftwareUpdateService(IConfiguration configuration)
     {
         _configuration = configuration;
-        var assembly = configuration.GetValue<string>("Assembly");
-        CurrentVersion = FileVersionInfo.GetVersionInfo(assembly).ProductVersion;
+        CurrentVersion = configuration.GetValue<string>("AddinVersion");
+        _writeAccess = configuration.GetValue<string>("FolderAccess") == "Write";
     }
 
     public SoftwareUpdateState State { get; set; }
@@ -90,12 +93,12 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
                 {
                     var match = _versionRegex.Match(asset.Name);
                     if (!match.Success) continue;
+                    if (!match.Value.StartsWith(currentTag.Major.ToString())) continue;
+                    if (_writeAccess && asset.Name.Contains("MultiUser")) continue;
 
-                    if (match.Value.StartsWith(currentTag.Major.ToString()))
-                    {
-                        newVersionTag = new Version(match.Value);
-                        _downloadUrl = asset.DownloadUrl;
-                    }
+                    newVersionTag = new Version(match.Value);
+                    _downloadUrl = asset.DownloadUrl;
+                    break;
                 }
 
                 // Checking available releases
@@ -117,7 +120,7 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
                 NewVersion = newVersionTag.ToString(3);
                 if (Directory.Exists(downloadFolder))
                     foreach (var file in Directory.EnumerateFiles(downloadFolder))
-                        if (file.Contains(NewVersion))
+                        if (file.EndsWith(Path.GetFileName(_downloadUrl)!))
                         {
                             LocalFilePath = file;
                             State = SoftwareUpdateState.ReadyToInstall;
@@ -155,10 +158,10 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
         {
             var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
             Directory.CreateDirectory(downloadFolder);
-            var fileName = Path.Combine(downloadFolder, $"RevitLookup-{NewVersion}.msi");
+            var fileName = Path.Combine(downloadFolder, Path.GetFileName(_downloadUrl));
 
             using var webClient = new WebClient();
-            await webClient.DownloadFileTaskAsync(_downloadUrl, fileName);
+            await webClient.DownloadFileTaskAsync(_downloadUrl!, fileName);
             LocalFilePath = fileName;
             State = SoftwareUpdateState.ReadyToInstall;
         }
