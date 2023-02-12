@@ -20,10 +20,12 @@
 
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
+using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Windows;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
+using RevitLookup.UI.Controls;
 
 namespace RevitLookup.Core;
 
@@ -48,6 +50,7 @@ public static class Selector
             SnoopableType.ComponentManager => SnoopComponentManager(),
             SnoopableType.PerformanceAdviser => SnoopPerformanceAdviser(),
             SnoopableType.UpdaterRegistry => SnoopUpdaterRegistry(),
+            SnoopableType.Services => SnoopServices(),
             SnoopableType.Schemas => SnoopSchemas(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
@@ -162,6 +165,11 @@ public static class Selector
     private static IReadOnlyList<SnoopableObject> SnoopSchemas()
     {
         return Schema.ListSchemas().Select(schema => new SnoopableObject(RevitApi.Document, schema)).ToArray();
+    }
+    
+    private static IReadOnlyList<SnoopableObject> SnoopServices()
+    {
+        return ExternalServiceRegistry.GetServices().Select(service => new SnoopableObject(RevitApi.Document, service)).ToArray();
     }
 
     private static SnoopableObject SelectObject(ObjectType objectType)

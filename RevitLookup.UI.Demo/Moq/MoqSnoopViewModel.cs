@@ -112,6 +112,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
             case SnoopableType.ComponentManager:
             case SnoopableType.PerformanceAdviser:
             case SnoopableType.UpdaterRegistry:
+            case SnoopableType.Services:
             case SnoopableType.Schemas:
                 generationCount = 0;
                 break;

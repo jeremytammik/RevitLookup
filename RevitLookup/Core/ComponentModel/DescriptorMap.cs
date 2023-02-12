@@ -24,6 +24,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
+using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
@@ -78,9 +79,11 @@ public static class DescriptorMap
             Schema value when type is null || type == typeof(Schema) => new SchemaDescriptor(value),
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
             UpdaterInfo value when type is null || type == typeof(UpdaterInfo) => new UpdaterInfoDescriptor(value),
+            ExternalService value when type is null || type == typeof(ExternalService) => new ExternalServiceDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
+            
             //Internal
             ResolveSet value => new ResolveSetDescriptor(value),
             ResolveSummary value => new ResolveSummaryDescriptor(value),

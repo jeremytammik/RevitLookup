@@ -27,6 +27,19 @@ using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Commands;
 
+// [UsedImplicitly]
+// [Transaction(TransactionMode.Manual)]
+// public class DashboardCommand : ExternalCommand
+// {
+//     public override void Execute()
+//     {
+//         var externalServices = ExternalServiceRegistry.GetServices();
+//         var window = Host.GetService<IWindow>();
+//         window.Show(UiApplication.MainWindowHandle);
+//         window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
+//     }
+// }
+
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
 public class SnoopSelectionCommand : ExternalCommand

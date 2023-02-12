@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,25 +18,16 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Services.Enums;
+using Autodesk.Revit.DB.ExternalService;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 
-public enum SnoopableType
+namespace RevitLookup.Core.ComponentModel.Descriptors;
+
+public class ExternalServiceDescriptor : Descriptor, IDescriptorCollector
 {
-    View,
-    Document,
-    Application,
-    UiApplication,
-    Database,
-    DependentElements,
-    Selection,
-    Face,
-    Edge,
-    Point,
-    SubElement,
-    LinkedElement,
-    ComponentManager,
-    PerformanceAdviser,
-    UpdaterRegistry,
-    Services,
-    Schemas
+    public ExternalServiceDescriptor(ExternalService service)
+    {
+        Name = service.Name;
+    }
 }

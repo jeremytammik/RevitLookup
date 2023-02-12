@@ -84,6 +84,9 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "updaters":
                 await _snoopService.Snoop(SnoopableType.UpdaterRegistry);
                 break;
+            case "services":
+                await _snoopService.Snoop(SnoopableType.Services);
+                break;
             case "schemas":
                 await _snoopService.Snoop(SnoopableType.Schemas);
                 break;

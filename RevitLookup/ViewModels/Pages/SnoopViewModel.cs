@@ -90,6 +90,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
                     case SnoopableType.UpdaterRegistry:
                     case SnoopableType.Schemas:
                     case SnoopableType.UiApplication:
+                    case SnoopableType.Services:
                         return Selector.Snoop(snoopableType);
                     case SnoopableType.Face:
                     case SnoopableType.Edge:

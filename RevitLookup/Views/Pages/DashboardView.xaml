@@ -243,7 +243,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="BowlSalad24"
+                    Icon="SlideTextMultiple32"
                     CommandParameter="components"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -310,6 +310,19 @@
                         <TextBlock
                             FontWeight="Medium"
                             Text="Schemas" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="4,8,0,0"
+                    Icon="WeatherCloudy24"
+                    CommandParameter="services"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Services" />
                     </StackPanel>
                 </rl:CardAction>
             </Grid>
