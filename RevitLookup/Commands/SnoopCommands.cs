@@ -39,34 +39,70 @@ public class SnoopSelectionCommand : ExternalCommand
     /// <summary>
     ///     Modify tab command support
     /// </summary>
-    public static void Execute(UIApplication application)
+    public static async void Execute(UIApplication application)
     {
         var window = Host.GetService<IWindow>();
+        await window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
         window.Show(application.MainWindowHandle);
-        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
     }
 }
 
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
-public class SnoopDocumentCommand : ExternalCommand
+public class SnoopLinkedElementCommand : ExternalCommand
 {
-    public override void Execute()
+    public override async void Execute()
     {
         var window = Host.GetService<IWindow>();
+        await window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.LinkedElement);
         window.Show(UiApplication.MainWindowHandle);
-        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Document);
     }
 }
 
 [UsedImplicitly]
 [Transaction(TransactionMode.Manual)]
-public class SnoopDatabaseCommand : ExternalCommand
+public class SnoopFaceCommand : ExternalCommand
 {
-    public override void Execute()
+    public override async void Execute()
     {
         var window = Host.GetService<IWindow>();
+        await window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Face);
         window.Show(UiApplication.MainWindowHandle);
-        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
+    }
+}
+
+[UsedImplicitly]
+[Transaction(TransactionMode.Manual)]
+public class SnoopEdgeCommand : ExternalCommand
+{
+    public override async void Execute()
+    {
+        var window = Host.GetService<IWindow>();
+        await window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Edge);
+        window.Show(UiApplication.MainWindowHandle);
+    }
+}
+
+[UsedImplicitly]
+[Transaction(TransactionMode.Manual)]
+public class SnoopPointCommand : ExternalCommand
+{
+    public override async void Execute()
+    {
+        var window = Host.GetService<IWindow>();
+        await window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Point);
+        window.Show(UiApplication.MainWindowHandle);
+    }
+}
+
+[UsedImplicitly]
+[Transaction(TransactionMode.Manual)]
+public class SnoopSubElementCommand : ExternalCommand
+{
+    public override async void Execute()
+    {
+        var window = Host.GetService<IWindow>();
+        await window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.SubElement);
+        window.Show(UiApplication.MainWindowHandle);
     }
 }

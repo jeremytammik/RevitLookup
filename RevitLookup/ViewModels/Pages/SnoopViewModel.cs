@@ -115,6 +115,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         }
         catch (OperationCanceledException exception)
         {
+            _navigationService.Navigate(typeof(DashboardView));
             // ReSharper disable once MethodHasAsyncOverload
             _snackbarService.Show("Operation cancelled", exception.Message, SymbolRegular.Warning24, ControlAppearance.Caution);
         }
