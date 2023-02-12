@@ -35,14 +35,14 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
         _face = face;
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
-    
+
     public MenuItem[] RegisterMenu()
     {
 #if R23_OR_GREATER
         return new[]
         {
             MenuItem.Create("Show face")
-                .AddCommand((_face), face =>
+                .AddCommand(_face, face =>
                 {
                     if (RevitApi.UiDocument is null) return;
                     if (face.Reference is null) return;

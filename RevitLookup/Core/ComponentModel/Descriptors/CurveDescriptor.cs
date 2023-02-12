@@ -37,6 +37,27 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
         if (curve.IsBound || curve.IsCyclic) Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
+    public MenuItem[] RegisterMenu()
+    {
+#if R23_OR_GREATER
+        return new[]
+        {
+            MenuItem.Create("Show curve")
+                .AddCommand(_curve, curve =>
+                {
+                    if (RevitApi.UiDocument is null) return;
+                    if (curve.Reference is null) return;
+                    var element = curve.Reference.ElementId.ToElement(RevitApi.Document);
+                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {curve.Reference});
+                })
+                .AddGesture(ModifierKeys.Alt, Key.F7)
+        };
+#else
+        return Array.Empty<MenuItem>();
+#endif
+    }
+
     public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -52,26 +73,5 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                 .AppendVariant(_curve.GetEndPointReference(1), "Reference 1"),
             _ => null
         };
-    }
-
-    public MenuItem[] RegisterMenu()
-    {
-#if R23_OR_GREATER
-        return new[]
-        {
-            MenuItem.Create("Show curve")
-                .AddCommand((_curve), curve =>
-                {
-                    if (RevitApi.UiDocument is null) return;
-                    if (curve.Reference is null) return;
-                    var element = curve.Reference.ElementId.ToElement(RevitApi.Document);
-                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {curve.Reference});
-                })
-                .AddGesture(ModifierKeys.Alt, Key.F7)
-        };
-#else
-        return Array.Empty<MenuItem>();
-#endif
     }
 }

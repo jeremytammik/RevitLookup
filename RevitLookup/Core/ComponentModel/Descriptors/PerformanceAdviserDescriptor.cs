@@ -53,6 +53,7 @@ public class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolver
                     default:
                         return null;
                 }
+
                 break;
             case 1 when parameters[0].ParameterType == typeof(int):
                 switch (target)

@@ -73,7 +73,7 @@ public class Application : ExternalApplication
     {
         var ribbonPanel = Application.CreatePanel("Revit Lookup");
         var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "Interaction");
-        
+
         var splitButton1 = splitButton.AddPushButton<DashboardCommand>("Dashboard");
         splitButton1.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitButton1.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
@@ -93,7 +93,7 @@ public class Application : ExternalApplication
         var splitButton5 = splitButton.AddPushButton<SnoopSubElementCommand>("Snoop sub-element");
         splitButton5.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitButton5.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        
+
         var splitButton6 = splitButton.AddPushButton<SnoopLinkedElementCommand>("Snoop linked element");
         splitButton6.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitButton6.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");

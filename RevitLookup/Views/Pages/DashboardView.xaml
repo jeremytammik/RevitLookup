@@ -104,7 +104,7 @@
                             Text="Database" />
                     </StackPanel>
                 </rl:CardAction>
-                
+
                 <rl:CardAction
                     Grid.Row="1"
                     Grid.Column="1"
@@ -266,7 +266,7 @@
                     </StackPanel>
                 </rl:CardAction>
             </Grid>
-            
+
             <TextBlock
                 Margin="0,8,0,0"
                 FontSize="16"

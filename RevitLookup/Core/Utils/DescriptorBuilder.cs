@@ -164,7 +164,7 @@ public sealed class DescriptorBuilder
                 Type = nameof(IEnumerable),
                 Value = new SnoopableObject(_snoopableObject.Context, enumerator.Current)
             };
-            
+
             SnoopUtils.Redirect(enumerableDescriptor.Value);
             enumerableDescriptor.Name = enumerableDescriptor.Value.Descriptor.Type;
             _descriptors.Add(enumerableDescriptor);

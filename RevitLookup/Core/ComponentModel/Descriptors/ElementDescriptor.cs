@@ -37,6 +37,21 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 
+    public MenuItem[] RegisterMenu()
+    {
+        return new[]
+        {
+            MenuItem.Create("Show element")
+                .AddCommand(_element, element =>
+                {
+                    if (RevitApi.UiDocument is null) return;
+                    RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
+                })
+                .AddGesture(ModifierKeys.Alt, Key.F7)
+        };
+    }
+
     public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -125,20 +140,5 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
 
             return resolveSummary;
         }
-    }
-
-    public MenuItem[] RegisterMenu()
-    {
-        return new[]
-        {
-            MenuItem.Create("Show element")
-                .AddCommand(_element, element =>
-                {
-                    if (RevitApi.UiDocument is null) return;
-                    RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
-                })
-                .AddGesture(ModifierKeys.Alt, Key.F7)
-        };
     }
 }

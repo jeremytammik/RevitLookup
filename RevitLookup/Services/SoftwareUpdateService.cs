@@ -18,12 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
@@ -36,9 +33,9 @@ namespace RevitLookup.Services;
 public sealed class SoftwareUpdateService : ISoftwareUpdateService
 {
     private readonly IConfiguration _configuration;
+    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     private readonly bool _writeAccess;
     private string _downloadUrl;
-    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
 
     public SoftwareUpdateService(IConfiguration configuration)
     {

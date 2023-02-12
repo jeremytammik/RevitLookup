@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class RibbonItemDescriptor: Descriptor, IDescriptorCollector
+public class RibbonItemDescriptor : Descriptor, IDescriptorCollector
 {
     public RibbonItemDescriptor(RibbonItem item)
     {

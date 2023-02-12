@@ -34,13 +34,11 @@ public static class AccessUtils
         var accessRules = accessControl.GetAccessRules(true, true, typeof(NTAccount));
         var writeAccess = false;
         foreach (FileSystemAccessRule rule in accessRules)
-        {
             if (principal.IsInRole(rule.IdentityReference.Value) && (rule.FileSystemRights & FileSystemRights.WriteData) == FileSystemRights.WriteData)
             {
                 writeAccess = true;
                 break;
             }
-        }
 
         return writeAccess;
     }

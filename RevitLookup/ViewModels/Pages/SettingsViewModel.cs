@@ -51,6 +51,18 @@ public sealed partial class SettingsViewModel : ObservableObject
         _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
     }
 
+    public List<ThemeType> Themes { get; } = new()
+    {
+        ThemeType.Light,
+        ThemeType.Dark
+    };
+
+    public List<WindowBackdropType> BackgroundEffects { get; } = new()
+    {
+        WindowBackdropType.None,
+        WindowBackdropType.Mica
+    };
+
     partial void OnThemeChanged(ThemeType value)
     {
         _settingsService.Theme = value;
@@ -81,16 +93,4 @@ public sealed partial class SettingsViewModel : ObservableObject
     {
         _settingsService.IsExtensionsAllowed = value;
     }
-
-    public List<ThemeType> Themes { get; } = new()
-    {
-        ThemeType.Light,
-        ThemeType.Dark
-    };
-
-    public List<WindowBackdropType> BackgroundEffects { get; } = new()
-    {
-        WindowBackdropType.None,
-        WindowBackdropType.Mica
-    };
 }

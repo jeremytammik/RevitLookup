@@ -23,8 +23,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
@@ -34,7 +32,6 @@ using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
 using static System.Windows.Controls.Primitives.GeneratorStatus;
 using MenuItem = RevitLookup.Core.Objects.MenuItem;
-using TreeViewItem = System.Windows.Controls.TreeViewItem;
 
 namespace RevitLookup.Views.Pages;
 
@@ -160,7 +157,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     }
 
     /// <summary>
-    ///    Disable tooltips while scrolling
+    ///     Disable tooltips while scrolling
     /// </summary>
     private void OnGridToolTipOpening(object o, ToolTipEventArgs args)
     {
@@ -221,11 +218,9 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
             .Append(descriptor.Value.Descriptor.Name);
 
         if (descriptor.Value.Descriptor.Description is not null)
-        {
             builder.AppendLine()
                 .Append("Description: ")
                 .Append(descriptor.Value.Descriptor.Description);
-        }
 
         row.ToolTip = new ToolTip
         {

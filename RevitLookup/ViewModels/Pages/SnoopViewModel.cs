@@ -43,11 +43,11 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
     private readonly IWindowController _windowController;
-    [ObservableProperty] private string _searchText;
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
-    [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private string _searchText;
+    [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
     public SnoopViewModel(IWindowController windowController, INavigationService navigationService, ISnackbarService snackbarService)
     {

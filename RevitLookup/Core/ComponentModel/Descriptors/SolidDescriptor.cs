@@ -42,7 +42,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
         return new[]
         {
             MenuItem.Create("Show solid")
-                .AddCommand((_solid), solid =>
+                .AddCommand(_solid, solid =>
                 {
                     if (RevitApi.UiDocument is null) return;
                     var references = solid.Faces

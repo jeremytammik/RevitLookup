@@ -25,10 +25,12 @@ using System.Windows.Threading;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
-using Autodesk.Revit.UI;
+using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
+using RibbonItem = Autodesk.Revit.UI.RibbonItem;
+using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
 
 namespace RevitLookup.Core.ComponentModel;
 
@@ -83,7 +85,7 @@ public static class DescriptorMap
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
-            
+
             //Internal
             ResolveSet value => new ResolveSetDescriptor(value),
             ResolveSummary value => new ResolveSummaryDescriptor(value),
@@ -95,7 +97,7 @@ public static class DescriptorMap
             RibbonPanel value => new RibbonPanelDescriptor(value),
             Autodesk.Windows.RibbonItem value => new RibbonItemDescriptor(value),
             Autodesk.Windows.RibbonPanel value => new RibbonPanelDescriptor(value),
-            Autodesk.Windows.RibbonTab value => new RibbonTabDescriptor(value),
+            RibbonTab value => new RibbonTabDescriptor(value),
             INotifyPropertyChanged => new ApiObjectDescriptor(),
 
             //Unknown

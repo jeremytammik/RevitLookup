@@ -70,7 +70,7 @@ public static class ContextMenuExtensions
         bindableElement.InputBindings.Add(new InputBinding(item.Command, gesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = gesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
     }
-    
+
     public static void AddShortcut(this MenuItem item, UIElement bindableElement, ModifierKeys modifiers, Key key)
     {
         var inputGesture = new KeyGesture(key, modifiers);

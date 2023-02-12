@@ -35,15 +35,15 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
         _edge = edge;
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
-    
-    
+
+
     public MenuItem[] RegisterMenu()
     {
 #if R23_OR_GREATER
         return new[]
         {
             MenuItem.Create("Show edge")
-                .AddCommand((_edge), edge =>
+                .AddCommand(_edge, edge =>
                 {
                     if (RevitApi.UiDocument is null) return;
                     if (edge.Reference is null) return;

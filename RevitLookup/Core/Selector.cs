@@ -25,7 +25,6 @@ using Autodesk.Revit.UI.Selection;
 using Autodesk.Windows;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
-using RevitLookup.UI.Controls;
 
 namespace RevitLookup.Core;
 
@@ -166,7 +165,7 @@ public static class Selector
     {
         return Schema.ListSchemas().Select(schema => new SnoopableObject(RevitApi.Document, schema)).ToArray();
     }
-    
+
     private static IReadOnlyList<SnoopableObject> SnoopServices()
     {
         return ExternalServiceRegistry.GetServices().Select(service => new SnoopableObject(RevitApi.Document, service)).ToArray();

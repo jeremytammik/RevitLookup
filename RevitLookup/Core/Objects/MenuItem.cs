@@ -29,6 +29,11 @@ public sealed class MenuItem
     {
     }
 
+    public string Name { get; private init; }
+    public KeyGesture Gesture { get; private set; }
+    public ICommand Command { get; private set; }
+    public object Parameter { get; private set; }
+
     public static MenuItem Create(string name)
     {
         return new MenuItem
@@ -36,11 +41,6 @@ public sealed class MenuItem
             Name = name
         };
     }
-
-    public string Name { get; private init; }
-    public KeyGesture Gesture { get; private set; }
-    public ICommand Command { get; private set; }
-    public object Parameter { get; private set; }
 
     public MenuItem AddCommand(Action command)
     {
