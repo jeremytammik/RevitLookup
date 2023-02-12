@@ -24,6 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
@@ -32,6 +33,7 @@ using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
 using static System.Windows.Controls.Primitives.GeneratorStatus;
+using MenuItem = RevitLookup.Core.Objects.MenuItem;
 using TreeViewItem = System.Windows.Controls.TreeViewItem;
 
 namespace RevitLookup.Views.Pages;
@@ -240,7 +242,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
             .AddShortcut(row, ModifierKeys.Control, Key.C);
 
         row.ContextMenu = contextMenu;
-        if (descriptor is IDescriptorConnector connector) AttachMenu(row, connector, contextMenu);
+        if (descriptor is IDescriptorConnector connector) AttachMenu(row, connector);
     }
 
     private static void CreateGridContextMenu(Descriptor descriptor, FrameworkElement row)
@@ -251,15 +253,24 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
             .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
 
         row.ContextMenu = contextMenu;
-        if (descriptor.Value.Descriptor is IDescriptorConnector connector) AttachMenu(row, connector, contextMenu);
+        if (descriptor.Value.Descriptor is IDescriptorConnector connector) AttachMenu(row, connector);
     }
 
-    private static void AttachMenu(UIElement row, IDescriptorConnector connector, ContextMenu contextMenu)
+    private static void AttachMenu(FrameworkElement row, IDescriptorConnector connector)
     {
-        var menuItems = connector.RegisterMenu();
+        MenuItem[] menuItems;
+        try
+        {
+            menuItems = connector.RegisterMenu();
+        }
+        catch
+        {
+            return;
+        }
+
         foreach (var menuItem in menuItems)
         {
-            var item = contextMenu.AddMenuItem(menuItem.Name, menuItem.Command);
+            var item = row.ContextMenu.AddMenuItem(menuItem.Name, menuItem.Command);
             if (menuItem.Parameter is not null) item.CommandParameter = menuItem.Parameter;
             if (menuItem.Gesture is not null) item.AddShortcut(row, menuItem.Gesture);
         }

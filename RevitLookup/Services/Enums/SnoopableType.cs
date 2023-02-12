@@ -22,15 +22,20 @@ namespace RevitLookup.Services.Enums;
 
 public enum SnoopableType
 {
-    Application,
-    Document,
     View,
-    Selection,
+    Document,
+    Application,
+    UiApplication,
     Database,
+    DependentElements,
+    Selection,
     Face,
     Edge,
+    Point,
+    SubElement,
     LinkedElement,
-    DependentElements,
     ComponentManager,
-    PerformanceAdviser
+    PerformanceAdviser,
+    UpdaterRegistry,
+    Schemas
 }

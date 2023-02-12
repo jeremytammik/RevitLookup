@@ -43,11 +43,11 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
     private readonly IWindowController _windowController;
-    [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
     [ObservableProperty] private string _searchText;
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
 
     public SnoopViewModel(IWindowController windowController, INavigationService navigationService, ISnackbarService snackbarService)
     {
@@ -87,10 +87,15 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
                     case SnoopableType.DependentElements:
                     case SnoopableType.ComponentManager:
                     case SnoopableType.PerformanceAdviser:
+                    case SnoopableType.UpdaterRegistry:
+                    case SnoopableType.Schemas:
+                    case SnoopableType.UiApplication:
                         return Selector.Snoop(snoopableType);
                     case SnoopableType.Face:
                     case SnoopableType.Edge:
                     case SnoopableType.LinkedElement:
+                    case SnoopableType.Point:
+                    case SnoopableType.SubElement:
                         _windowController.Hide();
                         try
                         {

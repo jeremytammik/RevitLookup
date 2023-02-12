@@ -9,10 +9,11 @@
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="500"
+    d:DesignWidth="200"
     MinWidth="630"
     MinHeight="380"
-    Height="610"
+    Height="557"
+    Width="1017"
     ExtendsContentIntoTitleBar="True"
     Icon="../Resources/Images/ShellIcon.ico"
     WindowStartupLocation="CenterScreen">

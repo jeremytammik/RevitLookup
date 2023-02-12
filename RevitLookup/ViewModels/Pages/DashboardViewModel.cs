@@ -39,20 +39,26 @@ public sealed partial class DashboardViewModel : ObservableObject
     {
         switch (parameter)
         {
-            case "selection":
-                await _snoopService.Snoop(SnoopableType.Selection);
+            case "view":
+                await _snoopService.Snoop(SnoopableType.View);
                 break;
             case "document":
                 await _snoopService.Snoop(SnoopableType.Document);
                 break;
+            case "application":
+                await _snoopService.Snoop(SnoopableType.Application);
+                break;
+            case "uiApplication":
+                await _snoopService.Snoop(SnoopableType.UiApplication);
+                break;
             case "database":
                 await _snoopService.Snoop(SnoopableType.Database);
                 break;
-            case "view":
-                await _snoopService.Snoop(SnoopableType.View);
+            case "dependents":
+                await _snoopService.Snoop(SnoopableType.DependentElements);
                 break;
-            case "application":
-                await _snoopService.Snoop(SnoopableType.Application);
+            case "selection":
+                await _snoopService.Snoop(SnoopableType.Selection);
                 break;
             case "linked":
                 await _snoopService.Snoop(SnoopableType.LinkedElement);
@@ -63,14 +69,23 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "edge":
                 await _snoopService.Snoop(SnoopableType.Edge);
                 break;
-            case "dependents":
-                await _snoopService.Snoop(SnoopableType.DependentElements);
+            case "point":
+                await _snoopService.Snoop(SnoopableType.Point);
+                break;
+            case "subElement":
+                await _snoopService.Snoop(SnoopableType.SubElement);
                 break;
             case "components":
                 await _snoopService.Snoop(SnoopableType.ComponentManager);
                 break;
             case "performance":
                 await _snoopService.Snoop(SnoopableType.PerformanceAdviser);
+                break;
+            case "updaters":
+                await _snoopService.Snoop(SnoopableType.UpdaterRegistry);
+                break;
+            case "schemas":
+                await _snoopService.Snoop(SnoopableType.Schemas);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);
