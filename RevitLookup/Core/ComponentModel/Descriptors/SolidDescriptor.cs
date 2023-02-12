@@ -19,16 +19,44 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
+using System.Windows.Input;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class SolidDescriptor : Descriptor, IDescriptorCollector
+public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
+    private readonly Solid _solid;
+
     public SolidDescriptor(Solid solid)
     {
+        _solid = solid;
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
+    }
+
+    public MenuItem[] RegisterMenu()
+    {
+        return new[]
+        {
+            MenuItem.Create("Show solid")
+                .AddCommand((_solid), solid =>
+                {
+                    if (RevitApi.UiDocument is null) return;
+                    var references = solid.Faces
+                        .Cast<Face>()
+                        .Select(face => face.Reference)
+                        .Where(reference => reference is not null)
+                        .ToList();
+
+                    if (references.Count == 0) return;
+
+                    var element = references[0].ElementId.ToElement(RevitApi.Document);
+                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetReferences(references);
+                })
+                .AddGesture(ModifierKeys.Alt, Key.F7)
+        };
     }
 }

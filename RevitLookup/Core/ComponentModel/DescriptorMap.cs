@@ -24,7 +24,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
-using Autodesk.Windows;
+using Autodesk.Revit.UI;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
@@ -77,6 +77,7 @@ public static class DescriptorMap
             Field value when type is null || type == typeof(Field) => new FieldDescriptor(value),
             Schema value when type is null || type == typeof(Schema) => new SchemaDescriptor(value),
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
+            UpdaterInfo value when type is null || type == typeof(UpdaterInfo) => new UpdaterInfoDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
@@ -87,8 +88,11 @@ public static class DescriptorMap
             //ComponentManager
             UIElement value => new UiElementDescriptor(value),
             DispatcherObject => new ApiObjectDescriptor(),
-            RibbonTab value => new RibbonTabDescriptor(value),
+            RibbonItem value => new RibbonItemDescriptor(value),
             RibbonPanel value => new RibbonPanelDescriptor(value),
+            Autodesk.Windows.RibbonItem value => new RibbonItemDescriptor(value),
+            Autodesk.Windows.RibbonPanel value => new RibbonPanelDescriptor(value),
+            Autodesk.Windows.RibbonTab value => new RibbonTabDescriptor(value),
             INotifyPropertyChanged => new ApiObjectDescriptor(),
 
             //Unknown

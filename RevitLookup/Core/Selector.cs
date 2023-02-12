@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Windows;
 using RevitLookup.Core.Objects;
@@ -32,17 +33,22 @@ public static class Selector
     {
         return type switch
         {
-            SnoopableType.Selection => SnoopSelection(),
-            SnoopableType.Application => SnoopApplication(),
-            SnoopableType.Document => SnoopDocument(),
             SnoopableType.View => SnoopView(),
+            SnoopableType.Document => SnoopDocument(),
+            SnoopableType.Application => SnoopApplication(),
+            SnoopableType.UiApplication => SnoopUiApplication(),
             SnoopableType.Database => SnoopDatabase(),
+            SnoopableType.DependentElements => SnoopDependentElements(),
+            SnoopableType.Selection => SnoopSelection(),
             SnoopableType.Face => SnoopFace(),
             SnoopableType.Edge => SnoopEdge(),
+            SnoopableType.SubElement => SnoopSubElement(),
+            SnoopableType.Point => SnoopPoint(),
             SnoopableType.LinkedElement => SnoopLinkedElement(),
-            SnoopableType.DependentElements => SnoopDependentElements(),
             SnoopableType.ComponentManager => SnoopComponentManager(),
             SnoopableType.PerformanceAdviser => SnoopPerformanceAdviser(),
+            SnoopableType.UpdaterRegistry => SnoopUpdaterRegistry(),
+            SnoopableType.Schemas => SnoopSchemas(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
@@ -62,6 +68,11 @@ public static class Selector
         return new SnoopableObject[] {new(RevitApi.Document, RevitApi.Application)};
     }
 
+    private static IReadOnlyList<SnoopableObject> SnoopUiApplication()
+    {
+        return new SnoopableObject[] {new(RevitApi.Document, RevitApi.UiApplication)};
+    }
+
     private static IReadOnlyList<SnoopableObject> SnoopEdge()
     {
         return new[] {SelectObject(ObjectType.Edge)};
@@ -70,6 +81,16 @@ public static class Selector
     private static IReadOnlyList<SnoopableObject> SnoopFace()
     {
         return new[] {SelectObject(ObjectType.Face)};
+    }
+
+    private static IReadOnlyList<SnoopableObject> SnoopSubElement()
+    {
+        return new[] {SelectObject(ObjectType.Subelement)};
+    }
+
+    private static IReadOnlyList<SnoopableObject> SnoopPoint()
+    {
+        return new[] {SelectObject(ObjectType.PointOnElement)};
     }
 
     private static IReadOnlyList<SnoopableObject> SnoopLinkedElement()
@@ -125,12 +146,22 @@ public static class Selector
 
     private static IReadOnlyList<SnoopableObject> SnoopComponentManager()
     {
-        return new []{new SnoopableObject(typeof(ComponentManager))};
+        return new[] {new SnoopableObject(typeof(ComponentManager))};
     }
-    
+
     private static IReadOnlyList<SnoopableObject> SnoopPerformanceAdviser()
     {
-        return new []{new SnoopableObject(RevitApi.Document, PerformanceAdviser.GetPerformanceAdviser())};
+        return new[] {new SnoopableObject(RevitApi.Document, PerformanceAdviser.GetPerformanceAdviser())};
+    }
+
+    private static IReadOnlyList<SnoopableObject> SnoopUpdaterRegistry()
+    {
+        return UpdaterRegistry.GetRegisteredUpdaterInfos().Select(schema => new SnoopableObject(RevitApi.Document, schema)).ToArray();
+    }
+
+    private static IReadOnlyList<SnoopableObject> SnoopSchemas()
+    {
+        return Schema.ListSchemas().Select(schema => new SnoopableObject(RevitApi.Document, schema)).ToArray();
     }
 
     private static SnoopableObject SelectObject(ObjectType objectType)
@@ -146,15 +177,21 @@ public static class Selector
                 document = RevitApi.Document;
                 element = document.GetElement(reference).GetGeometryObjectFromReference(reference);
                 break;
+            case ObjectType.Element:
+            case ObjectType.Subelement:
+                document = RevitApi.Document;
+                element = document.GetElement(reference);
+                break;
+            case ObjectType.PointOnElement:
+                document = RevitApi.Document;
+                element = reference.GlobalPoint;
+                break;
             case ObjectType.LinkedElement:
                 var revitLinkInstance = reference.ElementId.ToElement<RevitLinkInstance>(RevitApi.Document);
                 document = revitLinkInstance.GetLinkDocument();
                 element = document.GetElement(reference.LinkedElementId);
                 break;
             case ObjectType.Nothing:
-            case ObjectType.Element:
-            case ObjectType.PointOnElement:
-            case ObjectType.Subelement:
             default:
                 throw new NotSupportedException();
         }

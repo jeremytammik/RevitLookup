@@ -18,7 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Windows;
+using Autodesk.Revit.UI;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -27,6 +27,11 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public class RibbonPanelDescriptor : Descriptor, IDescriptorCollector
 {
     public RibbonPanelDescriptor(RibbonPanel panel)
+    {
+        Name = panel.Name;
+    }
+
+    public RibbonPanelDescriptor(Autodesk.Windows.RibbonPanel panel)
     {
         if (panel.Source is not null) Name = panel.Source.AutomationName;
     }

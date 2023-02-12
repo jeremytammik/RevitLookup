@@ -18,30 +18,16 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB.ExtensibleStorage;
+using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class SchemaDescriptor : Descriptor, IDescriptorExtension
+public class UpdaterInfoDescriptor : Descriptor, IDescriptorCollector
 {
-    private readonly Schema _schema;
-
-    public SchemaDescriptor(Schema schema)
+    public UpdaterInfoDescriptor(UpdaterInfo info)
     {
-        _schema = schema;
-        Name = schema.SchemaName;
-    }
-
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        manager.Register("GetElements", _schema, extension =>
-        {
-            extension.Result = extension.Context
-                .GetElements()
-                .WherePasses(new ExtensibleStorageFilter(extension.Value.GUID))
-                .ToElements();
-        });
+        Name = info.UpdaterName;
     }
 }
