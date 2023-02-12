@@ -42,11 +42,11 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 {
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
-    [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
     [ObservableProperty] private string _searchText;
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
 
     public MoqSnoopViewModel(ISnackbarService snackbarService, INavigationService navigationService)
     {
@@ -73,37 +73,46 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         int generationCount;
         switch (snoopableType)
         {
-            case SnoopableType.Selection:
-                generationCount = 10_000;
-                break;
             case SnoopableType.View:
-                generationCount = 1_000;
+                generationCount = 50_000;
                 break;
             case SnoopableType.Document:
-                generationCount = 100;
+                generationCount = 10_000;
                 break;
             case SnoopableType.Application:
-                generationCount = 50;
+                generationCount = 5_000;
+                break;
+            case SnoopableType.UiApplication:
+                generationCount = 1_000;
                 break;
             case SnoopableType.Database:
-                generationCount = 10;
-                break;
-            case SnoopableType.LinkedElement:
-                generationCount = 5;
-                break;
-            case SnoopableType.Face:
-                generationCount = 2;
-                break;
-            case SnoopableType.Edge:
-                generationCount = 1;
+                generationCount = 500;
                 break;
             case SnoopableType.DependentElements:
+                generationCount = 100;
+                break;
+            case SnoopableType.Selection:
+                generationCount = 50;
+                break;
+            case SnoopableType.LinkedElement:
+                generationCount = 10;
+                break;
+            case SnoopableType.Face:
+                generationCount = 5;
+                break;
+            case SnoopableType.Edge:
+                generationCount = 3;
+                break;
+            case SnoopableType.Point:
+                generationCount = 2;
+                break;
+            case SnoopableType.SubElement:
                 generationCount = 1;
                 break;
             case SnoopableType.ComponentManager:
-                generationCount = 1;
-                break;
             case SnoopableType.PerformanceAdviser:
+            case SnoopableType.UpdaterRegistry:
+            case SnoopableType.Schemas:
                 generationCount = 0;
                 break;
             default:
