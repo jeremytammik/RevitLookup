@@ -38,6 +38,7 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
     
     public MenuItem[] RegisterMenu()
     {
+#if R23_OR_GREATER
         return new[]
         {
             MenuItem.Create("Show face")
@@ -51,5 +52,8 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
                 })
                 .AddGesture(ModifierKeys.Alt, Key.F7)
         };
+#else
+        return Array.Empty<MenuItem>();
+#endif
     }
 }

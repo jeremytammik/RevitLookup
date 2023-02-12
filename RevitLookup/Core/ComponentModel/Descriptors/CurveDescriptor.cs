@@ -56,6 +56,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
 
     public MenuItem[] RegisterMenu()
     {
+#if R23_OR_GREATER
         return new[]
         {
             MenuItem.Create("Show curve")
@@ -69,5 +70,8 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                 })
                 .AddGesture(ModifierKeys.Alt, Key.F7)
         };
+#else
+        return Array.Empty<MenuItem>();
+#endif
     }
 }

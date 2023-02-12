@@ -38,6 +38,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
 
     public MenuItem[] RegisterMenu()
     {
+#if R23_OR_GREATER
         return new[]
         {
             MenuItem.Create("Show solid")
@@ -58,5 +59,8 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
                 })
                 .AddGesture(ModifierKeys.Alt, Key.F7)
         };
+#else
+        return Array.Empty<MenuItem>();
+#endif
     }
 }
