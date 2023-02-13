@@ -18,16 +18,37 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB.ExternalService;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ExternalServiceDescriptor : Descriptor, IDescriptorCollector
+public class ExternalServiceDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly ExternalService _service;
+
     public ExternalServiceDescriptor(ExternalService service)
     {
+        _service = service;
         Name = service.Name;
+    }
+
+    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    {
+        return target switch
+        {
+            nameof(ExternalService.GetServer) => ResolveGetServer(),
+            _ => null
+        };
+
+        ResolveSet ResolveGetServer()
+        {
+            var serverIds = _service.GetRegisteredServerIds();
+            var resolveSet = new ResolveSet(_service.NumberOfServers);
+            foreach (var serverId in serverIds) resolveSet.AppendVariant(_service.GetServer(serverId));
+            return resolveSet;
+        }
     }
 }
