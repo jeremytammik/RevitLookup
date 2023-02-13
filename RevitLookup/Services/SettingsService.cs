@@ -122,6 +122,6 @@ internal sealed class Settings
     public ThemeType Theme { get; set; } = ThemeType.Light;
     public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
     public int TransitionDuration { get; set; } = SettingsService.DefaultTransitionDuration;
-    public bool IsExtensionsAllowed { get; set; }
+    public bool IsExtensionsAllowed { get; set; } = true;
     public bool IsUnsupportedAllowed { get; set; }
 }
