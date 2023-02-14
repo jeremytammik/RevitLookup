@@ -25,4 +25,5 @@ Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=DFAR/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=hwnd/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=prerelease/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=Schedulable/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Snoopable/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

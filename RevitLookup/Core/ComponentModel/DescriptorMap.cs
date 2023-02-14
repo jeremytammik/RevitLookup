@@ -84,6 +84,7 @@ public static class DescriptorMap
             ExternalService value when type is null || type == typeof(ExternalService) => new ExternalServiceDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
+            SchedulableField value when type is null || type == typeof(SchedulableField) => new SchedulableFieldDescriptor(value),
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
 
             //Internal
