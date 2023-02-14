@@ -18,16 +18,27 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class SchedulableFieldDescriptor : Descriptor, IDescriptorCollector
+public class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
 {
+
     public SchedulableFieldDescriptor(SchedulableField field)
     {
         Name = field.GetName(RevitApi.Document);
+    }
+
+    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    {
+        return target switch
+        {
+            nameof(SchedulableField.GetName) => ResolveSet.Append(Name),
+            _ => null
+        };
     }
 }
