@@ -36,7 +36,7 @@
                             x:Name="DialogBorder"
                             MaxWidth="{TemplateBinding DialogWidth}"
                             MaxHeight="{TemplateBinding DialogHeight}"
-                            Margin="12"
+                            Margin="48"
                             Padding="0"
                             CornerRadius="{TemplateBinding Border.CornerRadius}"
                             Opacity="0">
@@ -52,57 +52,19 @@
                                     Color="#202020" />
                             </Border.Effect>
 
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="0" Margin="24">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        x:Name="Title"
-                                        Grid.Row="0"
-                                        FontWeight="Medium"
-                                        Text="{TemplateBinding Title}" />
-                                    <ScrollViewer
-                                        Grid.Row="1"
-                                        Margin="0,0,-12,0"
-                                        Padding="0,0,12,0"
-                                        CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
-                                        HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                        IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                        VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
-                                            <TextBlock
-                                                x:Name="Message"
-                                                Grid.Row="0"
-                                                Text="{TemplateBinding Message}"
-                                                TextAlignment="Justify"
-                                                TextWrapping="Wrap">
-                                                <TextBlock.Foreground>
-                                                    <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
-                                                </TextBlock.Foreground>
-                                            </TextBlock>
-                                            <ContentPresenter
-                                                Grid.Row="1"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Content="{TemplateBinding ContentControl.Content}" />
-                                        </Grid>
-                                    </ScrollViewer>
-                                </Grid>
-
-                                <Border Grid.Row="1" CornerRadius="{StaticResource DialogFooterCornerRadius}">
+                            <DockPanel>
+                                <TextBlock
+                                    x:Name="Title"
+                                    DockPanel.Dock="Top"
+                                    Margin="24 24 24 0"
+                                    FontWeight="Medium"
+                                    Text="{TemplateBinding Title}"/>
+                                <Border
+                                    DockPanel.Dock="Bottom"
+                                    CornerRadius="{StaticResource DialogFooterCornerRadius}">
                                     <Border.Background>
-                                        <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                                        <SolidColorBrush
+                                            Color="{DynamicResource ControlFillColorDefault}" />
                                     </Border.Background>
                                     <Grid>
                                         <Grid
@@ -110,8 +72,10 @@
                                             Margin="24"
                                             Visibility="Collapsed">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition
+                                                    Width="*" />
+                                                <ColumnDefinition
+                                                    Width="*" />
                                             </Grid.ColumnDefinitions>
 
                                             <controls:Button
@@ -136,10 +100,37 @@
                                                 Content="{TemplateBinding ButtonRightName}"
                                                 Visibility="{TemplateBinding ButtonRightVisibility}" />
                                         </Grid>
-                                        <ContentPresenter x:Name="FooterContentPresenter" Content="{TemplateBinding Footer}" />
+                                        <ContentPresenter
+                                            x:Name="FooterContentPresenter"
+                                            Content="{TemplateBinding Footer}" />
                                     </Grid>
                                 </Border>
-                            </Grid>
+                                <ScrollViewer
+                                    Margin="24,0,12,24"
+                                    Padding="0,0,12,0"
+                                    CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
+                                    HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                    IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                    VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                    <DockPanel>
+                                        <TextBlock
+                                            x:Name="Message"
+                                            DockPanel.Dock="Top"
+                                            Text="{TemplateBinding Message}"
+                                            TextAlignment="Justify"
+                                            TextWrapping="Wrap">
+                                            <TextBlock.Foreground>
+                                                <SolidColorBrush
+                                                    Color="{DynamicResource TextFillColorSecondary}" />
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
+                                        <ContentPresenter
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Content="{TemplateBinding ContentControl.Content}" />
+                                    </DockPanel>
+                                </ScrollViewer>
+                            </DockPanel>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>

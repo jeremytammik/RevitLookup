@@ -73,14 +73,14 @@ public class Dialog : System.Windows.Controls.ContentControl, IDialogControl
     /// </summary>
     public static readonly DependencyProperty DialogWidthProperty =
         DependencyProperty.Register(nameof(DialogWidth),
-            typeof(double), typeof(Dialog), new PropertyMetadata(420.0));
+            typeof(double), typeof(Dialog), new PropertyMetadata(double.PositiveInfinity));
 
     /// <summary>
     /// Property for <see cref="DialogHeight"/>.
     /// </summary>
     public static readonly DependencyProperty DialogHeightProperty =
         DependencyProperty.Register(nameof(DialogHeight),
-            typeof(double), typeof(Dialog), new PropertyMetadata(200.0));
+            typeof(double), typeof(Dialog), new PropertyMetadata(double.PositiveInfinity));
 
     /// <summary>
     /// Property for <see cref="ButtonLeftName"/>.
