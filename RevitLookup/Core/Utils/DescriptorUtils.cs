@@ -66,6 +66,7 @@ public static class DescriptorUtils
     {
         descriptor.Type = MakeGenericTypeName(type);
         descriptor.Name ??= descriptor.Type;
+        descriptor.TypeFullName = type.FullName;
     }
 
     public static string MakeGenericTypeName(Type type)

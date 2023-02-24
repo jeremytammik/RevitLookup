@@ -22,6 +22,7 @@ namespace RevitLookup.Core.Objects;
 
 public abstract class Descriptor : IComparable<Descriptor>, IComparable
 {
+    public string TypeFullName { get; set; }
     public string Type { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }

@@ -235,6 +235,8 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         var contextMenu = new ContextMenu();
         contextMenu.AddMenuItem("Copy", descriptor, parameter => Clipboard.SetText(parameter.Name))
             .AddShortcut(row, ModifierKeys.Control, Key.C);
+        contextMenu.AddMenuItem("Help", descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
+            .AddShortcut(row, new KeyGesture(Key.F1));
 
         row.ContextMenu = contextMenu;
         if (descriptor is IDescriptorConnector connector) AttachMenu(row, connector);
@@ -246,6 +248,8 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         contextMenu.AddMenuItem("Copy", ApplicationCommands.Copy);
         contextMenu.AddMenuItem("Copy value", descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
             .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
+        contextMenu.AddMenuItem("Help", descriptor, parameter => HelpUtils.ShowHelp(parameter.Value.Descriptor.TypeFullName))
+            .AddShortcut(row, new KeyGesture(Key.F1));
 
         row.ContextMenu = contextMenu;
         if (descriptor.Value.Descriptor is IDescriptorConnector connector) AttachMenu(row, connector);
