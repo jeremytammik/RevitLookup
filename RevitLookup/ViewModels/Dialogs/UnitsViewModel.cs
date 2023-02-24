@@ -44,7 +44,6 @@ public partial class UnitsViewModel : ObservableObject
             var parameters = Enum.GetValues(unitType).Cast<BuiltInParameter>();
             var list = new List<UnitInfo>();
             foreach (var builtInParameter in parameters)
-            {
                 try
                 {
                     list.Add(new UnitInfo(builtInParameter.ToString(), builtInParameter.ToLabel()));
@@ -54,7 +53,6 @@ public partial class UnitsViewModel : ObservableObject
                     // ignored
                     // Some parameters don't have a label
                 }
-            }
 
             return list;
         }
@@ -64,7 +62,6 @@ public partial class UnitsViewModel : ObservableObject
             var categories = Enum.GetValues(unitType).Cast<BuiltInCategory>();
             var list = new List<UnitInfo>();
             foreach (var category in categories)
-            {
                 try
                 {
                     list.Add(new UnitInfo(category.ToString(), category.ToLabel()));
@@ -74,13 +71,11 @@ public partial class UnitsViewModel : ObservableObject
                     // ignored
                     // Some categories don't have a label
                 }
-            }
 
             return list;
         }
 
         if (unitType == typeof(ForgeTypeId))
-        {
             return UnitUtils.GetAllUnits()
                 .Concat(UnitUtils.GetAllDisciplines())
                 .Concat(UnitUtils.GetAllMeasurableSpecs())
@@ -89,7 +84,6 @@ public partial class UnitsViewModel : ObservableObject
                 .Concat(ParameterUtils.GetAllBuiltInParameters())
                 .Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToLabel()))
                 .ToList();
-        }
 
         throw new NotSupportedException();
     }

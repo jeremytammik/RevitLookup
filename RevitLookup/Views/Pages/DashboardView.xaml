@@ -326,7 +326,7 @@
                     </StackPanel>
                 </rl:CardAction>
             </Grid>
-            
+
             <TextBlock
                 Margin="0,8,0,0"
                 FontSize="16"

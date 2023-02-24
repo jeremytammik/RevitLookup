@@ -60,7 +60,7 @@
                 BasedOn="{StaticResource DefaultDataGridCellStyle}">
                 <Setter
                     Property="Margin"
-                    Value="0 10" />
+                    Value="0 9" />
             </Style>
         </DataGrid.CellStyle>
     </DataGrid>

@@ -27,7 +27,6 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
 {
-
     public SchedulableFieldDescriptor(SchedulableField field)
     {
         Name = field.GetName(RevitApi.Document);

@@ -53,7 +53,7 @@ public sealed partial class DashboardView : INavigableView<DashboardViewModel>
     {
         _dialogControl.ButtonRightClick -= DialogControlOnButtonRightClick;
     }
-    
+
     private void DialogControlOnButtonRightClick(object sender, RoutedEventArgs e)
     {
         _dialogControl.Hide();
@@ -68,7 +68,7 @@ public sealed partial class DashboardView : INavigableView<DashboardViewModel>
     {
         OpenUnitDialog(typeof(BuiltInCategory));
     }
-    
+
     private void OnClickForgeSchemaDialog(object sender, RoutedEventArgs e)
     {
         OpenUnitDialog(typeof(ForgeTypeId));
@@ -76,19 +76,10 @@ public sealed partial class DashboardView : INavigableView<DashboardViewModel>
 
     private void OpenUnitDialog(Type unitType)
     {
-        if (unitType == typeof(BuiltInParameter))
-        {
-            _dialogControl.Title = "BuiltIn Parameters";
-        }
-        else if(unitType == typeof(BuiltInCategory))
-        {
-            _dialogControl.Title = "BuiltIn Categories";
-        }
-        else if(unitType == typeof(ForgeTypeId))
-        {
-            _dialogControl.Title = "Forge Schema";
-        }
-        
+        if (unitType == typeof(BuiltInParameter)) _dialogControl.Title = "BuiltIn Parameters";
+        else if (unitType == typeof(BuiltInCategory)) _dialogControl.Title = "BuiltIn Categories";
+        else if (unitType == typeof(ForgeTypeId)) _dialogControl.Title = "Forge Schema";
+
         _dialogControl.DialogWidth = 800;
         _dialogControl.DialogHeight = 600;
         _dialogControl.Content = new UnitsDialog(unitType);

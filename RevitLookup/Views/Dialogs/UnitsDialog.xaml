@@ -35,13 +35,11 @@
             <DataGridTextColumn
                 Width="2*"
                 Binding="{Binding Unit}"
-                Header="Unit">
-            </DataGridTextColumn>
+                Header="Unit" />
             <DataGridTextColumn
                 Width="*"
                 Binding="{Binding Label}"
-                Header="Label">
-            </DataGridTextColumn>
+                Header="Label" />
         </DataGrid.Columns>
         <DataGrid.CellStyle>
             <Style

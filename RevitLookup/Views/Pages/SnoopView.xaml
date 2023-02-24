@@ -117,8 +117,7 @@
                     <DataGridTextColumn
                         Width="*"
                         Binding="{Binding Name}"
-                        Header="Member">
-                    </DataGridTextColumn>
+                        Header="Member" />
                     <DataGridTextColumn
                         Width="2*"
                         Binding="{Binding Value.Descriptor, Converter={converters:CombinedDescriptorConverter}}"

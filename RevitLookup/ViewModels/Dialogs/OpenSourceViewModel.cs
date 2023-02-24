@@ -28,6 +28,9 @@ public sealed class OpenSourceViewModel : ObservableObject
     public OpenSourceViewModel()
     {
         Software.Add(new OpenSourceSoftware()
+            .AddSoftware("CommunityToolkit", "https://github.com/CommunityToolkit/dotnet")
+            .AddLicense("MIT License", "https://github.com/CommunityToolkit/dotnet/blob/main/License.md"));
+        Software.Add(new OpenSourceSoftware()
             .AddSoftware("Nice3point.Revit.Extensions", "https://github.com/Nice3point/RevitExtensions")
             .AddLicense("MIT License", "https://github.com/Nice3point/RevitExtensions/blob/main/License.md"));
         Software.Add(new OpenSourceSoftware()
@@ -37,8 +40,11 @@ public sealed class OpenSourceViewModel : ObservableObject
             .AddSoftware("Nice3point.Revit.Templates", "https://github.com/Nice3point/RevitTemplates")
             .AddLicense("MIT License", "https://github.com/Nice3point/RevitTemplates/blob/main/License.md"));
         Software.Add(new OpenSourceSoftware()
-            .AddSoftware("CommunityToolkit", "https://github.com/CommunityToolkit/dotnet")
-            .AddLicense("MIT License", "https://github.com/CommunityToolkit/dotnet/blob/main/License.md"));
+            .AddSoftware("Nice3point.Revit.Api", "https://github.com/Nice3point/RevitApi")
+            .AddLicense("MIT License", "https://github.com/Nice3point/RevitApi/blob/main/License.md"));
+        Software.Add(new OpenSourceSoftware()
+            .AddSoftware("Microsoft.Extensions.Hosting", "https://github.com/dotnet/runtime")
+            .AddLicense("MIT License", "https://github.com/dotnet/runtime/blob/main/LICENSE.TXT"));
         Software.Add(new OpenSourceSoftware()
             .AddSoftware("WPF-UI", "https://github.com/lepoco/wpfui")
             .AddLicense("MIT License", "https://github.com/lepoco/wpfui/blob/main/LICENSE"));
