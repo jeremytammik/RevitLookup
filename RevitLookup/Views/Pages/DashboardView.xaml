@@ -326,6 +326,63 @@
                     </StackPanel>
                 </rl:CardAction>
             </Grid>
+            
+            <TextBlock
+                Margin="0,8,0,0"
+                FontSize="16"
+                Text="Units" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,8,4,0"
+                    Icon="LeafOne24"
+                    Click="OnClickParametersDialog">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="BuiltIn Parameters" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="4,8,0,0"
+                    Icon="LeafTwo24"
+                    Click="OnClickCategoriesDialog">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="BuiltIn Categories" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="4,8,0,0"
+                    Icon="LeafThree24"
+                    Click="OnClickForgeSchemaDialog">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Forge Schema" />
+                    </StackPanel>
+                </rl:CardAction>
+            </Grid>
 
             <!-- <TextBlock -->
             <!--     Margin="0,24,0,0" -->

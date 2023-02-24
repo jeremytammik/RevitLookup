@@ -95,13 +95,12 @@
         </Grid>
         <rl:Dialog
             x:Name="RootDialog"
-            Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
+            ScrollViewer.VerticalScrollBarVisibility="Disabled"
             ButtonLeftVisibility="Collapsed" />
         <rl:TitleBar
             Title="RevitLookup"
-            Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="42,0,0,0" />

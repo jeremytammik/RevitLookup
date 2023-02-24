@@ -499,14 +499,15 @@
                     <Grid>
                         <Border
                             x:Name="columnHeaderBorder"
-                            Padding="3,0,3,0"
+                            Padding="7,0,7,0"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="0,0,1,1">
                             <ContentPresenter
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                TextBlock.FontWeight="Medium"/>
                         </Border>
 
                         <Thumb

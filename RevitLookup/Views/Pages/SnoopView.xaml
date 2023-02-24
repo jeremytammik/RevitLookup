@@ -116,23 +116,13 @@
                 <rl:DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
-                        Binding="{Binding Name}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock
-                                Margin="4 0 4 0"
-                                FontWeight="Bold"
-                                Text="Member" />
-                        </DataGridTextColumn.Header>
+                        Binding="{Binding Name}"
+                        Header="Member">
                     </DataGridTextColumn>
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Value.Descriptor, Converter={converters:CombinedDescriptorConverter}}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock
-                                Margin="3 0 3 0"
-                                FontWeight="Bold"
-                                Text="Value" />
-                        </DataGridTextColumn.Header>
+                        Binding="{Binding Value.Descriptor, Converter={converters:CombinedDescriptorConverter}}"
+                        Header="Value">
                         <!-- <DataGridTextColumn.ElementStyle> -->
                         <!--     <Style -->
                         <!--         TargetType="{x:Type TextBlock}"> -->
