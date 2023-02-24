@@ -23,9 +23,9 @@ using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public sealed class OpenSourceDialogViewModel : ObservableObject
+public sealed class OpenSourceViewModel : ObservableObject
 {
-    public OpenSourceDialogViewModel()
+    public OpenSourceViewModel()
     {
         Software.Add(new OpenSourceSoftware()
             .AddSoftware("Nice3point.Revit.Extensions", "https://github.com/Nice3point/RevitExtensions")
