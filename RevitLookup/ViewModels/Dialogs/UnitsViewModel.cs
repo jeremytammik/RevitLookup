@@ -76,6 +76,7 @@ public partial class UnitsViewModel : ObservableObject
         }
 
         if (unitType == typeof(ForgeTypeId))
+#if R22_OR_GREATER
             return UnitUtils.GetAllUnits()
                 .Concat(UnitUtils.GetAllDisciplines())
                 .Concat(UnitUtils.GetAllMeasurableSpecs())
@@ -84,6 +85,11 @@ public partial class UnitsViewModel : ObservableObject
                 .Concat(ParameterUtils.GetAllBuiltInParameters())
                 .Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToLabel()))
                 .ToList();
+#else
+            return UnitUtils.GetAllUnits().Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToUnitLabel()))
+                .Concat(UnitUtils.GetAllSpecs().Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToSpecLabel())))
+                .ToList();
+#endif
 
         throw new NotSupportedException();
     }

@@ -42,6 +42,7 @@ public static class DescriptorUtils
         if (obj is null)
         {
             descriptor.Type = nameof(Object);
+            descriptor.TypeFullName = "System.Object";
         }
         else
         {
