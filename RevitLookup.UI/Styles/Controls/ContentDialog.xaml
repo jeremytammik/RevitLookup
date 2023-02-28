@@ -13,7 +13,7 @@
     <Style TargetType="{x:Type contentDialogControl:ContentDialog}">
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
         <Setter Property="Border.CornerRadius" Value="{DynamicResource PopupCornerRadius}" />
@@ -64,7 +64,7 @@
 
                                 <Grid
                                     Grid.Row="0"
-                                    Margin="24,10"
+                                    Margin="24"
                                     Focusable="False">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -73,7 +73,6 @@
 
                                     <ContentPresenter
                                         Grid.Row="0"
-                                        Margin="0,24,0,0"
                                         Content="{TemplateBinding Title}"
                                         ContentTemplate="{TemplateBinding TitleTemplate}"
                                         TextBlock.FontSize="20"
@@ -82,8 +81,8 @@
                                     <ScrollViewer
                                         x:Name="PART_ContentScroll"
                                         Grid.Row="1"
-                                        Margin="0,20"
-                                        Padding="0,0,12,0"
+                                        Margin="0,24"
+                                        Padding="0 -24"
                                         CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
                                         HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                         IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
@@ -110,6 +109,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Bottom"
                                     Focusable="False"
+                                    CornerRadius="{StaticResource DialogFooterCornerRadius}"
                                     Visibility="{TemplateBinding IsFooterVisible,
                                                                  Converter={StaticResource BoolToVisibilityConverter}}">
 

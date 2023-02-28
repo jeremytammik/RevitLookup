@@ -21,8 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid
-        Margin="4 0 4 8">
+    <Grid>
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:CollectionEmptyVisibilityConverter}}">
@@ -59,14 +58,12 @@
             Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
-                    Width="*" />
+                    Width="250" />
                 <ColumnDefinition
                     Width="9" />
-                <ColumnDefinition
-                    Width="2*" />
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <DockPanel
-                Margin="5 0 0 0"
                 Grid.Column="0">
                 <rl:AutoSuggestBox
                     DockPanel.Dock="Top"
@@ -102,7 +99,6 @@
             <rl:DataGrid
                 Grid.Column="2"
                 x:Name="DataGrid"
-                Margin="0 0 6 2"
                 IsReadOnly="True"
                 MinColumnWidth="100"
                 ColumnHeaderHeight="30"

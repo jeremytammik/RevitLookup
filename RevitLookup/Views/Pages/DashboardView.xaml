@@ -19,8 +19,7 @@
     </Page.Resources>
     <rl:DynamicScrollViewer>
         <StackPanel
-            TextBlock.FontWeight="Medium"
-            Margin="24 0 24 24">
+            TextBlock.FontWeight="Medium">
             <TextBlock
                 FontSize="16"
                 Text="Workspace" />

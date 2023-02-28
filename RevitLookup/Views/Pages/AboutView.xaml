@@ -19,8 +19,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <rl:DynamicScrollViewer>
-        <DockPanel
-            Margin="24, 0 24 24">
+        <DockPanel>
             <Image
                 DockPanel.Dock="Left"
                 Margin="0,16,0,0"

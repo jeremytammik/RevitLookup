@@ -22,9 +22,7 @@ using System.Windows;
 using System.Windows.Media.Animation;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services.Contracts;
-using RevitLookup.Views.Pages;
 using Wpf.Ui.Contracts;
-using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.Views;
 
@@ -70,32 +68,35 @@ public sealed partial class RevitLookupView : IWindow
     {
         _serviceScope.Dispose();
     }
-
-    private void RootNavigation_OnNavigating(NavigationView sender, NavigatingCancelEventArgs args)
+    
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        var startThickness = BreadcrumbBar.Margin;
-        var endThickness = new Thickness(24, 12, 24, 12);
-        var compactThickness = new Thickness(10, 12, 10, 12);
-
-        if (sender.SelectedItem?.TargetPageType == typeof(SnoopView))
+        switch (e.PreviousSize.Width)
         {
-            startThickness = compactThickness;
+            case 0:
+            case > 1017 when e.NewSize.Width > 1017:
+            case < 1017 when e.NewSize.Width < 1017:
+                return;
         }
 
-        if (args.SourcePageType is SnoopView)
-        {
-            endThickness = compactThickness;
-        }
-        
-        if(startThickness == endThickness) return;
+        var margin = e.NewSize.Width > 1017 ? new Thickness(24, 24, 24, 0) : new Thickness(12, 12, 12, 0);
+        var padding = e.NewSize.Width > 1017 ? new Thickness(24) : new Thickness(12);
 
-        var buttonAnimation = new ThicknessAnimation
+        var breadcrumbAnimation = new ThicknessAnimation
         {
-            From = startThickness,
-            To = endThickness,
+            From = BreadcrumbBar.Margin,
+            To = margin,
             Duration = TimeSpan.FromMilliseconds(_settingsService.TransitionDuration)
         };
-        
-        BreadcrumbBar.BeginAnimation(MarginProperty, buttonAnimation);
+
+        var navigationAnimation = new ThicknessAnimation
+        {
+            From = RootNavigation.Padding,
+            To = padding,
+            Duration = TimeSpan.FromMilliseconds(_settingsService.TransitionDuration)
+        };
+
+        BreadcrumbBar.BeginAnimation(MarginProperty, breadcrumbAnimation);
+        RootNavigation.BeginAnimation(PaddingProperty, navigationAnimation);
     }
 }

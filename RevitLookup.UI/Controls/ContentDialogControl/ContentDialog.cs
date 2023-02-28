@@ -412,7 +412,7 @@ public class ContentDialog : ContentControl
             if (self.VisualChildrenCount <= 0 || self.GetVisualChild(0) is not UIElement frameworkElement)
                 return;
 
-            self.ResizeToContentSize(frameworkElement);
+            // self.ResizeToContentSize(frameworkElement);
             self.Focus();
         };
     }

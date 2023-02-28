@@ -28,7 +28,7 @@ public partial class UnitsViewModel : ObservableObject
 {
     private readonly List<UnitInfo> _units;
     [ObservableProperty] private List<UnitInfo> _filteredUnits;
-    [ObservableProperty] private string _searchText;
+    [ObservableProperty] private string _searchText = string.Empty;
 
     public UnitsViewModel(Type unitType)
     {
@@ -38,7 +38,6 @@ public partial class UnitsViewModel : ObservableObject
 
     private List<UnitInfo> GetUnits(Type unitType)
     {
-        // return new List<UnitInfo>();
         if (unitType == typeof(BuiltInParameter))
         {
             var parameters = Enum.GetValues(unitType).Cast<BuiltInParameter>();

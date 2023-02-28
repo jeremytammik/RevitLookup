@@ -40,13 +40,13 @@ public sealed partial class AboutView : INavigableView<AboutViewModel>
 
     public AboutViewModel ViewModel { get; }
 
-    private void ShowSoftwareDialog(object sender, RoutedEventArgs e)
+    private async void ShowSoftwareDialog(object sender, RoutedEventArgs e)
     {
         var dialog = _dialogService.CreateDialog();
         dialog.Title = "Third-Party Software";
         dialog.DialogWidth = 500;
         dialog.DialogHeight = 465;
         dialog.Content = new OpenSourceDialog();
-        dialog.ShowAsync();
+        await dialog.ShowAsync();
     }
 }

@@ -56,7 +56,7 @@ public sealed partial class DashboardView : INavigableView<DashboardViewModel>
         OpenUnitDialog(typeof(ForgeTypeId));
     }
 
-    private void OpenUnitDialog(Type unitType)
+    private async void OpenUnitDialog(Type unitType)
     {
         var dialog = _dialogService.CreateDialog();
 
@@ -67,6 +67,6 @@ public sealed partial class DashboardView : INavigableView<DashboardViewModel>
         dialog.DialogWidth = 800;
         dialog.DialogHeight = 600;
         dialog.Content = new UnitsDialog(unitType);
-        dialog.ShowAsync();
+        await dialog.ShowAsync();
     }
 }

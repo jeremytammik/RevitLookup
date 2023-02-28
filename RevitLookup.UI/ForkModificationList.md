@@ -31,6 +31,10 @@ New control with ItemsSourceChanged event
 - ItemsSourceChanged event
 - Removed combobox events
 
+# Wpf.Ui.Controls.ContentDialog
+
+- Removed ResizeToContentSize
+
 # Wpf.Ui.Styles.Wpf.Ui
 
 - Update uris
@@ -77,3 +81,7 @@ New control with ItemsSourceChanged event
 - Changed TreeViewItemFontSize
 - Added RequestBringIntoView event
 - Added TreeViewItem.xaml.cs
+
+# Wpf.Ui.Styles.Controls.ContentDialog
+
+- Changed template
