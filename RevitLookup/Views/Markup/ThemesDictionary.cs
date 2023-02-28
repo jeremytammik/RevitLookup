@@ -6,7 +6,7 @@
 using System.Windows;
 using System.Windows.Markup;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Appearance;
+using Wpf.Ui.Appearance;
 
 namespace RevitLookup.Views.Markup;
 

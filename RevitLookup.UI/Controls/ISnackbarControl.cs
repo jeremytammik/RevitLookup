@@ -4,9 +4,9 @@
 // All Rights Reserved.
 
 using System.Threading.Tasks;
-using RevitLookup.UI.Common;
+using Wpf.Ui.Common;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Snackbar inform user of a process that an app has performed or will perform. It appears temporarily, towards the bottom of the window.

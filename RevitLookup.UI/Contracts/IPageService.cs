@@ -8,7 +8,7 @@
 using System;
 using System.Windows;
 
-namespace RevitLookup.UI.Contracts;
+namespace Wpf.Ui.Contracts;
 
 /// <summary>
 /// Represents a contract with the service that provides the pages for <see cref="INavigation"/>.

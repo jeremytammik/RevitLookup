@@ -4,9 +4,9 @@
 // All Rights Reserved.
 
 using System;
-using RevitLookup.UI.Common;
+using Wpf.Ui.Common;
 
-namespace RevitLookup.UI.Extensions;
+namespace Wpf.Ui.Extensions;
 
 /// <summary>
 /// Set of extensions for the enumeration of icons to facilitate their management and replacement.

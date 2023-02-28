@@ -4,7 +4,7 @@
 // Copyright (C) .NET Foundation Contributors, WPF UI Contributors, Leszek Pomianowski.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Win32;
+namespace Wpf.Ui.Win32;
 
 /// <summary>
 /// Common native constants.

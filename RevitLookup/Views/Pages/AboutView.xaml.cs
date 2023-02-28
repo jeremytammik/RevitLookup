@@ -19,51 +19,34 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls;
-using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views.Dialogs;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.Views.Pages;
 
 public sealed partial class AboutView : INavigableView<AboutViewModel>
 {
-    private readonly IDialogControl _dialogControl;
+    private readonly IContentDialogService _dialogService;
 
-    public AboutView(AboutViewModel viewModel, IDialogService dialogService)
+    public AboutView(AboutViewModel viewModel, IContentDialogService dialogService)
     {
         ViewModel = viewModel;
         InitializeComponent();
         DataContext = this;
-        _dialogControl = dialogService.GetDialogControl();
-        Loaded += OnLoaded;
-        Unloaded += OnUnloaded;
+        _dialogService = dialogService;
     }
 
     public AboutViewModel ViewModel { get; }
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        _dialogControl.ButtonRightClick += DialogControlOnButtonRightClick;
-    }
-
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-        _dialogControl.ButtonRightClick -= DialogControlOnButtonRightClick;
-    }
-
     private void ShowSoftwareDialog(object sender, RoutedEventArgs e)
     {
-        _dialogControl.Title = "Third-Party Software";
-        _dialogControl.DialogWidth = 500;
-        _dialogControl.DialogHeight = 465;
-        _dialogControl.Content = new OpenSourceDialog();
-        _dialogControl.Show();
-    }
-
-    private void DialogControlOnButtonRightClick(object sender, RoutedEventArgs e)
-    {
-        _dialogControl.Hide();
+        var dialog = _dialogService.CreateDialog();
+        dialog.Title = "Third-Party Software";
+        dialog.DialogWidth = 500;
+        dialog.DialogHeight = 465;
+        dialog.Content = new OpenSourceDialog();
+        dialog.ShowAsync();
     }
 }

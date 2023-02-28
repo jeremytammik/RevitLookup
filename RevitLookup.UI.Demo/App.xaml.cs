@@ -7,20 +7,19 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Versioning;
-using System.Text.RegularExpressions;
 using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Demo.Moq;
-using RevitLookup.UI.Services;
 using RevitLookup.Utils;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Services;
 
 namespace RevitLookup.UI.Demo;
 
@@ -85,9 +84,8 @@ public sealed partial class App
 
                 services.AddScoped<IWindowController, WindowController>();
                 services.AddScoped<INavigationService, NavigationService>();
-                services.AddScoped<IPageService, PageService>();
                 services.AddScoped<ISnackbarService, SnackbarService>();
-                services.AddScoped<IDialogService, DialogService>();
+                services.AddScoped<IContentDialogService, ContentDialogService>();
 
                 services.AddScoped<AboutView>();
                 services.AddScoped<AboutViewModel>();

@@ -5,10 +5,10 @@
 
 using System;
 using System.Windows.Data;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Extensions;
+using Wpf.Ui.Common;
+using Wpf.Ui.Extensions;
 
-namespace RevitLookup.UI.Converters;
+namespace Wpf.Ui.Converters;
 
 /// <summary>
 /// Tries to convert <see langword="object"/>  to <see cref="SymbolRegular"/>.

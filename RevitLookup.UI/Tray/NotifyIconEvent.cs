@@ -3,6 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Tray;
+namespace Wpf.Ui.Tray;
 
 internal delegate void NotifyIconEventHandler();

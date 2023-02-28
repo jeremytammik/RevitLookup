@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Represents a text element containing an icon glyph with selectable font family.

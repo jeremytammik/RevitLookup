@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Notifications;
+namespace Wpf.Ui.Notifications;
 
 internal class Toast
 {

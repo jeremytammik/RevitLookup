@@ -8,9 +8,9 @@ using System;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using RevitLookup.UI.Interop;
+using Wpf.Ui.Interop;
 
-namespace RevitLookup.UI.Dpi;
+namespace Wpf.Ui.Dpi;
 
 /// <summary>
 /// Provides access to various DPI-related methods.

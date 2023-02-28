@@ -5,7 +5,7 @@
 
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Markup;
+namespace Wpf.Ui.Markup;
 
 /// <summary>
 /// Collection of theme resources.

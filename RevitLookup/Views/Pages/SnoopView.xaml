@@ -21,7 +21,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
+    <Grid
+        Margin="4 8">
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:CollectionEmptyVisibilityConverter}}">
@@ -71,6 +72,7 @@
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
                     Text="{Binding ViewModel.SearchText,
+                        Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" />
                 <rl:TreeView
                     x:Name="TreeView"

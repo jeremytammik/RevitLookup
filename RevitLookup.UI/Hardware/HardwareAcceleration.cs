@@ -5,7 +5,7 @@
 
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Hardware;
+namespace Wpf.Ui.Hardware;
 
 /// <summary>
 /// Set of tools for hardware acceleration.

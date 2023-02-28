@@ -4,10 +4,10 @@
 // All Rights Reserved.
 
 using System.Threading.Tasks;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Controls;
+using Wpf.Ui.Common;
+using Wpf.Ui.Controls;
 
-namespace RevitLookup.UI.Contracts;
+namespace Wpf.Ui.Contracts;
 
 /// <summary>
 /// Represents a contract with the service that provides global <see cref="ISnackbarControl"/>.

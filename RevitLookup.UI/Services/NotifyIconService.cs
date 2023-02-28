@@ -7,9 +7,9 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using RevitLookup.UI.Contracts;
+using Wpf.Ui.Contracts;
 
-namespace RevitLookup.UI.Services;
+namespace Wpf.Ui.Services;
 
 /// <summary>
 /// Base implementation of the notify icon service.

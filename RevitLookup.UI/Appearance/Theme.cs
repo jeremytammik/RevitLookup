@@ -5,10 +5,10 @@
 
 using System;
 using System.Windows;
-using RevitLookup.UI.Controls.Window;
-using RevitLookup.UI.Interop;
+using Wpf.Ui.Controls.Window;
+using Wpf.Ui.Interop;
 
-namespace RevitLookup.UI.Appearance;
+namespace Wpf.Ui.Appearance;
 
 /// <summary>
 /// Allows to manage available color themes from the library.

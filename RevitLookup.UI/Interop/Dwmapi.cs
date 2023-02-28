@@ -14,7 +14,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace RevitLookup.UI.Interop;
+namespace Wpf.Ui.Interop;
 
 // Windows Kits\10\Include\10.0.22000.0\um\dwmapi.h
 

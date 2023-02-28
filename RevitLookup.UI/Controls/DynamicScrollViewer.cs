@@ -8,9 +8,9 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using RevitLookup.UI.Common;
+using Wpf.Ui.Common;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Custom <see cref="System.Windows.Controls.ScrollViewer"/> with events depending on actions taken by the user.

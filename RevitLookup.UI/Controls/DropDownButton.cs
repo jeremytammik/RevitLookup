@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// A control that drop downs a flyout of choices from which one can be chosen.

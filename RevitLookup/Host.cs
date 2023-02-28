@@ -7,12 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Services;
 using RevitLookup.Utils;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Services;
 
 namespace RevitLookup;
 
@@ -59,9 +59,8 @@ public static class Host
 
                 services.AddScoped<IWindowController, WindowController>();
                 services.AddScoped<INavigationService, NavigationService>();
-                services.AddScoped<IPageService, PageService>();
                 services.AddScoped<ISnackbarService, SnackbarService>();
-                services.AddScoped<IDialogService, DialogService>();
+                services.AddScoped<IContentDialogService, ContentDialogService>();
 
                 services.AddScoped<AboutView>();
                 services.AddScoped<AboutViewModel>();

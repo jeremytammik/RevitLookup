@@ -9,11 +9,11 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using RevitLookup.UI.Common;
+using Wpf.Ui.Common;
 using Brush = System.Windows.Media.Brush;
 using SystemColors = System.Windows.SystemColors;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Snackbar inform user of a process that an app has performed or will perform. It appears temporarily, towards the bottom of the window.
@@ -136,7 +136,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
     }
 
     /// <summary>
-    /// Foreground of the <see cref="SymbolIcon"/>.
+    /// Foreground of the <see cref="Wpf.Ui.Controls.SymbolIcon"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public Brush IconForeground

@@ -7,7 +7,7 @@ using System;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace RevitLookup.UI.Tray;
+namespace Wpf.Ui.Tray;
 
 /*
  * TODO: Handle closing of the parent window.

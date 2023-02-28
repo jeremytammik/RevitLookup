@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 
-namespace RevitLookup.UI.Controls.Navigation;
+namespace Wpf.Ui.Controls.Navigation;
 
 // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.navigationviewitemseparator?view=winrt-22621
 

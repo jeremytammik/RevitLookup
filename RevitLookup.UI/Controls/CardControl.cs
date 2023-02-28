@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Inherited from the <see cref="System.Windows.Controls.Primitives.ButtonBase"/> control which displays an additional control on the right side of the card.
@@ -67,7 +67,7 @@ public class CardControl : System.Windows.Controls.Primitives.ButtonBase, IIconC
     }
 
     /// <summary>
-    /// Foreground of the <see cref="SymbolIcon"/>.
+    /// Foreground of the <see cref="Wpf.Ui.Controls.SymbolIcon"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public Brush IconForeground

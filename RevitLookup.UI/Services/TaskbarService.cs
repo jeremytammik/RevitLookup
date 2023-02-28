@@ -7,10 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Taskbar;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.TaskBar;
 
-namespace RevitLookup.UI.Services;
+namespace Wpf.Ui.Services;
 
 /// <summary>
 /// Allows you to manage the animations of the window icon in the taskbar.

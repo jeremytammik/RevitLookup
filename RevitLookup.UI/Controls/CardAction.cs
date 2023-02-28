@@ -9,7 +9,7 @@ using System.Windows;
 using Brush = System.Windows.Media.Brush;
 using SystemColors = System.Windows.SystemColors;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Inherited from the <see cref="System.Windows.Controls.Primitives.ButtonBase"/> interactive card styled according to Fluent Design.
@@ -74,7 +74,7 @@ public class CardAction : System.Windows.Controls.Primitives.ButtonBase, IIconCo
     }
 
     /// <summary>
-    /// Foreground of the <see cref="SymbolIcon"/>.
+    /// Foreground of the <see cref="Wpf.Ui.Controls.SymbolIcon"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public Brush IconForeground

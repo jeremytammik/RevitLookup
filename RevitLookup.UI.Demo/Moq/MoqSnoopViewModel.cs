@@ -28,13 +28,13 @@ using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Demo.Moq;
 
@@ -42,7 +42,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 {
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
-    [ObservableProperty] private string _searchText;
+    [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;

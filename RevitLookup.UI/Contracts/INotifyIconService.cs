@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Contracts;
+namespace Wpf.Ui.Contracts;
 
 /// <summary>
 /// Represents a contract with a service that provides methods for displaying the icon and menu in the tray area.

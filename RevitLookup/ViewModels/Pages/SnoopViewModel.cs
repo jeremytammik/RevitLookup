@@ -27,13 +27,13 @@ using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls;
 using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
 namespace RevitLookup.ViewModels.Pages;
@@ -45,7 +45,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     private readonly IWindowController _windowController;
     [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
-    [ObservableProperty] private string _searchText;
+    [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 

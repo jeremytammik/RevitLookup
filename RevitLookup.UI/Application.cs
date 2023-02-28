@@ -20,7 +20,7 @@
 
 using System.Windows;
 
-namespace RevitLookup.UI;
+namespace Wpf.Ui;
 
 public static class Application
 {

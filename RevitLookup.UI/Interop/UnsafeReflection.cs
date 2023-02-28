@@ -3,10 +3,10 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using RevitLookup.UI.Controls.Window;
-using RevitLookup.UI.Taskbar;
+using Wpf.Ui.Controls.Window;
+using Wpf.Ui.TaskBar;
 
-namespace RevitLookup.UI.Interop;
+namespace Wpf.Ui.Interop;
 
 /// <summary>
 /// A set of dangerous methods to modify the appearance.
@@ -54,7 +54,7 @@ internal static class UnsafeReflection
             TaskBarProgressState.Error => ShObjIdl.TBPFLAG.TBPF_ERROR,
             TaskBarProgressState.Paused => ShObjIdl.TBPFLAG.TBPF_PAUSED,
             TaskBarProgressState.Normal => ShObjIdl.TBPFLAG.TBPF_NORMAL,
-            _ => ShObjIdl.TBPFLAG.TBPF_NOPROGRESS
+            _ => Wpf.Ui.Interop.ShObjIdl.TBPFLAG.TBPF_NOPROGRESS
         };
     }
 

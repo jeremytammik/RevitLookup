@@ -26,10 +26,10 @@ using System.Windows.Input;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
+using Wpf.Ui.Controls.Navigation;
 using static System.Windows.Controls.Primitives.GeneratorStatus;
 using MenuItem = RevitLookup.Core.Objects.MenuItem;
 

@@ -4,7 +4,7 @@
 
 using System.Windows.Input;
 
-namespace RevitLookup.UI.Common;
+namespace Wpf.Ui.Common;
 
 /// <summary>
 /// An interface expanding <see cref="ICommand"/> with the ability to raise

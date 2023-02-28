@@ -6,12 +6,11 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
-using RevitLookup.UI.Common;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
-/// Extended <see cref="System.Windows.Controls.TreeViewItem"/> with <see cref="SymbolRegular"/> properties.
+/// Extended <see cref="System.Windows.Controls.TreeViewItem"/> with <see cref="Wpf.Ui.Common.SymbolRegular"/> properties.
 /// </summary>
 public class TreeViewItem : System.Windows.Controls.TreeViewItem, IIconControl
 {
@@ -36,7 +35,7 @@ public class TreeViewItem : System.Windows.Controls.TreeViewItem, IIconControl
             FrameworkPropertyMetadataOptions.Inherits));
 
     /// <summary>
-    /// Gets or sets displayed <see cref="SymbolRegular"/>.
+    /// Gets or sets displayed <see cref="Common.SymbolRegular"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public Common.SymbolRegular Icon
@@ -46,7 +45,7 @@ public class TreeViewItem : System.Windows.Controls.TreeViewItem, IIconControl
     }
 
     /// <summary>
-    /// Defines whether or not we should use the <see cref="SymbolFilled"/>.
+    /// Defines whether or not we should use the <see cref="Common.SymbolFilled"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public bool IconFilled
@@ -65,3 +64,4 @@ public class TreeViewItem : System.Windows.Controls.TreeViewItem, IIconControl
         set => SetValue(IconForegroundProperty, value);
     }
 }
+

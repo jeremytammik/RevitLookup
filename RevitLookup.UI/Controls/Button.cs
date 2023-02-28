@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Inherited from the <see cref="System.Windows.Controls.Button"/>, adding <see cref="Common.SymbolRegular"/>.
@@ -94,7 +94,7 @@ public class Button : System.Windows.Controls.Button, IIconControl, IAppearanceC
     }
 
     /// <summary>
-    /// Foreground of the <see cref="SymbolIcon"/>.
+    /// Foreground of the <see cref="Wpf.Ui.Controls.SymbolIcon"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public Brush IconForeground

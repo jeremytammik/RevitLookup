@@ -6,7 +6,7 @@
 
 using System.Windows;
 
-namespace RevitLookup.UI.Dpi;
+namespace Wpf.Ui.Dpi;
 
 public sealed class DpiChangedEventArgs : RoutedEventArgs
 {

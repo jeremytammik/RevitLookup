@@ -5,7 +5,7 @@
 // Copyright (C) S. Bäumlisberger, Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Common;
+namespace Wpf.Ui.Common;
 
 /// <summary>
 /// Items range.

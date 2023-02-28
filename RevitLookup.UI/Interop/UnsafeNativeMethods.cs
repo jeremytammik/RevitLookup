@@ -8,10 +8,9 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using RevitLookup.UI.Controls.Window;
-using RevitLookup.UI.Dpi;
+using Wpf.Ui.Controls.Window;
 
-namespace RevitLookup.UI.Interop;
+namespace Wpf.Ui.Interop;
 
 /// <summary>
 /// A set of dangerous methods to modify the appearance.
@@ -451,10 +450,10 @@ public static class UnsafeNativeMethods
             ref wtaOptions,
             (uint)Marshal.SizeOf(typeof(UxTheme.WTA_OPTIONS)));
 
-        var windowDpi = DpiHelper.GetWindowDpi(hWnd);
+        var windowDpi = Ui.Dpi.DpiHelper.GetWindowDpi(hWnd);
 
         // #2 Extend glass frame
-        var deviceGlassThickness = DpiHelper.LogicalThicknessToDevice(
+        var deviceGlassThickness = Ui.Dpi.DpiHelper.LogicalThicknessToDevice(
             new Thickness(-1, -1, -1, -1),
             windowDpi.DpiScaleX,
             windowDpi.DpiScaleY);

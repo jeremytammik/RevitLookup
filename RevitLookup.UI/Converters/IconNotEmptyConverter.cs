@@ -6,7 +6,7 @@
 using System;
 using System.Windows.Data;
 
-namespace RevitLookup.UI.Converters;
+namespace Wpf.Ui.Converters;
 
 /// <summary>
 /// Checks if the <see cref="Common.SymbolRegular"/> is valid and not empty.

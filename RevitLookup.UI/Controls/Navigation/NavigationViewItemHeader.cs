@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Controls.Navigation;
+namespace Wpf.Ui.Controls.Navigation;
 
 // https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.navigationviewitemheader?view=winrt-22621
 

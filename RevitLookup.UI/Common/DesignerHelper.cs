@@ -6,7 +6,7 @@
 using System.ComponentModel;
 using System.Windows;
 
-namespace RevitLookup.UI.Common;
+namespace Wpf.Ui.Common;
 
 /// <summary>
 /// Helper class for Visual Studio designer.

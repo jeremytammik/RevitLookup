@@ -6,11 +6,11 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using RevitLookup.UI.Common;
+using Wpf.Ui.Common;
 using Brush = System.Windows.Media.Brush;
 using SystemColors = System.Windows.SystemColors;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Extended <see cref="System.Windows.Controls.TextBox"/> with additional parameters like <see cref="PlaceholderText"/>.

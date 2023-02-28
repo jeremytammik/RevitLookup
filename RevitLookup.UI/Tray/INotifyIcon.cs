@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Tray;
+namespace Wpf.Ui.Tray;
 
 /// <summary>
 /// Represents an icon in the tray menu.

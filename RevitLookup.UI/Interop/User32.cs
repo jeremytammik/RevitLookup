@@ -18,7 +18,7 @@ using System.Windows;
 
 // ReSharper disable InconsistentNaming
 
-namespace RevitLookup.UI.Interop;
+namespace Wpf.Ui.Interop;
 
 /// <summary>
 /// USER procedure declarations, constant definitions and macros.

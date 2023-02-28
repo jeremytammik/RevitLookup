@@ -14,7 +14,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace RevitLookup.UI.Interop;
+namespace Wpf.Ui.Interop;
 
 /// <summary>
 /// Exposes methods that enumerate the contents of a view and receive notification from callback upon enumeration completion.

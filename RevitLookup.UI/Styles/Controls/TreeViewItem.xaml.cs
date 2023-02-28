@@ -5,7 +5,7 @@
 
 using System.Windows;
 
-namespace RevitLookup.UI.Styles.Controls
+namespace Wpf.Ui.Styles.Controls
 {
     partial class TreeViewItem
     {

@@ -9,11 +9,11 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Media;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Extensions;
-using RevitLookup.UI.Tray;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Extensions;
+using Wpf.Ui.Tray;
 
-namespace RevitLookup.UI.Services.Internal;
+namespace Wpf.Ui.Services.Internal;
 
 /// <summary>
 /// Internal service for Notify Icon management.

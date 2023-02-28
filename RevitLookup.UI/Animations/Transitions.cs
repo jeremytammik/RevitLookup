@@ -7,9 +7,9 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using RevitLookup.UI.Hardware;
+using Wpf.Ui.Hardware;
 
-namespace RevitLookup.UI.Animations;
+namespace Wpf.Ui.Animations;
 
 /// <summary>
 /// Provides tools for <see cref="FrameworkElement"/> animation.

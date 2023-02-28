@@ -6,7 +6,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RevitLookup.UI.Extensions;
+namespace Wpf.Ui.Extensions;
 
 /// <summary>
 /// Set of extensions for <see cref="System.Windows.Controls.Frame"/>.

@@ -6,7 +6,7 @@
 using System;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Extensions;
+namespace Wpf.Ui.Extensions;
 
 /// <summary>
 /// Adds an extension for <see cref="System.Windows.Media.Color"/> that allows manipulation with HSL and HSV color spaces.

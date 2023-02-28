@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace RevitLookup.UI.Common;
+namespace Wpf.Ui.Common;
 
 /// <summary>
 /// A generic command whose sole purpose is to relay its functionality to other

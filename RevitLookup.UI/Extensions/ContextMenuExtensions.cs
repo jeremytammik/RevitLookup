@@ -6,10 +6,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Interop;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Interop;
 
-namespace RevitLookup.UI.Extensions;
+namespace Wpf.Ui.Extensions;
 
 /// <summary>
 /// Extensions for the <see cref="ContextMenu"/>.

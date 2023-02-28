@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Controls.Window;
+namespace Wpf.Ui.Controls.Window;
 
 /// <summary>
 /// Ways you can round windows.

@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace RevitLookup.UI.Styles.Controls
+namespace Wpf.Ui.Styles.Controls
 {
     /// <summary>
     /// Overwrites ContextMenu-Style for some UIElements (like RichTextBox) that don't take the default ContextMenu-Style by default.

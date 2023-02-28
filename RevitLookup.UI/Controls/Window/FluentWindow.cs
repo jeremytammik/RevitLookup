@@ -9,9 +9,9 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Shell;
-using RevitLookup.UI.Interop;
+using Wpf.Ui.Interop;
 
-namespace RevitLookup.UI.Controls.Window;
+namespace Wpf.Ui.Controls.Window;
 
 /// <summary>
 /// A custom WinUI Window with more convenience methods.

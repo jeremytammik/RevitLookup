@@ -5,12 +5,11 @@
 
 using System.ComponentModel;
 using System.Windows;
-using RevitLookup.UI.Common;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
-/// Extended <see cref="System.Windows.Controls.MenuItem"/> with <see cref="SymbolRegular"/> properties.
+/// Extended <see cref="System.Windows.Controls.MenuItem"/> with <see cref="Wpf.Ui.Common.SymbolRegular"/> properties.
 /// </summary>
 public class MenuItem : System.Windows.Controls.MenuItem
 {
@@ -18,7 +17,7 @@ public class MenuItem : System.Windows.Controls.MenuItem
     /// Property for <see cref="SymbolIcon"/>.
     /// </summary>
     public static readonly DependencyProperty SymbolIconProperty = DependencyProperty.Register(nameof(SymbolIcon),
-        typeof(Common.SymbolRegular), typeof(MenuItem),
+        typeof(Common.SymbolRegular), typeof(Wpf.Ui.Controls.MenuItem),
         new PropertyMetadata(Common.SymbolRegular.Empty));
 
     /// <summary>
@@ -26,7 +25,7 @@ public class MenuItem : System.Windows.Controls.MenuItem
     /// </summary>
     public static readonly DependencyProperty SymbolIconFilledProperty = DependencyProperty.Register(
         nameof(SymbolIconFilled),
-        typeof(bool), typeof(MenuItem), new PropertyMetadata(false));
+        typeof(bool), typeof(Wpf.Ui.Controls.MenuItem), new PropertyMetadata(false));
 
     ///// <summary>
     ///// Property for <see cref="SymbolIconForeground"/>.

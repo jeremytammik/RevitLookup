@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace RevitLookup.UI.Appearance;
+namespace Wpf.Ui.Appearance;
 
 /// <summary>
 /// Static container for appearance data.
@@ -28,7 +28,7 @@ public static class AppearanceData
     /// <summary>
     /// Main dictionary for WPF UI controls.
     /// </summary>
-    public const string LibraryMainDictionary = "RevitLookup.UI";
+    public const string LibraryMainDictionary = "Wpf.Ui";
 
     /// <summary>
     /// Default <see cref="System.Uri"/> for the application theme dictionaries.

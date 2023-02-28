@@ -23,14 +23,14 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Controls.Window;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls.Window;
 
 namespace RevitLookup.Services;
 
 public sealed class SettingsService : ISettingsService
 {
-    public const int DefaultTransitionDuration = 300;
+    public const int DefaultTransitionDuration = 200;
     private readonly Settings _settings;
     private readonly string _settingsFile;
 

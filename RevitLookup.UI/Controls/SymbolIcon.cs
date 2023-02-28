@@ -6,9 +6,9 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
-using RevitLookup.UI.Extensions;
+using Wpf.Ui.Extensions;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Represents a text element containing an icon glyph.

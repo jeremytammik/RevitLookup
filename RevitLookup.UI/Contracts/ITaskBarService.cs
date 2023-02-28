@@ -5,9 +5,9 @@
 
 using System;
 using System.Windows;
-using RevitLookup.UI.Taskbar;
+using Wpf.Ui.TaskBar;
 
-namespace RevitLookup.UI.Contracts;
+namespace Wpf.Ui.Contracts;
 
 /// <summary>
 /// Represents a contract with a service that provides methods for manipulating the taskbar.

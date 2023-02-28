@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Animations;
+namespace Wpf.Ui.Animations;
 
 /// <summary>
 /// Available types of transitions.

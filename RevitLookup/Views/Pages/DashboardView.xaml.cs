@@ -20,44 +20,26 @@
 
 using System.Windows;
 using Autodesk.Revit.DB;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls;
-using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views.Dialogs;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.Views.Pages;
 
 public sealed partial class DashboardView : INavigableView<DashboardViewModel>
 {
-    private readonly IDialogControl _dialogControl;
+    private readonly IContentDialogService _dialogService;
 
-    public DashboardView(DashboardViewModel viewModel, IDialogService dialogService)
+    public DashboardView(DashboardViewModel viewModel, IContentDialogService dialogService)
     {
         ViewModel = viewModel;
         InitializeComponent();
         DataContext = this;
-        Loaded += OnLoaded;
-        Unloaded += OnUnloaded;
-        _dialogControl = dialogService.GetDialogControl();
+        _dialogService = dialogService;
     }
 
     public DashboardViewModel ViewModel { get; }
-
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        _dialogControl.ButtonRightClick += DialogControlOnButtonRightClick;
-    }
-
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-        _dialogControl.ButtonRightClick -= DialogControlOnButtonRightClick;
-    }
-
-    private void DialogControlOnButtonRightClick(object sender, RoutedEventArgs e)
-    {
-        _dialogControl.Hide();
-    }
 
     private void OnClickParametersDialog(object sender, RoutedEventArgs e)
     {
@@ -76,13 +58,15 @@ public sealed partial class DashboardView : INavigableView<DashboardViewModel>
 
     private void OpenUnitDialog(Type unitType)
     {
-        if (unitType == typeof(BuiltInParameter)) _dialogControl.Title = "BuiltIn Parameters";
-        else if (unitType == typeof(BuiltInCategory)) _dialogControl.Title = "BuiltIn Categories";
-        else if (unitType == typeof(ForgeTypeId)) _dialogControl.Title = "Forge Schema";
+        var dialog = _dialogService.CreateDialog();
 
-        _dialogControl.DialogWidth = 800;
-        _dialogControl.DialogHeight = 600;
-        _dialogControl.Content = new UnitsDialog(unitType);
-        _dialogControl.Show();
+        if (unitType == typeof(BuiltInParameter)) dialog.Title = "BuiltIn Parameters";
+        else if (unitType == typeof(BuiltInCategory)) dialog.Title = "BuiltIn Categories";
+        else if (unitType == typeof(ForgeTypeId)) dialog.Title = "Forge Schema";
+
+        dialog.DialogWidth = 800;
+        dialog.DialogHeight = 600;
+        dialog.Content = new UnitsDialog(unitType);
+        dialog.ShowAsync();
     }
 }

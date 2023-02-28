@@ -8,10 +8,10 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Interop;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Interop;
 
-namespace RevitLookup.UI.Controls.Window;
+namespace Wpf.Ui.Controls.Window;
 
 /// <summary>
 /// Applies the chosen backdrop effect to the selected window.

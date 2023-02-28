@@ -4,9 +4,9 @@
 // All Rights Reserved.
 
 using System;
-using RevitLookup.UI.Extensions;
+using Wpf.Ui.Extensions;
 
-namespace RevitLookup.UI.Common;
+namespace Wpf.Ui.Common;
 
 /// <summary>
 /// Class used to create identifiers of threads or tasks that can be performed multiple times within one instance.

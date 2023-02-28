@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Markup;
 
-namespace RevitLookup.UI.Markup;
+namespace Wpf.Ui.Markup;
 
 /// <summary>
 ///  Class for Xaml markup extension for static resource references.

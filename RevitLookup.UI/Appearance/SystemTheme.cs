@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Media;
 using Microsoft.Win32;
 
-namespace RevitLookup.UI.Appearance;
+namespace Wpf.Ui.Appearance;
 
 internal static class SystemTheme
 {

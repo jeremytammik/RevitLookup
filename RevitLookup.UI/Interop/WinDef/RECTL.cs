@@ -9,7 +9,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace RevitLookup.UI.Interop.WinDef;
+namespace Wpf.Ui.Interop.WinDef;
 
 /// <summary>
 /// The RECTL structure defines a rectangle by the coordinates of its upper-left and lower-right corners.
