@@ -21,7 +21,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
+    <Grid
+        Margin="12">
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:CollectionEmptyVisibilityConverter}}">
@@ -109,6 +110,7 @@
                 CanUserResizeRows="False"
                 CanUserReorderColumns="False"
                 VerticalScrollBarVisibility="Visible"
+                HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding ViewModel.FilteredSnoopableData}"
                 ScrollViewer.ScrollChanged="OnDataGridScrollChanged">
                 <rl:DataGrid.Columns>

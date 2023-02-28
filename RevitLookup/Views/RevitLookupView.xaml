@@ -16,8 +16,7 @@
     Height="555"
     ExtendsContentIntoTitleBar="True"
     Icon="../Resources/Images/ShellIcon.ico"
-    WindowStartupLocation="CenterScreen"
-    SizeChanged="OnSizeChanged">
+    WindowStartupLocation="CenterScreen">
     <rl:FluentWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -36,7 +35,6 @@
             IsBackButtonVisible="Collapsed"
             PaneDisplayMode="Left"
             OpenPaneLength="159"
-            Padding="12"
             TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}">
             <rl:NavigationView.MenuItems>
                 <rl:NavigationViewItem

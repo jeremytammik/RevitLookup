@@ -21,7 +21,8 @@
         </ResourceDictionary>
     </Page.Resources>
     <rl:DynamicScrollViewer>
-        <StackPanel>
+        <StackPanel
+            Margin="12">
             <rl:CardControl
                 Header="Theme"
                 Icon="Color24">

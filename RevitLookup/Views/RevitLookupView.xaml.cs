@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
-using System.Windows.Media.Animation;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui.Contracts;
@@ -28,12 +27,10 @@ namespace RevitLookup.Views;
 
 public sealed partial class RevitLookupView : IWindow
 {
-    private readonly ISettingsService _settingsService;
     private readonly IServiceScope _serviceScope;
 
     public RevitLookupView(IServiceScopeFactory scopeFactory, ISettingsService settingsService)
     {
-        _settingsService = settingsService;
         Wpf.Ui.Application.Current = this;
         InitializeComponent();
 
@@ -67,36 +64,5 @@ public sealed partial class RevitLookupView : IWindow
     private void UnloadServices(object sender, RoutedEventArgs e)
     {
         _serviceScope.Dispose();
-    }
-    
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        switch (e.PreviousSize.Width)
-        {
-            case 0:
-            case > 1017 when e.NewSize.Width > 1017:
-            case < 1017 when e.NewSize.Width < 1017:
-                return;
-        }
-
-        var margin = e.NewSize.Width > 1017 ? new Thickness(24, 24, 24, 0) : new Thickness(12, 12, 12, 0);
-        var padding = e.NewSize.Width > 1017 ? new Thickness(24) : new Thickness(12);
-
-        var breadcrumbAnimation = new ThicknessAnimation
-        {
-            From = BreadcrumbBar.Margin,
-            To = margin,
-            Duration = TimeSpan.FromMilliseconds(_settingsService.TransitionDuration)
-        };
-
-        var navigationAnimation = new ThicknessAnimation
-        {
-            From = RootNavigation.Padding,
-            To = padding,
-            Duration = TimeSpan.FromMilliseconds(_settingsService.TransitionDuration)
-        };
-
-        BreadcrumbBar.BeginAnimation(MarginProperty, breadcrumbAnimation);
-        RootNavigation.BeginAnimation(PaddingProperty, navigationAnimation);
     }
 }
