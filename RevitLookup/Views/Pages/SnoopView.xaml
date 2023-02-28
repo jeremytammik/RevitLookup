@@ -22,7 +22,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid
-        Margin="4 8">
+        Margin="4 0 4 8">
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:CollectionEmptyVisibilityConverter}}">

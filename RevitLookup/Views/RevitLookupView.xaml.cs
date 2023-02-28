@@ -19,18 +19,23 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
+using System.Windows.Media.Animation;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Views.Pages;
 using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.Views;
 
 public sealed partial class RevitLookupView : IWindow
 {
+    private readonly ISettingsService _settingsService;
     private readonly IServiceScope _serviceScope;
 
     public RevitLookupView(IServiceScopeFactory scopeFactory, ISettingsService settingsService)
     {
+        _settingsService = settingsService;
         Wpf.Ui.Application.Current = this;
         InitializeComponent();
 
@@ -64,5 +69,33 @@ public sealed partial class RevitLookupView : IWindow
     private void UnloadServices(object sender, RoutedEventArgs e)
     {
         _serviceScope.Dispose();
+    }
+
+    private void RootNavigation_OnNavigating(NavigationView sender, NavigatingCancelEventArgs args)
+    {
+        var startThickness = BreadcrumbBar.Margin;
+        var endThickness = new Thickness(24, 12, 24, 12);
+        var compactThickness = new Thickness(10, 12, 10, 12);
+
+        if (sender.SelectedItem?.TargetPageType == typeof(SnoopView))
+        {
+            startThickness = compactThickness;
+        }
+
+        if (args.SourcePageType is SnoopView)
+        {
+            endThickness = compactThickness;
+        }
+        
+        if(startThickness == endThickness) return;
+
+        var buttonAnimation = new ThicknessAnimation
+        {
+            From = startThickness,
+            To = endThickness,
+            Duration = TimeSpan.FromMilliseconds(_settingsService.TransitionDuration)
+        };
+        
+        BreadcrumbBar.BeginAnimation(MarginProperty, buttonAnimation);
     }
 }

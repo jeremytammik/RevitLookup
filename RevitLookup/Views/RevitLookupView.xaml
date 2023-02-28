@@ -10,10 +10,10 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="200"
-    MinWidth="630"
-    MinHeight="380"
-    Height="557"
+    MinWidth="553"
+    MinHeight="371"
     Width="1017"
+    Height="553"
     ExtendsContentIntoTitleBar="True"
     Icon="../Resources/Images/ShellIcon.ico"
     WindowStartupLocation="CenterScreen">
@@ -35,7 +35,8 @@
             IsBackButtonVisible="Collapsed"
             PaneDisplayMode="Left"
             OpenPaneLength="159"
-            TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}">
+            TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}"
+            Navigating="RootNavigation_OnNavigating">
             <rl:NavigationView.MenuItems>
                 <rl:NavigationViewItem
                     Content="Dashboard"
@@ -74,8 +75,9 @@
             </rl:NavigationView.FooterMenuItems>
             <rl:NavigationView.Header>
                 <rl:BreadcrumbBar
-                    FontSize="20"
-                    Margin="24,14,0,0" />
+                    x:Name="BreadcrumbBar"
+                    Margin="24,12">
+                </rl:BreadcrumbBar>
             </rl:NavigationView.Header>
             <rl:NavigationView.ContentOverlay>
                 <Grid>

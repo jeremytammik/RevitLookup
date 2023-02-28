@@ -20,7 +20,7 @@
     <rl:DynamicScrollViewer>
         <StackPanel
             TextBlock.FontWeight="Medium"
-            Margin="24 13 24 24">
+            Margin="24 0 24 24">
             <TextBlock
                 FontSize="16"
                 Text="Workspace" />
@@ -121,7 +121,7 @@
             </Grid>
 
             <TextBlock
-                Margin="0,8,0,0"
+                Margin="0,17,0,0"
                 FontSize="16"
                 Text="Interaction" />
             <Grid>
@@ -221,7 +221,7 @@
             </Grid>
 
             <TextBlock
-                Margin="0,8,0,0"
+                Margin="0,17,0,0"
                 FontSize="16"
                 Text="Maintenance" />
             <Grid>
@@ -268,7 +268,7 @@
             </Grid>
 
             <TextBlock
-                Margin="0,8,0,0"
+                Margin="0,17,0,0"
                 FontSize="16"
                 Text="Registry" />
             <Grid>
@@ -328,7 +328,7 @@
             </Grid>
 
             <TextBlock
-                Margin="0,8,0,0"
+                Margin="0,17,0,0"
                 FontSize="16"
                 Text="Units" />
             <Grid>
