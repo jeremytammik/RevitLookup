@@ -66,9 +66,11 @@
             </Grid.ColumnDefinitions>
             <DockPanel
                 Grid.Column="0">
-                <rl:AutoSuggestBox
+                <rl:TextBox
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
+                    Icon="Search24"
+                    IconPlacement="Right"
                     Text="{Binding ViewModel.SearchText,
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" />

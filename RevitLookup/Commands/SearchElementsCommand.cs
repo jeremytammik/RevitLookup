@@ -18,20 +18,25 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.Attributes;
+using Microsoft.Extensions.DependencyInjection;
+using Nice3point.Revit.Toolkit.External;
+using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
-using Wpf.Ui.Controls.Navigation;
+using RevitLookup.Views.Pages;
+using Wpf.Ui.Contracts;
 
-namespace RevitLookup.Views.Pages;
+namespace RevitLookup.Commands;
 
-public sealed partial class DashboardView : INavigableView<DashboardViewModel>
+[UsedImplicitly]
+[Transaction(TransactionMode.Manual)]
+public class SearchElementsCommand : ExternalCommand
 {
-
-    public DashboardView(DashboardViewModel viewModel)
+    public override void Execute()
     {
-        ViewModel = viewModel;
-        InitializeComponent();
-        DataContext = this;
+        var window = Host.GetService<IWindow>();
+        window.Show(UiApplication.MainWindowHandle);
+        window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
+        window.Scope.GetService<DashboardViewModel>().OpenDialogCommand.Execute("search");
     }
-
-    public DashboardViewModel ViewModel { get; }
 }

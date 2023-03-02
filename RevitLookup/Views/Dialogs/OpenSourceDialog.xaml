@@ -16,7 +16,6 @@
         </ResourceDictionary>
     </Grid.Resources>
     <DataGrid
-        Margin="0 20 0 0"
         AutoGenerateColumns="False"
         GridLinesVisibility="None"
         HeadersVisibility="Column"

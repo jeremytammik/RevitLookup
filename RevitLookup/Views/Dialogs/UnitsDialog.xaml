@@ -15,9 +15,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </DockPanel.Resources>
-    <rl:AutoSuggestBox
+    <rl:TextBox
         DockPanel.Dock="Top"
-        Margin="0 20 0 0"
+        Icon="Search24"
+        IconPlacement="Right"
         PlaceholderText="Search..."
         Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     <DataGrid
@@ -28,8 +29,9 @@
         IsReadOnly="True"
         ColumnHeaderHeight="30"
         CanUserReorderColumns="False"
-        CanUserResizeColumns="False"
+        CanUserResizeColumns="True"
         CanUserSortColumns="True"
+        MinColumnWidth="100"
         ItemsSource="{Binding FilteredUnits}">
         <DataGrid.Columns>
             <DataGridTextColumn

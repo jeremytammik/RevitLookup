@@ -18,20 +18,28 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.Views.Dialogs;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls.ContentDialogControl;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class DashboardViewModel : ObservableObject
 {
     private readonly ISnoopService _snoopService;
+    private readonly IContentDialogService _dialogService;
+    private readonly IServiceProvider _serviceProvider;
 
-    public DashboardViewModel(ISnoopService snoopService)
+    public DashboardViewModel(ISnoopService snoopService, IContentDialogService dialogService, IServiceProvider serviceProvider)
     {
         _snoopService = snoopService;
+        _dialogService = dialogService;
+        _serviceProvider = serviceProvider;
     }
 
     [RelayCommand]
@@ -95,6 +103,43 @@ public sealed partial class DashboardViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    private async Task OpenDialog(string parameter)
+    {
+        var dialog = _dialogService.CreateDialog();
+
+        switch (parameter)
+        {
+            case "parameters":
+                dialog.Title = "BuiltIn Parameters";
+                dialog.Content = new UnitsDialog(typeof(BuiltInParameter));
+                dialog.DialogWidth = 800;
+                dialog.DialogHeight = 600;
+                await dialog.ShowAsync();
+                break;
+            case "categories":
+                dialog.Title = "BuiltIn Categories";
+                dialog.Content = new UnitsDialog(typeof(BuiltInCategory));
+                dialog.DialogWidth = 800;
+                dialog.DialogHeight = 600;
+                await dialog.ShowAsync();
+                break;
+            case "forge":
+                dialog.Title = "Forge Schema";
+                dialog.Content = new UnitsDialog(typeof(ForgeTypeId));
+                dialog.DialogWidth = 800;
+                dialog.DialogHeight = 600;
+                await dialog.ShowAsync();
+                break;
+            case "search":
+                dialog = new SearchElementsDialog(_serviceProvider, _dialogService.GetContentPresenter());
+                dialog.DialogWidth = 570;
+                dialog.DialogHeight = 330;
+                await dialog.ShowAsync();
+                break;
+        }
+    }
+    
     [RelayCommand]
     private async Task NavigateEventPage()
     {
