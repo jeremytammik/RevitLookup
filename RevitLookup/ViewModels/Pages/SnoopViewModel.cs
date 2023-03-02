@@ -45,6 +45,7 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
     private readonly IWindowController _windowController;
     [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
+    private CancellationTokenSource _searchCancellationToken = new();
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
@@ -135,34 +136,45 @@ public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
         window.Scope.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 
-    partial void OnSearchTextChanged(string value)
+    async partial void OnSearchTextChanged(string value)
     {
-        UpdateSearchResults(SearchOption.Objects);
+        await UpdateSearchResults(SearchOption.Objects);
         SearchResultsChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    partial void OnSnoopableObjectsChanged(IReadOnlyList<SnoopableObject> value)
+    async partial void OnSnoopableObjectsChanged(IReadOnlyList<SnoopableObject> value)
     {
         SelectedObject = null;
-        UpdateSearchResults(SearchOption.Objects);
+        await UpdateSearchResults(SearchOption.Objects);
         TreeSourceChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    partial void OnSnoopableDataChanged(IReadOnlyList<Descriptor> value)
+    async partial void OnSnoopableDataChanged(IReadOnlyList<Descriptor> value)
     {
-        UpdateSearchResults(SearchOption.Selection);
+        await UpdateSearchResults(SearchOption.Selection);
     }
 
-    private void UpdateSearchResults(SearchOption option)
+    private async Task UpdateSearchResults(SearchOption option)
     {
+        _searchCancellationToken.Cancel();
+        _searchCancellationToken = new CancellationTokenSource();
+
         if (string.IsNullOrEmpty(SearchText))
         {
             FilteredSnoopableObjects = SnoopableObjects;
             FilteredSnoopableData = SnoopableData;
+            return;
         }
-        else
+
+        try
         {
-            SearchEngine.SearchAsync(this, option);
+            var results = await SearchEngine.SearchAsync(this, option, _searchCancellationToken.Token);
+            if (results.Data is not null) FilteredSnoopableData = results.Data;
+            if (results.Objects is not null) FilteredSnoopableObjects = results.Objects;
+        }
+        catch (OperationCanceledException)
+        {
+            //Ignored
         }
     }
 

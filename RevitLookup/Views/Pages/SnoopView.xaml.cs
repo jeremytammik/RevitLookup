@@ -39,6 +39,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 {
     private readonly ISettingsService _settingsService;
     private int _scrollTick;
+    private bool _isUpdatingResults;
 
     public SnoopView(ISnoopService viewModel, ISettingsService settingsService)
     {
@@ -119,23 +120,55 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
     /// <summary>
     ///     Select, expand treeView search results
     /// </summary>
-    private void OnSearchResultsChanged(object sender, EventArgs args)
+    private void OnSearchResultsChanged(object sender, EventArgs _)
     {
-        if (ViewModel.SelectedObject is not null)
-        {
-            var treeViewItem = VisualUtils.GetTreeViewItem(TreeView, ViewModel.SelectedObject);
-            if (treeViewItem is not null && !treeViewItem.IsSelected)
-            {
-                TreeView.SelectedItemChanged -= OnTreeSelectionChanged;
-                treeViewItem.IsSelected = true;
-                TreeView.SelectedItemChanged += OnTreeSelectionChanged;
-            }
-        }
+        if (_isUpdatingResults) return;
+        _isUpdatingResults = true;
 
-        if (TreeView.Items.Count == 1)
+        TreeView.ItemContainerGenerator.StatusChanged += OnItemContainerGeneratorOnStatusChanged;
+        
+        void OnItemContainerGeneratorOnStatusChanged(object statusSender, EventArgs __)
         {
-            var containerFromIndex = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
-            if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
+            var generator = (ItemContainerGenerator) statusSender;
+            if (generator.Status != ContainersGenerated) return;
+                
+            generator.StatusChanged -= OnItemContainerGeneratorOnStatusChanged;
+
+            if (ViewModel.SelectedObject is not null)
+            {
+                var treeViewItem = VisualUtils.GetTreeViewItem(TreeView, ViewModel.SelectedObject);
+                if (treeViewItem is not null && !treeViewItem.IsSelected)
+                {
+                    TreeView.SelectedItemChanged -= OnTreeSelectionChanged;
+                    treeViewItem.IsSelected = true;
+                    TreeView.SelectedItemChanged += OnTreeSelectionChanged;
+                }
+            }
+
+            if (TreeView.Items.Count == 1)
+            {
+                var containerFromIndex = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
+                if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
+            }
+
+            if (ViewModel.SelectedObject is not null)
+            {
+                var treeViewItem = VisualUtils.GetTreeViewItem(TreeView, ViewModel.SelectedObject);
+                if (treeViewItem is not null && !treeViewItem.IsSelected)
+                {
+                    TreeView.SelectedItemChanged -= OnTreeSelectionChanged;
+                    treeViewItem.IsSelected = true;
+                    TreeView.SelectedItemChanged += OnTreeSelectionChanged;
+                }
+            }
+
+            if (TreeView.Items.Count == 1)
+            {
+                var containerFromIndex = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
+                if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
+            }
+            
+            _isUpdatingResults = false;
         }
     }
 

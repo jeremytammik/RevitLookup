@@ -21,13 +21,15 @@
 using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
+using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Utils;
 
 public static class SearchEngine
 {
-    public static void SearchAsync(ISnoopViewModel model, SearchOption option)
+    private static SearchResults Search(ISnoopViewModel model, SearchOption option)
     {
+        var results = new SearchResults();
         switch (option)
         {
             case SearchOption.Objects:
@@ -59,14 +61,14 @@ public static class SearchEngine
                 //Add data of the selected object if no others are found
                 if (filteredObjects.Count > 0 && filteredData.Count == 0)
                 {
-                    model.FilteredSnoopableObjects = filteredObjects;
-                    model.FilteredSnoopableData = isObjectSelected ? model.SnoopableData : filteredData;
+                    results.Objects = filteredObjects;
+                    results.Data = isObjectSelected ? model.SnoopableData : filteredData;
                 }
                 //Output as is
                 else
                 {
-                    model.FilteredSnoopableObjects = filteredObjects;
-                    model.FilteredSnoopableData = filteredData;
+                    results.Objects = filteredObjects;
+                    results.Data = filteredData;
                 }
 
                 break;
@@ -75,12 +77,19 @@ public static class SearchEngine
             {
                 //Filter data for new tree selection
                 var filteredData = Search(model.SearchText, model.SnoopableData);
-                model.FilteredSnoopableData = filteredData.Count == 0 ? model.SnoopableData : filteredData;
+                results.Data = filteredData.Count == 0 ? model.SnoopableData : filteredData;
                 break;
             }
             default:
                 throw new ArgumentOutOfRangeException(nameof(option), option, null);
         }
+
+        return results;
+    }
+
+    public static async Task<SearchResults> SearchAsync(ISnoopViewModel model, SearchOption option, CancellationToken cancellationToken)
+    {
+        return await Task.Run(() => Search(model, option), cancellationToken);
     }
 
     /// <summary>
