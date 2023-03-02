@@ -38,8 +38,8 @@ namespace RevitLookup.Views.Pages;
 public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
 {
     private readonly ISettingsService _settingsService;
-    private int _scrollTick;
     private bool _isUpdatingResults;
+    private int _scrollTick;
 
     public SnoopView(ISnoopService viewModel, ISettingsService settingsService)
     {
@@ -126,12 +126,12 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         _isUpdatingResults = true;
 
         TreeView.ItemContainerGenerator.StatusChanged += OnItemContainerGeneratorOnStatusChanged;
-        
+
         void OnItemContainerGeneratorOnStatusChanged(object statusSender, EventArgs __)
         {
             var generator = (ItemContainerGenerator) statusSender;
             if (generator.Status != ContainersGenerated) return;
-                
+
             generator.StatusChanged -= OnItemContainerGeneratorOnStatusChanged;
 
             if (ViewModel.SelectedObject is not null)
@@ -167,7 +167,7 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
                 var containerFromIndex = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
                 if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
             }
-            
+
             _isUpdatingResults = false;
         }
     }
@@ -221,8 +221,6 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
-        //TODO check performance
     }
 
     private void CreateTreeTooltip(Descriptor descriptor, FrameworkElement row)

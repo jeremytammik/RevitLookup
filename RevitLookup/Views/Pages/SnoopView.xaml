@@ -62,7 +62,7 @@
                     Width="250" />
                 <ColumnDefinition
                     Width="9" />
-                <ColumnDefinition/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <DockPanel
                 Grid.Column="0">

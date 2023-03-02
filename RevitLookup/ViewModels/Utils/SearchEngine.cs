@@ -29,7 +29,6 @@ public static class SearchEngine
 {
     private static SearchResults Search(ISnoopViewModel model, SearchOption option)
     {
-        var results = new SearchResults();
         switch (option)
         {
             case SearchOption.Objects:
@@ -60,31 +59,31 @@ public static class SearchEngine
 
                 //Add data of the selected object if no others are found
                 if (filteredObjects.Count > 0 && filteredData.Count == 0)
-                {
-                    results.Objects = filteredObjects;
-                    results.Data = isObjectSelected ? model.SnoopableData : filteredData;
-                }
-                //Output as is
-                else
-                {
-                    results.Objects = filteredObjects;
-                    results.Data = filteredData;
-                }
+                    return new SearchResults
+                    {
+                        Objects = filteredObjects,
+                        Data = isObjectSelected ? model.SnoopableData : filteredData
+                    };
 
-                break;
+                //Output as is
+                return new SearchResults
+                {
+                    Objects = filteredObjects,
+                    Data = filteredData
+                };
             }
             case SearchOption.Selection:
             {
                 //Filter data for new tree selection
                 var filteredData = Search(model.SearchText, model.SnoopableData);
-                results.Data = filteredData.Count == 0 ? model.SnoopableData : filteredData;
-                break;
+                return new SearchResults
+                {
+                    Data = filteredData.Count == 0 ? model.SnoopableData : filteredData
+                };
             }
             default:
                 throw new ArgumentOutOfRangeException(nameof(option), option, null);
         }
-
-        return results;
     }
 
     public static async Task<SearchResults> SearchAsync(ISnoopViewModel model, SearchOption option, CancellationToken cancellationToken)

@@ -75,8 +75,7 @@
             <rl:NavigationView.Header>
                 <rl:BreadcrumbBar
                     x:Name="BreadcrumbBar"
-                    Margin="12 12 12 0">
-                </rl:BreadcrumbBar>
+                    Margin="12 12 12 0" />
             </rl:NavigationView.Header>
             <rl:NavigationView.ContentOverlay>
                 <Grid>
@@ -86,6 +85,6 @@
             </rl:NavigationView.ContentOverlay>
         </rl:NavigationView>
         <ContentPresenter
-            x:Name="RootContentDialog"/>
+            x:Name="RootContentDialog" />
     </Grid>
 </rl:FluentWindow>
