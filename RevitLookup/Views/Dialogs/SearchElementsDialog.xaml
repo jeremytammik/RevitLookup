@@ -25,7 +25,7 @@
     <rl:TextBox
         Icon="Search24"
         IconPlacement="Right"
-        PlaceholderText="Search by name, id or uniqId...&#xA;Separators: tab, semicolon, comma or space&#xA;&#xA;Example:&#xA;136976, 136977, 136978&#xA;Living Room, Exterior Wall, Swing arc&#xA;17836a3c-e764-47fa-a2e0-08216444f621-0007882c"
+        PlaceholderText="Search by name, id or uniqId...&#xA;Separators: tab, semicolon, comma or space&#xA;&#xA;Example:&#xA;136976, 136977, 136978&#xA;Living Room, Exterior Wall, Swing door&#xA;17836a3c-e764-47fa-a2e0-08216444f621-0007882c"
         TextWrapping="Wrap"
         AcceptsReturn="True"
         MinHeight="150"

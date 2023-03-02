@@ -32,16 +32,17 @@ public partial class SearchElementsViewModel : ObservableObject
 
     public bool SearchIds(ISnoopService snoopService)
     {
-        var delimiters = new[] { '\t', ';', ',', ' ' };
+        var delimiters = new[] {'\t', ';', ',', ' '};
         var rows = SearchText.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
 
         var items = new List<string>(rows.Length);
         foreach (var row in rows)
         {
-            foreach (var delimiter in delimiters)
+            for (var i = 0; i < delimiters.Length; i++)
             {
-                var split = row.Split(new[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
-                if (split.Length > 1)
+                var delimiter = delimiters[i];
+                var split = row.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries);
+                if (split.Length > 1 || i == delimiters.Length - 1)
                 {
                     items.AddRange(split);
                     break;
@@ -49,7 +50,7 @@ public partial class SearchElementsViewModel : ObservableObject
             }
         }
 
-        var results = new List<Element>(rows.Length);
+        var results = new List<Element>(items.Count);
 
         foreach (var rawId in items)
         {
