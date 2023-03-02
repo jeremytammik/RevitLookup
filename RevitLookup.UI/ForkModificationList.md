@@ -75,6 +75,10 @@ New control with ItemsSourceChanged event
 # Wpf.Ui.Styles.Controls.TextBlock
 
 - Added Foreground for page support
+- 
+# Wpf.Ui.Styles.Controls.TextBox
+
+- Changed PART_ContentHost VerticalAlignment
 
 # Wpf.Ui.Styles.Controls.TreeViewItem
 
@@ -85,7 +89,3 @@ New control with ItemsSourceChanged event
 # Wpf.Ui.Styles.Controls.ContentDialog
 
 - Changed template
-
-# Wpf.Ui.Styles.Controls.AutoSuggestBox
-
-- Popup disabled opening

@@ -118,9 +118,9 @@
                             HorizontalAlignment="Stretch"
                             AllowsTransparency="True"
                             Focusable="False"
+                            IsOpen="{TemplateBinding IsSuggestionListOpen}"
                             Placement="Bottom"
                             PopupAnimation="Slide">
-                            <!-- IsOpen="{TemplateBinding IsSuggestionListOpen}" -->
                             <Border
                                 Margin="0"
                                 Padding="0,6,0,6"

@@ -81,7 +81,7 @@
                                     <ScrollViewer
                                         x:Name="PART_ContentScroll"
                                         Grid.Row="1"
-                                        Margin="0,24"
+                                        Margin="0,44 0 24"
                                         Padding="0 -24"
                                         CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
                                         HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"

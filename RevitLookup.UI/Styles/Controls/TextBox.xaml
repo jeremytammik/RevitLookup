@@ -246,7 +246,7 @@
                                 <Grid Grid.Column="1" Margin="{TemplateBinding Padding}">
                                     <ScrollViewer
                                         x:Name="PART_ContentHost"
-                                        VerticalAlignment="Center"
+                                        VerticalAlignment="Top"
                                         CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
                                         HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                                         IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
