@@ -151,23 +151,6 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
                 if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
             }
 
-            if (ViewModel.SelectedObject is not null)
-            {
-                var treeViewItem = VisualUtils.GetTreeViewItem(TreeView, ViewModel.SelectedObject);
-                if (treeViewItem is not null && !treeViewItem.IsSelected)
-                {
-                    TreeView.SelectedItemChanged -= OnTreeSelectionChanged;
-                    treeViewItem.IsSelected = true;
-                    TreeView.SelectedItemChanged += OnTreeSelectionChanged;
-                }
-            }
-
-            if (TreeView.Items.Count == 1)
-            {
-                var containerFromIndex = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
-                if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
-            }
-
             _isUpdatingResults = false;
         }
     }

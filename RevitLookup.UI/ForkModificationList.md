@@ -85,3 +85,7 @@ New control with ItemsSourceChanged event
 # Wpf.Ui.Styles.Controls.ContentDialog
 
 - Changed template
+
+# Wpf.Ui.Styles.Controls.AutoSuggestBox
+
+- Popup disabled opening
