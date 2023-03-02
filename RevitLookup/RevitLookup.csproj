@@ -64,7 +64,7 @@
         <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-        <PackageReference Include="PolySharp">
+        <PackageReference Include="PolySharp" Version="1.12.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -107,6 +107,6 @@
         </PropertyGroup>
 
         <Message Text="$(MSBuildProjectName) -&gt; Copying files to $(RevitAddinFolder)" Importance="High" />
-<!--        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)" />-->
+        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)" />
     </Target>
 </Project>

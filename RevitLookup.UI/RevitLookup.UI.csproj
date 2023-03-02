@@ -7,7 +7,7 @@
         <ImplicitUsings>true</ImplicitUsings>
         <TargetFramework>net48</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <!--        <NoWarn>CS0618;CS0625;CS8602;CS8604;CS0168;CS8625;CS8632</NoWarn>-->
+        <NoWarn>CS0618;CS0625;CS8602;CS8604;CS0168;CS8625;CS8632</NoWarn>
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
@@ -34,7 +34,7 @@
 
     <ItemGroup>
         <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-        <PackageReference Include="PolySharp">
+        <PackageReference Include="PolySharp" Version="1.12.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
