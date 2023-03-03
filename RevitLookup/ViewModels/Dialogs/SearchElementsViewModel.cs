@@ -60,7 +60,7 @@ public partial class SearchElementsViewModel : ObservableObject
                 var element = RevitApi.Document.GetElement(new ElementId((int) id));
                 if (element is not null) results.Add(element);
             }
-            else if (rawId.Length == 36 && rawId.Count(c => c == '-') == 5)
+            else if (rawId.Length == 45 && rawId.Count(c => c == '-') == 5)
             {
                 var element = RevitApi.Document.GetElement(rawId);
                 if (element is not null) results.Add(element);

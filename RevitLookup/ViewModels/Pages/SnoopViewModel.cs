@@ -34,7 +34,6 @@ using RevitLookup.Views.Pages;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
-using OperationCanceledException = Autodesk.Revit.Exceptions.OperationCanceledException;
 
 namespace RevitLookup.ViewModels.Pages;
 
