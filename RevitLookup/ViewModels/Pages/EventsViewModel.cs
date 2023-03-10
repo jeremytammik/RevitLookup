@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,26 +18,23 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Services.Enums;
+using RevitLookup.Services.Contracts;
+using RevitLookup.Services.Enums;
+using Wpf.Ui.Contracts;
 
-public enum SnoopableType
+namespace RevitLookup.ViewModels.Pages;
+
+public class EventsViewModel : SnoopViewModel
 {
-    View,
-    Document,
-    Application,
-    UiApplication,
-    Database,
-    DependentElements,
-    Selection,
-    Face,
-    Edge,
-    Point,
-    SubElement,
-    LinkedElement,
-    ComponentManager,
-    PerformanceAdviser,
-    UpdaterRegistry,
-    Services,
-    Schemas,
-    Events
+    
+    public EventsViewModel(IWindowController windowController, INavigationService navigationService, ISnackbarService snackbarService) :
+        base(windowController, navigationService, snackbarService)
+    {
+        
+    }
+
+    public new async Task Snoop(SnoopableType snoopableType)
+    {
+        
+    }
 }

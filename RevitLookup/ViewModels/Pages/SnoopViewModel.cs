@@ -37,7 +37,7 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed partial class SnoopViewModel : ObservableObject, ISnoopViewModel
+public partial class SnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;

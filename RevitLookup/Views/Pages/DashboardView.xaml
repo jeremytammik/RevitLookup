@@ -423,7 +423,8 @@
                     Grid.Column="1"
                     Margin="4,8,4,0"
                     Icon="DesktopPulse24"
-                    Command="{Binding  ViewModel.NavigateEventPageCommand}">
+                    CommandParameter="events"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
                         <TextBlock
                             FontWeight="Medium"

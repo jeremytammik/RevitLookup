@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2022 by Autodesk, Inc.
+// Copyright 2003-2022 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -25,7 +25,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
@@ -35,18 +34,16 @@ using MenuItem = RevitLookup.Core.Objects.MenuItem;
 
 namespace RevitLookup.Views.Pages;
 
-public partial class SnoopView : INavigableView<ISnoopViewModel>
+public sealed partial class EventsView : SnoopView, INavigableView<ISnoopViewModel>
 {
-    private readonly ISettingsService _settingsService;
     private bool _isUpdatingResults;
     private int _scrollTick;
 
-    public SnoopView(ISnoopService viewModel, ISettingsService settingsService)
+    public EventsView(ISnoopViewModel viewModel) : base(viewModel)
     {
-        ViewModel = (ISnoopViewModel) viewModel;
+        ViewModel = viewModel;
         DataContext = this;
         InitializeComponent();
-        _settingsService = settingsService;
 
         //Clear shapingStorage for remove duplications. WpfBug?
         DataGrid.Items.GroupDescriptions!.Clear();
@@ -54,47 +51,9 @@ public partial class SnoopView : INavigableView<ISnoopViewModel>
 
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
-        ViewModel.TreeSourceChanged += OnTreeSourceChanged;
-        SelectFirstTreeViewContainer();
     }
 
-    public ISnoopViewModel ViewModel { get; }
-
-    /// <summary>
-    ///     Expand treeView for first opening
-    /// </summary>
-    private void OnTreeSourceChanged(object sender, EventArgs readOnlyList)
-    {
-        SelectFirstTreeViewContainer();
-    }
-
-    /// <summary>
-    ///     Expand treeView for first opening
-    /// </summary>
-    private void SelectFirstTreeViewContainer()
-    {
-        if (TreeView.Items.Count > 3) return;
-        TreeView.ItemContainerGenerator.StatusChanged += OnGeneratorStatusChanged;
-    }
-
-    /// <summary>
-    ///     Expand treeView for first opening
-    /// </summary>
-    private async void OnGeneratorStatusChanged(object sender, EventArgs _)
-    {
-        var generator = (ItemContainerGenerator) sender;
-        if (generator.Status != ContainersGenerated) return;
-
-        generator.StatusChanged -= OnGeneratorStatusChanged;
-
-        // Await Frame transition. GetMembers freezes the thread and breaks the animation
-        await Task.Delay(_settingsService.TransitionDuration);
-
-        var treeViewItem = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
-        treeViewItem.ExpandSubtree();
-        treeViewItem = (TreeViewItem) treeViewItem.ItemContainerGenerator.ContainerFromIndex(0);
-        treeViewItem.IsSelected = true;
-    }
+    public ISnoopViewModel ViewModel { get; set; }
 
     /// <summary>
     ///     Execute collector for selection
@@ -105,9 +64,6 @@ public partial class SnoopView : INavigableView<ISnoopViewModel>
         {
             case SnoopableObject snoopableObject:
                 ViewModel.SelectedObject = snoopableObject;
-                break;
-            case CollectionViewGroup:
-                ViewModel.SelectedObject = null;
                 break;
             default:
                 //Internal __Canon object

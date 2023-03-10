@@ -53,6 +53,14 @@
                             Symbol="SlideSearch24" />
                     </rl:NavigationViewItem.Icon>
                 </rl:NavigationViewItem>
+                <rl:NavigationViewItem
+                    Content="Event monitor"
+                    TargetPageType="{x:Type pages:SnoopView}">
+                    <rl:NavigationViewItem.Icon>
+                        <rl:SymbolIcon
+                            Symbol="DesktopPulse24" />
+                    </rl:NavigationViewItem.Icon>
+                </rl:NavigationViewItem>
             </rl:NavigationView.MenuItems>
             <rl:NavigationView.FooterMenuItems>
                 <rl:NavigationViewItem
@@ -74,7 +82,6 @@
             </rl:NavigationView.FooterMenuItems>
             <rl:NavigationView.Header>
                 <rl:BreadcrumbBar
-                    x:Name="BreadcrumbBar"
                     Margin="12 12 12 0" />
             </rl:NavigationView.Header>
             <rl:NavigationView.ContentOverlay>

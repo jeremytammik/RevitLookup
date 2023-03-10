@@ -23,6 +23,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls.ContentDialogControl;
@@ -38,8 +39,8 @@ public sealed partial class DashboardViewModel : ObservableObject
     public DashboardViewModel(ISnoopService snoopService, IContentDialogService dialogService, IServiceProvider serviceProvider)
     {
         _snoopService = snoopService;
-        _dialogService = dialogService;
         _serviceProvider = serviceProvider;
+        _dialogService = dialogService;
     }
 
     [RelayCommand]
@@ -98,6 +99,9 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "schemas":
                 await _snoopService.Snoop(SnoopableType.Schemas);
                 break;
+            case "events":
+                await _snoopService.Snoop(SnoopableType.Events);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);
         }
@@ -138,11 +142,5 @@ public sealed partial class DashboardViewModel : ObservableObject
                 await dialog.ShowAsync();
                 break;
         }
-    }
-    
-    [RelayCommand]
-    private async Task NavigateEventPage()
-    {
-        await Task.CompletedTask;
     }
 }
