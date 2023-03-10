@@ -409,7 +409,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="BoxMultipleSearch24"
+                    Icon="SlideSearch24"
                     CommandParameter="search"
                     Command="{Binding ViewModel.OpenDialogCommand}">
                     <StackPanel>
@@ -418,18 +418,18 @@
                             Text="Search elements" />
                     </StackPanel>
                 </rl:CardAction>
-                <!-- <rl:CardAction -->
-                <!--     Grid.Row="0" -->
-                <!--     Grid.Column="1" -->
-                <!--     Margin="4,8,4,0" -->
-                <!--     Icon="DesktopPulse24" -->
-                <!--     Command="{Binding  ViewModel.NavigateEventPageCommand}"> -->
-                <!--     <StackPanel> -->
-                <!--         <TextBlock -->
-                <!--             FontWeight="Medium" -->
-                <!--             Text="Event monitor" /> -->
-                <!--     </StackPanel> -->
-                <!-- </rl:CardAction> -->
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="4,8,4,0"
+                    Icon="DesktopPulse24"
+                    Command="{Binding  ViewModel.NavigateEventPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Event monitor" />
+                    </StackPanel>
+                </rl:CardAction>
             </Grid>
         </StackPanel>
     </rl:DynamicScrollViewer>
