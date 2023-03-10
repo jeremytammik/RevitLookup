@@ -27,7 +27,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
+public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector, IDescriptorExtension
 {
     private readonly Element _element;
 
@@ -140,5 +140,17 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
 
             return resolveSummary;
         }
+    }
+
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(ElementExtensions.CanBeMirrored), _element, extension =>
+        {
+            extension.Result = extension.Value.CanBeMirrored();
+        });
+        manager.Register(nameof(GeometryExtensions.GetJoinedElements), _element, extension =>
+        {
+            extension.Result = extension.Value.GetJoinedElements();
+        });
     }
 }

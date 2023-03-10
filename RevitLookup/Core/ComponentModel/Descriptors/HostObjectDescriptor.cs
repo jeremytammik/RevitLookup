@@ -18,26 +18,37 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class RevitLinkTypeDescriptor : ElementDescriptor, IDescriptorResolver
+public sealed class HostObjectDescriptor : ElementDescriptor, IDescriptorExtension
 {
-    public RevitLinkTypeDescriptor(Element element) : base(element)
+    private readonly HostObject _hostObject;
+
+    public HostObjectDescriptor(HostObject hostObject) : base(hostObject)
     {
+        _hostObject = hostObject;
     }
 
-    public new ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public new void RegisterExtensions(IExtensionManager manager)
     {
-        return target switch
+        manager.Register(nameof(HostExtensions.GetBottomFaces), _hostObject, extension =>
         {
-            nameof(RevitLinkType.Load) => ResolveSet.Append(new LinkLoadResult(), "Overridden"),
-            nameof(RevitLinkType.Reload) => ResolveSet.Append(new LinkLoadResult(), "Overridden"),
-            _ => null
-        };
+            extension.Result = extension.Value.GetBottomFaces();
+        });
+        manager.Register(nameof(HostExtensions.GetTopFaces), _hostObject, extension =>
+        {
+            extension.Result = extension.Value.GetTopFaces();
+        });
+        manager.Register(nameof(HostExtensions.GetSideFaces), _hostObject, extension =>
+        {
+            var extensionResult = new ResolveSet(2);
+            extensionResult.AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Interior), "Interior");
+            extensionResult.AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Exterior), "Exterior");
+            extension.Result = extensionResult;
+        });
     }
 }

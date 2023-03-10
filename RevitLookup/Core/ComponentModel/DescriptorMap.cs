@@ -71,7 +71,8 @@ public static class DescriptorMap
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables
-            RevitLinkType when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(),
+            HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
+            RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
@@ -85,6 +86,7 @@ public static class DescriptorMap
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
             SchedulableField value when type is null || type == typeof(SchedulableField) => new SchedulableFieldDescriptor(value),
+            CompoundStructureLayer value when type is null || type == typeof(CompoundStructureLayer) => new CompoundStructureLayerDescriptor(value),
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
 
             //Internal

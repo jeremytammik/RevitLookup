@@ -18,26 +18,15 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
 using Autodesk.Revit.DB;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class RevitLinkTypeDescriptor : ElementDescriptor, IDescriptorResolver
+public class CompoundStructureLayerDescriptor : Descriptor
 {
-    public RevitLinkTypeDescriptor(Element element) : base(element)
+    public CompoundStructureLayerDescriptor(CompoundStructureLayer layer)
     {
-    }
-
-    public new ResolveSet Resolve(string target, ParameterInfo[] parameters)
-    {
-        return target switch
-        {
-            nameof(RevitLinkType.Load) => ResolveSet.Append(new LinkLoadResult(), "Overridden"),
-            nameof(RevitLinkType.Reload) => ResolveSet.Append(new LinkLoadResult(), "Overridden"),
-            _ => null
-        };
+        Name = layer.Function.ToString();
     }
 }

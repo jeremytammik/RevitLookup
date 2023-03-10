@@ -22,6 +22,7 @@ using Autodesk.Revit.DB;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Core.Utils;
 
 namespace RevitLookup.Core.Extensions;
 
@@ -55,7 +56,7 @@ public sealed class ExtensionManager : IExtensionManager
         try
         {
             extension.Invoke(descriptorExtension);
-            descriptor.Value = new SnoopableObject(_context, descriptorExtension.Result);
+            descriptor.Value = EvaluateDescriptorValue(descriptorExtension.Result);
         }
         catch (Exception exception)
         {
@@ -75,7 +76,7 @@ public sealed class ExtensionManager : IExtensionManager
 
         try
         {
-            descriptor.Value = new SnoopableObject(_context, result());
+            descriptor.Value = EvaluateDescriptorValue(result());
         }
         catch (Exception exception)
         {
@@ -83,5 +84,22 @@ public sealed class ExtensionManager : IExtensionManager
         }
 
         Descriptors.Add(descriptor);
+    }
+    
+    private SnoopableObject EvaluateDescriptorValue(object value)
+    {
+        var set = value as ResolveSet;
+        var isVariants = set != null && set.Variants.Count != 1;
+        var snoopableObject = new SnoopableObject(_context, value);
+        SnoopUtils.Redirect(snoopableObject);
+
+        if (isVariants)
+        {
+            var type = set.Variants.Peek().Result.GetType();
+            snoopableObject.Descriptor.Name = DescriptorUtils.MakeGenericTypeName(type);
+            snoopableObject.Descriptor.Type = snoopableObject.Descriptor.Name;
+        }
+
+        return snoopableObject;
     }
 }

@@ -149,6 +149,7 @@ public sealed class DescriptorBuilder
 
         var manager = new ExtensionManager(_snoopableObject.Context, _currentDescriptor);
         extension.RegisterExtensions(manager);
+        
         descriptors.AddRange(manager.Descriptors);
     }
 
