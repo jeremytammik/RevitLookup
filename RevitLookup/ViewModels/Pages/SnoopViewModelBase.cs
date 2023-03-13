@@ -18,8 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
-using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,23 +34,23 @@ using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
 
-namespace RevitLookup.UI.Demo.Moq;
+namespace RevitLookup.ViewModels.Pages;
 
-public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
+public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewModel
 {
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
+    [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
     private CancellationTokenSource _searchCancellationToken = new();
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
-    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
-    public MoqSnoopViewModel(ISnackbarService snackbarService, INavigationService navigationService)
+    public SnoopViewModelBase(INavigationService navigationService, ISnackbarService snackbarService)
     {
-        _snackbarService = snackbarService;
         _navigationService = navigationService;
+        _snackbarService = snackbarService;
     }
 
     public SnoopableObject SelectedObject { get; set; }
@@ -69,91 +67,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         _navigationService.Navigate(typeof(SnoopView));
     }
 
-    public async Task Snoop(SnoopableType snoopableType)
-    {
-        int generationCount;
-        switch (snoopableType)
-        {
-            case SnoopableType.View:
-                generationCount = 50_000;
-                break;
-            case SnoopableType.Document:
-                generationCount = 10_000;
-                break;
-            case SnoopableType.Application:
-                generationCount = 5_000;
-                break;
-            case SnoopableType.UiApplication:
-                generationCount = 1_000;
-                break;
-            case SnoopableType.Database:
-                generationCount = 500;
-                break;
-            case SnoopableType.DependentElements:
-                generationCount = 100;
-                break;
-            case SnoopableType.Selection:
-                generationCount = 50;
-                break;
-            case SnoopableType.LinkedElement:
-                generationCount = 10;
-                break;
-            case SnoopableType.Face:
-                generationCount = 5;
-                break;
-            case SnoopableType.Edge:
-                generationCount = 3;
-                break;
-            case SnoopableType.Point:
-                generationCount = 2;
-                break;
-            case SnoopableType.SubElement:
-                generationCount = 1;
-                break;
-            case SnoopableType.ComponentManager:
-            case SnoopableType.PerformanceAdviser:
-            case SnoopableType.UpdaterRegistry:
-            case SnoopableType.Services:
-            case SnoopableType.Schemas:
-            case SnoopableType.Events:
-                generationCount = 0;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(snoopableType), snoopableType, null);
-        }
-
-        SnoopableObjects = generationCount == 0
-            ? Array.Empty<SnoopableObject>()
-            : await Task.Run(() =>
-            {
-                return new Faker<SnoopableObject>()
-                    .CustomInstantiator(faker =>
-                    {
-                        if (faker.IndexFaker == 0)
-                            return new SnoopableObject(null, faker.Lorem.Word());
-                        if (faker.IndexFaker % 1000 == 0)
-                            return new SnoopableObject(null, faker.Make(150, () => faker.Internet.UserName()));
-                        if (faker.IndexFaker % 700 == 0)
-                            return new SnoopableObject(typeof(Console));
-                        if (faker.IndexFaker % 500 == 0)
-                            return new SnoopableObject(null, null);
-                        if (faker.IndexFaker % 200 == 0)
-                            return new SnoopableObject(null, string.Empty);
-                        if (faker.IndexFaker % 100 == 0)
-                            return new SnoopableObject(null, new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
-                        if (faker.IndexFaker % 5 == 0)
-                            return new SnoopableObject(null, faker.Random.Int(0));
-                        if (faker.IndexFaker % 3 == 0)
-                            return new SnoopableObject(null, faker.Random.Bool());
-
-                        return new SnoopableObject(null, faker.Lorem.Word());
-                    })
-                    .Generate(generationCount);
-            });
-
-        SnoopableData = Array.Empty<Descriptor>();
-        _navigationService.Navigate(typeof(SnoopView));
-    }
+    public abstract Task Snoop(SnoopableType snoopableType);
 
     public void Navigate(Descriptor selectedItem)
     {
@@ -217,8 +131,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
         try
         {
-            // ReSharper disable once MethodHasAsyncOverload
-            SnoopableData = SelectedObject.GetMembers();
+            SnoopableData = await SelectedObject.GetCachedMembersAsync();
         }
         catch (Exception exception)
         {

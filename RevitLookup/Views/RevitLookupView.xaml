@@ -55,7 +55,7 @@
                 </rl:NavigationViewItem>
                 <rl:NavigationViewItem
                     Content="Event monitor"
-                    TargetPageType="{x:Type pages:SnoopView}">
+                    TargetPageType="{x:Type pages:EventsView}">
                     <rl:NavigationViewItem.Icon>
                         <rl:SymbolIcon
                             Symbol="DesktopPulse24" />

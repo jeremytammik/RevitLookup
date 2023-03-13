@@ -68,6 +68,8 @@ public static class Host
                 services.AddScoped<DashboardViewModel>();
                 services.AddScoped<SettingsView>();
                 services.AddScoped<SettingsViewModel>();
+                services.AddScoped<EventsView>();
+                services.AddScoped<EventsViewModel>();
                 services.AddScoped<SnoopView>();
                 services.AddScoped<ISnoopService, SnoopViewModel>();
 

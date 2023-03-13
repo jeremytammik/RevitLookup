@@ -1,4 +1,4 @@
-<Page
+<pages:SnoopViewBase
     x:Class="RevitLookup.Views.Pages.SnoopView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,14 +13,14 @@
     d:DesignHeight="500"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
-    <Page.Resources>
+    <pages:SnoopViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <markup:ThemesDictionary />
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Page.Resources>
+    </pages:SnoopViewBase.Resources>
     <Grid
         Margin="12">
         <Grid
@@ -225,4 +225,4 @@
             </rl:DataGrid>
         </Grid>
     </Grid>
-</Page>
+</pages:SnoopViewBase>

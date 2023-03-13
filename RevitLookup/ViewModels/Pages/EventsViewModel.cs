@@ -18,23 +18,58 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Services.Contracts;
+using System.Collections.ObjectModel;
+using RevitLookup.Core;
+using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
+using RevitLookup.Views.Pages;
 using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public class EventsViewModel : SnoopViewModel
+public class EventsViewModel : SnoopViewModelBase, INavigationAware
 {
-    
-    public EventsViewModel(IWindowController windowController, INavigationService navigationService, ISnackbarService snackbarService) :
-        base(windowController, navigationService, snackbarService)
+    private readonly EventMonitor _eventMonitor = new();
+    private readonly INavigationService _navigationService;
+    private readonly Stack<SnoopableObject> _events = new();
+
+    public EventsViewModel(INavigationService navigationService, ISnackbarService snackbarService) : base(navigationService, snackbarService)
     {
-        
+        _navigationService = navigationService;
+        SnoopableObjects = new ObservableCollection<SnoopableObject>();
     }
 
-    public new async Task Snoop(SnoopableType snoopableType)
+    public override async Task Snoop(SnoopableType snoopableType)
     {
-        
+        await Task.CompletedTask;
+        if (snoopableType != SnoopableType.Events) throw new NotSupportedException();
+
+        _navigationService.Navigate(typeof(EventsView));
+    }
+
+    private void RegisterEvent(string name, EventArgs args)
+    {
+        var snoopableObject = new SnoopableObject(RevitApi.Document, args)
+        {
+            Descriptor =
+            {
+                Name = $"{name} {DateTime.Now:HH:mm:ss}"
+            }
+        };
+
+        snoopableObject.GetMembers();
+        _events.Push(snoopableObject);
+        SnoopableObjects = new List<SnoopableObject>(_events);
+    }
+
+    public async void OnNavigatedTo()
+    {
+        await _eventMonitor.Subscribe(RegisterEvent);
+    }
+
+    public async void OnNavigatedFrom()
+    {
+        await _eventMonitor.Unsubscribe();
     }
 }

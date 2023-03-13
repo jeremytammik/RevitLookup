@@ -93,8 +93,9 @@ public sealed partial class App
                 services.AddScoped<DashboardViewModel>();
                 services.AddScoped<SettingsView>();
                 services.AddScoped<SettingsViewModel>();
-                services.AddScoped<SnoopView>();
                 services.AddScoped<EventsView>();
+                services.AddScoped<EventsViewModel>();
+                services.AddScoped<SnoopView>();
                 services.AddScoped<ISnoopService, MoqSnoopViewModel>();
 
                 services.AddTransient<IWindow, RevitLookupView>();

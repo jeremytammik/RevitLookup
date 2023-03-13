@@ -36,15 +36,17 @@ namespace RevitLookup;
 [UsedImplicitly]
 public class Application : ExternalApplication
 {
-    public static AsyncEventHandler<IReadOnlyList<SnoopableObject>> ExternalElementHandler { get; private set; }
-    public static AsyncEventHandler<IReadOnlyList<Descriptor>> ExternalDescriptorHandler { get; private set; }
+    public static AsyncEventHandler AsyncEventHandler { get; private set; }
+    public static AsyncEventHandler<IReadOnlyCollection<SnoopableObject>> ExternalElementHandler { get; private set; }
+    public static AsyncEventHandler<IReadOnlyCollection<Descriptor>> ExternalDescriptorHandler { get; private set; }
 
     public override async void OnStartup()
     {
         RevitApi.UiApplication = UiApplication;
 
-        ExternalElementHandler = new AsyncEventHandler<IReadOnlyList<SnoopableObject>>();
-        ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyList<Descriptor>>();
+        AsyncEventHandler = new AsyncEventHandler();
+        ExternalElementHandler = new AsyncEventHandler<IReadOnlyCollection<SnoopableObject>>();
+        ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyCollection<Descriptor>>();
 
         CreateRibbonPanel();
         await Host.StartHost();

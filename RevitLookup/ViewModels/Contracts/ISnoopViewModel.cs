@@ -26,10 +26,10 @@ namespace RevitLookup.ViewModels.Contracts;
 
 public interface ISnoopViewModel : ISnoopService
 {
-    IReadOnlyList<SnoopableObject> SnoopableObjects { get; }
-    IReadOnlyList<Descriptor> SnoopableData { get; }
-    IReadOnlyList<SnoopableObject> FilteredSnoopableObjects { get; set; }
-    IReadOnlyList<Descriptor> FilteredSnoopableData { get; set; }
+    IReadOnlyCollection<SnoopableObject> SnoopableObjects { get; }
+    IReadOnlyCollection<Descriptor> SnoopableData { get; }
+    IReadOnlyCollection<SnoopableObject> FilteredSnoopableObjects { get; set; }
+    IReadOnlyCollection<Descriptor> FilteredSnoopableData { get; set; }
     IAsyncRelayCommand CollectMembersCommand { get; }
     public string SearchText { get; set; }
     public SnoopableObject SelectedObject { get; set; }

@@ -43,7 +43,7 @@ public sealed class DescriptorBuilder
         _settings = Host.GetService<ISettingsService>();
     }
 
-    public IReadOnlyList<Descriptor> Build()
+    public IReadOnlyCollection<Descriptor> Build()
     {
         return _snoopableObject.Object switch
         {
@@ -53,7 +53,7 @@ public sealed class DescriptorBuilder
         };
     }
 
-    private IReadOnlyList<Descriptor> BuildInstanceObject(Type type)
+    private IReadOnlyCollection<Descriptor> BuildInstanceObject(Type type)
     {
         var types = new List<Type>();
         while (type.BaseType is not null)
@@ -77,7 +77,7 @@ public sealed class DescriptorBuilder
         return _descriptors;
     }
 
-    private IReadOnlyList<Descriptor> BuildStaticObject(Type staticObjectType)
+    private IReadOnlyCollection<Descriptor> BuildStaticObject(Type staticObjectType)
     {
         _type = staticObjectType;
         _snoopableObject.Object = null;

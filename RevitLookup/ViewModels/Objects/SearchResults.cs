@@ -24,6 +24,6 @@ namespace RevitLookup.ViewModels.Objects;
 
 public sealed class SearchResults
 {
-    public IReadOnlyList<Descriptor> Data { get; set; }
-    public IReadOnlyList<SnoopableObject> Objects { get; set; }
+    public IReadOnlyCollection<Descriptor> Data { get; set; }
+    public IReadOnlyCollection<SnoopableObject> Objects { get; set; }
 }

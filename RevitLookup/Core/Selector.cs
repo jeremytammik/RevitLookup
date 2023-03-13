@@ -30,7 +30,7 @@ namespace RevitLookup.Core;
 
 public static class Selector
 {
-    public static IReadOnlyList<SnoopableObject> Snoop(SnoopableType type)
+    public static IReadOnlyCollection<SnoopableObject> Snoop(SnoopableType type)
     {
         return type switch
         {
@@ -51,56 +51,57 @@ public static class Selector
             SnoopableType.UpdaterRegistry => SnoopUpdaterRegistry(),
             SnoopableType.Services => SnoopServices(),
             SnoopableType.Schemas => SnoopSchemas(),
+            SnoopableType.Events => throw new NotSupportedException(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopView()
+    private static IReadOnlyCollection<SnoopableObject> SnoopView()
     {
         return new SnoopableObject[] {new(RevitApi.Document, RevitApi.ActiveView)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopDocument()
+    private static IReadOnlyCollection<SnoopableObject> SnoopDocument()
     {
         return new SnoopableObject[] {new(RevitApi.Document, RevitApi.Document)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopApplication()
+    private static IReadOnlyCollection<SnoopableObject> SnoopApplication()
     {
         return new SnoopableObject[] {new(RevitApi.Document, RevitApi.Application)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopUiApplication()
+    private static IReadOnlyCollection<SnoopableObject> SnoopUiApplication()
     {
         return new SnoopableObject[] {new(RevitApi.Document, RevitApi.UiApplication)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopEdge()
+    private static IReadOnlyCollection<SnoopableObject> SnoopEdge()
     {
         return new[] {SelectObject(ObjectType.Edge)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopFace()
+    private static IReadOnlyCollection<SnoopableObject> SnoopFace()
     {
         return new[] {SelectObject(ObjectType.Face)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopSubElement()
+    private static IReadOnlyCollection<SnoopableObject> SnoopSubElement()
     {
         return new[] {SelectObject(ObjectType.Subelement)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopPoint()
+    private static IReadOnlyCollection<SnoopableObject> SnoopPoint()
     {
         return new[] {SelectObject(ObjectType.PointOnElement)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopLinkedElement()
+    private static IReadOnlyCollection<SnoopableObject> SnoopLinkedElement()
     {
         return new[] {SelectObject(ObjectType.LinkedElement)};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopSelection()
+    private static IReadOnlyCollection<SnoopableObject> SnoopSelection()
     {
         var selectedIds = RevitApi.UiApplication.ActiveUIDocument.Selection.GetElementIds();
         if (selectedIds.Count > 0)
@@ -116,7 +117,7 @@ public static class Selector
             .ToList();
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopDatabase()
+    private static IReadOnlyCollection<SnoopableObject> SnoopDatabase()
     {
         var elementTypes = RevitApi.Document.GetElements().WhereElementIsElementType();
         var elementInstances = RevitApi.Document.GetElements().WhereElementIsNotElementType();
@@ -126,7 +127,7 @@ public static class Selector
             .ToList();
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopDependentElements()
+    private static IReadOnlyCollection<SnoopableObject> SnoopDependentElements()
     {
         var selectedIds = RevitApi.UiDocument.Selection.GetElementIds();
         if (selectedIds.Count == 0) return Array.Empty<SnoopableObject>();
@@ -146,27 +147,27 @@ public static class Selector
             .ToList();
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopComponentManager()
+    private static IReadOnlyCollection<SnoopableObject> SnoopComponentManager()
     {
         return new[] {new SnoopableObject(typeof(ComponentManager))};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopPerformanceAdviser()
+    private static IReadOnlyCollection<SnoopableObject> SnoopPerformanceAdviser()
     {
         return new[] {new SnoopableObject(RevitApi.Document, PerformanceAdviser.GetPerformanceAdviser())};
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopUpdaterRegistry()
+    private static IReadOnlyCollection<SnoopableObject> SnoopUpdaterRegistry()
     {
         return UpdaterRegistry.GetRegisteredUpdaterInfos().Select(schema => new SnoopableObject(RevitApi.Document, schema)).ToArray();
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopSchemas()
+    private static IReadOnlyCollection<SnoopableObject> SnoopSchemas()
     {
         return Schema.ListSchemas().Select(schema => new SnoopableObject(RevitApi.Document, schema)).ToArray();
     }
 
-    private static IReadOnlyList<SnoopableObject> SnoopServices()
+    private static IReadOnlyCollection<SnoopableObject> SnoopServices()
     {
         return ExternalServiceRegistry.GetServices().Select(service => new SnoopableObject(RevitApi.Document, service)).ToArray();
     }
