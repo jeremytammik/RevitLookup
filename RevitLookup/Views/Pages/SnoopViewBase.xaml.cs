@@ -252,7 +252,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         contextMenu.AddMenuItem("Copy", ApplicationCommands.Copy);
         contextMenu.AddMenuItem("Copy value", descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
             .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
-        contextMenu.AddMenuItem("Help", descriptor, parameter => HelpUtils.ShowHelp(parameter.Value.Descriptor.TypeFullName))
+        contextMenu.AddMenuItem("Help", descriptor, parameter => HelpUtils.ShowHelp($"{parameter.TypeFullName} {parameter.Name}"))
             .AddShortcut(row, new KeyGesture(Key.F1));
 
         row.ContextMenu = contextMenu;

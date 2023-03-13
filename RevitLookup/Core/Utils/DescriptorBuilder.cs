@@ -234,6 +234,7 @@ public sealed class DescriptorBuilder
     {
         return new ObjectDescriptor
         {
+            TypeFullName = member.ReflectedType!.FullName,
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             Name = EvaluateDescriptorName(member, parameters),
             Value = EvaluateDescriptorValue(member, value)
@@ -254,6 +255,8 @@ public sealed class DescriptorBuilder
                 MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
                 _ => snoopableObject.Descriptor.Name
             };
+
+            // snoopableObject.Descriptor.TypeFullName = $"{member.ReflectedType!.FullName}";
             snoopableObject.Descriptor.Type = snoopableObject.Descriptor.Name;
         }
 
