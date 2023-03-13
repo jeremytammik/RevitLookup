@@ -23,7 +23,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class CompoundStructureLayerDescriptor : Descriptor
+public sealed class CompoundStructureLayerDescriptor : Descriptor
 {
     public CompoundStructureLayerDescriptor(CompoundStructureLayer layer)
     {

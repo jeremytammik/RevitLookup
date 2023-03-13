@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class UpdaterInfoDescriptor : Descriptor, IDescriptorCollector
+public sealed class UpdaterInfoDescriptor : Descriptor, IDescriptorCollector
 {
     public UpdaterInfoDescriptor(UpdaterInfo info)
     {

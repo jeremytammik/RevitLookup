@@ -24,7 +24,7 @@ using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public partial class UnitsViewModel : ObservableObject
+public sealed partial class UnitsViewModel : ObservableObject
 {
     private readonly List<UnitInfo> _units;
     [ObservableProperty] private List<UnitInfo> _filteredUnits;

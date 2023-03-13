@@ -20,7 +20,7 @@
 
 namespace RevitLookup.ViewModels.Objects;
 
-public class UnitInfo
+public sealed class UnitInfo
 {
     public UnitInfo(string unit, string label)
     {

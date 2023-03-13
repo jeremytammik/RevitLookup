@@ -85,7 +85,7 @@ public sealed class ExtensionManager : IExtensionManager
 
         Descriptors.Add(descriptor);
     }
-    
+
     private SnoopableObject EvaluateDescriptorValue(object value)
     {
         var set = value as ResolveSet;

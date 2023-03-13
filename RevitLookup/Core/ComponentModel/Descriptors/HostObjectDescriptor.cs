@@ -34,15 +34,6 @@ public sealed class HostObjectDescriptor : ElementDescriptor, IDescriptorExtensi
         _hostObject = hostObject;
     }
 
-    public new ResolveSet Resolve(string target, ParameterInfo[] parameters)
-    {
-        return target switch
-        {
-            nameof(HostObject.FindInserts) => ResolveSet.Append(_hostObject.FindInserts(true, true, true, true)),
-            _ => null
-        };
-    }
-
     public new void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(nameof(HostExtensions.GetBottomFaces), _hostObject, extension =>
@@ -60,5 +51,14 @@ public sealed class HostObjectDescriptor : ElementDescriptor, IDescriptorExtensi
             extensionResult.AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Exterior), "Exterior");
             extension.Result = extensionResult;
         });
+    }
+
+    public new ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    {
+        return target switch
+        {
+            nameof(HostObject.FindInserts) => ResolveSet.Append(_hostObject.FindInserts(true, true, true, true)),
+            _ => null
+        };
     }
 }

@@ -79,7 +79,7 @@ public class Application : ExternalApplication
         var splitButton1 = splitButton.AddPushButton<DashboardCommand>("Dashboard");
         splitButton1.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitButton1.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        
+
         var splitButton2 = splitButton.AddPushButton<SearchElementsCommand>("Search elements");
         splitButton2.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitButton2.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");

@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
+public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
 {
     public SchedulableFieldDescriptor(SchedulableField field)
     {

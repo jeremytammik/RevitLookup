@@ -40,14 +40,15 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private readonly ISettingsService _settingsService;
     private bool _isUpdatingResults;
     private int _scrollTick;
-    public required TreeView TreeViewControl { get; init; }
-    public required DataGrid DataGridControl { get; init; }
-    public required ISnoopViewModel ViewModel { get; init; }
 
     protected SnoopViewBase(ISettingsService settingsService)
     {
         _settingsService = settingsService;
     }
+
+    public required TreeView TreeViewControl { get; init; }
+    public required DataGrid DataGridControl { get; init; }
+    public required ISnoopViewModel ViewModel { get; init; }
 
     /// <summary>
     ///     Expand treeView for first opening

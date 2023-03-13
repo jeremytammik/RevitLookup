@@ -18,18 +18,10 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Core.Utils;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Enums;
-using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
@@ -37,7 +29,7 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public class SnoopViewModel : SnoopViewModelBase
+public sealed class SnoopViewModel : SnoopViewModelBase
 {
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;

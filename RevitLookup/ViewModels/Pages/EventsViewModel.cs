@@ -28,16 +28,26 @@ using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public class EventsViewModel : SnoopViewModelBase, INavigationAware
+public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
 {
     private readonly EventMonitor _eventMonitor = new();
-    private readonly INavigationService _navigationService;
     private readonly Stack<SnoopableObject> _events = new();
+    private readonly INavigationService _navigationService;
 
     public EventsViewModel(INavigationService navigationService, ISnackbarService snackbarService) : base(navigationService, snackbarService)
     {
         _navigationService = navigationService;
         SnoopableObjects = new ObservableCollection<SnoopableObject>();
+    }
+
+    public async void OnNavigatedTo()
+    {
+        await _eventMonitor.Subscribe(RegisterEvent);
+    }
+
+    public async void OnNavigatedFrom()
+    {
+        await _eventMonitor.Unsubscribe();
     }
 
     public override async Task Snoop(SnoopableType snoopableType)
@@ -61,15 +71,5 @@ public class EventsViewModel : SnoopViewModelBase, INavigationAware
         snoopableObject.GetMembers();
         _events.Push(snoopableObject);
         SnoopableObjects = new List<SnoopableObject>(_events);
-    }
-
-    public async void OnNavigatedTo()
-    {
-        await _eventMonitor.Subscribe(RegisterEvent);
-    }
-
-    public async void OnNavigatedFrom()
-    {
-        await _eventMonitor.Unsubscribe();
     }
 }

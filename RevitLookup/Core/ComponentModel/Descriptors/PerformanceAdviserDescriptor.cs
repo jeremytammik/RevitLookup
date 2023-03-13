@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolver
+public sealed class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly PerformanceAdviser _adviser;
 

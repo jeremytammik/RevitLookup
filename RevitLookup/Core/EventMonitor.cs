@@ -22,20 +22,19 @@ using System.Diagnostics;
 using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using EventArgs = System.EventArgs;
 
 namespace RevitLookup.Core;
 
-public class EventMonitor
+public sealed class EventMonitor
 {
+    private List<string> _blockList;
     private Dictionary<EventInfo, Delegate> _eventInfos;
     private Action<string, EventArgs> _handler;
-    private List<string> _blockList;
 
     public async Task Subscribe(Action<string, EventArgs> handler)
     {
         _handler = handler;
-        _eventInfos = new();
+        _eventInfos = new Dictionary<EventInfo, Delegate>();
         _blockList = new List<string>(2)
         {
             nameof(UIApplication.Idling),
@@ -51,25 +50,21 @@ public class EventMonitor
             });
 
             foreach (var dll in assemblies)
+            foreach (var type in dll.GetTypes())
+            foreach (var eventInfo in type.GetEvents())
             {
-                foreach (var type in dll.GetTypes())
-                {
-                    foreach (var eventInfo in type.GetEvents())
-                    {
 #if DEBUG
-                        Debug.WriteLine($"{eventInfo.ReflectedType} - {eventInfo.Name}");
+                Debug.WriteLine($"{eventInfo.ReflectedType} - {eventInfo.Name}");
 #endif
-                        if (_blockList.Contains(eventInfo.Name)) continue;
-                        var target = FindValidTarget(eventInfo.ReflectedType);
-                        if (target is null) break;
+                if (_blockList.Contains(eventInfo.Name)) continue;
+                var target = FindValidTarget(eventInfo.ReflectedType);
+                if (target is null) break;
 
-                        var methodInfo = GetType().GetMethod(nameof(HandleEvent2), BindingFlags.Instance | BindingFlags.Public)!;
-                        var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
+                var methodInfo = GetType().GetMethod(nameof(HandleEvent), BindingFlags.Instance | BindingFlags.Public)!;
+                var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
 
-                        eventInfo.AddEventHandler(target, eventHandler);
-                        _eventInfos.Add(eventInfo, eventHandler);
-                    }
-                }
+                eventInfo.AddEventHandler(target, eventHandler);
+                _eventInfos.Add(eventInfo, eventHandler);
             }
         });
     }
@@ -86,7 +81,7 @@ public class EventMonitor
         });
     }
 
-    private object FindValidTarget(Type targetType)
+    private static object FindValidTarget(Type targetType)
     {
         if (targetType == typeof(Document)) return RevitApi.Document;
         if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return RevitApi.Application;
@@ -94,7 +89,7 @@ public class EventMonitor
         return null;
     }
 
-    public void HandleEvent2(object sender, EventArgs args)
+    public void HandleEvent(object sender, EventArgs args)
     {
         var stackTrace = new StackTrace();
         var stackFrames = stackTrace.GetFrames()!;

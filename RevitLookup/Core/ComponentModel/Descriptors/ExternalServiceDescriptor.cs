@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ExternalServiceDescriptor : Descriptor, IDescriptorResolver
+public sealed class ExternalServiceDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly ExternalService _service;
 

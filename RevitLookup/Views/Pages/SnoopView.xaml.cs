@@ -25,7 +25,7 @@ using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.Views.Pages;
 
-public partial class SnoopView
+public sealed partial class SnoopView
 {
     public SnoopView(IServiceProvider serviceProvider, ISettingsService settingsService) : base(settingsService)
     {

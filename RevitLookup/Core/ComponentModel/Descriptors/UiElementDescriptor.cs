@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class UiElementDescriptor : Descriptor, IDescriptorResolver
+public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly UIElement _element;
 

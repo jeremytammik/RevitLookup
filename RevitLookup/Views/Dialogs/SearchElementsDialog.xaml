@@ -30,6 +30,5 @@
         AcceptsReturn="True"
         MinHeight="150"
         MaxHeight="150"
-        Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
-    </rl:TextBox>
+        Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
 </rl:ContentDialog>

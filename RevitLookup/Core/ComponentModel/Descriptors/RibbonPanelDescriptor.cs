@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class RibbonPanelDescriptor : Descriptor, IDescriptorCollector
+public sealed class RibbonPanelDescriptor : Descriptor, IDescriptorCollector
 {
     public RibbonPanelDescriptor(RibbonPanel panel)
     {

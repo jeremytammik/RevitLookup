@@ -26,7 +26,7 @@ using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public partial class SearchElementsViewModel : ObservableObject
+public sealed class SearchElementsViewModel : ObservableObject
 {
     [ObservableProperty] private string _searchText = string.Empty;
 
@@ -37,7 +37,6 @@ public partial class SearchElementsViewModel : ObservableObject
 
         var items = new List<string>(rows.Length);
         foreach (var row in rows)
-        {
             for (var i = 0; i < delimiters.Length; i++)
             {
                 var delimiter = delimiters[i];
@@ -48,12 +47,10 @@ public partial class SearchElementsViewModel : ObservableObject
                     break;
                 }
             }
-        }
 
         var results = new List<Element>(items.Count);
 
         foreach (var rawId in items)
-        {
             if (long.TryParse(rawId, out var id))
             {
                 //TODO support revit 2024
@@ -73,12 +70,8 @@ public partial class SearchElementsViewModel : ObservableObject
                     .UnionWith(elementInstances)
                     .Where(element => element.Name.Contains(rawId, StringComparison.OrdinalIgnoreCase)));
             }
-        }
 
-        if (results.Count == 0)
-        {
-            return false;
-        }
+        if (results.Count == 0) return false;
 
         snoopService.Snoop(new SnoopableObject(RevitApi.Document, results));
         return true;

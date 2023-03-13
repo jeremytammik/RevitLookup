@@ -52,6 +52,18 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
         };
     }
 
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(ElementExtensions.CanBeMirrored), _element, extension =>
+        {
+            extension.Result = extension.Value.CanBeMirrored();
+        });
+        manager.Register(nameof(GeometryExtensions.GetJoinedElements), _element, extension =>
+        {
+            extension.Result = extension.Value.GetJoinedElements();
+        });
+    }
+
     public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -140,17 +152,5 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
 
             return resolveSummary;
         }
-    }
-
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        manager.Register(nameof(ElementExtensions.CanBeMirrored), _element, extension =>
-        {
-            extension.Result = extension.Value.CanBeMirrored();
-        });
-        manager.Register(nameof(GeometryExtensions.GetJoinedElements), _element, extension =>
-        {
-            extension.Result = extension.Value.GetJoinedElements();
-        });
     }
 }

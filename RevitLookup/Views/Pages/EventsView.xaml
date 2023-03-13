@@ -114,8 +114,7 @@
                     <DataGridTextColumn
                         Width="2*"
                         Binding="{Binding Value.Descriptor, Converter={converters:CombinedDescriptorConverter}}"
-                        Header="Value">
-                    </DataGridTextColumn>
+                        Header="Value" />
                 </rl:DataGrid.Columns>
                 <rl:DataGrid.RowStyle>
                     <Style

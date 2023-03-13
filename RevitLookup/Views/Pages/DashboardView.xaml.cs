@@ -25,7 +25,6 @@ namespace RevitLookup.Views.Pages;
 
 public sealed partial class DashboardView : INavigableView<DashboardViewModel>
 {
-
     public DashboardView(DashboardViewModel viewModel)
     {
         ViewModel = viewModel;
