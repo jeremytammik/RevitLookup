@@ -41,7 +41,8 @@ public class EventMonitor
             nameof(UIApplication.Idling),
             nameof(Autodesk.Revit.ApplicationServices.Application.ProgressChanged)
         };
-        try
+
+        await Application.AsyncEventHandler.RaiseAsync(_ =>
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly =>
             {
@@ -62,27 +63,27 @@ public class EventMonitor
                         var target = FindValidTarget(eventInfo.ReflectedType);
                         if (target is null) break;
 
-                        var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, GetType().GetMethod(nameof(HandleEvent2), BindingFlags.Instance | BindingFlags
-                            .Public)!);
-                        await Application.AsyncEventHandler.RaiseAsync(_ => eventInfo.AddEventHandler(target, eventHandler));
+                        var methodInfo = GetType().GetMethod(nameof(HandleEvent2), BindingFlags.Instance | BindingFlags.Public)!;
+                        var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
+
+                        eventInfo.AddEventHandler(target, eventHandler);
                         _eventInfos.Add(eventInfo, eventHandler);
                     }
                 }
             }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
+        });
     }
 
     public async Task Unsubscribe()
     {
-        foreach (var eventInfo in _eventInfos)
+        await Application.AsyncEventHandler.RaiseAsync(_ =>
         {
-            var target = FindValidTarget(eventInfo.Key.ReflectedType);
-            await Application.AsyncEventHandler.RaiseAsync(_ => eventInfo.Key.RemoveEventHandler(target, eventInfo.Value));
-        }
+            foreach (var eventInfo in _eventInfos)
+            {
+                var target = FindValidTarget(eventInfo.Key.ReflectedType);
+                eventInfo.Key.RemoveEventHandler(target, eventInfo.Value);
+            }
+        });
     }
 
     private object FindValidTarget(Type targetType)
