@@ -26,7 +26,7 @@ using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public sealed class SearchElementsViewModel : ObservableObject
+public sealed partial class SearchElementsViewModel : ObservableObject
 {
     [ObservableProperty] private string _searchText = string.Empty;
 

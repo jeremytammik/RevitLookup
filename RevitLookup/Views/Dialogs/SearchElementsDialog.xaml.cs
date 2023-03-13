@@ -21,6 +21,7 @@
 using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services.Contracts;
+using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
