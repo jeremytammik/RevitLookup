@@ -73,6 +73,7 @@ public static class DescriptorMap
             //IDisposables
             HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
             RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
+            FamilyInstance value when type is null || type == typeof(FamilyInstance) => new FamilyInstanceDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
