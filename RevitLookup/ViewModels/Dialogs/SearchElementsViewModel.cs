@@ -18,7 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Text;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.IFC;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
@@ -61,6 +63,28 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             {
                 var element = RevitApi.Document.GetElement(rawId);
                 if (element is not null) results.Add(element);
+            }
+            else if (rawId.Length == 22 && rawId.Count(c => c == ' ') == 0)
+            {
+                var guidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_GUID));
+                var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId);
+                var elementFilter = new ElementParameterFilter(filterRule);
+
+                var typeGuidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_TYPE_GUID));
+                var typeFilterRule = new FilterStringRule(typeGuidProvider, new FilterStringEquals(), rawId);
+                var typeElementFilter = new ElementParameterFilter(typeFilterRule);
+
+                var typeGuidsCollector = RevitApi.Document
+                    .GetElements()
+                    .WherePasses(typeElementFilter);
+
+                var elements = RevitApi.Document
+                    .GetElements()
+                    .WherePasses(elementFilter)
+                    .UnionWith(typeGuidsCollector)
+                    .ToElements();
+
+                results.AddRange(elements);
             }
             else
             {

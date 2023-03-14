@@ -89,7 +89,7 @@ public sealed class SnoopViewModel : SnoopViewModelBase
             SnoopableData = Array.Empty<Descriptor>();
             _navigationService.Navigate(typeof(SnoopView));
         }
-        catch (OperationCanceledException exception)
+        catch (Autodesk.Revit.Exceptions.OperationCanceledException exception)
         {
             _navigationService.Navigate(typeof(DashboardView));
             // ReSharper disable once MethodHasAsyncOverload

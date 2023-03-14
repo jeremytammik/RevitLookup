@@ -30,8 +30,10 @@ public static class Host
                 var assemblyLocation = assembly.Location;
                 var addinVersion = FileVersionInfo.GetVersionInfo(assemblyLocation).ProductVersion;
 #if RELEASE
+                var version = addinVersion.Split('.')[0];
+                if (version == "1") version = "Develop";
                 var userDataLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Autodesk\Revit\Addins\", addinVersion.Split('.')[0], "RevitLookup");
+                    @"Autodesk\Revit\Addins\", version, "RevitLookup");
 #else
                 var userDataLocation = Path.GetDirectoryName(assemblyLocation)!;
 #endif
