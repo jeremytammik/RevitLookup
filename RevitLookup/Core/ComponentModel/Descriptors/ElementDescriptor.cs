@@ -27,7 +27,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
+public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector, IDescriptorExtension
 {
     private readonly Element _element;
 
@@ -35,6 +35,33 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
     {
         _element = element;
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
+    }
+
+    public MenuItem[] RegisterMenu()
+    {
+        return new[]
+        {
+            MenuItem.Create("Show element")
+                .AddCommand(_element, element =>
+                {
+                    if (RevitApi.UiDocument is null) return;
+                    RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
+                })
+                .AddGesture(ModifierKeys.Alt, Key.F7)
+        };
+    }
+
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(ElementExtensions.CanBeMirrored), _element, extension =>
+        {
+            extension.Result = extension.Value.CanBeMirrored();
+        });
+        manager.Register(nameof(GeometryExtensions.GetJoinedElements), _element, extension =>
+        {
+            extension.Result = extension.Value.GetJoinedElements();
+        });
     }
 
     public ResolveSet Resolve(string target, ParameterInfo[] parameters)
@@ -125,20 +152,5 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
 
             return resolveSummary;
         }
-    }
-
-    public MenuItem[] RegisterMenu()
-    {
-        return new[]
-        {
-            MenuItem.Create("Show element")
-                .AddCommand(_element, element =>
-                {
-                    if (RevitApi.UiDocument is null) return;
-                    RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
-                })
-                .AddGesture(ModifierKeys.Alt, Key.F7)
-        };
     }
 }

@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolver
+public sealed class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly PerformanceAdviser _adviser;
 
@@ -53,6 +53,7 @@ public class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolver
                     default:
                         return null;
                 }
+
                 break;
             case 1 when parameters[0].ParameterType == typeof(int):
                 switch (target)

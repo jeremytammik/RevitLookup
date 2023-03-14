@@ -5,7 +5,7 @@
 
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Appearance;
+namespace Wpf.Ui.Appearance;
 
 /// <summary>
 /// Event triggered when application theme is updated.

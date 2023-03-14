@@ -6,9 +6,9 @@
 using System;
 using System.Windows;
 using System.Windows.Markup;
-using RevitLookup.UI.Appearance;
+using Wpf.Ui.Appearance;
 
-namespace RevitLookup.UI.Markup;
+namespace Wpf.Ui.Markup;
 
 /// <summary>
 /// Provides a dictionary implementation that contains <c>WPF UI</c> theme resources used by components and other elements of a WPF application.

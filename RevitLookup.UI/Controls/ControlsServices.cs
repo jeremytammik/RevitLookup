@@ -5,7 +5,7 @@
 
 using System;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Used to initialize the library controls with static values.

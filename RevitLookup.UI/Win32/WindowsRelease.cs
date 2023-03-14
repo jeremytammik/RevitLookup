@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Win32;
+namespace Wpf.Ui.Win32;
 
 /// <summary>
 /// Collection of Windows releases with it's build numbers.

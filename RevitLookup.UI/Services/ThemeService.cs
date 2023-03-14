@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Media;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Contracts;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Contracts;
 
-namespace RevitLookup.UI.Services;
+namespace Wpf.Ui.Services;
 
 /// <summary>
 /// Lets you set the app theme.

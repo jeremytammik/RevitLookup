@@ -12,7 +12,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace RevitLookup.UI.Win32;
+namespace Wpf.Ui.Win32;
 
 /// <summary>
 /// Common Window utilities.

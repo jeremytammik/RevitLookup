@@ -26,7 +26,7 @@ namespace RevitLookup.Core.Objects;
 
 public sealed class SnoopableObject
 {
-    private IReadOnlyList<Descriptor> _members;
+    private IReadOnlyCollection<Descriptor> _members;
 
     public SnoopableObject(Type type)
     {
@@ -45,12 +45,12 @@ public sealed class SnoopableObject
     public Descriptor Descriptor { get; set; }
     public Document Context { get; }
 
-    public IReadOnlyList<Descriptor> GetMembers()
+    public IReadOnlyCollection<Descriptor> GetMembers()
     {
         return _members = new DescriptorBuilder(this).Build();
     }
 
-    public async Task<IReadOnlyList<Descriptor>> GetMembersAsync()
+    public async Task<IReadOnlyCollection<Descriptor>> GetMembersAsync()
     {
         return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ =>
         {
@@ -62,7 +62,7 @@ public sealed class SnoopableObject
         });
     }
 
-    public async Task<IReadOnlyList<Descriptor>> GetCachedMembersAsync()
+    public async Task<IReadOnlyCollection<Descriptor>> GetCachedMembersAsync()
     {
         return _members ?? await GetMembersAsync();
     }

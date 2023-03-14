@@ -13,8 +13,9 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime"
-    xmlns:controls="clr-namespace:RevitLookup.UI.Controls">
+    xmlns:controls="clr-namespace:Wpf.Ui.Controls"
+    xmlns:converters="clr-namespace:Wpf.Ui.Converters"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
     <Thickness x:Key="ComboBoxPadding">10,8,10,8</Thickness>
     <Thickness x:Key="ComboBoxBorderThemeThickness">1,1,1,1</Thickness>
@@ -200,7 +201,7 @@
         <Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />
         <Setter Property="Padding" Value="{DynamicResource ComboBoxPadding}" />
         <Setter Property="Border.CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
-        <Setter Property="Popup.PopupAnimation" Value="Slide" />
+        <Setter Property="Popup.PopupAnimation" Value="None" />
         <!--  WPF doesn't like centering, the animation is ugly and the mouse button sometimes clicks right away.  -->
         <Setter Property="Popup.Placement" Value="Bottom" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -303,6 +304,9 @@
                                         BorderThickness="1"
                                         CornerRadius="{DynamicResource PopupCornerRadius}"
                                         SnapsToDevicePixels="True">
+                                        <Border.RenderTransform>
+                                            <TranslateTransform />
+                                        </Border.RenderTransform>
                                         <Border.Background>
                                             <SolidColorBrush Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
                                         </Border.Background>
@@ -349,6 +353,16 @@
                                             From="0"
                                             To="180"
                                             Duration="00:00:00.167" />
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="DropDownBorder"
+                                            Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)"
+                                            From="-90"
+                                            To="0"
+                                            Duration="00:00:00.167">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CircleEase EasingMode="EaseOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>

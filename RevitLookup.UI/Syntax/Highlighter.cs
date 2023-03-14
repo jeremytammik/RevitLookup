@@ -9,9 +9,9 @@ using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using RevitLookup.UI.Appearance;
+using Wpf.Ui.Appearance;
 
-namespace RevitLookup.UI.Syntax;
+namespace Wpf.Ui.Syntax;
 
 // TODO: This class is work in progress.
 

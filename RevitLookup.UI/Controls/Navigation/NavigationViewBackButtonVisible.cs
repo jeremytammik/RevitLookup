@@ -6,7 +6,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Controls.Navigation;
+namespace Wpf.Ui.Controls.Navigation;
 
 /// <summary>
 /// Defines constants that specify whether the back button is visible in NavigationView.

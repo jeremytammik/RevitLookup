@@ -6,12 +6,12 @@
 using System;
 using System.Windows;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Button that opens a URL in a web browser.
 /// </summary>
-public class Hyperlink : Button
+public class Hyperlink : Wpf.Ui.Controls.Button
 {
     /// <summary>
     /// Property for <see cref="NavigateUri"/>.

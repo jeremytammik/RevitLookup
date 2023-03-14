@@ -21,12 +21,13 @@
 using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
+using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Utils;
 
 public static class SearchEngine
 {
-    public static void SearchAsync(ISnoopViewModel model, SearchOption option)
+    private static SearchResults Search(ISnoopViewModel model, SearchOption option)
     {
         switch (option)
         {
@@ -34,16 +35,19 @@ public static class SearchEngine
             {
                 var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
                 var filteredData = Search(model.SearchText, model.SnoopableData);
+                var objectsCount = filteredObjects.Count;
+                var dataCount = filteredData.Count;
+
                 var isObjectSelected = false;
 
                 if (model.SelectedObject is not null)
                 {
                     //Add other types to selection if no objects are found
-                    if (filteredObjects.Count == 0 && filteredData.Count > 0)
+                    if (objectsCount == 0 && dataCount > 0)
                         filteredObjects = Search(model.SelectedObject, model.SnoopableObjects);
 
                     //Add selected object to results
-                    if (filteredData.Count > 0)
+                    if (dataCount > 0)
                     {
                         foreach (var item in filteredObjects)
                             if (item == model.SelectedObject)
@@ -57,30 +61,53 @@ public static class SearchEngine
                 }
 
                 //Add data of the selected object if no others are found
-                if (filteredObjects.Count > 0 && filteredData.Count == 0)
-                {
-                    model.FilteredSnoopableObjects = filteredObjects;
-                    model.FilteredSnoopableData = isObjectSelected ? model.SnoopableData : filteredData;
-                }
-                //Output as is
-                else
-                {
-                    model.FilteredSnoopableObjects = filteredObjects;
-                    model.FilteredSnoopableData = filteredData;
-                }
+                if (objectsCount > 0 && dataCount == 0)
+                    return new SearchResults
+                    {
+                        Objects = filteredObjects,
+                        Data = isObjectSelected ? model.SnoopableData : filteredData
+                    };
 
-                break;
+                //Display unfiltered data if object greater than 1
+                if (objectsCount > 1)
+                    return new SearchResults
+                    {
+                        Objects = filteredObjects,
+                        Data = model.SnoopableData
+                    };
+
+                //Output as is
+                return new SearchResults
+                {
+                    Objects = filteredObjects,
+                    Data = filteredData
+                };
             }
             case SearchOption.Selection:
             {
-                //Filter data for new tree selection
-                var filteredData = Search(model.SearchText, model.SnoopableData);
-                model.FilteredSnoopableData = filteredData.Count == 0 ? model.SnoopableData : filteredData;
-                break;
+                var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
+
+                //Display unfiltered data if object greater than 1
+                if (filteredObjects.Count > 1)
+                    return new SearchResults
+                    {
+                        Data = model.SnoopableData
+                    };
+
+                //Output as is
+                return new SearchResults
+                {
+                    Data = Search(model.SearchText, model.SnoopableData)
+                };
             }
             default:
                 throw new ArgumentOutOfRangeException(nameof(option), option, null);
         }
+    }
+
+    public static async Task<SearchResults> SearchAsync(ISnoopViewModel model, SearchOption option, CancellationToken cancellationToken)
+    {
+        return await Task.Run(() => Search(model, option), cancellationToken);
     }
 
     /// <summary>

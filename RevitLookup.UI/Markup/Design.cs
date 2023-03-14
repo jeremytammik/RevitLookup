@@ -6,7 +6,7 @@
 using System.ComponentModel;
 using System.Windows;
 
-namespace RevitLookup.UI.Markup;
+namespace Wpf.Ui.Markup;
 
 /// <summary>
 /// Custom design time attributes based on Marcin Najder implementation.

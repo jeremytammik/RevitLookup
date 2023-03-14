@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace RevitLookup.UI.Tray;
+namespace Wpf.Ui.Tray;
 
 // TODO: This class is the only reason for using System.Drawing.Common. It is worth looking for a way to get hIcon without using it.
 

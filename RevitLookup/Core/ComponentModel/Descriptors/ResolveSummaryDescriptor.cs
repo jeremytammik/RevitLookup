@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ResolveSummaryDescriptor : Descriptor, IDescriptorRedirection
+public sealed class ResolveSummaryDescriptor : Descriptor, IDescriptorRedirection
 {
     private readonly ResolveSummary _summary;
 

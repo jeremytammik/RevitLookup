@@ -7,7 +7,7 @@
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     xmlns:rl="http://revitlookup.com/xaml"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance dialogs:OpenSourceDialogViewModel}">
+    d:DataContext="{d:DesignInstance dialogs:OpenSourceViewModel}">
     <Grid.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,7 +16,6 @@
         </ResourceDictionary>
     </Grid.Resources>
     <DataGrid
-        Margin="0 20 0 20"
         AutoGenerateColumns="False"
         GridLinesVisibility="None"
         HeadersVisibility="Column"
@@ -59,8 +58,8 @@
                 TargetType="DataGridCell"
                 BasedOn="{StaticResource DefaultDataGridCellStyle}">
                 <Setter
-                    Property="Margin"
-                    Value="0 10" />
+                    Property="Height"
+                    Value="35" />
             </Style>
         </DataGrid.CellStyle>
     </DataGrid>

@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace RevitLookup.UI.Tray;
+namespace Wpf.Ui.Tray;
 
 /// <summary>
 /// Singleton containing persistent information about icons in the tray menu for application session.

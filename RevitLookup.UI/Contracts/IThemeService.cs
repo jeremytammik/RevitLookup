@@ -4,9 +4,9 @@
 // All Rights Reserved.
 
 using System.Windows.Media;
-using RevitLookup.UI.Appearance;
+using Wpf.Ui.Appearance;
 
-namespace RevitLookup.UI.Contracts;
+namespace Wpf.Ui.Contracts;
 
 /// <summary>
 /// Represents a contract with a service that provides tools for manipulating the theme.

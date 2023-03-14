@@ -6,7 +6,7 @@
 using System.ComponentModel;
 using System.Drawing;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Use <see cref="ToggleSwitch"/> to present users with two mutally exclusive options (like on/off).

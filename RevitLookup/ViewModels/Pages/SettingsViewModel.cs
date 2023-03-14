@@ -20,11 +20,11 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls;
-using RevitLookup.UI.Controls.Window;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls;
+using Wpf.Ui.Controls.Window;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -51,6 +51,18 @@ public sealed partial class SettingsViewModel : ObservableObject
         _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
     }
 
+    public List<ThemeType> Themes { get; } = new()
+    {
+        ThemeType.Light,
+        ThemeType.Dark
+    };
+
+    public List<WindowBackdropType> BackgroundEffects { get; } = new()
+    {
+        WindowBackdropType.None,
+        WindowBackdropType.Mica
+    };
+
     partial void OnThemeChanged(ThemeType value)
     {
         _settingsService.Theme = value;
@@ -62,7 +74,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnBackgroundChanged(WindowBackdropType value)
     {
         _settingsService.Background = value;
-        var window = (FluentWindow) UI.Application.Current;
+        var window = (FluentWindow) Wpf.Ui.Application.Current;
         window.WindowBackdropType = value;
     }
 
@@ -81,16 +93,4 @@ public sealed partial class SettingsViewModel : ObservableObject
     {
         _settingsService.IsExtensionsAllowed = value;
     }
-
-    public List<ThemeType> Themes { get; } = new()
-    {
-        ThemeType.Light,
-        ThemeType.Dark
-    };
-
-    public List<WindowBackdropType> BackgroundEffects { get; } = new()
-    {
-        WindowBackdropType.None,
-        WindowBackdropType.Mica
-    };
 }

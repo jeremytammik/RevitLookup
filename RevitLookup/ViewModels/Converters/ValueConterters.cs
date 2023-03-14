@@ -22,8 +22,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Controls.Window;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls.Window;
 
 namespace RevitLookup.ViewModels.Converters;
 

@@ -19,20 +19,15 @@
     </Page.Resources>
     <rl:DynamicScrollViewer>
         <StackPanel
-            TextBlock.FontWeight="Medium"
-            Margin="24 13 24 24">
+            Margin="12"
+            TextBlock.FontWeight="Medium">
             <TextBlock
                 FontSize="16"
-                Text="Snoop" />
-            <Grid
-                Margin="0 8 0 0">
+                Text="Workspace" />
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="Auto" />
-                    <RowDefinition
-                        Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition
@@ -47,20 +42,7 @@
                 <rl:CardAction
                     Grid.Row="0"
                     Grid.Column="0"
-                    Margin="0,0,4,0"
-                    Icon="SquareHint24"
-                    CommandParameter="selection"
-                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
-                    <StackPanel>
-                        <TextBlock
-                            FontWeight="Medium"
-                            Text="Selection" />
-                    </StackPanel>
-                </rl:CardAction>
-                <rl:CardAction
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Margin="4,0,4,0"
+                    Margin="0,8,4,0"
                     Icon="Image24"
                     CommandParameter="view"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
@@ -72,21 +54,21 @@
                 </rl:CardAction>
                 <rl:CardAction
                     Grid.Row="0"
-                    Grid.Column="2"
-                    Margin="4,0,4,0"
+                    Grid.Column="1"
+                    Margin="4,8,4,0"
                     Icon="Document24"
                     CommandParameter="document"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
                         <TextBlock
                             FontWeight="Medium"
-                            Text="Current document" />
+                            Text="Active document" />
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction
                     Grid.Row="0"
-                    Grid.Column="3"
-                    Margin="4,0,0,0"
+                    Grid.Column="2"
+                    Margin="4,8,4,0"
                     Icon="Apps24"
                     CommandParameter="application"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
@@ -94,6 +76,19 @@
                         <TextBlock
                             FontWeight="Medium"
                             Text="Application" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="4,8,0,0"
+                    Icon="WindowApps24"
+                    CommandParameter="uiApplication"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="UI Application" />
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction
@@ -113,6 +108,54 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="4,8,4,0"
+                    Icon="DataLine24"
+                    CommandParameter="dependents"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Dependent elements" />
+                    </StackPanel>
+                </rl:CardAction>
+            </Grid>
+
+            <TextBlock
+                Margin="0,17,0,0"
+                FontSize="16"
+                Text="Interaction" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,8,4,0"
+                    Icon="SquareHint24"
+                    CommandParameter="selection"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Selection" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="4,8,4,0"
                     Icon="LinkSquare24"
                     CommandParameter="linked"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
@@ -123,7 +166,7 @@
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="2"
                     Margin="4,8,4,0"
                     Icon="LayerDiagonal20"
@@ -136,7 +179,7 @@
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction
-                    Grid.Row="1"
+                    Grid.Row="0"
                     Grid.Column="3"
                     Margin="4,8,0,0"
                     Icon="Line24"
@@ -149,34 +192,68 @@
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="DataLine24"
-                    CommandParameter="dependents"
+                    Icon="Location24"
+                    CommandParameter="point"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
                         <TextBlock
                             FontWeight="Medium"
-                            Text="Dependent elements" />
+                            Text="Point" />
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="SlideLayout24"
+                    Icon="Subtitles24"
+                    CommandParameter="subElement"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Sub-element" />
+                    </StackPanel>
+                </rl:CardAction>
+            </Grid>
+
+            <TextBlock
+                Margin="0,17,0,0"
+                FontSize="16"
+                Text="Maintenance" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,8,4,0"
+                    Icon="SlideTextMultiple32"
                     CommandParameter="components"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
                         <TextBlock
                             FontWeight="Medium"
-                            Text="Component manager"/>
+                            Text="Component manager" />
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction
-                    Grid.Row="2"
-                    Grid.Column="2"
+                    Grid.Row="0"
+                    Grid.Column="1"
                     Margin="4,8,4,0"
                     Icon="HeartPulse24"
                     CommandParameter="performance"
@@ -184,44 +261,177 @@
                     <StackPanel>
                         <TextBlock
                             FontWeight="Medium"
-                            Text="Performance adviser"/>
+                            Text="Performance adviser" />
                     </StackPanel>
                 </rl:CardAction>
             </Grid>
 
-            <!-- <TextBlock -->
-            <!--     Margin="0,24,0,0" -->
-            <!--     FontSize="16" -->
-            <!--     Text="Tools" /> -->
-            <!-- <Grid -->
-            <!--     Margin="0 8 0 0"> -->
-            <!--     <Grid.RowDefinitions> -->
-            <!--         <RowDefinition -->
-            <!--             Height="Auto" /> -->
-            <!--     </Grid.RowDefinitions> -->
-            <!--     <Grid.ColumnDefinitions> -->
-            <!--         <ColumnDefinition -->
-            <!--             Width="*" /> -->
-            <!--         <ColumnDefinition -->
-            <!--             Width="*" /> -->
-            <!--         <ColumnDefinition -->
-            <!--             Width="*" /> -->
-            <!--         <ColumnDefinition -->
-            <!--             Width="*" /> -->
-            <!--     </Grid.ColumnDefinitions> -->
-            <!--     <rl:CardAction -->
-            <!--         Grid.Row="0" -->
-            <!--         Grid.Column="0" -->
-            <!--         Margin="0,0,4,0" -->
-            <!--         Icon="DesktopPulse24" -->
-            <!--         Command="{Binding  ViewModel.NavigateEventPageCommand}"> -->
-            <!--         <StackPanel> -->
-            <!--             <TextBlock -->
-            <!--                 FontWeight="Medium" -->
-            <!--                 Text="Event monitor" /> -->
-            <!--         </StackPanel> -->
-            <!--     </rl:CardAction> -->
-            <!-- </Grid> -->
+            <TextBlock
+                Margin="0,17,0,0"
+                FontSize="16"
+                Text="Registry" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,8,4,0"
+                    Icon="Whiteboard24"
+                    CommandParameter="updaters"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Updaters" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="4,8,4,0"
+                    Icon="Box24"
+                    CommandParameter="schemas"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Schemas" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="4,8,4,0"
+                    Icon="WeatherCloudy24"
+                    CommandParameter="services"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Services" />
+                    </StackPanel>
+                </rl:CardAction>
+            </Grid>
+
+            <TextBlock
+                Margin="0,17,0,0"
+                FontSize="16"
+                Text="Units" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,8,4,0"
+                    Icon="LeafOne24"
+                    CommandParameter="parameters"
+                    Command="{Binding ViewModel.OpenDialogCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="BuiltIn Parameters" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="4,8,4,0"
+                    Icon="LeafTwo24"
+                    CommandParameter="categories"
+                    Command="{Binding ViewModel.OpenDialogCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="BuiltIn Categories" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="4,8,4,0"
+                    Icon="LeafThree24"
+                    CommandParameter="forge"
+                    Command="{Binding ViewModel.OpenDialogCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Forge Schema" />
+                    </StackPanel>
+                </rl:CardAction>
+            </Grid>
+
+            <TextBlock
+                Margin="0,17,0,0"
+                FontSize="16"
+                Text="Tools" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+                        Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                    <ColumnDefinition
+                        Width="*" />
+                </Grid.ColumnDefinitions>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,8,4,0"
+                    Icon="SlideSearch24"
+                    CommandParameter="search"
+                    Command="{Binding ViewModel.OpenDialogCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Search elements" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="4,8,4,0"
+                    Icon="DesktopPulse24"
+                    CommandParameter="events"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Event monitor" />
+                    </StackPanel>
+                </rl:CardAction>
+            </Grid>
         </StackPanel>
     </rl:DynamicScrollViewer>
 </Page>

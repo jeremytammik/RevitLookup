@@ -11,7 +11,7 @@ using System.Windows.Media;
 using Point = System.Windows.Point;
 using Size = System.Windows.Size;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Control that draws a symmetrical arc with rounded edges.

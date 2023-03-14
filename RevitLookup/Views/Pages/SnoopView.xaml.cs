@@ -18,35 +18,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Controls.Navigation;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.Views.Extensions;
-using RevitLookup.Views.Utils;
-using static System.Windows.Controls.Primitives.GeneratorStatus;
-using TreeViewItem = System.Windows.Controls.TreeViewItem;
 
 namespace RevitLookup.Views.Pages;
 
-public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
+public sealed partial class SnoopView
 {
-    private readonly ISettingsService _settingsService;
-    private int _scrollTick;
-
-    public SnoopView(ISnoopService viewModel, ISettingsService settingsService)
+    public SnoopView(IServiceProvider serviceProvider, ISettingsService settingsService) : base(settingsService)
     {
-        ViewModel = (ISnoopViewModel) viewModel;
+        ViewModel = (ISnoopViewModel) serviceProvider.GetService(typeof(ISnoopService));
         DataContext = this;
         InitializeComponent();
-        _settingsService = settingsService;
+        TreeViewControl = TreeView;
+        DataGridControl = DataGrid;
 
         //Clear shapingStorage for remove duplications. WpfBug?
         DataGrid.Items.GroupDescriptions!.Clear();
@@ -56,212 +43,5 @@ public sealed partial class SnoopView : INavigableView<ISnoopViewModel>
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
         ViewModel.TreeSourceChanged += OnTreeSourceChanged;
         SelectFirstTreeViewContainer();
-    }
-
-    public ISnoopViewModel ViewModel { get; }
-
-    /// <summary>
-    ///     Expand treeView for first opening
-    /// </summary>
-    private void OnTreeSourceChanged(object sender, EventArgs readOnlyList)
-    {
-        SelectFirstTreeViewContainer();
-    }
-
-    /// <summary>
-    ///     Expand treeView for first opening
-    /// </summary>
-    private void SelectFirstTreeViewContainer()
-    {
-        if (TreeView.Items.Count > 3) return;
-        TreeView.ItemContainerGenerator.StatusChanged += OnGeneratorStatusChanged;
-    }
-
-    /// <summary>
-    ///     Expand treeView for first opening
-    /// </summary>
-    private async void OnGeneratorStatusChanged(object sender, EventArgs _)
-    {
-        var generator = (ItemContainerGenerator) sender;
-        if (generator.Status != ContainersGenerated) return;
-
-        generator.StatusChanged -= OnGeneratorStatusChanged;
-
-        // Await Frame transition. GetMembers freezes the thread and breaks the animation
-        await Task.Delay(_settingsService.TransitionDuration);
-
-        var treeViewItem = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
-        treeViewItem.ExpandSubtree();
-        treeViewItem = (TreeViewItem) treeViewItem.ItemContainerGenerator.ContainerFromIndex(0);
-        treeViewItem.IsSelected = true;
-    }
-
-    /// <summary>
-    ///     Execute collector for selection
-    /// </summary>
-    private async void OnTreeSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-    {
-        switch (e.NewValue)
-        {
-            case SnoopableObject snoopableObject:
-                ViewModel.SelectedObject = snoopableObject;
-                break;
-            case CollectionViewGroup:
-                ViewModel.SelectedObject = null;
-                break;
-            default:
-                //Internal __Canon object
-                return;
-        }
-
-        await ViewModel.CollectMembersCommand.ExecuteAsync(null);
-    }
-
-    /// <summary>
-    ///     Select, expand treeView search results
-    /// </summary>
-    private void OnSearchResultsChanged(object sender, EventArgs args)
-    {
-        if (ViewModel.SelectedObject is not null)
-        {
-            var treeViewItem = VisualUtils.GetTreeViewItem(TreeView, ViewModel.SelectedObject);
-            if (treeViewItem is not null && !treeViewItem.IsSelected)
-            {
-                TreeView.SelectedItemChanged -= OnTreeSelectionChanged;
-                treeViewItem.IsSelected = true;
-                TreeView.SelectedItemChanged += OnTreeSelectionChanged;
-            }
-        }
-
-        if (TreeView.Items.Count == 1)
-        {
-            var containerFromIndex = (TreeViewItem) TreeView.ItemContainerGenerator.ContainerFromIndex(0);
-            if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
-        }
-    }
-
-    /// <summary>
-    ///     Navigate selection in new window
-    /// </summary>
-    private void OnGridMouseLeftButtonUp(object sender, RoutedEventArgs routedEventArgs)
-    {
-        if (DataGrid.SelectedItems.Count != 1) return;
-        ViewModel.Navigate((Descriptor) DataGrid.SelectedItem);
-    }
-
-    /// <summary>
-    ///     Disable tooltips while scrolling
-    /// </summary>
-    private void OnDataGridScrollChanged(object sender, ScrollChangedEventArgs e)
-    {
-        if (e.VerticalChange != 0) _scrollTick = Environment.TickCount;
-    }
-
-    /// <summary>
-    ///    Disable tooltips while scrolling
-    /// </summary>
-    private void OnGridToolTipOpening(object o, ToolTipEventArgs args)
-    {
-        //Fixed by the tooltip work in 6.0-preview7 https://github.com/dotnet/wpf/pull/6058 but we use net48
-        if (Environment.TickCount - _scrollTick < 73) args.Handled = true;
-    }
-
-    /// <summary>
-    ///     Create tooltip, menu
-    /// </summary>
-    private void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
-    {
-        var element = (FrameworkElement) sender;
-        Descriptor descriptor;
-        switch (element.DataContext)
-        {
-            case SnoopableObject context:
-                descriptor = context.Descriptor;
-                var treeItem = VisualUtils.FindVisualParent<TreeViewItem>((DependencyObject) sender);
-                CreateTreeTooltip(descriptor, treeItem);
-                CreateTreeContextMenu(descriptor, treeItem);
-                break;
-            case Descriptor context:
-                descriptor = context;
-                CreateGridTooltip(descriptor, element);
-                CreateGridContextMenu(descriptor, element);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-        //TODO check performance
-    }
-
-    private void CreateTreeTooltip(Descriptor descriptor, FrameworkElement row)
-    {
-        row.ToolTip = new ToolTip
-        {
-            Content = new StringBuilder()
-                .Append("Type: ")
-                .AppendLine(descriptor.Type)
-                .Append("Value: ")
-                .Append(descriptor.Name)
-                .ToString()
-        };
-
-        row.ToolTipOpening += OnGridToolTipOpening;
-    }
-
-    private void CreateGridTooltip(Descriptor descriptor, FrameworkElement row)
-    {
-        var builder = new StringBuilder()
-            .Append("Field: ")
-            .AppendLine(descriptor.Name)
-            .Append("Type: ")
-            .AppendLine(descriptor.Value.Descriptor.Type)
-            .Append("Value: ")
-            .Append(descriptor.Value.Descriptor.Name);
-
-        if (descriptor.Value.Descriptor.Description is not null)
-        {
-            builder.AppendLine()
-                .Append("Description: ")
-                .Append(descriptor.Value.Descriptor.Description);
-        }
-
-        row.ToolTip = new ToolTip
-        {
-            Content = builder.ToString()
-        };
-
-        row.ToolTipOpening += OnGridToolTipOpening;
-    }
-
-    private void CreateTreeContextMenu(Descriptor descriptor, FrameworkElement row)
-    {
-        var contextMenu = new ContextMenu();
-        contextMenu.AddMenuItem("Copy", descriptor, parameter => Clipboard.SetText(parameter.Name))
-            .AddShortcut(row, ModifierKeys.Control, Key.C);
-
-        row.ContextMenu = contextMenu;
-        if (descriptor is IDescriptorConnector connector) AttachMenu(row, connector, contextMenu);
-    }
-
-    private static void CreateGridContextMenu(Descriptor descriptor, FrameworkElement row)
-    {
-        var contextMenu = new ContextMenu();
-        contextMenu.AddMenuItem("Copy", ApplicationCommands.Copy);
-        contextMenu.AddMenuItem("Copy value", descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
-            .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
-
-        row.ContextMenu = contextMenu;
-        if (descriptor.Value.Descriptor is IDescriptorConnector connector) AttachMenu(row, connector, contextMenu);
-    }
-
-    private static void AttachMenu(UIElement row, IDescriptorConnector connector, ContextMenu contextMenu)
-    {
-        var menuItems = connector.RegisterMenu();
-        foreach (var menuItem in menuItems)
-        {
-            var item = contextMenu.AddMenuItem(menuItem.Name, menuItem.Command);
-            if (menuItem.Parameter is not null) item.CommandParameter = menuItem.Parameter;
-            if (menuItem.Gesture is not null) item.AddShortcut(row, menuItem.Gesture);
-        }
     }
 }

@@ -15,11 +15,8 @@ partial class Build
         .OnlyWhenStatic(() => IsLocalBuild || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
-            var releasesDirectory = Solution.Directory / "Releases";
             var installerProject = BuilderExtensions.GetProject(Solution, InstallerProject);
-
             var buildDirectories = EnumerateBuildDirectories()
-                .Concat(new DirectoryInfo(releasesDirectory).EnumerateDirectories())
                 .Select(info => info.FullName)
                 .OrderByDescending(info => info)
                 .ToList();

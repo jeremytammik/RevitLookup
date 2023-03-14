@@ -5,7 +5,7 @@
 
 using System;
 
-namespace RevitLookup.UI.Extensions;
+namespace Wpf.Ui.Extensions;
 
 /// <summary>
 /// A collection of several extensions to the <see cref="DateTime"/> class.

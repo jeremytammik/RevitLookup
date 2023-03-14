@@ -32,7 +32,7 @@ public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IValue
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var collection = (IReadOnlyList<SnoopableObject>) value!;
+        var collection = (IReadOnlyCollection<SnoopableObject>) value!;
         return collection.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -51,7 +51,7 @@ public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, 
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var collection = (IReadOnlyList<SnoopableObject>) value!;
+        var collection = (IReadOnlyCollection<SnoopableObject>) value!;
         return collection.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
     }
 

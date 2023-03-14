@@ -6,7 +6,7 @@
 using System;
 using System.Linq;
 
-namespace RevitLookup.UI.Extensions;
+namespace Wpf.Ui.Extensions;
 
 /// <summary>
 /// Extensions for <see cref="Uri"/> class.

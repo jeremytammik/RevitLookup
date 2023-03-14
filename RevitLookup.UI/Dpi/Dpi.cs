@@ -6,7 +6,7 @@
 
 using System;
 
-namespace RevitLookup.UI.Dpi;
+namespace Wpf.Ui.Dpi;
 
 /// <summary>
 /// Stores DPI information from which a System.Windows.Media.Visual or System.Windows.UIElement

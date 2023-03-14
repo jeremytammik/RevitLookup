@@ -19,16 +19,42 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
+using System.Windows.Input;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector
+public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
+    private readonly Edge _edge;
+
     public EdgeDescriptor(Edge edge)
     {
+        _edge = edge;
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
+    }
+
+
+    public MenuItem[] RegisterMenu()
+    {
+#if R23_OR_GREATER
+        return new[]
+        {
+            MenuItem.Create("Show edge")
+                .AddCommand(_edge, edge =>
+                {
+                    if (RevitApi.UiDocument is null) return;
+                    if (edge.Reference is null) return;
+                    var element = edge.Reference.ElementId.ToElement(RevitApi.Document);
+                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
+                })
+                .AddGesture(ModifierKeys.Alt, Key.F7)
+        };
+#else
+        return Array.Empty<MenuItem>();
+#endif
     }
 }

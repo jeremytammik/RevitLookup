@@ -9,7 +9,7 @@ using System.Windows;
 using Brush = System.Windows.Media.Brush;
 using SystemColors = System.Windows.SystemColors;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Inherited from the <see cref="System.Windows.Controls.Expander"/> control which can hide the collapsible content.
@@ -54,7 +54,7 @@ public class CardExpander : System.Windows.Controls.Expander, IIconControl
     }
 
     /// <summary>
-    /// Foreground of the <see cref="SymbolIcon"/>.
+    /// Foreground of the <see cref="Wpf.Ui.Controls.SymbolIcon"/>.
     /// </summary>
     [Bindable(true), Category("Appearance")]
     public Brush IconForeground

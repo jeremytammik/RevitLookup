@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Converters;
+namespace Wpf.Ui.Converters;
 
 /// <summary>
 /// Converts <see cref="Boolean"/> to <see cref="Visibility"/>.

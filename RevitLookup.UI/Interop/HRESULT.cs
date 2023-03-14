@@ -6,7 +6,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace RevitLookup.UI.Interop;
+namespace Wpf.Ui.Interop;
 
 /// <summary>
 /// Common Windows API result;

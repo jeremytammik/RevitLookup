@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Hardware;
+namespace Wpf.Ui.Hardware;
 
 /// <summary>
 /// An <see cref="System.Int32"/> value whose high-order word corresponds to the rendering tier for the current thread.

@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ResolveSetDescriptor : Descriptor, IDescriptorRedirection
+public sealed class ResolveSetDescriptor : Descriptor, IDescriptorRedirection
 {
     private readonly ResolveSet _set;
 

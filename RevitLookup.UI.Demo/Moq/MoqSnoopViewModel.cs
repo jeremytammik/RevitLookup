@@ -28,13 +28,13 @@ using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.UI.Demo.Moq;
 
@@ -42,11 +42,12 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 {
     private readonly INavigationService _navigationService;
     private readonly ISnackbarService _snackbarService;
-    [ObservableProperty] private IReadOnlyList<Descriptor> _filteredSnoopableData;
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _filteredSnoopableObjects;
-    [ObservableProperty] private string _searchText;
-    [ObservableProperty] private IReadOnlyList<Descriptor> _snoopableData;
-    [ObservableProperty] private IReadOnlyList<SnoopableObject> _snoopableObjects;
+    private CancellationTokenSource _searchCancellationToken = new();
+    [ObservableProperty] private string _searchText = string.Empty;
+    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
+    [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
 
     public MoqSnoopViewModel(ISnackbarService snackbarService, INavigationService navigationService)
     {
@@ -73,37 +74,48 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         int generationCount;
         switch (snoopableType)
         {
-            case SnoopableType.Selection:
-                generationCount = 10_000;
-                break;
             case SnoopableType.View:
-                generationCount = 1_000;
+                generationCount = 50_000;
                 break;
             case SnoopableType.Document:
-                generationCount = 100;
+                generationCount = 10_000;
                 break;
             case SnoopableType.Application:
-                generationCount = 50;
+                generationCount = 5_000;
+                break;
+            case SnoopableType.UiApplication:
+                generationCount = 1_000;
                 break;
             case SnoopableType.Database:
-                generationCount = 10;
-                break;
-            case SnoopableType.LinkedElement:
-                generationCount = 5;
-                break;
-            case SnoopableType.Face:
-                generationCount = 2;
-                break;
-            case SnoopableType.Edge:
-                generationCount = 1;
+                generationCount = 500;
                 break;
             case SnoopableType.DependentElements:
+                generationCount = 100;
+                break;
+            case SnoopableType.Selection:
+                generationCount = 50;
+                break;
+            case SnoopableType.LinkedElement:
+                generationCount = 10;
+                break;
+            case SnoopableType.Face:
+                generationCount = 5;
+                break;
+            case SnoopableType.Edge:
+                generationCount = 3;
+                break;
+            case SnoopableType.Point:
+                generationCount = 2;
+                break;
+            case SnoopableType.SubElement:
                 generationCount = 1;
                 break;
             case SnoopableType.ComponentManager:
-                generationCount = 1;
-                break;
             case SnoopableType.PerformanceAdviser:
+            case SnoopableType.UpdaterRegistry:
+            case SnoopableType.Services:
+            case SnoopableType.Schemas:
+            case SnoopableType.Events:
                 generationCount = 0;
                 break;
             default:
@@ -152,34 +164,45 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         window.Scope.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 
-    partial void OnSearchTextChanged(string value)
+    async partial void OnSearchTextChanged(string value)
     {
-        UpdateSearchResults(SearchOption.Objects);
+        await UpdateSearchResults(SearchOption.Objects);
         SearchResultsChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    partial void OnSnoopableObjectsChanged(IReadOnlyList<SnoopableObject> value)
+    async partial void OnSnoopableObjectsChanged(IReadOnlyCollection<SnoopableObject> value)
     {
         SelectedObject = null;
-        UpdateSearchResults(SearchOption.Objects);
+        await UpdateSearchResults(SearchOption.Objects);
         TreeSourceChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    partial void OnSnoopableDataChanged(IReadOnlyList<Descriptor> value)
+    async partial void OnSnoopableDataChanged(IReadOnlyCollection<Descriptor> value)
     {
-        UpdateSearchResults(SearchOption.Selection);
+        await UpdateSearchResults(SearchOption.Selection);
     }
 
-    private void UpdateSearchResults(SearchOption option)
+    private async Task UpdateSearchResults(SearchOption option)
     {
+        _searchCancellationToken.Cancel();
+        _searchCancellationToken = new CancellationTokenSource();
+
         if (string.IsNullOrEmpty(SearchText))
         {
             FilteredSnoopableObjects = SnoopableObjects;
             FilteredSnoopableData = SnoopableData;
+            return;
         }
-        else
+
+        try
         {
-            SearchEngine.SearchAsync(this, option);
+            var results = await SearchEngine.SearchAsync(this, option, _searchCancellationToken.Token);
+            if (results.Data is not null) FilteredSnoopableData = results.Data;
+            if (results.Objects is not null) FilteredSnoopableObjects = results.Objects;
+        }
+        catch (OperationCanceledException)
+        {
+            //Ignored
         }
     }
 

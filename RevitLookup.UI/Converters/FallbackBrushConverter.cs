@@ -7,7 +7,7 @@ using System;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Converters;
+namespace Wpf.Ui.Converters;
 
 /// <summary>
 /// Converts <see cref="object"/> to <see cref="SolidColorBrush"/>.

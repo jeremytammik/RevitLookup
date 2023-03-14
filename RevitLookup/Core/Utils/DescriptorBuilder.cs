@@ -43,7 +43,7 @@ public sealed class DescriptorBuilder
         _settings = Host.GetService<ISettingsService>();
     }
 
-    public IReadOnlyList<Descriptor> Build()
+    public IReadOnlyCollection<Descriptor> Build()
     {
         return _snoopableObject.Object switch
         {
@@ -53,7 +53,7 @@ public sealed class DescriptorBuilder
         };
     }
 
-    private IReadOnlyList<Descriptor> BuildInstanceObject(Type type)
+    private IReadOnlyCollection<Descriptor> BuildInstanceObject(Type type)
     {
         var types = new List<Type>();
         while (type.BaseType is not null)
@@ -77,7 +77,7 @@ public sealed class DescriptorBuilder
         return _descriptors;
     }
 
-    private IReadOnlyList<Descriptor> BuildStaticObject(Type staticObjectType)
+    private IReadOnlyCollection<Descriptor> BuildStaticObject(Type staticObjectType)
     {
         _type = staticObjectType;
         _snoopableObject.Object = null;
@@ -149,6 +149,7 @@ public sealed class DescriptorBuilder
 
         var manager = new ExtensionManager(_snoopableObject.Context, _currentDescriptor);
         extension.RegisterExtensions(manager);
+
         descriptors.AddRange(manager.Descriptors);
     }
 
@@ -164,7 +165,7 @@ public sealed class DescriptorBuilder
                 Type = nameof(IEnumerable),
                 Value = new SnoopableObject(_snoopableObject.Context, enumerator.Current)
             };
-            
+
             SnoopUtils.Redirect(enumerableDescriptor.Value);
             enumerableDescriptor.Name = enumerableDescriptor.Value.Descriptor.Type;
             _descriptors.Add(enumerableDescriptor);
@@ -233,6 +234,7 @@ public sealed class DescriptorBuilder
     {
         return new ObjectDescriptor
         {
+            TypeFullName = member.ReflectedType!.FullName,
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             Name = EvaluateDescriptorName(member, parameters),
             Value = EvaluateDescriptorValue(member, value)
@@ -253,6 +255,8 @@ public sealed class DescriptorBuilder
                 MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
                 _ => snoopableObject.Descriptor.Name
             };
+
+            // snoopableObject.Descriptor.TypeFullName = $"{member.ReflectedType!.FullName}";
             snoopableObject.Descriptor.Type = snoopableObject.Descriptor.Name;
         }
 

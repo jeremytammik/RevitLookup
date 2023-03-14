@@ -6,9 +6,9 @@
 using System;
 using System.Windows;
 using System.Windows.Interop;
-using RevitLookup.UI.Controls.Window;
+using Wpf.Ui.Controls.Window;
 
-namespace RevitLookup.UI.Appearance;
+namespace Wpf.Ui.Appearance;
 
 // https://github.com/lepoco/wpfui/issues/55
 

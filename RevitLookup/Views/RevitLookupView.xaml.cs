@@ -19,11 +19,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
-using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls.Navigation;
+using Wpf.Ui.Contracts;
 
 namespace RevitLookup.Views;
 
@@ -33,21 +31,19 @@ public sealed partial class RevitLookupView : IWindow
 
     public RevitLookupView(IServiceScopeFactory scopeFactory, ISettingsService settingsService)
     {
-        UI.Application.Current = this;
+        Wpf.Ui.Application.Current = this;
         InitializeComponent();
 
         _serviceScope = scopeFactory.CreateScope();
         var navigationService = _serviceScope.ServiceProvider.GetService<INavigationService>()!;
-        var pageService = _serviceScope.ServiceProvider.GetService<IPageService>()!;
         var windowController = _serviceScope.ServiceProvider.GetService<IWindowController>()!;
-        var dialogService = _serviceScope.ServiceProvider.GetService<IDialogService>()!;
+        var dialogService = _serviceScope.ServiceProvider.GetService<IContentDialogService>()!;
         var snackbarService = _serviceScope.ServiceProvider.GetService<ISnackbarService>()!;
 
         windowController.SetControlledWindow(this);
-        navigationService.SetPageService(pageService);
         navigationService.SetNavigationControl(RootNavigation);
+        dialogService.SetContentPresenter(RootContentDialog);
 
-        dialogService.SetDialogControl(RootDialog);
         snackbarService.SetSnackbarControl(RootSnackbar);
         snackbarService.Timeout = 3000;
 
@@ -55,30 +51,10 @@ public sealed partial class RevitLookupView : IWindow
         WindowBackdropType = settingsService.Background;
 
         Unloaded += UnloadServices;
-        GotFocus += (sender, _) => { UI.Application.Current = (Window) sender; };
+        GotFocus += (sender, _) => { Wpf.Ui.Application.Current = (Window) sender; };
     }
 
     public IServiceProvider Scope => _serviceScope.ServiceProvider;
-
-    public Frame GetFrame()
-    {
-        return RootFrame;
-    }
-
-    public INavigation GetNavigation()
-    {
-        return RootNavigation;
-    }
-
-    public bool Navigate(Type pageType)
-    {
-        return RootNavigation.Navigate(pageType);
-    }
-
-    public void SetPageService(IPageService pageService)
-    {
-        RootNavigation.PageService = pageService;
-    }
 
     public void Show(IntPtr handle)
     {

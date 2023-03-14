@@ -5,7 +5,7 @@
 
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// UI <see cref="System.Windows.Controls.Control"/> with <see cref="Common.SymbolRegular"/> attributes.

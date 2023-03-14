@@ -36,10 +36,7 @@ public static class VisualUtils
         if (container.DataContext == item) return container as TreeViewItem;
         if (container.Items.Count == 0) return null;
 
-        if (container is TreeViewItem {IsExpanded: false} viewItem)
-        {
-            viewItem.SetValue(TreeViewItem.IsExpandedProperty, true);
-        }
+        if (container is TreeViewItem {IsExpanded: false} viewItem) viewItem.SetValue(TreeViewItem.IsExpandedProperty, true);
 
         container.ApplyTemplate();
         var itemsPresenter = (ItemsPresenter) container.Template.FindName("ItemsHost", container);
@@ -70,10 +67,7 @@ public static class VisualUtils
                     continue;
 
             var resultContainer = GetTreeViewItem(subContainer, item);
-            if (resultContainer != null)
-            {
-                return resultContainer;
-            }
+            if (resultContainer != null) return resultContainer;
 
             subContainer.IsExpanded = false;
         }
@@ -86,16 +80,10 @@ public static class VisualUtils
         for (var i = 0; i < VisualTreeHelper.GetChildrenCount(visual); i++)
         {
             var child = (Visual) VisualTreeHelper.GetChild(visual, i);
-            if (child is T correctlyTyped)
-            {
-                return correctlyTyped;
-            }
+            if (child is T correctlyTyped) return correctlyTyped;
 
             var descendent = FindVisualChild<T>(child);
-            if (descendent != null)
-            {
-                return descendent;
-            }
+            if (descendent != null) return descendent;
         }
 
         return null;

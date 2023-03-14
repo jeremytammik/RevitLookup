@@ -3,11 +3,12 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Windows;
 using System.Windows.Media;
-using RevitLookup.UI.Extensions;
-using RevitLookup.UI.Interop;
+using Wpf.Ui.Extensions;
+using Wpf.Ui.Interop;
 
-namespace RevitLookup.UI.Appearance;
+namespace Wpf.Ui.Appearance;
 
 /// <summary>
 /// Lets you update the color accents of the application.

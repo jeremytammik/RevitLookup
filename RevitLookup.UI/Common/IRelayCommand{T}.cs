@@ -4,7 +4,7 @@
 
 using System.Windows.Input;
 
-namespace RevitLookup.UI.Common;
+namespace Wpf.Ui.Common;
 
 /// <summary>
 /// A generic interface representing a more specific version of <see cref="IRelayCommand"/>.

@@ -6,7 +6,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Controls.Navigation;
+namespace Wpf.Ui.Controls.Navigation;
 
 /// <summary>
 /// Defines constants that specify how and where the NavigationView pane is shown.

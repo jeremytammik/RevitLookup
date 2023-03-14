@@ -1,4 +1,4 @@
-<Page
+<pages:SnoopViewBase
     x:Class="RevitLookup.Views.Pages.SnoopView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,15 +13,16 @@
     d:DesignHeight="500"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
-    <Page.Resources>
+    <pages:SnoopViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <markup:ThemesDictionary />
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Page.Resources>
-    <Grid>
+    </pages:SnoopViewBase.Resources>
+    <Grid
+        Margin="12">
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:CollectionEmptyVisibilityConverter}}">
@@ -58,19 +59,20 @@
             Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
-                    Width="*" />
+                    Width="250" />
                 <ColumnDefinition
                     Width="9" />
-                <ColumnDefinition
-                    Width="2*" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <DockPanel
-                Margin="5 0 0 0"
                 Grid.Column="0">
-                <rl:AutoSuggestBox
+                <rl:TextBox
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
+                    Icon="Search24"
+                    IconPlacement="Right"
                     Text="{Binding ViewModel.SearchText,
+                        Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" />
                 <rl:TreeView
                     x:Name="TreeView"
@@ -84,8 +86,7 @@
                         <HierarchicalDataTemplate
                             ItemsSource="{Binding Items}">
                             <TextBlock
-                                Text="{Binding Name}">
-                            </TextBlock>
+                                Text="{Binding Name}" />
                             <HierarchicalDataTemplate.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock
@@ -101,7 +102,6 @@
             <rl:DataGrid
                 Grid.Column="2"
                 x:Name="DataGrid"
-                Margin="0 0 6 2"
                 IsReadOnly="True"
                 MinColumnWidth="100"
                 ColumnHeaderHeight="30"
@@ -112,28 +112,18 @@
                 CanUserResizeRows="False"
                 CanUserReorderColumns="False"
                 VerticalScrollBarVisibility="Visible"
+                HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding ViewModel.FilteredSnoopableData}"
                 ScrollViewer.ScrollChanged="OnDataGridScrollChanged">
                 <rl:DataGrid.Columns>
                     <DataGridTextColumn
                         Width="*"
-                        Binding="{Binding Name}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock
-                                Margin="4 0 4 0"
-                                FontWeight="Bold"
-                                Text="Member" />
-                        </DataGridTextColumn.Header>
-                    </DataGridTextColumn>
+                        Binding="{Binding Name}"
+                        Header="Member" />
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Value.Descriptor, Converter={converters:CombinedDescriptorConverter}}">
-                        <DataGridTextColumn.Header>
-                            <TextBlock
-                                Margin="3 0 3 0"
-                                FontWeight="Bold"
-                                Text="Value" />
-                        </DataGridTextColumn.Header>
+                        Binding="{Binding Value.Descriptor, Converter={converters:CombinedDescriptorConverter}}"
+                        Header="Value">
                         <!-- <DataGridTextColumn.ElementStyle> -->
                         <!--     <Style -->
                         <!--         TargetType="{x:Type TextBlock}"> -->
@@ -235,4 +225,4 @@
             </rl:DataGrid>
         </Grid>
     </Grid>
-</Page>
+</pages:SnoopViewBase>

@@ -10,11 +10,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Services.Internal;
-using RevitLookup.UI.Tray;
+using Wpf.Ui.Common;
+using Wpf.Ui.Services.Internal;
+using Wpf.Ui.Tray;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Represents the implementation of icon in the tray menu as <see cref="FrameworkElement"/>.

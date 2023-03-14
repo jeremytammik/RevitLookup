@@ -18,20 +18,27 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.Views.Dialogs;
+using Wpf.Ui.Contracts;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class DashboardViewModel : ObservableObject
 {
+    private readonly IContentDialogService _dialogService;
+    private readonly IServiceProvider _serviceProvider;
     private readonly ISnoopService _snoopService;
 
-    public DashboardViewModel(ISnoopService snoopService)
+    public DashboardViewModel(ISnoopService snoopService, IContentDialogService dialogService, IServiceProvider serviceProvider)
     {
         _snoopService = snoopService;
+        _serviceProvider = serviceProvider;
+        _dialogService = dialogService;
     }
 
     [RelayCommand]
@@ -39,20 +46,26 @@ public sealed partial class DashboardViewModel : ObservableObject
     {
         switch (parameter)
         {
-            case "selection":
-                await _snoopService.Snoop(SnoopableType.Selection);
+            case "view":
+                await _snoopService.Snoop(SnoopableType.View);
                 break;
             case "document":
                 await _snoopService.Snoop(SnoopableType.Document);
                 break;
+            case "application":
+                await _snoopService.Snoop(SnoopableType.Application);
+                break;
+            case "uiApplication":
+                await _snoopService.Snoop(SnoopableType.UiApplication);
+                break;
             case "database":
                 await _snoopService.Snoop(SnoopableType.Database);
                 break;
-            case "view":
-                await _snoopService.Snoop(SnoopableType.View);
+            case "dependents":
+                await _snoopService.Snoop(SnoopableType.DependentElements);
                 break;
-            case "application":
-                await _snoopService.Snoop(SnoopableType.Application);
+            case "selection":
+                await _snoopService.Snoop(SnoopableType.Selection);
                 break;
             case "linked":
                 await _snoopService.Snoop(SnoopableType.LinkedElement);
@@ -63,8 +76,11 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "edge":
                 await _snoopService.Snoop(SnoopableType.Edge);
                 break;
-            case "dependents":
-                await _snoopService.Snoop(SnoopableType.DependentElements);
+            case "point":
+                await _snoopService.Snoop(SnoopableType.Point);
+                break;
+            case "subElement":
+                await _snoopService.Snoop(SnoopableType.SubElement);
                 break;
             case "components":
                 await _snoopService.Snoop(SnoopableType.ComponentManager);
@@ -72,14 +88,58 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "performance":
                 await _snoopService.Snoop(SnoopableType.PerformanceAdviser);
                 break;
+            case "updaters":
+                await _snoopService.Snoop(SnoopableType.UpdaterRegistry);
+                break;
+            case "services":
+                await _snoopService.Snoop(SnoopableType.Services);
+                break;
+            case "schemas":
+                await _snoopService.Snoop(SnoopableType.Schemas);
+                break;
+            case "events":
+                var service = (EventsViewModel) _serviceProvider.GetService(typeof(EventsViewModel));
+                await service.Snoop(SnoopableType.Events);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);
         }
     }
 
     [RelayCommand]
-    private async Task NavigateEventPage()
+    private async Task OpenDialog(string parameter)
     {
-        await Task.CompletedTask;
+        var dialog = _dialogService.CreateDialog();
+
+        switch (parameter)
+        {
+            case "parameters":
+                dialog.Title = "BuiltIn Parameters";
+                dialog.Content = new UnitsDialog(typeof(BuiltInParameter));
+                dialog.DialogWidth = 800;
+                dialog.DialogHeight = 600;
+                await dialog.ShowAsync();
+                break;
+            case "categories":
+                dialog.Title = "BuiltIn Categories";
+                dialog.Content = new UnitsDialog(typeof(BuiltInCategory));
+                dialog.DialogWidth = 800;
+                dialog.DialogHeight = 600;
+                await dialog.ShowAsync();
+                break;
+            case "forge":
+                dialog.Title = "Forge Schema";
+                dialog.Content = new UnitsDialog(typeof(ForgeTypeId));
+                dialog.DialogWidth = 800;
+                dialog.DialogHeight = 600;
+                await dialog.ShowAsync();
+                break;
+            case "search":
+                dialog = new SearchElementsDialog(_serviceProvider, _dialogService.GetContentPresenter());
+                dialog.DialogWidth = 570;
+                dialog.DialogHeight = 330;
+                await dialog.ShowAsync();
+                break;
+        }
     }
 }

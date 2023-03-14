@@ -5,7 +5,7 @@
 
 using System;
 
-namespace RevitLookup.UI.Common;
+namespace Wpf.Ui.Common;
 
 /// <summary>
 /// Set of static methods to operate on <see cref="SymbolRegular"/> and <see cref="SymbolFilled"/>.

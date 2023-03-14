@@ -24,10 +24,24 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class SchemaDescriptor : Descriptor, IDescriptorCollector
+public sealed class SchemaDescriptor : Descriptor, IDescriptorExtension
 {
+    private readonly Schema _schema;
+
     public SchemaDescriptor(Schema schema)
     {
+        _schema = schema;
         Name = schema.SchemaName;
+    }
+
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register("GetElements", _schema, extension =>
+        {
+            extension.Result = extension.Context
+                .GetElements()
+                .WherePasses(new ExtensibleStorageFilter(extension.Value.GUID))
+                .ToElements();
+        });
     }
 }

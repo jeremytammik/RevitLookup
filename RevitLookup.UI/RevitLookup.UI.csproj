@@ -21,6 +21,7 @@
         <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
     </PropertyGroup>
     <PropertyGroup>
+        <RootNamespace>Wpf.Ui</RootNamespace>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
@@ -32,16 +33,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
         <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-        <PackageReference Include="NativeMethods" Version="0.0.3" />
+        <PackageReference Include="PolySharp" Version="1.12.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="Controls\Anchor.bmp" />
         <EmbeddedResource Include="Controls\Arc.bmp" />
-        <EmbeddedResource Include="Controls\AutoSuggestBox.bmp" />
+        <EmbeddedResource Include="Controls\AutoSuggestBoxControl\AutoSuggestBox.bmp" />
         <EmbeddedResource Include="Controls\Badge.bmp" />
         <EmbeddedResource Include="Controls\CardExpander.bmp" />
         <EmbeddedResource Include="Controls\CardAction.bmp" />
@@ -49,21 +51,20 @@
         <EmbeddedResource Include="Controls\CodeBlock.bmp" />
         <EmbeddedResource Include="Controls\DynamicScrollBar.bmp" />
         <EmbeddedResource Include="Controls\DynamicScrollViewer.bmp" />
-        <EmbeddedResource Include="Controls\MessageBox.bmp" />
-        <EmbeddedResource Include="Controls\Dialog.bmp" />
+        <EmbeddedResource Include="Controls\MessageBoxControl\MessageBox.bmp" />
         <EmbeddedResource Include="Controls\FontIcon.bmp" />
         <EmbeddedResource Include="Controls\Navigation\NavigationView.bmp" />
         <EmbeddedResource Include="Controls\Navigation\NavigationViewItem.bmp" />
         <EmbeddedResource Include="Controls\NotifyIcon.bmp" />
-        <EmbeddedResource Include="Controls\NumberBox.bmp" />
+        <EmbeddedResource Include="Controls\NumberBoxControl\NumberBox.bmp" />
         <EmbeddedResource Include="Controls\ProgressRing.bmp" />
         <EmbeddedResource Include="Controls\RatingControl.bmp" />
         <EmbeddedResource Include="Controls\Snackbar.bmp" />
         <EmbeddedResource Include="Controls\SymbolIcon.bmp" />
-        <EmbeddedResource Include="Controls\ThumbRate.bmp" />
+        <EmbeddedResource Include="Controls\ThumbRateControl\ThumbRate.bmp" />
         <EmbeddedResource Include="Controls\ToggleSwitch.bmp" />
         <EmbeddedResource Include="Controls\Window\FluentWindow.bmp" />
-        <EmbeddedResource Include="Controls\VirtualizingItemsControl.bmp" />
-        <EmbeddedResource Include="Controls\VirtualizingWrapPanel.bmp" />
+        <EmbeddedResource Include="Controls\VirtualizingControls\VirtualizingItemsControl.bmp" />
+        <EmbeddedResource Include="Controls\VirtualizingControls\VirtualizingWrapPanel.bmp" />
     </ItemGroup>
 </Project>

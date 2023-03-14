@@ -8,7 +8,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace RevitLookup.UI.Interop.WinDef;
+namespace Wpf.Ui.Interop.WinDef;
 
 /// <summary>
 /// The <see cref="POINTL"/> structure defines the x- and y-coordinates of a point.

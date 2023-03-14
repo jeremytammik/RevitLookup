@@ -11,14 +11,14 @@ using System.Windows.Controls.Primitives;
 
 // https://docs.microsoft.com/en-us/fluent-ui/web-components/components/anchor
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address.
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(Anchor), "Anchor.bmp")]
-public class Anchor : Button
+public class Anchor : Wpf.Ui.Controls.Button
 {
     /// <summary>
     /// Property for <see cref="NavigateUri"/>.

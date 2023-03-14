@@ -15,7 +15,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace RevitLookup.UI.Interop;
+namespace Wpf.Ui.Interop;
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable InconsistentNaming

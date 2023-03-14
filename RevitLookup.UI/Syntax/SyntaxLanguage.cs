@@ -3,7 +3,7 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Syntax;
+namespace Wpf.Ui.Syntax;
 
 /// <summary>
 /// Supported languages for syntax highlighting.

@@ -7,11 +7,11 @@
 
 using System;
 using System.Threading.Tasks;
-using RevitLookup.UI.Common;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls;
+using Wpf.Ui.Common;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls;
 
-namespace RevitLookup.UI.Services;
+namespace Wpf.Ui.Services;
 
 /// <summary>
 /// A service that provides methods related to displaying the <see cref="ISnackbarControl"/>.

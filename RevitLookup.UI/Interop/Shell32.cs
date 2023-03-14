@@ -15,7 +15,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 
-namespace RevitLookup.UI.Interop;
+namespace Wpf.Ui.Interop;
 
 /// <summary>
 /// The Windows UI provides users with access to a wide variety of objects necessary to run applications and manage the operating system.

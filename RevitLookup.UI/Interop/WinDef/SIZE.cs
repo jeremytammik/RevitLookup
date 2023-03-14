@@ -8,7 +8,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace RevitLookup.UI.Interop.WinDef;
+namespace Wpf.Ui.Interop.WinDef;
 
 /// <summary>
 /// The SIZE structure defines the width and height of a rectangle.

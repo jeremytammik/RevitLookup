@@ -7,7 +7,7 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Ala Pa**one color card.

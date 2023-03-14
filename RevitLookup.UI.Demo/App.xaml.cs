@@ -13,18 +13,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Contracts;
 using RevitLookup.UI.Demo.Moq;
-using RevitLookup.UI.Services;
+using RevitLookup.Utils;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Services;
 
 namespace RevitLookup.UI.Demo;
 
 public sealed partial class App
 {
     private string _revitPath;
+
     private async void OnStartup(object sender, StartupEventArgs e)
     {
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
@@ -51,8 +53,17 @@ public sealed partial class App
             {
                 var assembly = Assembly.GetExecutingAssembly();
                 var assemblyLocation = assembly.Location;
-                var assemblyDirectory = Path.GetDirectoryName(assemblyLocation)!;
-                builder.SetBasePath(assemblyDirectory);
+                var addinVersion = FileVersionInfo.GetVersionInfo(assemblyLocation).ProductVersion;
+#if RELEASE
+                var version = addinVersion.Split('.')[0];
+                if (version == "1") version = "Develop";
+                var userDataLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Autodesk\Revit\Addins\", version, "RevitLookup");
+#else
+                var userDataLocation = Path.GetDirectoryName(assemblyLocation)!;
+#endif
+                var writeAccess = AccessUtils.CheckWriteAccess(assemblyLocation) &&
+                                  !assemblyLocation.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
 
                 var targetFrameworkAttributes = assembly.GetCustomAttributes(typeof(TargetFrameworkAttribute), true);
                 var targetFrameworkAttribute = (TargetFrameworkAttribute) targetFrameworkAttributes.First();
@@ -62,8 +73,10 @@ public sealed partial class App
                 {
                     new("Assembly", assemblyLocation),
                     new("Framework", targetFramework),
-                    new("ConfigFolder", Path.Combine(assemblyDirectory, "Config")),
-                    new("DownloadFolder", Path.Combine(assemblyDirectory, "Downloads"))
+                    new("AddinVersion", addinVersion),
+                    new("ConfigFolder", Path.Combine(userDataLocation, "Config")),
+                    new("DownloadFolder", Path.Combine(userDataLocation, "Downloads")),
+                    new("FolderAccess", writeAccess ? "Write" : "Read")
                 });
             })
             .ConfigureServices((_, services) =>
@@ -73,9 +86,8 @@ public sealed partial class App
 
                 services.AddScoped<IWindowController, WindowController>();
                 services.AddScoped<INavigationService, NavigationService>();
-                services.AddScoped<IPageService, PageService>();
                 services.AddScoped<ISnackbarService, SnackbarService>();
-                services.AddScoped<IDialogService, DialogService>();
+                services.AddScoped<IContentDialogService, ContentDialogService>();
 
                 services.AddScoped<AboutView>();
                 services.AddScoped<AboutViewModel>();
@@ -83,6 +95,8 @@ public sealed partial class App
                 services.AddScoped<DashboardViewModel>();
                 services.AddScoped<SettingsView>();
                 services.AddScoped<SettingsViewModel>();
+                services.AddScoped<EventsView>();
+                services.AddScoped<EventsViewModel>();
                 services.AddScoped<SnoopView>();
                 services.AddScoped<ISnoopService, MoqSnoopViewModel>();
 

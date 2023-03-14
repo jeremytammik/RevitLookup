@@ -3,55 +3,57 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Windows.Controls;
-using RevitLookup.UI.Contracts;
-using RevitLookup.UI.Controls.Navigation;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls.Navigation;
 
-namespace RevitLookup.UI.Services;
+namespace Wpf.Ui.Services;
 
 /// <summary>
 /// A service that provides methods related to navigation.
 /// </summary>
-public class NavigationService : INavigationService
+public partial class NavigationService : INavigationService
 {
+    /// <summary>
+    /// Locally attached service provider.
+    /// </summary>
+    private readonly IServiceProvider _serviceProvider;
+
     /// <summary>
     /// Locally attached page service.
     /// </summary>
-    private IPageService _pageService;
+    private IPageService? _pageService;
 
     /// <summary>
     /// Control representing navigation.
     /// </summary>
-    protected INavigation NavigationControl;
-    
-    /// <inheritdoc />
-    public Frame GetFrame()
+    protected INavigationView? NavigationControl;
+
+    public NavigationService(IServiceProvider serviceProvider)
     {
-        return NavigationControl?.Frame;
+        _serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc />
-    public void SetFrame(Frame frame)
+    public INavigationView GetNavigationControl()
     {
-        if (NavigationControl == null)
-            return;
-
-        NavigationControl.Frame = frame;
+        return NavigationControl ?? throw new ArgumentNullException(nameof(NavigationControl));
     }
 
     /// <inheritdoc />
-    public INavigation GetNavigationControl()
-    {
-        return NavigationControl;
-    }
-
-    /// <inheritdoc />
-    public void SetNavigationControl(INavigation navigation)
+    public void SetNavigationControl(INavigationView navigation)
     {
         NavigationControl = navigation;
 
         if (_pageService != null)
-            NavigationControl.PageService = _pageService;
+        {
+            NavigationControl.SetPageService(_pageService);
+
+            return;
+        }
+
+        NavigationControl.SetServiceProvider(_serviceProvider);
     }
 
     /// <inheritdoc />
@@ -60,28 +62,55 @@ public class NavigationService : INavigationService
         if (NavigationControl == null)
         {
             _pageService = pageService;
-
             return;
         }
 
-        NavigationControl.PageService = pageService;
+        ThrowIfPageServiceIsNull();
+
+        NavigationControl.SetPageService(_pageService!);
     }
 
     /// <inheritdoc />
     public bool Navigate(Type pageType)
     {
-        if (NavigationControl == null)
-            return false;
+        ThrowIfNavigationControlIsNull();
 
-        return NavigationControl.Navigate(pageType);
+        return NavigationControl!.Navigate(pageType);
     }
 
     /// <inheritdoc />
     public bool Navigate(string pageTag)
     {
-        if (NavigationControl == null)
-            return false;
+        ThrowIfNavigationControlIsNull();
 
-        return NavigationControl.Navigate(pageTag);
+        return NavigationControl!.Navigate(pageTag);
+    }
+
+    /// <inheritdoc />
+    public bool GoBack()
+    {
+        ThrowIfNavigationControlIsNull();
+
+        return NavigationControl!.GoBack();
+    }
+
+    /// <inheritdoc />
+    public bool NavigateWithHierarchy(Type pageType)
+    {
+        ThrowIfNavigationControlIsNull();
+
+        return NavigationControl!.NavigateWithHierarchy(pageType);
+    }
+
+    private void ThrowIfNavigationControlIsNull()
+    {
+        if (NavigationControl is null)
+            throw new ArgumentNullException(nameof(NavigationControl));
+    }
+
+    private void ThrowIfPageServiceIsNull()
+    {
+        if (_pageService is null)
+            throw new ArgumentNullException(nameof(_pageService));
     }
 }

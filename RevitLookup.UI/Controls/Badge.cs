@@ -9,7 +9,7 @@ using System.Windows;
 
 // https://docs.microsoft.com/en-us/fluent-ui/web-components/components/badge
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Used to highlight an item, attract attention or flag status.

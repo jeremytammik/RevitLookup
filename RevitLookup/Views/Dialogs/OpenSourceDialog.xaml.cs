@@ -30,7 +30,7 @@ public sealed partial class OpenSourceDialog
     public OpenSourceDialog()
     {
         InitializeComponent();
-        DataContext = new OpenSourceDialogViewModel();
+        DataContext = new OpenSourceViewModel();
     }
 
     private void OpenLink(object sender, RoutedEventArgs e)

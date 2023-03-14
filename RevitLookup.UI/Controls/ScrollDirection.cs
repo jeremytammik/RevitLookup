@@ -5,7 +5,7 @@
 // Copyright (C) S. Bäumlisberger, Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Direction of <see cref="System.Windows.Controls.ScrollViewer"/>.

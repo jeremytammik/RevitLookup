@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// A DataGrid control that displays data in rows and columns and allows
@@ -56,42 +56,4 @@ public class DataGrid : System.Windows.Controls.DataGrid
     }
 
     public event EventHandler ItemsSourceChanged;
-
-    // protected override void OnInitialized(EventArgs e)
-    // {
-    //     Columns.CollectionChanged += ColumnsOnCollectionChanged;
-    //
-    //     UpdateColumnElementStyles();
-    //
-    //     base.OnInitialized(e);
-    // }
-    //
-    // private void ColumnsOnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    // {
-    //     UpdateColumnElementStyles();
-    // }
-    //
-    // private void UpdateColumnElementStyles()
-    // {
-    //     foreach (var singleColumn in Columns)
-    //         UpdateSingleColumn(singleColumn);
-    // }
-    //
-    // private void UpdateSingleColumn(DataGridColumn dataGridColumn)
-    // {
-    //     if (dataGridColumn is DataGridCheckBoxColumn checkBoxColumn)
-    //     {
-    //         if (checkBoxColumn.ReadLocalValue(DataGridCheckBoxColumn.ElementStyleProperty) == DependencyProperty.UnsetValue)
-    //             BindingOperations.SetBinding(
-    //                 checkBoxColumn,
-    //                 DataGridCheckBoxColumn.ElementStyleProperty,
-    //                 new Binding { Path = new PropertyPath(CheckBoxColumnElementStyleProperty), Source = this });
-    //
-    //         if (checkBoxColumn.ReadLocalValue(DataGridCheckBoxColumn.EditingElementStyleProperty) == DependencyProperty.UnsetValue)
-    //             BindingOperations.SetBinding(
-    //                 checkBoxColumn,
-    //                 DataGridCheckBoxColumn.EditingElementStyleProperty,
-    //                 new Binding { Path = new PropertyPath(CheckBoxColumnEditingElementStyleProperty), Source = this });
-    //     }
-    // }
 }

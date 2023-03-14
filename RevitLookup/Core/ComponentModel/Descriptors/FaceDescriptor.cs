@@ -19,16 +19,41 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
+using System.Windows.Input;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FaceDescriptor : Descriptor, IDescriptorCollector
+public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
+    private readonly Face _face;
+
     public FaceDescriptor(Face face)
     {
+        _face = face;
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
+    }
+
+    public MenuItem[] RegisterMenu()
+    {
+#if R23_OR_GREATER
+        return new[]
+        {
+            MenuItem.Create("Show face")
+                .AddCommand(_face, face =>
+                {
+                    if (RevitApi.UiDocument is null) return;
+                    if (face.Reference is null) return;
+                    var element = face.Reference.ElementId.ToElement(RevitApi.Document);
+                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {face.Reference});
+                })
+                .AddGesture(ModifierKeys.Alt, Key.F7)
+        };
+#else
+        return Array.Empty<MenuItem>();
+#endif
     }
 }

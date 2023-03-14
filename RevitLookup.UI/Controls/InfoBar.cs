@@ -5,9 +5,9 @@
 
 using System;
 using System.Windows;
-using RevitLookup.UI.Common;
+using Wpf.Ui.Common;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// An <see cref="InfoBar" /> is an inline notification for essential app-

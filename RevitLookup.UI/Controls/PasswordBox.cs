@@ -7,7 +7,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 // TODO: This is an initial implementation and requires the necessary corrections, tests and adjustments.
 
@@ -19,7 +19,7 @@ namespace RevitLookup.UI.Controls;
 /// <summary>
 /// The modified password control.
 /// </summary>
-public class PasswordBox : TextBox
+public class PasswordBox : Wpf.Ui.Controls.TextBox
 {
     private bool _lockUpdatingContents;
 

@@ -10,12 +10,12 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shell;
-using RevitLookup.UI.Appearance;
-using RevitLookup.UI.Dpi;
-using RevitLookup.UI.Interop;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Dpi;
+using Wpf.Ui.Interop;
 using Size = System.Windows.Size;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// If you use <see cref="WindowChrome"/> to extend the UI elements to the non-client area, you can include this container

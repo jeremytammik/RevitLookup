@@ -6,7 +6,7 @@
 using System;
 using System.Windows.Interop;
 
-namespace RevitLookup.UI.Tray;
+namespace Wpf.Ui.Tray;
 
 /// <summary>
 /// Manages the Win32 API and Windows messages.

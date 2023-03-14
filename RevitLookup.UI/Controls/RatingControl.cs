@@ -7,9 +7,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Input;
-using RevitLookup.UI.Common;
+using Wpf.Ui.Common;
 
-namespace RevitLookup.UI.Controls;
+namespace Wpf.Ui.Controls;
 
 /// <summary>
 /// Displays the rating scale with interactions.

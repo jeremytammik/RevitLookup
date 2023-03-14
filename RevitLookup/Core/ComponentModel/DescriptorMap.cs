@@ -24,10 +24,13 @@ using System.Windows;
 using System.Windows.Threading;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
+using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
+using RibbonItem = Autodesk.Revit.UI.RibbonItem;
+using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
 
 namespace RevitLookup.Core.ComponentModel;
 
@@ -68,7 +71,9 @@ public static class DescriptorMap
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables
-            RevitLinkType when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(),
+            HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
+            RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
+            FamilyInstance value when type is null || type == typeof(FamilyInstance) => new FamilyInstanceDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
@@ -77,9 +82,14 @@ public static class DescriptorMap
             Field value when type is null || type == typeof(Field) => new FieldDescriptor(value),
             Schema value when type is null || type == typeof(Schema) => new SchemaDescriptor(value),
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
+            UpdaterInfo value when type is null || type == typeof(UpdaterInfo) => new UpdaterInfoDescriptor(value),
+            ExternalService value when type is null || type == typeof(ExternalService) => new ExternalServiceDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
+            SchedulableField value when type is null || type == typeof(SchedulableField) => new SchedulableFieldDescriptor(value),
+            CompoundStructureLayer value when type is null || type == typeof(CompoundStructureLayer) => new CompoundStructureLayerDescriptor(value),
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
+
             //Internal
             ResolveSet value => new ResolveSetDescriptor(value),
             ResolveSummary value => new ResolveSummaryDescriptor(value),
@@ -87,8 +97,11 @@ public static class DescriptorMap
             //ComponentManager
             UIElement value => new UiElementDescriptor(value),
             DispatcherObject => new ApiObjectDescriptor(),
-            RibbonTab value => new RibbonTabDescriptor(value),
+            RibbonItem value => new RibbonItemDescriptor(value),
             RibbonPanel value => new RibbonPanelDescriptor(value),
+            Autodesk.Windows.RibbonItem value => new RibbonItemDescriptor(value),
+            Autodesk.Windows.RibbonPanel value => new RibbonPanelDescriptor(value),
+            RibbonTab value => new RibbonTabDescriptor(value),
             INotifyPropertyChanged => new ApiObjectDescriptor(),
 
             //Unknown
