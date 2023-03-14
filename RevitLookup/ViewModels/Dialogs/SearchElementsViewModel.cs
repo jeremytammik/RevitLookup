@@ -67,12 +67,17 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             else if (rawId.Length == 22 && rawId.Count(c => c == ' ') == 0)
             {
                 var guidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_GUID));
-                var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId);
-                var elementFilter = new ElementParameterFilter(filterRule);
-
                 var typeGuidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_TYPE_GUID));
+#if R22_OR_GREATER
+                var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId);
                 var typeFilterRule = new FilterStringRule(typeGuidProvider, new FilterStringEquals(), rawId);
+#else
+                var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId, true);
+                var typeFilterRule = new FilterStringRule(typeGuidProvider, new FilterStringEquals(), rawId, true);
+#endif
+                var elementFilter = new ElementParameterFilter(filterRule);
                 var typeElementFilter = new ElementParameterFilter(typeFilterRule);
+
 
                 var typeGuidsCollector = RevitApi.Document
                     .GetElements()
