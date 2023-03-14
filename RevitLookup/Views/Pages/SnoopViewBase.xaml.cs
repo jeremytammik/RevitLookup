@@ -214,7 +214,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private void CreateGridTooltip(Descriptor descriptor, FrameworkElement row)
     {
         var builder = new StringBuilder()
-            .Append("Field: ")
+            .Append("Member: ")
             .AppendLine(descriptor.Name)
             .Append("Type: ")
             .AppendLine(descriptor.Value.Descriptor.Type)

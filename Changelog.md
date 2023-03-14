@@ -16,48 +16,49 @@ In this release, the entire code base has been completely rewritten from scratch
 * Searchbar
 * Context menu with new actions
 
-![изображение](https://user-images.githubusercontent.com/20504884/225130386-24b638de-6472-4dfd-a20c-7226e45dca0c.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225130386-24b638de-6472-4dfd-a20c-7226e45dca0c.png)
 
 * Tooltips
 
 ![изображение](https://user-images.githubusercontent.com/20504884/225104515-d782e777-563f-4c6a-ac1b-fff3a94a7342.png)
 * The Snoop Selection button has been moved to the Modify tab
 
-![изображение](https://user-images.githubusercontent.com/20504884/225106250-1d346405-d9b1-4209-8896-7877a5a0ede7.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225106250-1d346405-d9b1-4209-8896-7877a5a0ede7.png)
 
 * Smooth navigation. Enable acceleration in Revit settings if you are having trouble with this option
 
-![изображение](https://user-images.githubusercontent.com/20504884/225108851-e098a8ae-ce91-445b-b683-5c82cf47f777.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225108851-e098a8ae-ce91-445b-b683-5c82cf47f777.png)
 
 * Windows 11 Mica background style support
 * Windows 11 snap layouts support
 
-![Image](https://user-images.githubusercontent.com/20504884/225103628-2a2e892f-e16f-43bf-a4cd-b14645aaa1e7.png)
+    ![изображение](https://user-images.githubusercontent.com/93661926/225136172-202de3b4-9619-4243-9572-f85c270db944.png)
 
 # Engine
 
 * A brand-new core
 * Extension support. Support for some static methods from the API and some new ones
 
-![изображение](https://user-images.githubusercontent.com/20504884/225107640-66d586fc-4610-4c44-8952-74ade1b88955.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225107640-66d586fc-4610-4c44-8952-74ade1b88955.png)
 
 * Generic names support
 
-Before:
-
-![изображение](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png)
-
-Now:
-
-![изображение](https://user-images.githubusercontent.com/20504884/225105607-ce5b064b-e3b1-4fbe-ab7a-57fe285ab9aa.png)
+    Before:
+    
+    ![изображение](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png)
+    
+    Now:
+    
+    ![изображение](https://user-images.githubusercontent.com/20504884/225105607-ce5b064b-e3b1-4fbe-ab7a-57fe285ab9aa.png)
 
 * Now you can see all the available methods that objects have, even if RevitLookup doesn't support them
 
-![изображение](https://user-images.githubusercontent.com/20504884/225106462-a40c7dbf-4886-476e-bf99-6bbf9fd63166.png)
-![изображение](https://user-images.githubusercontent.com/20504884/225106951-1c5f9e6d-f8df-4a7a-bf3b-c13926ec3b8b.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225106462-a40c7dbf-4886-476e-bf99-6bbf9fd63166.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225106951-1c5f9e6d-f8df-4a7a-bf3b-c13926ec3b8b.png)
 
 * Support for multiple results for methods with overloads
-![изображение](https://user-images.githubusercontent.com/20504884/225129590-81304032-410e-4677-bb4e-cea22598e1c9.png)
+
+    ![изображение](https://user-images.githubusercontent.com/20504884/225129590-81304032-410e-4677-bb4e-cea22598e1c9.png)
 
 * Extensible Storage has been removed from the element. Now the GetEntity() method is used for this, which is already in the API
 
@@ -70,50 +71,51 @@ Now:
 * Snoop Sub-Element
 * Component manager. Now you can explore it from the AdWindows.dll and learn how the ribbon and user interface in Revit are arranged
 
-![изображение](https://user-images.githubusercontent.com/20504884/225110514-35b20589-1594-4745-a7d6-6b79b4b00e57.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225110514-35b20589-1594-4745-a7d6-6b79b4b00e57.png)
 
 * PerformanceAdviser. Explore performance issues in this document
 * Registry research, schemas, services, updaters
 * Explore BuiltIn and Forge units
 
-![изображение](https://user-images.githubusercontent.com/20504884/225114192-5178be61-2fa1-4b57-8fbe-f6a85eae27d1.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225114192-5178be61-2fa1-4b57-8fbe-f6a85eae27d1.png)
 
 * Search reworked
 
-Now you can search by several values. Use values with different delimiters on a new line.
-Support for search by name and IfcGUID, Type IfcGUID
+    Now you can search by several values. Use values with different delimiters on a new line.
+    Support for search by name and IfcGUID, Type IfcGUID
 
-![изображение](https://user-images.githubusercontent.com/20504884/225115721-cd1d661c-f9f0-49fd-94e1-9e42aa185322.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225115721-cd1d661c-f9f0-49fd-94e1-9e42aa185322.png)
 
-The Type IfcGUID search also finds all instances of that type
-
-![изображение](https://user-images.githubusercontent.com/20504884/225117066-a8d80f50-8bb9-4ccf-84b4-ace798e52858.png)
-
-This is a more convenient way to search for items since it is accessible from the Revit properties panel and is always at your fingertips
-
-![изображение](https://user-images.githubusercontent.com/20504884/225117536-daf8a0ad-ccfd-4632-b6f4-07654cdf6970.png)
+    The Type IfcGUID search also finds all instances of that type
+    
+    ![изображение](https://user-images.githubusercontent.com/20504884/225117066-a8d80f50-8bb9-4ccf-84b4-ace798e52858.png)
+    
+    This is a more convenient way to search for items since it is accessible from the Revit properties panel and is always at your fingertips
+    
+    ![изображение](https://user-images.githubusercontent.com/20504884/225117536-daf8a0ad-ccfd-4632-b6f4-07654cdf6970.png)
 
 * Event monitor. Now you can track all incoming events. Events from RevitApi and RevitAPIUI libraries are available
 
-![изображение](https://user-images.githubusercontent.com/20504884/225119326-cac94d26-df80-4b1c-a603-a32f5100aebd.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225119326-cac94d26-df80-4b1c-a603-a32f5100aebd.png)
 
 * OTA update. The RevitLookup update is now available directly from the plugin
 
 * Now you can visually search for elements in the project:
 
-![изображение](https://user-images.githubusercontent.com/20504884/225122161-d61ff4d2-8263-45d8-8e0e-71ab9821b592.png)
+    ![изображение](https://user-images.githubusercontent.com/20504884/225122161-d61ff4d2-8263-45d8-8e0e-71ab9821b592.png)
 
-Select solid:
-
-![изображение](https://user-images.githubusercontent.com/20504884/225123500-b354cde2-347b-4552-b04b-f7b215b70321.png)
-
-Select face:
-
-![изображение](https://user-images.githubusercontent.com/20504884/225124175-82f9ae66-fc33-4f88-97fd-d594ea6f5233.png)
-
-Select edge:
-
-![изображение](https://user-images.githubusercontent.com/20504884/225124568-1c53118f-3806-4b46-ab66-f498dde2b77c.png)
+    Select solid:
+    
+    ![изображение](https://user-images.githubusercontent.com/20504884/225123500-b354cde2-347b-4552-b04b-f7b215b70321.png)
+    
+    Select face:
+    
+    ![изображение](https://user-images.githubusercontent.com/20504884/225124175-82f9ae66-fc33-4f88-97fd-d594ea6f5233.png)
+    
+    Select edge:
+    
+    ![изображение](https://user-images.githubusercontent.com/20504884/225124568-1c53118f-3806-4b46-ab66-f498dde2b77c.png)
+    
 
 And all other updates that are not described in the changelog you can check now
 
