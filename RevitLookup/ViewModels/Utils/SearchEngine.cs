@@ -35,16 +35,19 @@ public static class SearchEngine
             {
                 var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
                 var filteredData = Search(model.SearchText, model.SnoopableData);
+                var objectsCount = filteredObjects.Count;
+                var dataCount = filteredData.Count;
+
                 var isObjectSelected = false;
 
                 if (model.SelectedObject is not null)
                 {
                     //Add other types to selection if no objects are found
-                    if (filteredObjects.Count == 0 && filteredData.Count > 0)
+                    if (objectsCount == 0 && dataCount > 0)
                         filteredObjects = Search(model.SelectedObject, model.SnoopableObjects);
 
                     //Add selected object to results
-                    if (filteredData.Count > 0)
+                    if (dataCount > 0)
                     {
                         foreach (var item in filteredObjects)
                             if (item == model.SelectedObject)
@@ -58,11 +61,19 @@ public static class SearchEngine
                 }
 
                 //Add data of the selected object if no others are found
-                if (filteredObjects.Count > 0 && filteredData.Count == 0)
+                if (objectsCount > 0 && dataCount == 0)
                     return new SearchResults
                     {
                         Objects = filteredObjects,
                         Data = isObjectSelected ? model.SnoopableData : filteredData
+                    };
+
+                //Display unfiltered data if object greater than 1
+                if (objectsCount > 1)
+                    return new SearchResults
+                    {
+                        Objects = filteredObjects,
+                        Data = model.SnoopableData
                     };
 
                 //Output as is
@@ -74,11 +85,19 @@ public static class SearchEngine
             }
             case SearchOption.Selection:
             {
-                //Filter data for new tree selection
-                var filteredData = Search(model.SearchText, model.SnoopableData);
+                var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
+
+                //Display unfiltered data if object greater than 1
+                if (filteredObjects.Count > 1)
+                    return new SearchResults
+                    {
+                        Data = model.SnoopableData
+                    };
+
+                //Output as is
                 return new SearchResults
                 {
-                    Data = filteredData.Count == 0 ? model.SnoopableData : filteredData
+                    Data = Search(model.SearchText, model.SnoopableData)
                 };
             }
             default:
