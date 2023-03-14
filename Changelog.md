@@ -1,6 +1,6 @@
 # Changelog
 
-- 2022-03-14 **2024.0.0** # RevitLookup reborn
+- 2022-03-14 **2023.2.0** # RevitLookup reborn
   
   In this release, the entire code base has been completely rewritten from scratch with a redesigned user interface. New tools added, OTA update, Windows 11 support included
   
