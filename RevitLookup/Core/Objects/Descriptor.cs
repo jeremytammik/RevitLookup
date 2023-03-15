@@ -18,6 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using RevitLookup.Core.Enums;
+
 namespace RevitLookup.Core.Objects;
 
 public abstract class Descriptor : IComparable<Descriptor>, IComparable
@@ -26,6 +28,7 @@ public abstract class Descriptor : IComparable<Descriptor>, IComparable
     public string Type { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    public MemberType MemberType { get; set; }
     public SnoopableObject Value { get; set; }
 
     public int CompareTo(object obj)

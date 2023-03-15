@@ -22,6 +22,7 @@ using System.Collections;
 using System.Reflection;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Enums;
 using RevitLookup.Core.Extensions;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
@@ -237,7 +238,12 @@ public sealed class DescriptorBuilder
             TypeFullName = member.ReflectedType!.FullName,
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             Name = EvaluateDescriptorName(member, parameters),
-            Value = EvaluateDescriptorValue(member, value)
+            Value = EvaluateDescriptorValue(member, value),
+            MemberType = member switch
+            {
+                PropertyInfo => MemberType.Property,
+                _ => MemberType.Method
+            }
         };
     }
 

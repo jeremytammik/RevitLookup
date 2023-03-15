@@ -21,6 +21,7 @@
 using Autodesk.Revit.DB;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Enums;
 using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
 
@@ -50,7 +51,8 @@ public sealed class ExtensionManager : IExtensionManager
         var descriptor = new ObjectDescriptor
         {
             Name = name,
-            Type = _descriptor.Type
+            Type = _descriptor.Type,
+            MemberType = MemberType.Extension
         };
 
         try
@@ -71,7 +73,8 @@ public sealed class ExtensionManager : IExtensionManager
         var descriptor = new ObjectDescriptor
         {
             Name = name,
-            Type = _descriptor.Type
+            Type = _descriptor.Type,
+            MemberType = MemberType.Extension
         };
 
         try

@@ -24,6 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Enums;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
@@ -214,7 +215,12 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private void CreateGridTooltip(Descriptor descriptor, FrameworkElement row)
     {
         var builder = new StringBuilder()
-            .Append("Member: ")
+            .Append(descriptor.MemberType switch
+            {
+                MemberType.Property => "Property: ",
+                MemberType.Extension => "Extension: ",
+                _ => "Method: "
+            })
             .AppendLine(descriptor.Name)
             .Append("Type: ")
             .AppendLine(descriptor.Value.Descriptor.Type)
@@ -250,13 +256,14 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     {
         var contextMenu = new ContextMenu();
         contextMenu.AddMenuItem("Copy", ApplicationCommands.Copy);
-        contextMenu.AddMenuItem("Copy value", descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
-            .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
+        var copyValue = contextMenu.AddMenuItem("Copy value", descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name));
+        copyValue.AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
         contextMenu.AddMenuItem("Help", descriptor, parameter => HelpUtils.ShowHelp($"{parameter.TypeFullName} {parameter.Name}"))
             .AddShortcut(row, new KeyGesture(Key.F1));
 
         row.ContextMenu = contextMenu;
         if (descriptor.Value.Descriptor is IDescriptorConnector connector) AttachMenu(row, connector);
+        if (descriptor.Value.Descriptor.Name is null) copyValue.IsEnabled = false;
     }
 
     private static void AttachMenu(FrameworkElement row, IDescriptorConnector connector)
