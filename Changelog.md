@@ -1,67 +1,70 @@
 # Changelog
 
-- 2022-03-14 **2024.0.0** # RevitLookup reborn
-
-In this release, the entire code base has been completely rewritten from scratch with a redesigned user interface. New tools added, OTA update, Windows 11 support included
+- 2022-03-14 **2024.0.0** 
 
 <div align="center">
-<img alt="Screenshot" src="https://user-images.githubusercontent.com/20504884/225030639-f13c5432-84e0-4508-876e-f104794540f5.png"/>
+<img alt="RevitLookup" width="600"  src="https://user-images.githubusercontent.com/20504884/218192495-19b13547-ce67-40e3-8fe8-e847f89bddb7.png"/>
 </div>
+
+In this release, the entire code base has been completely rewritten from scratch with a redesigned user interface. New tools added, OTA update, Windows 11 support included
 
 # UI
 
 * A brand-new user interface
-* New logo
+
+  ![image](https://user-images.githubusercontent.com/20504884/225030639-f13c5432-84e0-4508-876e-f104794540f5.png)
+
 * Themes support
+
+  ![image](https://user-images.githubusercontent.com/93661926/225276975-44ff4149-3411-4d71-bc3d-8093e6378a0f.png)
+
+* New logo
 * Searchbar
 * Context menu with new actions
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225130386-24b638de-6472-4dfd-a20c-7226e45dca0c.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225292648-fd485954-f469-4dd4-812d-8a4d8fdf8094.png)
 
 * Tooltips
 
-![изображение](https://user-images.githubusercontent.com/20504884/225104515-d782e777-563f-4c6a-ac1b-fff3a94a7342.png)
+  ![image](https://user-images.githubusercontent.com/93661926/225278782-14624000-5b4a-43ce-9e72-e411fcb17527.png)
+
 * The Snoop Selection button has been moved to the Modify tab
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225106250-1d346405-d9b1-4209-8896-7877a5a0ede7.png)
+  ![image](https://user-images.githubusercontent.com/93661926/225279009-e440f9cd-b59f-4198-b058-e081cc4204c4.png)
 
 * Smooth navigation. Enable acceleration in Revit settings if you are having trouble with this option
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225108851-e098a8ae-ce91-445b-b683-5c82cf47f777.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225108851-e098a8ae-ce91-445b-b683-5c82cf47f777.png)
 
 * Windows 11 Mica background style support
 * Windows 11 snap layouts support
 
-    ![изображение](https://user-images.githubusercontent.com/93661926/225136172-202de3b4-9619-4243-9572-f85c270db944.png)
+  ![image](https://user-images.githubusercontent.com/93661926/225279198-c6985018-b1fc-435e-9fb4-f0c97f99ff8c.png)
 
 # Engine
 
 * A brand-new core
 * Extension support. Support for some static methods from the API and some new ones
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225107640-66d586fc-4610-4c44-8952-74ade1b88955.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225107640-66d586fc-4610-4c44-8952-74ade1b88955.png)
 
 * Generic names support
 
-    Before:
-    
-    ![изображение](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png)
-    
-    Now:
-    
-    ![изображение](https://user-images.githubusercontent.com/20504884/225105607-ce5b064b-e3b1-4fbe-ab7a-57fe285ab9aa.png)
+  | Before                                                                                                                | Now                                                                                                                   |
+  |-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+  | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225105607-ce5b064b-e3b1-4fbe-ab7a-57fe285ab9aa.png) |
 
 * Now you can see all the available methods that objects have, even if RevitLookup doesn't support them
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225106462-a40c7dbf-4886-476e-bf99-6bbf9fd63166.png)
-    ![изображение](https://user-images.githubusercontent.com/20504884/225106951-1c5f9e6d-f8df-4a7a-bf3b-c13926ec3b8b.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225106462-a40c7dbf-4886-476e-bf99-6bbf9fd63166.png)
+
+  ![image](https://user-images.githubusercontent.com/20504884/225106951-1c5f9e6d-f8df-4a7a-bf3b-c13926ec3b8b.png)
 
 * Support for multiple results for methods with overloads
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225129590-81304032-410e-4677-bb4e-cea22598e1c9.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225129590-81304032-410e-4677-bb4e-cea22598e1c9.png)
 
 * Extensible Storage has been removed from the element. Now the GetEntity() method is used for this, which is already in the API
-
 * Simplified addition of new features by other developers. The developer guide can be found here: https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#architecture
 
 # Features
@@ -71,81 +74,78 @@ In this release, the entire code base has been completely rewritten from scratch
 * Snoop Sub-Element
 * Component manager. Now you can explore it from the AdWindows.dll and learn how the ribbon and user interface in Revit are arranged
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225110514-35b20589-1594-4745-a7d6-6b79b4b00e57.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225289883-c686b3ce-3398-4768-80d3-8ddb229526ac.png)
 
 * PerformanceAdviser. Explore performance issues in this document
 * Registry research, schemas, services, updaters
 * Explore BuiltIn and Forge units
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225114192-5178be61-2fa1-4b57-8fbe-f6a85eae27d1.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225114192-5178be61-2fa1-4b57-8fbe-f6a85eae27d1.png)
 
 * Search reworked
 
-    Now you can search by several values. Use values with different delimiters on a new line.
-    Support for search by name and IfcGUID, Type IfcGUID
+  Now you can search by several values. Use values with different delimiters on a new line.
+  Support for search by name, id, uniqID and IfcGUID, Type IfcGUID
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225115721-cd1d661c-f9f0-49fd-94e1-9e42aa185322.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225115721-cd1d661c-f9f0-49fd-94e1-9e42aa185322.png)
 
-    The Type IfcGUID search also finds all instances of that type
-    
-    ![изображение](https://user-images.githubusercontent.com/20504884/225117066-a8d80f50-8bb9-4ccf-84b4-ace798e52858.png)
-    
-    This is a more convenient way to search for items since it is accessible from the Revit properties panel and is always at your fingertips
-    
-    ![изображение](https://user-images.githubusercontent.com/20504884/225117536-daf8a0ad-ccfd-4632-b6f4-07654cdf6970.png)
+  The Type IfcGUID search also finds all instances of that type
+
+  ![image](https://user-images.githubusercontent.com/20504884/225117066-a8d80f50-8bb9-4ccf-84b4-ace798e52858.png)
+
+  This is a more convenient way to search for items since it is accessible from the Revit properties panel and is always at your fingertips
+
+  ![image](https://user-images.githubusercontent.com/20504884/225117536-daf8a0ad-ccfd-4632-b6f4-07654cdf6970.png)
 
 * Event monitor. Now you can track all incoming events. Events from RevitApi and RevitAPIUI libraries are available
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225119326-cac94d26-df80-4b1c-a603-a32f5100aebd.png)
-
-* OTA update. The RevitLookup update is now available directly from the plugin
+  ![Без имени-5](https://user-images.githubusercontent.com/20504884/225290957-29a745c4-f121-4994-a430-7d85f3fa5e7c.png)
 
 * Now you can visually search for elements in the project:
 
-    ![изображение](https://user-images.githubusercontent.com/20504884/225122161-d61ff4d2-8263-45d8-8e0e-71ab9821b592.png)
+  ![image](https://user-images.githubusercontent.com/20504884/225122161-d61ff4d2-8263-45d8-8e0e-71ab9821b592.png)
 
-    Select solid:
-    
-    ![изображение](https://user-images.githubusercontent.com/20504884/225123500-b354cde2-347b-4552-b04b-f7b215b70321.png)
-    
-    Select face:
-    
-    ![изображение](https://user-images.githubusercontent.com/20504884/225124175-82f9ae66-fc33-4f88-97fd-d594ea6f5233.png)
-    
-    Select edge:
-    
-    ![изображение](https://user-images.githubusercontent.com/20504884/225124568-1c53118f-3806-4b46-ab66-f498dde2b77c.png)
-    
+  Select solid:
 
-And all other updates that are not described in the changelog you can check now
+  ![image](https://user-images.githubusercontent.com/20504884/225123500-b354cde2-347b-4552-b04b-f7b215b70321.png)
 
----
+  Select face:
+
+  ![image](https://user-images.githubusercontent.com/20504884/225124175-82f9ae66-fc33-4f88-97fd-d594ea6f5233.png)
+
+  Select edge:
+
+  ![image](https://user-images.githubusercontent.com/20504884/225124568-1c53118f-3806-4b46-ab66-f498dde2b77c.png)
+
+* OTA update. The RevitLookup update is now available directly from the plugin
+
+And all other updates that are not described in the changelog you can check now.
 
 Made with ❤️ by Nice3point
 - 2022-06-17 **2023.1.0** In this update:
-  - New: Hello World window changed to About
-  - New: resorted commands on the Revit ribbon, frequently used moved to the top
-  - New: added Snoop Active Document command
-  - Fix: revert support search index from keyboard
-  - Fix: removed label null if ElementID was -1
+    - New: Hello World window changed to About
+    - New: resorted commands on the Revit ribbon, frequently used moved to the top
+    - New: added Snoop Active Document command
+    - Fix: revert support search index from keyboard
+    - Fix: removed label null if ElementID was -1
 - 2022-04-05 **2023.0.0** Revit 2023 support
 - 2022-03-02 **2022.0.4.1** Minor UI changes https://github.com/jeremytammik/RevitLookup/pull/135
 - 2022-03-02 **2022.0.4.0** Minimize, maximize support https://github.com/jeremytammik/RevitLookup/pull/134. Fixed problem with sending a print job https://github.com/jeremytammik/RevitLookup/pull/133
 - 2022-01-15 **2022.0.3.3** BindingMap support. https://github.com/jeremytammik/RevitLookup/issues/128 issue.
 - 2022-01-03 **2022.0.3.2** This update fixes the display of labels:
-  - Support for string empty label.
-  - Support for string null label.
-  - Support for double? null label.
-  - Renamed "View = null" to "Undefined View". This was a misnomer because null throws an exception
-  - Renamed "View = null - Including geometry objects not set as Visible" to "Undefined View, including non-visible objects"
-  - Renamed "View = Document.ActiveView" to "Active View"
-  - Renamed "View = Document.ActiveView - Including geometry objects not set as Visible" to "Active View, including non-visible objects"
+    - Support for string empty label.
+    - Support for string null label.
+    - Support for double? null label.
+    - Renamed "View = null" to "Undefined View". This was a misnomer because null throws an exception
+    - Renamed "View = null - Including geometry objects not set as Visible" to "Undefined View, including non-visible objects"
+    - Renamed "View = Document.ActiveView" to "Active View"
+    - Renamed "View = Document.ActiveView - Including geometry objects not set as Visible" to "Active View, including non-visible objects"
 - 2021-12-21 **2022.0.3.1** Fixed https://github.com/jeremytammik/RevitLookup/issues/117 issue. Reflection TargetException message replaced by InnerException message.
 - 2021-12-04 **2022.0.3.0** This is patch release to fix a few items. This release will fix the issues below:
-  - Removed unused code and resources, reduced application size
-  - Optimized collections and arrays, updating the window just got a little faster
-  - Fixed broken print and preview button
-  - Reduced memory allocation
+    - Removed unused code and resources, reduced application size
+    - Optimized collections and arrays, updating the window just got a little faster
+    - Fixed broken print and preview button
+    - Reduced memory allocation
 - 2021-11-30 **2022.0.2.6** mention RFA and RVT project in the project description in readme.md and repository summary
 - 2021-11-13 **2022.0.2.5** Added automatic generation of a release for the master branch
 - 2021-10-29 **2022.0.2.0** integrated pull request [#108](https://github.com/jeremytammik/RevitLookup/pull/108) by Roman @Nice3point to include previous versions in the installer
