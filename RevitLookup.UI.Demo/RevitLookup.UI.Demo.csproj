@@ -7,7 +7,7 @@
         <ImplicitUsings>true</ImplicitUsings>
         <TargetFramework>net48</TargetFramework>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <Version>2023.0.0</Version>
+        <Version>2024.0.0</Version>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
         <DebugSymbols>true</DebugSymbols>
