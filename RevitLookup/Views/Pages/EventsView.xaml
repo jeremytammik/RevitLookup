@@ -147,7 +147,7 @@
                                 Value="true">
                                 <Setter Property="Foreground">
                                     <Setter.Value>
-                                        <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
+                                        <SolidColorBrush Color="{DynamicResource SystemAccentColorPrimary}" />
                                     </Setter.Value>
                                 </Setter>
                                 <Setter
