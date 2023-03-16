@@ -20,7 +20,8 @@ var guidMap = new Dictionary<string, string>
     {"2020", "36D21BA1-C945-4D40-83B9-4C2518FC40EA"},
     {"2021", "9B7FD05D-C782-4538-A5D3-04B64AE81FE4"},
     {"2022", "207733B1-1BEA-4603-99EA-EA1E87077F60"},
-    {"2023", "2179ECCB-0ED3-4FFF-907D-01C9D57AD20D"}
+    {"2023", "2179ECCB-0ED3-4FFF-907D-01C9D57AD20D"},
+    {"2024", "2E347D52-D08D-4624-8909-3679D75B9C1D"}
 };
 
 var version = GetAssemblyVersion(out var dllVersion, out var revitVersion);
