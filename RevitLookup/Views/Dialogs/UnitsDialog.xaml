@@ -52,5 +52,14 @@
                     Value="15" />
             </Style>
         </DataGrid.CellStyle>
+        <DataGrid.RowStyle>
+            <Style
+                TargetType="DataGridRow"
+                BasedOn="{StaticResource DefaultDataGridRowStyle}">
+                <EventSetter
+                    Event="Loaded"
+                    Handler="OnRowLoaded" />
+            </Style>
+        </DataGrid.RowStyle>
     </DataGrid>
 </DockPanel>

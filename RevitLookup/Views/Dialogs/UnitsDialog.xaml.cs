@@ -18,7 +18,15 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Dialogs;
+using RevitLookup.ViewModels.Objects;
+using RevitLookup.Views.Extensions;
+using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Views.Dialogs;
 
@@ -28,5 +36,21 @@ public sealed partial class UnitsDialog
     {
         InitializeComponent();
         DataContext = new UnitsViewModel(unitType);
+    }
+
+    private void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
+    {
+        var element = (FrameworkElement) sender;
+        var unitInfo = (UnitInfo) element.DataContext;
+        CreateTreeContextMenu(unitInfo, element);
+    }
+
+    private void CreateTreeContextMenu(UnitInfo info, FrameworkElement row)
+    {
+        row.ContextMenu = new ContextMenu();
+        row.ContextMenu.AddMenuItem("Copy unit", info, parameter => Clipboard.SetText(parameter.Unit))
+            .AddShortcut(row, ModifierKeys.Control, Key.C);
+        row.ContextMenu.AddMenuItem("Copy label", info, parameter => Clipboard.SetText(parameter.Label))
+            .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
     }
 }
