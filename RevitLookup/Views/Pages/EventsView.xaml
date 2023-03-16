@@ -59,10 +59,13 @@
             Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
-                    Width="250" />
+                    MinWidth="250"
+                    Width="*" />
                 <ColumnDefinition
                     Width="9" />
-                <ColumnDefinition />
+                <ColumnDefinition
+                    MinWidth="250"
+                    Width="4*" />
             </Grid.ColumnDefinitions>
             <DockPanel
                 Grid.Column="0">
@@ -90,6 +93,11 @@
                     </rl:TreeView.ItemTemplate>
                 </rl:TreeView>
             </DockPanel>
+            <GridSplitter
+                Grid.Column="1"
+                Width="3"
+                Background="Transparent"
+                HorizontalAlignment="Center" />
             <rl:DataGrid
                 Grid.Column="2"
                 x:Name="DataGrid"
