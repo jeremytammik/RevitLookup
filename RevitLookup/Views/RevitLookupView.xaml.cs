@@ -20,6 +20,7 @@
 
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui.Contracts;
 
@@ -33,6 +34,7 @@ public sealed partial class RevitLookupView : IWindow
     {
         Wpf.Ui.Application.Current = this;
         InitializeComponent();
+        Wpf.Ui.Appearance.Theme.Apply(this, settingsService.Theme, settingsService.Background);
 
         _serviceScope = scopeFactory.CreateScope();
         var navigationService = _serviceScope.ServiceProvider.GetService<INavigationService>()!;
@@ -51,13 +53,21 @@ public sealed partial class RevitLookupView : IWindow
         WindowBackdropType = settingsService.Background;
 
         Unloaded += UnloadServices;
-        GotFocus += (sender, _) => { Wpf.Ui.Application.Current = (Window) sender; };
+        Activated += (sender, _) => Wpf.Ui.Application.Current = (Window) sender;
     }
 
     public IServiceProvider Scope => _serviceScope.ServiceProvider;
 
+    public void Show(Window window)
+    {
+        Left = window.Left + 47;
+        Top = window.Top + 49;
+        ApplicationExtensions.Show(this, RevitApi.UiApplication.MainWindowHandle);
+    }
+
     public void Show(IntPtr handle)
     {
+        WindowStartupLocation = WindowStartupLocation.CenterScreen;
         ApplicationExtensions.Show(this, handle);
     }
 

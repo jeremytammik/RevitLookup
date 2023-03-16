@@ -22,6 +22,7 @@ using System.Windows.Data;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
+using Wpf.Ui.Appearance;
 
 namespace RevitLookup.Views.Pages;
 
@@ -43,5 +44,6 @@ public sealed partial class SnoopView
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
         ViewModel.TreeSourceChanged += OnTreeSourceChanged;
         SelectFirstTreeViewContainer();
+        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 }

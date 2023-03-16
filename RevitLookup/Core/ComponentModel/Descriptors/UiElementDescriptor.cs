@@ -38,6 +38,8 @@ public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
+            nameof(UIElement.CaptureMouse) => ResolveSet.Append(false, "Overridden"),
+            nameof(UIElement.CaptureStylus) => ResolveSet.Append(false, "Overridden"),
             nameof(UIElement.Focus) => ResolveSet.Append(false, "Overridden"),
             _ => null
         };

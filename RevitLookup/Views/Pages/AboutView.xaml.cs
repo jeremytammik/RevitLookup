@@ -19,8 +19,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
+using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views.Dialogs;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls.Navigation;
 
@@ -30,12 +32,13 @@ public sealed partial class AboutView : INavigableView<AboutViewModel>
 {
     private readonly IContentDialogService _dialogService;
 
-    public AboutView(AboutViewModel viewModel, IContentDialogService dialogService)
+    public AboutView(AboutViewModel viewModel, IContentDialogService dialogService, ISettingsService settingsService)
     {
         ViewModel = viewModel;
         InitializeComponent();
         DataContext = this;
         _dialogService = dialogService;
+        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 
     public AboutViewModel ViewModel { get; }

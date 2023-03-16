@@ -10,13 +10,12 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="200"
-    MinWidth="553"
+    MinWidth="644"
     MinHeight="371"
     Width="1016"
     Height="555"
     ExtendsContentIntoTitleBar="True"
-    Icon="../Resources/Images/ShellIcon.ico"
-    WindowStartupLocation="CenterScreen">
+    Icon="../Resources/Images/ShellIcon.ico">
     <rl:FluentWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

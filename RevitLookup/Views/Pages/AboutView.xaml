@@ -74,7 +74,6 @@
                                 Margin="0 3 0 0"
                                 Padding="0"
                                 Content="Release Notes"
-                                FontWeight="Medium"
                                 NavigateUri="https://github.com/jeremytammik/RevitLookup/releases" />
                         </StackPanel>
                     </rl:CardControl.Header>
@@ -123,7 +122,6 @@
                                 Margin="10,0,0,0"
                                 Padding="0"
                                 Content="See what's new in this version"
-                                FontWeight="Medium"
                                 NavigateUri="{Binding ViewModel.ReleaseNotesUrl}" />
                         </StackPanel>
                         <StackPanel

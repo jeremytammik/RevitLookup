@@ -59,14 +59,21 @@
             Margin="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
-                    MinWidth="250"
-                    Width="*" />
+                    Width="250" />
                 <ColumnDefinition
                     Width="9" />
-                <ColumnDefinition
-                    MinWidth="250"
-                    Width="4*" />
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <!-- <Grid.ColumnDefinitions> -->
+            <!--     <ColumnDefinition -->
+            <!--         MinWidth="250" -->
+            <!--         Width="*" /> -->
+            <!--     <ColumnDefinition -->
+            <!--         Width="9" /> -->
+            <!--     <ColumnDefinition -->
+            <!--         MinWidth="250" -->
+            <!--         Width="4*" /> -->
+            <!-- </Grid.ColumnDefinitions> -->
             <DockPanel
                 Grid.Column="0">
                 <rl:TextBox
@@ -102,11 +109,11 @@
                     </rl:TreeView.ItemTemplate>
                 </rl:TreeView>
             </DockPanel>
-            <GridSplitter
-                Grid.Column="1"
-                Width="3"
-                Background="Transparent"
-                HorizontalAlignment="Center" />
+            <!-- <GridSplitter -->
+            <!--     Grid.Column="1" -->
+            <!--     Width="3" -->
+            <!--     Background="Transparent" -->
+            <!--     HorizontalAlignment="Center"/> -->
             <rl:DataGrid
                 Grid.Column="2"
                 x:Name="DataGrid"
@@ -178,7 +185,7 @@
                                 Value="true">
                                 <Setter Property="Foreground">
                                     <Setter.Value>
-                                        <SolidColorBrush Color="{DynamicResource SystemAccentColorPrimary}" />
+                                        <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
                                     </Setter.Value>
                                 </Setter>
                                 <Setter

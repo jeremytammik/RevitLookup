@@ -66,8 +66,6 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnThemeChanged(ThemeType value)
     {
         _settingsService.Theme = value;
-        AppearanceData.ApplicationTheme = value;
-        // Theme.Apply(value, CurrentBackground); not supported for pages
         _snackbarService.Show("Theme changed", "Changes will take effect for new windows", SymbolRegular.ChatWarning24, ControlAppearance.Success);
     }
 

@@ -18,18 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.Views.Pages;
 
 public sealed partial class SettingsView : INavigableView<SettingsViewModel>
 {
-    public SettingsView(SettingsViewModel viewModel)
+    public SettingsView(SettingsViewModel viewModel, ISettingsService settingsService)
     {
         ViewModel = viewModel;
         InitializeComponent();
         DataContext = this;
+        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 
     public SettingsViewModel ViewModel { get; }

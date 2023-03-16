@@ -73,8 +73,9 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     {
         if (selectedItem.Value.Descriptor is not IDescriptorCollector or IDescriptorEnumerator {IsEmpty: true}) return;
 
+        var owner = Wpf.Ui.Application.Current;
         var window = Host.GetService<IWindow>();
-        window.Show();
+        window.Show(owner);
         window.Scope.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 

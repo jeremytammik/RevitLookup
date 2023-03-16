@@ -36,10 +36,14 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225108851-e098a8ae-ce91-445b-b683-5c82cf47f777.png)
 
-* Windows 11 Mica background style support
+* Windows 11 Mica background effect support
 * Windows 11 snap layouts support
 
     ![image](https://user-images.githubusercontent.com/93661926/225279198-c6985018-b1fc-435e-9fb4-f0c97f99ff8c.png)
+
+* Accent colour synced with windows
+
+    ![image](https://user-images.githubusercontent.com/20504884/225753559-589c54a1-3558-4868-8531-9a4a2b6f4e26.png)
 
 # Engine
 
