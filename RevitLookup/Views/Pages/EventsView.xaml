@@ -145,9 +145,11 @@
                             <DataTrigger
                                 Binding="{Binding Value.Descriptor, Converter={converters:HandledDescriptorConverter}}"
                                 Value="true">
-                                <Setter
-                                    Property="FontWeight"
-                                    Value="DemiBold" />
+                                <Setter Property="Foreground">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
+                                    </Setter.Value>
+                                </Setter>
                                 <Setter
                                     Property="Cursor"
                                     Value="Hand" />
@@ -187,7 +189,7 @@
                                                     <TextBlock
                                                         VerticalAlignment="Center"
                                                         Margin="6,0,6,0"
-                                                        FontWeight="Medium"
+                                                        FontWeight="Bold"
                                                         Text="{Binding Name}" />
                                                 </Border>
                                                 <ItemsPresenter />

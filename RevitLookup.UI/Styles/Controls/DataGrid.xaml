@@ -507,7 +507,7 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                TextBlock.FontWeight="Medium"/>
+                                TextBlock.FontWeight="Bold"/>
                         </Border>
 
                         <Thumb
