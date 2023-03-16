@@ -19,7 +19,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections.ObjectModel;
+using Autodesk.Revit.DB.Events;
 using RevitLookup.Core;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
 using RevitLookup.Views.Pages;
@@ -68,8 +70,13 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
             }
         };
 
-        snoopableObject.GetMembers();
         _events.Push(snoopableObject);
         SnoopableObjects = new List<SnoopableObject>(_events);
+        
+        //Object lifecycle expires
+        var descriptors = snoopableObject.GetMembers();
+        foreach (var descriptor in descriptors)
+            if (descriptor.Value.Descriptor is IDescriptorCollector)
+                descriptor.Value.GetMembers();
     }
 }
