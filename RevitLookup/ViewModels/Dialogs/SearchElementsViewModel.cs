@@ -18,9 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Text;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.IFC;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;

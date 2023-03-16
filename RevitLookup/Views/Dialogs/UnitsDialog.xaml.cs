@@ -21,12 +21,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Dialogs;
 using RevitLookup.ViewModels.Objects;
 using RevitLookup.Views.Extensions;
-using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Views.Dialogs;
 
