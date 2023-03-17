@@ -35,7 +35,7 @@ In this release, the entire code base has been completely rewritten from scratch
     ![image](https://user-images.githubusercontent.com/20504884/225870803-785b5082-edd2-44cf-a384-8633052740d7.png)
 
 * Windows 11 Mica background effect support
-* Windows 11 snap layouts support
+* Windows 11 Snap Layouts support
 
     ![image](https://user-images.githubusercontent.com/93661926/225279198-c6985018-b1fc-435e-9fb4-f0c97f99ff8c.png)
 
@@ -53,23 +53,23 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225852056-9bb523c6-85dd-44d8-b900-ef3ca1eefaa6.png)
 
-* Generic names support
-
-    | Before                                                                                                                  | Now                                                                                                                   |
-    |-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-    | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
-
 * Now you can see all the available methods that objects have, even if RevitLookup doesn't support them
 
     ![image](https://user-images.githubusercontent.com/20504884/225852714-3255ece8-1c6c-464e-8949-5693b7ed7223.png)
 
     ![image](https://user-images.githubusercontent.com/20504884/225853186-ef6ce65e-6ee3-4a4d-a213-49fb8dfc7e75.png)
 
+* Generic names support
+
+    | Before                                                                                                                  | Now                                                                                                                   |
+    |-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+    | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
+
 * Support for multiple results for methods with overloads
 
     ![image](https://user-images.githubusercontent.com/20504884/225853785-8b5beacd-c8f1-401e-a51e-3e45f6aa8cba.png)
 
-* Extensible Storage has been removed from the element. Now the GetEntity() method is used for this, which is already in the API
+* Extensible Storage has been removed from the element. Now the `GetEntity()` method is used for this, which is already in the API
 * Simplified addition of new features by other developers. The developer guide can be found here: https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#architecture
 
 # Features
@@ -81,7 +81,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225854089-04c8448f-34f9-419c-b859-c51b2a2375b6.png)
 
-* PerformanceAdviser. Explore performance document issues
+* PerformanceAdviser. Explore document performance issues
 * Registry research: schemas, services, updaters
 * Explore BuiltIn and Forge units
 
@@ -108,7 +108,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * Now you can visually search for elements in the project:
 
-    ![image](https://user-images.githubusercontent.com/20504884/225122161-d61ff4d2-8263-45d8-8e0e-71ab9821b592.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225874545-aa0f7829-5215-412d-8c50-31ede8705ca8.png)
 
     Select face (Revit 2023 or higher):
 
