@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections.ObjectModel;
-using Autodesk.Revit.DB.Events;
 using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -72,7 +71,7 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
 
         _events.Push(snoopableObject);
         SnoopableObjects = new List<SnoopableObject>(_events);
-        
+
         //Object lifecycle expires
         var descriptors = snoopableObject.GetMembers();
         foreach (var descriptor in descriptors)

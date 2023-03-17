@@ -22,6 +22,7 @@ using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Contracts;
 
 namespace RevitLookup.Views;
@@ -34,7 +35,7 @@ public sealed partial class RevitLookupView : IWindow
     {
         Wpf.Ui.Application.Current = this;
         InitializeComponent();
-        Wpf.Ui.Appearance.Theme.Apply(this, settingsService.Theme, settingsService.Background);
+        Theme.Apply(this, settingsService.Theme, settingsService.Background);
 
         _serviceScope = scopeFactory.CreateScope();
         var navigationService = _serviceScope.ServiceProvider.GetService<INavigationService>()!;

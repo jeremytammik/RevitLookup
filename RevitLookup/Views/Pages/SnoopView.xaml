@@ -62,7 +62,7 @@
                     Width="250" />
                 <ColumnDefinition
                     Width="9" />
-                <ColumnDefinition/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <!-- <Grid.ColumnDefinitions> -->
             <!--     <ColumnDefinition -->
@@ -183,9 +183,11 @@
                             <DataTrigger
                                 Binding="{Binding Value.Descriptor, Converter={converters:HandledDescriptorConverter}}"
                                 Value="true">
-                                <Setter Property="Foreground">
+                                <Setter
+                                    Property="Foreground">
                                     <Setter.Value>
-                                        <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
+                                        <SolidColorBrush
+                                            Color="{DynamicResource SystemAccentColorSecondary}" />
                                     </Setter.Value>
                                 </Setter>
                                 <Setter
