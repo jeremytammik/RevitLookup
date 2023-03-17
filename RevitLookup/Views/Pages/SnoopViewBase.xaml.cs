@@ -169,7 +169,8 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private void OnGridToolTipOpening(object o, ToolTipEventArgs args)
     {
         //Fixed by the tooltip work in 6.0-preview7 https://github.com/dotnet/wpf/pull/6058 but we use net48
-        if (Environment.TickCount - _scrollTick < 73) args.Handled = true;
+
+        if (_scrollTick != 0 && Environment.TickCount - _scrollTick < 73) args.Handled = true;
     }
 
     /// <summary>

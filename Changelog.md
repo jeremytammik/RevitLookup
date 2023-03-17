@@ -125,7 +125,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * OTA update. The RevitLookup update is now available directly from the plugin
 
-    ![image](https://user-images.githubusercontent.com/20504884/225857621-ad66f40f-4132-4ca5-a18e-3f05d33d017a.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225875561-bda637d0-d170-411d-83ac-97b17342904a.png)
 
 And all other updates that are not described in the changelog you can check now.
 
