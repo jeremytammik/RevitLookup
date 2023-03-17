@@ -41,7 +41,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * Accent colour synced with windows
 
-    ![image](https://user-images.githubusercontent.com/20504884/225870666-0bc8c6e4-5216-403c-b735-f5675e08eba3.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225880312-4e9ee066-97ba-4e72-b89f-966269b385ec.png)
 
 * New logo
 * Searchbar
