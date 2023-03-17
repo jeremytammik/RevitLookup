@@ -12,21 +12,19 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * A brand-new user interface
 
-    ![image](https://user-images.githubusercontent.com/20504884/225030639-f13c5432-84e0-4508-876e-f104794540f5.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225851652-38ef55eb-87a4-42c3-9c36-045083f3470d.png)
 
 * Themes support
 
-    ![image](https://user-images.githubusercontent.com/93661926/225276975-44ff4149-3411-4d71-bc3d-8093e6378a0f.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225851738-9db4dde1-fa05-4115-bd45-5e3af870ad36.png)
 
-* New logo
-* Searchbar
-* Context menu with new actions
+* Extended Context menu
 
-    ![image](https://user-images.githubusercontent.com/20504884/225292648-fd485954-f469-4dd4-812d-8a4d8fdf8094.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225851802-79e38c1e-8bc2-47cc-bdb5-aa17db4db8e7.png)
 
 * Tooltips
 
-    ![image](https://user-images.githubusercontent.com/93661926/225278782-14624000-5b4a-43ce-9e72-e411fcb17527.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225851987-7cc5ad2f-1a3b-4c4c-8744-6f3372e0f2ff.png)
 
 * The Snoop Selection button has been moved to the Modify tab
 
@@ -45,28 +43,31 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225753559-589c54a1-3558-4868-8531-9a4a2b6f4e26.png)
 
+* New logo
+* Searchbar
+
 # Engine
 
 * A brand-new core
 * Extension support. Support for some static methods from the API and some new ones
 
-    ![image](https://user-images.githubusercontent.com/20504884/225107640-66d586fc-4610-4c44-8952-74ade1b88955.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225852056-9bb523c6-85dd-44d8-b900-ef3ca1eefaa6.png)
 
 * Generic names support
 
     | Before                                                                                                                  | Now                                                                                                                   |
     |-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-    | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225105607-ce5b064b-e3b1-4fbe-ab7a-57fe285ab9aa.png) |
+    | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
 
 * Now you can see all the available methods that objects have, even if RevitLookup doesn't support them
 
-    ![image](https://user-images.githubusercontent.com/20504884/225106462-a40c7dbf-4886-476e-bf99-6bbf9fd63166.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225852714-3255ece8-1c6c-464e-8949-5693b7ed7223.png)
 
-    ![image](https://user-images.githubusercontent.com/20504884/225106951-1c5f9e6d-f8df-4a7a-bf3b-c13926ec3b8b.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225853186-ef6ce65e-6ee3-4a4d-a213-49fb8dfc7e75.png)
 
 * Support for multiple results for methods with overloads
 
-    ![image](https://user-images.githubusercontent.com/20504884/225129590-81304032-410e-4677-bb4e-cea22598e1c9.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225853785-8b5beacd-c8f1-401e-a51e-3e45f6aa8cba.png)
 
 * Extensible Storage has been removed from the element. Now the GetEntity() method is used for this, which is already in the API
 * Simplified addition of new features by other developers. The developer guide can be found here: https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#architecture
@@ -78,20 +79,20 @@ In this release, the entire code base has been completely rewritten from scratch
 * Snoop Sub-Element
 * Component manager. Now you can explore it from the AdWindows.dll and learn how the ribbon and user interface in Revit are arranged
 
-    ![image](https://user-images.githubusercontent.com/20504884/225289883-c686b3ce-3398-4768-80d3-8ddb229526ac.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225854089-04c8448f-34f9-419c-b859-c51b2a2375b6.png)
 
-* PerformanceAdviser. Explore performance issues in this document
-* Registry research, schemas, services, updaters
+* PerformanceAdviser. Explore performance document issues
+* Registry research: schemas, services, updaters
 * Explore BuiltIn and Forge units
 
-    ![image](https://user-images.githubusercontent.com/20504884/225114192-5178be61-2fa1-4b57-8fbe-f6a85eae27d1.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225854661-954b29f5-85a3-4ca5-a952-5175b4521584.png)
 
 * Search reworked
 
     Now you can search by several values. Use values with different delimiters on a new line.
     Support for search by name, id, uniqID and IfcGUID, Type IfcGUID
 
-    ![image](https://user-images.githubusercontent.com/20504884/225115721-cd1d661c-f9f0-49fd-94e1-9e42aa185322.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225856441-cf347a8f-ea30-46af-b151-885bc0a69076.png)
 
     The Type IfcGUID search also finds all instances of that type
 
@@ -103,25 +104,27 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * Event monitor. Now you can track all incoming events. Events from RevitApi and RevitAPIUI libraries are available
 
-    ![image](https://user-images.githubusercontent.com/20504884/225290957-29a745c4-f121-4994-a430-7d85f3fa5e7c.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225856874-46c14b80-5c7d-444c-999a-10e8e4809ad2.png)
 
 * Now you can visually search for elements in the project:
 
     ![image](https://user-images.githubusercontent.com/20504884/225122161-d61ff4d2-8263-45d8-8e0e-71ab9821b592.png)
 
-    Select solid:
+    Select solid (Revit 2023 or higher):
 
-    ![image](https://user-images.githubusercontent.com/20504884/225123500-b354cde2-347b-4552-b04b-f7b215b70321.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225867976-ccb417a0-85c6-4996-bcd8-fdff8a504152.png)
 
-    Select face:
+    Select face (Revit 2023 or higher):
 
-    ![image](https://user-images.githubusercontent.com/20504884/225124175-82f9ae66-fc33-4f88-97fd-d594ea6f5233.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225866963-d9a3c2e4-1569-40c4-9072-1736906dce6b.png)
 
-    Select edge:
+    Select edge (Revit 2023 or higher):
 
-    ![image](https://user-images.githubusercontent.com/20504884/225124568-1c53118f-3806-4b46-ab66-f498dde2b77c.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225867460-282751ad-0782-4cb7-bb96-7465be556c6f.png)
 
 * OTA update. The RevitLookup update is now available directly from the plugin
+
+    ![image](https://user-images.githubusercontent.com/20504884/225857621-ad66f40f-4132-4ca5-a18e-3f05d33d017a.png)
 
 And all other updates that are not described in the changelog you can check now.
 

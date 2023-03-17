@@ -158,6 +158,9 @@
                                     </Setter.Value>
                                 </Setter>
                                 <Setter
+                                    Property="FontWeight"
+                                    Value="DemiBold" />
+                                <Setter
                                     Property="Cursor"
                                     Value="Hand" />
                             </DataTrigger>
