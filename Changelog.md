@@ -129,7 +129,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 And all other updates that are not described in the changelog you can check now
 
-Made with ❤️ by Nice3point
+Made with ❤️ by [Nice3point](https://github.com/Nice3point)
 - 2022-06-17 **2023.1.0** In this update:
     - New: Hello World window changed to About
     - New: resorted commands on the Revit ribbon, frequently used moved to the top

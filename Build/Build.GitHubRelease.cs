@@ -42,7 +42,7 @@ partial class Build
                 Name = version,
                 Body = CreateChangelog(version),
                 Draft = true,
-                Prerelease = true,
+                // Prerelease = true,
                 TargetCommitish = GitVersion.Sha
             };
 
