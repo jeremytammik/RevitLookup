@@ -12,7 +12,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * A brand-new user interface
 
-    ![image](https://user-images.githubusercontent.com/20504884/225851652-38ef55eb-87a4-42c3-9c36-045083f3470d.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225871636-21c17658-d02e-411c-93cd-34e4d2121933.png)
 
 * Themes support
 
@@ -32,7 +32,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * Smooth navigation. Enable acceleration in Revit settings if you are having trouble with this option
 
-    ![image](https://user-images.githubusercontent.com/20504884/225108851-e098a8ae-ce91-445b-b683-5c82cf47f777.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225870803-785b5082-edd2-44cf-a384-8633052740d7.png)
 
 * Windows 11 Mica background effect support
 * Windows 11 snap layouts support
@@ -41,7 +41,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * Accent colour synced with windows
 
-    ![image](https://user-images.githubusercontent.com/20504884/225753559-589c54a1-3558-4868-8531-9a4a2b6f4e26.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225870666-0bc8c6e4-5216-403c-b735-f5675e08eba3.png)
 
 * New logo
 * Searchbar
@@ -85,14 +85,14 @@ In this release, the entire code base has been completely rewritten from scratch
 * Registry research: schemas, services, updaters
 * Explore BuiltIn and Forge units
 
-    ![image](https://user-images.githubusercontent.com/20504884/225854661-954b29f5-85a3-4ca5-a952-5175b4521584.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225869710-3c651c4a-0b35-4dd4-8180-27370f657cd8.png)
 
 * Search reworked
 
     Now you can search by several values. Use values with different delimiters on a new line.
     Support for search by name, id, uniqID and IfcGUID, Type IfcGUID
 
-    ![image](https://user-images.githubusercontent.com/20504884/225856441-cf347a8f-ea30-46af-b151-885bc0a69076.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225869706-7d5e2e4a-1f03-416e-9ad6-a96184b07836.png)
 
     The Type IfcGUID search also finds all instances of that type
 
@@ -110,17 +110,18 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225122161-d61ff4d2-8263-45d8-8e0e-71ab9821b592.png)
 
-    Select solid (Revit 2023 or higher):
-
-    ![image](https://user-images.githubusercontent.com/20504884/225867976-ccb417a0-85c6-4996-bcd8-fdff8a504152.png)
-
     Select face (Revit 2023 or higher):
 
     ![image](https://user-images.githubusercontent.com/20504884/225866963-d9a3c2e4-1569-40c4-9072-1736906dce6b.png)
 
+    Select solid (Revit 2023 or higher):
+
+    ![image](https://user-images.githubusercontent.com/20504884/225867976-ccb417a0-85c6-4996-bcd8-fdff8a504152.png)
+
     Select edge (Revit 2023 or higher):
 
     ![image](https://user-images.githubusercontent.com/20504884/225867460-282751ad-0782-4cb7-bb96-7465be556c6f.png)
+
 
 * OTA update. The RevitLookup update is now available directly from the plugin
 
