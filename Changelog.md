@@ -20,7 +20,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * Extended Context menu
 
-    ![image](https://user-images.githubusercontent.com/20504884/225851802-79e38c1e-8bc2-47cc-bdb5-aa17db4db8e7.png)
+    ![image](https://user-images.githubusercontent.com/20504884/225880995-e6a20465-26c0-494d-8f35-3abaacdb9525.png)
 
 * Tooltips
 
@@ -127,7 +127,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225875561-bda637d0-d170-411d-83ac-97b17342904a.png)
 
-And all other updates that are not described in the changelog you can check now.
+And all other updates that are not described in the changelog you can check now
 
 Made with ❤️ by Nice3point
 - 2022-06-17 **2023.1.0** In this update:
