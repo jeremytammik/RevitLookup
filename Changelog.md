@@ -49,9 +49,11 @@ In this release, the entire code base has been completely rewritten from scratch
 # Engine
 
 * A brand-new core
-* Extension support. Support for some static methods from the API and some new ones
+* Extension support. Support new methods from the API and other libraries
 
     ![image](https://user-images.githubusercontent.com/20504884/225852056-9bb523c6-85dd-44d8-b900-ef3ca1eefaa6.png)
+
+    Available extensions: https://github.com/jeremytammik/RevitLookup/wiki/Extensions
 
 * Now you can see all the available methods that objects have, even if RevitLookup doesn't support them
 
