@@ -96,13 +96,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225869706-7d5e2e4a-1f03-416e-9ad6-a96184b07836.png)
 
-    The Type IfcGUID search also finds all instances of that type
-
-    ![image](https://user-images.githubusercontent.com/20504884/225117066-a8d80f50-8bb9-4ccf-84b4-ace798e52858.png)
-
-    This is a more convenient way to search for items since it is accessible from the Revit properties panel and is always at your fingertips
-
-    ![image](https://user-images.githubusercontent.com/20504884/225117536-daf8a0ad-ccfd-4632-b6f4-07654cdf6970.png)
+    Wiki page: https://github.com/jeremytammik/RevitLookup/wiki/Search-elements 
 
 * Event monitor. Now you can track all incoming events. Events from RevitApi and RevitAPIUI libraries are available
 
