@@ -77,6 +77,7 @@
             <DockPanel
                 Grid.Column="0">
                 <rl:TextBox
+                    x:Name="SearchBox"
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
                     Icon="Search24"

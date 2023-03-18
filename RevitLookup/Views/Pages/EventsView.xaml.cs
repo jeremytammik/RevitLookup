@@ -19,14 +19,16 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows.Data;
+using System.Windows.Input;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.Views.Pages;
 
-public sealed partial class EventsView
+public sealed partial class EventsView : INavigationAware
 {
     public EventsView(IServiceProvider serviceProvider, ISettingsService settingsService) : base(settingsService)
     {
@@ -43,5 +45,21 @@ public sealed partial class EventsView
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
         Theme.Apply(this, settingsService.Theme, settingsService.Background);
+    }
+    
+    public void OnNavigatedTo()
+    {
+        Wpf.Ui.Application.Current.PreviewKeyDown += OnKeyPressed;
+    }
+
+    public void OnNavigatedFrom()
+    {
+        Wpf.Ui.Application.Current.PreviewKeyDown -= OnKeyPressed;
+    }
+
+    private void OnKeyPressed(object sender, KeyEventArgs e)
+    {
+        if (SearchBox.IsKeyboardFocused) return;
+        SearchBox.Focus();
     }
 }
