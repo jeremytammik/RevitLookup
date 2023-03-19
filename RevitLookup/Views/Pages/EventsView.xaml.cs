@@ -60,6 +60,10 @@ public sealed partial class EventsView : INavigationAware
     private void OnKeyPressed(object sender, KeyEventArgs e)
     {
         if (SearchBox.IsKeyboardFocused) return;
-        SearchBox.Focus();
+        if (e.KeyboardDevice.Modifiers != ModifierKeys.None) return;
+        if (e.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9)
+        {
+            SearchBox.Focus();
+        }
     }
 }

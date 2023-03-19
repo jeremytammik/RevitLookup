@@ -44,7 +44,7 @@ In this release, the entire code base has been completely rewritten from scratch
     ![image](https://user-images.githubusercontent.com/20504884/225880312-4e9ee066-97ba-4e72-b89f-966269b385ec.png)
 
 * New logo
-* Searchbar
+* Searchbar. Focus is triggered by pressing any key on the keyboard
 
 # Engine
 

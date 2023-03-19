@@ -54,7 +54,11 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             if (long.TryParse(rawId, out var id))
             {
                 //TODO support revit 2024
+#if R24_OR_GREATER
+                var element = RevitApi.Document.GetElement(new ElementId(id));
+#else
                 var element = RevitApi.Document.GetElement(new ElementId((int) id));
+#endif
                 if (element is not null) results.Add(element);
             }
             else if (rawId.Length == 45 && rawId.Count(c => c == '-') == 5)
