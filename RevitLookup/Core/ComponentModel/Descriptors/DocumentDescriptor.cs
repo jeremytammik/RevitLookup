@@ -20,6 +20,7 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Nice3point.Revit.Toolkit.Utils;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -27,8 +28,11 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly Document _document;
+
     public DocumentDescriptor(Document document)
     {
+        _document = document;
         Name = document.Title;
     }
 
@@ -37,7 +41,17 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
         return target switch
         {
             nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
+            nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
             _ => null
         };
+
+        ResolveSet ResolvePlanTopologies()
+        {
+            var transaction = new Transaction(_document);
+            transaction.Start("Calculating plan topologies");
+            var topologies = _document.PlanTopologies;
+            transaction.Commit();
+            return ResolveSet.Append(topologies);
+        }
     }
 }
