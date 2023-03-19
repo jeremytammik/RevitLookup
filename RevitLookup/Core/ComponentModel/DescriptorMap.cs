@@ -57,6 +57,10 @@ public static class DescriptorMap
             GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
             Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
 
+            //Enumerator
+            DefinitionBindingMapIterator value => new DefinitionBindingMapIteratorDescriptor(value),
+            IEnumerator value => new EnumeratorDescriptor(value),
+
             //APIObjects
             Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
             Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
