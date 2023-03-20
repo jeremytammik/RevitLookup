@@ -18,24 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DefinitionBindingMapIteratorDescriptor : Descriptor, IDescriptorRedirection
+public class StringDescriptor : EnumerableDescriptor
 {
-    private readonly object _object;
-
-    public DefinitionBindingMapIteratorDescriptor(DefinitionBindingMapIterator iterator)
+    public StringDescriptor(string text) : base(text)
     {
-        _object = new KeyValuePair<Definition, object>(iterator.Key, iterator.Current);
-    }
-
-    public bool TryRedirect(string target, Document context, out object output)
-    {
-        output = _object;
-        return true;
+        Name = text;
     }
 }

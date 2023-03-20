@@ -164,7 +164,7 @@ public sealed class DescriptorBuilder
             var enumerableDescriptor = new ObjectDescriptor
             {
                 Type = nameof(IEnumerable),
-                Value = new SnoopableObject(_snoopableObject.Context, enumerator.Current)
+                Value = new SnoopableObject(_snoopableObject.Context, enumerator)
             };
 
             SnoopUtils.Redirect(enumerableDescriptor.Value);

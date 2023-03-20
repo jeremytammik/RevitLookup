@@ -27,16 +27,16 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public class EnumeratorDescriptor : Descriptor, IDescriptorRedirection
 {
-    private readonly IEnumerator _enumerator;
+    private readonly object _object;
 
     public EnumeratorDescriptor(IEnumerator enumerator)
     {
-        _enumerator = enumerator;
+        _object = enumerator.Current;
     }
 
     public bool TryRedirect(string target, Document context, out object output)
     {
-        output = _enumerator.Current;
+        output = _object;
         return true;
     }
 }

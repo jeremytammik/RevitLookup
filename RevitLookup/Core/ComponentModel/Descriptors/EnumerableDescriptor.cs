@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Collections;
+using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Electrical;
 using RevitLookup.Core.Contracts;
@@ -26,7 +27,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class EnumerableDescriptor : Descriptor, IDescriptorEnumerator
+public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescriptorResolver
 {
     public EnumerableDescriptor(IEnumerable value)
     {
@@ -35,6 +36,7 @@ public sealed class EnumerableDescriptor : Descriptor, IDescriptorEnumerator
         //Checking types to reduce memory allocation when creating an iterator and increase performance
         IsEmpty = value switch
         {
+            string => true,
             ICollection enumerable => enumerable.Count == 0,
             ParameterSet enumerable => enumerable.IsEmpty,
             ParameterMap enumerable => enumerable.IsEmpty,
@@ -61,4 +63,13 @@ public sealed class EnumerableDescriptor : Descriptor, IDescriptorEnumerator
 
     public IEnumerator Enumerator { get; }
     public bool IsEmpty { get; }
+
+    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    {
+        return target switch
+        {
+            nameof(IEnumerable.GetEnumerator) => ResolveSet.Append(null),
+            _ => null
+        };
+    }
 }

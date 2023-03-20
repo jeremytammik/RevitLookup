@@ -48,9 +48,10 @@ public static class DescriptorMap
         return obj switch
         {
             //System
-            IEnumerable value and not string => new EnumerableDescriptor(value),
-            Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
+            string value when type is null || type == typeof(string) => new StringDescriptor(value),
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
+            IEnumerable value => new EnumerableDescriptor(value),
+            Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
 
             //Root
             ElementId value when type is null || type == typeof(ElementId) => new ElementIdDescriptor(value),
