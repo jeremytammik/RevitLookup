@@ -21,6 +21,8 @@ In this release, the entire code base has been completely rewritten from scratch
 * Extended Context menu
 
     ![image](https://user-images.githubusercontent.com/20504884/225880995-e6a20465-26c0-494d-8f35-3abaacdb9525.png)
+    
+    Wiki page: https://github.com/jeremytammik/RevitLookup/wiki/Context-actions
 
 * Tooltips
 
