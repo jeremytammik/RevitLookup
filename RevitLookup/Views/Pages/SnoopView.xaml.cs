@@ -63,9 +63,6 @@ public sealed partial class SnoopView : INavigationAware
     {
         if (SearchBox.IsKeyboardFocused) return;
         if (e.KeyboardDevice.Modifiers != ModifierKeys.None) return;
-        if (e.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9)
-        {
-            SearchBox.Focus();
-        }
+        if (e.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9) SearchBox.Focus();
     }
 }

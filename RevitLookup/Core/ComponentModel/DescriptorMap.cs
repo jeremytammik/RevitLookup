@@ -100,14 +100,14 @@ public static class DescriptorMap
             ResolveSummary value => new ResolveSummaryDescriptor(value),
 
             //ComponentManager
-            UIElement value => new UiElementDescriptor(value),
-            DispatcherObject => new ApiObjectDescriptor(),
+            UIElement => new UiElementDescriptor(),
+            DispatcherObject => new DependencyObjectDescriptor(),
             RibbonItem value => new RibbonItemDescriptor(value),
             RibbonPanel value => new RibbonPanelDescriptor(value),
             Autodesk.Windows.RibbonItem value => new RibbonItemDescriptor(value),
             Autodesk.Windows.RibbonPanel value => new RibbonPanelDescriptor(value),
             RibbonTab value => new RibbonTabDescriptor(value),
-            INotifyPropertyChanged => new ApiObjectDescriptor(),
+            INotifyPropertyChanged => new UiObjectDescriptor(),
 
             //Unknown
             null when type is null => new ObjectDescriptor(),

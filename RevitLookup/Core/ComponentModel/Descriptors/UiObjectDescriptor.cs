@@ -18,32 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
-using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class EnumeratorDescriptor : Descriptor, IDescriptorRedirection
+public class UiObjectDescriptor : Descriptor, IDescriptorCollector
 {
-    private readonly object _object;
-
-    public EnumeratorDescriptor(IEnumerator enumerator)
-    {
-        try
-        {
-            _object = enumerator.Current;
-        }
-        catch
-        {
-            // ignored
-        }
-    }
-
-    public bool TryRedirect(string target, Document context, out object output)
-    {
-        output = _object;
-        return output is not null;
-    }
 }

@@ -27,17 +27,11 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
 {
-    private readonly UIElement _element;
-
-    public UiElementDescriptor(UIElement element)
-    {
-        _element = element;
-    }
-
     public ResolveSet Resolve(string target, ParameterInfo[] parameters)
     {
         return target switch
         {
+            nameof(UIElement.GetLocalValueEnumerator) => ResolveSet.Append(null),
             nameof(UIElement.CaptureMouse) => ResolveSet.Append(false, "Overridden"),
             nameof(UIElement.CaptureStylus) => ResolveSet.Append(false, "Overridden"),
             nameof(UIElement.Focus) => ResolveSet.Append(false, "Overridden"),

@@ -81,7 +81,13 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
                     .Where(response => !response.Draft)
                     .Where(response => !response.PreRelease)
                     .OrderByDescending(release => release.PublishedDate)
-                    .First();
+                    .FirstOrDefault();
+
+                if (latestRelease is null)
+                {
+                    State = SoftwareUpdateState.UpToDate;
+                    return;
+                }
 
                 // Finding a new version
                 Version newVersionTag = null;
