@@ -41,7 +41,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             {
                 var delimiter = delimiters[i];
                 var split = row.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries);
-                if (split.Length > 1 || i == delimiters.Length - 1)
+                if (split.Length > 1 || i == delimiters.Length - 1 || split.Length==1 && split[0] != row)
                 {
                     items.AddRange(split);
                     break;
