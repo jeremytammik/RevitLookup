@@ -6,7 +6,7 @@
 <img alt="RevitLookup" width="600"    src="https://user-images.githubusercontent.com/20504884/218192495-19b13547-ce67-40e3-8fe8-e847f89bddb7.png"/>
 </div>
 
-In this release, the entire code base has been completely rewritten from scratch with a redesigned user interface. New tools added, OTA update, Windows 11 support included
+In this release, the entire code base has been completely rewritten from scratch with a redesigned user interface. New tools, OTA update, Windows 11 support included
 
 # UI
 
@@ -18,7 +18,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225851738-9db4dde1-fa05-4115-bd45-5e3af870ad36.png)
 
-* Extended Context menu
+* Extended context menu
 
     ![image](https://user-images.githubusercontent.com/20504884/225880995-e6a20465-26c0-494d-8f35-3abaacdb9525.png)
     
@@ -36,12 +36,12 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225870803-785b5082-edd2-44cf-a384-8633052740d7.png)
 
-* Windows 11 Mica background effect support
+* Windows 11 Mica effect support
 * Windows 11 Snap Layouts support
 
     ![image](https://user-images.githubusercontent.com/93661926/225279198-c6985018-b1fc-435e-9fb4-f0c97f99ff8c.png)
 
-* Accent colour synced with windows
+* Accent colour synced with OS
 
     ![image](https://user-images.githubusercontent.com/20504884/225880312-4e9ee066-97ba-4e72-b89f-966269b385ec.png)
 
@@ -93,8 +93,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * Search reworked
 
-    Now you can search by several values. Use values with different delimiters on a new line.
-    Support for search by name, id, uniqID and IfcGUID, Type IfcGUID
+    Now you can search by several values by Name, Id, UniqueId, IfcGUID and Type IfcGUID parameters
 
     ![image](https://user-images.githubusercontent.com/20504884/225869706-7d5e2e4a-1f03-416e-9ad6-a96184b07836.png)
 
