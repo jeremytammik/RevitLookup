@@ -6,7 +6,7 @@
 <img alt="RevitLookup" width="600"    src="https://user-images.githubusercontent.com/20504884/218192495-19b13547-ce67-40e3-8fe8-e847f89bddb7.png"/>
 </div>
 
-In this release, the entire code base has been completely rewritten from scratch with a redesigned user interface. New tools, OTA update, Windows 11 support included
+In this release, the entire code base has been completely rewritten from scratch with a redesigned user interface. New tools, OTA update, Windows 11 support
 
 # UI
 
@@ -14,7 +14,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225871636-21c17658-d02e-411c-93cd-34e4d2121933.png)
 
-* Themes support
+* Themes
 
     ![image](https://user-images.githubusercontent.com/20504884/225851738-9db4dde1-fa05-4115-bd45-5e3af870ad36.png)
 
@@ -51,7 +51,7 @@ In this release, the entire code base has been completely rewritten from scratch
 # Engine
 
 * A brand-new core
-* Extension support. Support new methods from the API and other libraries
+* Extensions. Support new methods from the API and other libraries
 
     ![image](https://user-images.githubusercontent.com/20504884/225852056-9bb523c6-85dd-44d8-b900-ef3ca1eefaa6.png)
 
@@ -74,13 +74,13 @@ In this release, the entire code base has been completely rewritten from scratch
     ![image](https://user-images.githubusercontent.com/20504884/225853785-8b5beacd-c8f1-401e-a51e-3e45f6aa8cba.png)
 
 * Extensible Storage has been removed from the element. Now the `GetEntity()` method is used for this, which is already in the API
-* Simplified addition of new features by other developers. The developer guide can be found here: https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#architecture
+* Simplified addition of new features for other developers. Developer's guide: https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#architecture
 
-# Features
+# New features
 
-* Snoop UI Application
 * Snoop Point
 * Snoop Sub-Element
+* Snoop UI Application
 * Component manager. Now you can explore it from the AdWindows.dll and learn how the ribbon and user interface in Revit are arranged
 
     ![image](https://user-images.githubusercontent.com/20504884/225854089-04c8448f-34f9-419c-b859-c51b2a2375b6.png)
@@ -91,34 +91,33 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225869710-3c651c4a-0b35-4dd4-8180-27370f657cd8.png)
 
-* Search reworked
-
-    Now you can search by several values by Name, Id, UniqueId, IfcGUID and Type IfcGUID parameters
-
-    ![image](https://user-images.githubusercontent.com/20504884/225869706-7d5e2e4a-1f03-416e-9ad6-a96184b07836.png)
-
-    Wiki page: https://github.com/jeremytammik/RevitLookup/wiki/Search-elements 
-
 * Event monitor. Now you can track all incoming events. Events from RevitApi and RevitAPIUI libraries are available
 
     ![image](https://user-images.githubusercontent.com/20504884/225856874-46c14b80-5c7d-444c-999a-10e8e4809ad2.png)
 
-* Now you can visually search for elements in the project:
+* Reworked search
+
+  Now you can search by several values by Name, Id, UniqueId, IfcGUID and Type IfcGUID parameters
+
+  ![image](https://user-images.githubusercontent.com/20504884/225869706-7d5e2e4a-1f03-416e-9ad6-a96184b07836.png)
+
+  Wiki page: https://github.com/jeremytammik/RevitLookup/wiki/Search-elements
+
+* Visual search for elements in a project:
 
     ![image](https://user-images.githubusercontent.com/20504884/225874545-aa0f7829-5215-412d-8c50-31ede8705ca8.png)
 
-    Select face (Revit 2023 or higher):
+    Showing faces (Revit 2023 or higher):
 
     ![image](https://user-images.githubusercontent.com/20504884/225866963-d9a3c2e4-1569-40c4-9072-1736906dce6b.png)
 
-    Select solid (Revit 2023 or higher):
+    Showing solids (Revit 2023 or higher):
 
     ![image](https://user-images.githubusercontent.com/20504884/225867976-ccb417a0-85c6-4996-bcd8-fdff8a504152.png)
 
-    Select edge (Revit 2023 or higher):
+    Showing edges (Revit 2023 or higher):
 
     ![image](https://user-images.githubusercontent.com/20504884/225867460-282751ad-0782-4cb7-bb96-7465be556c6f.png)
-
 
 * OTA update. The RevitLookup update is now available directly from the plugin
 

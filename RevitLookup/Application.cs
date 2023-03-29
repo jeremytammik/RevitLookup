@@ -104,10 +104,6 @@ public class Application : ExternalApplication
         splitPointButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitPointButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
-        // var splitElementButton = splitButton.AddPushButton<SnoopSubElementCommand>("Snoop Sub-element");
-        // splitElementButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        // splitElementButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
         var splitLinkedButton = splitButton.AddPushButton<SnoopLinkedElementCommand>("Snoop Linked element");
         splitLinkedButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitLinkedButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
@@ -120,7 +116,7 @@ public class Application : ExternalApplication
         eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
-        //Add button to modify tab
+        //Add modify tab button
         foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
         {
             if (ribbonTab.Id != "Modify") continue;

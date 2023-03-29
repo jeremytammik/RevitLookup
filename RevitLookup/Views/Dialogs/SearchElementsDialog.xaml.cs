@@ -46,14 +46,10 @@ public sealed partial class SearchElementsDialog
 
     protected override bool OnButtonClick(ContentDialogButton button)
     {
-        if (button == ContentDialogButton.Primary)
-        {
-            if (_viewModel.SearchIds(_snoopService)) return true;
+        if (button != ContentDialogButton.Primary) return true;
+        if (_viewModel.SearchIds(_snoopService)) return true;
 
-            _snackbarService.Show("Search elements", "There are no elements found for your request", SymbolRegular.Warning24, ControlAppearance.Caution);
-            return false;
-        }
-
-        return true;
+        _snackbarService.Show("Search elements", "There are no elements found for your request", SymbolRegular.Warning24, ControlAppearance.Caution);
+        return false;
     }
 }

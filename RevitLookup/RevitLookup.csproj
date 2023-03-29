@@ -90,7 +90,6 @@
             <RootItem Include="$(ProjectDir)*.addin"/>
             <AddinItem Include="$(TargetDir)*"/>
             <!--<AddinItem Include="$(TargetDir)$(AssemblyName).*" />-->
-            <!--<AddinItem Include="$(TargetDir)Nice3point.Revit.Extensions.dll" />-->
         </ItemGroup>
         <PropertyGroup>
             <RootDir>bin\AddIn $(RevitVersion) $(Configuration)\</RootDir>
@@ -107,6 +106,6 @@
         </PropertyGroup>
 
         <Message Text="$(MSBuildProjectName) -&gt; Copying files to $(RevitAddinFolder)" Importance="High"/>
-        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)"/>
+        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)" Condition="$(Configuration.Contains('Debug'))"/>
     </Target>
 </Project>
