@@ -52,14 +52,7 @@ public sealed class SnoopableObject
 
     public async Task<IReadOnlyCollection<Descriptor>> GetMembersAsync()
     {
-        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ =>
-        {
-            // using var transaction = new Transaction(Context);
-            // transaction.Start("RevitLookup");
-            var descriptors = new DescriptorBuilder(this).Build();
-            // transaction.RollBack();
-            return descriptors;
-        });
+        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ => new DescriptorBuilder(this).Build());
     }
 
     public async Task<IReadOnlyCollection<Descriptor>> GetCachedMembersAsync()

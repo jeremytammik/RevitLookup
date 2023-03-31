@@ -122,7 +122,6 @@ public sealed class DescriptorBuilder
         foreach (var member in members)
         {
             if (member.IsSpecialName) continue;
-            if (member.ReturnType.Name == "Void") continue;
 
             object value;
             ParameterInfo[] parameters = null;
@@ -180,7 +179,7 @@ public sealed class DescriptorBuilder
 
         if (!member.CanRead)
         {
-            value = new Exception("Property does not have a get accessor, it cannot be read");
+            value = new NotSupportedException("Property does not have a get accessor, it cannot be read");
             return true;
         }
 
@@ -195,7 +194,7 @@ public sealed class DescriptorBuilder
         {
             if (!_settings.IsUnsupportedAllowed) return false;
 
-            value = new Exception("Unsupported property overload");
+            value = new NotSupportedException("Unsupported property overload");
             return true;
         }
 
@@ -207,6 +206,14 @@ public sealed class DescriptorBuilder
     {
         value = null;
         parameters = member.GetParameters();
+        if (member.ReturnType.Name == "Void")
+        {
+            if (!_settings.IsUnsupportedAllowed) return false;
+
+            value = new NotSupportedException("Method doesn't return a value");
+            return true;
+        }
+
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
             value = resolver.Resolve(member.Name, parameters);
@@ -217,7 +224,7 @@ public sealed class DescriptorBuilder
         {
             if (!_settings.IsUnsupportedAllowed) return false;
 
-            value = new Exception("Unsupported method overload");
+            value = new NotSupportedException("Unsupported method overload");
             return true;
         }
 

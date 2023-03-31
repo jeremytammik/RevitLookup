@@ -57,13 +57,13 @@ public sealed partial class App
 #if RELEASE
                 var version = addinVersion.Split('.')[0];
                 if (version == "1") version = "Develop";
-                var userDataLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Autodesk\Revit\Addins\", version, "RevitLookup");
+                var programDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+                var userDataLocation = Path.Combine(programDataPath, @"Autodesk\Revit\Addins\", version, "RevitLookup");
 #else
                 var userDataLocation = Path.GetDirectoryName(assemblyLocation)!;
 #endif
-                var writeAccess = AccessUtils.CheckWriteAccess(assemblyLocation) &&
-                                  !assemblyLocation.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
+                var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+                var writeAccess = AccessUtils.CheckWriteAccess(assemblyLocation) && !assemblyLocation.StartsWith(appDataPath);
 
                 var targetFrameworkAttributes = assembly.GetCustomAttributes(typeof(TargetFrameworkAttribute), true);
                 var targetFrameworkAttribute = (TargetFrameworkAttribute) targetFrameworkAttributes.First();
