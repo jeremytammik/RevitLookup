@@ -57,7 +57,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
     Available extensions: https://github.com/jeremytammik/RevitLookup/wiki/Extensions
 
-* Now you can see all the available methods that objects have, even if RevitLookup doesn't support them
+* Now you can see all the available and void methods that objects have, even if RevitLookup doesn't support them
 
     ![image](https://user-images.githubusercontent.com/20504884/225852714-3255ece8-1c6c-464e-8949-5693b7ed7223.png)
 
