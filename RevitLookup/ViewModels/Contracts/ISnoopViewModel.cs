@@ -31,6 +31,7 @@ public interface ISnoopViewModel : ISnoopService
     IReadOnlyCollection<SnoopableObject> FilteredSnoopableObjects { get; set; }
     IReadOnlyCollection<Descriptor> FilteredSnoopableData { get; set; }
     IAsyncRelayCommand CollectMembersCommand { get; }
+    IAsyncRelayCommand RefreshMembersCommand { get; }
     public string SearchText { get; set; }
     public SnoopableObject SelectedObject { get; set; }
     void Navigate(Descriptor selectedItem);

@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Enums;
 using RevitLookup.Core.Objects;
@@ -45,6 +46,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     protected SnoopViewBase(ISettingsService settingsService)
     {
         _settingsService = settingsService;
+        AddShortcuts();
     }
 
     public required TreeView TreeViewControl { get; init; }
@@ -285,5 +287,11 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
             if (menuItem.Parameter is not null) item.CommandParameter = menuItem.Parameter;
             if (menuItem.Gesture is not null) item.AddShortcut(row, menuItem.Gesture);
         }
+    }
+
+    private void AddShortcuts()
+    {
+        var command = new RelayCommand(() => { ViewModel.RefreshMembersCommand.Execute(null);});
+        InputBindings.Add(new KeyBinding(command, new KeyGesture(Key.F5)));
     }
 }

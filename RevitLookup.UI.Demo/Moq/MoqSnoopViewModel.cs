@@ -225,4 +225,10 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
             await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
         }
     }
+
+    [RelayCommand]
+    private async Task RefreshMembers()
+    {
+        await CollectMembersAsync();
+    }
 }
