@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
 using System.Diagnostics;
 using System.Reflection;
 using Autodesk.Revit.DB;
@@ -53,18 +54,21 @@ public sealed class EventMonitor
             foreach (var type in dll.GetTypes())
             foreach (var eventInfo in type.GetEvents())
             {
-#if DEBUG
-                Debug.WriteLine($"{eventInfo.ReflectedType} - {eventInfo.Name}");
-#endif
+                Debug.Write($"RevitLookup EventMonitor: {eventInfo.ReflectedType}.{eventInfo.Name}");
                 if (_blockList.Contains(eventInfo.Name)) continue;
-                var target = FindValidTarget(eventInfo.ReflectedType);
-                if (target is null) break;
-
+                var targets = FindValidTargets(eventInfo.ReflectedType);
+                if (targets is null)
+                {
+                    Debug.WriteLine(" - missing target");
+                    break;
+                }
+                
                 var methodInfo = GetType().GetMethod(nameof(HandleEvent), BindingFlags.Instance | BindingFlags.Public)!;
                 var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
 
-                eventInfo.AddEventHandler(target, eventHandler);
+                foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
                 _eventInfos.Add(eventInfo, eventHandler);
+                Debug.WriteLine(" - success");
             }
         });
     }
@@ -75,17 +79,19 @@ public sealed class EventMonitor
         {
             foreach (var eventInfo in _eventInfos)
             {
-                var target = FindValidTarget(eventInfo.Key.ReflectedType);
-                eventInfo.Key.RemoveEventHandler(target, eventInfo.Value);
+                var targets = FindValidTargets(eventInfo.Key.ReflectedType);
+                foreach (var target in targets)
+                    eventInfo.Key.RemoveEventHandler(target, eventInfo.Value);
             }
         });
     }
 
-    private static object FindValidTarget(Type targetType)
+    private static IEnumerable FindValidTargets(Type targetType)
     {
-        if (targetType == typeof(Document)) return RevitApi.Document;
-        if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return RevitApi.Application;
-        if (targetType == typeof(UIApplication)) return RevitApi.UiApplication;
+        if (targetType == typeof(Document)) return RevitApi.Application.Documents;
+        if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return new[] {RevitApi.Application};
+        if (targetType == typeof(UIApplication)) return new[] {RevitApi.UiApplication};
+
         return null;
     }
 
