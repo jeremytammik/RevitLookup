@@ -291,7 +291,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 
     private void AddShortcuts()
     {
-        var command = new RelayCommand(() => { ViewModel.RefreshMembersCommand.Execute(null);});
+        var command = new RelayCommand(() => { ViewModel.RefreshMembersCommand.Execute(null); });
         InputBindings.Add(new KeyBinding(command, new KeyGesture(Key.F5)));
     }
 }

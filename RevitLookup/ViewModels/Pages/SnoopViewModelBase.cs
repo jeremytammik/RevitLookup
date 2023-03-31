@@ -139,7 +139,7 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
             await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
         }
     }
-    
+
     [RelayCommand]
     private async Task RefreshMembers()
     {

@@ -62,7 +62,7 @@ public sealed class EventMonitor
                     Debug.WriteLine(" - missing target");
                     break;
                 }
-                
+
                 var methodInfo = GetType().GetMethod(nameof(HandleEvent), BindingFlags.Instance | BindingFlags.Public)!;
                 var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
 
