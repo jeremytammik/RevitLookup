@@ -35,7 +35,7 @@ public sealed class OpenSourceViewModel : ObservableObject
             .AddLicense("MIT License", "https://github.com/Nice3point/RevitExtensions/blob/main/License.md"));
         Software.Add(new OpenSourceSoftware()
             .AddSoftware("Nice3point.Revit.Toolkit", "https://github.com/Nice3point/RevitToolkit")
-            .AddLicense("MIT License", "https://github.com/Nice3point/RevitToolkit/blob/develop/Readme.md"));
+            .AddLicense("MIT License", "https://github.com/Nice3point/RevitToolkit/blob/main/License.md"));
         Software.Add(new OpenSourceSoftware()
             .AddSoftware("Nice3point.Revit.Templates", "https://github.com/Nice3point/RevitTemplates")
             .AddLicense("MIT License", "https://github.com/Nice3point/RevitTemplates/blob/main/License.md"));

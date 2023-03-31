@@ -91,7 +91,9 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225869710-3c651c4a-0b35-4dd4-8180-27370f657cd8.png)
 
-* Event monitor. Now you can track all incoming events. Events from RevitApi and RevitAPIUI libraries are available
+* Event monitor. 
+
+    Now you can track all incoming events. Events from RevitApi and RevitAPIUI libraries are available. Use the Searchbar to filter out specific events
 
     ![image](https://user-images.githubusercontent.com/20504884/225856874-46c14b80-5c7d-444c-999a-10e8e4809ad2.png)
 
