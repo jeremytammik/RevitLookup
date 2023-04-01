@@ -18,6 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Runtime.InteropServices;
+using Autodesk.Revit.Exceptions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +35,7 @@ using RevitLookup.Views.Pages;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
+using OperationCanceledException = System.OperationCanceledException;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -122,26 +125,18 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     }
 
     [RelayCommand]
-    private async Task CollectMembersAsync()
+    private async Task FetchMembersAsync()
     {
-        if (SelectedObject is null)
-        {
-            SnoopableData = Array.Empty<Descriptor>();
-            return;
-        }
-
-        try
-        {
-            SnoopableData = await SelectedObject.GetCachedMembersAsync();
-        }
-        catch (Exception exception)
-        {
-            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
-        }
+        await CollectMembers(true);
     }
 
     [RelayCommand]
-    private async Task RefreshMembers()
+    private async Task RefreshMembersAsync()
+    {
+        await CollectMembers(false);
+    }
+
+    private async Task CollectMembers(bool useCached)
     {
         if (SelectedObject is null)
         {
@@ -151,11 +146,30 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
 
         try
         {
-            SnoopableData = await SelectedObject.GetMembersAsync();
+            SnoopableData = useCached ? await SelectedObject.GetCachedMembersAsync() : await SelectedObject.GetMembersAsync();
+        }
+        catch (InvalidObjectException exception)
+        {
+            await SnowException("Invalid object", exception.Message);
+        }
+        catch (InternalException)
+        {
+            const string message = "A problem in the Revit code. Usually occurs when a managed API object is no longer valid and is unloaded from memory";
+            await SnowException("Revit API internal error", message);
+        }
+        catch (SEHException)
+        {
+            const string message = "A problem in the Revit code. Usually occurs when a managed API object is no longer valid and is unloaded from memory";
+            await SnowException("Revit API internal error", message);
         }
         catch (Exception exception)
         {
-            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
+            await SnowException("Snoop engine error", exception.Message);
         }
+    }
+
+    private async Task SnowException(string title, string message)
+    {
+        await _snackbarService.ShowAsync(title, message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
     }
 }

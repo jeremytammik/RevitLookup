@@ -107,7 +107,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
                 return;
         }
 
-        await ViewModel.CollectMembersCommand.ExecuteAsync(null);
+        await ViewModel.FetchMembersCommand.ExecuteAsync(null);
     }
 
     /// <summary>

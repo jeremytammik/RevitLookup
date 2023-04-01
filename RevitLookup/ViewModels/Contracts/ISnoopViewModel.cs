@@ -30,7 +30,7 @@ public interface ISnoopViewModel : ISnoopService
     IReadOnlyCollection<Descriptor> SnoopableData { get; }
     IReadOnlyCollection<SnoopableObject> FilteredSnoopableObjects { get; set; }
     IReadOnlyCollection<Descriptor> FilteredSnoopableData { get; set; }
-    IAsyncRelayCommand CollectMembersCommand { get; }
+    IAsyncRelayCommand FetchMembersCommand { get; }
     IAsyncRelayCommand RefreshMembersCommand { get; }
     public string SearchText { get; set; }
     public SnoopableObject SelectedObject { get; set; }

@@ -207,7 +207,18 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
     }
 
     [RelayCommand]
-    private async Task CollectMembersAsync()
+    private async Task FetchMembersAsync()
+    {
+        await CollectMembers(true);
+    }
+
+    [RelayCommand]
+    private async Task RefreshMembersAsync()
+    {
+        await CollectMembers(false);
+    }
+
+    private async Task CollectMembers(bool useCached)
     {
         if (SelectedObject is null)
         {
@@ -224,11 +235,5 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         {
             await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
         }
-    }
-
-    [RelayCommand]
-    private async Task RefreshMembers()
-    {
-        await CollectMembersAsync();
     }
 }
