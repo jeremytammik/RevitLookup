@@ -57,7 +57,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
     Available extensions: https://github.com/jeremytammik/RevitLookup/wiki/Extensions
 
-* Now you can see all the available and void methods that objects have, even if RevitLookup doesn't support them
+* Displaying all methods that objects have, even if RevitLookup does not support them
 
     ![image](https://user-images.githubusercontent.com/20504884/225852714-3255ece8-1c6c-464e-8949-5693b7ed7223.png)
 
@@ -69,19 +69,19 @@ In this release, the entire code base has been completely rewritten from scratch
     |-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
     | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
 
-* Support for multiple results for methods with overloads
+* Multiple results for methods with overloads
 
     ![image](https://user-images.githubusercontent.com/20504884/225853785-8b5beacd-c8f1-401e-a51e-3e45f6aa8cba.png)
 
-* Extensible Storage has been removed from the element. Now the `GetEntity()` method is used for this, which is already in the API
-* Simplified addition of new features for other developers. Developer's guide: https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#architecture
+* Extensible storage moved to the `GetEntity()` method
+* Adding new features and extending the functionality of RevitLookup just got easier.  Developer's guide: https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#architecture
 
 # New features
 
 * Snoop Point
 * Snoop Sub-Element
 * Snoop UI Application
-* Component manager. Now you can explore it from the AdWindows.dll and learn how the ribbon and user interface in Revit are arranged
+* Component manager. Explore AdWindows.dll and learn how the ribbon and user interface in Revit are arranged
 
     ![image](https://user-images.githubusercontent.com/20504884/225854089-04c8448f-34f9-419c-b859-c51b2a2375b6.png)
 
@@ -91,21 +91,19 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225869710-3c651c4a-0b35-4dd4-8180-27370f657cd8.png)
 
-* Event monitor. 
-
-    Now you can track all incoming events. Events from RevitApi and RevitAPIUI libraries are available. Use the Searchbar to filter out specific events
+* Event monitor. Track all incoming events. Events from the RevitAPI.dll and RevitAPIUI.dll libraries are available. The search bar is used to filter results
 
     ![image](https://user-images.githubusercontent.com/20504884/225856874-46c14b80-5c7d-444c-999a-10e8e4809ad2.png)
 
-* Reworked search
-
-  Now you can search by several values by Name, Id, UniqueId, IfcGUID and Type IfcGUID parameters
+* Reworked search. Now you can search for multiple values by `Name`, `Id`, `UniqueId`, `IfcGUID` and `Type IfcGUID` parameters
 
   ![image](https://user-images.githubusercontent.com/20504884/225869706-7d5e2e4a-1f03-416e-9ad6-a96184b07836.png)
 
   Wiki page: https://github.com/jeremytammik/RevitLookup/wiki/Search-elements
 
-* Visual search for elements in a project:
+* Visual search in a project.
+
+    Showing elements:
 
     ![image](https://user-images.githubusercontent.com/20504884/225874545-aa0f7829-5215-412d-8c50-31ede8705ca8.png)
 
@@ -125,9 +123,7 @@ In this release, the entire code base has been completely rewritten from scratch
 
     ![image](https://user-images.githubusercontent.com/20504884/225875561-bda637d0-d170-411d-83ac-97b17342904a.png)
 
-And all other updates that are not described in the changelog you can check now
-
-Made with ❤️ by [Nice3point](https://github.com/Nice3point)
+Designed & Developed by [Nice3point](https://github.com/Nice3point) 🕊
 - 2022-06-17 **2023.1.0** In this update:
     - New: Hello World window changed to About
     - New: resorted commands on the Revit ribbon, frequently used moved to the top

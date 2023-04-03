@@ -49,9 +49,9 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         AddShortcuts();
     }
 
-    public required TreeView TreeViewControl { get; init; }
-    public required DataGrid DataGridControl { get; init; }
-    public required ISnoopViewModel ViewModel { get; init; }
+    protected TreeView TreeViewControl { get; init; }
+    protected DataGrid DataGridControl { get; init; }
+    public ISnoopViewModel ViewModel { get; init; }
 
     /// <summary>
     ///     Expand treeView for first opening
@@ -178,8 +178,11 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     /// <summary>
     ///     Create tooltip, menu
     /// </summary>
-    protected void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
+    protected async void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
     {
+        //Lazy init. 1 ms is enough to display data and start initialising components
+        await Task.Delay(1);
+
         var element = (FrameworkElement) sender;
         Descriptor descriptor;
         switch (element.DataContext)
@@ -196,7 +199,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
                 CreateGridContextMenu(descriptor, element);
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                return;
         }
     }
 
