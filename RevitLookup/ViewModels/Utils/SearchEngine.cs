@@ -46,16 +46,16 @@ public static class SearchEngine
                     if (objectsCount == 0 && dataCount > 0)
                         filteredObjects = Search(model.SelectedObject, model.SnoopableObjects);
 
-                    //Add selected object to results
+                    foreach (var item in filteredObjects)
+                        if (item == model.SelectedObject)
+                        {
+                            isObjectSelected = true;
+                            break;
+                        }
+                    
                     if (dataCount > 0)
                     {
-                        foreach (var item in filteredObjects)
-                            if (item == model.SelectedObject)
-                            {
-                                isObjectSelected = true;
-                                break;
-                            }
-
+                        //Add selected object to results
                         if (!isObjectSelected) filteredObjects.Add(model.SelectedObject);
                     }
                 }
@@ -68,8 +68,8 @@ public static class SearchEngine
                         Data = isObjectSelected ? model.SnoopableData : filteredData
                     };
 
-                //Display unfiltered data if object greater than 1
-                if (objectsCount > 1)
+                //Display unfiltered data if object greater than 1 or single object
+                if (objectsCount > 1 || objectsCount == 1 && model.SnoopableObjects.Count > 1)
                     return new SearchResults
                     {
                         Objects = filteredObjects,
@@ -87,8 +87,8 @@ public static class SearchEngine
             {
                 var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
 
-                //Display unfiltered data if object greater than 1
-                if (filteredObjects.Count > 1)
+                //Display unfiltered data if object greater than 1 or single object
+                if (filteredObjects.Count > 1 || filteredObjects.Count == 1 && model.SnoopableObjects.Count > 1)
                     return new SearchResults
                     {
                         Data = model.SnoopableData
