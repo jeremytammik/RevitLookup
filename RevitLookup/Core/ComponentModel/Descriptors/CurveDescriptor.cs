@@ -71,6 +71,10 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
             nameof(Curve.GetEndPointReference) => ResolveSet
                 .Append(_curve.GetEndPointReference(0), "Reference 0")
                 .AppendVariant(_curve.GetEndPointReference(1), "Reference 1"),
+            nameof(Curve.Evaluate) => ResolveSet
+                .Append(_curve.Evaluate(0, false), "Parameter 0")
+                .AppendVariant(_curve.Evaluate(0.5, false), "Parameter 0.5")
+                .AppendVariant(_curve.Evaluate(1, false), "Parameter 1"),
             _ => null
         };
     }
