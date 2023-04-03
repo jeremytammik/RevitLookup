@@ -72,7 +72,7 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
         _events.Push(snoopableObject);
         SnoopableObjects = new List<SnoopableObject>(_events);
 
-        //Object lifecycle expires
+        //Object lifecycle expires. We should force a data retrieval before the object is cleared from memory
         var descriptors = snoopableObject.GetMembers();
         foreach (var descriptor in descriptors)
             if (descriptor.Value.Descriptor is IDescriptorCollector)
