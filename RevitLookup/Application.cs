@@ -127,16 +127,12 @@ public class Application : ExternalApplication
     private static RibbonPanel modifyPanel;
     private static void CreateModifyPanel()
     {
-        //Add modify tab button
-        foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
+        modifyPanel = new RibbonPanel
         {
-            if (ribbonTab.Id != "Modify") continue;
-            modifyPanel = new RibbonPanel
+            Source = new RibbonPanelSource
             {
-                Source = new RibbonPanelSource
-                {
-                    Title = "RevitLookup",
-                    Items =
+                Title = "RevitLookup",
+                Items =
                     {
                         new RibbonButton
                         {
@@ -149,19 +145,28 @@ public class Application : ExternalApplication
                             LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute))
                         }
                     }
-                }
-            };
-
-            ribbonTab.Panels.Add(modifyPanel);
-            break;
-        }
+            }
+        };
 
         var settingsService = Host.GetService<ISettingsService>();
-        modifyPanel.IsVisible = settingsService.IsModifyPanelVisible;
+        UpdateModifyPanelVisibility(settingsService.IsModifyPanelVisible);
     }
     public static void UpdateModifyPanelVisibility(bool visible)
     {
         if (modifyPanel == null) return;
-        modifyPanel.IsVisible = visible;
+
+        //Add/Remove modify tab button
+        foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
+        {
+            if (ribbonTab.Id != "Modify") continue;
+            var contains = ribbonTab.Panels.Contains(modifyPanel);
+
+            if (visible && !contains)
+                ribbonTab.Panels.Add(modifyPanel);
+            else if (!visible && contains)
+                ribbonTab.Panels.Remove(modifyPanel);
+
+            break;
+        }
     }
 }
