@@ -58,7 +58,7 @@
                 </ComboBox>
             </rl:CardControl>
             <rl:CardControl Header="Modify Panel Visible"
-                            Icon="VideoClipMultiple24"
+                            Icon="WindowApps24"
                             Margin="0,8,0,0">
                 <rl:ToggleSwitch IsChecked="{Binding ViewModel.IsModifyPanelVisible}" />
             </rl:CardControl>

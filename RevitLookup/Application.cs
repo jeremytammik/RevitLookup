@@ -78,6 +78,7 @@ public class Application : ExternalApplication
         var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "Interaction");
 
         var splitDashboardButton = splitButton.AddPushButton<DashboardCommand>("Dashboard");
+        splitDashboardButton.SetAvailabilityController<AlwaysCommandAvailability>();
         splitDashboardButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitDashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
