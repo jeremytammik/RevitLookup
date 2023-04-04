@@ -82,9 +82,9 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
             var endParameter1 = _curve.GetEndParameter(1);
             var endParameterMid = (endParameter0 + endParameter1) / 2;
 
-            resolveSummary.AppendVariant(_curve.Evaluate(endParameter0, false), $"Parameter {endParameter0}");
-            resolveSummary.AppendVariant(_curve.Evaluate(endParameterMid, false), $"Parameter {endParameterMid}");
-            resolveSummary.AppendVariant(_curve.Evaluate(endParameter0, false), $"Parameter {endParameter1}");
+            resolveSummary.AppendVariant(_curve.Evaluate(endParameter0, false), $"Parameter {endParameter0.Round(3)}");
+            resolveSummary.AppendVariant(_curve.Evaluate(endParameterMid, false), $"Parameter {endParameterMid.Round(3)}");
+            resolveSummary.AppendVariant(_curve.Evaluate(endParameter1, false), $"Parameter {endParameter1.Round(3)}");
 
             return resolveSummary;
         }
