@@ -92,6 +92,10 @@ public class Application : ExternalApplication
         splitDatabaseButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitDatabaseButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
+        var splitSelectionButton = splitButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection");
+        splitSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        splitSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+
         var splitFaceButton = splitButton.AddPushButton<SnoopFaceCommand>("Snoop Face");
         splitFaceButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitFaceButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
@@ -116,33 +120,33 @@ public class Application : ExternalApplication
         eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
-        //Add modify tab button
-        foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
-        {
-            if (ribbonTab.Id != "Modify") continue;
-            var modifyPanel = new RibbonPanel
-            {
-                Source = new RibbonPanelSource
-                {
-                    Title = "RevitLookup",
-                    Items =
-                    {
-                        new RibbonButton
-                        {
-                            ShowText = true,
-                            Text = "Snoop\nselection",
-                            Size = RibbonItemSize.Large,
-                            Orientation = Orientation.Vertical,
-                            CommandHandler = new RelayCommand(() => SnoopSelectionCommand.Execute(RevitApi.UiApplication)),
-                            Image = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon16.png", UriKind.RelativeOrAbsolute)),
-                            LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute))
-                        }
-                    }
-                }
-            };
+        ////Add modify tab button
+        //foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
+        //{
+        //    if (ribbonTab.Id != "Modify") continue;
+        //    var modifyPanel = new RibbonPanel
+        //    {
+        //        Source = new RibbonPanelSource
+        //        {
+        //            Title = "RevitLookup",
+        //            Items =
+        //            {
+        //                new RibbonButton
+        //                {
+        //                    ShowText = true,
+        //                    Text = "Snoop\nselection",
+        //                    Size = RibbonItemSize.Large,
+        //                    Orientation = Orientation.Vertical,
+        //                    CommandHandler = new RelayCommand(() => SnoopSelectionCommand.Execute(RevitApi.UiApplication)),
+        //                    Image = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon16.png", UriKind.RelativeOrAbsolute)),
+        //                    LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute))
+        //                }
+        //            }
+        //        }
+        //    };
 
-            ribbonTab.Panels.Add(modifyPanel);
-            break;
-        }
+        //    ribbonTab.Panels.Add(modifyPanel);
+        //    break;
+        //}
     }
 }

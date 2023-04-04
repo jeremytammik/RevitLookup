@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -70,6 +70,12 @@ public sealed class SettingsService : ISettingsService
         set => _settings.IsUnsupportedAllowed = value;
     }
 
+    public bool IsModifyPanelVisible
+    {
+        get => _settings.IsModifyVisible;
+        set => _settings.IsModifyVisible = value;
+    }
+
     public int ApplyTransition(bool value)
     {
         return TransitionDuration = value ? DefaultTransitionDuration : 0;
@@ -124,4 +130,5 @@ internal sealed class Settings
     public int TransitionDuration { get; set; } // = SettingsService.DefaultTransitionDuration;
     public bool IsExtensionsAllowed { get; set; }
     public bool IsUnsupportedAllowed { get; set; }
+    public bool IsModifyVisible { get; set; }
 }

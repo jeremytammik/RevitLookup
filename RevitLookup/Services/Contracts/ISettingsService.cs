@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -30,6 +30,7 @@ public interface ISettingsService
     int TransitionDuration { get; }
     bool IsExtensionsAllowed { get; set; }
     bool IsUnsupportedAllowed { get; set; }
+    bool IsModifyPanelVisible { get; set; }
     int ApplyTransition(bool value);
     void Save();
 }
