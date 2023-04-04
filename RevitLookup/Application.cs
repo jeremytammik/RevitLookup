@@ -50,6 +50,7 @@ public class Application : ExternalApplication
 
         CreateRibbonPanel();
         await Host.StartHost();
+        CreateModifyPanel();
     }
 
     public override async void OnShutdown()
@@ -120,33 +121,46 @@ public class Application : ExternalApplication
         eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
-        ////Add modify tab button
-        //foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
-        //{
-        //    if (ribbonTab.Id != "Modify") continue;
-        //    var modifyPanel = new RibbonPanel
-        //    {
-        //        Source = new RibbonPanelSource
-        //        {
-        //            Title = "RevitLookup",
-        //            Items =
-        //            {
-        //                new RibbonButton
-        //                {
-        //                    ShowText = true,
-        //                    Text = "Snoop\nselection",
-        //                    Size = RibbonItemSize.Large,
-        //                    Orientation = Orientation.Vertical,
-        //                    CommandHandler = new RelayCommand(() => SnoopSelectionCommand.Execute(RevitApi.UiApplication)),
-        //                    Image = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon16.png", UriKind.RelativeOrAbsolute)),
-        //                    LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute))
-        //                }
-        //            }
-        //        }
-        //    };
+    }
 
-        //    ribbonTab.Panels.Add(modifyPanel);
-        //    break;
-        //}
+    private static RibbonPanel modifyPanel;
+    private static void CreateModifyPanel()
+    {
+        //Add modify tab button
+        foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
+        {
+            if (ribbonTab.Id != "Modify") continue;
+            modifyPanel = new RibbonPanel
+            {
+                Source = new RibbonPanelSource
+                {
+                    Title = "RevitLookup",
+                    Items =
+                    {
+                        new RibbonButton
+                        {
+                            ShowText = true,
+                            Text = "Snoop\nselection",
+                            Size = RibbonItemSize.Large,
+                            Orientation = Orientation.Vertical,
+                            CommandHandler = new RelayCommand(() => SnoopSelectionCommand.Execute(RevitApi.UiApplication)),
+                            Image = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon16.png", UriKind.RelativeOrAbsolute)),
+                            LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute))
+                        }
+                    }
+                }
+            };
+
+            ribbonTab.Panels.Add(modifyPanel);
+            break;
+        }
+
+        var settingsService = Host.GetService<ISettingsService>();
+        modifyPanel.IsVisible = settingsService.IsModifyPanelVisible;
+    }
+    public static void UpdateModifyPanelVisibility(bool visible)
+    {
+        if (modifyPanel == null) return;
+        modifyPanel.IsVisible = visible;
     }
 }

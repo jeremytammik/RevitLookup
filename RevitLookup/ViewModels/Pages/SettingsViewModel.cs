@@ -93,4 +93,10 @@ public sealed partial class SettingsViewModel : ObservableObject
     {
         _settingsService.IsExtensionsAllowed = value;
     }
+
+    partial void OnIsModifyPanelVisibleChanged(bool value)
+    {
+        Application.UpdateModifyPanelVisibility(value);
+        _settingsService.IsModifyPanelVisible = value;
+    }
 }
