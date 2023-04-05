@@ -28,9 +28,22 @@ using Wpf.Ui.Controls.Window;
 
 namespace RevitLookup.Services;
 
+/// <summary>
+///     Settings options saved to disk
+/// </summary>
+[Serializable]
+internal sealed class Settings
+{
+    public ThemeType Theme { get; set; } = ThemeType.Light;
+    public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
+    public int TransitionDuration { get; set; } // = SettingsService.DefaultTransitionDuration;
+    public bool IsExtensionsAllowed { get; set; }
+    public bool IsUnsupportedAllowed { get; set; }
+}
+
 public sealed class SettingsService : ISettingsService
 {
-    public const int DefaultTransitionDuration = 200;
+    private const int DefaultTransitionDuration = 200;
     private readonly Settings _settings;
     private readonly string _settingsFile;
 
@@ -115,13 +128,4 @@ public sealed class SettingsService : ISettingsService
             return new Settings();
         }
     }
-}
-
-internal sealed class Settings
-{
-    public ThemeType Theme { get; set; } = ThemeType.Light;
-    public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
-    public int TransitionDuration { get; set; } // = SettingsService.DefaultTransitionDuration;
-    public bool IsExtensionsAllowed { get; set; }
-    public bool IsUnsupportedAllowed { get; set; }
 }
