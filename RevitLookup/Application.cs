@@ -118,7 +118,7 @@ public class Application : ExternalApplication
         //TODO Sync with settings service
         if (false)
         {
-            var snoopSelectionButton = splitButton.AddPushButton<SnoopSelectionCommand>("SnoopSelectionCommand");
+            var snoopSelectionButton = splitButton.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
             snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
             snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
         }
