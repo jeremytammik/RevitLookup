@@ -72,12 +72,30 @@ public class Application : ExternalApplication
 
     private void CreateRibbonPanel()
     {
-        var ribbonPanel = Application.CreatePanel("Revit Lookup");
-        var splitButton = ribbonPanel.AddSplitButton("RevitLookup", "Interaction");
+        var settingsService = Host.GetService<ISettingsService>();
+
+        var addinPanel = Application.CreatePanel("Revit Lookup");
+        var splitButton = addinPanel.AddSplitButton("RevitLookup", "Interaction");
 
         var splitDashboardButton = splitButton.AddPushButton<DashboardCommand>("Dashboard");
         splitDashboardButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         splitDashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+
+        if (!settingsService.IsModifyTabAllowed)
+        {
+            var snoopSelectionButton = splitButton.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
+            snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+            snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        }
+        else
+        {
+            var modifyTab = ComponentManager.Ribbon.FindTab("Modify");
+            var modifyPanel = modifyTab.CreatePanel("Revit Lookup");
+
+            var snoopSelectionButton = modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
+            snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+            snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        }
 
         var splitViewButton = splitButton.AddPushButton<SnoopViewCommand>("Snoop Active view");
         splitViewButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
@@ -114,22 +132,5 @@ public class Application : ExternalApplication
         var eventMonitorButton = splitButton.AddPushButton<EventMonitorCommand>("Event monitor");
         eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        //TODO Sync with settings service
-        if (false)
-        {
-            var snoopSelectionButton = splitButton.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
-            snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-            snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        }
-        else
-        {
-            var ribbonTab = ComponentManager.Ribbon.FindTab("Modify");
-            var modifyPanel = ribbonTab.CreatePanel("Revit Lookup");
-
-            var snoopSelectionButton = modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
-            snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-            snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        }
     }
 }

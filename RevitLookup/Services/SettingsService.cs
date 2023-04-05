@@ -39,7 +39,7 @@ internal sealed class Settings
     public int TransitionDuration { get; set; } // = SettingsService.DefaultTransitionDuration;
     public bool IsExtensionsAllowed { get; set; }
     public bool IsUnsupportedAllowed { get; set; }
-    public bool IsModifyVisible { get; set; }
+    public bool IsModifyTabAllowed { get; set; } = true;
 }
 
 public sealed class SettingsService : ISettingsService
@@ -84,10 +84,10 @@ public sealed class SettingsService : ISettingsService
         set => _settings.IsUnsupportedAllowed = value;
     }
 
-    public bool IsModifyPanelVisible
+    public bool IsModifyTabAllowed
     {
-        get => _settings.IsModifyVisible;
-        set => _settings.IsModifyVisible = value;
+        get => _settings.IsModifyTabAllowed;
+        set => _settings.IsModifyTabAllowed = value;
     }
 
     public int ApplyTransition(bool value)

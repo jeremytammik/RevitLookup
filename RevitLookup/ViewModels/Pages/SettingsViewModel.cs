@@ -37,7 +37,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private bool _isExtensionsAllowed;
     [ObservableProperty] private bool _isSmoothEnabled;
     [ObservableProperty] private bool _isUnsupportedAllowed;
-    [ObservableProperty] private bool _isModifyPanelVisible;
+    [ObservableProperty] private bool _isModifyTabAllowed;
     [ObservableProperty] private ThemeType _theme;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
@@ -50,7 +50,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         _isSmoothEnabled = settingsService.TransitionDuration > 0;
         _isUnsupportedAllowed = settingsService.IsUnsupportedAllowed;
         _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
-        _isModifyPanelVisible = settingsService.IsModifyPanelVisible;
+        _isModifyTabAllowed = settingsService.IsModifyTabAllowed;
     }
 
     public List<ThemeType> Themes { get; } = new()
@@ -94,9 +94,8 @@ public sealed partial class SettingsViewModel : ObservableObject
         _settingsService.IsExtensionsAllowed = value;
     }
 
-    partial void OnIsModifyPanelVisibleChanged(bool value)
+    partial void OnIsModifyTabAllowedChanged(bool value)
     {
-        Application.UpdateModifyPanelVisibility(value);
-        _settingsService.IsModifyPanelVisible = value;
+        _settingsService.IsModifyTabAllowed = value;
     }
 }

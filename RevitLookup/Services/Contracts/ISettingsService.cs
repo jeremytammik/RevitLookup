@@ -30,7 +30,7 @@ public interface ISettingsService
     int TransitionDuration { get; }
     bool IsExtensionsAllowed { get; set; }
     bool IsUnsupportedAllowed { get; set; }
-    bool IsModifyPanelVisible { get; set; }
+    bool IsModifyTabAllowed { get; set; }
     int ApplyTransition(bool value);
     void Save();
 }
