@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.Attributes;
-using Autodesk.Revit.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services.Contracts;
@@ -33,16 +32,8 @@ public class SnoopSelectionCommand : ExternalCommand
 {
     public override void Execute()
     {
-        Execute(UiApplication);
-    }
-
-    /// <summary>
-    ///     Modify tab command support
-    /// </summary>
-    public static void Execute(UIApplication application)
-    {
         var window = Host.GetService<IWindow>();
         window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
-        window.Show(application.MainWindowHandle);
+        window.Show(UiApplication.MainWindowHandle);
     }
 }

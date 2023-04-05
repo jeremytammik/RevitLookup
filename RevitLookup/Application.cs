@@ -20,16 +20,14 @@
 
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using Autodesk.Windows;
-using CommunityToolkit.Mvvm.Input;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Commands;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Utils;
 
 namespace RevitLookup;
 
@@ -48,8 +46,9 @@ public class Application : ExternalApplication
         ExternalElementHandler = new AsyncEventHandler<IReadOnlyCollection<SnoopableObject>>();
         ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyCollection<Descriptor>>();
 
-        CreateRibbonPanel();
         await Host.StartHost();
+
+        CreateRibbonPanel();
     }
 
     public override async void OnShutdown()
@@ -116,33 +115,21 @@ public class Application : ExternalApplication
         eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
-        //Add modify tab button
-        foreach (var ribbonTab in ComponentManager.Ribbon.Tabs)
+        //TODO Sync with settings service
+        if (false)
         {
-            if (ribbonTab.Id != "Modify") continue;
-            var modifyPanel = new RibbonPanel
-            {
-                Source = new RibbonPanelSource
-                {
-                    Title = "RevitLookup",
-                    Items =
-                    {
-                        new RibbonButton
-                        {
-                            ShowText = true,
-                            Text = "Snoop\nselection",
-                            Size = RibbonItemSize.Large,
-                            Orientation = Orientation.Vertical,
-                            CommandHandler = new RelayCommand(() => SnoopSelectionCommand.Execute(RevitApi.UiApplication)),
-                            Image = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon16.png", UriKind.RelativeOrAbsolute)),
-                            LargeImage = new BitmapImage(new Uri(@"/RevitLookup;component/Resources/Images/RibbonIcon32.png", UriKind.RelativeOrAbsolute))
-                        }
-                    }
-                }
-            };
+            var snoopSelectionButton = splitButton.AddPushButton<SnoopSelectionCommand>("SnoopSelectionCommand");
+            snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+            snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        }
+        else
+        {
+            var ribbonTab = ComponentManager.Ribbon.FindTab("Modify");
+            var modifyPanel = ribbonTab.CreatePanel("Revit Lookup");
 
-            ribbonTab.Panels.Add(modifyPanel);
-            break;
+            var snoopSelectionButton = modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
+            snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+            snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
         }
     }
 }
