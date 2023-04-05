@@ -1,4 +1,4 @@
-// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,23 +18,15 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.Attributes;
-using Microsoft.Extensions.DependencyInjection;
-using Nice3point.Revit.Toolkit.External;
-using RevitLookup.Services.Contracts;
-using RevitLookup.Views.Pages;
-using Wpf.Ui.Contracts;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 
 namespace RevitLookup.Commands;
 
-[UsedImplicitly]
-[Transaction(TransactionMode.Manual)]
-public class DashboardCommand : ExternalCommand
+public class AlwaysCommandAvailability : IExternalCommandAvailability
 {
-    public override void Execute()
+    public bool IsCommandAvailable(UIApplication applicationData, CategorySet selectedCategories)
     {
-        var window = Host.GetService<IWindow>();
-        window.Show(UiApplication.MainWindowHandle);
-        window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
+        return true;
     }
 }

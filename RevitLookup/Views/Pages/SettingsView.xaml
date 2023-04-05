@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="RevitLookup.Views.Pages.SettingsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -56,6 +56,11 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+            </rl:CardControl>
+            <rl:CardControl Header="Modify Panel Visible"
+                            Icon="WindowApps24"
+                            Margin="0,8,0,0">
+                <rl:ToggleSwitch IsChecked="{Binding ViewModel.IsModifyPanelVisible}" />
             </rl:CardControl>
             <rl:CardControl
                 Header="Smooth navigation"
