@@ -120,9 +120,6 @@ public class NavigationViewContentPresenter : Frame
 
         if (content is INavigableView<object> { ViewModel: INavigationAware navigationAwareNavigableViewViewModel })
             navigationAwareNavigableViewViewModel.OnNavigatedTo();
-
-        if (content is FrameworkElement { DataContext: INavigationAware navigationAwareCurrentContent })
-            navigationAwareCurrentContent.OnNavigatedTo();
     }
     
     private static void NotifyContentAboutNavigatingFrom(object content)
@@ -132,9 +129,6 @@ public class NavigationViewContentPresenter : Frame
 
         if (content is INavigableView<object> { ViewModel: INavigationAware navigationAwareNavigableViewViewModel })
             navigationAwareNavigableViewViewModel.OnNavigatedFrom();
-
-        if (content is FrameworkElement { DataContext: INavigationAware navigationAwareCurrentContent })
-            navigationAwareCurrentContent.OnNavigatedFrom();
     }
 
     private void ApplyTransitionEffectToNavigatedPage(object content)
