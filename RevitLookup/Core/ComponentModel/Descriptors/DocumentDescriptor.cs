@@ -46,7 +46,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 
         ResolveSet ResolvePlanTopologies()
         {
-            if (_document.IsReadOnly) return ResolveSet.Append(_document.PlanTopologies);
+            if (_document.IsReadOnly) return ResolveSet.Append(null);
 
             var transaction = new Transaction(_document);
             transaction.Start("Calculating plan topologies");
