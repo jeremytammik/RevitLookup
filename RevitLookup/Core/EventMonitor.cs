@@ -28,34 +28,40 @@ namespace RevitLookup.Core;
 
 public sealed class EventMonitor
 {
-    private List<string> _blockList;
+    private readonly List<string> _blockList;
     private Dictionary<EventInfo, Delegate> _eventInfos;
     private Action<string, EventArgs> _handler;
+    private readonly Assembly[] _assemblies;
 
-    public async Task Subscribe(Action<string, EventArgs> handler)
+    public EventMonitor()
     {
-        _handler = handler;
-        _eventInfos = new Dictionary<EventInfo, Delegate>();
         _blockList = new List<string>(2)
         {
             nameof(UIApplication.Idling),
             nameof(Autodesk.Revit.ApplicationServices.Application.ProgressChanged)
         };
 
+        _assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly =>
+        {
+            var name = assembly.GetName().Name;
+            return name is "RevitAPI" or "RevitAPIUI";
+        }).Take(2).ToArray();
+    }
+
+    public async Task Subscribe(Action<string, EventArgs> handler)
+    {
+        _handler = handler;
+        _eventInfos = new Dictionary<EventInfo, Delegate>();
+
         await Application.AsyncEventHandler.RaiseAsync(_ =>
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly =>
-            {
-                var name = assembly.GetName().Name;
-                return name is "RevitAPI" or "RevitAPIUI";
-            });
-
-            foreach (var dll in assemblies)
+            foreach (var dll in _assemblies)
             foreach (var type in dll.GetTypes())
             foreach (var eventInfo in type.GetEvents())
             {
                 Debug.Write($"RevitLookup EventMonitor: {eventInfo.ReflectedType}.{eventInfo.Name}");
                 if (_blockList.Contains(eventInfo.Name)) continue;
+
                 var targets = FindValidTargets(eventInfo.ReflectedType);
                 if (targets is null)
                 {
@@ -63,7 +69,7 @@ public sealed class EventMonitor
                     break;
                 }
 
-                var methodInfo = GetType().GetMethod(nameof(HandleEvent), BindingFlags.Instance | BindingFlags.Public)!;
+                var methodInfo = GetType().GetMethod(nameof(HandleEvent), BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!;
                 var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
 
                 foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
@@ -95,6 +101,7 @@ public sealed class EventMonitor
         return null;
     }
 
+    [UsedImplicitly]
     public void HandleEvent(object sender, EventArgs args)
     {
         var stackTrace = new StackTrace();
