@@ -1,9 +1,16 @@
 # Changelog
 
+- Next update **2024.0.1** 
+
+* Added option to enable hardware acceleration (experimental). UI is now more responsive. Revit uses software acceleration by default. Contact us if you encounter problems on 
+  your graphics cards. Issue: https://forums.autodesk.com/t5/revit-api-forum/revit-2024-rendering-performance-drops-on-selection/td-p/11878396
+* Added button to disable RevitLookup panel on Modify tab by @ricaun in https://github.com/jeremytammik/RevitLookup/pull/152
+* Improve Curve.Evaluate resolver
+
 - 2023-04-04 **2024.0.0** 
 
 <div align="center">
-<img alt="RevitLookup" width="600"    src="https://user-images.githubusercontent.com/20504884/218192495-19b13547-ce67-40e3-8fe8-e847f89bddb7.png"/>
+<img alt="RevitLookup" width="600" src="https://user-images.githubusercontent.com/20504884/218192495-19b13547-ce67-40e3-8fe8-e847f89bddb7.png"/>
 </div>
 
 In this release, the entire code base has been completely rewritten from scratch with a redesigned user interface. New tools, OTA update, Windows 11 support
