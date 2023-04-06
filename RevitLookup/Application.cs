@@ -132,5 +132,11 @@ public class Application : ExternalApplication
         var eventMonitorButton = splitButton.AddPushButton<EventMonitorCommand>("Event monitor");
         eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+        
+        //Debug tab for developers
+#if DEBUG
+        if (ribbonControl.FindTab("Debug") == null)
+            ribbonControl.Tabs.Add(ribbonControl.DebugTab);
+#endif
     }
 }
