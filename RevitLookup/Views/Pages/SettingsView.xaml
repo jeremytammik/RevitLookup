@@ -21,71 +21,93 @@
         </ResourceDictionary>
     </Page.Resources>
     <rl:DynamicScrollViewer>
-        <StackPanel
+        <VirtualizingStackPanel
             Margin="12">
-            <rl:CardControl
-                Header="Theme"
-                Icon="Color24">
-                <ComboBox
-                    MinWidth="150"
-                    IsEnabled="True"
-                    SelectedItem="{Binding ViewModel.Theme}"
-                    ItemsSource="{Binding ViewModel.Themes}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                Text="{Binding ., Converter={converters:ThemeTypeConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </rl:CardControl>
-            <rl:CardControl
-                Header="Background effect"
-                Icon="ColorBackground24"
+            <TextBlock
+                FontSize="16"
+                FontWeight="Medium"
+                Text="User interface" />
+            <StackPanel
                 Margin="0,8,0,0">
-                <ComboBox
-                    MinWidth="150"
-                    IsEnabled="True"
-                    SelectedItem="{Binding ViewModel.Background}"
-                    ItemsSource="{Binding ViewModel.BackgroundEffects}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                Text="{Binding ., 
+                <rl:CardControl
+                    Header="Theme"
+                    Icon="Color24">
+                    <ComboBox
+                        MinWidth="150"
+                        IsEnabled="True"
+                        SelectedItem="{Binding ViewModel.Theme}"
+                        ItemsSource="{Binding ViewModel.Themes}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding ., Converter={converters:ThemeTypeConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Background effect"
+                    Icon="ColorBackground24"
+                    Margin="0,8,0,0">
+                    <ComboBox
+                        MinWidth="150"
+                        IsEnabled="True"
+                        SelectedItem="{Binding ViewModel.Background}"
+                        ItemsSource="{Binding ViewModel.BackgroundEffects}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding ., 
                                     Converter={converters:BackgroundTypeConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </rl:CardControl>
-            <rl:CardControl
-                Header="Extensions"
-                Icon="PuzzlePiece24"
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Smooth navigation"
+                    Icon="VideoClipMultiple24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsSmoothEnabled}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Hardware graphics acceleration"
+                    Icon="TopSpeed24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsHardwareRenderingAllowed}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Show interaction panel in a Modify tab"
+                    Icon="PanelRightCursor24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
+                </rl:CardControl>
+            </StackPanel>
+            <TextBlock
+                FontSize="16"
+                FontWeight="Medium"
+                Text="Engine"
+                Margin="0,17,0,0"/>
+            <StackPanel
                 Margin="0,8,0,0">
-                <rl:ToggleSwitch
-                    IsChecked="{Binding ViewModel.IsExtensionsAllowed}" />
-            </rl:CardControl>
-            <rl:CardControl
-                Header="Hide unsupported members"
-                Icon="EyeOff24"
-                Margin="0,8,0,0">
-                <rl:ToggleSwitch
-                    IsChecked="{Binding ViewModel.IsUnsupportedAllowed, 
+                <rl:CardControl
+                    Header="Extensions"
+                    Icon="PuzzlePiece24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsExtensionsAllowed}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Hide unsupported members"
+                    Icon="EyeOff24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsUnsupportedAllowed, 
                         Converter={converters:InverseBooleanConverter}}" />
-            </rl:CardControl>
-            <rl:CardControl
-                Header="Smooth navigation"
-                Icon="VideoClipMultiple24"
-                Margin="0,8,0,0">
-                <rl:ToggleSwitch
-                    IsChecked="{Binding ViewModel.IsSmoothEnabled}" />
-            </rl:CardControl>
-            <rl:CardControl
-                Header="Show interaction panel in a Modify tab"
-                Icon="PanelRightCursor24"
-                Margin="0,8,0,0">
-                <rl:ToggleSwitch
-                    IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
-            </rl:CardControl>
-        </StackPanel>
+                </rl:CardControl>
+            </StackPanel>
+        </VirtualizingStackPanel>
     </rl:DynamicScrollViewer>
 </Page>
