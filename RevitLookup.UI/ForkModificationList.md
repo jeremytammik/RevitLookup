@@ -93,3 +93,4 @@ New control with ItemsSourceChanged event
 # Wpf.Ui.Styles.Controls.Navigation.NavigationViewContentPresenter
 
 - Add navigation\unloaded events
+- NotifyContentAboutNavigatingTo removed `content is FrameworkElement`
