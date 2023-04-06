@@ -20,6 +20,8 @@
 
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Interop;
+using System.Windows.Media;
 using Autodesk.Windows;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
@@ -48,7 +50,10 @@ public class Application : ExternalApplication
 
         await Host.StartHost();
 
-        CreateRibbonPanel();
+        var settingsService = Host.GetService<ISettingsService>();
+
+        CreateRibbonPanel(settingsService);
+        EnableHardwareRendering(settingsService);
     }
 
     public override async void OnShutdown()
@@ -70,10 +75,8 @@ public class Application : ExternalApplication
         settingsService.Save();
     }
 
-    private void CreateRibbonPanel()
+    private void CreateRibbonPanel(ISettingsService settingsService)
     {
-        var settingsService = Host.GetService<ISettingsService>();
-
         var addinPanel = Application.CreatePanel("Revit Lookup");
         var splitButton = addinPanel.AddSplitButton("RevitLookup", "Interaction");
 
@@ -132,5 +135,12 @@ public class Application : ExternalApplication
         var eventMonitorButton = splitButton.AddPushButton<EventMonitorCommand>("Event monitor");
         eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+    }
+
+    private void EnableHardwareRendering(ISettingsService settingsService)
+    {
+        if (!settingsService.IsHardwareRenderingAllowed) return;
+
+        Application.ControlledApplication.ApplicationInitialized += (_, _) => RenderOptions.ProcessRenderMode = RenderMode.Default;
     }
 }

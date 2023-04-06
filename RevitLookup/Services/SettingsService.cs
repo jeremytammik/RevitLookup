@@ -40,6 +40,7 @@ internal sealed class Settings
     public bool IsExtensionsAllowed { get; set; }
     public bool IsUnsupportedAllowed { get; set; }
     public bool IsModifyTabAllowed { get; set; } = true;
+    public bool IsHardwareRenderingAllowed { get; set; } = true; //Experimental
 }
 
 public sealed class SettingsService : ISettingsService
@@ -88,6 +89,12 @@ public sealed class SettingsService : ISettingsService
     {
         get => _settings.IsModifyTabAllowed;
         set => _settings.IsModifyTabAllowed = value;
+    }
+
+    public bool IsHardwareRenderingAllowed
+    {
+        get => _settings.IsHardwareRenderingAllowed;
+        set => _settings.IsHardwareRenderingAllowed = value;
     }
 
     public int ApplyTransition(bool value)

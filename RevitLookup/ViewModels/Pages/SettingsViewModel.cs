@@ -18,6 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows.Interop;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui.Appearance;
@@ -38,6 +40,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private bool _isSmoothEnabled;
     [ObservableProperty] private bool _isUnsupportedAllowed;
     [ObservableProperty] private bool _isModifyTabAllowed;
+    [ObservableProperty] private bool _isHardwareRenderingAllowed;
     [ObservableProperty] private ThemeType _theme;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
@@ -51,6 +54,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         _isUnsupportedAllowed = settingsService.IsUnsupportedAllowed;
         _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
         _isModifyTabAllowed = settingsService.IsModifyTabAllowed;
+        _isHardwareRenderingAllowed = settingsService.IsHardwareRenderingAllowed;
     }
 
     public List<ThemeType> Themes { get; } = new()
@@ -97,5 +101,11 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnIsModifyTabAllowedChanged(bool value)
     {
         _settingsService.IsModifyTabAllowed = value;
+    }
+    partial void OnIsHardwareRenderingAllowedChanged(bool value)
+    {
+        _settingsService.IsModifyTabAllowed = value;
+        //TODO From observation it does not always work, the first time it starts OK
+        RenderOptions.ProcessRenderMode = value ? RenderMode.Default : RenderMode.SoftwareOnly;
     }
 }
