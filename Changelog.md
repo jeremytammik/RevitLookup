@@ -12,6 +12,7 @@
 * Added button to disable RevitLookup panel on Modify tab by @ricaun in https://github.com/jeremytammik/RevitLookup/pull/152
 * Shortcuts support for the Modify tab https://github.com/jeremytammik/RevitLookup/issues/150
 * RevitLookup window now only opens when the Revit runtime context is available https://github.com/jeremytammik/RevitLookup/issues/155
+* Installers for previous RevitLookup versions https://github.com/jeremytammik/RevitLookup/wiki/Versions
 * Improve Curve.Evaluate resolver. EndParameter values are now used
 * Fixed rare crashes in EventMonitor on large models
 
