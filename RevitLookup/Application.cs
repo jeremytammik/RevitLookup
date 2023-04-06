@@ -30,6 +30,7 @@ using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;
+using UIFramework;
 
 namespace RevitLookup;
 
@@ -137,11 +138,11 @@ public class Application : ExternalApplication
         eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
         //Debug tab for developers
-// #if DEBUG
-//         var ribbonControl = ComponentManager.Ribbon.ActiveTab.RibbonControl;
-//         if (ribbonControl.FindTab("Debug") is null)
-//             ribbonControl.Tabs.Add(ribbonControl.DebugTab);
-// #endif
+#if DEBUG
+        var ribbonControl = (RevitRibbonControl) ComponentManager.Ribbon;
+        if (ribbonControl.FindTab("Debug") is null)
+            ribbonControl.Tabs.Add(ribbonControl.DebugTab);
+#endif
     }
 
     private void EnableHardwareRendering(ISettingsService settingsService)
