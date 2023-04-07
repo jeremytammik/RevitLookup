@@ -22,15 +22,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Autodesk.Windows;
+using Autodesk.Revit.DB.Events;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
-using RevitLookup.Commands;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
-using RevitLookup.Utils;
-using UIFramework;
 
 namespace RevitLookup;
 
@@ -44,16 +41,12 @@ public class Application : ExternalApplication
     public override async void OnStartup()
     {
         RevitApi.UiApplication = UiApplication;
-
-        AsyncEventHandler = new AsyncEventHandler();
-        ExternalElementHandler = new AsyncEventHandler<IReadOnlyCollection<SnoopableObject>>();
-        ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyCollection<Descriptor>>();
+        RegisterHandlers();
 
         await Host.StartHost();
 
         var settingsService = Host.GetService<ISettingsService>();
-
-        CreateRibbonPanel(settingsService);
+        RibbonController.CreatePanel(Application, settingsService);
         EnableHardwareRendering(settingsService);
     }
 
@@ -62,6 +55,13 @@ public class Application : ExternalApplication
         SaveSettings();
         UpdateSoftware();
         await Host.StopHost();
+    }
+
+    private static void RegisterHandlers()
+    {
+        AsyncEventHandler = new AsyncEventHandler();
+        ExternalElementHandler = new AsyncEventHandler<IReadOnlyCollection<SnoopableObject>>();
+        ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyCollection<Descriptor>>();
     }
 
     private static void UpdateSoftware()
@@ -76,79 +76,17 @@ public class Application : ExternalApplication
         settingsService.Save();
     }
 
-    private void CreateRibbonPanel(ISettingsService settingsService)
-    {
-        var addinPanel = Application.CreatePanel("Revit Lookup");
-        var splitButton = addinPanel.AddSplitButton("RevitLookup", "Interaction");
-
-        var splitDashboardButton = splitButton.AddPushButton<DashboardCommand>("Dashboard");
-        splitDashboardButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitDashboardButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        if (!settingsService.IsModifyTabAllowed)
-        {
-            var snoopSelectionButton = splitButton.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
-            snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-            snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        }
-        else
-        {
-            var modifyTab = ComponentManager.Ribbon.FindTab("Modify");
-            var modifyPanel = modifyTab.CreatePanel("Revit Lookup");
-
-            var snoopSelectionButton = modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
-            snoopSelectionButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-            snoopSelectionButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-        }
-
-        var splitViewButton = splitButton.AddPushButton<SnoopViewCommand>("Snoop Active view");
-        splitViewButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitViewButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        var splitDocumentButton = splitButton.AddPushButton<SnoopDocumentCommand>("Snoop Document");
-        splitDocumentButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitDocumentButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        var splitDatabaseButton = splitButton.AddPushButton<SnoopDatabaseCommand>("Snoop Database");
-        splitDatabaseButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitDatabaseButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        var splitFaceButton = splitButton.AddPushButton<SnoopFaceCommand>("Snoop Face");
-        splitFaceButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitFaceButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        var splitEdgeButton = splitButton.AddPushButton<SnoopEdgeCommand>("Snoop Edge");
-        splitEdgeButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitEdgeButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        var splitPointButton = splitButton.AddPushButton<SnoopPointCommand>("Snoop Point");
-        splitPointButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitPointButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        var splitLinkedButton = splitButton.AddPushButton<SnoopLinkedElementCommand>("Snoop Linked element");
-        splitLinkedButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitLinkedButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        var splitSearchButton = splitButton.AddPushButton<SearchElementsCommand>("Search Elements");
-        splitSearchButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        splitSearchButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        var eventMonitorButton = splitButton.AddPushButton<EventMonitorCommand>("Event monitor");
-        eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
-        //Debug tab for developers
-#if DEBUG
-        var ribbonControl = (RevitRibbonControl) ComponentManager.Ribbon;
-        if (ribbonControl.FindTab("Debug") is null)
-            ribbonControl.Tabs.Add(ribbonControl.DebugTab);
-#endif
-    }
-
     private void EnableHardwareRendering(ISettingsService settingsService)
     {
         if (!settingsService.IsHardwareRenderingAllowed) return;
 
-        Application.ControlledApplication.ApplicationInitialized += (_, _) => RenderOptions.ProcessRenderMode = RenderMode.Default;
+        //Revit overrides render mode during initialization
+        Application.ControlledApplication.ApplicationInitialized += OnInitialized;
+
+        void OnInitialized(object sender, ApplicationInitializedEventArgs args)
+        {
+            Application.ControlledApplication.ApplicationInitialized -= OnInitialized;
+            RenderOptions.ProcessRenderMode = RenderMode.Default;
+        }
     }
 }

@@ -101,11 +101,12 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnIsModifyTabAllowedChanged(bool value)
     {
         _settingsService.IsModifyTabAllowed = value;
+        RibbonController.ReloadPanels(_settingsService);
     }
+
     partial void OnIsHardwareRenderingAllowedChanged(bool value)
     {
         _settingsService.IsModifyTabAllowed = value;
-        //TODO From observation it does not always work, the first time it starts OK
         RenderOptions.ProcessRenderMode = value ? RenderMode.Default : RenderMode.SoftwareOnly;
     }
 }
