@@ -18,28 +18,30 @@ Whether you are a seasoned professional or just starting out, the RevitLookup is
 
 ## Installation
 
-- [Download](https://github.com/jeremytammik/RevitLookup/releases/latest) and run MSI file.
+- [Download](https://github.com/jeremytammik/RevitLookup/releases/latest) and run the MSI file.
 - Single-user installation is for one user only and does not require administrator rights.
 - Multi-user installation requires administrator rights and is installed for all users.
 
 ## Contributing
 
-All code contributions, must go through a pull request and be approved by a core developer before being merged. This is to ensure a proper review of all the code.
+To ensure a proper code review, all code contributions must go through a pull request and be approved by a core developer before being merged.
 
-We truly love pull requests! If you wish to help, you can learn more about how you can contribute to this project in the [contribution guide](Contributing.md).
+We truly love pull requests! If you wish to help, you can learn more about how to contribute to this project in the [contribution guide](Contributing.md).
 
 Maintained by [Nice3point](https://github.com/Nice3point), with invaluable [contributions](https://github.com/jeremytammik/RevitLookup/graphs/contributors)
-from the entire Revit add-in developer community. Thank you, guys!
+from the entire Revit add-in developer community. 
 
-Originally implemented
-by [Jim Awe](https://www.linkedin.com/in/james-awe-4630a94/)
-of [Autodesk Inc.](https://www.autodesk.com) 2005-05-11 as RvtMgdDbg.
-Maintained by Jeremy Tammik,
+Thank you, guys!
+
+- 2008-2022 &ndash; maintained by Jeremy Tammik,
 [The Building Coder](http://thebuildingcoder.typepad.com),
 [Autodesk Platform Services](https://aps.autodesk.com/),
 [ADN](http://www.autodesk.com/adn)
-[Open](http://www.autodesk.com/adnopen),
-2008-2022.
+[Open](http://www.autodesk.com/adnopen).
+- 2005-05-11 &ndash; originally implemented
+by [Jim Awe](https://www.linkedin.com/in/james-awe-4630a94/)
+of [Autodesk Inc.](https://www.autodesk.com) as RvtMgdDbg.
+
 
 ## License
 
