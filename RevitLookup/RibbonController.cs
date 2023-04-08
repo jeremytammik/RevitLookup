@@ -26,6 +26,7 @@ using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;
 using UIFramework;
+using UIFrameworkServices;
 using RibbonButton = Autodesk.Revit.UI.RibbonButton;
 using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
 
@@ -98,6 +99,8 @@ public static class RibbonController
 
             var controlledApplication = RevitApi.CreateUiControlledApplication();
             CreatePanel(controlledApplication, settingsService);
+
+            ReloadShortcuts();
         });
     }
 
@@ -114,5 +117,16 @@ public static class RibbonController
         var ribbonItemsProperty = uiApplicationType.GetProperty("RibbonItemDictionary", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
         var ribbonItems = (Dictionary<string, Dictionary<string, RibbonPanel>>) ribbonItemsProperty.GetValue(RevitApi.UiApplication);
         if (ribbonItems.TryGetValue(tab.Id, out var tabItem)) tabItem.Remove(PanelName);
+    }
+
+    private static void ReloadShortcuts()
+    {
+        //Fast shortcut reloading
+        var type = typeof(ShortcutsHelper);
+        var methodInfo = type.GetMethod("LoadRibbonCommands", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
+        methodInfo.Invoke(null, new object[] {DocUIType.Model});
+
+        //Slow shortcut reloading
+        //ShortcutsHelper.ReloadCommands();
     }
 }
