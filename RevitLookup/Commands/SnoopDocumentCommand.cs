@@ -33,7 +33,7 @@ public class SnoopDocumentCommand : ExternalCommand
     public override void Execute()
     {
         var window = Host.GetService<IWindow>();
-        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Document);
         window.Show(UiApplication.MainWindowHandle);
+        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Document);
     }
 }
