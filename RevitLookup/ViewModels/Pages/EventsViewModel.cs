@@ -31,7 +31,7 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
 {
-    private readonly EventMonitor _eventMonitor = new();
+    private readonly EventMonitor _eventMonitor;
     private readonly Stack<SnoopableObject> _events = new();
     private readonly INavigationService _navigationService;
 
@@ -39,16 +39,7 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
     {
         _navigationService = navigationService;
         SnoopableObjects = new ObservableCollection<SnoopableObject>();
-    }
-
-    public async void OnNavigatedTo()
-    {
-        await _eventMonitor.Subscribe(RegisterEvent);
-    }
-
-    public async void OnNavigatedFrom()
-    {
-        await _eventMonitor.Unsubscribe();
+        _eventMonitor = new EventMonitor(OnHandlingEvent);
     }
 
     public override async Task Snoop(SnoopableType snoopableType)
@@ -59,7 +50,7 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
         _navigationService.Navigate(typeof(EventsView));
     }
 
-    private void RegisterEvent(string name, EventArgs args)
+    private void OnHandlingEvent(string name, EventArgs args)
     {
         var snoopableObject = new SnoopableObject(RevitApi.Document, args)
         {
@@ -77,5 +68,15 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
         foreach (var descriptor in descriptors)
             if (descriptor.Value.Descriptor is IDescriptorCollector)
                 descriptor.Value.GetMembers();
+    }
+
+    public async void OnNavigatedTo()
+    {
+        await _eventMonitor.Subscribe();
+    }
+
+    public async void OnNavigatedFrom()
+    {
+        await _eventMonitor.Unsubscribe();
     }
 }

@@ -29,12 +29,13 @@ namespace RevitLookup.Core;
 public sealed class EventMonitor
 {
     private readonly List<string> _blockList;
-    private Dictionary<EventInfo, Delegate> _eventInfos;
-    private Action<string, EventArgs> _handler;
+    private readonly Dictionary<EventInfo, Delegate> _eventInfos = new();
+    private readonly Action<string, EventArgs> _handler;
     private readonly Assembly[] _assemblies;
 
-    public EventMonitor()
+    public EventMonitor(Action<string, EventArgs> handler)
     {
+        _handler = handler;
         _blockList = new List<string>(2)
         {
             nameof(UIApplication.Idling),
@@ -48,13 +49,12 @@ public sealed class EventMonitor
         }).Take(2).ToArray();
     }
 
-    public async Task Subscribe(Action<string, EventArgs> handler)
+    public async Task Subscribe()
     {
-        _handler = handler;
-        _eventInfos = new Dictionary<EventInfo, Delegate>();
-
         await Application.AsyncEventHandler.RaiseAsync(_ =>
         {
+            if (_eventInfos.Count > 0) return;
+
             foreach (var dll in _assemblies)
             foreach (var type in dll.GetTypes())
             foreach (var eventInfo in type.GetEvents())
@@ -69,7 +69,8 @@ public sealed class EventMonitor
                     break;
                 }
 
-                var methodInfo = GetType().GetMethod(nameof(HandleEvent), BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!;
+                var methodInfo = GetType().GetMethod(nameof(OnHandlingEvent),
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!;
                 var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
 
                 foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
@@ -89,6 +90,8 @@ public sealed class EventMonitor
                 foreach (var target in targets)
                     eventInfo.Key.RemoveEventHandler(target, eventInfo.Value);
             }
+
+            _eventInfos.Clear();
         });
     }
 
@@ -102,7 +105,7 @@ public sealed class EventMonitor
     }
 
     [UsedImplicitly]
-    public void HandleEvent(object sender, EventArgs args)
+    public void OnHandlingEvent(object sender, EventArgs args)
     {
         var stackTrace = new StackTrace();
         var stackFrames = stackTrace.GetFrames()!;
