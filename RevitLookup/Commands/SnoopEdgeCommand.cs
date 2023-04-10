@@ -30,10 +30,10 @@ namespace RevitLookup.Commands;
 [Transaction(TransactionMode.Manual)]
 public class SnoopEdgeCommand : ExternalCommand
 {
-    public override async void Execute()
+    public override void Execute()
     {
         var window = Host.GetService<IWindow>();
-        await window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Edge);
-        window.Show(UiApplication.MainWindowHandle);
+        window.Initialize();
+        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Edge);
     }
 }

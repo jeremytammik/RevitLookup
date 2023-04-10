@@ -21,29 +21,39 @@
 using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.Views.Dialogs;
+using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class DashboardViewModel : ObservableObject
 {
     private readonly IContentDialogService _dialogService;
+    private readonly ISnackbarService _snackbarService;
     private readonly IServiceProvider _serviceProvider;
     private readonly ISnoopService _snoopService;
 
-    public DashboardViewModel(ISnoopService snoopService, IContentDialogService dialogService, IServiceProvider serviceProvider)
+    public DashboardViewModel(ISnoopService snoopService,
+        IContentDialogService dialogService,
+        ISnackbarService snackbarService,
+        IServiceProvider serviceProvider)
     {
         _snoopService = snoopService;
         _serviceProvider = serviceProvider;
         _dialogService = dialogService;
+        _snackbarService = snackbarService;
     }
 
     [RelayCommand]
     private async Task NavigateSnoopPage(string parameter)
     {
+        if (!Validate()) return;
+
         switch (parameter)
         {
             case "view":
@@ -109,6 +119,8 @@ public sealed partial class DashboardViewModel : ObservableObject
     [RelayCommand]
     private async Task OpenDialog(string parameter)
     {
+        if (!Validate()) return;
+
         var dialog = _dialogService.CreateDialog();
 
         switch (parameter)
@@ -135,11 +147,21 @@ public sealed partial class DashboardViewModel : ObservableObject
                 await dialog.ShowAsync();
                 break;
             case "search":
+                if (RevitApi.UiDocument is null) return;
+
                 dialog = new SearchElementsDialog(_serviceProvider, _dialogService.GetContentPresenter());
                 dialog.DialogWidth = 570;
                 dialog.DialogHeight = 330;
                 await dialog.ShowAsync();
                 break;
         }
+    }
+
+    private bool Validate()
+    {
+        if (RevitApi.UiDocument is not null) return true;
+
+        _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);
+        return false;
     }
 }
