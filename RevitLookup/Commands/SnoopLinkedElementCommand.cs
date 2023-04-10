@@ -30,10 +30,10 @@ namespace RevitLookup.Commands;
 [Transaction(TransactionMode.Manual)]
 public class SnoopLinkedElementCommand : ExternalCommand
 {
-    public override async void Execute()
+    public override void Execute()
     {
         var window = Host.GetService<IWindow>();
-        await window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.LinkedElement);
-        window.Show(UiApplication.MainWindowHandle);
+        window.Initialize();
+        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.LinkedElement);
     }
 }

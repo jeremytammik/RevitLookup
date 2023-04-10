@@ -46,46 +46,27 @@ public sealed class SnoopViewModel : SnoopViewModelBase
 
     public override async Task Snoop(SnoopableType snoopableType)
     {
-        if (!Validate()) return;
         try
         {
-            SnoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ =>
+            switch (snoopableType)
             {
-                switch (snoopableType)
-                {
-                    case SnoopableType.Application:
-                    case SnoopableType.Document:
-                    case SnoopableType.View:
-                    case SnoopableType.Selection:
-                    case SnoopableType.Database:
-                    case SnoopableType.DependentElements:
-                    case SnoopableType.ComponentManager:
-                    case SnoopableType.PerformanceAdviser:
-                    case SnoopableType.UpdaterRegistry:
-                    case SnoopableType.Schemas:
-                    case SnoopableType.UiApplication:
-                    case SnoopableType.Services:
-                        return Selector.Snoop(snoopableType);
-                    case SnoopableType.Face:
-                    case SnoopableType.Edge:
-                    case SnoopableType.LinkedElement:
-                    case SnoopableType.Point:
-                    case SnoopableType.SubElement:
-                        _windowController.Hide();
-                        try
-                        {
-                            return Selector.Snoop(snoopableType);
-                        }
-                        finally
-                        {
-                            _windowController.Show();
-                        }
-                    case SnoopableType.Events:
-                        throw new NotSupportedException();
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(snoopableType));
-                }
-            });
+                case SnoopableType.Face:
+                case SnoopableType.Edge:
+                case SnoopableType.LinkedElement:
+                case SnoopableType.Point:
+                case SnoopableType.SubElement:
+                    _windowController.Hide();
+                    break;
+            }
+
+            try
+            {
+                SnoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ => Selector.Snoop(snoopableType));
+            }
+            finally
+            {
+                _windowController.Show();
+            }
 
             SnoopableData = Array.Empty<Descriptor>();
             _navigationService.Navigate(typeof(SnoopView));
@@ -98,16 +79,8 @@ public sealed class SnoopViewModel : SnoopViewModelBase
         }
         catch (Exception exception)
         {
-            await _snackbarService.ShowAsync("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
+            // ReSharper disable once MethodHasAsyncOverload
+            _snackbarService.Show("Snoop engine error", exception.Message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
         }
-    }
-
-    private bool Validate()
-    {
-        if (RevitApi.UiDocument is not null) return true;
-
-        _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);
-        SnoopableObjects = Array.Empty<SnoopableObject>();
-        return false;
     }
 }

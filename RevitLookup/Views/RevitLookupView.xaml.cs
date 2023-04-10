@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
+using System.Windows.Interop;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
@@ -63,13 +64,19 @@ public sealed partial class RevitLookupView : IWindow
     {
         Left = window.Left + 47;
         Top = window.Top + 49;
-        ApplicationExtensions.Show(this, RevitApi.UiApplication.MainWindowHandle);
+        Attach();
     }
 
-    public void Show(IntPtr handle)
+    public void Attach()
+    {
+        this.Show(RevitApi.UiApplication.MainWindowHandle);
+    }
+
+    public void Initialize()
     {
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        ApplicationExtensions.Show(this, handle);
+        var interopHelper = new WindowInteropHelper(this) {Owner = RevitApi.UiApplication.MainWindowHandle};
+        interopHelper.EnsureHandle();
     }
 
     private void UnloadServices(object sender, RoutedEventArgs e)

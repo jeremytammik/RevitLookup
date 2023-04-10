@@ -50,7 +50,7 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
-    public SnoopViewModelBase(INavigationService navigationService, ISnackbarService snackbarService)
+    protected SnoopViewModelBase(INavigationService navigationService, ISnackbarService snackbarService)
     {
         _navigationService = navigationService;
         _snackbarService = snackbarService;
@@ -63,9 +63,20 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     public void Snoop(SnoopableObject snoopableObject)
     {
         if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
-            SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
+        {
+            try
+            {
+                SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
+            }
+            catch (Exception exception)
+            {
+                SnowException("Invalid object", exception.Message);
+            }
+        }
         else
+        {
             SnoopableObjects = new[] {snoopableObject};
+        }
 
         _navigationService.Navigate(typeof(SnoopView));
     }
@@ -150,26 +161,26 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
         }
         catch (InvalidObjectException exception)
         {
-            await SnowException("Invalid object", exception.Message);
+            SnowException("Invalid object", exception.Message);
         }
         catch (InternalException)
         {
             const string message = "A problem in the Revit code. Usually occurs when a managed API object is no longer valid and is unloaded from memory";
-            await SnowException("Revit API internal error", message);
+            SnowException("Revit API internal error", message);
         }
         catch (SEHException)
         {
             const string message = "A problem in the Revit code. Usually occurs when a managed API object is no longer valid and is unloaded from memory";
-            await SnowException("Revit API internal error", message);
+            SnowException("Revit API internal error", message);
         }
         catch (Exception exception)
         {
-            await SnowException("Snoop engine error", exception.Message);
+            SnowException("Snoop engine error", exception.Message);
         }
     }
 
-    private async Task SnowException(string title, string message)
+    private void SnowException(string title, string message)
     {
-        await _snackbarService.ShowAsync(title, message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
+        _snackbarService.Show(title, message, SymbolRegular.ErrorCircle24, ControlAppearance.Danger);
     }
 }
