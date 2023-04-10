@@ -52,12 +52,11 @@ public static class SearchEngine
                             isObjectSelected = true;
                             break;
                         }
-                    
+
                     if (dataCount > 0)
-                    {
                         //Add selected object to results
-                        if (!isObjectSelected) filteredObjects.Add(model.SelectedObject);
-                    }
+                        if (!isObjectSelected)
+                            filteredObjects.Add(model.SelectedObject);
                 }
 
                 //Add data of the selected object if no others are found

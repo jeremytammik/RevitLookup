@@ -89,7 +89,7 @@
                 FontSize="16"
                 FontWeight="Medium"
                 Text="Engine"
-                Margin="0,17,0,0"/>
+                Margin="0,17,0,0" />
             <StackPanel
                 Margin="0,8,0,0">
                 <rl:CardControl

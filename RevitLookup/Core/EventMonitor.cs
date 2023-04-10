@@ -28,10 +28,10 @@ namespace RevitLookup.Core;
 
 public sealed class EventMonitor
 {
+    private readonly Assembly[] _assemblies;
     private readonly List<string> _blockList;
     private readonly Dictionary<EventInfo, Delegate> _eventInfos = new();
     private readonly Action<string, EventArgs> _handler;
-    private readonly Assembly[] _assemblies;
 
     public EventMonitor(Action<string, EventArgs> handler)
     {

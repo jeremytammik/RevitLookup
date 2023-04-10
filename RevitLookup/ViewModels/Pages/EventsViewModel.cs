@@ -42,6 +42,16 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
         _eventMonitor = new EventMonitor(OnHandlingEvent);
     }
 
+    public async void OnNavigatedTo()
+    {
+        await _eventMonitor.Subscribe();
+    }
+
+    public async void OnNavigatedFrom()
+    {
+        await _eventMonitor.Unsubscribe();
+    }
+
     public override async Task Snoop(SnoopableType snoopableType)
     {
         await Task.CompletedTask;
@@ -68,15 +78,5 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
         foreach (var descriptor in descriptors)
             if (descriptor.Value.Descriptor is IDescriptorCollector)
                 descriptor.Value.GetMembers();
-    }
-
-    public async void OnNavigatedTo()
-    {
-        await _eventMonitor.Subscribe();
-    }
-
-    public async void OnNavigatedFrom()
-    {
-        await _eventMonitor.Unsubscribe();
     }
 }
