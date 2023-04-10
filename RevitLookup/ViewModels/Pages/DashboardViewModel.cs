@@ -34,8 +34,8 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed partial class DashboardViewModel : ObservableObject
 {
     private readonly IContentDialogService _dialogService;
-    private readonly ISnackbarService _snackbarService;
     private readonly IServiceProvider _serviceProvider;
+    private readonly ISnackbarService _snackbarService;
     private readonly ISnoopService _snoopService;
 
     public DashboardViewModel(ISnoopService snoopService,
@@ -122,7 +122,6 @@ public sealed partial class DashboardViewModel : ObservableObject
         if (!Validate()) return;
 
         var dialog = _dialogService.CreateDialog();
-
         switch (parameter)
         {
             case "parameters":

@@ -37,10 +37,10 @@ public sealed partial class SettingsViewModel : ObservableObject
     private readonly ISnackbarService _snackbarService;
     [ObservableProperty] private WindowBackdropType _background;
     [ObservableProperty] private bool _isExtensionsAllowed;
+    [ObservableProperty] private bool _isHardwareRenderingAllowed;
+    [ObservableProperty] private bool _isModifyTabAllowed;
     [ObservableProperty] private bool _isSmoothEnabled;
     [ObservableProperty] private bool _isUnsupportedAllowed;
-    [ObservableProperty] private bool _isModifyTabAllowed;
-    [ObservableProperty] private bool _isHardwareRenderingAllowed;
     [ObservableProperty] private ThemeType _theme;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)

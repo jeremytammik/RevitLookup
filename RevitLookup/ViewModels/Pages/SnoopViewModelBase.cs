@@ -63,7 +63,6 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     public void Snoop(SnoopableObject snoopableObject)
     {
         if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
-        {
             try
             {
                 SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
@@ -72,11 +71,8 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
             {
                 SnowException("Invalid object", exception.Message);
             }
-        }
         else
-        {
             SnoopableObjects = new[] {snoopableObject};
-        }
 
         _navigationService.Navigate(typeof(SnoopView));
     }
