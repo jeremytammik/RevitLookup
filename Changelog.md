@@ -2,10 +2,18 @@
 
 - Next update **2024.0.1** 
 
-* Added option to enable hardware acceleration (experimental). UI is now more responsive. Revit uses software acceleration by default. Contact us if you encounter problems with 
-  your graphics cards. Issue: https://forums.autodesk.com/t5/revit-api-forum/revit-2024-rendering-performance-drops-on-selection/td-p/11878396
+* Added option to enable hardware acceleration (experimentally)
+    
+    The user interface is now more responsive. Revit uses software acceleration by default. Contact us if you encounter problems with your graphics cards
+    
+    Note: A known issue. When selecting elements, especially roofs or similar objects, plugin performance is severely degraded and animations become intermittent and slow
+    The problem is on the Revit side and is relevant to any plugins
+    https://forums.autodesk.com/t5/revit-api-forum/revit-2024-rendering-performance-drops-on-selection/td-p/11878396
 * Added button to disable RevitLookup panel on Modify tab by @ricaun in https://github.com/jeremytammik/RevitLookup/pull/152
+* Shortcuts support for the Modify tab https://github.com/jeremytammik/RevitLookup/issues/150
+* RevitLookup window now only opens when the Revit runtime context is available https://github.com/jeremytammik/RevitLookup/issues/155
 * Improve Curve.Evaluate resolver. EndParameter values are now used
+* Fixed rare crashes in EventMonitor on large models
 
 - 2023-04-04 **2024.0.0** 
 
