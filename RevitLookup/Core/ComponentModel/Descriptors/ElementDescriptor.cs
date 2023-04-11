@@ -64,7 +64,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
         });
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

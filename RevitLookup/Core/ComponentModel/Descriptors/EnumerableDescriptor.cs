@@ -64,7 +64,7 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
     public IEnumerator Enumerator { get; }
     public bool IsEmpty { get; }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExternalService;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -35,7 +36,7 @@ public sealed class ExternalServiceDescriptor : Descriptor, IDescriptorResolver
         Name = service.Name;
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
