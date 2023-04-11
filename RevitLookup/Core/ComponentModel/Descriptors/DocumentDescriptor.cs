@@ -35,7 +35,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
         Name = document.Title;
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

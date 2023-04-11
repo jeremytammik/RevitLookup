@@ -32,7 +32,7 @@ public sealed class PrintManagerDescriptor : Descriptor, IDescriptorResolver
         Name = printManager.PrinterName;
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

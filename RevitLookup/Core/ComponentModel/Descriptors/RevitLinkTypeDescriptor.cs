@@ -31,7 +31,7 @@ public sealed class RevitLinkTypeDescriptor : ElementDescriptor, IDescriptorReso
     {
     }
 
-    public new ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

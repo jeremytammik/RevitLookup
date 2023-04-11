@@ -34,7 +34,7 @@ public sealed class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolv
         _adviser = adviser;
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         if (parameters.Length == 0) return null;
         var rules = _adviser.GetNumberOfRules();

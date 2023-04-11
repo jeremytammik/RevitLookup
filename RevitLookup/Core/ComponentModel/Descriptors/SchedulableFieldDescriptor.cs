@@ -32,7 +32,7 @@ public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
         Name = field.GetName(RevitApi.Document);
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

@@ -186,7 +186,7 @@ public sealed class DescriptorBuilder
         parameters = member.GetMethod.GetParameters();
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
-            value = resolver.Resolve(member.Name, parameters);
+            value = resolver.Resolve(_snoopableObject.Context, member.Name, parameters);
             if (value is not null) return true;
         }
 
@@ -216,7 +216,7 @@ public sealed class DescriptorBuilder
 
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
-            value = resolver.Resolve(member.Name, parameters);
+            value = resolver.Resolve(_snoopableObject.Context, member.Name, parameters);
             if (value is not null) return true;
         }
 

@@ -25,19 +25,24 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver
+#if R24_OR_GREATER
+public class EvaluatedParameterDescriptor : Descriptor, IDescriptorResolver
 {
-    public ForgeTypeIdDescriptor(ForgeTypeId typeId)
+    private readonly EvaluatedParameter _evaluatedParameter;
+
+    public EvaluatedParameterDescriptor(EvaluatedParameter evaluatedParameter)
     {
-        Name = typeId.TypeId;
+        _evaluatedParameter = evaluatedParameter;
+        Name = evaluatedParameter.Definition.Name;
     }
 
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(ForgeTypeId.Clear) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
+            nameof(EvaluatedParameter.AsValueString) => ResolveSet.Append(_evaluatedParameter.AsValueString(context)),
             _ => null
         };
     }
 }
+#endif

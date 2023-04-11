@@ -20,6 +20,7 @@
 
 using System.Reflection;
 using System.Windows;
+using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -27,7 +28,7 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

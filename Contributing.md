@@ -58,7 +58,7 @@ Override result:
 ```c#
 public class UiElementDescriptor : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -74,7 +74,7 @@ Adding variants for different input parameters:
 ```c#
 public sealed class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

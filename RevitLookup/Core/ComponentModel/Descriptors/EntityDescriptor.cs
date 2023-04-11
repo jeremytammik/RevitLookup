@@ -35,7 +35,7 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
         _entity = entity;
     }
 
-    public ResolveSet Resolve(string target, ParameterInfo[] parameters)
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
