@@ -33,7 +33,7 @@ public class DefinitionBindingMapIteratorDescriptor : Descriptor, IDescriptorRed
         _object = new KeyValuePair<Definition, object>(iterator.Key, iterator.Current);
     }
 
-    public bool TryRedirect(string target, Document context, out object output)
+    public bool TryRedirect(Document context, string target, out object output)
     {
         output = _object;
         return true;

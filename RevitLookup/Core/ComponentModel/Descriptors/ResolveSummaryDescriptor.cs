@@ -34,7 +34,7 @@ public sealed class ResolveSummaryDescriptor : Descriptor, IDescriptorRedirectio
         Description = summary.Description;
     }
 
-    public bool TryRedirect(string target, Document context, out object output)
+    public bool TryRedirect(Document context, string target, out object output)
     {
         output = _summary.Result;
         return true;

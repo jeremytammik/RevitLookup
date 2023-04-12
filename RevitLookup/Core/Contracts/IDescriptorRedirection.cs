@@ -27,5 +27,5 @@ namespace RevitLookup.Core.Contracts;
 /// </summary>
 public interface IDescriptorRedirection
 {
-    bool TryRedirect(string target, Document context, out object output);
+    bool TryRedirect(Document context, string target, out object output);
 }
