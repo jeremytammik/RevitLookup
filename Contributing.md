@@ -118,7 +118,7 @@ Redirect from ElementId to Element if Element itself exists:
 ```c#
 public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirection
 {
-    public bool TryRedirect(string target, Document context, out object output)
+    public bool TryRedirect(Document context, string target, out object output)
     {
         output = null;
         if (target == nameof(Element.Id)) return false;

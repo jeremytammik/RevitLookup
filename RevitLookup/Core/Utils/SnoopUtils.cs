@@ -44,7 +44,7 @@ public static class SnoopUtils
     {
         while (snoopableObject.Descriptor is IDescriptorRedirection redirection)
         {
-            if (!redirection.TryRedirect(target, snoopableObject.Context, out var output)) break;
+            if (!redirection.TryRedirect(snoopableObject.Context, target, out var output)) break;
 
             var descriptor = DescriptorUtils.FindSuitableDescriptor(output);
             descriptor.Description ??= snoopableObject.Descriptor.Description;
