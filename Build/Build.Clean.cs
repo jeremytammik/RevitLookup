@@ -15,7 +15,7 @@ partial class Build
             {
                 var project = BuilderExtensions.GetProject(Solution, projectName);
                 var binDirectory = (AbsolutePath) new DirectoryInfo(project.GetBinDirectory()).FullName;
-                binDirectory.GlobDirectories($"{AddInBinPrefix}*", "Release*").ForEach(DeleteDirectory);
+                binDirectory.GlobDirectories("*").ForEach(DeleteDirectory);
             }
         });
 }

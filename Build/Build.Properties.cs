@@ -15,4 +15,10 @@ partial class Build
     {
         "RevitLookup"
     };
+    
+    readonly Dictionary<string, string> VersionMap = new()
+    {
+        {"Release R22", "2022.1.0"},
+        {"Release R23", "2023.1.0"}
+    };
 }

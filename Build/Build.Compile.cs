@@ -12,13 +12,19 @@ partial class Build
             var configurations = GetConfigurations(BuildConfiguration, InstallerConfiguration);
             configurations.ForEach(configuration =>
             {
-                MSBuild(s => s
-                    .SetTargets("Rebuild")
-                    .SetProcessToolPath(MsBuildPath.Value)
-                    .SetConfiguration(configuration)
-                    .SetVerbosity(MSBuildVerbosity.Minimal)
-                    .DisableNodeReuse()
-                    .EnableRestore());
+                MSBuild(settings =>
+                {
+                    if (VersionMap.TryGetValue(configuration, out var version))
+                        settings = settings.SetProperty("Version", version);
+
+                    return settings
+                        .SetTargets("Rebuild")
+                        .SetConfiguration(configuration)
+                        .SetProcessToolPath(MsBuildPath.Value)
+                        .SetVerbosity(MSBuildVerbosity.Minimal)
+                        .DisableNodeReuse()
+                        .EnableRestore();
+                });
             });
         });
 }

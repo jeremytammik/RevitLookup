@@ -67,4 +67,21 @@ partial class Build : NukeBuild
 
         return addInsDirectory;
     }
+    
+    IEnumerable<DirectoryInfo> EnumerateBuildDirectories()
+    {
+        var directories = new List<DirectoryInfo>();
+        foreach (var projectName in Projects)
+        {
+            var project = BuilderExtensions.GetProject(Solution, projectName);
+            var directoryInfo = new DirectoryInfo(project.GetBinDirectory()).GetDirectories();
+            directories.AddRange(directoryInfo);
+        }
+
+        if (directories.Count == 0) throw new Exception("There are no packaged assemblies in the project. Try to build the project again.");
+
+        return directories
+            .Where(dir => dir.Name.StartsWith(AddInBinPrefix))
+            .Where(dir => dir.Name.Contains(BuildConfiguration));
+    }
 }
