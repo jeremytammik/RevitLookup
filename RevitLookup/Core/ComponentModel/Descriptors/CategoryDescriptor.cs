@@ -24,10 +24,26 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class CategoryDescriptor : Descriptor, IDescriptorCollector
+public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension
 {
+    private readonly Category _category;
+
     public CategoryDescriptor(Category category)
     {
+        _category = category;
         Name = category.Name;
+    }
+
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register("GetElements", _category, extension =>
+        {
+            extension.Result = extension.Context
+#if R23_OR_GREATER
+                .GetInstances(_category.BuiltInCategory);
+#else
+                .GetInstances((BuiltInCategory) _category.Id.IntegerValue);
+#endif
+        });
     }
 }
