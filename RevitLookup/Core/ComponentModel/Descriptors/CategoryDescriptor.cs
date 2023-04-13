@@ -18,13 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension
+public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDescriptorResolver
 {
     private readonly Category _category;
 
@@ -32,6 +33,24 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension
     {
         _category = category;
         Name = category.Name;
+    }
+
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    {
+        return target switch
+        {
+            "Visible" => ResolveSet.Append(_category.get_Visible(RevitApi.ActiveView), "Active view"),
+            nameof(Category.GetGraphicsStyle) => ResolveSet
+                .Append(_category.GetGraphicsStyle(GraphicsStyleType.Cut), "Cut")
+                .AppendVariant(_category.GetGraphicsStyle(GraphicsStyleType.Projection), "Projection"),
+            nameof(Category.GetLinePatternId) => ResolveSet
+                .Append(_category.GetLinePatternId(GraphicsStyleType.Cut), "Cut")
+                .AppendVariant(_category.GetLinePatternId(GraphicsStyleType.Projection), "Projection"),
+            nameof(Category.GetLineWeight) => ResolveSet
+                .Append(_category.GetLineWeight(GraphicsStyleType.Cut), "Cut")
+                .AppendVariant(_category.GetLineWeight(GraphicsStyleType.Projection), "Projection"),
+            _ => null
+        };
     }
 
     public void RegisterExtensions(IExtensionManager manager)
