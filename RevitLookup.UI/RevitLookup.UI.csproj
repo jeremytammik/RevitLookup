@@ -7,7 +7,7 @@
         <ImplicitUsings>true</ImplicitUsings>
         <TargetFramework>net48</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <NoWarn>CS0618;CS0625;CS8602;CS8604;CS0168;CS8625;CS8632</NoWarn>
+        <NoWarn>CS0618;CS0625;CS8602;CS8604;CS0168;CS8625;CS8632;CS0162;CS0414</NoWarn>
         <Configurations>Debug;Release</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">

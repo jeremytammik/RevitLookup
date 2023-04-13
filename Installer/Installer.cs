@@ -27,6 +27,9 @@ var guidMap = new Dictionary<string, string>
 var version = GetAssemblyVersion(out var dllVersion, out var revitVersion);
 var fileName = $"{projectName}-{dllVersion}";
 
+if (!guidMap.TryGetValue(revitVersion, out var guid)) 
+    throw new Exception($"Missing guid mapping for version: {revitVersion}");
+
 var wixEntities = GenerateWixEntities();
 var project = new Project
 {
@@ -36,7 +39,7 @@ var project = new Project
     UI = WUI.WixUI_InstallDir,
     Version = new Version(version),
     MajorUpgrade = MajorUpgrade.Default,
-    GUID = new Guid(guidMap[revitVersion]),
+    GUID = new Guid(guid),
     BackgroundImage = @"Installer\Resources\Icons\BackgroundImage.png",
     BannerImage = @"Installer\Resources\Icons\BannerImage.png",
     ControlPanelInfo =

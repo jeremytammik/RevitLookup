@@ -1,17 +1,13 @@
+using Nuke.Common.IO;
+
 partial class Build
 {
-    const string InstallerProject = "Installer";
+    readonly AbsolutePath ArtifactsDirectory = RootDirectory / "output";
 
-    public const string BuildConfiguration = "Release";
-    public const string InstallerConfiguration = "Installer";
-
-    const string AddInBinPrefix = "AddIn";
-    const string ArtifactsFolder = "output";
-
-    readonly string[] Projects =
+    readonly string[] Configurations =
     {
-        "RevitLookup",
-        "RevitLookup.UI"
+        "Release*",
+        "Installer"
     };
 
     readonly Dictionary<string, string> VersionMap = new()
