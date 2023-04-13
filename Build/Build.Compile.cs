@@ -1,4 +1,5 @@
-﻿using Nuke.Common;
+﻿using System.IO.Enumeration;
+using Nuke.Common;
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
@@ -8,17 +9,39 @@ partial class Build
         .TriggeredBy(Cleaning)
         .Executes(() =>
         {
-            var buildConfig = GetConfigurations(BuildConfiguration, InstallerConfiguration);
-            buildConfig.ForEach(configuration =>
+            foreach (var configuration in GlobBuildConfigurations())
             {
-                DotNetBuild(settings =>
-                {
-                    if (VersionMap.TryGetValue(configuration, out var value))
-                        settings = settings.SetVersion(value);
+                if (!VersionMap.TryGetValue(configuration, out var value)) value = "1.0.0";
 
-                    return settings.SetConfiguration(configuration)
-                        .SetVerbosity(DotNetVerbosity.Minimal);
-                });
-            });
+                DotNetBuild(settings => settings
+                    .SetConfiguration(configuration)
+                    .SetVersion(value)
+                    .SetVerbosity(DotNetVerbosity.Minimal));
+            }
         });
+
+    List<string> GlobBuildConfigurations()
+    {
+        var configurations = Solution.Configurations
+            .Select(pair => pair.Key)
+            .Select(config =>
+            {
+                var platformIndex = config.LastIndexOf('|');
+                return config.Remove(platformIndex);
+            })
+            .Where(config =>
+            {
+                foreach (var wildcard in Configurations)
+                    if (FileSystemName.MatchesSimpleExpression(wildcard, config))
+                        return true;
+
+                return false;
+            })
+            .ToList();
+
+        if (configurations.Count == 0)
+            throw new Exception($"Can't find configurations in the solution by patterns: {string.Join(" | ", Configurations)}.");
+
+        return configurations;
+    }
 }
