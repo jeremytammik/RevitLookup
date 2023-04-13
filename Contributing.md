@@ -23,7 +23,7 @@ The naming should be descriptive and direct, giving a clear idea of the function
 ## Prerequisites for Compiling RevitLookup
 
 - .Net 7 SDK or newer
-- Visual Studio 2022 / JetBrains Rider 2021.3 or newer
+- Visual Studio 2022 / JetBrains Rider 2022.3 or newer
 
 ## Architecture
 
