@@ -18,6 +18,7 @@
 * Added shortcuts support for the Modify tab https://github.com/jeremytammik/RevitLookup/issues/150
 * Added EvaluatedParameter support
 * Added Category.get_Visible support
+* Added Category.get_AllowsVisibilityControl support
 * Added Category.GetLineWeight support
 * Added Category.GetLinePatternId support
 * Added Category.GetElements extension

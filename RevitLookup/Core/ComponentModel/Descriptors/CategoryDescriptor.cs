@@ -39,6 +39,7 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
     {
         return target switch
         {
+            "AllowsVisibilityControl" => ResolveSet.Append(_category.get_AllowsVisibilityControl(RevitApi.ActiveView), "Active view"),
             "Visible" => ResolveSet.Append(_category.get_Visible(RevitApi.ActiveView), "Active view"),
             nameof(Category.GetGraphicsStyle) => ResolveSet
                 .Append(_category.GetGraphicsStyle(GraphicsStyleType.Cut), "Cut")
