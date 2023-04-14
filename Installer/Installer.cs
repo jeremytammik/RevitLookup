@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Controls;
+using File = WixSharp.File;
 
 const string projectName = "RevitLookup";
 const string outputDir = "output";
@@ -27,10 +27,14 @@ var guidMap = new Dictionary<string, string>
 var version = GetAssemblyVersion(out var dllVersion, out var revitVersion);
 var fileName = $"{projectName}-{dllVersion}";
 
-if (!guidMap.TryGetValue(revitVersion, out var guid)) 
-    throw new Exception($"Missing guid mapping for version: {revitVersion}");
+if (!guidMap.TryGetValue(revitVersion, out var guid))
+    throw new Exception($"Version GUID mapping missing for the specified version: {revitVersion}");
 
 var wixEntities = GenerateWixEntities();
+
+if (!version.Equals(dllVersion))
+    Console.WriteLine($"MSI version is trimmed: '{dllVersion}' -> '{version}'");
+
 var project = new Project
 {
     Name = projectName,
@@ -92,14 +96,12 @@ void BuildMultiUserUserMsi()
 WixEntity[] GenerateWixEntities()
 {
     var entities = new List<WixEntity>();
-    var versionRegex = new Regex(@"\d+.*$");
     foreach (var directory in args)
     {
         var queue = new Queue<string>();
-        var fileVersion = versionRegex.Match(Path.GetFileName(directory)).Value;
         queue.Enqueue(directory);
 
-        Console.WriteLine($"Added '{fileVersion}' version files: ");
+        Console.WriteLine($"Installer files for version '{dllVersion}':");
         while (queue.Count > 0)
         {
             var currentPath = queue.Dequeue();
@@ -108,7 +110,7 @@ WixEntity[] GenerateWixEntities()
                 foreach (var file in Directory.GetFiles(currentPath))
                 {
                     Console.WriteLine($"'{file}'");
-                    entities.Add(new WixSharp.File(file));
+                    entities.Add(new File(file));
                 }
             }
             else
@@ -120,9 +122,10 @@ WixEntity[] GenerateWixEntities()
                 foreach (var file in Directory.GetFiles(currentPath))
                 {
                     Console.WriteLine($"'{file}'");
-                    currentDir.AddFile(new WixSharp.File(file));
+                    currentDir.AddFile(new File(file));
                 }
             }
+
             foreach (var subfolder in Directory.GetDirectories(currentPath))
                 queue.Enqueue(subfolder);
         }
@@ -144,9 +147,8 @@ string GetAssemblyVersion(out string originalVersion, out string majorVersion)
         if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
         originalVersion = fileVersionInfo.ProductVersion;
         var wixVersion = string.Join(".", versionGroups);
-        if (!originalVersion.Equals(wixVersion)) Console.WriteLine($"Installer version trimmed from '{originalVersion}' to '{wixVersion}'");
         return wixVersion;
     }
 
-    throw new Exception("Cant find RevitLookup.dll file");
+    throw new Exception("RevitLookup.dll file could not be found");
 }
