@@ -32,11 +32,14 @@ public sealed partial class EventsView : INavigationAware
 {
     public EventsView(IServiceProvider serviceProvider, ISettingsService settingsService) : base(settingsService)
     {
+
         ViewModel = (EventsViewModel) serviceProvider.GetService(typeof(EventsViewModel));
         DataContext = this;
         InitializeComponent();
         TreeViewControl = TreeView;
         DataGridControl = DataGrid;
+
+        Theme.Apply(this, settingsService.Theme, settingsService.Background);
 
         //Clear shapingStorage for remove duplications. WpfBug?
         DataGrid.Items.GroupDescriptions!.Clear();
@@ -44,7 +47,6 @@ public sealed partial class EventsView : INavigationAware
 
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
-        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 
     public void OnNavigatedTo()

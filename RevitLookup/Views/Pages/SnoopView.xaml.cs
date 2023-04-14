@@ -38,15 +38,16 @@ public sealed partial class SnoopView : INavigationAware
         TreeViewControl = TreeView;
         DataGridControl = DataGrid;
 
+        Theme.Apply(this, settingsService.Theme, settingsService.Background);
+
         //Clear shapingStorage for remove duplications. WpfBug?
         DataGrid.Items.GroupDescriptions!.Clear();
         DataGrid.Items.GroupDescriptions!.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
 
+        Loaded += OnTreeSourceChanged;
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
         ViewModel.TreeSourceChanged += OnTreeSourceChanged;
-        SelectFirstTreeViewContainer();
-        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 
     public void OnNavigatedTo()

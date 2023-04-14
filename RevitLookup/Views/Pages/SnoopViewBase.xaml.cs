@@ -54,39 +54,22 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     public ISnoopViewModel ViewModel { get; init; }
 
     /// <summary>
-    ///     Expand treeView for first opening
+    ///     Expand treeView
     /// </summary>
-    protected void OnTreeSourceChanged(object sender, EventArgs readOnlyList)
-    {
-        SelectFirstTreeViewContainer();
-    }
-
-    /// <summary>
-    ///     Expand treeView for first opening
-    /// </summary>
-    protected void SelectFirstTreeViewContainer()
+    protected async void OnTreeSourceChanged(object sender, EventArgs readOnlyList)
     {
         if (TreeViewControl.Items.Count > 3) return;
-        TreeViewControl.ItemContainerGenerator.StatusChanged += OnGeneratorStatusChanged;
-    }
-
-    /// <summary>
-    ///     Expand treeView for first opening
-    /// </summary>
-    private async void OnGeneratorStatusChanged(object sender, EventArgs _)
-    {
-        var generator = (ItemContainerGenerator) sender;
-        if (generator.Status != ContainersGenerated) return;
-
-        generator.StatusChanged -= OnGeneratorStatusChanged;
 
         // Await Frame transition. GetMembers freezes the thread and breaks the animation
         await Task.Delay(_settingsService.TransitionDuration);
 
-        var treeViewItem = (TreeViewItem) TreeViewControl.ItemContainerGenerator.ContainerFromIndex(0);
-        treeViewItem.ExpandSubtree();
-        treeViewItem = (TreeViewItem) treeViewItem.ItemContainerGenerator.ContainerFromIndex(0);
-        treeViewItem.IsSelected = true;
+        var rootItem = VisualUtils.GetTreeViewItem(TreeViewControl, 0);
+        if (rootItem is null) return;
+
+        var nestedItem = VisualUtils.GetTreeViewItem(rootItem, 0);
+        if (nestedItem is null) return;
+
+        nestedItem.IsSelected = true;
     }
 
     /// <summary>
