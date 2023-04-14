@@ -10,7 +10,10 @@
 
   Known issue: rendering performance drops on selection. This is especially evident on
   roofs. https://forums.autodesk.com/t5/revit-api-forum/revit-2024-rendering-performance-drops-on-selection/td-p/11878396
-* Added button to disable RevitLookup panel on Modify tab by @ricaun in https://github.com/jeremytammik/RevitLookup/pull/152
+* Added button to enable RevitLookup panel on Modify tab by @ricaun in https://github.com/jeremytammik/RevitLookup/pull/152
+
+  Disabled by default. Thanks vor voting https://github.com/jeremytammik/RevitLookup/discussions/151
+
 * Opening RevitLookup window only when the Revit runtime context is available https://github.com/jeremytammik/RevitLookup/issues/155
 
 ## Improvements
@@ -98,8 +101,8 @@ In this release, the entire code base has been completely rewritten from scratch
 
 * Generic names support
 
-  | Before                                                                                                                  | Now                                                                                                                   |
-        |-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+  | Before                                                                                                          | Now                                                                                                             |
+  |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
   | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
 
 * Multiple results for methods with overloads
