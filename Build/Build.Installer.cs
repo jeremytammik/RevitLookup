@@ -7,6 +7,8 @@ using Serilog;
 
 partial class Build
 {
+    [GeneratedRegex("'(.+?)'", RegexOptions.Compiled)]
+    private static partial Regex StreamRegexGenerator();
     readonly Regex StreamRegex = StreamRegexGenerator();
 
     Target CreateInstaller => _ => _
@@ -23,7 +25,7 @@ partial class Build
                 .ToList();
 
             if (buildDirectories.Count == 0)
-                throw new Exception($"There are no files to create an installer. Pattern: {string.Join(",", Configurations)}");
+                throw new Exception($"No files match the specified pattern to create an installer: {string.Join(",", Configurations)}");
 
             foreach (var buildDirectory in buildDirectories)
             {
@@ -34,12 +36,9 @@ partial class Build
                 proc.Start();
                 while (!proc.StandardOutput.EndOfStream) RedirectOutputStream(proc.StandardOutput.ReadLine());
                 proc.WaitForExit();
-                if (proc.ExitCode != 0) throw new Exception("The installer creation failed.");
+                if (proc.ExitCode != 0) throw new Exception($"The installer creation failed with ExitCode {proc.ExitCode}");
             }
         });
-
-    [GeneratedRegex("'(.+?)'", RegexOptions.Compiled)]
-    private static partial Regex StreamRegexGenerator();
 
     void RedirectOutputStream([CanBeNull] string value)
     {

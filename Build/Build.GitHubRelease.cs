@@ -10,17 +10,19 @@ using Serilog;
 
 partial class Build
 {
+    [GeneratedRegex(@"(\d+\.)+\d+", RegexOptions.Compiled)]
+    private static partial Regex VersionRegexGenerator();
+    readonly Regex VersionRegex = VersionRegexGenerator();
     readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
-    [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
-    readonly Regex VersionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     [Parameter] string GitHubToken { get; set; }
+    [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
 
     Target PublishGitHubRelease => _ => _
         .TriggeredBy(CreateInstaller)
         .Requires(() => GitHubToken)
         .Requires(() => GitRepository)
         .Requires(() => GitVersion)
-        .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() && IsServerBuild)
+        .OnlyWhenStatic(() => GitRepository.IsOnMasterBranch() && IsServerBuild)
         .Executes(async () =>
         {
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(Solution.Name))
@@ -34,7 +36,7 @@ partial class Build
             var version = VersionRegex.Match(artifacts[^1]).Value;
 
             await CheckTagsAsync(gitHubOwner, gitHubName, version);
-            Log.Information("Detected Tag: {Version}", version);
+            Log.Information("Tag: {Version}", version);
 
             var newRelease = new NewRelease(version)
             {
@@ -54,11 +56,11 @@ partial class Build
     {
         if (!File.Exists(ChangeLogPath))
         {
-            Log.Warning("Can't find changelog file: {Log}", ChangeLogPath);
+            Log.Warning("Unable to locate the changelog file: {Log}", ChangeLogPath);
             return string.Empty;
         }
 
-        Log.Information("Detected Changelog: {Path}", ChangeLogPath);
+        Log.Information("Changelog: {Path}", ChangeLogPath);
 
         var logBuilder = new StringBuilder();
         var changelogLineRegex = new Regex($@"^.*({version})\S*\s");
@@ -78,14 +80,15 @@ partial class Build
             logBuilder.AppendLine(truncatedLine);
         }
 
-        if (logBuilder.Length == 0) Log.Warning("There is no version entry in the changelog: {Version}", version);
+        if (logBuilder.Length == 0) Log.Warning("No version entry exists in the changelog: {Version}", version);
         return logBuilder.ToString();
     }
 
     static async Task CheckTagsAsync(string gitHubOwner, string gitHubName, string version)
     {
         var gitHubTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
-        if (gitHubTags.Select(tag => tag.Name).Contains(version)) throw new ArgumentException($"The repository already contains a Release with the tag: {version}");
+        if (gitHubTags.Select(tag => tag.Name).Contains(version))
+            throw new ArgumentException($"A Release with the specified tag already exists in the repository: {version}");
     }
 
     static async Task<Release> CreatedDraftAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
@@ -106,7 +109,7 @@ partial class Build
             };
 
             await GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload);
-            Log.Information("Added artifact: {Path}", file);
+            Log.Information("Artifact: {Path}", file);
         }
     }
 }

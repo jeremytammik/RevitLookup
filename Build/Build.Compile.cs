@@ -40,7 +40,7 @@ partial class Build
             .ToList();
 
         if (configurations.Count == 0)
-            throw new Exception($"Can't find configurations in the solution by patterns: {string.Join(" | ", Configurations)}.");
+            throw new Exception($"The solution's configurations cannot be found using the specified patterns: {string.Join(" | ", Configurations)}");
 
         return configurations;
     }
