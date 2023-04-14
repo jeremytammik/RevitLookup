@@ -73,6 +73,35 @@ public static class VisualUtils
         }
 
         return null;
+    } 
+    
+    public static TreeViewItem GetTreeViewItem(ItemsControl container, int index)
+    {
+        if (container == null) return null;
+        if (container.Items.Count == 0) return null;
+
+        if (container is TreeViewItem {IsExpanded: false} viewItem) 
+            viewItem.SetValue(TreeViewItem.IsExpandedProperty, true);
+
+        container.ApplyTemplate();
+        var itemsPresenter = (ItemsPresenter) container.Template.FindName("ItemsHost", container);
+        if (itemsPresenter != null)
+        {
+            itemsPresenter.ApplyTemplate();
+        }
+        else
+        {
+            itemsPresenter = FindVisualChild<ItemsPresenter>(container);
+            if (itemsPresenter == null)
+            {
+                container.UpdateLayout();
+                itemsPresenter = FindVisualChild<ItemsPresenter>(container);
+            }
+        }
+
+        var itemsHostPanel = (VirtualizingStackPanel) VisualTreeHelper.GetChild(itemsPresenter, 0);
+        itemsHostPanel.BringIndexIntoViewPublic(index);
+        return (TreeViewItem) container.ItemContainerGenerator.ContainerFromIndex(index);
     }
 
     public static T FindVisualChild<T>(Visual visual) where T : Visual
