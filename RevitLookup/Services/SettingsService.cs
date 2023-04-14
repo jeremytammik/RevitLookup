@@ -39,8 +39,8 @@ internal sealed class Settings
     public int TransitionDuration { get; set; } // = SettingsService.DefaultTransitionDuration;
     public bool IsExtensionsAllowed { get; set; }
     public bool IsUnsupportedAllowed { get; set; }
-    public bool IsModifyTabAllowed { get; set; } = true;
-    public bool IsHardwareRenderingAllowed { get; set; } = true; //Experimental
+    public bool IsModifyTabAllowed { get; set; }
+    public bool IsHardwareRenderingAllowed { get; set; } = true;
 }
 
 public sealed class SettingsService : ISettingsService
