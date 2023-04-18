@@ -1,5 +1,13 @@
 # Changelog
 
+- 2023-04-18 **2024.0.2**
+
+## Bugs
+
+* Fixed Fatal Error on Windows 10 https://github.com/jeremytammik/RevitLookup/issues/153
+
+  Accent colour sync with OS now only available in Windows 11 and above. Many thanks to [Aleksey Negus](https://t.me/a_negus) for testing builds
+
 - 2023-04-14 **2024.0.1**
 
 ## Breaking changes
@@ -102,7 +110,7 @@ In this release, the entire code base has been completely rewritten from scratch
 * Generic names support
 
   | Before                                                                                                          | Now                                                                                                             |
-  |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+    |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
   | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
 
 * Multiple results for methods with overloads
