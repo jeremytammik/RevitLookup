@@ -94,6 +94,7 @@ public static class DescriptorMap
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
             SchedulableField value when type is null || type == typeof(SchedulableField) => new SchedulableFieldDescriptor(value),
             CompoundStructureLayer value when type is null || type == typeof(CompoundStructureLayer) => new CompoundStructureLayerDescriptor(value),
+            WorksetTable when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(),
 #if R24_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
