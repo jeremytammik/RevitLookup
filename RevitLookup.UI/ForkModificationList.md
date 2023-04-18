@@ -8,6 +8,10 @@ Application.Current changed to Application.Current static property
 
 - Updated uris
 - Class public modifier
+- 
+# Wpf.Ui.Appearance.Theme
+
+- Accent.Apply only with Windows 11
 
 # Wpf.Ui.Controls.TitleBarControl
 
