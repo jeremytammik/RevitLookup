@@ -5,6 +5,7 @@
 
 using System;
 using System.Windows;
+using System.Windows.Media;
 using Wpf.Ui.Controls.Window;
 using Wpf.Ui.Interop;
 
@@ -44,11 +45,11 @@ public static class Theme
         bool updateAccent = true, bool forceBackground = false)
     {
         if (updateAccent)
-            Accent.Apply(element,
-                Accent.GetColorizationColor(),
-                themeType,
-                false
-            );
+        {
+            //windows 10 Dwmapi.dll file not found exception
+            var colorizationColor = Win32.Utilities.IsOSWindows11OrNewer ? Accent.GetColorizationColor() : Color.FromArgb(255, 0, 120, 212);
+            Accent.Apply(element, colorizationColor, themeType, false);
+        }
 
         if (themeType == ThemeType.Unknown || themeType == AppearanceData.ApplicationTheme)
             return;
