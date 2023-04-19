@@ -1,5 +1,12 @@
 # Changelog
 
+- 2023-04-18 **2024.0.3**
+
+## Improvements
+
+* Added Workset support
+* Added WorksetTable support
+
 - 2023-04-18 **2024.0.2**
 
 ## Bugs
