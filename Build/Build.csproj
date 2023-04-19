@@ -16,8 +16,4 @@
     <ItemGroup>
         <PackageDownload Include="GitVersion.Tool" Version="[5.10.3]"/>
     </ItemGroup>
-    <ItemGroup>
-        <None Remove="..\.nuke\temp\build.log"/>
-        <None Remove="..\.nuke\temp\build.2023-04-14_13-23-52.log"/>
-    </ItemGroup>
 </Project>
