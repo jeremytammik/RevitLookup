@@ -1,14 +1,18 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Serilog;
+using Serilog.Events;
+using Logger = Serilog.Core.Logger;
 
 partial class Build
 {
     [GeneratedRegex("'(.+?)'", RegexOptions.Compiled)]
     private static partial Regex StreamRegexGenerator();
+
     readonly Regex StreamRegex = StreamRegexGenerator();
 
     Target CreateInstaller => _ => _
@@ -33,30 +37,40 @@ partial class Build
                 proc.StartInfo.FileName = exeFile;
                 proc.StartInfo.Arguments = $@"""{buildDirectory}""";
                 proc.StartInfo.RedirectStandardOutput = true;
+                proc.StartInfo.RedirectStandardError = true;
                 proc.Start();
-                while (!proc.StandardOutput.EndOfStream) RedirectOutputStream(proc.StandardOutput.ReadLine());
+
+                RedirectStream(proc.StandardOutput, LogEventLevel.Information);
+                RedirectStream(proc.StandardError, LogEventLevel.Error);
+
                 proc.WaitForExit();
                 if (proc.ExitCode != 0) throw new Exception($"The installer creation failed with ExitCode {proc.ExitCode}");
             }
         });
 
-    void RedirectOutputStream([CanBeNull] string value)
+    [SuppressMessage("ReSharper", "TemplateIsNotCompileTimeConstantProblem")]
+    void RedirectStream(StreamReader reader, LogEventLevel eventLevel)
     {
-        if (value is null) return;
-        var matches = StreamRegex.Matches(value);
-        if (matches.Count > 0)
+        while (!reader.EndOfStream)
         {
-            var parameters = matches
-                .Select(match => match.Value.Substring(1, match.Value.Length - 2))
-                .Cast<object>()
-                .ToArray();
+            var value = reader.ReadLine();
+            if (value is null) continue;
 
-            var line = StreamRegex.Replace(value, match => $"{{Parameter{match.Index}}}");
-            Log.Information(line, parameters);
-        }
-        else
-        {
-            Log.Debug(value);
+            var matches = StreamRegex.Matches(value);
+            if (matches.Count > 0)
+            {
+                var parameters = matches
+                    .Select(match => match.Value.Substring(1, match.Value.Length - 2))
+                    .Cast<object>()
+                    .ToArray();
+
+                var line = StreamRegex.Replace(value, match => $"{{Parameter{match.Index}}}");
+                Log.Write(eventLevel, line, parameters);
+            }
+            else
+            {
+                Log.Debug(value);
+            }
         }
     }
 }

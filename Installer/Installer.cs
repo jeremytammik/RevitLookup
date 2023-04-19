@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+using Installer;
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Controls;
-using File = WixSharp.File;
 
 const string projectName = "RevitLookup";
 const string outputDir = "output";
@@ -24,16 +22,9 @@ var guidMap = new Dictionary<string, string>
     {"2024", "2E347D52-D08D-4624-8909-3679D75B9C1D"}
 };
 
-var version = GetAssemblyVersion(out var dllVersion, out var revitVersion);
-var fileName = $"{projectName}-{dllVersion}";
-
-if (!guidMap.TryGetValue(revitVersion, out var guid))
-    throw new Exception($"Version GUID mapping missing for the specified version: {revitVersion}");
-
-var wixEntities = GenerateWixEntities();
-
-if (!version.Equals(dllVersion))
-    Console.WriteLine($"MSI version is trimmed: '{dllVersion}' -> '{version}'");
+var versions = Tools.ComputeVersions(args);
+if (!guidMap.TryGetValue(versions.RevitVersion, out var guid))
+    throw new Exception($"Version GUID mapping missing for the specified version: '{versions.RevitVersion}'");
 
 var project = new Project
 {
@@ -41,7 +32,7 @@ var project = new Project
     OutDir = outputDir,
     Platform = Platform.x64,
     UI = WUI.WixUI_InstallDir,
-    Version = new Version(version),
+    Version = new Version(versions.InstallerVersion),
     MajorUpgrade = MajorUpgrade.Default,
     GUID = new Guid(guid),
     BackgroundImage = @"Installer\Resources\Icons\BackgroundImage.png",
@@ -54,30 +45,19 @@ var project = new Project
     }
 };
 
+var wixEntities = Generator.GenerateWixEntities(args, versions.AssemblyVersion);
 project.RemoveDialogsBetween(NativeDialogs.WelcomeDlg, NativeDialogs.InstallDirDlg);
+
 BuildSingleUserMsi();
 BuildMultiUserUserMsi();
-
-// User Addins:
-// %appdata%\Autodesk\Revit\Addins\
-// %appdata%\Autodesk\ApplicationPlugins\
-//
-// Machine Addins (for all users of the machine):
-// C:\ProgramData\Autodesk\Revit\Addins\
-//
-// Addins packaged for the Autodesk Exchange store:
-// C:\ProgramData\Autodesk\ApplicationPlugins\
-//
-// Autodesk servers and services:
-// C:\Program Files\Autodesk\Revit 2023\AddIns\
 
 void BuildSingleUserMsi()
 {
     project.InstallScope = InstallScope.perUser;
-    project.OutFileName = $"{fileName}-SingleUser";
+    project.OutFileName = $"{projectName}-{versions.AssemblyVersion}-SingleUser";
     project.Dirs = new Dir[]
     {
-        new InstallDir($@"%AppDataFolder%\Autodesk\Revit\Addins\{revitVersion}", wixEntities)
+        new InstallDir($@"%AppDataFolder%\Autodesk\Revit\Addins\{versions.RevitVersion}", wixEntities)
     };
     project.BuildMsi();
 }
@@ -85,70 +65,10 @@ void BuildSingleUserMsi()
 void BuildMultiUserUserMsi()
 {
     project.InstallScope = InstallScope.perMachine;
-    project.OutFileName = $"{fileName}-MultiUser";
+    project.OutFileName = $"{projectName}-{versions.AssemblyVersion}-MultiUser";
     project.Dirs = new Dir[]
     {
-        new InstallDir($@"%CommonAppDataFolder%\Autodesk\Revit\Addins\{revitVersion}", wixEntities)
+        new InstallDir($@"%CommonAppDataFolder%\Autodesk\Revit\Addins\{versions.RevitVersion}", wixEntities)
     };
     project.BuildMsi();
-}
-
-WixEntity[] GenerateWixEntities()
-{
-    var entities = new List<WixEntity>();
-    foreach (var directory in args)
-    {
-        var queue = new Queue<string>();
-        queue.Enqueue(directory);
-
-        Console.WriteLine($"Installer files for version '{dllVersion}':");
-        while (queue.Count > 0)
-        {
-            var currentPath = queue.Dequeue();
-            if (currentPath == directory)
-            {
-                foreach (var file in Directory.GetFiles(currentPath))
-                {
-                    Console.WriteLine($"'{file}'");
-                    entities.Add(new File(file));
-                }
-            }
-            else
-            {
-                var currentFolder = Path.GetFileName(currentPath);
-                var currentDir = new Dir(currentFolder);
-                entities.Add(currentDir);
-
-                foreach (var file in Directory.GetFiles(currentPath))
-                {
-                    Console.WriteLine($"'{file}'");
-                    currentDir.AddFile(new File(file));
-                }
-            }
-
-            foreach (var subfolder in Directory.GetDirectories(currentPath))
-                queue.Enqueue(subfolder);
-        }
-    }
-
-    return entities.ToArray();
-}
-
-string GetAssemblyVersion(out string originalVersion, out string majorVersion)
-{
-    foreach (var directory in args)
-    {
-        var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
-        if (assemblies.Length == 0) continue;
-        var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
-        var versionGroups = fileVersionInfo.ProductVersion.Split('.');
-        if (versionGroups.Length > 3) Array.Resize(ref versionGroups, 3);
-        majorVersion = versionGroups[0];
-        if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
-        originalVersion = fileVersionInfo.ProductVersion;
-        var wixVersion = string.Join(".", versionGroups);
-        return wixVersion;
-    }
-
-    throw new Exception("RevitLookup.dll file could not be found");
 }
