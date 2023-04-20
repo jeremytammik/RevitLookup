@@ -2,6 +2,7 @@ using Nuke.Common.IO;
 
 partial class Build
 {
+    readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / "output";
 
     readonly string[] Configurations =

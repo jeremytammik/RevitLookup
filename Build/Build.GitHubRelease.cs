@@ -12,8 +12,8 @@ partial class Build
 {
     [GeneratedRegex(@"(\d+\.)+\d+", RegexOptions.Compiled)]
     private static partial Regex VersionRegexGenerator();
+
     readonly Regex VersionRegex = VersionRegexGenerator();
-    readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
     [Parameter] string GitHubToken { get; set; }
     [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
 
