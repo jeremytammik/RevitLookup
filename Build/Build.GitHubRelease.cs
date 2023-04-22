@@ -64,7 +64,7 @@ partial class Build
 
         var logBuilder = new StringBuilder();
         var changelogLineRegex = new Regex($@"^.*({version})\S*\s?");
-        const string nextRecordSymbol = "- ";
+        const string nextRecordSymbol = "# ";
 
         foreach (var line in File.ReadLines(ChangeLogPath))
         {
