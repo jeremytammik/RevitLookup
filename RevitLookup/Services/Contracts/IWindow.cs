@@ -27,6 +27,6 @@ public interface IWindow
     IServiceProvider Scope { get; }
     void Show();
     void Show(Window window);
-    void Attach();
+    void ShowAttached();
     void Initialize();
 }

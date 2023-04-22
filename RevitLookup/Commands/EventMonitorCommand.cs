@@ -34,7 +34,7 @@ public class EventMonitorCommand : ExternalCommand
     public override void Execute()
     {
         var window = Host.GetService<IWindow>();
-        window.Attach();
+        window.ShowAttached();
         window.Scope.GetService<INavigationService>().Navigate(typeof(EventsView));
     }
 }

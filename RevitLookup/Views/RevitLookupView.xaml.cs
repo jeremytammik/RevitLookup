@@ -64,11 +64,12 @@ public sealed partial class RevitLookupView : IWindow
     {
         Left = window.Left + 47;
         Top = window.Top + 49;
-        Attach();
+        this.Show(RevitApi.UiApplication.MainWindowHandle);
     }
 
-    public void Attach()
+    public void ShowAttached()
     {
+        WindowStartupLocation = WindowStartupLocation.CenterScreen;
         this.Show(RevitApi.UiApplication.MainWindowHandle);
     }
 
