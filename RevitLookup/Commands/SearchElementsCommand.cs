@@ -35,7 +35,7 @@ public class SearchElementsCommand : ExternalCommand
     public override void Execute()
     {
         var window = Host.GetService<IWindow>();
-        window.Attach();
+        window.ShowAttached();
         window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
         window.Scope.GetService<DashboardViewModel>().OpenDialogCommand.Execute("search");
     }
