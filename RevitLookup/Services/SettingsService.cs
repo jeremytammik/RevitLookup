@@ -91,7 +91,7 @@ public sealed class SettingsService : ISettingsService
         get => _settings.IsModifyTabAllowed;
         set => _settings.IsModifyTabAllowed = value;
     }
-    
+
     public bool IsDebugTabAllowed
     {
         get => _settings.IsDebugTabAllowed;

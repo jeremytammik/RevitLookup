@@ -35,6 +35,19 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
         Name = category.Name;
     }
 
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register("GetElements", _category, extension =>
+        {
+            extension.Result = extension.Context
+#if R23_OR_GREATER
+                .GetInstances(_category.BuiltInCategory);
+#else
+                .GetInstances((BuiltInCategory) _category.Id.IntegerValue);
+#endif
+        });
+    }
+
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -52,18 +65,5 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
                 .AppendVariant(_category.GetLineWeight(GraphicsStyleType.Projection), "Projection"),
             _ => null
         };
-    }
-
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        manager.Register("GetElements", _category, extension =>
-        {
-            extension.Result = extension.Context
-#if R23_OR_GREATER
-                .GetInstances(_category.BuiltInCategory);
-#else
-                .GetInstances((BuiltInCategory) _category.Id.IntegerValue);
-#endif
-        });
     }
 }

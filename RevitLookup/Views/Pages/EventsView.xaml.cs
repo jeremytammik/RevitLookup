@@ -32,7 +32,6 @@ public sealed partial class EventsView : INavigationAware
 {
     public EventsView(IServiceProvider serviceProvider, ISettingsService settingsService) : base(settingsService)
     {
-
         ViewModel = (EventsViewModel) serviceProvider.GetService(typeof(EventsViewModel));
         DataContext = this;
         InitializeComponent();
