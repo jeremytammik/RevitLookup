@@ -41,7 +41,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             {
                 var delimiter = delimiters[i];
                 var split = row.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries);
-                if (split.Length > 1 || i == delimiters.Length - 1 || split.Length == 1 && split[0] != row)
+                if (split.Length > 1 || i == delimiters.Length - 1 || (split.Length == 1 && split[0] != row))
                 {
                     items.AddRange(split);
                     break;
@@ -51,13 +51,14 @@ public sealed partial class SearchElementsViewModel : ObservableObject
         var results = new List<Element>(items.Count);
 
         foreach (var rawId in items)
+#if R24_OR_GREATER
             if (long.TryParse(rawId, out var id))
             {
-                //TODO support revit 2024
-#if R24_OR_GREATER
                 var element = RevitApi.Document.GetElement(new ElementId(id));
 #else
-                var element = RevitApi.Document.GetElement(new ElementId((int) id));
+            if (int.TryParse(rawId, out var id))
+            {
+                var element = RevitApi.Document.GetElement(new ElementId(id));
 #endif
                 if (element is not null) results.Add(element);
             }

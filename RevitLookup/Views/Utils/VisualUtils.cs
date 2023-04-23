@@ -73,14 +73,14 @@ public static class VisualUtils
         }
 
         return null;
-    } 
-    
+    }
+
     public static TreeViewItem GetTreeViewItem(ItemsControl container, int index)
     {
         if (container == null) return null;
         if (container.Items.Count == 0) return null;
 
-        if (container is TreeViewItem {IsExpanded: false} viewItem) 
+        if (container is TreeViewItem {IsExpanded: false} viewItem)
             viewItem.SetValue(TreeViewItem.IsExpandedProperty, true);
 
         container.ApplyTemplate();
