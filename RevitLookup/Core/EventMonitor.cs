@@ -49,9 +49,9 @@ public sealed class EventMonitor
         }).Take(2).ToArray();
     }
 
-    public async Task Subscribe()
+    public void Subscribe()
     {
-        await Application.AsyncEventHandler.RaiseAsync(_ =>
+        Application.ActionEventHandler.Raise(_ =>
         {
             if (_eventInfos.Count > 0) return;
 
@@ -80,9 +80,9 @@ public sealed class EventMonitor
         });
     }
 
-    public async Task Unsubscribe()
+    public void Unsubscribe()
     {
-        await Application.AsyncEventHandler.RaiseAsync(_ =>
+        Application.ActionEventHandler.Raise(_ =>
         {
             foreach (var eventInfo in _eventInfos)
             {

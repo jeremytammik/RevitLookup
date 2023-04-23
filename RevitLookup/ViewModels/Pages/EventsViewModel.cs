@@ -42,14 +42,14 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
         _eventMonitor = new EventMonitor(OnHandlingEvent);
     }
 
-    public async void OnNavigatedTo()
+    public void OnNavigatedTo()
     {
-        await _eventMonitor.Subscribe();
+        _eventMonitor.Subscribe();
     }
 
-    public async void OnNavigatedFrom()
+    public void OnNavigatedFrom()
     {
-        await _eventMonitor.Unsubscribe();
+        _eventMonitor.Unsubscribe();
     }
 
     public override async Task Snoop(SnoopableType snoopableType)

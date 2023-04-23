@@ -34,7 +34,7 @@ namespace RevitLookup;
 [UsedImplicitly]
 public class Application : ExternalApplication
 {
-    public static AsyncEventHandler AsyncEventHandler { get; private set; }
+    public static ActionEventHandler ActionEventHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<SnoopableObject>> ExternalElementHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<Descriptor>> ExternalDescriptorHandler { get; private set; }
 
@@ -59,7 +59,7 @@ public class Application : ExternalApplication
 
     private static void RegisterHandlers()
     {
-        AsyncEventHandler = new AsyncEventHandler();
+        ActionEventHandler = new ActionEventHandler();
         ExternalElementHandler = new AsyncEventHandler<IReadOnlyCollection<SnoopableObject>>();
         ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyCollection<Descriptor>>();
     }
