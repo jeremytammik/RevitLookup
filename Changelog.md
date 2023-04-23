@@ -19,6 +19,7 @@ Dumps are saved in the same folder as Revit journals:
 
 * Added Workset support
 * Added WorksetTable support
+* Added Document.GetUnusedElements support
 
 ## Bugs
 
