@@ -39,6 +39,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private bool _isExtensionsAllowed;
     [ObservableProperty] private bool _isHardwareRenderingAllowed;
     [ObservableProperty] private bool _isModifyTabAllowed;
+    [ObservableProperty] private bool _isDebugTabAllowed;
     [ObservableProperty] private bool _isSmoothEnabled;
     [ObservableProperty] private bool _isUnsupportedAllowed;
     [ObservableProperty] private ThemeType _theme;
@@ -54,6 +55,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         _isUnsupportedAllowed = settingsService.IsUnsupportedAllowed;
         _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
         _isModifyTabAllowed = settingsService.IsModifyTabAllowed;
+        _isDebugTabAllowed = settingsService.IsDebugTabAllowed;
         _isHardwareRenderingAllowed = settingsService.IsHardwareRenderingAllowed;
     }
 
@@ -102,6 +104,12 @@ public sealed partial class SettingsViewModel : ObservableObject
     {
         _settingsService.IsModifyTabAllowed = value;
         RibbonController.ReloadPanels(_settingsService);
+    }
+    
+    partial void OnIsDebugTabAllowedChanged(bool value)
+    {
+        _settingsService.IsDebugTabAllowed = value;
+        RibbonController.ReloadDebugTab(_settingsService);
     }
 
     partial void OnIsHardwareRenderingAllowedChanged(bool value)

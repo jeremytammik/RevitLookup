@@ -21,12 +21,18 @@
 using System.Reflection;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
+using RevitLookup.Core;
+using UIFramework;
+using UIFrameworkServices;
 using RibbonButton = Autodesk.Windows.RibbonButton;
 using RibbonItem = Autodesk.Revit.UI.RibbonItem;
 using RibbonPanel = Autodesk.Windows.RibbonPanel;
 
 namespace RevitLookup.Utils;
 
+/// <summary>
+///     The tools use reflection. Need to analyse changes when moving to a new API version
+/// </summary>
 public static class RibbonUtils
 {
     public static PushButton AddPushButton<TCommand>(this RibbonPanel internalPanel, string buttonText) where TCommand : IExternalCommand, new()
@@ -59,5 +65,42 @@ public static class RibbonUtils
 
         tab.Panels.Add(panel);
         return panel;
+    }
+
+    public static void RemovePanel(string id, string panelName)
+    {
+        ComponentManager.Ribbon.FindItem(id, false, out var panel, out var tab, true);
+        if (panel is null) return;
+
+        //Remove panel
+        tab.Panels.Remove(panel);
+
+        //Remove internal history.
+        //RibbonItemDictionary used to block RibbonItem re-creation
+        var uiApplicationType = typeof(UIApplication);
+        var ribbonItemsProperty = uiApplicationType.GetProperty("RibbonItemDictionary", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
+        var ribbonItems = (Dictionary<string, Dictionary<string, Autodesk.Revit.UI.RibbonPanel>>) ribbonItemsProperty.GetValue(RevitApi.UiApplication);
+        if (ribbonItems.TryGetValue(tab.Id, out var tabItem)) tabItem.Remove(panelName);
+    }
+
+    public static void ReloadShortcuts()
+    {
+        //Slow shortcut reloading
+        //ShortcutsHelper.ReloadCommands();
+
+        //Fast shortcut reloading
+        var type = typeof(ShortcutsHelper);
+        var methodInfo = type.GetMethod("LoadRibbonCommands", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
+        methodInfo.Invoke(null, new object[] {DocUIType.Model});
+    }
+
+    [PublicAPI]
+    private static void TestPrivateMembers()
+    {
+        // Uncomment to check the existence of members 
+        // nameof(RibbonItem.m_RibbonItem);
+        // nameof(PushButtonData.createPushButton);
+        // nameof(UIApplication.RibbonItemDictionary);
+        // nameof(ShortcutsHelper.LoadRibbonCommands);
     }
 }

@@ -77,13 +77,6 @@
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsHardwareRenderingAllowed}" />
                 </rl:CardControl>
-                <rl:CardControl
-                    Header="Show interaction panel in a Modify tab"
-                    Icon="PanelRightCursor24"
-                    Margin="0,8,0,0">
-                    <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
-                </rl:CardControl>
             </StackPanel>
             <TextBlock
                 FontSize="16"
@@ -106,6 +99,28 @@
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsUnsupportedAllowed, 
                         Converter={converters:InverseBooleanConverter}}" />
+                </rl:CardControl>
+            </StackPanel>
+            <TextBlock
+                FontSize="16"
+                FontWeight="Medium"
+                Text="Ribbon"
+                Margin="0,17,0,0" />
+            <StackPanel
+                Margin="0,8,0,0">
+                <rl:CardControl
+                    Header="Show interaction panel in a Modify tab"
+                    Icon="PanelRightCursor24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Show Debug tab"
+                    Icon="Bug24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsDebugTabAllowed}" />
                 </rl:CardControl>
             </StackPanel>
         </VirtualizingStackPanel>

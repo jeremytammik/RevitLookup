@@ -31,6 +31,7 @@ public interface ISettingsService
     bool IsExtensionsAllowed { get; set; }
     bool IsUnsupportedAllowed { get; set; }
     bool IsModifyTabAllowed { get; set; }
+    bool IsDebugTabAllowed { get; set; }
     bool IsHardwareRenderingAllowed { get; set; }
     int ApplyTransition(bool value);
     void Save();
