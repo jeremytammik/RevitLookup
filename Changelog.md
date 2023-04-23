@@ -2,6 +2,19 @@
 
 # 2023-04-18 **2024.0.3**
 
+## Breaking changes
+
+* Added option to enable Debug tab
+
+There are many different commands that allow you to configure the hidden features of Revit, create model dumps, and gain an even deeper understanding of how the software works
+
+Debug tab is part of Revit. RevitLookup allows you to activate it. Therefore, crashes and issues related to this tab will not be attended to
+
+Dumps are saved in the same folder as Revit journals: 
+`%LOCALAPPDATA%\Autodesk\Revit\Autodesk Revit 2024\Journals`
+
+![image](https://user-images.githubusercontent.com/20504884/233837648-22564ace-13c0-4d2a-b8c8-07bdbf3c09c4.png)
+
 ## Improvements
 
 * Added Workset support
