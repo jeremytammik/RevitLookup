@@ -41,6 +41,9 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
         {
             nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
             nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
+#if R24_OR_GREATER
+            nameof(Document.GetUnusedElements) => ResolveSet.Append(context.GetUnusedElements(new HashSet<ElementId>())),
+#endif
             _ => null
         };
 
