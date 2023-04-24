@@ -75,7 +75,7 @@ public static class RibbonController
 
         var modifyTab = ComponentManager.Ribbon.FindTab("Modify");
         var modifyPanel = modifyTab.CreatePanel(PanelName);
-        return modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
+        return modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop \nSelection");
     }
 
     public static void ReloadPanels(ISettingsService settingsService)
