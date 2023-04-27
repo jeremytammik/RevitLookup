@@ -115,7 +115,7 @@
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
                 </rl:CardControl>
-                <!-- Hidden by Autodesk request https://github.com/jeremytammik/RevitLookup/issues/161 -->
+                <!-- Disabled by Autodesk request https://github.com/jeremytammik/RevitLookup/issues/161 -->
                 <!-- <rl:CardControl -->
                 <!--     Header="Show Debug tab" -->
                 <!--     Icon="Bug24" -->

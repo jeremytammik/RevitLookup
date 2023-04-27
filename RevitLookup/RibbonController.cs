@@ -62,7 +62,8 @@ public static class RibbonController
         searchButton.SetDefaultImage();
         monitorButton.SetDefaultImage();
 
-        ReloadDebugTab(settingsService);
+        // Disabled by Autodesk request https://github.com/jeremytammik/RevitLookup/issues/161
+        // ReloadDebugTab(settingsService);
     }
 
     private static void SetDefaultImage(this RibbonButton button)

@@ -1,5 +1,9 @@
 # Changelog
 
+# 2023-04-18 **2024.0.4**
+
+Debug tab removed due to Autodesk complaint https://github.com/jeremytammik/RevitLookup/issues/161
+
 # 2023-04-18 **2024.0.3**
 
 ## Breaking changes
