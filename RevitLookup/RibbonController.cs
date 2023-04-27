@@ -24,7 +24,6 @@ using RevitLookup.Commands;
 using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;
-using RibbonButton = Autodesk.Revit.UI.RibbonButton;
 
 namespace RevitLookup;
 
@@ -35,47 +34,37 @@ public static class RibbonController
     public static void CreatePanel(UIControlledApplication application, ISettingsService settingsService)
     {
         var addinPanel = application.CreatePanel("Revit Lookup");
-        var splitButton = addinPanel.AddSplitButton("RevitLookupSplitButton", "RevitLookup");
+        var pullButton = addinPanel.AddPullDownButton("RevitLookupPullButton", "RevitLookup");
+        pullButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        pullButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
-        var dashboardButton = splitButton.AddPushButton<DashboardCommand>("Dashboard");
-        var selectionButton = ResolveSelectionButton(settingsService, splitButton);
-        var viewButton = splitButton.AddPushButton<SnoopViewCommand>("Snoop Active view");
-        var documentButton = splitButton.AddPushButton<SnoopDocumentCommand>("Snoop Document");
-        var databaseButton = splitButton.AddPushButton<SnoopDatabaseCommand>("Snoop Database");
-        var faceButton = splitButton.AddPushButton<SnoopFaceCommand>("Snoop Face");
-        var edgeButton = splitButton.AddPushButton<SnoopEdgeCommand>("Snoop Edge");
-        var pointButton = splitButton.AddPushButton<SnoopPointCommand>("Snoop Point");
-        var linkedButton = splitButton.AddPushButton<SnoopLinkedElementCommand>("Snoop Linked element");
-        var searchButton = splitButton.AddPushButton<SearchElementsCommand>("Search Elements");
-        var monitorButton = splitButton.AddPushButton<EventMonitorCommand>("Event monitor");
-
-        dashboardButton.SetDefaultImage();
-        selectionButton.SetDefaultImage();
-        viewButton.SetDefaultImage();
-        documentButton.SetDefaultImage();
-        databaseButton.SetDefaultImage();
-        faceButton.SetDefaultImage();
-        edgeButton.SetDefaultImage();
-        pointButton.SetDefaultImage();
-        linkedButton.SetDefaultImage();
-        searchButton.SetDefaultImage();
-        monitorButton.SetDefaultImage();
+        pullButton.AddPushButton<DashboardCommand>("Dashboard");
+        ResolveSelectionButton(settingsService, pullButton);
+        pullButton.AddPushButton<SnoopViewCommand>("Snoop Active view");
+        pullButton.AddPushButton<SnoopDocumentCommand>("Snoop Document");
+        pullButton.AddPushButton<SnoopDatabaseCommand>("Snoop Database");
+        pullButton.AddPushButton<SnoopFaceCommand>("Snoop Face");
+        pullButton.AddPushButton<SnoopEdgeCommand>("Snoop Edge");
+        pullButton.AddPushButton<SnoopPointCommand>("Snoop Point");
+        pullButton.AddPushButton<SnoopLinkedElementCommand>("Snoop Linked element");
+        pullButton.AddPushButton<SearchElementsCommand>("Search Elements");
+        pullButton.AddPushButton<EventMonitorCommand>("Event monitor");
     }
 
-    private static void SetDefaultImage(this RibbonButton button)
-    {
-        button.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        button.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-    }
-
-    private static PushButton ResolveSelectionButton(ISettingsService settingsService, PulldownButton splitButton)
+    private static void ResolveSelectionButton(ISettingsService settingsService, PulldownButton splitButton)
     {
         if (!settingsService.IsModifyTabAllowed)
-            return splitButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection");
+        {
+            splitButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection");
+            return;
+        }
 
         var modifyTab = ComponentManager.Ribbon.FindTab("Modify");
         var modifyPanel = modifyTab.CreatePanel(PanelName);
-        return modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop \nSelection");
+
+        var button = modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop\nSelection");
+        button.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        button.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
     }
 
     public static void ReloadPanels(ISettingsService settingsService)
