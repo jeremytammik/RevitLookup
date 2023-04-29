@@ -34,7 +34,7 @@ public static class RibbonController
     public static void CreatePanel(UIControlledApplication application, ISettingsService settingsService)
     {
         var addinPanel = application.CreatePanel("Revit Lookup");
-        var pullButton = addinPanel.AddPullDownButton("RevitLookupPullButton", "RevitLookup");
+        var pullButton = addinPanel.AddPullDownButton("RevitLookupButton", "RevitLookup");
         pullButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         pullButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
 
@@ -51,11 +51,11 @@ public static class RibbonController
         pullButton.AddPushButton<EventMonitorCommand>("Event monitor");
     }
 
-    private static void ResolveSelectionButton(ISettingsService settingsService, PulldownButton splitButton)
+    private static void ResolveSelectionButton(ISettingsService settingsService, PulldownButton parentButton)
     {
         if (!settingsService.IsModifyTabAllowed)
         {
-            splitButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection");
+            parentButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection");
             return;
         }
 
@@ -72,7 +72,7 @@ public static class RibbonController
         //Synchronising the execution context
         Application.ActionEventHandler.Raise(_ =>
         {
-            RibbonUtils.RemovePanel("CustomCtrl_%CustomCtrl_%Add-Ins%Revit Lookup%RevitLookupSplitButton", PanelName);
+            RibbonUtils.RemovePanel("CustomCtrl_%CustomCtrl_%Add-Ins%Revit Lookup%RevitLookupButton", PanelName);
             RibbonUtils.RemovePanel("CustomCtrl_%Revit Lookup%RevitLookup.Commands.SnoopSelectionCommand", PanelName);
 
             var controlledApplication = RevitApi.CreateUiControlledApplication();

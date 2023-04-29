@@ -1,19 +1,12 @@
 # Changelog
 
-# 2023-04-18 **2024.0.3**
+# next **2024.0.5**
 
-## Breaking changes
+# 2023-04-27 **2024.0.4**
 
-* Added option to enable Debug tab
+Critical security patch
 
-There are many different commands that allow you to configure the hidden features of Revit, create model dumps, and gain an even deeper understanding of how the software works
-
-Debug tab is part of Revit. RevitLookup allows you to activate it. Therefore, crashes and issues related to this tab will not be attended to
-
-Dumps are saved in the same folder as Revit journals: 
-`%LOCALAPPDATA%\Autodesk\Revit\Autodesk Revit 2024\Journals`
-
-![image](https://user-images.githubusercontent.com/20504884/233837648-22564ace-13c0-4d2a-b8c8-07bdbf3c09c4.png)
+# 2023-04-24 **2024.0.3**
 
 ## Improvements
 
@@ -34,8 +27,6 @@ Dumps are saved in the same folder as Revit journals:
   Accent colour sync with OS now only available in Windows 11 and above. Many thanks to [Aleksey Negus](https://t.me/a_negus) for testing builds
 
 # 2023-04-14 **2024.0.1**
-
-## Breaking changes
 
 * Added option to enable hardware acceleration (experimental)
 
