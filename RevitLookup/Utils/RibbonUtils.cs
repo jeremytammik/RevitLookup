@@ -40,7 +40,7 @@ public static class RibbonUtils
         var buttonField = buttonType.GetField("m_RibbonItem", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)!;
 
         var button = (PushButton) createMethod.Invoke(null, new object[] {pushButtonData, false, internalPanel.Source.Id});
-        var internalButton= (RibbonButton) buttonField.GetValue(button);
+        var internalButton = (RibbonButton) buttonField.GetValue(button);
 
         internalPanel.Source.Items.Add(internalButton);
         return button;
@@ -52,7 +52,7 @@ public static class RibbonUtils
         {
             Source = new RibbonPanelSource
             {
-                Id = $"ID_{panelName}",
+                Id = panelName,
                 Title = panelName
             }
         };

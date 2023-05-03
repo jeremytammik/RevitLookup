@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
@@ -30,4 +31,14 @@ public static class RevitApi
     public static UIDocument UiDocument => UiApplication.ActiveUIDocument;
     public static Document Document => UiApplication.ActiveUIDocument.Document;
     public static View ActiveView => UiApplication.ActiveUIDocument.ActiveView;
+
+    public static UIControlledApplication CreateUiControlledApplication()
+    {
+        return (UIControlledApplication) Activator.CreateInstance(
+            typeof(UIControlledApplication),
+            BindingFlags.Instance | BindingFlags.NonPublic,
+            null,
+            new object[] {UiApplication},
+            null);
+    }
 }
