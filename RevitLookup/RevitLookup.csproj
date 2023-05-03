@@ -93,7 +93,7 @@
             <!--<AddinItem Include="$(TargetDir)$(AssemblyName).*" />-->
         </ItemGroup>
         <PropertyGroup>
-            <RootDir>bin\AddIn $(RevitVersion) $(Configuration)\</RootDir>
+            <RootDir>bin\Publish $(RevitVersion) $(Configuration)\</RootDir>
             <AddinDir>$(RootDir)$(AssemblyName)\</AddinDir>
         </PropertyGroup>
         <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)"/>

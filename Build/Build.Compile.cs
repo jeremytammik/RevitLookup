@@ -6,7 +6,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 partial class Build
 {
     Target Compile => _ => _
-        .TriggeredBy(Cleaning)
+        .TriggeredBy(Clean)
         .Executes(() =>
         {
             foreach (var configuration in GlobBuildConfigurations())
@@ -40,7 +40,7 @@ partial class Build
             .ToList();
 
         if (configurations.Count == 0)
-            throw new Exception($"The solution's configurations cannot be found using the specified patterns: {string.Join(" | ", Configurations)}");
+            throw new Exception($"No solution configurations have been found. Pattern: {string.Join(" | ", Configurations)}");
 
         return configurations;
     }

@@ -1,50 +1,43 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Text.RegularExpressions;
-using JetBrains.Annotations;
+using System.Text;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Serilog;
 using Serilog.Events;
-using Logger = Serilog.Core.Logger;
 
 partial class Build
 {
-    [GeneratedRegex("'(.+?)'", RegexOptions.Compiled)]
-    private static partial Regex StreamRegexGenerator();
-
-    readonly Regex StreamRegex = StreamRegexGenerator();
-
     Target CreateInstaller => _ => _
         .TriggeredBy(Compile)
         .OnlyWhenStatic(() => IsLocalBuild || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
-            var exeFilePattern = $"*{Solution.Installer.Name}.exe";
-            var exeFile = Directory.EnumerateFiles(Solution.Installer.Directory, exeFilePattern, SearchOption.AllDirectories).First();
-
-            var buildDirectories = Configurations
-                .Select(config => $"* {config}*")
-                .SelectMany(pattern => Directory.EnumerateDirectories(Solution.RevitLookup.Directory, pattern, SearchOption.AllDirectories))
-                .ToList();
-
-            if (buildDirectories.Count == 0)
-                throw new Exception($"No files match the specified pattern to create an installer: {string.Join(",", Configurations)}");
-
-            foreach (var buildDirectory in buildDirectories)
+            foreach (var (installer, project) in InstallersMap)
             {
-                var proc = new Process();
-                proc.StartInfo.FileName = exeFile;
-                proc.StartInfo.Arguments = $@"""{buildDirectory}""";
-                proc.StartInfo.RedirectStandardOutput = true;
-                proc.StartInfo.RedirectStandardError = true;
-                proc.Start();
+                Log.Information("Project: {Name}", project.Name);
 
-                RedirectStream(proc.StandardOutput, LogEventLevel.Information);
-                RedirectStream(proc.StandardError, LogEventLevel.Error);
+                var exePattern = $"*{installer.Name}.exe";
+                var exeFile = Directory.EnumerateFiles(installer.Directory, exePattern, SearchOption.AllDirectories).First();
 
-                proc.WaitForExit();
-                if (proc.ExitCode != 0) throw new Exception($"The installer creation failed with ExitCode {proc.ExitCode}");
+                var publishDirectories = Directory.GetDirectories(project.Directory, "Publish*", SearchOption.AllDirectories);
+                if (publishDirectories.Length == 0) throw new Exception("No files were found to create an installer");
+
+                foreach (var publishDirectory in publishDirectories)
+                {
+                    var proc = new Process();
+                    proc.StartInfo.FileName = exeFile;
+                    proc.StartInfo.Arguments = $@"""{publishDirectory}""";
+                    proc.StartInfo.RedirectStandardOutput = true;
+                    proc.StartInfo.RedirectStandardError = true;
+                    proc.Start();
+
+                    RedirectStream(proc.StandardOutput, LogEventLevel.Information);
+                    RedirectStream(proc.StandardError, LogEventLevel.Error);
+
+                    proc.WaitForExit();
+                    if (proc.ExitCode != 0) throw new Exception($"The installer creation failed with ExitCode {proc.ExitCode}");
+                }
             }
         });
 

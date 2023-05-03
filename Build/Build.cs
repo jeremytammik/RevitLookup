@@ -1,11 +1,18 @@
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.ProjectModel;
+using Nuke.Common.Tools.GitVersion;
 
 partial class Build : NukeBuild
 {
-    [GitRepository] readonly GitRepository GitRepository;
-    [Solution(GenerateProjects = true)] readonly Solution Solution;
+    string[] Configurations;
+    Dictionary<Project, Project> InstallersMap;
+    Dictionary<string, string> VersionMap;
 
-    public static int Main() => Execute<Build>(x => x.Cleaning);
+    [Parameter] string GitHubToken;
+    [GitRepository] readonly GitRepository GitRepository;
+    [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
+    [Solution(GenerateProjects = true)] Solution Solution;
+
+    public static int Main() => Execute<Build>(x => x.Clean);
 }

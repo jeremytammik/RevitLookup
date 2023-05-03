@@ -1,28 +1,19 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Nuke.Common;
+using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
-using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
-using Nuke.Common.Tools.GitVersion;
 using Octokit;
 using Serilog;
 
 partial class Build
 {
-    [GeneratedRegex(@"(\d+\.)+\d+", RegexOptions.Compiled)]
-    private static partial Regex VersionRegexGenerator();
-
-    readonly Regex VersionRegex = VersionRegexGenerator();
-    [Parameter] string GitHubToken { get; set; }
-    [GitVersion(NoFetch = true)] readonly GitVersion GitVersion;
-
-    Target PublishGitHubRelease => _ => _
-        .TriggeredBy(CreateInstaller)
+    Target Publish => _ => _
         .Requires(() => GitHubToken)
         .Requires(() => GitRepository)
         .Requires(() => GitVersion)
-        .OnlyWhenStatic(() => GitRepository.IsOnMasterBranch() && IsServerBuild)
+        .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() && IsServerBuild)
         .Executes(async () =>
         {
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(Solution.Name))
@@ -43,7 +34,6 @@ partial class Build
                 Name = version,
                 Body = CreateChangelog(version),
                 Draft = true,
-                // Prerelease = true,
                 TargetCommitish = GitVersion.Sha
             };
 

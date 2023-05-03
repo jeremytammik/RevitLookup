@@ -3,7 +3,7 @@ using static Nuke.Common.IO.FileSystemTasks;
 
 partial class Build
 {
-    Target Cleaning => _ => _
+    Target Clean => _ => _
         .OnlyWhenStatic(() => IsLocalBuild)
         .Executes(() =>
         {

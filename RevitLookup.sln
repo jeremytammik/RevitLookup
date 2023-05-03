@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 		Changelog.md = Changelog.md
 		Contributing.md = Contributing.md
-		Build\Build.Properties.cs = Build\Build.Properties.cs
+		Build\Build.Configuration.cs = Build\Build.Configuration.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RevitLookup.UI", "RevitLookup.UI\RevitLookup.UI.csproj", "{CE5C104B-D76E-49DA-8BD6-BF472224AEC0}"
