@@ -56,6 +56,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Reference Include="System.Net.Http"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
         <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
         <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*-*"/>
@@ -69,10 +73,6 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Reference Include="System.Net.Http"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -90,7 +90,6 @@
         <ItemGroup>
             <RootItem Include="$(ProjectDir)*.addin"/>
             <AddinItem Include="$(TargetDir)*"/>
-            <!--<AddinItem Include="$(TargetDir)$(AssemblyName).*" />-->
         </ItemGroup>
         <PropertyGroup>
             <RootDir>bin\Publish $(RevitVersion) $(Configuration)\</RootDir>
