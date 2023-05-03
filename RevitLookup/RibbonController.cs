@@ -18,17 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using RevitLookup.Commands;
 using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;
-using UIFramework;
-using UIFrameworkServices;
 using RibbonButton = Autodesk.Revit.UI.RibbonButton;
-using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
 
 namespace RevitLookup;
 
@@ -66,6 +62,12 @@ public static class RibbonController
         monitorButton.SetDefaultImage();
     }
 
+    private static void SetDefaultImage(this RibbonButton button)
+    {
+        button.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
+        button.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
+    }
+
     private static PushButton ResolveSelectionButton(ISettingsService settingsService, PulldownButton splitButton)
     {
         if (!settingsService.IsModifyTabAllowed)
@@ -76,50 +78,18 @@ public static class RibbonController
         return modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop\nselection");
     }
 
-    private static void SetDefaultImage(this RibbonButton eventMonitorButton)
-    {
-        eventMonitorButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
-        eventMonitorButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-    }
-
     public static void ReloadPanels(ISettingsService settingsService)
     {
         //Synchronising the execution context
-        Application.AsyncEventHandler.RaiseAsync(_ =>
+        Application.ActionEventHandler.Raise(_ =>
         {
-            RemovePanel("CustomCtrl_%CustomCtrl_%Add-Ins%Revit Lookup%RevitLookupSplitButton");
-            RemovePanel("CustomCtrl_%Revit Lookup%RevitLookup.Commands.SnoopSelectionCommand");
+            RibbonUtils.RemovePanel("CustomCtrl_%CustomCtrl_%Add-Ins%Revit Lookup%RevitLookupSplitButton", PanelName);
+            RibbonUtils.RemovePanel("CustomCtrl_%Revit Lookup%RevitLookup.Commands.SnoopSelectionCommand", PanelName);
 
             var controlledApplication = RevitApi.CreateUiControlledApplication();
             CreatePanel(controlledApplication, settingsService);
 
-            ReloadShortcuts();
+            RibbonUtils.ReloadShortcuts();
         });
-    }
-
-    private static void RemovePanel(string id)
-    {
-        ComponentManager.Ribbon.FindItem(id, false, out var panel, out var tab, true);
-        if (panel is null) return;
-
-        //Remove panel
-        tab.Panels.Remove(panel);
-
-        //Remove internal history
-        var uiApplicationType = typeof(UIApplication);
-        var ribbonItemsProperty = uiApplicationType.GetProperty("RibbonItemDictionary", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
-        var ribbonItems = (Dictionary<string, Dictionary<string, RibbonPanel>>) ribbonItemsProperty.GetValue(RevitApi.UiApplication);
-        if (ribbonItems.TryGetValue(tab.Id, out var tabItem)) tabItem.Remove(PanelName);
-    }
-
-    private static void ReloadShortcuts()
-    {
-        //Fast shortcut reloading
-        var type = typeof(ShortcutsHelper);
-        var methodInfo = type.GetMethod("LoadRibbonCommands", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
-        methodInfo.Invoke(null, new object[] {DocUIType.Model});
-
-        //Slow shortcut reloading
-        //ShortcutsHelper.ReloadCommands();
     }
 }
