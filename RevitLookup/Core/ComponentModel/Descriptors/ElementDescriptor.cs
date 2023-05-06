@@ -73,7 +73,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             nameof(Element.GetDependentElements) => ResolveSet.Append(_element.GetDependentElements(null)),
             nameof(Element.GetMaterialIds) => ResolveSet
                 .Append(_element.GetMaterialIds(true), "Paint materials")
-                .AppendVariant(_element.GetMaterialIds(true), "Geometry and compound structure materials"),
+                .AppendVariant(_element.GetMaterialIds(false), "Geometry and compound structure materials"),
             "BoundingBox" => ResolveSet
                 .Append(_element.get_BoundingBox(null), "Model")
                 .AppendVariant(_element.get_BoundingBox(RevitApi.ActiveView), "Active view"),
