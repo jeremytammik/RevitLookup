@@ -39,6 +39,8 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
 
     public MenuItem[] RegisterMenu()
     {
+        if (_element is ElementType) return Array.Empty<MenuItem>();
+
         return new[]
         {
             MenuItem.Create("Show element")
