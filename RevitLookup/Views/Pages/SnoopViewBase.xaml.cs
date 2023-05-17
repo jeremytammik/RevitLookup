@@ -203,12 +203,24 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 
     private void CreateGridTooltip(Descriptor descriptor, FrameworkElement row)
     {
-        var builder = new StringBuilder()
-            .Append(descriptor.MemberType switch
+        var builder = new StringBuilder();
+
+        if ((descriptor.MemberAttributes & MemberAttributes.Private) != 0)
+        {
+            builder.Append("Private ");
+        }
+
+        if ((descriptor.MemberAttributes & MemberAttributes.Static) != 0)
+        {
+            builder.Append("Static ");
+        }
+
+        builder.Append(descriptor.MemberType switch
             {
                 MemberType.Property => "Property: ",
                 MemberType.Extension => "Extension: ",
-                _ => "Method: "
+                MemberType.Method => "Method: ",
+                _ => throw new ArgumentOutOfRangeException()
             })
             .AppendLine(descriptor.Name)
             .Append("Type: ")

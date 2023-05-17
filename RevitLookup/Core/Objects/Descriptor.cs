@@ -29,6 +29,7 @@ public abstract class Descriptor : IComparable<Descriptor>, IComparable
     public string Name { get; set; }
     public string Description { get; set; }
     public MemberType MemberType { get; set; }
+    public MemberAttributes MemberAttributes { get; set; }
     public SnoopableObject Value { get; set; }
 
     public int CompareTo(object obj)

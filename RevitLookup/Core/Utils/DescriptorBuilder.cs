@@ -70,8 +70,8 @@ public sealed class DescriptorBuilder
             //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
             _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
 
-            AddProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            AddMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            AddProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly);
+            AddMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly);
         }
 
         AddEnumerableItems();
@@ -240,18 +240,45 @@ public sealed class DescriptorBuilder
 
     private ObjectDescriptor CreateDescriptor(MemberInfo member, object value, ParameterInfo[] parameters)
     {
-        return new ObjectDescriptor
+        var descriptor = new ObjectDescriptor
         {
             TypeFullName = member.ReflectedType!.FullName,
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             Name = EvaluateDescriptorName(member, parameters),
             Value = EvaluateDescriptorValue(member, value),
-            MemberType = member switch
-            {
-                PropertyInfo => MemberType.Property,
-                _ => MemberType.Method
-            }
         };
+
+        switch (member)
+        {
+            case PropertyInfo info:
+                descriptor.MemberType = MemberType.Property;
+                if (!info.CanRead) break;
+
+                SetAttributes(info.CanRead ? info.GetMethod.Attributes : info.SetMethod.Attributes);
+                break;
+            case MethodInfo info:
+                descriptor.MemberType = MemberType.Method;
+                SetAttributes(info.Attributes);
+                break;
+            default:
+                descriptor.MemberType = MemberType.Method;
+                break;
+        }
+
+        void SetAttributes(MethodAttributes attributes)
+        {
+            if ((attributes & MethodAttributes.Static) != 0)
+            {
+                descriptor.MemberAttributes |= MemberAttributes.Static;
+            }
+
+            if ((attributes & MethodAttributes.Private) != 0)
+            {
+                descriptor.MemberAttributes |= MemberAttributes.Private;
+            }
+        }
+
+        return descriptor;
     }
 
     private SnoopableObject EvaluateDescriptorValue(MemberInfo member, object value)
