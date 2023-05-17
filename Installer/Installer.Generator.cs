@@ -29,7 +29,7 @@ namespace Installer;
 
 public static class Generator
 {
-    public static WixEntity[] GenerateWixEntities(string[] args, string dllVersion)
+    public static WixEntity[] GenerateWixEntities(string[] args, Version version)
     {
         var entities = new List<WixEntity>();
         foreach (var directory in args)
@@ -37,7 +37,7 @@ public static class Generator
             var queue = new Queue<string>();
             queue.Enqueue(directory);
 
-            Console.WriteLine($"Installer files for version '{dllVersion}':");
+            Console.WriteLine($"Installer files for version '{version}':");
             while (queue.Count > 0)
             {
                 var currentPath = queue.Dequeue();

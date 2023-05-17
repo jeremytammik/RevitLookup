@@ -20,23 +20,12 @@ partial class Build
             }
         });
 
-    List<string> GlobBuildConfigurations()
+    IEnumerable<string> GlobBuildConfigurations()
     {
         var configurations = Solution.Configurations
             .Select(pair => pair.Key)
-            .Select(config =>
-            {
-                var platformIndex = config.LastIndexOf('|');
-                return config.Remove(platformIndex);
-            })
-            .Where(config =>
-            {
-                foreach (var wildcard in Configurations)
-                    if (FileSystemName.MatchesSimpleExpression(wildcard, config))
-                        return true;
-
-                return false;
-            })
+            .Select(config => config.Remove(config.LastIndexOf('|')))
+            .Where(config => Configurations.Any(wildcard => FileSystemName.MatchesSimpleExpression(wildcard, config)))
             .ToList();
 
         if (configurations.Count == 0)
