@@ -28,30 +28,27 @@ namespace Installer;
 [StructLayout(LayoutKind.Auto)]
 public struct Versions
 {
-    public string InstallerVersion { get; set; }
-    public string AssemblyVersion { get; set; }
-    public string RevitVersion { get; set; }
+    public Version InstallerVersion { get; set; }
+    public Version AssemblyVersion { get; set; }
+    public int RevitVersion { get; set; }
 }
 
 public static class Tools
 {
     public static Versions ComputeVersions(string[] args)
     {
-        var versions = new Versions();
         foreach (var directory in args)
         {
             var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
             if (assemblies.Length == 0) continue;
-            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assemblies[0]);
-            var versionGroups = fileVersionInfo.ProductVersion.Split('.');
-            if (versionGroups.Length > 3) Array.Resize(ref versionGroups, 3);
-            var majorVersion = versionGroups[0];
-            if (int.Parse(majorVersion) > 255) versionGroups[0] = majorVersion.Substring(majorVersion.Length - 2);
 
-            versions.RevitVersion = majorVersion;
-            versions.InstallerVersion = string.Join(".", versionGroups);
-            versions.AssemblyVersion = fileVersionInfo.ProductVersion;
-            return versions;
+            var version = new Version(FileVersionInfo.GetVersionInfo(assemblies[0]).ProductVersion);
+            return new Versions
+            {
+                AssemblyVersion = version,
+                RevitVersion = version.Major,
+                InstallerVersion = version.Major > 255 ? new Version(version.Major % 100, version.Minor, version.Build) : version
+            };
         }
 
         throw new Exception("RevitLookup.dll file could not be found");

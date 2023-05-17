@@ -1,7 +1,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Nuke.Common;
-using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Git;
 using Nuke.Common.Tools.GitHub;
 using Octokit;
@@ -10,6 +9,7 @@ using Serilog;
 partial class Build
 {
     Target Publish => _ => _
+        .TriggeredBy(CreateInstaller)
         .Requires(() => GitHubToken)
         .Requires(() => GitRepository)
         .Requires(() => GitVersion)

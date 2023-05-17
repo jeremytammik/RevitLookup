@@ -113,8 +113,7 @@ public sealed partial class App
         _revitPath = path;
 
         return Directory.EnumerateFiles(_revitPath, $"{assemblyName.Name}.dll")
-            .Select(enumerateFile => new FileInfo(enumerateFile))
-            .Select(fileInfo => Assembly.LoadFile(fileInfo.FullName))
-            .FirstOrDefault();
+            .Select(Assembly.LoadFile)
+            .First();
     }
 }
