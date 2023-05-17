@@ -156,8 +156,7 @@ public sealed partial class DashboardViewModel : ObservableObject
 
     private bool Validate()
     {
-        //TODO MOQ data skip validation
-        // return true;
+        if (RevitApi.UiApplication is null) return true;
         if (RevitApi.UiDocument is not null) return true;
 
         _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);
