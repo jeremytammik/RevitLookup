@@ -2,6 +2,37 @@
 
 # next **2024.0.5**
 
+## Features
+
+* Static members support
+
+    For example, RevitLookup now supports the display of these and other properties and methods:
+    ```c#
+    Category.GetCategory();
+    Document.GetDocumentVersion()
+    UIDocument.GetRevitUIFamilyLoadOptions()
+    Application.MinimumThickness
+    ```
+
+    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/1712cf55-2451-4ed8-8487-20c5ab973278)
+
+* Ribbon update
+
+    SplitButton replaced by PullDownButton. Thank for voting https://github.com/jeremytammik/RevitLookup/discussions/159
+
+    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/b6819f3b-5670-45ad-9353-1dabf9d3b512)
+
+## Improvements
+
+* Added DefinitionGroup support
+* Added Element.GetMaterialArea support
+* Added Element.GetMaterialVolume support
+* "Show element" is no longer available for ElementType
+
+## Bugs
+
+* Fixed issue when GetMaterialIds method didn't return nonPaint materials https://github.com/jeremytammik/RevitLookup/issues/163
+
 # 2023-04-27 **2024.0.4**
 
 Critical security patch
