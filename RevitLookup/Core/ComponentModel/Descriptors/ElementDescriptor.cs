@@ -79,8 +79,8 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             "BoundingBox" => ResolveSet
                 .Append(_element.get_BoundingBox(null), "Model")
                 .AppendVariant(_element.get_BoundingBox(RevitApi.ActiveView), "Active view"),
-            "Geometry" => ResolveSet
-                .Append(_element.get_Geometry(new Options
+            "Geometry" => new ResolveSet(10)
+                .AppendVariant(_element.get_Geometry(new Options
                 {
                     View = RevitApi.ActiveView,
                     ComputeReferences = true
@@ -135,9 +135,51 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
                 }), "Model, undefined detail level, including non-visible objects"),
+            nameof(Element.GetMaterialArea) => ResolveGetMaterialArea(),
+            nameof(Element.GetMaterialVolume) => ResolveGetMaterialVolume(),
             nameof(Element.GetEntity) => ResolveGetEntity(),
             _ => null
         };
+
+        ResolveSet ResolveGetMaterialArea()
+        {
+            var geometryMaterials = _element.GetMaterialIds(false);
+            var paintMaterials = _element.GetMaterialIds(true);
+
+            var capacity = geometryMaterials.Count + paintMaterials.Count;
+            var resolveSummary = new ResolveSet(capacity);
+            if (capacity == 0) return resolveSummary;
+
+            foreach (var materialId in geometryMaterials)
+            {
+                var area = _element.GetMaterialArea(materialId, false);
+                resolveSummary.AppendVariant(new KeyValuePair<ElementId, double>(materialId, area));
+            }
+
+            foreach (var materialId in paintMaterials)
+            {
+                var area = _element.GetMaterialArea(materialId, true);
+                resolveSummary.AppendVariant(new KeyValuePair<ElementId, double>(materialId, area));
+            }
+
+            return resolveSummary;
+        }
+
+        ResolveSet ResolveGetMaterialVolume()
+        {
+            var geometryMaterials = _element.GetMaterialIds(false);
+
+            var resolveSummary = new ResolveSet(geometryMaterials.Count);
+            if (geometryMaterials.Count == 0) return resolveSummary;
+
+            foreach (var materialId in geometryMaterials)
+            {
+                var area = _element.GetMaterialVolume(materialId);
+                resolveSummary.AppendVariant(new KeyValuePair<ElementId, double>(materialId, area));
+            }
+
+            return resolveSummary;
+        }
 
         ResolveSet ResolveGetEntity()
         {
