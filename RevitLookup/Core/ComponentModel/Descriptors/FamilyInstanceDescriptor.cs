@@ -38,8 +38,8 @@ public sealed class FamilyInstanceDescriptor : ElementDescriptor, IDescriptorRes
     {
         return target switch
         {
-            nameof(FamilyInstance.GetReferences) => ResolveSet
-                .Append(_familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
+            nameof(FamilyInstance.GetReferences) => new ResolveSet(11)
+                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
                 .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
                 .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
                 .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
@@ -51,7 +51,43 @@ public sealed class FamilyInstanceDescriptor : ElementDescriptor, IDescriptorRes
                 .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
                 .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
                 .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference"),
+            "Room" when parameters.Length == 1 => ResolveGetRoom(),
+            "FromRoom" when parameters.Length == 1 => ResolveFromRoom(),
+            "ToRoom" when parameters.Length == 1 => ResolveToRoom(),
             _ => null
         };
+
+        ResolveSet ResolveGetRoom()
+        {
+            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
+            foreach (Phase phase in _familyInstance.Document.Phases)
+            {
+                resolveSummary.AppendVariant(_familyInstance.get_Room(phase), phase.Name);
+            }
+
+            return resolveSummary;
+        }
+
+        ResolveSet ResolveFromRoom()
+        {
+            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
+            foreach (Phase phase in _familyInstance.Document.Phases)
+            {
+                resolveSummary.AppendVariant(_familyInstance.get_FromRoom(phase), phase.Name);
+            }
+
+            return resolveSummary;
+        }
+
+        ResolveSet ResolveToRoom()
+        {
+            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
+            foreach (Phase phase in _familyInstance.Document.Phases)
+            {
+                resolveSummary.AppendVariant(_familyInstance.get_ToRoom(phase), phase.Name);
+            }
+
+            return resolveSummary;
+        }
     }
 }
