@@ -27,6 +27,9 @@
 * Added DefinitionGroup support
 * Added Element.GetMaterialArea support
 * Added Element.GetMaterialVolume support
+* Added FamilyInstance.get_Room support
+* Added FamilyInstance.get_ToRoom support
+* Added FamilyInstance.get_FromRoom support
 * "Show element" is no longer available for ElementType
 
 ## Bugs
