@@ -34,10 +34,8 @@ public class DashboardCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var processRenderMode = RenderOptions.ProcessRenderMode;
         RevitLookup.Application.Invoke(() =>
         {
-            var processRenderMode2 = RenderOptions.ProcessRenderMode;
             var window = Host.GetService<IWindow>();
             window.ShowAttached();
             window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
