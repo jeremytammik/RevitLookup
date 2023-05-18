@@ -245,7 +245,7 @@ public sealed class DescriptorBuilder
             TypeFullName = member.ReflectedType!.FullName,
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             Name = EvaluateDescriptorName(member, parameters),
-            Value = EvaluateDescriptorValue(member, value),
+            Value = EvaluateDescriptorValue(member, value)
         };
 
         switch (member)
@@ -267,15 +267,8 @@ public sealed class DescriptorBuilder
 
         void SetAttributes(MethodAttributes attributes)
         {
-            if ((attributes & MethodAttributes.Static) != 0)
-            {
-                descriptor.MemberAttributes |= MemberAttributes.Static;
-            }
-
-            if ((attributes & MethodAttributes.Private) != 0)
-            {
-                descriptor.MemberAttributes |= MemberAttributes.Private;
-            }
+            if ((attributes & MethodAttributes.Static) != 0) descriptor.MemberAttributes |= MemberAttributes.Static;
+            if ((attributes & MethodAttributes.Private) != 0) descriptor.MemberAttributes |= MemberAttributes.Private;
         }
 
         return descriptor;

@@ -68,7 +68,7 @@ public static class SearchEngine
                     };
 
                 //Display unfiltered data if object greater than 1 or single object
-                if (objectsCount > 1 || (objectsCount == 1 && model.SnoopableObjects.Count > 1))
+                if (objectsCount > 1 || objectsCount == 1 && model.SnoopableObjects.Count > 1)
                     return new SearchResults
                     {
                         Objects = filteredObjects,
@@ -87,7 +87,7 @@ public static class SearchEngine
                 var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
 
                 //Display unfiltered data if object greater than 1 or single object
-                if (filteredObjects.Count > 1 || (filteredObjects.Count == 1 && model.SnoopableObjects.Count > 1))
+                if (filteredObjects.Count > 1 || filteredObjects.Count == 1 && model.SnoopableObjects.Count > 1)
                     return new SearchResults
                     {
                         Data = model.SnoopableData
@@ -131,7 +131,8 @@ public static class SearchEngine
         foreach (var item in data)
             if (item.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
                 filteredSnoopableObjects.Add(item);
-            else if (item.Descriptor.Type.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableObjects.Add(item);
+            else if (item.Descriptor.Type.Contains(query, StringComparison.OrdinalIgnoreCase))
+                filteredSnoopableObjects.Add(item);
 
         return filteredSnoopableObjects;
     }
@@ -144,7 +145,8 @@ public static class SearchEngine
         var filteredSnoopableData = new List<Descriptor>();
         foreach (var item in data)
             if (item.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableData.Add(item);
-            else if (item.Value.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableData.Add(item);
+            else if (item.Value.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+                filteredSnoopableData.Add(item);
 
         return filteredSnoopableData;
     }
