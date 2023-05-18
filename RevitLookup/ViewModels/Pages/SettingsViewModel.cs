@@ -18,8 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Interop;
-using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui.Appearance;
@@ -106,7 +104,8 @@ public sealed partial class SettingsViewModel : ObservableObject
 
     partial void OnIsHardwareRenderingAllowedChanged(bool value)
     {
-        _settingsService.IsModifyTabAllowed = value;
-        RenderOptions.ProcessRenderMode = value ? RenderMode.Default : RenderMode.SoftwareOnly;
+        _settingsService.IsHardwareRenderingAllowed = value;
+        if (value) Application.RunDispatcher(_settingsService);
+        else Application.TerminateDispatcher(_settingsService);
     }
 }

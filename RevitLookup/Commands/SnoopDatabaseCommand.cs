@@ -32,8 +32,11 @@ public class SnoopDatabaseCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<IWindow>();
-        window.Initialize();
-        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
+        RevitLookup.Application.Invoke(() =>
+        {
+            var window = Host.GetService<IWindow>();
+            window.Initialize();
+            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
+        });
     }
 }

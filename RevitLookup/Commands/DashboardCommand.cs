@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows.Media;
 using Autodesk.Revit.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
@@ -33,8 +34,13 @@ public class DashboardCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<IWindow>();
-        window.ShowAttached();
-        window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
+        var processRenderMode = RenderOptions.ProcessRenderMode;
+        RevitLookup.Application.Invoke(() =>
+        {
+            var processRenderMode2 = RenderOptions.ProcessRenderMode;
+            var window = Host.GetService<IWindow>();
+            window.ShowAttached();
+            window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
+        });
     }
 }
