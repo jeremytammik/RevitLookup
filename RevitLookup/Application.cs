@@ -82,22 +82,25 @@ public class Application : ExternalApplication
         if (!settingsService.IsHardwareRenderingAllowed) return;
         if (_thread is not null) return;
 
-        RenderOptions.ProcessRenderMode = RenderMode.Default;
-
         _thread = new Thread(Dispatcher.Run);
         _thread.SetApartmentState(ApartmentState.STA);
         _thread.Start();
+
+        //Revit overrides render mode during initialization
+        //EventHandler is called after initialisation
+        ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
     }
 
     public static void TerminateDispatcher(ISettingsService settingsService)
     {
         if (settingsService.IsHardwareRenderingAllowed) return;
+        if (_thread is null) return;
         if (!_thread.IsAlive) return;
-
-        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
         Dispatcher.FromThread(_thread)!.InvokeShutdown();
         _thread = null;
+
+        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
     }
 
     public static void Invoke(Action action)
