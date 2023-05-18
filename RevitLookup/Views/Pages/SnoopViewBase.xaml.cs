@@ -205,15 +205,8 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     {
         var builder = new StringBuilder();
 
-        if ((descriptor.MemberAttributes & MemberAttributes.Private) != 0)
-        {
-            builder.Append("Private ");
-        }
-
-        if ((descriptor.MemberAttributes & MemberAttributes.Static) != 0)
-        {
-            builder.Append("Static ");
-        }
+        if ((descriptor.MemberAttributes & MemberAttributes.Private) != 0) builder.Append("Private ");
+        if ((descriptor.MemberAttributes & MemberAttributes.Static) != 0) builder.Append("Static ");
 
         builder.Append(descriptor.MemberType switch
             {
