@@ -32,8 +32,11 @@ public class SnoopPointCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<IWindow>();
-        window.Initialize();
-        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Point);
+        RevitLookup.Application.Invoke(() =>
+        {
+            var window = Host.GetService<IWindow>();
+            window.Initialize();
+            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Point);
+        });
     }
 }

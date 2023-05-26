@@ -36,7 +36,7 @@ internal sealed class Settings
 {
     public ThemeType Theme { get; set; } = ThemeType.Light;
     public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
-    public int TransitionDuration { get; set; } // = SettingsService.DefaultTransitionDuration;
+    public int TransitionDuration { get; set; } = SettingsService.DefaultTransitionDuration;
     public bool IsExtensionsAllowed { get; set; }
     public bool IsUnsupportedAllowed { get; set; }
     public bool IsModifyTabAllowed { get; set; }
@@ -45,7 +45,7 @@ internal sealed class Settings
 
 public sealed class SettingsService : ISettingsService
 {
-    private const int DefaultTransitionDuration = 200;
+    public const int DefaultTransitionDuration = 200;
     private readonly Settings _settings;
     private readonly string _settingsFile;
 
