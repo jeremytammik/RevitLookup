@@ -32,7 +32,7 @@ public class SnoopPointCommand : ExternalCommand
 {
     public override void Execute()
     {
-        RevitLookup.Application.Invoke(() =>
+        RevitLookup.Application.Raise(() =>
         {
             var window = Host.GetService<IWindow>();
             window.Initialize();

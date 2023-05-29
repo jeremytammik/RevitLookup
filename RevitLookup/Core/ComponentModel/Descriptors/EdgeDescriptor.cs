@@ -45,11 +45,14 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
             MenuItem.Create("Show edge")
                 .AddCommand(_edge, edge =>
                 {
-                    if (RevitApi.UiDocument is null) return;
-                    if (edge.Reference is null) return;
-                    var element = edge.Reference.ElementId.ToElement(RevitApi.Document);
-                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
+                    Application.ActionEventHandler.Raise(_ =>
+                    {
+                        if (RevitApi.UiDocument is null) return;
+                        if (edge.Reference is null) return;
+                        var element = edge.Reference.ElementId.ToElement(RevitApi.Document);
+                        if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                        RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
+                    });
                 })
                 .AddGesture(ModifierKeys.Alt, Key.F7)
         };

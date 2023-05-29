@@ -48,7 +48,8 @@ public class Application : ExternalApplication
 
         var settingsService = Host.GetService<ISettingsService>();
         RibbonController.CreatePanel(Application, settingsService);
-        RunDispatcher(settingsService);
+        RunDispatcher();
+        EnableHardwareRendering(settingsService);
     }
 
     public override async void OnShutdown()
@@ -77,11 +78,8 @@ public class Application : ExternalApplication
         settingsService.Save();
     }
 
-    public static void RunDispatcher(ISettingsService settingsService)
+    private static void RunDispatcher()
     {
-        if (!settingsService.IsHardwareRenderingAllowed) return;
-        if (_thread is not null) return;
-
         _thread = new Thread(Dispatcher.Run);
         _thread.SetApartmentState(ApartmentState.STA);
         _thread.Start();
@@ -91,21 +89,23 @@ public class Application : ExternalApplication
         ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
     }
 
-    public static void TerminateDispatcher(ISettingsService settingsService)
+    public static void EnableHardwareRendering(ISettingsService settingsService)
+    {
+        if (!settingsService.IsHardwareRenderingAllowed) return;
+
+        //Revit overrides render mode during initialization
+        //EventHandler is called after initialisation
+        ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
+    }
+
+    public static void DisableHardwareRendering(ISettingsService settingsService)
     {
         if (settingsService.IsHardwareRenderingAllowed) return;
-        if (_thread is null) return;
-        if (!_thread.IsAlive) return;
-
-        Dispatcher.FromThread(_thread)!.InvokeShutdown();
-        _thread = null;
-
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
     }
 
-    public static void Invoke(Action action)
+    public static void Raise(Action action)
     {
-        if (_thread is null) action.Invoke();
-        else Dispatcher.FromThread(_thread)!.Invoke(action);
+        Dispatcher.FromThread(_thread)!.Invoke(action);
     }
 }

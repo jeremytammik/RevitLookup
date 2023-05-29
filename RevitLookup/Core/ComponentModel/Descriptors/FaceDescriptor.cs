@@ -44,11 +44,14 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
             MenuItem.Create("Show face")
                 .AddCommand(_face, face =>
                 {
-                    if (RevitApi.UiDocument is null) return;
-                    if (face.Reference is null) return;
-                    var element = face.Reference.ElementId.ToElement(RevitApi.Document);
-                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {face.Reference});
+                    Application.ActionEventHandler.Raise(_ =>
+                    {
+                        if (RevitApi.UiDocument is null) return;
+                        if (face.Reference is null) return;
+                        var element = face.Reference.ElementId.ToElement(RevitApi.Document);
+                        if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                        RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {face.Reference});
+                    });
                 })
                 .AddGesture(ModifierKeys.Alt, Key.F7)
         };

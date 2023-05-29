@@ -105,7 +105,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnIsHardwareRenderingAllowedChanged(bool value)
     {
         _settingsService.IsHardwareRenderingAllowed = value;
-        if (value) Application.RunDispatcher(_settingsService);
-        else Application.TerminateDispatcher(_settingsService);
+        if (value) Application.EnableHardwareRendering(_settingsService);
+        else Application.DisableHardwareRendering(_settingsService);
     }
 }
