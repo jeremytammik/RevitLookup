@@ -18,9 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Data;
 using System.Windows.Input;
-using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using Wpf.Ui.Appearance;
@@ -35,14 +33,11 @@ public sealed partial class SnoopView : INavigationAware
         ViewModel = (ISnoopViewModel) serviceProvider.GetService(typeof(ISnoopService));
         DataContext = this;
         InitializeComponent();
-        TreeViewControl = TreeView;
+
         DataGridControl = DataGrid;
+        TreeViewControl = TreeView;
 
         Theme.Apply(this, settingsService.Theme, settingsService.Background);
-
-        //Clear shapingStorage for remove duplications. WpfBug?
-        DataGrid.Items.GroupDescriptions!.Clear();
-        DataGrid.Items.GroupDescriptions!.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
 
         Loaded += OnTreeSourceChanged;
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;

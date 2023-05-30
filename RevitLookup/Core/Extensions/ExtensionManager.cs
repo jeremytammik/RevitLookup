@@ -52,7 +52,8 @@ public sealed class ExtensionManager : IExtensionManager
         {
             Name = name,
             Type = _descriptor.Type,
-            MemberType = MemberType.Extension
+            MemberAttributes = MemberAttributes.Extension,
+            Deep = _descriptor.Deep
         };
 
         try
@@ -74,7 +75,8 @@ public sealed class ExtensionManager : IExtensionManager
         {
             Name = name,
             Type = _descriptor.Type,
-            MemberType = MemberType.Extension
+            MemberAttributes = MemberAttributes.Extension,
+            Deep = _descriptor.Deep
         };
 
         try

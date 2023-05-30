@@ -18,9 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
@@ -32,16 +34,17 @@ using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
 using Wpf.Ui.Controls.Navigation;
-using static System.Windows.Controls.Primitives.GeneratorStatus;
+using DataGrid = Wpf.Ui.Controls.DataGrid;
 using MenuItem = RevitLookup.Core.Objects.MenuItem;
+using TreeView = Wpf.Ui.Controls.TreeView;
 
 namespace RevitLookup.Views.Pages;
 
 public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 {
     private readonly ISettingsService _settingsService;
+    private readonly DataGrid _dataGridControl;
     private bool _isUpdatingResults;
-    private int _scrollTick;
 
     protected SnoopViewBase(ISettingsService settingsService)
     {
@@ -50,8 +53,33 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     }
 
     protected TreeView TreeViewControl { get; init; }
-    protected DataGrid DataGridControl { get; init; }
+
+    protected DataGrid DataGridControl
+    {
+        get => _dataGridControl;
+        init
+        {
+            _dataGridControl = value;
+            OnDataGridChanged(value);
+        }
+    }
+
     public ISnoopViewModel ViewModel { get; init; }
+
+    private static void OnDataGridChanged(DataGrid control)
+    {
+        control.ItemsSourceChanged += (sender, _) =>
+        {
+            var dataGrid = (DataGrid) sender;
+
+            //Clear shapingStorage for remove duplications. WpfBug?
+            dataGrid.Items.GroupDescriptions!.Clear();
+            dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Deep), ListSortDirection.Descending));
+            dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.MemberAttributes), ListSortDirection.Ascending));
+            dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Name), ListSortDirection.Ascending));
+            dataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
+        };
+    }
 
     /// <summary>
     ///     Expand treeView
@@ -106,7 +134,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         void OnItemContainerGeneratorOnStatusChanged(object statusSender, EventArgs __)
         {
             var generator = (ItemContainerGenerator) statusSender;
-            if (generator.Status != ContainersGenerated) return;
+            if (generator.Status != GeneratorStatus.ContainersGenerated) return;
 
             generator.StatusChanged -= OnItemContainerGeneratorOnStatusChanged;
 
@@ -138,24 +166,6 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     {
         if (DataGridControl.SelectedItems.Count != 1) return;
         ViewModel.Navigate((Descriptor) DataGridControl.SelectedItem);
-    }
-
-    /// <summary>
-    ///     Disable tooltips while scrolling
-    /// </summary>
-    protected void OnDataGridScrollChanged(object sender, ScrollChangedEventArgs e)
-    {
-        if (e.VerticalChange != 0) _scrollTick = Environment.TickCount;
-    }
-
-    /// <summary>
-    ///     Disable tooltips while scrolling
-    /// </summary>
-    private void OnGridToolTipOpening(object o, ToolTipEventArgs args)
-    {
-        //Fixed by the tooltip work in 6.0-preview7 https://github.com/dotnet/wpf/pull/6058 but we use net48
-
-        if (_scrollTick != 0 && Environment.TickCount - _scrollTick < 73) args.Handled = true;
     }
 
     /// <summary>
@@ -197,8 +207,6 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
                 .Append(descriptor.Name)
                 .ToString()
         };
-
-        row.ToolTipOpening += OnGridToolTipOpening;
     }
 
     private void CreateGridTooltip(Descriptor descriptor, FrameworkElement row)
@@ -207,15 +215,11 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 
         if ((descriptor.MemberAttributes & MemberAttributes.Private) != 0) builder.Append("Private ");
         if ((descriptor.MemberAttributes & MemberAttributes.Static) != 0) builder.Append("Static ");
+        if ((descriptor.MemberAttributes & MemberAttributes.Property) != 0) builder.Append("Property: ");
+        if ((descriptor.MemberAttributes & MemberAttributes.Extension) != 0) builder.Append("Extension: ");
+        if ((descriptor.MemberAttributes & MemberAttributes.Method) != 0) builder.Append("Method: ");
 
-        builder.Append(descriptor.MemberType switch
-            {
-                MemberType.Property => "Property: ",
-                MemberType.Extension => "Extension: ",
-                MemberType.Method => "Method: ",
-                _ => throw new ArgumentOutOfRangeException()
-            })
-            .AppendLine(descriptor.Name)
+        builder.AppendLine(descriptor.Name)
             .Append("Type: ")
             .AppendLine(descriptor.Value.Descriptor.Type)
             .Append("Value: ")
@@ -230,8 +234,6 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         {
             Content = builder.ToString()
         };
-
-        row.ToolTipOpening += OnGridToolTipOpening;
     }
 
     private void CreateTreeContextMenu(Descriptor descriptor, FrameworkElement row)
