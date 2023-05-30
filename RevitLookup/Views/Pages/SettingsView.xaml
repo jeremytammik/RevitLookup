@@ -22,6 +22,8 @@
     </Page.Resources>
     <rl:DynamicScrollViewer>
         <VirtualizingStackPanel
+            IsVirtualizing="True"
+            VirtualizationMode="Recycling"
             Margin="12">
             <TextBlock
                 FontSize="16"
