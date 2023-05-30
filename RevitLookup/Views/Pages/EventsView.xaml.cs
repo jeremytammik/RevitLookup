@@ -18,9 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Data;
 using System.Windows.Input;
-using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
 using Wpf.Ui.Appearance;
@@ -39,10 +37,6 @@ public sealed partial class EventsView : INavigationAware
         DataGridControl = DataGrid;
 
         Theme.Apply(this, settingsService.Theme, settingsService.Background);
-
-        //Clear shapingStorage for remove duplications. WpfBug?
-        DataGrid.Items.GroupDescriptions!.Clear();
-        DataGrid.Items.GroupDescriptions!.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
 
         ViewModel.SearchResultsChanged += OnSearchResultsChanged;
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;

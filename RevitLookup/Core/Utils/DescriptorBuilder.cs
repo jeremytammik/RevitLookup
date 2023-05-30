@@ -36,6 +36,7 @@ public sealed class DescriptorBuilder
     private readonly SnoopableObject _snoopableObject;
     [CanBeNull] private Descriptor _currentDescriptor;
     private Type _type;
+    private int _deep;
 
     public DescriptorBuilder(SnoopableObject snoopableObject)
     {
@@ -65,16 +66,20 @@ public sealed class DescriptorBuilder
 
         for (var i = types.Count - 1; i >= 0; i--)
         {
+            _deep = i;
             _type = types[i];
 
             //Finding a descriptor to analyze IDescriptorResolver and IDescriptorExtension interfaces
             _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_snoopableObject.Object, _type);
+            if (_currentDescriptor is not null) _currentDescriptor.Deep = _deep;
 
             AddProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly);
             AddMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly);
         }
-
+        
+        _deep--;
         AddEnumerableItems();
+
         return _descriptors;
     }
 
@@ -111,7 +116,7 @@ public sealed class DescriptorBuilder
             descriptors.Add(descriptor);
         }
 
-        ApplyGroupCollector(descriptors);
+        _descriptors.AddRange(descriptors);
     }
 
     private void AddMethods(BindingFlags bindingFlags)
@@ -139,7 +144,7 @@ public sealed class DescriptorBuilder
         }
 
         AddExtensions(descriptors);
-        ApplyGroupCollector(descriptors);
+        _descriptors.AddRange(descriptors);
     }
 
     private void AddExtensions(List<Descriptor> descriptors)
@@ -163,7 +168,9 @@ public sealed class DescriptorBuilder
             var enumerableDescriptor = new ObjectDescriptor
             {
                 Type = nameof(IEnumerable),
-                Value = new SnoopableObject(_snoopableObject.Context, enumerator)
+                Value = new SnoopableObject(_snoopableObject.Context, enumerator),
+                MemberAttributes = MemberAttributes.Property,
+                Deep = _deep
             };
 
             SnoopUtils.Redirect(enumerableDescriptor.Value);
@@ -232,12 +239,6 @@ public sealed class DescriptorBuilder
         return true;
     }
 
-    private void ApplyGroupCollector(List<Descriptor> descriptors)
-    {
-        descriptors.Sort();
-        _descriptors.AddRange(descriptors);
-    }
-
     private ObjectDescriptor CreateDescriptor(MemberInfo member, object value, ParameterInfo[] parameters)
     {
         var descriptor = new ObjectDescriptor
@@ -245,24 +246,24 @@ public sealed class DescriptorBuilder
             TypeFullName = member.ReflectedType!.FullName,
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             Name = EvaluateDescriptorName(member, parameters),
-            Value = EvaluateDescriptorValue(member, value)
+            Value = EvaluateDescriptorValue(member, value),
+            Deep = _deep
         };
 
         switch (member)
         {
             case PropertyInfo info:
-                descriptor.MemberType = MemberType.Property;
+                descriptor.MemberAttributes |= MemberAttributes.Property;
                 if (!info.CanRead) break;
 
                 SetAttributes(info.CanRead ? info.GetMethod.Attributes : info.SetMethod.Attributes);
                 break;
             case MethodInfo info:
-                descriptor.MemberType = MemberType.Method;
+                descriptor.MemberAttributes |= MemberAttributes.Method;
                 SetAttributes(info.Attributes);
                 break;
             default:
-                descriptor.MemberType = MemberType.Method;
-                break;
+                throw new ArgumentOutOfRangeException(nameof(member));
         }
 
         void SetAttributes(MethodAttributes attributes)
