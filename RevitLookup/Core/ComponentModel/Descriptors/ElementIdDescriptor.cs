@@ -40,7 +40,11 @@ public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirection
         if (target == nameof(Element.Id)) return false;
         if (_elementId == ElementId.InvalidElementId) return false;
 
+#if R24_OR_GREATER
         if (_elementId.Value is > -3000000 and < -2000000)
+#else
+        if (_elementId.IntegerValue is > -3000000 and < -2000000)
+#endif
         {
             var element = Category.GetCategory(context, _elementId);
             if (element is null) return false;
