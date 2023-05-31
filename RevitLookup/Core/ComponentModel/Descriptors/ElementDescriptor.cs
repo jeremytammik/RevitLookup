@@ -59,12 +59,14 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
 
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(nameof(ElementExtensions.CanBeMirrored), _element, extension =>
+        manager.Register(_element, extension =>
         {
+            extension.Name = nameof(ElementExtensions.CanBeMirrored);
             extension.Result = extension.Value.CanBeMirrored();
         });
-        manager.Register(nameof(GeometryExtensions.GetJoinedElements), _element, extension =>
+        manager.Register(_element, extension =>
         {
+            extension.Name = nameof(GeometryExtensions.GetJoinedElements);
             extension.Result = extension.Value.GetJoinedElements();
         });
     }

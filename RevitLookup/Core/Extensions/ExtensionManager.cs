@@ -19,28 +19,22 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Enums;
-using RevitLookup.Core.Objects;
-using RevitLookup.Core.Utils;
 
 namespace RevitLookup.Core.Extensions;
 
 public sealed class ExtensionManager : IExtensionManager
 {
     private readonly Document _context;
-    private readonly Descriptor _descriptor;
 
-    public ExtensionManager(Document context, Descriptor descriptor)
+    public ExtensionManager(Document context)
     {
         _context = context;
-        _descriptor = descriptor;
     }
 
-    public List<Descriptor> Descriptors { get; } = new();
+    public Dictionary<string, object> ValuesMap { get; } = new();
 
-    public void Register<T>(string name, T value, Action<DescriptorExtension<T>> extension)
+    public void Register<T>(T value, Action<DescriptorExtension<T>> extension)
     {
         var descriptorExtension = new DescriptorExtension<T>
         {
@@ -48,63 +42,14 @@ public sealed class ExtensionManager : IExtensionManager
             Context = _context
         };
 
-        var descriptor = new ObjectDescriptor
-        {
-            Name = name,
-            Type = _descriptor.Type,
-            MemberAttributes = MemberAttributes.Extension,
-            Deep = _descriptor.Deep
-        };
-
         try
         {
             extension.Invoke(descriptorExtension);
-            descriptor.Value = EvaluateDescriptorValue(descriptorExtension.Result);
+            ValuesMap.Add(descriptorExtension.Name, descriptorExtension.Result);
         }
         catch (Exception exception)
         {
-            descriptor.Value = new SnoopableObject(_context, exception);
+            ValuesMap.Add(descriptorExtension.Name, exception);
         }
-
-        Descriptors.Add(descriptor);
-    }
-
-    public void Register(string name, Func<object> result)
-    {
-        var descriptor = new ObjectDescriptor
-        {
-            Name = name,
-            Type = _descriptor.Type,
-            MemberAttributes = MemberAttributes.Extension,
-            Deep = _descriptor.Deep
-        };
-
-        try
-        {
-            descriptor.Value = EvaluateDescriptorValue(result());
-        }
-        catch (Exception exception)
-        {
-            descriptor.Value = new SnoopableObject(_context, exception);
-        }
-
-        Descriptors.Add(descriptor);
-    }
-
-    private SnoopableObject EvaluateDescriptorValue(object value)
-    {
-        var set = value as ResolveSet;
-        var isVariants = set != null && set.Variants.Count != 1;
-        var snoopableObject = new SnoopableObject(_context, value);
-        SnoopUtils.Redirect(snoopableObject);
-
-        if (isVariants)
-        {
-            var type = set.Variants.Peek().Result.GetType();
-            snoopableObject.Descriptor.Name = DescriptorUtils.MakeGenericTypeName(type);
-            snoopableObject.Descriptor.Type = snoopableObject.Descriptor.Name;
-        }
-
-        return snoopableObject;
     }
 }

@@ -74,7 +74,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 
             //Clear shapingStorage for remove duplications. WpfBug?
             dataGrid.Items.GroupDescriptions!.Clear();
-            dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Deep), ListSortDirection.Descending));
+            dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Depth), ListSortDirection.Descending));
             dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.MemberAttributes), ListSortDirection.Ascending));
             dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Name), ListSortDirection.Ascending));
             dataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));

@@ -27,4 +27,5 @@ public sealed class DescriptorExtension<T>
     public required Document Context { get; init; }
     public required T Value { get; init; }
     public object Result { get; set; }
+    public string Name { get; set; }
 }

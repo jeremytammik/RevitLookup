@@ -18,11 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Extensions;
+using System.Collections;
 
-namespace RevitLookup.Core.Contracts;
+namespace RevitLookup.Core.Metadata;
 
-public interface IExtensionManager
+public partial class DescriptorBuilder
 {
-    void Register<T>(T value, Action<DescriptorExtension<T>> extension);
+    private void AddEnumerableItems()
+    {
+        if (_obj is not IEnumerable enumerable) return;
+
+        _type = typeof(IEnumerable);
+        var enumerator = enumerable.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            WriteDescriptor(enumerator.Current);
+        }
+    }
 }

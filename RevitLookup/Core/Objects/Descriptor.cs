@@ -24,7 +24,7 @@ namespace RevitLookup.Core.Objects;
 
 public abstract class Descriptor
 {
-    public int Deep { get; set; }
+    public int Depth { get; set; }
     public string TypeFullName { get; set; }
     public string Type { get; set; }
     public string Name { get; set; }

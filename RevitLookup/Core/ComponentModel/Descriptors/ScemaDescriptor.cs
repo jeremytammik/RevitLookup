@@ -36,8 +36,9 @@ public sealed class SchemaDescriptor : Descriptor, IDescriptorExtension
 
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register("GetElements", _schema, extension =>
+        manager.Register(_schema, extension =>
         {
+            extension.Name = "GetElements";
             extension.Result = extension.Context
                 .GetElements()
                 .WherePasses(new ExtensibleStorageFilter(extension.Value.GUID))

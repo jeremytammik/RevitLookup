@@ -20,6 +20,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
+using RevitLookup.Core.Metadata;
 using RevitLookup.Core.Utils;
 
 namespace RevitLookup.Core.Objects;
@@ -47,12 +48,12 @@ public sealed class SnoopableObject
 
     public IReadOnlyCollection<Descriptor> GetMembers()
     {
-        return _members = new DescriptorBuilder(this).Build();
+        return _members = DescriptorBuilder.Build(this);
     }
 
     public async Task<IReadOnlyCollection<Descriptor>> GetMembersAsync()
     {
-        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ => new DescriptorBuilder(this).Build());
+        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ => DescriptorBuilder.Build(this));
     }
 
     public async Task<IReadOnlyCollection<Descriptor>> GetCachedMembersAsync()
