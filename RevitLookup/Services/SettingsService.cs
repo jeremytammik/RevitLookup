@@ -36,12 +36,12 @@ internal sealed class Settings
 {
     public ThemeType Theme { get; set; } = ThemeType.Light;
     public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
-    public int TransitionDuration { get; set; } = SettingsService.DefaultTransitionDuration;
+    public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
     public bool IsHardwareRenderingAllowed { get; set; } = true;
     public bool IsModifyTabAllowed { get; set; }
     public bool IsUnsupportedAllowed { get; set; }
     public bool IsPrivateAllowed { get; set; }
-    public bool IsStaticAllowed { get; set; } = true;
+    public bool IsStaticAllowed { get; set; }
     public bool IsFieldsAllowed { get; set; }
     public bool IsEventsAllowed { get; set; }
     public bool IsExtensionsAllowed { get; set; }
