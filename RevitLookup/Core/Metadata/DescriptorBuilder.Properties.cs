@@ -28,7 +28,6 @@ public partial class DescriptorBuilder
     private void AddProperties(BindingFlags bindingFlags)
     {
         var members = _type.GetProperties(bindingFlags);
-        
         foreach (var member in members)
         {
             if (member.IsSpecialName) continue;
