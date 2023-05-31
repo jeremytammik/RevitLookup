@@ -8,36 +8,42 @@
 
 * Icons
 
-    Support for icons for properties, methods, fields, events
+  Introducing a collection of new icons for properties, methods, fields, and events, ensuring a visually appealing representation
     ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/ffbba475-e240-4928-bf02-68d8f75cbc4c)
 
 * Class fields
 
-  Support for the display a class fields
+  Introducing support for displaying class fields, enabling a comprehensive understanding of the class structure
   ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/a4304fd4-4537-4bd2-8d90-88f46137a55a)
 
 * Class events
 
-  Support for the display a class events
+  Introducing support for displaying class events, facilitating better comprehension of event-driven programming within the class
   ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/3b7ae347-e7bc-4642-89a0-99cd089f0abe)
 
 * Class private members
 
-  Support for the display a class private fields, properties, methods, events
+  Empowering developers with the ability to visualize and access class private fields, properties, methods, and events, providing a complete overview of the class implementation
   ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/4c6e4459-cf2f-4d35-9b03-fe0b259b3c9a)
 
 ### User interface
 
-* Separate UI thread
+* Enhanced Performance with Separate UI Thread
+    
+  The RevitLookup user interface now operates in a dedicated thread, independent of Revit's workload. This architectural improvement significantly enhances smoothness and responsiveness
 
-  The RevitLookup user interface now runs in a separate thread, and is independent of Revit workload. Smoothness is significantly increased
+* New Additional Setting Options
 
-* New additional setting options
+  Introducing a range of new setting options that expand customization capabilities and provide users with greater control over the tool's behavior
 
 ## Improvements
 
-* Added redirection from ElementId to Category if possible
-* Added content virtualisation to the dashboard and settings page
+* ElementId Redirection to Category
+
+  Implemented a helpful feature that automatically redirects ElementId to Category, whenever applicable. This simplifies navigation and enhances the user experience
+* Content Virtualization
+
+  Applied content virtualization to the dashboard and settings page, optimizing performance by efficiently managing large amounts of data and dynamically loading content as needed. This results in a smoother and more efficient user interaction
 
 # 2023-05-17 **2024.0.5**
 
