@@ -119,7 +119,7 @@
                 </rl:CardControl>
                 <rl:CardControl
                     Header="Show static members"
-                    Icon="Box24"
+                    Icon="ShieldGlobe24"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsStaticAllowed}" />
