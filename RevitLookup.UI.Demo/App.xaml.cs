@@ -32,6 +32,7 @@ public sealed partial class App
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
         var host = CreateHost();
         Host.StartHost(host);
+
         var window = Host.GetService<IWindow>();
         window.Show();
         window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));

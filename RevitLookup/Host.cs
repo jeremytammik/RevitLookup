@@ -89,8 +89,7 @@ public static class Host
 
     public static void StopHost()
     {
-        _host.StopAsync().GetAwaiter().GetResult();
-        _host.Dispose();
+        _host.StopAsync();
     }
 
     public static T GetService<T>() where T : class
