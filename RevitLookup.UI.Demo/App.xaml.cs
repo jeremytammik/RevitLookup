@@ -31,18 +31,18 @@ public sealed partial class App
     {
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
         var host = CreateHost();
-        await Host.StartHost(host);
+        Host.StartHost(host);
         var window = Host.GetService<IWindow>();
         window.Show();
         window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
     }
 
-    private async void OnExit(object sender, ExitEventArgs e)
+    private void OnExit(object sender, ExitEventArgs e)
     {
         var settingsService = Host.GetService<ISettingsService>();
         settingsService.Save();
 
-        await Host.StopHost();
+        Host.StopHost();
     }
 
     private static IHost CreateHost()

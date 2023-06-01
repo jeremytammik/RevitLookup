@@ -20,7 +20,7 @@ public static class Host
 {
     private static IHost _host;
 
-    public static async Task StartHost()
+    public static void StartHost()
     {
         _host = Microsoft.Extensions.Hosting.Host
             .CreateDefaultBuilder()
@@ -78,18 +78,18 @@ public static class Host
                 services.AddTransient<IWindow, RevitLookupView>();
             }).Build();
 
-        await _host.StartAsync();
+        _host.Start();
     }
 
-    public static async Task StartHost(IHost host)
+    public static void StartHost(IHost host)
     {
         _host = host;
-        await host.StartAsync();
+        host.Start();
     }
 
-    public static async Task StopHost()
+    public static void StopHost()
     {
-        await _host.StopAsync();
+        _host.StopAsync().GetAwaiter().GetResult();
         _host.Dispose();
     }
 

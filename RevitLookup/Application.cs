@@ -39,12 +39,11 @@ public class Application : ExternalApplication
     public static AsyncEventHandler<IReadOnlyCollection<SnoopableObject>> ExternalElementHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<Descriptor>> ExternalDescriptorHandler { get; private set; }
 
-    public override async void OnStartup()
+    public override void OnStartup()
     {
         RevitApi.UiApplication = UiApplication;
         RegisterHandlers();
-
-        await Host.StartHost();
+        Host.StartHost();
 
         var settingsService = Host.GetService<ISettingsService>();
         RibbonController.CreatePanel(Application, settingsService);
@@ -52,11 +51,11 @@ public class Application : ExternalApplication
         EnableHardwareRendering(settingsService);
     }
 
-    public override async void OnShutdown()
+    public override void OnShutdown()
     {
         SaveSettings();
         UpdateSoftware();
-        await Host.StopHost();
+        Host.StopHost();
     }
 
     private static void RegisterHandlers()
@@ -83,10 +82,6 @@ public class Application : ExternalApplication
         _thread = new Thread(Dispatcher.Run);
         _thread.SetApartmentState(ApartmentState.STA);
         _thread.Start();
-
-        //Revit overrides render mode during initialization
-        //EventHandler is called after initialisation
-        ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
     }
 
     public static void EnableHardwareRendering(ISettingsService settingsService)
