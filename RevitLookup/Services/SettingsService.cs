@@ -36,11 +36,15 @@ internal sealed class Settings
 {
     public ThemeType Theme { get; set; } = ThemeType.Light;
     public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
-    public int TransitionDuration { get; set; } = SettingsService.DefaultTransitionDuration;
-    public bool IsExtensionsAllowed { get; set; }
-    public bool IsUnsupportedAllowed { get; set; }
-    public bool IsModifyTabAllowed { get; set; }
+    public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
     public bool IsHardwareRenderingAllowed { get; set; } = true;
+    public bool IsModifyTabAllowed { get; set; }
+    public bool IsUnsupportedAllowed { get; set; }
+    public bool IsPrivateAllowed { get; set; }
+    public bool IsStaticAllowed { get; set; }
+    public bool IsFieldsAllowed { get; set; }
+    public bool IsEventsAllowed { get; set; }
+    public bool IsExtensionsAllowed { get; set; }
 }
 
 public sealed class SettingsService : ISettingsService
@@ -73,16 +77,10 @@ public sealed class SettingsService : ISettingsService
         private set => _settings.TransitionDuration = value;
     }
 
-    public bool IsExtensionsAllowed
+    public bool IsHardwareRenderingAllowed
     {
-        get => _settings.IsExtensionsAllowed;
-        set => _settings.IsExtensionsAllowed = value;
-    }
-
-    public bool IsUnsupportedAllowed
-    {
-        get => _settings.IsUnsupportedAllowed;
-        set => _settings.IsUnsupportedAllowed = value;
+        get => _settings.IsHardwareRenderingAllowed;
+        set => _settings.IsHardwareRenderingAllowed = value;
     }
 
     public bool IsModifyTabAllowed
@@ -91,10 +89,40 @@ public sealed class SettingsService : ISettingsService
         set => _settings.IsModifyTabAllowed = value;
     }
 
-    public bool IsHardwareRenderingAllowed
+    public bool IsUnsupportedAllowed
     {
-        get => _settings.IsHardwareRenderingAllowed;
-        set => _settings.IsHardwareRenderingAllowed = value;
+        get => _settings.IsUnsupportedAllowed;
+        set => _settings.IsUnsupportedAllowed = value;
+    }
+
+    public bool IsPrivateAllowed
+    {
+        get => _settings.IsPrivateAllowed;
+        set => _settings.IsPrivateAllowed = value;
+    }
+
+    public bool IsStaticAllowed
+    {
+        get => _settings.IsStaticAllowed;
+        set => _settings.IsStaticAllowed = value;
+    }
+
+    public bool IsFieldsAllowed
+    {
+        get => _settings.IsFieldsAllowed;
+        set => _settings.IsFieldsAllowed = value;
+    }
+
+    public bool IsEventsAllowed
+    {
+        get => _settings.IsEventsAllowed;
+        set => _settings.IsEventsAllowed = value;
+    }
+
+    public bool IsExtensionsAllowed
+    {
+        get => _settings.IsExtensionsAllowed;
+        set => _settings.IsExtensionsAllowed = value;
     }
 
     public int ApplyTransition(bool value)
@@ -126,7 +154,7 @@ public sealed class SettingsService : ISettingsService
 
         try
         {
-            var config = File.ReadAllText(_settingsFile);
+            using var config = File.OpenRead(_settingsFile);
             var jsonSerializerOptions = new JsonSerializerOptions
             {
                 Converters =
@@ -134,8 +162,8 @@ public sealed class SettingsService : ISettingsService
                     new JsonStringEnumConverter()
                 }
             };
-            var json = JsonSerializer.Deserialize<Settings>(config, jsonSerializerOptions);
-            return json;
+
+            return JsonSerializer.Deserialize<Settings>(config, jsonSerializerOptions);
         }
         catch
         {

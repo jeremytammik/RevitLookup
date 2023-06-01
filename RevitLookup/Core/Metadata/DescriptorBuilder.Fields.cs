@@ -18,16 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Core.Enums;
+using System.Reflection;
 
-[Flags]
-public enum MemberAttributes
+namespace RevitLookup.Core.Metadata;
+
+public partial class DescriptorBuilder
 {
-    Private = 0b1,
-    Static = 0b10,
-    Field = 0b100,
-    Property = 0b1000,
-    Method = 0b10000,
-    Extension = 0b100000,
-    Event = 0b1000000
+    private void AddFields(BindingFlags bindingFlags)
+    {
+        if (!_settings.IsFieldsAllowed) return;
+
+        var members = _type.GetFields(bindingFlags);
+        foreach (var member in members)
+        {
+            if (member.IsSpecialName) continue;
+            WriteDescriptor(member, member.GetValue(_obj), null);
+        }
+    }
 }

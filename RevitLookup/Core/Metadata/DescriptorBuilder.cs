@@ -122,14 +122,23 @@ public partial class DescriptorBuilder
         {
             MethodInfo info => GetModifiers(MemberAttributes.Method, info.Attributes),
             PropertyInfo info => GetModifiers(MemberAttributes.Property, info.CanRead ? info.GetMethod.Attributes : info.SetMethod.Attributes),
+            FieldInfo info => GetModifiers(MemberAttributes.Field, info.Attributes),
+            EventInfo info => GetModifiers(MemberAttributes.Event, info.AddMethod.Attributes),
             _ => throw new ArgumentOutOfRangeException(nameof(member))
         };
     }
 
-    private static MemberAttributes GetModifiers(MemberAttributes attributes, MethodAttributes propertyAttributes)
+    private static MemberAttributes GetModifiers(MemberAttributes attributes, MethodAttributes methodAttributes)
     {
-        if ((propertyAttributes & MethodAttributes.Static) != 0) attributes |= MemberAttributes.Static;
-        if ((propertyAttributes & MethodAttributes.Private) != 0) attributes |= MemberAttributes.Private;
+        if ((methodAttributes & MethodAttributes.Static) != 0) attributes |= MemberAttributes.Static;
+        if ((methodAttributes & MethodAttributes.Private) != 0) attributes |= MemberAttributes.Private;
+        return attributes;
+    }
+
+    private static MemberAttributes GetModifiers(MemberAttributes attributes, FieldAttributes fieldAttributes)
+    {
+        if ((fieldAttributes & FieldAttributes.Static) != 0) attributes |= MemberAttributes.Static;
+        if ((fieldAttributes & FieldAttributes.Private) != 0) attributes |= MemberAttributes.Private;
         return attributes;
     }
 

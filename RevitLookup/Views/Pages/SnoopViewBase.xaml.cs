@@ -218,6 +218,8 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         if ((descriptor.MemberAttributes & MemberAttributes.Property) != 0) builder.Append("Property: ");
         if ((descriptor.MemberAttributes & MemberAttributes.Extension) != 0) builder.Append("Extension: ");
         if ((descriptor.MemberAttributes & MemberAttributes.Method) != 0) builder.Append("Method: ");
+        if ((descriptor.MemberAttributes & MemberAttributes.Event) != 0) builder.Append("Event: ");
+        if ((descriptor.MemberAttributes & MemberAttributes.Field) != 0) builder.Append("Field: ");
 
         builder.AppendLine(descriptor.Name)
             .Append("Type: ")

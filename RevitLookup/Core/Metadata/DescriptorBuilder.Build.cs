@@ -59,8 +59,14 @@ public partial class DescriptorBuilder
             _type = types[i];
             _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
 
-            AddProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly);
-            AddMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly);
+            var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+            if (_settings.IsStaticAllowed) flags |= BindingFlags.Static;
+            if (_settings.IsPrivateAllowed) flags |= BindingFlags.NonPublic;
+
+            AddProperties(flags);
+            AddMethods(flags);
+            AddFields(flags);
+            AddEvents(flags);
             AddExtensions();
 
             _depth--;
@@ -75,8 +81,12 @@ public partial class DescriptorBuilder
     {
         _type = type;
 
-        AddProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
-        AddMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+        var flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
+        if (_settings.IsPrivateAllowed) flags |= BindingFlags.NonPublic;
+
+        AddProperties(flags);
+        AddMethods(flags);
+        AddFields(flags);
 
         return _descriptors;
     }

@@ -9,7 +9,7 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
-    d:DesignHeight="800"
+    d:DesignHeight="900"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SettingsView}">
     <Page.Resources>
@@ -83,17 +83,25 @@
             <TextBlock
                 FontSize="16"
                 FontWeight="Medium"
-                Text="Engine"
+                Text="Ribbon"
                 Margin="0,17,0,0" />
             <StackPanel
                 Margin="0,8,0,0">
                 <rl:CardControl
-                    Header="Extensions"
-                    Icon="PuzzlePiece24"
+                    Header="Interaction panel in a Modify tab"
+                    Icon="PanelRightCursor24"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsExtensionsAllowed}" />
+                        IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
                 </rl:CardControl>
+            </StackPanel>
+            <TextBlock
+                FontSize="16"
+                FontWeight="Medium"
+                Text="Engine"
+                Margin="0,17,0,0" />
+            <StackPanel
+                Margin="0,8,0,0">
                 <rl:CardControl
                     Header="Hide unsupported members"
                     Icon="EyeOff24"
@@ -102,20 +110,40 @@
                         IsChecked="{Binding ViewModel.IsUnsupportedAllowed, 
                         Converter={converters:InverseBooleanConverter}}" />
                 </rl:CardControl>
-            </StackPanel>
-            <TextBlock
-                FontSize="16"
-                FontWeight="Medium"
-                Text="Ribbon"
-                Margin="0,17,0,0" />
-            <StackPanel
-                Margin="0,8,0,0">
                 <rl:CardControl
-                    Header="Show interaction panel in a Modify tab"
-                    Icon="PanelRightCursor24"
+                    Header="Show private members"
+                    Icon="ShieldLock24"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
+                        IsChecked="{Binding ViewModel.IsPrivateAllowed}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Show static members"
+                    Icon="ShieldGlobe24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsStaticAllowed}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Show fields"
+                    Icon="Tag24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsFieldsAllowed}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Show events"
+                    Icon="Flash24"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsEventsAllowed}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Show extensions"
+                    Icon="CubeArrowCurveDown20"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.IsExtensionsAllowed}" />
                 </rl:CardControl>
             </StackPanel>
         </VirtualizingStackPanel>

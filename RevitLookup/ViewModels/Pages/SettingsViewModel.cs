@@ -33,13 +33,17 @@ public sealed partial class SettingsViewModel : ObservableObject
     private readonly INavigationService _navigationService;
     private readonly ISettingsService _settingsService;
     private readonly ISnackbarService _snackbarService;
+    [ObservableProperty] private ThemeType _theme;
     [ObservableProperty] private WindowBackdropType _background;
-    [ObservableProperty] private bool _isExtensionsAllowed;
+    [ObservableProperty] private bool _isSmoothEnabled;
     [ObservableProperty] private bool _isHardwareRenderingAllowed;
     [ObservableProperty] private bool _isModifyTabAllowed;
-    [ObservableProperty] private bool _isSmoothEnabled;
     [ObservableProperty] private bool _isUnsupportedAllowed;
-    [ObservableProperty] private ThemeType _theme;
+    [ObservableProperty] private bool _isPrivateAllowed;
+    [ObservableProperty] private bool _isStaticAllowed;
+    [ObservableProperty] private bool _isFieldsAllowed;
+    [ObservableProperty] private bool _isEventsAllowed;
+    [ObservableProperty] private bool _isExtensionsAllowed;
 
     public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
     {
@@ -49,10 +53,14 @@ public sealed partial class SettingsViewModel : ObservableObject
         _theme = settingsService.Theme;
         _background = settingsService.Background;
         _isSmoothEnabled = settingsService.TransitionDuration > 0;
-        _isUnsupportedAllowed = settingsService.IsUnsupportedAllowed;
-        _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
-        _isModifyTabAllowed = settingsService.IsModifyTabAllowed;
         _isHardwareRenderingAllowed = settingsService.IsHardwareRenderingAllowed;
+        _isModifyTabAllowed = settingsService.IsModifyTabAllowed;
+        _isUnsupportedAllowed = settingsService.IsUnsupportedAllowed;
+        _isPrivateAllowed = settingsService.IsPrivateAllowed;
+        _isStaticAllowed = settingsService.IsStaticAllowed;
+        _isFieldsAllowed = settingsService.IsFieldsAllowed;
+        _isEventsAllowed = settingsService.IsEventsAllowed;
+        _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
     }
 
     public List<ThemeType> Themes { get; } = new()
@@ -86,14 +94,11 @@ public sealed partial class SettingsViewModel : ObservableObject
         _navigationService.GetNavigationControl().TransitionDuration = transitionDuration;
     }
 
-    partial void OnIsUnsupportedAllowedChanged(bool value)
+    partial void OnIsHardwareRenderingAllowedChanged(bool value)
     {
-        _settingsService.IsUnsupportedAllowed = value;
-    }
-
-    partial void OnIsExtensionsAllowedChanged(bool value)
-    {
-        _settingsService.IsExtensionsAllowed = value;
+        _settingsService.IsHardwareRenderingAllowed = value;
+        if (value) Application.EnableHardwareRendering(_settingsService);
+        else Application.DisableHardwareRendering(_settingsService);
     }
 
     partial void OnIsModifyTabAllowedChanged(bool value)
@@ -102,10 +107,33 @@ public sealed partial class SettingsViewModel : ObservableObject
         RibbonController.ReloadPanels(_settingsService);
     }
 
-    partial void OnIsHardwareRenderingAllowedChanged(bool value)
+    partial void OnIsUnsupportedAllowedChanged(bool value)
     {
-        _settingsService.IsHardwareRenderingAllowed = value;
-        if (value) Application.EnableHardwareRendering(_settingsService);
-        else Application.DisableHardwareRendering(_settingsService);
+        _settingsService.IsUnsupportedAllowed = value;
+    }
+
+    partial void OnIsPrivateAllowedChanged(bool value)
+    {
+        _settingsService.IsPrivateAllowed = value;
+    }
+
+    partial void OnIsStaticAllowedChanged(bool value)
+    {
+        _settingsService.IsStaticAllowed = value;
+    }
+
+    partial void OnIsFieldsAllowedChanged(bool value)
+    {
+        _settingsService.IsFieldsAllowed = value;
+    }
+
+    partial void OnIsEventsAllowedChanged(bool value)
+    {
+        _settingsService.IsEventsAllowed = value;
+    }
+
+    partial void OnIsExtensionsAllowedChanged(bool value)
+    {
+        _settingsService.IsExtensionsAllowed = value;
     }
 }
