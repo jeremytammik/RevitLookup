@@ -40,7 +40,8 @@ public class EvaluatedParameterDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
-            nameof(EvaluatedParameter.AsValueString) => ResolveSet.Append(_evaluatedParameter.AsValueString(context)),
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 1 => ResolveSet.Append(_evaluatedParameter.AsValueString(context)),
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => ResolveSet.Append(_evaluatedParameter.AsValueString(context, new FormatOptions())),
             _ => null
         };
     }
