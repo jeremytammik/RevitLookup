@@ -47,6 +47,14 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
                 .GetInstances((BuiltInCategory) _category.Id.IntegerValue);
 #endif
         });
+#if R21 || R22
+
+        manager.Register(_category, extension =>
+        {
+            extension.Name = "BuiltInCategory";
+            extension.Result = (BuiltInCategory) extension.Value.Id.IntegerValue;
+        });
+#endif
     }
 
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
