@@ -28,22 +28,29 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public class EvaluatedParameterDescriptor : Descriptor, IDescriptorResolver
 {
-    private readonly EvaluatedParameter _evaluatedParameter;
+    private readonly EvaluatedParameter _parameter;
 
-    public EvaluatedParameterDescriptor(EvaluatedParameter evaluatedParameter)
+    public EvaluatedParameterDescriptor(EvaluatedParameter parameter)
     {
-        _evaluatedParameter = evaluatedParameter;
-        Name = evaluatedParameter.Definition.Name;
+        _parameter = parameter;
+        Name = parameter.Definition.Name;
     }
 
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 1 => ResolveSet.Append(_evaluatedParameter.AsValueString(context)),
-            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => ResolveSet.Append(_evaluatedParameter.AsValueString(context, new FormatOptions())),
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 1 => ResolveSet.Append(_parameter.AsValueString(context)),
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => ResolveAsValueStringFormat(),
             _ => null
         };
+
+        ResolveSet ResolveAsValueStringFormat()
+        {
+            var dataType = _parameter.Definition.GetDataType();
+            var options = UnitUtils.IsMeasurableSpec(dataType) ? context.GetUnits().GetFormatOptions(dataType) : new FormatOptions();
+            return ResolveSet.Append(_parameter.AsValueString(context, options));
+        }
     }
 }
 #endif
