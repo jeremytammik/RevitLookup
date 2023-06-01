@@ -41,16 +41,9 @@ public class EvaluatedParameterDescriptor : Descriptor, IDescriptorResolver
         return target switch
         {
             nameof(EvaluatedParameter.AsValueString) when parameters.Length == 1 => ResolveSet.Append(_parameter.AsValueString(context)),
-            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => ResolveAsValueStringFormat(),
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => ResolveSet.Append(_parameter.AsValueString(context, new FormatOptions())),
             _ => null
         };
-
-        ResolveSet ResolveAsValueStringFormat()
-        {
-            var dataType = _parameter.Definition.GetDataType();
-            var options = UnitUtils.IsMeasurableSpec(dataType) ? context.GetUnits().GetFormatOptions(dataType) : new FormatOptions();
-            return ResolveSet.Append(_parameter.AsValueString(context, options));
-        }
     }
 }
 #endif
