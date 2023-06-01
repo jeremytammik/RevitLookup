@@ -36,20 +36,22 @@ public sealed class HostObjectDescriptor : ElementDescriptor, IDescriptorExtensi
 
     public new void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(nameof(HostExtensions.GetBottomFaces), _hostObject, extension =>
+        manager.Register(_hostObject, extension =>
         {
+            extension.Name = nameof(HostExtensions.GetBottomFaces);
             extension.Result = extension.Value.GetBottomFaces();
         });
-        manager.Register(nameof(HostExtensions.GetTopFaces), _hostObject, extension =>
+        manager.Register(_hostObject, extension =>
         {
+            extension.Name = nameof(HostExtensions.GetTopFaces);
             extension.Result = extension.Value.GetTopFaces();
         });
-        manager.Register(nameof(HostExtensions.GetSideFaces), _hostObject, extension =>
+        manager.Register(_hostObject, extension =>
         {
-            var extensionResult = new ResolveSet(2);
-            extensionResult.AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Interior), "Interior");
-            extensionResult.AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Exterior), "Exterior");
-            extension.Result = extensionResult;
+            extension.Name = nameof(HostExtensions.GetSideFaces);
+            extension.Result = new ResolveSet(2)
+                .AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Interior), "Interior")
+                .AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Exterior), "Exterior");
         });
     }
 

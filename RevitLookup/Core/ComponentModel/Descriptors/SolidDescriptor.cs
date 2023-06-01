@@ -44,18 +44,21 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
             MenuItem.Create("Show solid")
                 .AddCommand(_solid, solid =>
                 {
-                    if (RevitApi.UiDocument is null) return;
-                    var references = solid.Faces
-                        .Cast<Face>()
-                        .Select(face => face.Reference)
-                        .Where(reference => reference is not null)
-                        .ToList();
+                    Application.ActionEventHandler.Raise(_ =>
+                    {
+                        if (RevitApi.UiDocument is null) return;
+                        var references = solid.Faces
+                            .Cast<Face>()
+                            .Select(face => face.Reference)
+                            .Where(reference => reference is not null)
+                            .ToList();
 
-                    if (references.Count == 0) return;
+                        if (references.Count == 0) return;
 
-                    var element = references[0].ElementId.ToElement(RevitApi.Document);
-                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetReferences(references);
+                        var element = references[0].ElementId.ToElement(RevitApi.Document);
+                        if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                        RevitApi.UiDocument.Selection.SetReferences(references);
+                    });
                 })
                 .AddGesture(ModifierKeys.Alt, Key.F7)
         };

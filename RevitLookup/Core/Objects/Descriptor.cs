@@ -22,29 +22,13 @@ using RevitLookup.Core.Enums;
 
 namespace RevitLookup.Core.Objects;
 
-public abstract class Descriptor : IComparable<Descriptor>, IComparable
+public abstract class Descriptor
 {
+    public int Depth { get; set; }
     public string TypeFullName { get; set; }
     public string Type { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public MemberType MemberType { get; set; }
     public MemberAttributes MemberAttributes { get; set; }
     public SnoopableObject Value { get; set; }
-
-    public int CompareTo(object obj)
-    {
-        if (ReferenceEquals(null, obj)) return 1;
-        if (ReferenceEquals(this, obj)) return 0;
-        return obj is Descriptor other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(Descriptor)}");
-    }
-
-    public int CompareTo(Descriptor other)
-    {
-        if (ReferenceEquals(this, other)) return 0;
-        if (ReferenceEquals(null, other)) return 1;
-        var typeComparison = string.Compare(Type, other.Type, StringComparison.Ordinal);
-        if (typeComparison != 0) return typeComparison;
-        return string.Compare(Name, other.Name, StringComparison.Ordinal);
-    }
 }

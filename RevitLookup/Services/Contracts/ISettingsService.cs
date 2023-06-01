@@ -28,10 +28,14 @@ public interface ISettingsService
     ThemeType Theme { get; set; }
     WindowBackdropType Background { get; set; }
     int TransitionDuration { get; }
-    bool IsExtensionsAllowed { get; set; }
-    bool IsUnsupportedAllowed { get; set; }
-    bool IsModifyTabAllowed { get; set; }
     bool IsHardwareRenderingAllowed { get; set; }
+    bool IsModifyTabAllowed { get; set; }
+    bool IsUnsupportedAllowed { get; set; }
+    bool IsPrivateAllowed { get; set; }
+    bool IsStaticAllowed { get; set; }
+    bool IsFieldsAllowed { get; set; }
+    bool IsEventsAllowed { get; set; }
+    bool IsExtensionsAllowed { get; set; }
     int ApplyTransition(bool value);
     void Save();
 }

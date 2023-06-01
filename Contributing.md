@@ -101,8 +101,9 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorExtension
 {
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(nameof(ParameterExtensions.AsBool), _parameter, extension =>
+        manager.Register(_parameter, extension =>
         {
+            extension.Name = nameof(ParameterExtensions.AsBool);
             extension.Result = extension.Value.AsBool();
         });
     }
@@ -120,13 +121,9 @@ public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirection
 {
     public bool TryRedirect(Document context, string target, out object output)
     {
-        output = null;
-        if (target == nameof(Element.Id)) return false;
-
-        var element = _elementId.ToElement(context);
+        output = _elementId.ToElement(context);
         if (element is null) return false;
 
-        output = element;
         return true;
     }
 }

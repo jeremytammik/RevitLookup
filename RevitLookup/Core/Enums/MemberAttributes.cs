@@ -23,6 +23,11 @@ namespace RevitLookup.Core.Enums;
 [Flags]
 public enum MemberAttributes
 {
-    Private = 1,
-    Static = 2
+    Private = 0b1,
+    Static = 0b10,
+    Field = 0b100,
+    Property = 0b1000,
+    Method = 0b10000,
+    Extension = 0b100000,
+    Event = 0b1000000
 }

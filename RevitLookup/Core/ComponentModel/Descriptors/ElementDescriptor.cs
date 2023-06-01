@@ -46,9 +46,12 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             MenuItem.Create("Show element")
                 .AddCommand(_element, element =>
                 {
-                    if (RevitApi.UiDocument is null) return;
-                    RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
+                    Application.ActionEventHandler.Raise(_ =>
+                    {
+                        if (RevitApi.UiDocument is null) return;
+                        RevitApi.UiDocument.ShowElements(element);
+                        RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
+                    });
                 })
                 .AddGesture(ModifierKeys.Alt, Key.F7)
         };
@@ -56,12 +59,14 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
 
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(nameof(ElementExtensions.CanBeMirrored), _element, extension =>
+        manager.Register(_element, extension =>
         {
+            extension.Name = nameof(ElementExtensions.CanBeMirrored);
             extension.Result = extension.Value.CanBeMirrored();
         });
-        manager.Register(nameof(GeometryExtensions.GetJoinedElements), _element, extension =>
+        manager.Register(_element, extension =>
         {
+            extension.Name = nameof(GeometryExtensions.GetJoinedElements);
             extension.Result = extension.Value.GetJoinedElements();
         });
     }

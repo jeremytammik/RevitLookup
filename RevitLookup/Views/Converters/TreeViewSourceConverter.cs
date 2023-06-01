@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Views.Converters;
 
@@ -34,10 +35,10 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
             Source = value
         };
 
-        viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Type", ListSortDirection.Ascending));
-        viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Name", ListSortDirection.Ascending));
-        viewSource.SortDescriptions.Add(new SortDescription("Descriptor.Description", ListSortDirection.Ascending));
-        viewSource.GroupDescriptions.Add(new PropertyGroupDescription("Descriptor.Type"));
+        viewSource.SortDescriptions.Add(new SortDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Type)}", ListSortDirection.Ascending));
+        viewSource.SortDescriptions.Add(new SortDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Name)}", ListSortDirection.Ascending));
+        viewSource.SortDescriptions.Add(new SortDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Description)}", ListSortDirection.Ascending));
+        viewSource.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Type)}"));
         return viewSource.View.Groups;
     }
 

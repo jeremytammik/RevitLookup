@@ -32,8 +32,11 @@ public class SnoopSelectionCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<IWindow>();
-        window.Initialize();
-        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
+        RevitLookup.Application.Raise(() =>
+        {
+            var window = Host.GetService<IWindow>();
+            window.Initialize();
+            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Selection);
+        });
     }
 }

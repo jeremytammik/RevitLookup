@@ -18,11 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Core.Enums;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Extensions;
 
-public enum MemberType
+namespace RevitLookup.Core.Metadata;
+
+public partial class DescriptorBuilder
 {
-    Method,
-    Property,
-    Extension
+    private void AddExtensions()
+    {
+        if (!_settings.IsExtensionsAllowed) return;
+        if (_currentDescriptor is not IDescriptorExtension extension) return;
+
+        var manager = new ExtensionManager(_context);
+        extension.RegisterExtensions(manager);
+
+        foreach (var pair in manager.ValuesMap)
+        {
+            WriteDescriptor(pair.Key, pair.Value);
+        }
+    }
 }

@@ -1,4 +1,4 @@
-// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,26 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.Attributes;
-using Microsoft.Extensions.DependencyInjection;
-using Nice3point.Revit.Toolkit.External;
-using RevitLookup.Services.Contracts;
-using RevitLookup.Views.Pages;
-using Wpf.Ui.Contracts;
+using System.Collections;
 
-namespace RevitLookup.Commands;
+namespace RevitLookup.Core.Metadata;
 
-[UsedImplicitly]
-[Transaction(TransactionMode.Manual)]
-public class DashboardCommand : ExternalCommand
+public partial class DescriptorBuilder
 {
-    public override void Execute()
+    private void AddEnumerableItems()
     {
-        RevitLookup.Application.Raise(() =>
+        if (_obj is not IEnumerable enumerable) return;
+
+        _type = typeof(IEnumerable);
+        var enumerator = enumerable.GetEnumerator();
+        while (enumerator.MoveNext())
         {
-            var window = Host.GetService<IWindow>();
-            window.ShowAttached();
-            window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
-        });
+            WriteDescriptor(enumerator.Current);
+        }
     }
 }

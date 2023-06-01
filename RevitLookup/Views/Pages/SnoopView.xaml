@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
-    xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
+    xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="500"
@@ -95,15 +95,16 @@
                         Converter={converters:TreeViewGroupConverter}}">
                     <rl:TreeView.ItemTemplate>
                         <HierarchicalDataTemplate
-                            ItemsSource="{Binding Items}">
+                            ItemsSource="{Binding Items, Mode=OneTime}">
                             <TextBlock
-                                Text="{Binding Name}" />
+                                Text="{Binding Name, Mode=OneTime}" />
                             <HierarchicalDataTemplate.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock
                                         Loaded="OnRowLoaded"
                                         Text="{Binding Descriptor, 
-                                            Converter={converters:SingleDescriptorConverter}}" />
+                                            Converter={converters:SingleDescriptorConverter},
+                                            Mode=OneTime}" />
                                 </DataTemplate>
                             </HierarchicalDataTemplate.ItemTemplate>
                         </HierarchicalDataTemplate>
@@ -126,19 +127,38 @@
                 CanUserAddRows="False"
                 CanUserDeleteRows="False"
                 CanUserResizeRows="False"
+                CanUserSortColumns="False"
                 CanUserReorderColumns="False"
                 VerticalScrollBarVisibility="Visible"
                 HorizontalScrollBarVisibility="Disabled"
-                ItemsSource="{Binding ViewModel.FilteredSnoopableData}"
-                ScrollViewer.ScrollChanged="OnDataGridScrollChanged">
+                ItemsSource="{Binding ViewModel.FilteredSnoopableData}">
                 <rl:DataGrid.Columns>
-                    <DataGridTextColumn
+                    <DataGridTemplateColumn
                         Width="*"
-                        Binding="{Binding Name}"
-                        Header="Member" />
+                        Header="Member">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <rl:SymbolIcon
+                                        FontSize="16"
+                                        FontWeight="Normal"
+                                        Symbol="{Binding MemberAttributes, 
+                                            Converter={converters:IconDescriptorConverter},
+                                            Mode=OneTime}" />
+                                    <TextBlock
+                                        Margin="4 0 0 0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Name, Mode=OneTime}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn
                         Width="2*"
-                        Binding="{Binding Value.Descriptor, Converter={converters:CombinedDescriptorConverter}}"
+                        Binding="{Binding Value.Descriptor, 
+                            Converter={converters:CombinedDescriptorConverter},
+                            Mode=OneTime}"
                         Header="Value">
                         <!-- <DataGridTextColumn.ElementStyle> -->
                         <!--     <Style -->
@@ -182,7 +202,9 @@
                             Value="0" />
                         <Style.Triggers>
                             <DataTrigger
-                                Binding="{Binding Value.Descriptor, Converter={converters:HandledDescriptorConverter}}"
+                                Binding="{Binding Value.Descriptor, 
+                                    Converter={converters:HandledDescriptorConverter},
+                                    Mode=OneTime}"
                                 Value="true">
                                 <Setter
                                     Property="Foreground">
@@ -199,7 +221,9 @@
                                     Value="Hand" />
                             </DataTrigger>
                             <DataTrigger
-                                Binding="{Binding Value.Descriptor, Converter={converters:ExceptionDescriptorConverter}}"
+                                Binding="{Binding Value.Descriptor, 
+                                    Converter={converters:ExceptionDescriptorConverter},
+                                    Mode=OneTime}"
                                 Value="true">
                                 <Setter
                                     Property="Foreground"
@@ -234,7 +258,7 @@
                                                         VerticalAlignment="Center"
                                                         Margin="6,0,6,0"
                                                         FontWeight="Bold"
-                                                        Text="{Binding Name}" />
+                                                        Text="{Binding Name, Mode=OneTime}" />
                                                 </Border>
                                                 <ItemsPresenter />
                                             </DockPanel>

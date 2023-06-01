@@ -37,8 +37,9 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
 
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register("GetElements", _category, extension =>
+        manager.Register(_category, extension =>
         {
+            extension.Name = "GetElements";
             extension.Result = extension.Context
 #if R23_OR_GREATER
                 .GetInstances(_category.BuiltInCategory);

@@ -33,8 +33,11 @@ public class EventMonitorCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<IWindow>();
-        window.ShowAttached();
-        window.Scope.GetService<INavigationService>().Navigate(typeof(EventsView));
+        RevitLookup.Application.Raise(() =>
+        {
+            var window = Host.GetService<IWindow>();
+            window.ShowAttached();
+            window.Scope.GetService<INavigationService>().Navigate(typeof(EventsView));
+        });
     }
 }

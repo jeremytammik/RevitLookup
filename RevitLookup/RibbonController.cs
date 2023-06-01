@@ -69,7 +69,6 @@ public static class RibbonController
 
     public static void ReloadPanels(ISettingsService settingsService)
     {
-        //Synchronising the execution context
         Application.ActionEventHandler.Raise(_ =>
         {
             RibbonUtils.RemovePanel("CustomCtrl_%CustomCtrl_%Add-Ins%Revit Lookup%RevitLookupButton", PanelName);

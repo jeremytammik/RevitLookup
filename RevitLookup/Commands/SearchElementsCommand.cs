@@ -34,9 +34,12 @@ public class SearchElementsCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<IWindow>();
-        window.ShowAttached();
-        window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
-        window.Scope.GetService<DashboardViewModel>().OpenDialogCommand.Execute("search");
+        RevitLookup.Application.Raise(() =>
+        {
+            var window = Host.GetService<IWindow>();
+            window.ShowAttached();
+            window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
+            window.Scope.GetService<DashboardViewModel>().OpenDialogCommand.Execute("search");
+        });
     }
 }

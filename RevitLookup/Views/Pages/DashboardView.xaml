@@ -18,8 +18,10 @@
         </ResourceDictionary>
     </Page.Resources>
     <rl:DynamicScrollViewer>
-        <StackPanel
+        <VirtualizingStackPanel
             Margin="12"
+            IsVirtualizing="True"
+            VirtualizationMode="Recycling"
             TextBlock.FontWeight="Medium">
             <TextBlock
                 FontSize="16"
@@ -432,6 +434,6 @@
                     </StackPanel>
                 </rl:CardAction>
             </Grid>
-        </StackPanel>
+        </VirtualizingStackPanel>
     </rl:DynamicScrollViewer>
 </Page>

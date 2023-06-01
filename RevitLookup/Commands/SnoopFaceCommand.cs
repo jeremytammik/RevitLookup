@@ -32,8 +32,11 @@ public class SnoopFaceCommand : ExternalCommand
 {
     public override void Execute()
     {
-        var window = Host.GetService<IWindow>();
-        window.Initialize();
-        window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Face);
+        RevitLookup.Application.Raise(() =>
+        {
+            var window = Host.GetService<IWindow>();
+            window.Initialize();
+            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Face);
+        });
     }
 }

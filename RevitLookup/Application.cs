@@ -22,7 +22,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Autodesk.Revit.DB.Events;
+using System.Windows.Threading;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Core;
@@ -34,6 +34,7 @@ namespace RevitLookup;
 [UsedImplicitly]
 public class Application : ExternalApplication
 {
+    private static Thread _thread;
     public static ActionEventHandler ActionEventHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<SnoopableObject>> ExternalElementHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<Descriptor>> ExternalDescriptorHandler { get; private set; }
@@ -47,6 +48,7 @@ public class Application : ExternalApplication
 
         var settingsService = Host.GetService<ISettingsService>();
         RibbonController.CreatePanel(Application, settingsService);
+        RunDispatcher();
         EnableHardwareRendering(settingsService);
     }
 
@@ -76,17 +78,34 @@ public class Application : ExternalApplication
         settingsService.Save();
     }
 
-    private void EnableHardwareRendering(ISettingsService settingsService)
+    private static void RunDispatcher()
+    {
+        _thread = new Thread(Dispatcher.Run);
+        _thread.SetApartmentState(ApartmentState.STA);
+        _thread.Start();
+
+        //Revit overrides render mode during initialization
+        //EventHandler is called after initialisation
+        ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
+    }
+
+    public static void EnableHardwareRendering(ISettingsService settingsService)
     {
         if (!settingsService.IsHardwareRenderingAllowed) return;
 
         //Revit overrides render mode during initialization
-        Application.ControlledApplication.ApplicationInitialized += OnInitialized;
+        //EventHandler is called after initialisation
+        ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
+    }
 
-        void OnInitialized(object sender, ApplicationInitializedEventArgs args)
-        {
-            Application.ControlledApplication.ApplicationInitialized -= OnInitialized;
-            RenderOptions.ProcessRenderMode = RenderMode.Default;
-        }
+    public static void DisableHardwareRendering(ISettingsService settingsService)
+    {
+        if (settingsService.IsHardwareRenderingAllowed) return;
+        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+    }
+
+    public static void Raise(Action action)
+    {
+        Dispatcher.FromThread(_thread)!.Invoke(action);
     }
 }
