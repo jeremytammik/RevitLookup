@@ -4,12 +4,23 @@
 
 ## Features
 
-### Core
+### User interface
 
 * Icons
 
   Introducing a collection of new icons for properties, methods, fields, and events, ensuring a visually appealing representation
-    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/ffbba475-e240-4928-bf02-68d8f75cbc4c)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/ffbba475-e240-4928-bf02-68d8f75cbc4c)
+
+* Enhanced Performance with Separate UI Thread
+
+  The RevitLookup user interface now operates in a dedicated thread, independent of Revit's workload. This architectural improvement significantly enhances smoothness and responsiveness
+
+* New Additional Setting Options
+
+  Introducing a range of new setting options that expand customization capabilities and provide users with greater control over the tool's behavior
+
+
+### Core
 
 * Class fields
 
@@ -25,16 +36,6 @@
 
   Empowering developers with the ability to visualize and access class private fields, properties, methods, and events, providing a complete overview of the class implementation
   ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/4c6e4459-cf2f-4d35-9b03-fe0b259b3c9a)
-
-### User interface
-
-* Enhanced Performance with Separate UI Thread
-    
-  The RevitLookup user interface now operates in a dedicated thread, independent of Revit's workload. This architectural improvement significantly enhances smoothness and responsiveness
-
-* New Additional Setting Options
-
-  Introducing a range of new setting options that expand customization capabilities and provide users with greater control over the tool's behavior
 
 ## Improvements
 
