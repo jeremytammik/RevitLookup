@@ -112,14 +112,14 @@
                 </rl:CardControl>
                 <rl:CardControl
                     Header="Show private members"
-                    Icon="ShieldLock24"
+                    Icon="DocumentLock24"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsPrivateAllowed}" />
                 </rl:CardControl>
                 <rl:CardControl
                     Header="Show static members"
-                    Icon="ShieldGlobe24"
+                    Icon="ClipboardNote20"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsStaticAllowed}" />
