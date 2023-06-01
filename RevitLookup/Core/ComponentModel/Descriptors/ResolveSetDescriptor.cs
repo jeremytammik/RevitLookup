@@ -35,7 +35,7 @@ public sealed class ResolveSetDescriptor : Descriptor, IDescriptorRedirection
 
     public bool TryRedirect(Document context, string target, out object output)
     {
-        output = _set.Variants.Count == 1 ? _set.Variants.Dequeue() : _set.Variants;
+        output = _set.Variants.Count == 1 ? _set.Variants.Peek() : _set.Variants;
         return true;
     }
 }
