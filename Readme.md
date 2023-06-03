@@ -1,5 +1,8 @@
 <div align="center">
-<img alt="RevitLookup" width="600"  src="https://user-images.githubusercontent.com/20504884/218192495-19b13547-ce67-40e3-8fe8-e847f89bddb7.png"/>
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://github-production-user-asset-6210df.s3.amazonaws.com/20504884/243138822-e25cbe43-91ce-4c90-9fbd-e0c6c9f9996c.png">
+        <img alt="RevitLookup" width="600" src="https://github-production-user-asset-6210df.s3.amazonaws.com/20504884/243138821-45a22919-4865-478e-8cfe-dc6288646d44.png">
+    </picture>
 </div>
 
 Interactive Revit project database exploration tool to view and navigate BIM element parameters, properties and relationships.
