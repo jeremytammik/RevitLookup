@@ -1,5 +1,17 @@
 # Changelog
 
+# 2023-06-03 **2024.0.7**
+
+Corrective update to the last major release [RevitLookup 2024.0.6](https://github.com/jeremytammik/RevitLookup/releases/tag/2024.0.6)
+
+## Hotfix
+
+* Fixed cases where the return value type was displayed instead of the value itself for methods that support overloads
+
+## Improvements
+
+* Added the `BuiltInCategory` extension of the `Category` class for Revit versions 2021-2022 where this property is not present in the official API https://github.com/jeremytammik/RevitLookup/issues/162
+
 # 2023-06-01 **2024.0.6**
 
 ## Features
