@@ -13,7 +13,7 @@ Whether you are a seasoned professional or just starting out, the RevitLookup is
 </div>
 <br/>
 <div align="center">
-<img alt="Screenshot" src="https://user-images.githubusercontent.com/20504884/225871636-21c17658-d02e-411c-93cd-34e4d2121933.png"/>
+<img alt="Screenshot" src="https://github.com/jeremytammik/RevitLookup/assets/20504884/e8cfa664-ee2e-4b75-9652-c0d4efe5ab7d"/>
 </div>
 
 ## Installation
