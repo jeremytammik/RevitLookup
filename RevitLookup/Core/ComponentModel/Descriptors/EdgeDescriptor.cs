@@ -19,7 +19,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
+#if R23_OR_GREATER
 using System.Windows.Input;
+#endif
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
