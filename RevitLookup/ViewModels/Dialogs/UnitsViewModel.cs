@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.ViewModels.Objects;
 
@@ -30,67 +29,10 @@ public sealed partial class UnitsViewModel : ObservableObject
     [ObservableProperty] private List<UnitInfo> _filteredUnits;
     [ObservableProperty] private string _searchText = string.Empty;
 
-    public UnitsViewModel(Type unitType)
+    public UnitsViewModel(List<UnitInfo> unitType)
     {
-        _units = GetUnits(unitType);
+        _units = unitType;
         _filteredUnits = _units;
-    }
-
-    private List<UnitInfo> GetUnits(Type unitType)
-    {
-        if (unitType == typeof(BuiltInParameter))
-        {
-            var parameters = Enum.GetValues(unitType).Cast<BuiltInParameter>();
-            var list = new List<UnitInfo>();
-            foreach (var builtInParameter in parameters)
-                try
-                {
-                    list.Add(new UnitInfo(builtInParameter.ToString(), builtInParameter.ToLabel()));
-                }
-                catch
-                {
-                    // ignored
-                    // Some parameters don't have a label
-                }
-
-            return list;
-        }
-
-        if (unitType == typeof(BuiltInCategory))
-        {
-            var categories = Enum.GetValues(unitType).Cast<BuiltInCategory>();
-            var list = new List<UnitInfo>();
-            foreach (var category in categories)
-                try
-                {
-                    list.Add(new UnitInfo(category.ToString(), category.ToLabel()));
-                }
-                catch
-                {
-                    // ignored
-                    // Some categories don't have a label
-                }
-
-            return list;
-        }
-
-        if (unitType == typeof(ForgeTypeId))
-#if R22_OR_GREATER
-            return UnitUtils.GetAllUnits()
-                .Concat(UnitUtils.GetAllDisciplines())
-                .Concat(UnitUtils.GetAllMeasurableSpecs())
-                .Concat(SpecUtils.GetAllSpecs())
-                .Concat(ParameterUtils.GetAllBuiltInGroups())
-                .Concat(ParameterUtils.GetAllBuiltInParameters())
-                .Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToLabel()))
-                .ToList();
-#else
-            return UnitUtils.GetAllUnits().Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToUnitLabel()))
-                .Concat(UnitUtils.GetAllSpecs().Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToSpecLabel())))
-                .ToList();
-#endif
-
-        throw new NotSupportedException();
     }
 
     async partial void OnSearchTextChanged(string value)

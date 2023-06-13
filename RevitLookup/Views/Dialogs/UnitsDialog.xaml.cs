@@ -29,7 +29,7 @@ namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class UnitsDialog
 {
-    public UnitsDialog(Type unitType)
+    public UnitsDialog(List<UnitInfo> unitType)
     {
         InitializeComponent();
         DataContext = new UnitsViewModel(unitType);
