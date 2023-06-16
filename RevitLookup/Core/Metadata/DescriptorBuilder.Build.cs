@@ -26,25 +26,6 @@ namespace RevitLookup.Core.Metadata;
 
 public partial class DescriptorBuilder
 {
-    public static IReadOnlyCollection<Descriptor> Build(SnoopableObject snoopableObject)
-    {
-        var builder = new DescriptorBuilder();
-
-        switch (snoopableObject.Object)
-        {
-            case null:
-                return Array.Empty<Descriptor>();
-            case Type staticObjectType:
-                builder._obj = null;
-                builder._context = snoopableObject.Context;
-                return builder.BuildStaticObject(staticObjectType);
-            default:
-                builder._obj = snoopableObject.Object;
-                builder._context = snoopableObject.Context;
-                return builder.BuildInstanceObject(snoopableObject.Object.GetType());
-        }
-    }
-
     private IReadOnlyCollection<Descriptor> BuildInstanceObject(Type type)
     {
         var types = new List<Type>();
