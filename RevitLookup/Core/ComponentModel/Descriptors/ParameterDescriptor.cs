@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -21,6 +21,7 @@
 using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Extensions;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
@@ -48,6 +49,12 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             extension.Name = nameof(ParameterExtensions.AsColor);
             extension.Result = extension.Value.AsColor();
         });
+
+        manager.Register(_parameter, extension =>
+        {
+            extension.Name = nameof(FamilyManager.GetAssociatedFamilyParameter);
+            extension.Result = GetAssociatedFamilyParameter(extension);
+        });
     }
 
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
@@ -58,4 +65,9 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             _ => null
         };
     }
+
+    private static FamilyParameter GetAssociatedFamilyParameter(DescriptorExtension<Parameter> extension)
+        => extension.Context is { IsFamilyDocument: true }
+            ? extension.Context.FamilyManager.GetAssociatedFamilyParameter(extension.Value)
+            : null;
 }
