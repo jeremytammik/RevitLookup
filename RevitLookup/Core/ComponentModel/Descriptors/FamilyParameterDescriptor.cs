@@ -18,15 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilyParameterDescriptor : Descriptor
+public sealed class FamilyParameterDescriptor : Descriptor, IDescriptorResolver
 {
     public FamilyParameterDescriptor(FamilyParameter familyParameter)
     {
         Name = familyParameter.Definition.Name;
+    }
+
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    {
+        // TODO: Nice3point, without this magic the parameter extension which gets an associated family parameter shows non-snoopable text
+
+        return null;
     }
 }
