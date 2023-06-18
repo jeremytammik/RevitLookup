@@ -65,6 +65,7 @@ public static class DescriptorMap
             //APIObjects
             Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
             Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
+            FamilyParameter value when type is null || type == typeof(FamilyParameter) => new FamilyParameterDescriptor(value),
             Reference value when type is null || type == typeof(Reference) => new ReferenceDescriptor(value),
             Color value when type is null || type == typeof(Color) => new ColorDescriptor(value),
             Curve value when type is null || type == typeof(Curve) => new CurveDescriptor(value),
