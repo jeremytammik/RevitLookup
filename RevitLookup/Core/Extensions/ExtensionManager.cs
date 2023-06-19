@@ -31,7 +31,6 @@ public sealed class ExtensionManager : IExtensionManager
     }
 
     public Document Context { get; }
-
     public Dictionary<string, object> ValuesMap { get; } = new();
 
     public void Register<T>(T value, Action<DescriptorExtension<T>> extension)

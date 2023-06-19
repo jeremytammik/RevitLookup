@@ -26,6 +26,5 @@ namespace RevitLookup.Core.Contracts;
 public interface IExtensionManager
 {
     Document Context { get; }
-
     void Register<T>(T value, Action<DescriptorExtension<T>> extension);
 }
