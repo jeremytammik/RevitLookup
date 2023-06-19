@@ -45,7 +45,7 @@ public partial class DescriptorBuilder
             _context = element.Document
         };
 
-        return builder.BuildStaticObject(element.GetType());
+        return builder.BuildInstanceObject(element.GetType());
     }
 
     public static IReadOnlyCollection<Descriptor> Build(object obj, Document context)
