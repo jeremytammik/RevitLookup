@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -48,6 +48,13 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             extension.Name = nameof(ParameterExtensions.AsColor);
             extension.Result = extension.Value.AsColor();
         });
+
+        if (manager.Context is { IsFamilyDocument: true })
+            manager.Register(_parameter, extension =>
+            {
+                extension.Name = nameof(FamilyManager.GetAssociatedFamilyParameter);
+                extension.Result = extension.Context.FamilyManager.GetAssociatedFamilyParameter(extension.Value);
+            });
     }
 
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)

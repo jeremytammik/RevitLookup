@@ -19,11 +19,12 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilyParameterDescriptor : Descriptor
+public sealed class FamilyParameterDescriptor : Descriptor, IDescriptorCollector
 {
     public FamilyParameterDescriptor(FamilyParameter familyParameter)
     {
