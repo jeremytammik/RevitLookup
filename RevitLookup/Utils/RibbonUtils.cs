@@ -94,13 +94,6 @@ public static class RibbonUtils
         var methodInfo = type.GetMethod("LoadRibbonCommands", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
 
         methodInfo.Invoke(null, new object[] {DocUIType.Model});
-        methodInfo.Invoke(null, new object[] {DocUIType.Annotation});
-        methodInfo.Invoke(null, new object[] {DocUIType.Profile});
-        methodInfo.Invoke(null, new object[] {DocUIType.Truss});
-        methodInfo.Invoke(null, new object[] {DocUIType.Rebar});
-        methodInfo.Invoke(null, new object[] {DocUIType.Mass});
-        methodInfo.Invoke(null, new object[] {DocUIType.Michelangelo});
-        methodInfo.Invoke(null, new object[] {DocUIType.Detail});
         methodInfo.Invoke(null, new object[] {DocUIType.Project});
 
         RevitRibbonControl.RibbonControl.ShouldJournalTabChange = true;
