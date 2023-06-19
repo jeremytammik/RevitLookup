@@ -50,11 +50,12 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             extension.Result = extension.Value.AsColor();
         });
 
-        manager.Register(_parameter, extension =>
-        {
-            extension.Name = nameof(FamilyManager.GetAssociatedFamilyParameter);
-            extension.Result = GetAssociatedFamilyParameter(extension);
-        });
+        if (manager.Context is { IsFamilyDocument: true })
+            manager.Register(_parameter, extension =>
+            {
+                extension.Name = nameof(FamilyManager.GetAssociatedFamilyParameter);
+                extension.Result = GetAssociatedFamilyParameter(extension);
+            });
     }
 
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
