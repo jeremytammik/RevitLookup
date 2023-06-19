@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -25,12 +25,12 @@ namespace RevitLookup.Core.Extensions;
 
 public sealed class ExtensionManager : IExtensionManager
 {
-    private readonly Document _context;
-
     public ExtensionManager(Document context)
     {
-        _context = context;
+        Context = context;
     }
+
+    public Document Context { get; }
 
     public Dictionary<string, object> ValuesMap { get; } = new();
 
@@ -39,7 +39,7 @@ public sealed class ExtensionManager : IExtensionManager
         var descriptorExtension = new DescriptorExtension<T>
         {
             Value = value,
-            Context = _context
+            Context = Context
         };
 
         try
