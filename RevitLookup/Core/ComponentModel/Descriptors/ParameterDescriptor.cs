@@ -21,7 +21,6 @@
 using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Extensions;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
@@ -54,7 +53,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             manager.Register(_parameter, extension =>
             {
                 extension.Name = nameof(FamilyManager.GetAssociatedFamilyParameter);
-                extension.Result = GetAssociatedFamilyParameter(extension);
+                extension.Result = extension.Context.FamilyManager.GetAssociatedFamilyParameter(extension.Value);
             });
     }
 
@@ -66,9 +65,4 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             _ => null
         };
     }
-
-    private static FamilyParameter GetAssociatedFamilyParameter(DescriptorExtension<Parameter> extension)
-        => extension.Context is { IsFamilyDocument: true }
-            ? extension.Context.FamilyManager.GetAssociatedFamilyParameter(extension.Value)
-            : null;
 }
