@@ -106,7 +106,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnIsTimeColumnAllowedChanged(bool value)
     {
         _settingsService.IsTimeColumnAllowed = value;
-        _snackbarService.Show("Column changed", "Changes will take effect for new windows", SymbolRegular.ChatWarning24, ControlAppearance.Success);
+        _snackbarService.Show("Presentation changed", "Changes will take effect for new windows", SymbolRegular.ChatWarning24, ControlAppearance.Success);
     }
 
     partial void OnIsModifyTabAllowedChanged(bool value)
