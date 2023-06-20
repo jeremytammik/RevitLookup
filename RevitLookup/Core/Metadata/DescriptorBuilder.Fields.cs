@@ -32,7 +32,10 @@ public partial class DescriptorBuilder
         foreach (var member in members)
         {
             if (member.IsSpecialName) continue;
-            WriteDescriptor(member, member.GetValue(_obj), null);
+            _tracker.Start();
+            var value = member.GetValue(_obj);
+            _tracker.Stop();
+            WriteDescriptor(member, value, null);
         }
     }
 }

@@ -64,10 +64,11 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         }
     }
 
-    public ISnoopViewModel ViewModel { get; init; }
+    public ISnoopViewModel ViewModel { get; protected init; }
 
-    private static void OnDataGridChanged(DataGrid control)
+    private void OnDataGridChanged(DataGrid control)
     {
+        control.Columns[2].Visibility = _settingsService.IsTimeColumnAllowed ? Visibility.Visible : Visibility.Collapsed;
         control.ItemsSourceChanged += (sender, _) =>
         {
             var dataGrid = (DataGrid) sender;
@@ -231,6 +232,11 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
             builder.AppendLine()
                 .Append("Description: ")
                 .Append(descriptor.Value.Descriptor.Description);
+
+        builder.AppendLine()
+            .Append("Time: ")
+            .Append(descriptor.ComputationTime)
+            .Append(" ms");
 
         row.ToolTip = new ToolTip
         {

@@ -19,23 +19,41 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Extensions;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Metadata;
 
-public partial class DescriptorBuilder
+public partial class DescriptorBuilder : IExtensionManager
 {
     private void AddExtensions()
     {
         if (!_settings.IsExtensionsAllowed) return;
         if (_currentDescriptor is not IDescriptorExtension extension) return;
 
-        var manager = new ExtensionManager(_context);
-        extension.RegisterExtensions(manager);
+        extension.RegisterExtensions(this);
+    }
 
-        foreach (var pair in manager.ValuesMap)
+    public void Register<T>(T value, Action<DescriptorExtension<T>> extension)
+    {
+        var descriptorExtension = new DescriptorExtension<T>
         {
-            WriteDescriptor(pair.Key, pair.Value);
+            Value = value,
+            Context = Context
+        };
+
+        _tracker.Start();
+        try
+        {
+            extension.Invoke(descriptorExtension);
+            WriteDescriptor(descriptorExtension.Name, descriptorExtension.Result);
+        }
+        catch (Exception exception)
+        {
+            WriteDescriptor(descriptorExtension.Name, exception);
+        }
+        finally
+        {
+            _tracker.Stop();
         }
     }
 }

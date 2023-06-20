@@ -11,7 +11,7 @@
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     mc:Ignorable="d"
     d:DesignHeight="500"
-    d:DesignWidth="500"
+    d:DesignWidth="700"
     d:DataContext="{d:DesignInstance pages:EventsView, IsDesignTimeCreatable=False}">
     <pages:SnoopViewBase.Resources>
         <ResourceDictionary>
@@ -64,16 +64,6 @@
                     Width="9" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <!-- <Grid.ColumnDefinitions> -->
-            <!--     <ColumnDefinition -->
-            <!--         MinWidth="250" -->
-            <!--         Width="*" /> -->
-            <!--     <ColumnDefinition -->
-            <!--         Width="9" /> -->
-            <!--     <ColumnDefinition -->
-            <!--         MinWidth="250" -->
-            <!--         Width="4*" /> -->
-            <!-- </Grid.ColumnDefinitions> -->
             <DockPanel
                 Grid.Column="0">
                 <rl:TextBox
@@ -102,11 +92,6 @@
                     </rl:TreeView.ItemTemplate>
                 </rl:TreeView>
             </DockPanel>
-            <!-- <GridSplitter -->
-            <!--     Grid.Column="1" -->
-            <!--     Width="3" -->
-            <!--     Background="Transparent" -->
-            <!--     HorizontalAlignment="Center" /> -->
             <rl:DataGrid
                 Grid.Column="2"
                 x:Name="DataGrid"
@@ -151,6 +136,15 @@
                             Converter={converters:CombinedDescriptorConverter},
                             Mode=OneTime}"
                         Header="Value" />
+                    <DataGridTextColumn
+                        Width="61"
+                        MinWidth="0"
+                        CanUserResize="False"
+                        Binding="{Binding ComputationTime,
+                            Converter={converters:TimeToStringConverter},
+                            Mode=OneTime}"
+                        Header="Time">
+                    </DataGridTextColumn>
                 </rl:DataGrid.Columns>
                 <rl:DataGrid.RowStyle>
                     <Style

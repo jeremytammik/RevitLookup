@@ -38,6 +38,7 @@ internal sealed class Settings
     public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
     public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
     public bool IsHardwareRenderingAllowed { get; set; } = true;
+    public bool IsTimeColumnAllowed { get; set; }
     public bool IsModifyTabAllowed { get; set; }
     public bool IsUnsupportedAllowed { get; set; }
     public bool IsPrivateAllowed { get; set; }
@@ -81,6 +82,12 @@ public sealed class SettingsService : ISettingsService
     {
         get => _settings.IsHardwareRenderingAllowed;
         set => _settings.IsHardwareRenderingAllowed = value;
+    }
+
+    public bool IsTimeColumnAllowed
+    {
+        get => _settings.IsTimeColumnAllowed;
+        set => _settings.IsTimeColumnAllowed = value;
     }
 
     public bool IsModifyTabAllowed

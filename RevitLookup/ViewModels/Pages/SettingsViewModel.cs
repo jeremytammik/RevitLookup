@@ -37,6 +37,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private WindowBackdropType _background;
     [ObservableProperty] private bool _isSmoothEnabled;
     [ObservableProperty] private bool _isHardwareRenderingAllowed;
+    [ObservableProperty] private bool _isTimeColumnAllowed;
     [ObservableProperty] private bool _isModifyTabAllowed;
     [ObservableProperty] private bool _isUnsupportedAllowed;
     [ObservableProperty] private bool _isPrivateAllowed;
@@ -54,6 +55,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         _background = settingsService.Background;
         _isSmoothEnabled = settingsService.TransitionDuration > 0;
         _isHardwareRenderingAllowed = settingsService.IsHardwareRenderingAllowed;
+        _isTimeColumnAllowed = settingsService.IsTimeColumnAllowed;
         _isModifyTabAllowed = settingsService.IsModifyTabAllowed;
         _isUnsupportedAllowed = settingsService.IsUnsupportedAllowed;
         _isPrivateAllowed = settingsService.IsPrivateAllowed;
@@ -99,6 +101,12 @@ public sealed partial class SettingsViewModel : ObservableObject
         _settingsService.IsHardwareRenderingAllowed = value;
         if (value) Application.EnableHardwareRendering(_settingsService);
         else Application.DisableHardwareRendering(_settingsService);
+    }
+
+    partial void OnIsTimeColumnAllowedChanged(bool value)
+    {
+        _settingsService.IsTimeColumnAllowed = value;
+        _snackbarService.Show("Column changed", "Changes will take effect for new windows", SymbolRegular.ChatWarning24, ControlAppearance.Success);
     }
 
     partial void OnIsModifyTabAllowedChanged(bool value)

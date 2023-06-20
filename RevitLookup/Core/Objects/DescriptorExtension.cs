@@ -1,4 +1,4 @@
-// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,36 +19,13 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using RevitLookup.Core.Contracts;
 
-namespace RevitLookup.Core.Extensions;
+namespace RevitLookup.Core.Objects;
 
-public sealed class ExtensionManager : IExtensionManager
+public sealed class DescriptorExtension<T>
 {
-    public ExtensionManager(Document context)
-    {
-        Context = context;
-    }
-
-    public Document Context { get; }
-    public Dictionary<string, object> ValuesMap { get; } = new();
-
-    public void Register<T>(T value, Action<DescriptorExtension<T>> extension)
-    {
-        var descriptorExtension = new DescriptorExtension<T>
-        {
-            Value = value,
-            Context = Context
-        };
-
-        try
-        {
-            extension.Invoke(descriptorExtension);
-            ValuesMap.Add(descriptorExtension.Name, descriptorExtension.Result);
-        }
-        catch (Exception exception)
-        {
-            ValuesMap.Add(descriptorExtension.Name, exception);
-        }
-    }
+    public required Document Context { get; init; }
+    public required T Value { get; init; }
+    public object Result { get; set; }
+    public string Name { get; set; }
 }

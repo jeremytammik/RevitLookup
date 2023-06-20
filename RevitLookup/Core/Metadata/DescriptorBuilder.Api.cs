@@ -31,7 +31,7 @@ public partial class DescriptorBuilder
         var builder = new DescriptorBuilder
         {
             _obj = null,
-            _context = RevitApi.Document
+            Context = RevitApi.Document
         };
 
         return builder.BuildStaticObject(type);
@@ -42,7 +42,7 @@ public partial class DescriptorBuilder
         var builder = new DescriptorBuilder
         {
             _obj = element,
-            _context = element.Document
+            Context = element.Document
         };
 
         return builder.BuildInstanceObject(element.GetType());
@@ -58,11 +58,11 @@ public partial class DescriptorBuilder
                 return Array.Empty<Descriptor>();
             case Type staticObjectType:
                 builder._obj = null;
-                builder._context = context;
+                builder.Context = context;
                 return builder.BuildStaticObject(staticObjectType);
             default:
                 builder._obj = obj;
-                builder._context = context;
+                builder.Context = context;
                 return builder.BuildInstanceObject(obj.GetType());
         }
     }

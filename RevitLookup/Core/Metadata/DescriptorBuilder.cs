@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Diagnostics;
 using System.Reflection;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.ComponentModel.Descriptors;
@@ -31,9 +32,9 @@ namespace RevitLookup.Core.Metadata;
 public partial class DescriptorBuilder
 {
     private readonly List<Descriptor> _descriptors;
+    private readonly Stopwatch _tracker = new();
     private readonly ISettingsService _settings;
     private Descriptor _currentDescriptor;
-    private Document _context;
     private object _obj;
     private Type _type;
     private int _depth;
@@ -43,6 +44,8 @@ public partial class DescriptorBuilder
         _descriptors = new List<Descriptor>(16);
         _settings = Host.GetService<ISettingsService>();
     }
+
+    public Document Context { get; private set; }
 
     private void WriteDescriptor(object value)
     {
@@ -56,7 +59,6 @@ public partial class DescriptorBuilder
         };
 
         descriptor.Name = descriptor.Value.Descriptor.Type;
-
         _descriptors.Add(descriptor);
     }
 
@@ -69,10 +71,12 @@ public partial class DescriptorBuilder
             Value = EvaluateValue(value),
             TypeFullName = _type.FullName,
             MemberAttributes = MemberAttributes.Extension,
-            Type = DescriptorUtils.MakeGenericTypeName(_type)
+            Type = DescriptorUtils.MakeGenericTypeName(_type),
+            ComputationTime = _tracker.Elapsed.TotalMilliseconds
         };
 
         _descriptors.Add(descriptor);
+        _tracker.Reset();
     }
 
     private void WriteDescriptor(MemberInfo member, object value, ParameterInfo[] parameters)
@@ -84,15 +88,17 @@ public partial class DescriptorBuilder
             Value = EvaluateValue(member, value),
             Name = EvaluateName(member, parameters),
             MemberAttributes = EvaluateAttributes(member),
-            Type = DescriptorUtils.MakeGenericTypeName(_type)
+            Type = DescriptorUtils.MakeGenericTypeName(_type),
+            ComputationTime = _tracker.Elapsed.TotalMilliseconds
         };
 
         _descriptors.Add(descriptor);
+        _tracker.Reset();
     }
 
     private SnoopableObject EvaluateValue(MemberInfo member, object value)
     {
-        var snoopableObject = new SnoopableObject(_context, value);
+        var snoopableObject = new SnoopableObject(Context, value);
         SnoopUtils.Redirect(member.Name, snoopableObject);
         RestoreSetDescription(member, value, snoopableObject);
         return snoopableObject;
@@ -100,7 +106,7 @@ public partial class DescriptorBuilder
 
     private SnoopableObject EvaluateValue(object value)
     {
-        var snoopableObject = new SnoopableObject(_context, value);
+        var snoopableObject = new SnoopableObject(Context, value);
         SnoopUtils.Redirect(snoopableObject);
         RestoreSetDescription(value, snoopableObject);
         return snoopableObject;
