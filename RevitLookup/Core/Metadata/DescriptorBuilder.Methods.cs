@@ -37,7 +37,11 @@ public partial class DescriptorBuilder
             _tracker.Start();
             try
             {
-                if (!TryEvaluate(member, out value, out parameters)) continue;
+                if (!TryEvaluate(member, out value, out parameters))
+                {
+                    _tracker.Reset();
+                    continue;
+                }
             }
             catch (Exception exception)
             {
