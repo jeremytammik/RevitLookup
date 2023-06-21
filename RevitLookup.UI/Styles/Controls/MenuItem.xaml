@@ -758,8 +758,8 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="SymbolIcon" Value="Empty">
-                <Setter TargetName="SymbolIcon" Property="Visibility" Value="Collapsed" />
-                <Setter TargetName="SymbolIcon" Property="Margin" Value="0" />
+                <Setter TargetName="SymbolIcon" Property="Visibility" Value="Hidden" />
+                <!-- <Setter TargetName="SymbolIcon" Property="Margin" Value="0" /> -->
             </Trigger>
             <Trigger Property="IsCheckable" Value="True">
                 <Setter TargetName="CheckBoxIconBorder" Property="Visibility" Value="Visible" />

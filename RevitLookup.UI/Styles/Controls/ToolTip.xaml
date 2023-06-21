@@ -12,6 +12,7 @@
         <Setter Property="Height" Value="Auto" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="TextElement.FontSize" Value="12" />
+        <Setter Property="TextElement.FontWeight" Value="Normal" />
         <Setter Property="TextBlock.TextAlignment" Value="Justify" />
         <Setter Property="TextElement.Foreground">
             <Setter.Value>
