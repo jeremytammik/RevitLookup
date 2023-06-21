@@ -180,9 +180,9 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 
     private void ToggleTimeColumn(DataGrid control)
     {
-        var state = !_settingsService.IsTimeColumnAllowed;
-        _settingsService.IsTimeColumnAllowed = state;
-        control.Columns[2].Visibility = state ? Visibility.Visible : Visibility.Collapsed;
+        var state = control.Columns[2].Visibility == Visibility.Visible;
+        control.Columns[2].Visibility = state ? Visibility.Collapsed : Visibility.Visible;
+        _settingsService.IsTimeColumnAllowed = !state;
     }
 
     /// <summary>
