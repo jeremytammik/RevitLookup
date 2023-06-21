@@ -6,12 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:resources="clr-namespace:RevitLookup.Views.Resources"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance dialogs:UnitsViewModel}">
     <DockPanel.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <rl:ControlsDictionary />
+                <resources:Menus />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </DockPanel.Resources>

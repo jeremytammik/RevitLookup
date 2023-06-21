@@ -54,7 +54,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                     RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
                 });
             })
-            .AddShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
     }
 
     public void RegisterExtensions(IExtensionManager manager)

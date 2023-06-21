@@ -62,13 +62,13 @@ public static class ContextMenuExtensions
         return item;
     }
 
-    public static void AddShortcut(this MenuItem item, UIElement bindableElement, KeyGesture gesture)
+    public static void SetShortcut(this MenuItem item, UIElement bindableElement, KeyGesture gesture)
     {
         bindableElement.InputBindings.Add(new InputBinding(item.Command, gesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = gesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
     }
 
-    public static MenuItem AddShortcut(this MenuItem item, UIElement bindableElement, ModifierKeys modifiers, Key key)
+    public static MenuItem SetShortcut(this MenuItem item, UIElement bindableElement, ModifierKeys modifiers, Key key)
     {
         var inputGesture = new KeyGesture(key, modifiers);
         bindableElement.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
@@ -77,7 +77,7 @@ public static class ContextMenuExtensions
         return item;
     }
 
-    public static MenuItem AddShortcut(this MenuItem item, UIElement bindableElement, Key key)
+    public static MenuItem SetShortcut(this MenuItem item, UIElement bindableElement, Key key)
     {
         var inputGesture = new KeyGesture(key);
         bindableElement.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
@@ -86,9 +86,16 @@ public static class ContextMenuExtensions
         return item;
     }
     
-    public static void SetGestureText(this MenuItem item, Key key)
+    public static MenuItem SetHeader(this MenuItem item, string text)
+    {
+        item.Header = text;
+        return item;
+    }  
+
+    public static MenuItem SetGestureText(this MenuItem item, Key key)
     {
         item.InputGestureText = new KeyGesture(key).GetDisplayStringForCulture(CultureInfo.InvariantCulture);
+        return item;
     }
 
     public static MenuItem SetAvailability(this MenuItem item, bool condition)

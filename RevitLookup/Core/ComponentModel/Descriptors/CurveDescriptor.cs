@@ -57,7 +57,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                     RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {curve.Reference});
                 });
             })
-            .AddShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
 #endif
     }
 

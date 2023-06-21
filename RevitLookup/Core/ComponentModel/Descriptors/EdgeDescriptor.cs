@@ -56,7 +56,7 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
                     RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
                 });
             })
-            .AddShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
 #endif
     }
 }

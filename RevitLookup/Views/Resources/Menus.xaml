@@ -11,12 +11,6 @@
         Command="ApplicationCommands.Copy">
     </rl:MenuItem>
     <rl:MenuItem
-        x:Key="CopyValueMenuItem"
-        x:Shared="False"
-        Header="Copy value"
-        SymbolIcon="Copy16">
-    </rl:MenuItem>
-    <rl:MenuItem
         x:Key="HelpMenuItem"
         x:Shared="False"
         Header="Help"

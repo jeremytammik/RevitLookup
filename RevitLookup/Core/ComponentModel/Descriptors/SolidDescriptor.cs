@@ -63,7 +63,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
                     RevitApi.UiDocument.Selection.SetReferences(references);
                 });
             })
-            .AddShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
 #endif
     }
 }

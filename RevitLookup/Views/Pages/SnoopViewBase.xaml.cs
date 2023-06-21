@@ -265,10 +265,10 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         var contextMenu = new ContextMenu();
         contextMenu.AddMenuItem(Resources["CopyMenuItem"])
             .SetCommand(descriptor, parameter => Clipboard.SetText(parameter.Name))
-            .AddShortcut(row, ModifierKeys.Control, Key.C);
+            .SetShortcut(row, ModifierKeys.Control, Key.C);
         contextMenu.AddMenuItem(Resources["HelpMenuItem"])
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
-            .AddShortcut(row, Key.F1);
+            .SetShortcut(row, Key.F1);
 
         if (descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
         row.ContextMenu = contextMenu;
@@ -292,16 +292,17 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 
         contextMenu.AddMenuItem(Resources["CopyMenuItem"])
             .SetCommand(descriptor, parameter => Clipboard.SetText($"{parameter.Name}: {parameter.Value.Descriptor.Name}"))
-            .AddShortcut(row, ModifierKeys.Control, Key.C);
+            .SetShortcut(row, ModifierKeys.Control, Key.C);
 
-        contextMenu.AddMenuItem(Resources["CopyValueMenuItem"])
+        contextMenu.AddMenuItem(Resources["CopyMenuItem"])
+            .SetHeader("Copy value")
             .SetCommand(descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
-            .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C)
+            .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C)
             .SetAvailability(descriptor.Value.Descriptor.Name is not null);
 
         contextMenu.AddMenuItem(Resources["HelpMenuItem"])
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp($"{parameter.TypeFullName} {parameter.Name}"))
-            .AddShortcut(row, new KeyGesture(Key.F1));
+            .SetShortcut(row, new KeyGesture(Key.F1));
 
         if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
         row.ContextMenu = contextMenu;
