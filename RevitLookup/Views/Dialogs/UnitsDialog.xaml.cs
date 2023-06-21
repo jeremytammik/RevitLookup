@@ -45,9 +45,11 @@ public sealed partial class UnitsDialog
     private void CreateTreeContextMenu(UnitInfo info, FrameworkElement row)
     {
         row.ContextMenu = new ContextMenu();
-        row.ContextMenu.AddMenuItem("Copy unit", info, parameter => Clipboard.SetText(parameter.Unit))
+        row.ContextMenu.AddMenuItem("Copy unit")
+            .SetCommand(info, parameter => Clipboard.SetText(parameter.Unit))
             .AddShortcut(row, ModifierKeys.Control, Key.C);
-        row.ContextMenu.AddMenuItem("Copy label", info, parameter => Clipboard.SetText(parameter.Label))
+        row.ContextMenu.AddMenuItem("Copy label")
+            .SetCommand(info, parameter => Clipboard.SetText(parameter.Label))
             .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
     }
 }

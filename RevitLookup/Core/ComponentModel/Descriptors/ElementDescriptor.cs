@@ -19,11 +19,14 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -37,24 +40,21 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 
-    public MenuItem[] RegisterMenu()
+    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
     {
-        if (_element is ElementType) return Array.Empty<MenuItem>();
+        if (_element is ElementType) return;
 
-        return new[]
-        {
-            MenuItem.Create("Show element")
-                .AddCommand(_element, element =>
+        contextMenu.AddMenuItem("Show element")
+            .SetCommand(_element, element =>
+            {
+                Application.ActionEventHandler.Raise(_ =>
                 {
-                    Application.ActionEventHandler.Raise(_ =>
-                    {
-                        if (RevitApi.UiDocument is null) return;
-                        RevitApi.UiDocument.ShowElements(element);
-                        RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
-                    });
-                })
-                .AddGesture(ModifierKeys.Alt, Key.F7)
-        };
+                    if (RevitApi.UiDocument is null) return;
+                    RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
+                });
+            })
+            .AddShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
     }
 
     public void RegisterExtensions(IExtensionManager manager)

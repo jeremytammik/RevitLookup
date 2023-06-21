@@ -79,13 +79,6 @@
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsHardwareRenderingAllowed}" />
                 </rl:CardControl>
-                <rl:CardControl
-                    Header="Show time column"
-                    Icon="Timer1024"
-                    Margin="0,8,0,0">
-                    <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsTimeColumnAllowed}" />
-                </rl:CardControl>
             </StackPanel>
             <TextBlock
                 FontSize="16"

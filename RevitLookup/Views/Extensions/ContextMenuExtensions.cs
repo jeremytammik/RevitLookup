@@ -28,40 +28,36 @@ namespace RevitLookup.Views.Extensions;
 
 public static class ContextMenuExtensions
 {
-    public static MenuItem AddMenuItem(this ContextMenu menu, string text, ICommand command)
+    public static MenuItem AddMenuItem(this ContextMenu menu, string text)
     {
         var item = new MenuItem
         {
             Header = text,
-            Command = command
         };
 
         menu.Items.Add(item);
         return item;
     }
 
-    public static MenuItem AddMenuItem(this ContextMenu menu, string text, Action command)
+    public static MenuItem AddMenuItem(this ContextMenu menu, object resource)
     {
-        var item = new MenuItem
-        {
-            Header = text,
-            Command = new RelayCommand(command)
-        };
+        var item = (MenuItem) resource;
 
         menu.Items.Add(item);
         return item;
     }
 
-    public static MenuItem AddMenuItem<T>(this ContextMenu menu, string text, T parameter, Action<T> command)
+    public static MenuItem SetCommand(this MenuItem item, Action command)
     {
-        var item = new MenuItem
-        {
-            Header = text,
-            Command = new RelayCommand<T>(command),
-            CommandParameter = parameter
-        };
+        item.Command = new RelayCommand(command);
+        return item;
+    }
+    
+    public static MenuItem SetCommand<T>(this MenuItem item, T parameter, Action<T> command)
+    {
+        item.Command = new RelayCommand<T>(command);
+        item.CommandParameter = parameter;
 
-        menu.Items.Add(item);
         return item;
     }
 
@@ -71,10 +67,32 @@ public static class ContextMenuExtensions
         item.InputGestureText = gesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
     }
 
-    public static void AddShortcut(this MenuItem item, UIElement bindableElement, ModifierKeys modifiers, Key key)
+    public static MenuItem AddShortcut(this MenuItem item, UIElement bindableElement, ModifierKeys modifiers, Key key)
     {
         var inputGesture = new KeyGesture(key, modifiers);
         bindableElement.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = inputGesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
+        
+        return item;
+    }
+
+    public static MenuItem AddShortcut(this MenuItem item, UIElement bindableElement, Key key)
+    {
+        var inputGesture = new KeyGesture(key);
+        bindableElement.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
+        item.InputGestureText = inputGesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
+        
+        return item;
+    }
+    
+    public static void SetGestureText(this MenuItem item, Key key)
+    {
+        item.InputGestureText = new KeyGesture(key).GetDisplayStringForCulture(CultureInfo.InvariantCulture);
+    }
+
+    public static MenuItem SetAvailability(this MenuItem item, bool condition)
+    {
+        item.IsChecked = condition;
+        return item;
     }
 }

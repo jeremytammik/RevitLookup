@@ -19,12 +19,15 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
 #if R23_OR_GREATER
 using System.Windows.Input;
 #endif
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -38,34 +41,29 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
     }
 
-    public MenuItem[] RegisterMenu()
+    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
     {
 #if R23_OR_GREATER
-        return new[]
-        {
-            MenuItem.Create("Show solid")
-                .AddCommand(_solid, solid =>
+        contextMenu.AddMenuItem("Show solid")
+            .SetCommand(_solid, solid =>
+            {
+                Application.ActionEventHandler.Raise(_ =>
                 {
-                    Application.ActionEventHandler.Raise(_ =>
-                    {
-                        if (RevitApi.UiDocument is null) return;
-                        var references = solid.Faces
-                            .Cast<Face>()
-                            .Select(face => face.Reference)
-                            .Where(reference => reference is not null)
-                            .ToList();
+                    if (RevitApi.UiDocument is null) return;
+                    var references = solid.Faces
+                        .Cast<Face>()
+                        .Select(face => face.Reference)
+                        .Where(reference => reference is not null)
+                        .ToList();
 
-                        if (references.Count == 0) return;
+                    if (references.Count == 0) return;
 
-                        var element = references[0].ElementId.ToElement(RevitApi.Document);
-                        if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                        RevitApi.UiDocument.Selection.SetReferences(references);
-                    });
-                })
-                .AddGesture(ModifierKeys.Alt, Key.F7)
-        };
-#else
-        return Array.Empty<MenuItem>();
+                    var element = references[0].ElementId.ToElement(RevitApi.Document);
+                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetReferences(references);
+                });
+            })
+            .AddShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
 #endif
     }
 }
