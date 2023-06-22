@@ -42,6 +42,35 @@ partial class Build
             await ReleaseDraftAsync(gitHubOwner, gitHubName, draft);
         });
 
+    static async Task CheckTagsAsync(string gitHubOwner, string gitHubName, string version)
+    {
+        var gitHubTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
+        if (gitHubTags.Select(tag => tag.Name).Contains(version))
+            throw new ArgumentException($"A Release with the specified tag already exists in the repository: {version}");
+    }
+
+    static async Task<Release> CreatedDraftAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
+        await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
+
+    static async Task ReleaseDraftAsync(string gitHubOwner, string gitHubName, Release draft) =>
+        await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draft.Id, new ReleaseUpdate {Draft = false});
+
+    static async Task UploadArtifactsAsync(Release createdRelease, string[] artifacts)
+    {
+        foreach (var file in artifacts)
+        {
+            var releaseAssetUpload = new ReleaseAssetUpload
+            {
+                ContentType = "application/x-binary",
+                FileName = Path.GetFileName(file),
+                RawData = File.OpenRead(file)
+            };
+
+            await GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload);
+            Log.Information("Artifact: {Path}", file);
+        }
+    }
+
     string CreateChangelog(string version)
     {
         if (!File.Exists(ChangeLogPath))
@@ -72,34 +101,5 @@ partial class Build
 
         if (logBuilder.Length == 0) Log.Warning("No version entry exists in the changelog: {Version}", version);
         return logBuilder.ToString();
-    }
-
-    static async Task CheckTagsAsync(string gitHubOwner, string gitHubName, string version)
-    {
-        var gitHubTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
-        if (gitHubTags.Select(tag => tag.Name).Contains(version))
-            throw new ArgumentException($"A Release with the specified tag already exists in the repository: {version}");
-    }
-
-    static async Task<Release> CreatedDraftAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
-        await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
-
-    static async Task ReleaseDraftAsync(string gitHubOwner, string gitHubName, Release draft) =>
-        await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draft.Id, new ReleaseUpdate {Draft = false});
-
-    static async Task UploadArtifactsAsync(Release createdRelease, string[] artifacts)
-    {
-        foreach (var file in artifacts)
-        {
-            var releaseAssetUpload = new ReleaseAssetUpload
-            {
-                ContentType = "application/x-binary",
-                FileName = Path.GetFileName(file),
-                RawData = File.OpenRead(file)
-            };
-
-            await GitHubTasks.GitHubClient.Repository.Release.UploadAsset(createdRelease, releaseAssetUpload);
-            Log.Information("Artifact: {Path}", file);
-        }
     }
 }

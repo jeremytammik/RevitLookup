@@ -21,6 +21,7 @@
 using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.Core;
 
@@ -40,5 +41,62 @@ public static class RevitApi
             null,
             new object[] {UiApplication},
             null);
+    }
+
+    public static List<UnitInfo> GetUnitInfos(Type unitType)
+    {
+        if (unitType == typeof(BuiltInParameter))
+        {
+            var parameters = Enum.GetValues(unitType).Cast<BuiltInParameter>();
+            var list = new List<UnitInfo>();
+            foreach (var builtInParameter in parameters)
+                try
+                {
+                    list.Add(new UnitInfo(builtInParameter.ToString(), builtInParameter.ToLabel()));
+                }
+                catch
+                {
+                    // ignored
+                    // Some parameters don't have a label
+                }
+
+            return list;
+        }
+
+        if (unitType == typeof(BuiltInCategory))
+        {
+            var categories = Enum.GetValues(unitType).Cast<BuiltInCategory>();
+            var list = new List<UnitInfo>();
+            foreach (var category in categories)
+                try
+                {
+                    list.Add(new UnitInfo(category.ToString(), category.ToLabel()));
+                }
+                catch
+                {
+                    // ignored
+                    // Some categories don't have a label
+                }
+
+            return list;
+        }
+
+        if (unitType == typeof(ForgeTypeId))
+#if R22_OR_GREATER
+            return UnitUtils.GetAllUnits()
+                .Concat(UnitUtils.GetAllDisciplines())
+                .Concat(UnitUtils.GetAllMeasurableSpecs())
+                .Concat(SpecUtils.GetAllSpecs())
+                .Concat(ParameterUtils.GetAllBuiltInGroups())
+                .Concat(ParameterUtils.GetAllBuiltInParameters())
+                .Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToLabel()))
+                .ToList();
+#else
+            return UnitUtils.GetAllUnits().Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToUnitLabel()))
+                .Concat(UnitUtils.GetAllSpecs().Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToSpecLabel())))
+                .ToList();
+#endif
+
+        throw new NotSupportedException();
     }
 }

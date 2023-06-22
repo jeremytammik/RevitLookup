@@ -65,6 +65,7 @@ public static class DescriptorMap
             //APIObjects
             Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
             Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
+            FamilyParameter value when type is null || type == typeof(FamilyParameter) => new FamilyParameterDescriptor(value),
             Reference value when type is null || type == typeof(Reference) => new ReferenceDescriptor(value),
             Color value when type is null || type == typeof(Color) => new ColorDescriptor(value),
             Curve value when type is null || type == typeof(Curve) => new CurveDescriptor(value),
@@ -75,6 +76,7 @@ public static class DescriptorMap
             PaperSize value when type is null || type == typeof(PaperSize) => new PaperSizeDescriptor(value),
             PrintManager value when type is null || type == typeof(PrintManager) => new PrintManagerDescriptor(value),
             DefinitionGroup value when type is null || type == typeof(DefinitionGroup) => new DefinitionGroupDescriptor(value),
+            FamilyManager value when type is null || type == typeof(FamilyManager) => new FamilyManagerDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables

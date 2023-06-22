@@ -19,10 +19,15 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+#if R23_OR_GREATER
 using System.Windows.Input;
+#endif
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -36,28 +41,22 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
-
-    public MenuItem[] RegisterMenu()
+    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
     {
 #if R23_OR_GREATER
-        return new[]
-        {
-            MenuItem.Create("Show edge")
-                .AddCommand(_edge, edge =>
+        contextMenu.AddMenuItem("Show edge")
+            .SetCommand(_edge, edge =>
+            {
+                Application.ActionEventHandler.Raise(_ =>
                 {
-                    Application.ActionEventHandler.Raise(_ =>
-                    {
-                        if (RevitApi.UiDocument is null) return;
-                        if (edge.Reference is null) return;
-                        var element = edge.Reference.ElementId.ToElement(RevitApi.Document);
-                        if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                        RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
-                    });
-                })
-                .AddGesture(ModifierKeys.Alt, Key.F7)
-        };
-#else
-        return Array.Empty<MenuItem>();
+                    if (RevitApi.UiDocument is null) return;
+                    if (edge.Reference is null) return;
+                    var element = edge.Reference.ElementId.ToElement(RevitApi.Document);
+                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
+                });
+            })
+            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
 #endif
     }
 }

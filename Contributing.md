@@ -44,8 +44,12 @@ Indicates that the descriptor can retrieve object members by reflection.
 If you add this interface, the user can click on the object and analyze its members.
 
 ```c#
-public sealed class ApiObjectDescriptor : Descriptor, IDescriptorCollector
+public sealed class ApplicationDescriptor : Descriptor, IDescriptorCollector
 {
+    public ApplicationDescriptor(Autodesk.Revit.ApplicationServices.Application application)
+    {
+        Name = application.VersionName;
+    }
 }
 ```
 
@@ -138,19 +142,21 @@ Adding an option for the context menu:
 ```c#
 public sealed class ElementDescriptor : Descriptor, IDescriptorConnector
 {
-    public MenuItem[] RegisterMenu()
+    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
     {
-        return new[]
-        {
-            MenuItem.Create("Show element")
-                .AddCommand(_element, element =>
+        if (_element is ElementType) return;
+
+        contextMenu.AddMenuItem("Show element")
+            .SetCommand(_element, element =>
+            {
+                Application.ActionEventHandler.Raise(_ =>
                 {
                     if (RevitApi.UiDocument is null) return;
                     RevitApi.UiDocument.ShowElements(element);
                     RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
-                })
-                .AddGesture(ModifierKeys.Alt, Key.F7)
-        };
+                });
+            })
+            .AddShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
     }
 }
 ```

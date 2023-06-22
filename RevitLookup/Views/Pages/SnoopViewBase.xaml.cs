@@ -35,7 +35,6 @@ using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
 using Wpf.Ui.Controls.Navigation;
 using DataGrid = Wpf.Ui.Controls.DataGrid;
-using MenuItem = RevitLookup.Core.Objects.MenuItem;
 using TreeView = Wpf.Ui.Controls.TreeView;
 
 namespace RevitLookup.Views.Pages;
@@ -64,21 +63,27 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         }
     }
 
-    public ISnoopViewModel ViewModel { get; init; }
+    public ISnoopViewModel ViewModel { get; protected init; }
 
-    private static void OnDataGridChanged(DataGrid control)
+    private async void OnDataGridChanged(DataGrid control)
     {
-        control.ItemsSourceChanged += (sender, _) =>
-        {
-            var dataGrid = (DataGrid) sender;
+        await Task.Delay(1);
 
-            //Clear shapingStorage for remove duplications. WpfBug?
-            dataGrid.Items.GroupDescriptions!.Clear();
-            dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Depth), ListSortDirection.Descending));
-            dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.MemberAttributes), ListSortDirection.Ascending));
-            dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Name), ListSortDirection.Ascending));
-            dataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
-        };
+        ValidateTimeColumn(control);
+        CreateGridContextMenu(control);
+        control.ItemsSourceChanged += OnGridItemsSourceChanged;
+    }
+
+    private void OnGridItemsSourceChanged(object sender, EventArgs _)
+    {
+        var dataGrid = (DataGrid) sender;
+
+        //Clear shapingStorage for remove duplications. WpfBug?
+        dataGrid.Items.GroupDescriptions!.Clear();
+        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Depth), ListSortDirection.Descending));
+        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.MemberAttributes), ListSortDirection.Ascending));
+        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Name), ListSortDirection.Ascending));
+        dataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
     }
 
     /// <summary>
@@ -168,6 +173,18 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         ViewModel.Navigate((Descriptor) DataGridControl.SelectedItem);
     }
 
+    private void ValidateTimeColumn(DataGrid control)
+    {
+        control.Columns[2].Visibility = _settingsService.IsTimeColumnAllowed ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void ToggleTimeColumn(DataGrid control)
+    {
+        var state = control.Columns[2].Visibility == Visibility.Visible;
+        control.Columns[2].Visibility = state ? Visibility.Collapsed : Visibility.Visible;
+        _settingsService.IsTimeColumnAllowed = !state;
+    }
+
     /// <summary>
     ///     Create tooltip, menu
     /// </summary>
@@ -188,8 +205,8 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
                 break;
             case Descriptor context:
                 descriptor = context;
-                CreateGridTooltip(descriptor, element);
-                CreateGridContextMenu(descriptor, element);
+                CreateGridRowTooltip(descriptor, element);
+                CreateGridRowContextMenu(descriptor, element);
                 break;
             default:
                 return;
@@ -209,7 +226,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         };
     }
 
-    private void CreateGridTooltip(Descriptor descriptor, FrameworkElement row)
+    private void CreateGridRowTooltip(Descriptor descriptor, FrameworkElement row)
     {
         var builder = new StringBuilder();
 
@@ -232,6 +249,11 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
                 .Append("Description: ")
                 .Append(descriptor.Value.Descriptor.Description);
 
+        builder.AppendLine()
+            .Append("Time: ")
+            .Append(descriptor.ComputationTime)
+            .Append(" ms");
+
         row.ToolTip = new ToolTip
         {
             Content = builder.ToString()
@@ -241,52 +263,54 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private void CreateTreeContextMenu(Descriptor descriptor, FrameworkElement row)
     {
         var contextMenu = new ContextMenu();
-        contextMenu.AddMenuItem("Copy", descriptor, parameter => Clipboard.SetText(parameter.Name))
-            .AddShortcut(row, ModifierKeys.Control, Key.C);
-        contextMenu.AddMenuItem("Help", descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
-            .AddShortcut(row, new KeyGesture(Key.F1));
+        contextMenu.AddMenuItem(Resources["CopyMenuItem"])
+            .SetCommand(descriptor, parameter => Clipboard.SetText(parameter.Name))
+            .SetShortcut(row, ModifierKeys.Control, Key.C);
+        contextMenu.AddMenuItem(Resources["HelpMenuItem"])
+            .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
+            .SetShortcut(row, Key.F1);
 
+        if (descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
         row.ContextMenu = contextMenu;
-        if (descriptor is IDescriptorConnector connector) AttachMenu(row, connector);
     }
 
-    private static void CreateGridContextMenu(Descriptor descriptor, FrameworkElement row)
+    private void CreateGridContextMenu(DataGrid dataGrid)
     {
         var contextMenu = new ContextMenu();
-        contextMenu.AddMenuItem("Copy", ApplicationCommands.Copy);
-        var copyValue = contextMenu.AddMenuItem("Copy value", descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name));
-        copyValue.AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
-        contextMenu.AddMenuItem("Help", descriptor, parameter => HelpUtils.ShowHelp($"{parameter.TypeFullName} {parameter.Name}"))
-            .AddShortcut(row, new KeyGesture(Key.F1));
+        contextMenu.AddMenuItem(Resources["ShowTimeMenuItem"])
+            .SetCommand(() => ToggleTimeColumn(dataGrid));
+        contextMenu.AddMenuItem(Resources["RefreshMenuItem"])
+            .SetCommand(() => ViewModel.RefreshMembersCommand.Execute(null))
+            .SetGestureText(Key.F5);
 
-        row.ContextMenu = contextMenu;
-        if (descriptor.Value.Descriptor is IDescriptorConnector connector) AttachMenu(row, connector);
-        if (descriptor.Value.Descriptor.Name is null) copyValue.IsEnabled = false;
+        dataGrid.ContextMenu = contextMenu;
     }
 
-    private static void AttachMenu(FrameworkElement row, IDescriptorConnector connector)
+    private void CreateGridRowContextMenu(Descriptor descriptor, FrameworkElement row)
     {
-        MenuItem[] menuItems;
-        try
-        {
-            menuItems = connector.RegisterMenu();
-        }
-        catch
-        {
-            return;
-        }
+        var contextMenu = new ContextMenu();
 
-        foreach (var menuItem in menuItems)
-        {
-            var item = row.ContextMenu.AddMenuItem(menuItem.Name, menuItem.Command);
-            if (menuItem.Parameter is not null) item.CommandParameter = menuItem.Parameter;
-            if (menuItem.Gesture is not null) item.AddShortcut(row, menuItem.Gesture);
-        }
+        contextMenu.AddMenuItem(Resources["CopyMenuItem"])
+            .SetCommand(descriptor, parameter => Clipboard.SetText($"{parameter.Name}: {parameter.Value.Descriptor.Name}"))
+            .SetShortcut(row, ModifierKeys.Control, Key.C);
+
+        contextMenu.AddMenuItem(Resources["CopyMenuItem"])
+            .SetHeader("Copy value")
+            .SetCommand(descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
+            .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C)
+            .SetAvailability(descriptor.Value.Descriptor.Name is not null);
+
+        contextMenu.AddMenuItem(Resources["HelpMenuItem"])
+            .SetCommand(descriptor, parameter => HelpUtils.ShowHelp($"{parameter.TypeFullName} {parameter.Name}"))
+            .SetShortcut(row, new KeyGesture(Key.F1));
+
+        if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
+        row.ContextMenu = contextMenu;
     }
 
     private void AddShortcuts()
     {
-        var command = new RelayCommand(() => { ViewModel.RefreshMembersCommand.Execute(null); });
+        var command = new RelayCommand(() => ViewModel.RefreshMembersCommand.Execute(null));
         InputBindings.Add(new KeyBinding(command, new KeyGesture(Key.F5)));
     }
 }

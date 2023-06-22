@@ -29,7 +29,7 @@ namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class UnitsDialog
 {
-    public UnitsDialog(Type unitType)
+    public UnitsDialog(List<UnitInfo> unitType)
     {
         InitializeComponent();
         DataContext = new UnitsViewModel(unitType);
@@ -45,9 +45,13 @@ public sealed partial class UnitsDialog
     private void CreateTreeContextMenu(UnitInfo info, FrameworkElement row)
     {
         row.ContextMenu = new ContextMenu();
-        row.ContextMenu.AddMenuItem("Copy unit", info, parameter => Clipboard.SetText(parameter.Unit))
-            .AddShortcut(row, ModifierKeys.Control, Key.C);
-        row.ContextMenu.AddMenuItem("Copy label", info, parameter => Clipboard.SetText(parameter.Label))
-            .AddShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
+        row.ContextMenu.AddMenuItem(Resources["CopyMenuItem"])
+            .SetHeader("Copy unit")
+            .SetCommand(info, parameter => Clipboard.SetText(parameter.Unit))
+            .SetShortcut(row, ModifierKeys.Control, Key.C);
+        row.ContextMenu.AddMenuItem(Resources["CopyMenuItem"])
+            .SetHeader("Copy label")
+            .SetCommand(info, parameter => Clipboard.SetText(parameter.Label))
+            .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
     }
 }

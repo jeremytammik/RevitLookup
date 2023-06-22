@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <UseWPF>true</UseWPF>
         <LangVersion>latest</LangVersion>
@@ -10,13 +9,15 @@
         <Configurations>$(Configurations);Release R21;Release R22;Release R23;Release R24</Configurations>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
-        <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <SharingType>Local</SharingType>
         <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Release'))">
         <Optimize>true</Optimize>
         <DebugType>none</DebugType>
+        <SharingType>Publish</SharingType>
         <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('R21'))">
@@ -51,24 +52,24 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Using Include="Nice3point.Revit.Extensions" />
-        <Using Include="JetBrains.Annotations" />
+        <Using Include="Nice3point.Revit.Extensions"/>
+        <Using Include="JetBrains.Annotations"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="System.Net.Http" />
+        <Reference Include="System.Net.Http"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*" />
-        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*" />
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*-*" />
-        <PackageReference Include="Nice3point.Revit.Api.AdWindows" Version="$(RevitVersion).*-*" />
-        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*-*" />
-        <PackageReference Include="Nice3point.Revit.Api.UIFramework" Version="$(RevitVersion).*-*" />
-        <PackageReference Include="Nice3point.Revit.Api.UIFrameworkServices" Version="$(RevitVersion).*-*" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*-*"/>
+        <PackageReference Include="Nice3point.Revit.Api.AdWindows" Version="$(RevitVersion).*-*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*-*"/>
+        <PackageReference Include="Nice3point.Revit.Api.UIFramework" Version="$(RevitVersion).*-*"/>
+        <PackageReference Include="Nice3point.Revit.Api.UIFrameworkServices" Version="$(RevitVersion).*-*"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0"/>
         <PackageReference Include="PolySharp" Version="1.*">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -76,36 +77,41 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj" />
+        <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\Images\RibbonIcon16.png" />
-        <Resource Include="Resources\Images\RibbonIcon32.png" />
-        <Resource Include="Resources\Images\AboutLogo200.png" />
-        <Resource Include="Resources\Images\ShellIcon.ico" />
+        <Resource Include="Resources\Images\RibbonIcon16.png"/>
+        <Resource Include="Resources\Images\RibbonIcon32.png"/>
+        <Resource Include="Resources\Images\AboutLogo200.png"/>
+        <Resource Include="Resources\Images\ShellIcon.ico"/>
     </ItemGroup>
+
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
-            <RootItem Include="$(ProjectDir)*.addin" />
-            <AddinItem Include="$(TargetDir)*" />
+            <RootItem Include="$(ProjectDir)*.addin"/>
+            <AddinItem Include="$(TargetDir)*"/>
         </ItemGroup>
+
         <PropertyGroup>
-            <RootDir>bin\Publish $(RevitVersion) $(Configuration)\</RootDir>
+            <RootDir>bin\$(SharingType) $(RevitVersion) $(Configuration)\</RootDir>
             <AddinDir>$(RootDir)$(AssemblyName)\</AddinDir>
         </PropertyGroup>
-        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)" />
-        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)" />
+
+        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)"/>
+        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)"/>
 
         <ItemGroup>
-            <AddinFiles Include="$(RootDir)**\*.*" />
+            <AddinFiles Include="$(RootDir)**\*.*"/>
         </ItemGroup>
-        <PropertyGroup>
-            <RevitAddinFolder>$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)</RevitAddinFolder>
-        </PropertyGroup>
 
-        <Message Text="$(MSBuildProjectName) -&gt; Copying files to $(RevitAddinFolder)" Importance="High" />
-        <Copy SourceFiles="@(AddinFiles)" DestinationFolder="$(RevitAddinFolder)\%(RecursiveDir)" />
+        <Copy SourceFiles="@(AddinFiles)"
+              DestinationFolder="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\%(RecursiveDir)"/>
+    </Target>
+
+    <Target Name="DeleteFiles" AfterTargets="Clean">
+        <RemoveDir Directories="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\$(ProjectName)"/>
+        <Delete Files="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\$(ProjectName).addin"/>
     </Target>
 </Project>

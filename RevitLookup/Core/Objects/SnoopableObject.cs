@@ -48,12 +48,12 @@ public sealed class SnoopableObject
 
     public IReadOnlyCollection<Descriptor> GetMembers()
     {
-        return _members = DescriptorBuilder.Build(this);
+        return _members = DescriptorBuilder.Build(Object, Context);
     }
 
     public async Task<IReadOnlyCollection<Descriptor>> GetMembersAsync()
     {
-        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ => DescriptorBuilder.Build(this));
+        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ => DescriptorBuilder.Build(Object, Context));
     }
 
     public async Task<IReadOnlyCollection<Descriptor>> GetCachedMembersAsync()

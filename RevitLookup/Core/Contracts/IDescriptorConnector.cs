@@ -18,7 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Objects;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace RevitLookup.Core.Contracts;
 
@@ -27,5 +28,5 @@ namespace RevitLookup.Core.Contracts;
 /// </summary>
 public interface IDescriptorConnector
 {
-    MenuItem[] RegisterMenu();
+    void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement);
 }

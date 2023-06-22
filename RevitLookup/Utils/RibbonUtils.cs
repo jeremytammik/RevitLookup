@@ -54,7 +54,7 @@ public static class RibbonUtils
 
     public static RibbonPanel CreatePanel(this RibbonTab tab, string panelName)
     {
-        var panel = new RibbonPanel
+        var panel = new RvtRibbonPanel
         {
             Source = new RibbonPanelSource
             {
@@ -89,9 +89,14 @@ public static class RibbonUtils
         //ShortcutsHelper.ReloadCommands();
 
         //Fast shortcut reloading
+        RevitRibbonControl.RibbonControl.ShouldJournalTabChange = false;
         var type = typeof(ShortcutsHelper);
         var methodInfo = type.GetMethod("LoadRibbonCommands", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
+
         methodInfo.Invoke(null, new object[] {DocUIType.Model});
+        methodInfo.Invoke(null, new object[] {DocUIType.Project});
+
+        RevitRibbonControl.RibbonControl.ShouldJournalTabChange = true;
     }
 
     [PublicAPI]

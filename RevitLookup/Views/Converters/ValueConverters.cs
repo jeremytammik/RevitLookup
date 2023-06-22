@@ -63,3 +63,30 @@ public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, 
         return this;
     }
 }
+
+public sealed class TimeToStringConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var milliseconds = (double) value!;
+        return milliseconds switch
+        {
+            0 => string.Empty,
+            < 1e-3 => "0.001 ms",
+            < 10 => $"{milliseconds:F3} ms",
+            < 100 => $"{milliseconds:F2} ms",
+            < 1000 => $"{milliseconds:F1} ms",
+            _ => $"{milliseconds:0} ms"
+        };
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}

@@ -19,10 +19,15 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
+using System.Windows;
+using System.Windows.Controls;
+#if R23_OR_GREATER
 using System.Windows.Input;
+#endif
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -36,27 +41,22 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
 
-    public MenuItem[] RegisterMenu()
+    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
     {
 #if R23_OR_GREATER
-        return new[]
-        {
-            MenuItem.Create("Show face")
-                .AddCommand(_face, face =>
+        contextMenu.AddMenuItem("Show face")
+            .SetCommand(_face, face =>
+            {
+                Application.ActionEventHandler.Raise(_ =>
                 {
-                    Application.ActionEventHandler.Raise(_ =>
-                    {
-                        if (RevitApi.UiDocument is null) return;
-                        if (face.Reference is null) return;
-                        var element = face.Reference.ElementId.ToElement(RevitApi.Document);
-                        if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                        RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {face.Reference});
-                    });
-                })
-                .AddGesture(ModifierKeys.Alt, Key.F7)
-        };
-#else
-        return Array.Empty<MenuItem>();
+                    if (RevitApi.UiDocument is null) return;
+                    if (face.Reference is null) return;
+                    var element = face.Reference.ElementId.ToElement(RevitApi.Document);
+                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
+                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {face.Reference});
+                });
+            })
+            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
 #endif
     }
 }

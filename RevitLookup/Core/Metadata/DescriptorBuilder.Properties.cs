@@ -34,13 +34,22 @@ public partial class DescriptorBuilder
 
             object value;
             ParameterInfo[] parameters = null;
+            _tracker.Start();
             try
             {
-                if (!TryEvaluate(member, out value, out parameters)) continue;
+                if (!TryEvaluate(member, out value, out parameters))
+                {
+                    _tracker.Reset();
+                    continue;
+                }
             }
             catch (Exception exception)
             {
                 value = exception;
+            }
+            finally
+            {
+                _tracker.Stop();
             }
 
             WriteDescriptor(member, value, parameters);
@@ -61,7 +70,7 @@ public partial class DescriptorBuilder
         parameters = member.GetMethod.GetParameters();
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
-            value = resolver.Resolve(_context, member.Name, parameters);
+            value = resolver.Resolve(Context, member.Name, parameters);
             if (value is not null) return true;
         }
 

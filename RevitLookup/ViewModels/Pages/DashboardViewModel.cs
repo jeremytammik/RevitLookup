@@ -125,22 +125,25 @@ public sealed partial class DashboardViewModel : ObservableObject
         switch (parameter)
         {
             case "parameters":
+                var units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(BuiltInParameter)));
                 dialog.Title = "BuiltIn Parameters";
-                dialog.Content = new UnitsDialog(typeof(BuiltInParameter));
+                dialog.Content = new UnitsDialog(units);
                 dialog.DialogWidth = 800;
                 dialog.DialogHeight = 600;
                 await dialog.ShowAsync();
                 break;
             case "categories":
+                units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(BuiltInCategory)));
                 dialog.Title = "BuiltIn Categories";
-                dialog.Content = new UnitsDialog(typeof(BuiltInCategory));
+                dialog.Content = new UnitsDialog(units);
                 dialog.DialogWidth = 800;
                 dialog.DialogHeight = 600;
                 await dialog.ShowAsync();
                 break;
             case "forge":
+                units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(ForgeTypeId)));
                 dialog.Title = "Forge Schema";
-                dialog.Content = new UnitsDialog(typeof(ForgeTypeId));
+                dialog.Content = new UnitsDialog(units);
                 dialog.DialogWidth = 800;
                 dialog.DialogHeight = 600;
                 await dialog.ShowAsync();

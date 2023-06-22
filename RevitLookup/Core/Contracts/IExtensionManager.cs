@@ -18,11 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Extensions;
+using Autodesk.Revit.DB;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Contracts;
 
 public interface IExtensionManager
 {
+    Document Context { get; }
     void Register<T>(T value, Action<DescriptorExtension<T>> extension);
 }

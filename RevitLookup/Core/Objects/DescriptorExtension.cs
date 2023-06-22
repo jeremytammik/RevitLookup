@@ -18,46 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+using Autodesk.Revit.DB;
 
 namespace RevitLookup.Core.Objects;
 
-public sealed class MenuItem
+public sealed class DescriptorExtension<T>
 {
-    private MenuItem()
-    {
-    }
-
-    public string Name { get; private init; }
-    public KeyGesture Gesture { get; private set; }
-    public ICommand Command { get; private set; }
-    public object Parameter { get; private set; }
-
-    public static MenuItem Create(string name)
-    {
-        return new MenuItem
-        {
-            Name = name
-        };
-    }
-
-    public MenuItem AddCommand(Action command)
-    {
-        Command = new RelayCommand(command);
-        return this;
-    }
-
-    public MenuItem AddCommand<T>(T parameter, Action<T> command)
-    {
-        Command = new RelayCommand<T>(command);
-        Parameter = parameter;
-        return this;
-    }
-
-    public MenuItem AddGesture(ModifierKeys modifiers, Key key)
-    {
-        Gesture = new KeyGesture(key, modifiers);
-        return this;
-    }
+    public required Document Context { get; init; }
+    public required T Value { get; init; }
+    public object Result { get; set; }
+    public string Name { get; set; }
 }

@@ -98,3 +98,15 @@ New control with ItemsSourceChanged event
 
 - Add navigation\unloaded events
 - NotifyContentAboutNavigatingTo removed `content is FrameworkElement`
+
+# Wpf.Ui.Styles.Controls.ToolTip
+
+- Add TextElement.FontWeight- 
+
+# Wpf.Ui.Styles.Controls.Contextmenu
+
+- Add TextElement.FontWeight
+
+# Wpf.Ui.Styles.Controls.MenuItem
+
+- Edited SubmenuItem Symbol trigger

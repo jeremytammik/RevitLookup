@@ -29,6 +29,7 @@ public abstract class Descriptor
     public string Type { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    public double ComputationTime { get; set; }
     public MemberAttributes MemberAttributes { get; set; }
     public SnoopableObject Value { get; set; }
 }

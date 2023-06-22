@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,13 +19,15 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 
-namespace RevitLookup.Core.Extensions;
+namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class DescriptorExtension<T>
+public sealed class FamilyParameterDescriptor : Descriptor, IDescriptorCollector
 {
-    public required Document Context { get; init; }
-    public required T Value { get; init; }
-    public object Result { get; set; }
-    public string Name { get; set; }
+    public FamilyParameterDescriptor(FamilyParameter familyParameter)
+    {
+        Name = familyParameter.Definition.Name;
+    }
 }

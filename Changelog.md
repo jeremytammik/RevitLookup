@@ -1,5 +1,47 @@
 # Changelog
 
+# 2023-06-22 **2024.0.8**
+
+## Features
+
+### Core
+
+* Computing Time Tracking
+
+  This feature includes the ability to monitor the computing time taken to invoke a member, such as methods or properties. 
+  By tracking the execution time, you can identify and analyze slow-performing methods or properties, gaining insights into their overall performance. 
+  The computing time is displayed in a separate column and a tooltip, providing you with detailed information. This feature is optional and disabled by default
+
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/9f9c816f-2f49-49a0-9757-6f0bb0000113)
+
+### User interface
+
+* Context Menu
+
+  A convenient context menu has been added to the table, providing you with additional options to manage columns and update contents. 
+  This menu enables you to customize your table view and effortlessly perform actions to enhance your experience.
+
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/25491ace-1d16-46cc-9dc3-3e5016b266a0)
+
+* Enhanced Visualization
+
+  Icons have been added to the context menu, making it more visually appealing and intuitive for users to navigate and interact with the available options.
+
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/afe44cbf-6e5b-4508-beda-b5a4e7babcf2)
+
+## Improvements
+
+* Added async support for unit dialogs
+* Added API for external programs https://github.com/jeremytammik/RevitLookup/issues/171
+* Added FamilyParameter support by @CADBIMDeveloper in https://github.com/jeremytammik/RevitLookup/pull/174
+* Added FamilyManager.GetAssociatedFamilyParameter extension by @CADBIMDeveloper in https://github.com/jeremytammik/RevitLookup/pull/175
+
+## Bugs
+
+* Fixed shortcuts reloading leading to incorrect ribbon update https://github.com/jeremytammik/RevitLookup/issues/177
+
+Full changelog: https://github.com/jeremytammik/RevitLookup/compare/2024.0.7...2024.0.8
+
 # 2023-06-03 **2024.0.7**
 
 Corrective update to the last major release [RevitLookup 2024.0.6](https://github.com/jeremytammik/RevitLookup/releases/tag/2024.0.6)
