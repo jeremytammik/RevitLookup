@@ -27,7 +27,7 @@ public sealed partial class App
 {
     private string _revitPath;
 
-    private async void OnStartup(object sender, StartupEventArgs e)
+    private void OnStartup(object sender, StartupEventArgs e)
     {
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
         var host = CreateHost();
