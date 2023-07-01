@@ -1,4 +1,4 @@
-name: Workflow
+name: Nuke
 
 on:
   push:
@@ -14,6 +14,6 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       - name: Run Nuke Build
         run: ./.nuke/build.cmd --GitHubToken ${{ secrets.GITHUB_TOKEN }}
