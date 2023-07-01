@@ -74,6 +74,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
         }
 
         Loaded += OnLoaded;
+
         void OnLoaded(object o, RoutedEventArgs args)
         {
             Loaded -= OnLoaded;

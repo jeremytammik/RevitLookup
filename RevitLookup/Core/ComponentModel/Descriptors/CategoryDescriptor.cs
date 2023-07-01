@@ -48,7 +48,6 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
 #endif
         });
 #if R21 || R22
-
         manager.Register(_category, extension =>
         {
             extension.Name = "BuiltInCategory";

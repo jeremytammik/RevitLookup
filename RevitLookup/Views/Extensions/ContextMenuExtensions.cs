@@ -53,7 +53,7 @@ public static class ContextMenuExtensions
         item.Command = new RelayCommand(command);
         return item;
     }
-    
+
     public static MenuItem SetCommand<T>(this MenuItem item, T parameter, Action<T> command)
     {
         item.Command = new RelayCommand<T>(command);
@@ -73,7 +73,7 @@ public static class ContextMenuExtensions
         var inputGesture = new KeyGesture(key, modifiers);
         bindableElement.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = inputGesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
-        
+
         return item;
     }
 
@@ -82,15 +82,15 @@ public static class ContextMenuExtensions
         var inputGesture = new KeyGesture(key);
         bindableElement.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = inputGesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
-        
+
         return item;
     }
-    
+
     public static MenuItem SetHeader(this MenuItem item, string text)
     {
         item.Header = text;
         return item;
-    }  
+    }
 
     public static MenuItem SetGestureText(this MenuItem item, Key key)
     {
