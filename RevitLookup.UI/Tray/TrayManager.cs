@@ -124,7 +124,7 @@ internal static class TrayManager
     /// </summary>
     private static HwndSource GetParentSource()
     {
-        var mainWindow = Application.Current;
+        var mainWindow = Application.MainWindow;
 
         if (mainWindow == null)
             return null;

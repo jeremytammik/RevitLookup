@@ -89,7 +89,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     /// <summary>
     ///     Expand treeView
     /// </summary>
-    protected async void OnTreeSourceChanged(object sender, EventArgs readOnlyList)
+    protected async void OnTreeSourceChanged(object sender, EventArgs args)
     {
         if (TreeViewControl.Items.Count > 3) return;
 

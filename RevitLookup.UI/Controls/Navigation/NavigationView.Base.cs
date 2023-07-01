@@ -77,7 +77,7 @@ public partial class NavigationView : System.Windows.Controls.Control, INavigati
         if (Header is BreadcrumbBar breadcrumbBar)
         {
             breadcrumbBar.ItemsSource = _breadcrumbBarItems;
-            breadcrumbBar.ItemTemplate ??= Application.Current.TryFindResource("NavigationViewItemDataTemplate") as DataTemplate;
+            breadcrumbBar.ItemTemplate ??= Application.MainWindow.TryFindResource("NavigationViewItemDataTemplate") as DataTemplate;
             breadcrumbBar.ItemClicked += BreadcrumbBarOnItemClicked;
         }
 

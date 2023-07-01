@@ -27,7 +27,7 @@ public static class Accent
     {
         get
         {
-            var resource = Application.Current.Resources["SystemAccentColor"];
+            var resource = Application.MainWindow.Resources["SystemAccentColor"];
 
             if (resource is Color color)
                 return color;
@@ -48,7 +48,7 @@ public static class Accent
     {
         get
         {
-            var resource = Application.Current.Resources["SystemAccentColorPrimary"];
+            var resource = Application.MainWindow.Resources["SystemAccentColorPrimary"];
 
             if (resource is Color color)
                 return color;
@@ -69,7 +69,7 @@ public static class Accent
     {
         get
         {
-            var resource = Application.Current.Resources["SystemAccentColorSecondary"];
+            var resource = Application.MainWindow.Resources["SystemAccentColorSecondary"];
 
             if (resource is Color color)
                 return color;
@@ -90,7 +90,7 @@ public static class Accent
     {
         get
         {
-            var resource = Application.Current.Resources["SystemAccentColorTertiary"];
+            var resource = Application.MainWindow.Resources["SystemAccentColorTertiary"];
 
             if (resource is Color color)
                 return color;

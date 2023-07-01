@@ -24,7 +24,7 @@ namespace RevitLookup.Services.Contracts;
 
 public interface IWindow
 {
-    IServiceProvider Scope { get; }
+    IServiceProvider ServiceProvider { get; }
     void Show();
     void Show(Window window);
     void ShowAttached();

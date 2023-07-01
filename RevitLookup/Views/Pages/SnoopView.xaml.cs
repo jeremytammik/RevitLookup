@@ -47,12 +47,12 @@ public sealed partial class SnoopView : INavigationAware
 
     public void OnNavigatedTo()
     {
-        Wpf.Ui.Application.Current.PreviewKeyDown += OnKeyPressed;
+        Wpf.Ui.Application.MainWindow.PreviewKeyDown += OnKeyPressed;
     }
 
     public void OnNavigatedFrom()
     {
-        Wpf.Ui.Application.Current.PreviewKeyDown -= OnKeyPressed;
+        Wpf.Ui.Application.MainWindow.PreviewKeyDown -= OnKeyPressed;
     }
 
     private void OnKeyPressed(object sender, KeyEventArgs e)

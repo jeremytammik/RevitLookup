@@ -36,7 +36,7 @@ public class SnoopPointCommand : ExternalCommand
         {
             var window = Host.GetService<IWindow>();
             window.Initialize();
-            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Point);
+            window.ServiceProvider.GetService<ISnoopService>()!.Snoop(SnoopableType.Point);
         });
     }
 }

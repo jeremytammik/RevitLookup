@@ -253,10 +253,10 @@ public static class Theme
         }
         // TODO: All windows
 
-        if (!AppearanceData.HasHandle(Application.Current))
+        if (!AppearanceData.HasHandle(Application.MainWindow))
         {
-            WindowBackdrop.ApplyBackdrop(Application.Current, backgroundEffect);
-            AppearanceData.AddHandle(Application.Current);
+            WindowBackdrop.ApplyBackdrop(Application.MainWindow, backgroundEffect);
+            AppearanceData.AddHandle(Application.MainWindow);
         }
 
         // Do we really neeed this?

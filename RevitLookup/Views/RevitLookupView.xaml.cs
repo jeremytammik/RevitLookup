@@ -19,7 +19,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
@@ -30,35 +32,21 @@ namespace RevitLookup.Views;
 
 public sealed partial class RevitLookupView : IWindow
 {
-    private readonly IServiceScope _serviceScope;
-
-    public RevitLookupView(IServiceScopeFactory scopeFactory, ISettingsService settingsService)
+    private RevitLookupView()
     {
-        Wpf.Ui.Application.Current = this;
+        Wpf.Ui.Application.MainWindow = this;
+        Wpf.Ui.Application.Windows.Add(this);
         InitializeComponent();
-        Theme.Apply(this, settingsService.Theme, settingsService.Background);
-
-        _serviceScope = scopeFactory.CreateScope();
-        var navigationService = _serviceScope.ServiceProvider.GetService<INavigationService>()!;
-        var windowController = _serviceScope.ServiceProvider.GetService<IWindowController>()!;
-        var dialogService = _serviceScope.ServiceProvider.GetService<IContentDialogService>()!;
-        var snackbarService = _serviceScope.ServiceProvider.GetService<ISnackbarService>()!;
-
-        windowController.SetControlledWindow(this);
-        navigationService.SetNavigationControl(RootNavigation);
-        dialogService.SetContentPresenter(RootContentDialog);
-
-        snackbarService.SetSnackbarControl(RootSnackbar);
-        snackbarService.Timeout = 3000;
-
-        RootNavigation.TransitionDuration = settingsService.TransitionDuration;
-        WindowBackdropType = settingsService.Background;
-
-        Unloaded += UnloadServices;
-        Activated += (sender, _) => Wpf.Ui.Application.Current = (Window) sender;
+        AddShortcuts();
     }
 
-    public IServiceProvider Scope => _serviceScope.ServiceProvider;
+    public RevitLookupView(IServiceScopeFactory scopeFactory, ISettingsService settingsService) : this()
+    {
+        SetTheme(settingsService);
+        SetupServices(scopeFactory);
+    }
+
+    public IServiceProvider ServiceProvider { get; private set; }
 
     public void Show(Window window)
     {
@@ -80,8 +68,54 @@ public sealed partial class RevitLookupView : IWindow
         interopHelper.EnsureHandle();
     }
 
-    private void UnloadServices(object sender, RoutedEventArgs e)
+    private void SetupServices(IServiceScopeFactory scopeFactory)
     {
-        _serviceScope.Dispose();
+        ServiceProvider = scopeFactory.CreateScope().ServiceProvider;
+        var navigationService = ServiceProvider.GetService<INavigationService>()!;
+        var windowController = ServiceProvider.GetService<IWindowController>()!;
+        var dialogService = ServiceProvider.GetService<IContentDialogService>()!;
+        var snackbarService = ServiceProvider.GetService<ISnackbarService>()!;
+
+        windowController.SetControlledWindow(this);
+        navigationService.SetNavigationControl(RootNavigation);
+        dialogService.SetContentPresenter(RootContentDialog);
+
+        snackbarService.SetSnackbarControl(RootSnackbar);
+        snackbarService.Timeout = 3000;
+    }
+
+    private void SetTheme(ISettingsService settingsService)
+    {
+        Theme.Apply(this, settingsService.Theme, settingsService.Background);
+        RootNavigation.TransitionDuration = settingsService.TransitionDuration;
+        WindowBackdropType = settingsService.Background;
+    }
+
+    private void AddShortcuts()
+    {
+        var closeCurrentCommand = new RelayCommand(Close);
+        var closeAllCommand = new RelayCommand(() =>
+        {
+            for (var i = Wpf.Ui.Application.Windows.Count - 1; i >= 0; i--)
+            {
+                var window = Wpf.Ui.Application.Windows[i];
+                window.Close();
+            }
+        });
+
+        InputBindings.Add(new KeyBinding(closeCurrentCommand, new KeyGesture(Key.Escape)));
+        InputBindings.Add(new KeyBinding(closeAllCommand, new KeyGesture(Key.Escape, ModifierKeys.Shift)));
+    }
+
+    protected override void OnActivated(EventArgs args)
+    {
+        base.OnActivated(args);
+        Wpf.Ui.Application.MainWindow = this;
+    }
+
+    protected override void OnClosed(EventArgs args)
+    {
+        base.OnClosed(args);
+        Wpf.Ui.Application.Windows.Remove(this);
     }
 }

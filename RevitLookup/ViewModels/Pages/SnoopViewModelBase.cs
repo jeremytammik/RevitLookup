@@ -83,10 +83,10 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     {
         if (selectedItem.Value.Descriptor is not IDescriptorCollector or IDescriptorEnumerator {IsEmpty: true}) return;
 
-        var owner = Wpf.Ui.Application.Current;
+        var owner = Wpf.Ui.Application.MainWindow;
         var window = Host.GetService<IWindow>();
         window.Show(owner);
-        window.Scope.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
+        window.ServiceProvider.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 
     async partial void OnSearchTextChanged(string value)

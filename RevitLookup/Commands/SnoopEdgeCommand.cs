@@ -36,7 +36,7 @@ public class SnoopEdgeCommand : ExternalCommand
         {
             var window = Host.GetService<IWindow>();
             window.Initialize();
-            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Edge);
+            window.ServiceProvider.GetService<ISnoopService>()!.Snoop(SnoopableType.Edge);
         });
     }
 }

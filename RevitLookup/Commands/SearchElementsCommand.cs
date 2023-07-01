@@ -38,8 +38,8 @@ public class SearchElementsCommand : ExternalCommand
         {
             var window = Host.GetService<IWindow>();
             window.ShowAttached();
-            window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
-            window.Scope.GetService<DashboardViewModel>().OpenDialogCommand.Execute("search");
+            window.ServiceProvider.GetService<INavigationService>().Navigate(typeof(DashboardView));
+            window.ServiceProvider.GetService<DashboardViewModel>().OpenDialogCommand.Execute("search");
         });
     }
 }

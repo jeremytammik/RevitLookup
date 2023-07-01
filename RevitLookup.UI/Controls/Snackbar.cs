@@ -442,7 +442,7 @@ public class Snackbar : System.Windows.Controls.ContentControl, ISnackbarControl
 
         await Task.Delay(timeout);
 
-        if (Application.Current == null)
+        if (Application.MainWindow == null)
             return false;
 
         if (!_eventIdentifier.IsEqual(currentEvent))

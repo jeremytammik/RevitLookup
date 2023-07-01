@@ -35,7 +35,7 @@ public sealed partial class App
 
         var window = Host.GetService<IWindow>();
         window.Show();
-        window.Scope.GetService<INavigationService>().Navigate(typeof(DashboardView));
+        window.ServiceProvider.GetService<INavigationService>().Navigate(typeof(DashboardView));
     }
 
     private void OnExit(object sender, ExitEventArgs e)

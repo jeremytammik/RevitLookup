@@ -85,7 +85,7 @@ internal class ResourceDictionaryManager
     /// <returns></returns>
     public bool UpdateDictionary(string resourceLookup, Uri newResourceUri)
     {
-        Collection<ResourceDictionary> applicationDictionaries = Application.Current.Resources.MergedDictionaries;
+        Collection<ResourceDictionary> applicationDictionaries = Application.MainWindow.Resources.MergedDictionaries;
         if (applicationDictionaries.Count == 0)
             return false;
 
@@ -131,6 +131,6 @@ internal class ResourceDictionaryManager
 
     private Collection<ResourceDictionary> GetAllDictionaries()
     {
-        return Application.Current.Resources.MergedDictionaries;
+        return Application.MainWindow.Resources.MergedDictionaries;
     }
 }

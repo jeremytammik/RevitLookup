@@ -36,7 +36,7 @@ public class SnoopDatabaseCommand : ExternalCommand
         {
             var window = Host.GetService<IWindow>();
             window.Initialize();
-            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
+            window.ServiceProvider.GetService<ISnoopService>()!.Snoop(SnoopableType.Database);
         });
     }
 }

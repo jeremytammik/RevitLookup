@@ -84,7 +84,7 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnBackgroundChanged(WindowBackdropType value)
     {
         _settingsService.Background = value;
-        var window = (FluentWindow) Wpf.Ui.Application.Current;
+        var window = (FluentWindow) Wpf.Ui.Application.MainWindow;
         window.WindowBackdropType = value;
     }
 

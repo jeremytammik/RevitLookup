@@ -24,5 +24,6 @@ namespace Wpf.Ui;
 
 public static class Application
 {
-    public static Window Current { get; set; }
+    public static Window MainWindow { get; set; }
+    public static List<Window> Windows { get; set; } = new(8);
 }

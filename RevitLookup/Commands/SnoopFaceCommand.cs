@@ -36,7 +36,7 @@ public class SnoopFaceCommand : ExternalCommand
         {
             var window = Host.GetService<IWindow>();
             window.Initialize();
-            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.Face);
+            window.ServiceProvider.GetService<ISnoopService>()!.Snoop(SnoopableType.Face);
         });
     }
 }

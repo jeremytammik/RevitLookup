@@ -37,7 +37,7 @@ public class EventMonitorCommand : ExternalCommand
         {
             var window = Host.GetService<IWindow>();
             window.ShowAttached();
-            window.Scope.GetService<INavigationService>().Navigate(typeof(EventsView));
+            window.ServiceProvider.GetService<INavigationService>().Navigate(typeof(EventsView));
         });
     }
 }

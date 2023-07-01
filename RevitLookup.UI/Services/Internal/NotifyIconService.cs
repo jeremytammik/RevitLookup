@@ -137,7 +137,7 @@ internal class NotifyIconService : IDisposable, INotifyIcon
         System.Diagnostics.Debug.WriteLine($"INFO | {typeof(TrayHandler)} invoked {nameof(FocusApp)} method.",
             "Wpf.Ui.NotifyIcon");
 #endif
-        var mainWindow = Application.Current;
+        var mainWindow = Application.MainWindow;
 
         if (mainWindow == null)
             return;

@@ -161,7 +161,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
         var window = Host.GetService<IWindow>();
         window.Show();
-        window.Scope.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
+        window.ServiceProvider.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 
     async partial void OnSearchTextChanged(string value)

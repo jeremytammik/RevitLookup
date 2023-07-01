@@ -36,7 +36,7 @@ public class SnoopLinkedElementCommand : ExternalCommand
         {
             var window = Host.GetService<IWindow>();
             window.Initialize();
-            window.Scope.GetService<ISnoopService>()!.Snoop(SnoopableType.LinkedElement);
+            window.ServiceProvider.GetService<ISnoopService>()!.Snoop(SnoopableType.LinkedElement);
         });
     }
 }
