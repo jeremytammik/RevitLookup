@@ -18,11 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
@@ -39,11 +39,10 @@ using TreeView = Wpf.Ui.Controls.TreeView;
 
 namespace RevitLookup.Views.Pages;
 
-public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
+public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationAware
 {
     private readonly ISettingsService _settingsService;
     private readonly DataGrid _dataGridControl;
-    private bool _isUpdatingResults;
 
     protected SnoopViewBase(ISettingsService settingsService)
     {
@@ -51,6 +50,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         AddShortcuts();
     }
 
+    protected UIElement SearchBoxControl { get; init; }
     protected TreeView TreeViewControl { get; init; }
 
     protected DataGrid DataGridControl
@@ -65,44 +65,20 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 
     public ISnoopViewModel ViewModel { get; protected init; }
 
-    private async void OnDataGridChanged(DataGrid control)
+    protected void OnTreeSourceChanged(object sender, IEnumerable enumerable)
     {
-        await Task.Delay(1);
+        if (IsLoaded)
+        {
+            SetupTreeView();
+            return;
+        }
 
-        ValidateTimeColumn(control);
-        CreateGridContextMenu(control);
-        control.ItemsSourceChanged += OnGridItemsSourceChanged;
-    }
-
-    private void OnGridItemsSourceChanged(object sender, EventArgs _)
-    {
-        var dataGrid = (DataGrid) sender;
-
-        //Clear shapingStorage for remove duplications. WpfBug?
-        dataGrid.Items.GroupDescriptions!.Clear();
-        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Depth), ListSortDirection.Descending));
-        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.MemberAttributes), ListSortDirection.Ascending));
-        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Name), ListSortDirection.Ascending));
-        dataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
-    }
-
-    /// <summary>
-    ///     Expand treeView
-    /// </summary>
-    protected async void OnTreeSourceChanged(object sender, EventArgs args)
-    {
-        if (TreeViewControl.Items.Count > 3) return;
-
-        // Await Frame transition. GetMembers freezes the thread and breaks the animation
-        await Task.Delay(_settingsService.TransitionDuration);
-
-        var rootItem = VisualUtils.GetTreeViewItem(TreeViewControl, 0);
-        if (rootItem is null) return;
-
-        var nestedItem = VisualUtils.GetTreeViewItem(rootItem, 0);
-        if (nestedItem is null) return;
-
-        nestedItem.IsSelected = true;
+        Loaded += OnLoaded;
+        void OnLoaded(object o, RoutedEventArgs args)
+        {
+            Loaded -= OnLoaded;
+            SetupTreeView();
+        }
     }
 
     /// <summary>
@@ -126,42 +102,25 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         await ViewModel.FetchMembersCommand.ExecuteAsync(null);
     }
 
-    /// <summary>
-    ///     Select, expand treeView search results
-    /// </summary>
-    protected void OnSearchResultsChanged(object sender, EventArgs _)
+    private async void OnDataGridChanged(DataGrid control)
     {
-        if (_isUpdatingResults) return;
-        _isUpdatingResults = true;
+        await Task.Delay(1);
 
-        TreeViewControl.ItemContainerGenerator.StatusChanged += OnItemContainerGeneratorOnStatusChanged;
+        ValidateTimeColumn(control);
+        CreateGridContextMenu(control);
+        control.ItemsSourceChanged += OnGridItemsSourceChanged;
+    }
 
-        void OnItemContainerGeneratorOnStatusChanged(object statusSender, EventArgs __)
-        {
-            var generator = (ItemContainerGenerator) statusSender;
-            if (generator.Status != GeneratorStatus.ContainersGenerated) return;
+    private void OnGridItemsSourceChanged(object sender, EventArgs _)
+    {
+        var dataGrid = (DataGrid) sender;
 
-            generator.StatusChanged -= OnItemContainerGeneratorOnStatusChanged;
-
-            if (ViewModel.SelectedObject is not null)
-            {
-                var treeViewItem = VisualUtils.GetTreeViewItem(TreeViewControl, ViewModel.SelectedObject);
-                if (treeViewItem is not null && !treeViewItem.IsSelected)
-                {
-                    TreeViewControl.SelectedItemChanged -= OnTreeSelectionChanged;
-                    treeViewItem.IsSelected = true;
-                    TreeViewControl.SelectedItemChanged += OnTreeSelectionChanged;
-                }
-            }
-
-            if (TreeViewControl.Items.Count == 1)
-            {
-                var containerFromIndex = (TreeViewItem) TreeViewControl.ItemContainerGenerator.ContainerFromIndex(0);
-                if (containerFromIndex is not null) containerFromIndex.IsExpanded = true;
-            }
-
-            _isUpdatingResults = false;
-        }
+        //Clear shapingStorage for remove duplications. WpfBug?
+        dataGrid.Items.GroupDescriptions!.Clear();
+        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Depth), ListSortDirection.Descending));
+        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.MemberAttributes), ListSortDirection.Ascending));
+        dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Name), ListSortDirection.Ascending));
+        dataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
     }
 
     /// <summary>
@@ -171,18 +130,6 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     {
         if (DataGridControl.SelectedItems.Count != 1) return;
         ViewModel.Navigate((Descriptor) DataGridControl.SelectedItem);
-    }
-
-    private void ValidateTimeColumn(DataGrid control)
-    {
-        control.Columns[2].Visibility = _settingsService.IsTimeColumnAllowed ? Visibility.Visible : Visibility.Collapsed;
-    }
-
-    private void ToggleTimeColumn(DataGrid control)
-    {
-        var state = control.Columns[2].Visibility == Visibility.Visible;
-        control.Columns[2].Visibility = state ? Visibility.Collapsed : Visibility.Visible;
-        _settingsService.IsTimeColumnAllowed = !state;
     }
 
     /// <summary>
@@ -211,6 +158,23 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
             default:
                 return;
         }
+    }
+
+    public void OnNavigatedTo()
+    {
+        Wpf.Ui.Application.MainWindow.PreviewKeyDown += OnKeyPressed;
+    }
+
+    public void OnNavigatedFrom()
+    {
+        Wpf.Ui.Application.MainWindow.PreviewKeyDown -= OnKeyPressed;
+    }
+
+    private void OnKeyPressed(object sender, KeyEventArgs e)
+    {
+        if (SearchBoxControl.IsKeyboardFocused) return;
+        if (e.KeyboardDevice.Modifiers != ModifierKeys.None) return;
+        if (e.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9) SearchBoxControl.Focus();
     }
 
     private void CreateTreeTooltip(Descriptor descriptor, FrameworkElement row)
@@ -278,9 +242,9 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     {
         var contextMenu = new ContextMenu();
         contextMenu.AddMenuItem(Resources["ShowTimeMenuItem"])
-            .SetCommand(() => ToggleTimeColumn(dataGrid));
+            .SetCommand(dataGrid, ToggleTimeColumn);
         contextMenu.AddMenuItem(Resources["RefreshMenuItem"])
-            .SetCommand(() => ViewModel.RefreshMembersCommand.Execute(null))
+            .SetCommand(ViewModel, viewmodel => viewmodel.RefreshMembersCommand.Execute(null))
             .SetGestureText(Key.F5);
 
         dataGrid.ContextMenu = contextMenu;
@@ -306,6 +270,54 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 
         if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
         row.ContextMenu = contextMenu;
+    }
+
+    private async void SetupTreeView()
+    {
+        // Await Frame transition. GetMembers freezes the thread and breaks the animation
+        await Task.Delay(_settingsService.TransitionDuration);
+
+        if (TryRestoreSelection()) return;
+
+        ExpandFirstGroup();
+    }
+
+    private bool TryRestoreSelection()
+    {
+        if (ViewModel.SelectedObject is null) return false;
+
+        var treeViewItem = VisualUtils.GetTreeViewItem(TreeViewControl, ViewModel.SelectedObject);
+        if (treeViewItem is null || treeViewItem.IsSelected) return false;
+
+        TreeViewControl.SelectedItemChanged -= OnTreeSelectionChanged;
+        treeViewItem.IsSelected = true;
+        TreeViewControl.SelectedItemChanged += OnTreeSelectionChanged;
+        return true;
+    }
+
+    private void ExpandFirstGroup()
+    {
+        if (TreeViewControl.Items.Count > 3) return;
+
+        var rootItem = VisualUtils.GetTreeViewItem(TreeViewControl, 0);
+        if (rootItem is null) return;
+
+        var nestedItem = VisualUtils.GetTreeViewItem(rootItem, 0);
+        if (nestedItem is null) return;
+
+        nestedItem.IsSelected = true;
+    }
+
+    private void ValidateTimeColumn(DataGrid control)
+    {
+        control.Columns[2].Visibility = _settingsService.IsTimeColumnAllowed ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void ToggleTimeColumn(DataGrid control)
+    {
+        var state = control.Columns[2].Visibility == Visibility.Visible;
+        control.Columns[2].Visibility = state ? Visibility.Collapsed : Visibility.Visible;
+        _settingsService.IsTimeColumnAllowed = !state;
     }
 
     private void AddShortcuts()

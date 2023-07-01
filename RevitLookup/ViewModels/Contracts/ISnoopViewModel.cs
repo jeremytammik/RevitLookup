@@ -35,6 +35,4 @@ public interface ISnoopViewModel : ISnoopService
     public string SearchText { get; set; }
     public SnoopableObject SelectedObject { get; set; }
     void Navigate(Descriptor selectedItem);
-    event EventHandler TreeSourceChanged;
-    event EventHandler SearchResultsChanged;
 }

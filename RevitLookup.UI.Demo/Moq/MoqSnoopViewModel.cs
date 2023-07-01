@@ -56,8 +56,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
     }
 
     public SnoopableObject SelectedObject { get; set; }
-    public event EventHandler TreeSourceChanged;
-    public event EventHandler SearchResultsChanged;
 
     public void Snoop(SnoopableObject snoopableObject)
     {
@@ -164,25 +162,23 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         window.ServiceProvider.GetService<ISnoopService>()!.Snoop(selectedItem.Value);
     }
 
-    async partial void OnSearchTextChanged(string value)
+    partial void OnSearchTextChanged(string value)
     {
-        await UpdateSearchResults(SearchOption.Objects);
-        SearchResultsChanged?.Invoke(this, EventArgs.Empty);
+        UpdateSearchResults(SearchOption.Objects);
     }
 
-    async partial void OnSnoopableObjectsChanged(IReadOnlyCollection<SnoopableObject> value)
+    partial void OnSnoopableObjectsChanged(IReadOnlyCollection<SnoopableObject> value)
     {
         SelectedObject = null;
-        await UpdateSearchResults(SearchOption.Objects);
-        TreeSourceChanged?.Invoke(this, EventArgs.Empty);
+        UpdateSearchResults(SearchOption.Objects);
     }
 
-    async partial void OnSnoopableDataChanged(IReadOnlyCollection<Descriptor> value)
+    partial void OnSnoopableDataChanged(IReadOnlyCollection<Descriptor> value)
     {
-        await UpdateSearchResults(SearchOption.Selection);
+        UpdateSearchResults(SearchOption.Selection);
     }
 
-    private async Task UpdateSearchResults(SearchOption option)
+    private async void UpdateSearchResults(SearchOption option)
     {
         _searchCancellationToken.Cancel();
         _searchCancellationToken = new CancellationTokenSource();
