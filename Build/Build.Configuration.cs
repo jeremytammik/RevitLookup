@@ -5,7 +5,7 @@ partial class Build
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / "output";
     readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";
 
-    protected override void OnBuildCreated()
+    protected override void OnBuildInitialized()
     {
         Configurations = new[]
         {
