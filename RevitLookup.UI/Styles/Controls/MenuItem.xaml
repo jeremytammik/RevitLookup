@@ -96,7 +96,7 @@
                             x:Name="SubmenuBorder"
                             Margin="12,0,12,18"
                             Padding="0,3,0,3"
-                            BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
+                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="8"
                             SnapsToDevicePixels="True">
@@ -368,7 +368,7 @@
                         x:Name="SubmenuBorder"
                         Margin="12,10,12,18"
                         Padding="0,3,0,3"
-                        BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
+                        BorderBrush="{DynamicResource ControlElevationBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="8"
                         SnapsToDevicePixels="True">
@@ -533,7 +533,7 @@
                             x:Name="SubmenuBorder"
                             Margin="12,0,12,18"
                             Padding="0,3,0,3"
-                            BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
+                            BorderBrush="{DynamicResource ControlElevationBorderBrush}"
                             BorderThickness="1"
                             CornerRadius="8"
                             SnapsToDevicePixels="True">
@@ -838,7 +838,7 @@
                         x:Name="SubmenuBorder"
                         Margin="12,10,12,18"
                         Padding="0,3,0,3"
-                        BorderBrush="{DynamicResource MenuBorderColorDefaultBrush}"
+                        BorderBrush="{DynamicResource ControlElevationBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="8"
                         SnapsToDevicePixels="True">
