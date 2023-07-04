@@ -3,6 +3,7 @@ Fork version b711c9b3 Bump @fluentui/react-icons from 2.0.190 to 2.0.195 in /bra
 # Common
 
 Application.Current changed to Application.Current static property
+MenuBorderColorDefaultBrush replaced with ControlElevationBorderBrush
 
 # Wpf.Ui.Appearance.AppearanceData
 
@@ -110,3 +111,4 @@ New control with ItemsSourceChanged event
 # Wpf.Ui.Styles.Controls.MenuItem
 
 - Edited SubmenuItem Symbol trigger
+- Removed IsCheckable checkbox icon border

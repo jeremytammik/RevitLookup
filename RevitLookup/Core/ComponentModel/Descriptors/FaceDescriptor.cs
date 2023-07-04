@@ -23,28 +23,33 @@ using System.Windows;
 using System.Windows.Controls;
 #if R23_OR_GREATER
 using System.Windows.Input;
+using RevitLookup.Views.Extensions;
 #endif
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
+#if R23_OR_GREATER
     private readonly Face _face;
 
+#endif
     public FaceDescriptor(Face face)
     {
+#if R23_OR_GREATER
         _face = face;
+#endif
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
 
     public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
     {
 #if R23_OR_GREATER
-        contextMenu.AddMenuItem("Show face")
+        contextMenu.AddMenuItem()
+            .SetHeader("Show face")
             .SetCommand(_face, face =>
             {
                 Application.ActionEventHandler.Raise(_ =>

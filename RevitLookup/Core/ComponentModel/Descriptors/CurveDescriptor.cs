@@ -24,11 +24,11 @@ using System.Windows;
 using System.Windows.Controls;
 #if R23_OR_GREATER
 using System.Windows.Input;
+using RevitLookup.Views.Extensions;
 #endif
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -45,7 +45,8 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
     public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
     {
 #if R23_OR_GREATER
-        contextMenu.AddMenuItem("Show curve")
+        contextMenu.AddMenuItem()
+            .SetHeader("Show curve")
             .SetCommand(_curve, curve =>
             {
                 Application.ActionEventHandler.Raise(_ =>

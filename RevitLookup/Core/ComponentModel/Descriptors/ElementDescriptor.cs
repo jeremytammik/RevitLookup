@@ -44,7 +44,8 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
     {
         if (_element is ElementType) return;
 
-        contextMenu.AddMenuItem("Show element")
+        contextMenu.AddMenuItem()
+            .SetHeader("Show element")
             .SetCommand(_element, element =>
             {
                 Application.ActionEventHandler.Raise(_ =>

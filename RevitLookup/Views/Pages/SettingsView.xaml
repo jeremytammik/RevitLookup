@@ -21,9 +21,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <rl:DynamicScrollViewer>
-        <VirtualizingStackPanel
-            IsVirtualizing="True"
-            VirtualizationMode="Recycling"
+        <StackPanel
             Margin="12">
             <TextBlock
                 FontSize="16"
@@ -95,57 +93,6 @@
                         IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
                 </rl:CardControl>
             </StackPanel>
-            <TextBlock
-                FontSize="16"
-                FontWeight="Medium"
-                Text="Engine"
-                Margin="0,17,0,0" />
-            <StackPanel
-                Margin="0,8,0,0">
-                <rl:CardControl
-                    Header="Hide unsupported members"
-                    Icon="EyeOff24"
-                    Margin="0,8,0,0">
-                    <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsUnsupportedAllowed, 
-                        Converter={converters:InverseBooleanConverter}}" />
-                </rl:CardControl>
-                <rl:CardControl
-                    Header="Show private members"
-                    Icon="DocumentLock24"
-                    Margin="0,8,0,0">
-                    <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsPrivateAllowed}" />
-                </rl:CardControl>
-                <rl:CardControl
-                    Header="Show static members"
-                    Icon="ClipboardNote20"
-                    Margin="0,8,0,0">
-                    <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsStaticAllowed}" />
-                </rl:CardControl>
-                <rl:CardControl
-                    Header="Show fields"
-                    Icon="Tag24"
-                    Margin="0,8,0,0">
-                    <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsFieldsAllowed}" />
-                </rl:CardControl>
-                <rl:CardControl
-                    Header="Show events"
-                    Icon="Flash24"
-                    Margin="0,8,0,0">
-                    <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsEventsAllowed}" />
-                </rl:CardControl>
-                <rl:CardControl
-                    Header="Show extensions"
-                    Icon="CubeArrowCurveDown20"
-                    Margin="0,8,0,0">
-                    <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsExtensionsAllowed}" />
-                </rl:CardControl>
-            </StackPanel>
-        </VirtualizingStackPanel>
+        </StackPanel>
     </rl:DynamicScrollViewer>
 </Page>
