@@ -44,13 +44,13 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
         _writeAccess = configuration.GetValue<string>("FolderAccess") == "Write";
     }
 
-    public SoftwareUpdateState State { get; set; }
+    public SoftwareUpdateState State { get; private set; }
     public string CurrentVersion { get; }
-    public string NewVersion { get; set; }
-    public string LatestCheckDate { get; set; }
-    public string ReleaseNotesUrl { get; set; }
-    public string ErrorMessage { get; set; }
-    public string LocalFilePath { get; set; }
+    public string NewVersion { get; private set; }
+    public string LatestCheckDate { get; private set; }
+    public string ReleaseNotesUrl { get; private set; }
+    public string ErrorMessage { get; private set; }
+    public string LocalFilePath { get; private set; }
 
     public async Task CheckUpdates()
     {
