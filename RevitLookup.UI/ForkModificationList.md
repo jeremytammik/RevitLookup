@@ -110,3 +110,4 @@ New control with ItemsSourceChanged event
 # Wpf.Ui.Styles.Controls.MenuItem
 
 - Edited SubmenuItem Symbol trigger
+- Removed IsCheckable checkbox icon border

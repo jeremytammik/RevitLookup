@@ -690,29 +690,16 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
                 </Grid.ColumnDefinitions>
 
-                <Border
-                    x:Name="CheckBoxIconBorder"
+                <TextBlock
                     Grid.Column="0"
-                    Width="20"
-                    Height="20"
-                    Margin="0"
+                    x:Name="CheckBoxIcon"
+                    Visibility="Collapsed"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                    BorderThickness="1"
-                    CornerRadius="4"
-                    Visibility="Collapsed">
-                    <Border.Background>
-                        <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
-                    </Border.Background>
-                    <TextBlock
-                        x:Name="CheckBoxIcon"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontFamily="{DynamicResource FluentSystemIcons}"
-                        FontSize="16"
-                        Text=""
-                        TextAlignment="Center" />
-                </Border>
+                    FontFamily="{DynamicResource FluentSystemIcons}"
+                    FontSize="16"
+                    Text="&#xF294;"
+                    TextAlignment="Center" />
 
                 <ContentPresenter
                     x:Name="Icon"
@@ -762,11 +749,12 @@
                 <!-- <Setter TargetName="SymbolIcon" Property="Margin" Value="0" /> -->
             </Trigger>
             <Trigger Property="IsCheckable" Value="True">
-                <Setter TargetName="CheckBoxIconBorder" Property="Visibility" Value="Visible" />
-                <Setter TargetName="CheckBoxIconBorder" Property="Margin" Value="0,0,6,0" />
+                <Setter TargetName="CheckBoxIcon" Property="Visibility" Value="Hidden" />
+                <Setter TargetName="CheckBoxIcon" Property="Margin" Value="0,0,6,0" />
+                <Setter TargetName="SymbolIcon" Property="Visibility" Value="Collapsed" />
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="CheckBoxIcon" Property="Text" Value="&#xF294;" />
+                <Setter TargetName="CheckBoxIcon" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground">
