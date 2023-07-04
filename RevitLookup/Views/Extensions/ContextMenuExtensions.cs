@@ -21,51 +21,100 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using MenuItem = Wpf.Ui.Controls.MenuItem;
+using RevitLookup.ViewModels.Converters;
 
 namespace RevitLookup.Views.Extensions;
 
 public static class ContextMenuExtensions
 {
-    public static MenuItem AddMenuItem(this ContextMenu menu, string text)
+    public static void AddSeparator(this ContextMenu menu)
     {
-        var item = new MenuItem
-        {
-            Header = text,
-        };
+        var separator = new Separator();
+        menu.Items.Add(separator);
+    }
 
+    public static void AddLabel(this ContextMenu menu, string text)
+    {
+        var label = (MenuItem) menu.Resources["Label"];
+        label.Header = text;
+        menu.Items.Add(label);
+    }
+
+    public static MenuItem AddMenuItem(this ContextMenu menu)
+    {
+        var item = new Wpf.Ui.Controls.MenuItem();
         menu.Items.Add(item);
+
         return item;
     }
 
-    public static MenuItem AddMenuItem(this ContextMenu menu, object resource)
+    public static MenuItem AddMenuItem(this ContextMenu menu, string resource)
     {
-        var item = (MenuItem) resource;
-
+        var item = (MenuItem) menu.Resources[resource];
         menu.Items.Add(item);
+
         return item;
     }
 
     public static MenuItem SetCommand(this MenuItem item, Action command)
     {
         item.Command = new RelayCommand(command);
+
+        return item;
+    }
+
+    public static MenuItem SetCommand(this MenuItem item, ICommand command)
+    {
+        item.Command = command;
+
         return item;
     }
 
     public static MenuItem SetCommand<T>(this MenuItem item, T parameter, Action<T> command)
     {
-        item.Command = new RelayCommand<T>(command);
         item.CommandParameter = parameter;
+        item.Command = new RelayCommand<T>(command);
 
         return item;
     }
 
-    public static void SetShortcut(this MenuItem item, UIElement bindableElement, KeyGesture gesture)
+    public static MenuItem SetCommand(this MenuItem item, bool isChecked, Action<bool> command)
+    {
+        item.IsChecked = isChecked;
+        item.SetBinding(MenuItem.CommandParameterProperty, new Binding
+        {
+            Source = item,
+            Converter = new InverseBooleanConverter(),
+            Path = new PropertyPath(nameof(MenuItem.IsChecked))
+        });
+        item.Command = new RelayCommand<bool>(command);
+
+        return item;
+    }
+
+    public static MenuItem SetCommand(this MenuItem item, bool isChecked, Func<bool, Task> command)
+    {
+        item.IsChecked = isChecked;
+        item.SetBinding(MenuItem.CommandParameterProperty, new Binding
+        {
+            Source = item,
+            Converter = new InverseBooleanConverter(),
+            Path = new PropertyPath(nameof(MenuItem.IsChecked))
+        });
+        item.Command = new AsyncRelayCommand<bool>(command);
+
+        return item;
+    }
+
+    public static MenuItem SetShortcut(this MenuItem item, UIElement bindableElement, KeyGesture gesture)
     {
         bindableElement.InputBindings.Add(new InputBinding(item.Command, gesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = gesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
+
+        return item;
     }
 
     public static MenuItem SetShortcut(this MenuItem item, UIElement bindableElement, ModifierKeys modifiers, Key key)
@@ -89,18 +138,21 @@ public static class ContextMenuExtensions
     public static MenuItem SetHeader(this MenuItem item, string text)
     {
         item.Header = text;
+
         return item;
     }
 
     public static MenuItem SetGestureText(this MenuItem item, Key key)
     {
         item.InputGestureText = new KeyGesture(key).GetDisplayStringForCulture(CultureInfo.InvariantCulture);
+
         return item;
     }
 
     public static MenuItem SetAvailability(this MenuItem item, bool condition)
     {
-        item.IsChecked = condition;
+        item.IsEnabled = condition;
+
         return item;
     }
 }

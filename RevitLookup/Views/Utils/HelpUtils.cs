@@ -27,7 +27,10 @@ public static class HelpUtils
     public static void ShowHelp(string query)
     {
         string uri;
-        if (query.StartsWith("System"))
+
+        if (query.Contains(' '))
+            uri = $"https://duckduckgo.com/?q={query}";
+        else if (query.StartsWith("System"))
             uri = $"https://docs.microsoft.com/en-us/dotnet/api/{query}";
         else
             uri = $"https://duckduckgo.com/?q={query}";

@@ -227,11 +227,15 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
 
     private void CreateTreeContextMenu(Descriptor descriptor, FrameworkElement row)
     {
-        var contextMenu = new ContextMenu();
-        contextMenu.AddMenuItem(Resources["CopyMenuItem"])
+        var contextMenu = new ContextMenu
+        {
+            Resources = Resources
+        };
+
+        contextMenu.AddMenuItem("CopyMenuItem")
             .SetCommand(descriptor, parameter => Clipboard.SetText(parameter.Name))
             .SetShortcut(row, ModifierKeys.Control, Key.C);
-        contextMenu.AddMenuItem(Resources["HelpMenuItem"])
+        contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
             .SetShortcut(row, Key.F1);
 
@@ -241,36 +245,103 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
 
     private void CreateGridContextMenu(DataGrid dataGrid)
     {
-        var contextMenu = new ContextMenu();
-        contextMenu.AddMenuItem(Resources["ShowTimeMenuItem"])
-            .SetCommand(dataGrid, ToggleTimeColumn);
-        contextMenu.AddMenuItem(Resources["RefreshMenuItem"])
-            .SetCommand(ViewModel, viewmodel => viewmodel.RefreshMembersCommand.Execute(null))
+        var contextMenu = new ContextMenu
+        {
+            Resources = Resources
+        };
+
+        contextMenu.AddMenuItem("RefreshMenuItem")
+            .SetCommand(ViewModel.RefreshMembersCommand)
             .SetGestureText(Key.F5);
+
+        contextMenu.AddSeparator();
+        contextMenu.AddLabel("Columns");
+
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Time")
+            .SetCommand(dataGrid.Columns[2].Visibility == Visibility.Visible, parameter =>
+            {
+                dataGrid.Columns[2].Visibility = parameter ? Visibility.Collapsed : Visibility.Visible;
+                _settingsService.IsTimeColumnAllowed = !parameter;
+            });
+
+        contextMenu.AddSeparator();
+        contextMenu.AddLabel("Show");
+
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Events")
+            .SetCommand(_settingsService.IsEventsAllowed, async parameter =>
+            {
+                _settingsService.IsEventsAllowed = !parameter;
+                await RefreshGridAsync();
+            });
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Extensions")
+            .SetCommand(_settingsService.IsExtensionsAllowed, async parameter =>
+            {
+                _settingsService.IsExtensionsAllowed = !parameter;
+                await RefreshGridAsync();
+            });
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Fields")
+            .SetCommand(_settingsService.IsFieldsAllowed, async parameter =>
+            {
+                _settingsService.IsFieldsAllowed = !parameter;
+                await RefreshGridAsync();
+            });
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Non-public")
+            .SetCommand(_settingsService.IsPrivateAllowed, async parameter =>
+            {
+                _settingsService.IsPrivateAllowed = !parameter;
+                await RefreshGridAsync();
+            });
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Static")
+            .SetCommand(_settingsService.IsStaticAllowed, async parameter =>
+            {
+                _settingsService.IsStaticAllowed = !parameter;
+                await RefreshGridAsync();
+            });
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Unsupported")
+            .SetCommand(_settingsService.IsUnsupportedAllowed, async parameter =>
+            {
+                _settingsService.IsUnsupportedAllowed = !parameter;
+                await RefreshGridAsync();
+            });
 
         dataGrid.ContextMenu = contextMenu;
     }
 
     private void CreateGridRowContextMenu(Descriptor descriptor, FrameworkElement row)
     {
-        var contextMenu = new ContextMenu();
+        var contextMenu = new ContextMenu
+        {
+            Resources = Resources
+        };
 
-        contextMenu.AddMenuItem(Resources["CopyMenuItem"])
+        contextMenu.AddMenuItem("CopyMenuItem")
             .SetCommand(descriptor, parameter => Clipboard.SetText($"{parameter.Name}: {parameter.Value.Descriptor.Name}"))
             .SetShortcut(row, ModifierKeys.Control, Key.C);
 
-        contextMenu.AddMenuItem(Resources["CopyMenuItem"])
+        contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy value")
             .SetCommand(descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
             .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C)
             .SetAvailability(descriptor.Value.Descriptor.Name is not null);
 
-        contextMenu.AddMenuItem(Resources["HelpMenuItem"])
+        contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp($"{parameter.TypeFullName} {parameter.Name}"))
             .SetShortcut(row, new KeyGesture(Key.F1));
 
         if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
         row.ContextMenu = contextMenu;
+    }
+
+    private async Task RefreshGridAsync()
+    {
+        await ViewModel.RefreshMembersCommand.ExecuteAsync(null);
     }
 
     private async void SetupTreeView()
@@ -314,16 +385,9 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
         control.Columns[2].Visibility = _settingsService.IsTimeColumnAllowed ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    private void ToggleTimeColumn(DataGrid control)
-    {
-        var state = control.Columns[2].Visibility == Visibility.Visible;
-        control.Columns[2].Visibility = state ? Visibility.Collapsed : Visibility.Visible;
-        _settingsService.IsTimeColumnAllowed = !state;
-    }
-
     private void AddShortcuts()
     {
-        var command = new RelayCommand(() => ViewModel.RefreshMembersCommand.Execute(null));
+        var command = new AsyncRelayCommand(() => ViewModel.RefreshMembersCommand.ExecuteAsync(null));
         InputBindings.Add(new KeyBinding(command, new KeyGesture(Key.F5)));
     }
 }

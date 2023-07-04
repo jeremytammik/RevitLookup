@@ -23,28 +23,33 @@ using System.Windows;
 using System.Windows.Controls;
 #if R23_OR_GREATER
 using System.Windows.Input;
+using RevitLookup.Views.Extensions;
 #endif
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
+#if R23_OR_GREATER
     private readonly Solid _solid;
 
+#endif
     public SolidDescriptor(Solid solid)
     {
+#if R23_OR_GREATER
         _solid = solid;
+#endif
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
     }
 
     public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
     {
 #if R23_OR_GREATER
-        contextMenu.AddMenuItem("Show solid")
+        contextMenu.AddMenuItem()
+            .SetHeader("Show solid")
             .SetCommand(_solid, solid =>
             {
                 Application.ActionEventHandler.Raise(_ =>

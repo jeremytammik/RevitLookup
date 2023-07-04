@@ -3,6 +3,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:rl="http://revitlookup.com/xaml"
     x:Class="RevitLookup.Views.Resources.Menus">
+    <MenuItem
+        x:Key="Label"
+        x:Shared="False"
+        FontWeight="DemiBold"
+        Focusable="False"
+        IsHitTestVisible="False">
+    </MenuItem>
+    <rl:MenuItem
+        x:Key="CheckableMenuItem"
+        x:Shared="False"
+        IsCheckable="True">
+    </rl:MenuItem>
     <rl:MenuItem
         x:Key="CopyMenuItem"
         x:Shared="False"
