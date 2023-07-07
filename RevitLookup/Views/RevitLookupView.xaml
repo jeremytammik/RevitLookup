@@ -84,10 +84,8 @@
                     Margin="12 12 12 0" />
             </rl:NavigationView.Header>
             <rl:NavigationView.ContentOverlay>
-                <Grid>
-                    <rl:Snackbar
-                        x:Name="RootSnackbar" />
-                </Grid>
+                <rl:Snackbar
+                    x:Name="RootSnackbar" />
             </rl:NavigationView.ContentOverlay>
         </rl:NavigationView>
         <ContentPresenter
