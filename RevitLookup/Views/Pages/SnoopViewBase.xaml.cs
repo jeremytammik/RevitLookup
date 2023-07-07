@@ -270,45 +270,45 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
 
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Events")
-            .SetCommand(_settingsService.IsEventsAllowed, async parameter =>
+            .SetCommand(_settingsService.IsEventsAllowed, parameter =>
             {
                 _settingsService.IsEventsAllowed = !parameter;
-                await RefreshGridAsync();
+                RefreshGrid();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Extensions")
-            .SetCommand(_settingsService.IsExtensionsAllowed, async parameter =>
+            .SetCommand(_settingsService.IsExtensionsAllowed, parameter =>
             {
                 _settingsService.IsExtensionsAllowed = !parameter;
-                await RefreshGridAsync();
+                RefreshGrid();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Fields")
-            .SetCommand(_settingsService.IsFieldsAllowed, async parameter =>
+            .SetCommand(_settingsService.IsFieldsAllowed, parameter =>
             {
                 _settingsService.IsFieldsAllowed = !parameter;
-                await RefreshGridAsync();
+                RefreshGrid();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Non-public")
-            .SetCommand(_settingsService.IsPrivateAllowed, async parameter =>
+            .SetCommand(_settingsService.IsPrivateAllowed, parameter =>
             {
                 _settingsService.IsPrivateAllowed = !parameter;
-                await RefreshGridAsync();
+                RefreshGrid();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Static")
-            .SetCommand(_settingsService.IsStaticAllowed, async parameter =>
+            .SetCommand(_settingsService.IsStaticAllowed, parameter =>
             {
                 _settingsService.IsStaticAllowed = !parameter;
-                await RefreshGridAsync();
+                RefreshGrid();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Unsupported")
-            .SetCommand(_settingsService.IsUnsupportedAllowed, async parameter =>
+            .SetCommand(_settingsService.IsUnsupportedAllowed, parameter =>
             {
                 _settingsService.IsUnsupportedAllowed = !parameter;
-                await RefreshGridAsync();
+                RefreshGrid();
             });
 
         dataGrid.ContextMenu = contextMenu;
@@ -339,9 +339,9 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
         row.ContextMenu = contextMenu;
     }
 
-    private async Task RefreshGridAsync()
+    private void RefreshGrid()
     {
-        await ViewModel.RefreshMembersCommand.ExecuteAsync(null);
+        ViewModel.RefreshMembersCommand.ExecuteAsync(null);
     }
 
     private async void SetupTreeView()
@@ -380,7 +380,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
         nestedItem.IsSelected = true;
     }
 
-    private void ValidateTimeColumn(DataGrid control)
+    private void ValidateTimeColumn(System.Windows.Controls.DataGrid control)
     {
         control.Columns[2].Visibility = _settingsService.IsTimeColumnAllowed ? Visibility.Visible : Visibility.Collapsed;
     }
