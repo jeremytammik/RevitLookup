@@ -29,70 +29,75 @@ namespace RevitLookup.Core;
 public sealed class EventMonitor
 {
     private readonly Assembly[] _assemblies;
-    private readonly List<string> _blockList;
+    private readonly List<string> _denyList;
     private readonly Dictionary<EventInfo, Delegate> _eventInfos = new();
     private readonly Action<string, EventArgs> _handler;
 
     public EventMonitor(Action<string, EventArgs> handler)
     {
         _handler = handler;
-        _blockList = new List<string>(2)
+        _denyList = new List<string>(2)
         {
             nameof(UIApplication.Idling),
             nameof(Autodesk.Revit.ApplicationServices.Application.ProgressChanged)
         };
 
-        _assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly =>
-        {
-            var name = assembly.GetName().Name;
-            return name is "RevitAPI" or "RevitAPIUI";
-        }).Take(2).ToArray();
+        _assemblies = AppDomain.CurrentDomain.GetAssemblies()
+            .Where(assembly =>
+            {
+                var name = assembly.GetName().Name;
+                return name is "RevitAPI" or "RevitAPIUI";
+            })
+            .Take(2)
+            .ToArray();
     }
 
     public void Subscribe()
     {
-        Application.ActionEventHandler.Raise(_ =>
-        {
-            if (_eventInfos.Count > 0) return;
-
-            foreach (var dll in _assemblies)
-            foreach (var type in dll.GetTypes())
-            foreach (var eventInfo in type.GetEvents())
-            {
-                Debug.Write($"RevitLookup EventMonitor: {eventInfo.ReflectedType}.{eventInfo.Name}");
-                if (_blockList.Contains(eventInfo.Name)) continue;
-
-                var targets = FindValidTargets(eventInfo.ReflectedType);
-                if (targets is null)
-                {
-                    Debug.WriteLine(" - missing target");
-                    break;
-                }
-
-                var methodInfo = GetType().GetMethod(nameof(OnHandlingEvent),
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!;
-                var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
-
-                foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
-                _eventInfos.Add(eventInfo, eventHandler);
-                Debug.WriteLine(" - success");
-            }
-        });
+        Application.ActionEventHandler.Raise(Subscribe);
     }
 
     public void Unsubscribe()
     {
-        Application.ActionEventHandler.Raise(_ =>
+        Application.ActionEventHandler.Raise(Unsubscribe);
+    }
+
+    private void Subscribe(UIApplication uiApplication)
+    {
+        if (_eventInfos.Count > 0) return;
+
+        foreach (var dll in _assemblies)
+        foreach (var type in dll.GetTypes())
+        foreach (var eventInfo in type.GetEvents())
         {
-            foreach (var eventInfo in _eventInfos)
+            Debug.Write($"RevitLookup EventMonitor: {eventInfo.ReflectedType}.{eventInfo.Name}");
+            if (_denyList.Contains(eventInfo.Name)) continue;
+
+            var targets = FindValidTargets(eventInfo.ReflectedType);
+            if (targets is null)
             {
-                var targets = FindValidTargets(eventInfo.Key.ReflectedType);
-                foreach (var target in targets)
-                    eventInfo.Key.RemoveEventHandler(target, eventInfo.Value);
+                Debug.WriteLine(" - missing target");
+                break;
             }
 
-            _eventInfos.Clear();
-        });
+            var methodInfo = GetType().GetMethod(nameof(OnHandlingEvent), BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!;
+            var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
+
+            foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
+            _eventInfos.Add(eventInfo, eventHandler);
+            Debug.WriteLine(" - success");
+        }
+    }
+
+    private void Unsubscribe(UIApplication _)
+    {
+        foreach (var eventInfo in _eventInfos)
+        {
+            var targets = FindValidTargets(eventInfo.Key.ReflectedType);
+            foreach (var target in targets) eventInfo.Key.RemoveEventHandler(target, eventInfo.Value);
+        }
+
+        _eventInfos.Clear();
     }
 
     private static IEnumerable FindValidTargets(Type targetType)
@@ -110,6 +115,6 @@ public sealed class EventMonitor
         var stackTrace = new StackTrace();
         var stackFrames = stackTrace.GetFrames()!;
         var eventName = stackFrames[1].GetMethod().Name;
-        _handler(eventName.Replace("EventHandler", ""), args);
+        _handler(eventName.Replace(nameof(EventHandler), ""), args);
     }
 }
