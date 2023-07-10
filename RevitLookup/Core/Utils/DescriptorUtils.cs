@@ -30,7 +30,17 @@ public static class DescriptorUtils
     public static Descriptor FindSuitableDescriptor(Type type)
     {
         var descriptor = new ObjectDescriptor();
-        ValidateProperties(descriptor, type);
+
+        if (type is null)
+        {
+            descriptor.Type = nameof(Object);
+            descriptor.TypeFullName = "System.Object";
+        }
+        else
+        {
+            ValidateProperties(descriptor, type);
+        }
+
         return descriptor;
     }
 

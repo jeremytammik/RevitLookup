@@ -32,7 +32,7 @@ public static class SnoopUtils
 
         while (descriptor.Enumerator.MoveNext())
         {
-            var item = new SnoopableObject(snoopableObject.Context, descriptor.Enumerator);
+            var item = new SnoopableObject(descriptor.Enumerator, snoopableObject.Context);
             Redirect(item);
             items.Add(item);
         }

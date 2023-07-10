@@ -20,6 +20,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using RevitLookup.Core.Metadata;
 using RevitLookup.Core.Utils;
 
@@ -35,10 +36,17 @@ public sealed class SnoopableObject
         Descriptor = DescriptorUtils.FindSuitableDescriptor(type);
     }
 
-    public SnoopableObject(Document context, object obj)
+    public SnoopableObject(object obj)
     {
         Object = obj;
-        Context = context;
+        Context = ContextUtils.FindSuitableContext(obj);
+        Descriptor = DescriptorUtils.FindSuitableDescriptor(obj);
+    }
+
+    public SnoopableObject(object obj, Document context)
+    {
+        Object = obj;
+        Context = ContextUtils.FindSuitableContext(obj, context);
         Descriptor = DescriptorUtils.FindSuitableDescriptor(obj);
     }
 
@@ -53,11 +61,16 @@ public sealed class SnoopableObject
 
     public async Task<IReadOnlyCollection<Descriptor>> GetMembersAsync()
     {
-        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ => DescriptorBuilder.Build(Object, Context));
+        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(GetMembersAsync);
     }
 
     public async Task<IReadOnlyCollection<Descriptor>> GetCachedMembersAsync()
     {
         return _members ?? await GetMembersAsync();
+    }
+
+    private IReadOnlyCollection<Descriptor> GetMembersAsync(UIApplication uiApplication)
+    {
+        return DescriptorBuilder.Build(Object, Context);
     }
 }
