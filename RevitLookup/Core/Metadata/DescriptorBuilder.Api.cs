@@ -23,7 +23,6 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Metadata;
 
-[PublicAPI]
 public partial class DescriptorBuilder
 {
     public static IReadOnlyCollection<Descriptor> Build(Type type)
@@ -35,17 +34,6 @@ public partial class DescriptorBuilder
         };
 
         return builder.BuildStaticObject(type);
-    }
-
-    public static IReadOnlyCollection<Descriptor> Build(Element element)
-    {
-        var builder = new DescriptorBuilder
-        {
-            _obj = element,
-            Context = element.Document
-        };
-
-        return builder.BuildInstanceObject(element.GetType());
     }
 
     public static IReadOnlyCollection<Descriptor> Build(object obj, Document context)
