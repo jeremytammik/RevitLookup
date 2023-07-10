@@ -201,7 +201,11 @@
                     <GroupStyle>
                         <GroupStyle.Panel>
                             <ItemsPanelTemplate>
-                                <DataGridRowsPresenter />
+                                <DataGridRowsPresenter 
+                                    IsVirtualizing="True"
+                                    VirtualizationMode="Recycling"
+                                    IsContainerVirtualizable="True"
+                                    IsVirtualizingWhenGrouping="True"/>
                             </ItemsPanelTemplate>
                         </GroupStyle.Panel>
                         <GroupStyle.ContainerStyle>
