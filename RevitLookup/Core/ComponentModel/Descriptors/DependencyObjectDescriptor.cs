@@ -26,7 +26,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DependencyObjectDescriptor : Descriptor, IDescriptorResolver
+public sealed class DependencyObjectDescriptor : Descriptor, IDescriptorResolver
 {
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {

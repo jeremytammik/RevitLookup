@@ -47,7 +47,7 @@ public static class ContextUtils
         return obj switch
         {
             Element element => element.Document,
-            Parameter parameter => parameter.Element.Document,
+            Parameter {Element: not null} parameter => parameter.Element.Document,
             Document document => document,
             _ => null
         };

@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ReferenceDescriptor : Descriptor, IDescriptorResolver
+public sealed class ReferenceDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly Reference _reference;
 

@@ -23,6 +23,6 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class UiObjectDescriptor : Descriptor, IDescriptorCollector
+public sealed class UiObjectDescriptor : Descriptor, IDescriptorCollector
 {
 }

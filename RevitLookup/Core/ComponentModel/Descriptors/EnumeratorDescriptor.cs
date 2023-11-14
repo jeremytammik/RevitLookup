@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class EnumeratorDescriptor : Descriptor, IDescriptorRedirection
+public sealed class EnumeratorDescriptor : Descriptor, IDescriptorRedirection
 {
     private readonly object _object;
 

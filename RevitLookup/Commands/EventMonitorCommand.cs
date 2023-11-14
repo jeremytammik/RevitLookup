@@ -19,11 +19,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
-using RevitLookup.Services.Contracts;
+using RevitLookup.Services;
 using RevitLookup.Views.Pages;
-using Wpf.Ui.Contracts;
 
 namespace RevitLookup.Commands;
 
@@ -33,11 +31,6 @@ public class EventMonitorCommand : ExternalCommand
 {
     public override void Execute()
     {
-        RevitLookup.Application.Raise(() =>
-        {
-            var window = Host.GetService<IWindow>();
-            window.ShowAttached();
-            window.ServiceProvider.GetService<INavigationService>().Navigate(typeof(EventsView));
-        });
+        Host.GetService<LookupService>().Show<EventsView>();
     }
 }

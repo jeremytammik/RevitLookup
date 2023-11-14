@@ -20,7 +20,7 @@
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class StringDescriptor : EnumerableDescriptor
+public sealed class StringDescriptor : EnumerableDescriptor
 {
     public StringDescriptor(string text) : base(text)
     {

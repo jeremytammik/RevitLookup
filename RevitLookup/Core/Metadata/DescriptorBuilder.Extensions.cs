@@ -23,7 +23,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Metadata;
 
-public partial class DescriptorBuilder : IExtensionManager
+public sealed partial class DescriptorBuilder : IExtensionManager
 {
     private void AddExtensions()
     {

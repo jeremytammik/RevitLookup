@@ -25,7 +25,7 @@ using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.Core.Metadata;
 
-public partial class DescriptorBuilder
+public sealed partial class DescriptorBuilder
 {
     private readonly List<Descriptor> _descriptors;
     private readonly Stopwatch _tracker = new();

@@ -20,7 +20,7 @@
 
 namespace RevitLookup.Views.Resources;
 
-partial class Menus
+sealed partial class Menus
 {
     public Menus()
     {

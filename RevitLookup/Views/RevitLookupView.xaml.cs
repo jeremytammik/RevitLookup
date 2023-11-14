@@ -18,12 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
-using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Contracts;
@@ -40,43 +36,15 @@ public sealed partial class RevitLookupView : IWindow
         AddShortcuts();
     }
 
-    public RevitLookupView(IServiceScopeFactory scopeFactory, ISettingsService settingsService) : this()
+    public RevitLookupView(
+        INavigationService navigationService,
+        IContentDialogService dialogService,
+        ISnackbarService snackbarService,
+        ISettingsService settingsService)
+        : this()
     {
         SetTheme(settingsService);
-        SetupServices(scopeFactory);
-    }
 
-    public IServiceProvider ServiceProvider { get; private set; }
-
-    public void Show(Window window)
-    {
-        Left = window.Left + 47;
-        Top = window.Top + 49;
-        this.Show(RevitApi.UiApplication.MainWindowHandle);
-    }
-
-    public void ShowAttached()
-    {
-        WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        this.Show(RevitApi.UiApplication.MainWindowHandle);
-    }
-
-    public void Initialize()
-    {
-        WindowStartupLocation = WindowStartupLocation.CenterScreen;
-        var interopHelper = new WindowInteropHelper(this) {Owner = RevitApi.UiApplication.MainWindowHandle};
-        interopHelper.EnsureHandle();
-    }
-
-    private void SetupServices(IServiceScopeFactory scopeFactory)
-    {
-        ServiceProvider = scopeFactory.CreateScope().ServiceProvider;
-        var navigationService = ServiceProvider.GetService<INavigationService>()!;
-        var windowController = ServiceProvider.GetService<IWindowController>()!;
-        var dialogService = ServiceProvider.GetService<IContentDialogService>()!;
-        var snackbarService = ServiceProvider.GetService<ISnackbarService>()!;
-
-        windowController.SetControlledWindow(this);
         navigationService.SetNavigationControl(RootNavigation);
         dialogService.SetContentPresenter(RootContentDialog);
 

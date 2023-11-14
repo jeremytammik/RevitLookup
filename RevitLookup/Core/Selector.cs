@@ -51,29 +51,28 @@ public static class Selector
             SnoopableType.UpdaterRegistry => SnoopUpdaterRegistry(),
             SnoopableType.Services => SnoopServices(),
             SnoopableType.Schemas => SnoopSchemas(),
-            SnoopableType.Events => throw new NotSupportedException(),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopView()
     {
-        return new SnoopableObject[] {new(RevitApi.Document, RevitApi.ActiveView)};
+        return new SnoopableObject[] {new(RevitApi.ActiveView)};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopDocument()
     {
-        return new SnoopableObject[] {new(RevitApi.Document, RevitApi.Document)};
+        return new SnoopableObject[] {new(RevitApi.Document)};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopApplication()
     {
-        return new SnoopableObject[] {new(RevitApi.Document, RevitApi.Application)};
+        return new SnoopableObject[] {new(RevitApi.Application)};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopUiApplication()
     {
-        return new SnoopableObject[] {new(RevitApi.Document, RevitApi.UiApplication)};
+        return new SnoopableObject[] {new(RevitApi.UiApplication)};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopEdge()
@@ -108,12 +107,12 @@ public static class Selector
             return RevitApi.Document
                 .GetElements(selectedIds)
                 .WherePasses(new ElementIdSetFilter(selectedIds))
-                .Select(element => new SnoopableObject(RevitApi.Document, element))
+                .Select(element => new SnoopableObject(element))
                 .ToList();
 
         return RevitApi.Document
             .GetElements(RevitApi.ActiveView.Id)
-            .Select(element => new SnoopableObject(RevitApi.Document, element))
+            .Select(element => new SnoopableObject(element))
             .ToList();
     }
 
@@ -123,7 +122,7 @@ public static class Selector
         var elementInstances = RevitApi.Document.GetElements().WhereElementIsNotElementType();
         return elementTypes
             .UnionWith(elementInstances)
-            .Select(element => new SnoopableObject(RevitApi.Document, element))
+            .Select(element => new SnoopableObject(element))
             .ToList();
     }
 
@@ -143,7 +142,7 @@ public static class Selector
 
         return RevitApi.Document.GetElements()
             .WherePasses(new ElementIdSetFilter(elements))
-            .Select(element => new SnoopableObject(RevitApi.Document, element))
+            .Select(element => new SnoopableObject(element))
             .ToList();
     }
 
@@ -154,22 +153,22 @@ public static class Selector
 
     private static IReadOnlyCollection<SnoopableObject> SnoopPerformanceAdviser()
     {
-        return new[] {new SnoopableObject(RevitApi.Document, PerformanceAdviser.GetPerformanceAdviser())};
+        return new[] {new SnoopableObject(PerformanceAdviser.GetPerformanceAdviser())};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopUpdaterRegistry()
     {
-        return UpdaterRegistry.GetRegisteredUpdaterInfos().Select(schema => new SnoopableObject(RevitApi.Document, schema)).ToArray();
+        return UpdaterRegistry.GetRegisteredUpdaterInfos().Select(schema => new SnoopableObject(schema)).ToArray();
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopSchemas()
     {
-        return Schema.ListSchemas().Select(schema => new SnoopableObject(RevitApi.Document, schema)).ToArray();
+        return Schema.ListSchemas().Select(schema => new SnoopableObject(schema)).ToArray();
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopServices()
     {
-        return ExternalServiceRegistry.GetServices().Select(service => new SnoopableObject(RevitApi.Document, service)).ToArray();
+        return ExternalServiceRegistry.GetServices().Select(service => new SnoopableObject(service)).ToArray();
     }
 
     private static SnoopableObject SelectObject(ObjectType objectType)
@@ -177,33 +176,28 @@ public static class Selector
         var reference = RevitApi.UiDocument.Selection.PickObject(objectType);
 
         object element;
-        Document document;
         switch (objectType)
         {
             case ObjectType.Edge:
             case ObjectType.Face:
-                document = RevitApi.Document;
-                element = document.GetElement(reference).GetGeometryObjectFromReference(reference);
+                element = RevitApi.Document.GetElement(reference).GetGeometryObjectFromReference(reference);
                 break;
             case ObjectType.Element:
             case ObjectType.Subelement:
-                document = RevitApi.Document;
-                element = document.GetElement(reference);
+                element = RevitApi.Document.GetElement(reference);
                 break;
             case ObjectType.PointOnElement:
-                document = RevitApi.Document;
                 element = reference.GlobalPoint;
                 break;
             case ObjectType.LinkedElement:
                 var revitLinkInstance = reference.ElementId.ToElement<RevitLinkInstance>(RevitApi.Document);
-                document = revitLinkInstance.GetLinkDocument();
-                element = document.GetElement(reference.LinkedElementId);
+                element = revitLinkInstance.GetLinkDocument().GetElement(reference.LinkedElementId);
                 break;
             case ObjectType.Nothing:
             default:
                 throw new NotSupportedException();
         }
 
-        return new SnoopableObject(document, element);
+        return new SnoopableObject(element);
     }
 }

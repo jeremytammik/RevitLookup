@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class FamilyManagerDescriptor : Descriptor, IDescriptorResolver
+public sealed class FamilyManagerDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly FamilyManager _familyManager;
 

@@ -38,5 +38,6 @@ public interface ISettingsService
     bool IsExtensionsAllowed { get; set; }
     bool IsTimeColumnAllowed { get; set; }
     int ApplyTransition(bool value);
+
     void Save();
 }

@@ -23,7 +23,7 @@ using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.Metadata;
 
-public partial class DescriptorBuilder
+public sealed partial class DescriptorBuilder
 {
     private void AddMethods(BindingFlags bindingFlags)
     {

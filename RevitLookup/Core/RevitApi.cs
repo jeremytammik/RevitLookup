@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using RevitLookup.ViewModels.Objects;
@@ -49,10 +50,10 @@ public static class RevitApi
         {
             var parameters = Enum.GetValues(unitType).Cast<BuiltInParameter>();
             var list = new List<UnitInfo>();
-            foreach (var builtInParameter in parameters)
+            foreach (var parameter in parameters)
                 try
                 {
-                    list.Add(new UnitInfo(builtInParameter.ToString(), builtInParameter.ToLabel()));
+                    list.Add(new UnitInfo(parameter, parameter.ToString(), parameter.ToLabel()));
                 }
                 catch
                 {
@@ -70,7 +71,7 @@ public static class RevitApi
             foreach (var category in categories)
                 try
                 {
-                    list.Add(new UnitInfo(category.ToString(), category.ToLabel()));
+                    list.Add(new UnitInfo(category, category.ToString(), category.ToLabel()));
                 }
                 catch
                 {
@@ -89,14 +90,66 @@ public static class RevitApi
                 .Concat(SpecUtils.GetAllSpecs())
                 .Concat(ParameterUtils.GetAllBuiltInGroups())
                 .Concat(ParameterUtils.GetAllBuiltInParameters())
-                .Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToLabel()))
+                .Select(typeId => new UnitInfo(typeId, typeId.TypeId, typeId.ToLabel()))
                 .ToList();
 #else
-            return UnitUtils.GetAllUnits().Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToUnitLabel()))
-                .Concat(UnitUtils.GetAllSpecs().Select(typeId => new UnitInfo(typeId.TypeId, typeId.ToSpecLabel())))
+            return UnitUtils.GetAllUnits().Select(typeId => new UnitInfo(typeId, typeId.TypeId, typeId.ToUnitLabel()))
+                .Concat(UnitUtils.GetAllSpecs().Select(typeId => new UnitInfo(typeId, typeId.TypeId, typeId.ToSpecLabel())))
                 .ToList();
 #endif
 
         throw new NotSupportedException();
+    }
+
+    public static Parameter GetBuiltinParameter(BuiltInParameter builtInParameter)
+    {
+        const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+
+        var documentType = typeof(Document);
+        var parameterType = typeof(Parameter);
+        var assembly = Assembly.GetAssembly(parameterType);
+        var aDocumentType = assembly.GetType("ADocument");
+        var elementIdType = assembly.GetType("ElementId");
+        var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
+        var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
+        var parameterCtorType = parameterType.GetConstructor(bindingFlags, null, new[] {aDocumentType.MakePointerType(), elementIdType.MakePointerType()}, null)!;
+
+        var elementId = Activator.CreateInstance(elementIdType);
+        elementIdIdType.SetValue(elementId, builtInParameter);
+
+        var handle = GCHandle.Alloc(elementId);
+        var elementIdPointer = GCHandle.ToIntPtr(handle);
+        Marshal.StructureToPtr(elementId, elementIdPointer, true);
+
+        var parameter = (Parameter) parameterCtorType.Invoke(new[] {getADocumentType.Invoke(Document, null), elementIdPointer});
+        handle.Free();
+
+        return parameter;
+    }
+
+    public static Category GetBuiltinCategory(BuiltInCategory builtInCategory)
+    {
+        const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+
+        var documentType = typeof(Document);
+        var categoryType = typeof(Category);
+        var assembly = Assembly.GetAssembly(categoryType);
+        var aDocumentType = assembly.GetType("ADocument");
+        var elementIdType = assembly.GetType("ElementId");
+        var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
+        var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
+        var categoryCtorType = categoryType.GetConstructor(bindingFlags, null, new[] {aDocumentType.MakePointerType(), elementIdType.MakePointerType()}, null)!;
+
+        var elementId = Activator.CreateInstance(elementIdType);
+        elementIdIdType.SetValue(elementId, builtInCategory);
+
+        var handle = GCHandle.Alloc(elementId);
+        var elementIdPointer = GCHandle.ToIntPtr(handle);
+        Marshal.StructureToPtr(elementId, elementIdPointer, true);
+
+        var category = (Category) categoryCtorType.Invoke(new[] {getADocumentType.Invoke(Document, null), elementIdPointer});
+        handle.Free();
+
+        return category;
     }
 }

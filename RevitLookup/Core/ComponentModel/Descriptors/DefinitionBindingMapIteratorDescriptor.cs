@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DefinitionBindingMapIteratorDescriptor : Descriptor, IDescriptorRedirection
+public sealed class DefinitionBindingMapIteratorDescriptor : Descriptor, IDescriptorRedirection
 {
     private readonly object _object;
 

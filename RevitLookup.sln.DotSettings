@@ -1,5 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">Copyright 2003-$CREATED_YEAR$ by Autodesk, Inc. 
+	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">Copyright 2003-$File.CreatedYear by Autodesk, Inc. 
 
 Permission to use, copy, modify, and distribute this software in
 object code form for any purpose and without fee is hereby granted, 
@@ -18,6 +18,7 @@ Use, duplication, or disclosure by the U.S. Government is subject to
 restrictions set forth in FAR 52.227-19 (Commercial Computer
 Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 (Rights in Technical Data and Computer Software), as applicable.</s:String>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002ECodeCleanup_002EFileHeader_002EFileHeaderSettingsMigrate/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Addin/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Addins/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=APIUI/@EntryIndexedValue">True</s:Boolean>

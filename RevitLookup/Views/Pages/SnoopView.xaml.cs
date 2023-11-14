@@ -26,7 +26,7 @@ namespace RevitLookup.Views.Pages;
 
 public sealed partial class SnoopView
 {
-    public SnoopView(IServiceProvider serviceProvider, ISettingsService settingsService) : base(settingsService)
+    public SnoopView(ISettingsService settingsService, ISnoopViewModel viewModel) : base(settingsService)
     {
         InitializeComponent();
 
@@ -36,7 +36,7 @@ public sealed partial class SnoopView
         TreeView.SelectedItemChanged += OnTreeSelectionChanged;
         TreeView.ItemsSourceChanged += OnTreeSourceChanged;
 
-        ViewModel = (ISnoopViewModel) serviceProvider.GetService(typeof(ISnoopService));
+        ViewModel = viewModel;
         DataContext = this;
 
         Theme.Apply(this, settingsService.Theme, settingsService.Background);

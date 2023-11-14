@@ -24,9 +24,12 @@ namespace RevitLookup.Services.Contracts;
 
 public interface IWindow
 {
-    IServiceProvider ServiceProvider { get; }
+    bool IsLoaded { get; }
+    Visibility Visibility { get; set; }
+
     void Show();
-    void Show(Window window);
-    void ShowAttached();
-    void Initialize();
+    bool? ShowDialog();
+    bool Focus();
+
+    event RoutedEventHandler Loaded;
 }

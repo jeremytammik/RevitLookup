@@ -32,25 +32,12 @@ public sealed partial class SearchElementsViewModel : ObservableObject
 
     public bool SearchIds(ISnoopService snoopService)
     {
-        var delimiters = new[] {'\t', ';', ',', ' '};
         var rows = SearchText.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
-
-        var items = new List<string>(rows.Length);
-        foreach (var row in rows)
-            for (var i = 0; i < delimiters.Length; i++)
-            {
-                var delimiter = delimiters[i];
-                var split = row.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries);
-                if (split.Length > 1 || i == delimiters.Length - 1 || split.Length == 1 && split[0] != row)
-                {
-                    items.AddRange(split);
-                    break;
-                }
-            }
-
+        var items = ParseRawRequest(rows);
         var results = new List<Element>(items.Count);
 
         foreach (var rawId in items)
+        {
 #if R24_OR_GREATER
             if (long.TryParse(rawId, out var id))
             {
@@ -69,43 +56,74 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             }
             else if (rawId.Length == 22 && rawId.Count(c => c == ' ') == 0)
             {
-                var guidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_GUID));
-                var typeGuidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_TYPE_GUID));
-#if R22_OR_GREATER
-                var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId);
-                var typeFilterRule = new FilterStringRule(typeGuidProvider, new FilterStringEquals(), rawId);
-#else
-                var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId, true);
-                var typeFilterRule = new FilterStringRule(typeGuidProvider, new FilterStringEquals(), rawId, true);
-#endif
-                var elementFilter = new ElementParameterFilter(filterRule);
-                var typeElementFilter = new ElementParameterFilter(typeFilterRule);
-
-
-                var typeGuidsCollector = RevitApi.Document
-                    .GetElements()
-                    .WherePasses(typeElementFilter);
-
-                var elements = RevitApi.Document
-                    .GetElements()
-                    .WherePasses(elementFilter)
-                    .UnionWith(typeGuidsCollector)
-                    .ToElements();
-
+                var elements = SearchBuIfcGuid(rawId);
                 results.AddRange(elements);
             }
             else
             {
-                var elementTypes = RevitApi.Document.GetElements().WhereElementIsElementType();
-                var elementInstances = RevitApi.Document.GetElements().WhereElementIsNotElementType();
-                results.AddRange(elementTypes
-                    .UnionWith(elementInstances)
-                    .Where(element => element.Name.Contains(rawId, StringComparison.OrdinalIgnoreCase)));
+                var elements = SearchByName(rawId);
+                results.AddRange(elements);
             }
+        }
 
         if (results.Count == 0) return false;
 
-        snoopService.Snoop(new SnoopableObject(RevitApi.Document, results));
+        snoopService.Snoop(new SnoopableObject(results));
         return true;
+    }
+
+    private static IEnumerable<Element> SearchByName(string rawId)
+    {
+        var elementTypes = RevitApi.Document.GetElements().WhereElementIsElementType();
+        var elementInstances = RevitApi.Document.GetElements().WhereElementIsNotElementType();
+        return elementTypes
+            .UnionWith(elementInstances)
+            .Where(element => element.Name.Contains(rawId, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static IList<Element> SearchBuIfcGuid(string rawId)
+    {
+        var guidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_GUID));
+        var typeGuidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_TYPE_GUID));
+#if R22_OR_GREATER
+        var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId);
+        var typeFilterRule = new FilterStringRule(typeGuidProvider, new FilterStringEquals(), rawId);
+#else
+        var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId, true);
+        var typeFilterRule = new FilterStringRule(typeGuidProvider, new FilterStringEquals(), rawId, true);
+#endif
+        var elementFilter = new ElementParameterFilter(filterRule);
+        var typeElementFilter = new ElementParameterFilter(typeFilterRule);
+
+        var typeGuidsCollector = RevitApi.Document
+            .GetElements()
+            .WherePasses(typeElementFilter);
+
+        return RevitApi.Document
+            .GetElements()
+            .WherePasses(elementFilter)
+            .UnionWith(typeGuidsCollector)
+            .ToElements();
+    }
+
+    private static List<string> ParseRawRequest(string[] rows)
+    {
+        var items = new List<string>(rows.Length);
+        var delimiters = new[] {'\t', ';', ',', ' '};
+        foreach (var row in rows)
+        {
+            for (var i = 0; i < delimiters.Length; i++)
+            {
+                var delimiter = delimiters[i];
+                var split = row.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries);
+                if (split.Length > 1 || i == delimiters.Length - 1 || split.Length == 1 && split[0] != row)
+                {
+                    items.AddRange(split);
+                    break;
+                }
+            }
+        }
+
+        return items;
     }
 }

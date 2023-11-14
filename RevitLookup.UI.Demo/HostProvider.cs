@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
+using RevitLookup.UI.Demo.Services;
 using RevitLookup.Utils;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
@@ -14,25 +15,24 @@ using RevitLookup.Views;
 using RevitLookup.Views.Pages;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Services;
+using MoqSnoopViewModel = RevitLookup.UI.Demo.ViewModels.MoqSnoopViewModel;
 
-namespace RevitLookup;
+namespace RevitLookup.UI.Demo;
 
-public static class Host
+public static class HostProvider
 {
-    private static IHost _host;
-
-    public static void StartHost()
+    public static IHost CreateHost()
     {
-        _host = Microsoft.Extensions.Hosting.Host
+        var host = Microsoft.Extensions.Hosting.Host
             .CreateDefaultBuilder()
             .ConfigureAppConfiguration(SetConfiguration)
             .ConfigureServices(AddServices)
             .Build();
 
-        _host.Start();
+        return host;
     }
 
-    private static void AddServices(HostBuilderContext context, IServiceCollection services)
+    private static void AddServices(HostBuilderContext _, IServiceCollection services)
     {
         services.AddSingleton<ISettingsService, SettingsService>();
         services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
@@ -42,7 +42,7 @@ public static class Host
         services.AddScoped<IContentDialogService, ContentDialogService>();
         services.AddScoped<NotificationService>();
 
-        services.AddScoped<ISnoopService, SnoopService>();
+        services.AddScoped<ISnoopService, MoqSnoopService>();
         services.AddScoped<AboutView>();
         services.AddScoped<AboutViewModel>();
         services.AddScoped<DashboardView>();
@@ -52,10 +52,10 @@ public static class Host
         services.AddScoped<EventsView>();
         services.AddScoped<EventsViewModel>();
         services.AddScoped<SnoopView>();
-        services.AddScoped<ISnoopViewModel, SnoopViewModel>();
+        services.AddScoped<ISnoopViewModel, MoqSnoopViewModel>();
         services.AddScoped<IWindow, RevitLookupView>();
 
-        services.AddTransient<LookupService>();
+        services.AddTransient<MoqLookupService>();
     }
 
     private static void SetConfiguration(IConfigurationBuilder builder)
@@ -87,26 +87,5 @@ public static class Host
             new("DownloadFolder", Path.Combine(userDataLocation, "Downloads")),
             new("FolderAccess", writeAccess ? "Write" : "Read")
         });
-    }
-
-    public static void StartHost(IHost host)
-    {
-        _host = host;
-        host.Start();
-    }
-
-    public static void StopHost()
-    {
-        _host.StopAsync();
-    }
-
-    public static T GetService<T>() where T : class
-    {
-        return _host.Services.GetService(typeof(T)) as T;
-    }
-
-    public static T GetService<T>(this IServiceProvider serviceProvider) where T : class
-    {
-        return serviceProvider.GetService(typeof(T)) as T;
     }
 }

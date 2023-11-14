@@ -1,25 +1,29 @@
-﻿// This Source Code Form is subject to the terms of the MIT License.
-// If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
-// Copyright (C) Leszek Pomianowski and WPF UI Contributors.
-// All Rights Reserved.
+﻿// Copyright 2003-2023 by Autodesk, Inc.
+// 
+// Permission to use, copy, modify, and distribute this software in
+// object code form for any purpose and without fee is hereby granted,
+// provided that the above copyright notice appears in all copies and
+// that both that copyright notice and the limited warranty and
+// restricted rights notice below appear in all supporting
+// documentation.
+// 
+// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
+// AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
+// DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
+// UNINTERRUPTED OR ERROR FREE.
+// 
+// Use, duplication, or disclosure by the U.S. Government is subject to
+// restrictions set forth in FAR 52.227-19 (Commercial Computer
+// Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
+// (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Versioning;
 using System.Windows;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Demo.Moq;
-using RevitLookup.Utils;
-using RevitLookup.ViewModels.Pages;
-using RevitLookup.Views;
+using RevitLookup.UI.Demo.Services;
 using RevitLookup.Views.Pages;
-using Wpf.Ui.Contracts;
-using Wpf.Ui.Services;
 
 namespace RevitLookup.UI.Demo;
 
@@ -30,12 +34,10 @@ public sealed partial class App
     private void OnStartup(object sender, StartupEventArgs e)
     {
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
-        var host = CreateHost();
-        Host.StartHost(host);
+        var host = HostProvider.CreateHost();
 
-        var window = Host.GetService<IWindow>();
-        window.Show();
-        window.ServiceProvider.GetService<INavigationService>().Navigate(typeof(DashboardView));
+        Host.StartHost(host);
+        Host.GetService<MoqLookupService>().Show<DashboardView>();
     }
 
     private void OnExit(object sender, ExitEventArgs e)
@@ -44,66 +46,6 @@ public sealed partial class App
         settingsService.Save();
 
         Host.StopHost();
-    }
-
-    private static IHost CreateHost()
-    {
-        var host = Microsoft.Extensions.Hosting.Host
-            .CreateDefaultBuilder()
-            .ConfigureAppConfiguration(builder =>
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-                var assemblyLocation = assembly.Location;
-                var addinVersion = FileVersionInfo.GetVersionInfo(assemblyLocation).ProductVersion;
-#if RELEASE
-                var version = addinVersion.Split('.')[0];
-                if (version == "1") version = "Develop";
-                var programDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                var userDataLocation = Path.Combine(programDataPath, @"Autodesk\Revit\Addins\", version, "RevitLookup");
-#else
-                var userDataLocation = Path.GetDirectoryName(assemblyLocation)!;
-#endif
-                var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-                var writeAccess = AccessUtils.CheckWriteAccess(assemblyLocation) && !assemblyLocation.StartsWith(appDataPath);
-
-                var targetFrameworkAttributes = assembly.GetCustomAttributes(typeof(TargetFrameworkAttribute), true);
-                var targetFrameworkAttribute = (TargetFrameworkAttribute) targetFrameworkAttributes.First();
-                var targetFramework = targetFrameworkAttribute.FrameworkDisplayName;
-
-                builder.AddInMemoryCollection(new KeyValuePair<string, string>[]
-                {
-                    new("Assembly", assemblyLocation),
-                    new("Framework", targetFramework),
-                    new("AddinVersion", addinVersion),
-                    new("ConfigFolder", Path.Combine(userDataLocation, "Config")),
-                    new("DownloadFolder", Path.Combine(userDataLocation, "Downloads")),
-                    new("FolderAccess", writeAccess ? "Write" : "Read")
-                });
-            })
-            .ConfigureServices((_, services) =>
-            {
-                services.AddSingleton<ISettingsService, SettingsService>();
-                services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
-
-                services.AddScoped<IWindowController, WindowController>();
-                services.AddScoped<INavigationService, NavigationService>();
-                services.AddScoped<ISnackbarService, SnackbarService>();
-                services.AddScoped<IContentDialogService, ContentDialogService>();
-
-                services.AddScoped<AboutView>();
-                services.AddScoped<AboutViewModel>();
-                services.AddScoped<DashboardView>();
-                services.AddScoped<DashboardViewModel>();
-                services.AddScoped<SettingsView>();
-                services.AddScoped<SettingsViewModel>();
-                services.AddScoped<EventsView>();
-                services.AddScoped<EventsViewModel>();
-                services.AddScoped<SnoopView>();
-                services.AddScoped<ISnoopService, MoqSnoopViewModel>();
-
-                services.AddTransient<IWindow, RevitLookupView>();
-            }).Build();
-        return host;
     }
 
     private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)

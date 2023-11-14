@@ -3,7 +3,7 @@ using RevitLookup.Core.Utils;
 
 namespace RevitLookup.Core.Metadata;
 
-public partial class DescriptorBuilder
+public sealed partial class DescriptorBuilder
 {
     private void AddEvents(BindingFlags bindingFlags)
     {

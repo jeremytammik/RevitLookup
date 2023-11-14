@@ -22,9 +22,11 @@ using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
+using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.Views.Dialogs;
+using RevitLookup.Views.Pages;
 using Wpf.Ui.Common;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
@@ -34,19 +36,23 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed partial class DashboardViewModel : ObservableObject
 {
     private readonly IContentDialogService _dialogService;
+    private readonly NotificationService _notificationService;
     private readonly IServiceProvider _serviceProvider;
-    private readonly ISnackbarService _snackbarService;
+    private readonly INavigationService _navigationService;
     private readonly ISnoopService _snoopService;
 
-    public DashboardViewModel(ISnoopService snoopService,
+    public DashboardViewModel(
+        INavigationService navigationService,
+        ISnoopService snoopService,
         IContentDialogService dialogService,
-        ISnackbarService snackbarService,
+        NotificationService notificationService,
         IServiceProvider serviceProvider)
     {
+        _navigationService = navigationService;
         _snoopService = snoopService;
         _serviceProvider = serviceProvider;
         _dialogService = dialogService;
-        _snackbarService = snackbarService;
+        _notificationService = notificationService;
     }
 
     [RelayCommand]
@@ -57,59 +63,75 @@ public sealed partial class DashboardViewModel : ObservableObject
         switch (parameter)
         {
             case "view":
-                await _snoopService.Snoop(SnoopableType.View);
+                await _snoopService.SnoopAsync(SnoopableType.View);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "document":
-                await _snoopService.Snoop(SnoopableType.Document);
+                await _snoopService.SnoopAsync(SnoopableType.Document);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "application":
-                await _snoopService.Snoop(SnoopableType.Application);
+                await _snoopService.SnoopAsync(SnoopableType.Application);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "uiApplication":
-                await _snoopService.Snoop(SnoopableType.UiApplication);
+                await _snoopService.SnoopAsync(SnoopableType.UiApplication);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "database":
-                await _snoopService.Snoop(SnoopableType.Database);
+                await _snoopService.SnoopAsync(SnoopableType.Database);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "dependents":
-                await _snoopService.Snoop(SnoopableType.DependentElements);
+                await _snoopService.SnoopAsync(SnoopableType.DependentElements);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "selection":
-                await _snoopService.Snoop(SnoopableType.Selection);
+                await _snoopService.SnoopAsync(SnoopableType.Selection);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "linked":
-                await _snoopService.Snoop(SnoopableType.LinkedElement);
+                await _snoopService.SnoopAsync(SnoopableType.LinkedElement);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "face":
-                await _snoopService.Snoop(SnoopableType.Face);
+                await _snoopService.SnoopAsync(SnoopableType.Face);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "edge":
-                await _snoopService.Snoop(SnoopableType.Edge);
+                await _snoopService.SnoopAsync(SnoopableType.Edge);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "point":
-                await _snoopService.Snoop(SnoopableType.Point);
+                await _snoopService.SnoopAsync(SnoopableType.Point);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "subElement":
-                await _snoopService.Snoop(SnoopableType.SubElement);
+                await _snoopService.SnoopAsync(SnoopableType.SubElement);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "components":
-                await _snoopService.Snoop(SnoopableType.ComponentManager);
+                await _snoopService.SnoopAsync(SnoopableType.ComponentManager);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "performance":
-                await _snoopService.Snoop(SnoopableType.PerformanceAdviser);
+                await _snoopService.SnoopAsync(SnoopableType.PerformanceAdviser);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "updaters":
-                await _snoopService.Snoop(SnoopableType.UpdaterRegistry);
+                await _snoopService.SnoopAsync(SnoopableType.UpdaterRegistry);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "services":
-                await _snoopService.Snoop(SnoopableType.Services);
+                await _snoopService.SnoopAsync(SnoopableType.Services);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "schemas":
-                await _snoopService.Snoop(SnoopableType.Schemas);
+                await _snoopService.SnoopAsync(SnoopableType.Schemas);
+                _navigationService.Navigate(typeof(SnoopView));
                 break;
             case "events":
-                var service = (EventsViewModel) _serviceProvider.GetService(typeof(EventsViewModel));
-                await service.Snoop(SnoopableType.Events);
+                _navigationService.Navigate(typeof(EventsView));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);
@@ -127,7 +149,7 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "parameters":
                 var units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(BuiltInParameter)));
                 dialog.Title = "BuiltIn Parameters";
-                dialog.Content = new UnitsDialog(units);
+                dialog.Content = new UnitsDialog(_serviceProvider, units);
                 dialog.DialogWidth = 800;
                 dialog.DialogHeight = 600;
                 await dialog.ShowAsync();
@@ -135,7 +157,7 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "categories":
                 units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(BuiltInCategory)));
                 dialog.Title = "BuiltIn Categories";
-                dialog.Content = new UnitsDialog(units);
+                dialog.Content = new UnitsDialog(_serviceProvider, units);
                 dialog.DialogWidth = 800;
                 dialog.DialogHeight = 600;
                 await dialog.ShowAsync();
@@ -143,7 +165,7 @@ public sealed partial class DashboardViewModel : ObservableObject
             case "forge":
                 units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(ForgeTypeId)));
                 dialog.Title = "Forge Schema";
-                dialog.Content = new UnitsDialog(units);
+                dialog.Content = new UnitsDialog(_serviceProvider, units);
                 dialog.DialogWidth = 800;
                 dialog.DialogHeight = 600;
                 await dialog.ShowAsync();
@@ -162,7 +184,7 @@ public sealed partial class DashboardViewModel : ObservableObject
         if (RevitApi.UiApplication is null) return true;
         if (RevitApi.UiDocument is not null) return true;
 
-        _snackbarService.Show("Request denied", "There are no open documents", SymbolRegular.Warning24, ControlAppearance.Caution);
+        _notificationService.ShowWarning("Request denied", "There are no open documents");
         return false;
     }
 }

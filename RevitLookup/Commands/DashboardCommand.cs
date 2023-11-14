@@ -21,6 +21,7 @@
 using Autodesk.Revit.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
+using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Views.Pages;
 using Wpf.Ui.Contracts;
@@ -33,11 +34,6 @@ public class DashboardCommand : ExternalCommand
 {
     public override void Execute()
     {
-        RevitLookup.Application.Raise(() =>
-        {
-            var window = Host.GetService<IWindow>();
-            window.ShowAttached();
-            window.ServiceProvider.GetService<INavigationService>().Navigate(typeof(DashboardView));
-        });
+        Host.GetService<LookupService>().Show<DashboardView>();
     }
 }

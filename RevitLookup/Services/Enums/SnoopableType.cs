@@ -38,6 +38,5 @@ public enum SnoopableType
     PerformanceAdviser,
     UpdaterRegistry,
     Services,
-    Schemas,
-    Events
+    Schemas
 }

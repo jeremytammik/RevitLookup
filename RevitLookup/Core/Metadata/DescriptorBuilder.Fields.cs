@@ -22,7 +22,7 @@ using System.Reflection;
 
 namespace RevitLookup.Core.Metadata;
 
-public partial class DescriptorBuilder
+public sealed partial class DescriptorBuilder
 {
     private void AddFields(BindingFlags bindingFlags)
     {

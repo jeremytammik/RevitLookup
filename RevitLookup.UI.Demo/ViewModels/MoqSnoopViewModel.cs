@@ -18,35 +18,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Runtime.InteropServices;
-using Autodesk.Revit.Exceptions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
+using RevitLookup.UI.Demo.Services;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
-using OperationCanceledException = System.OperationCanceledException;
 
-namespace RevitLookup.ViewModels.Pages;
+namespace RevitLookup.UI.Demo.ViewModels;
 
-public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewModel
+public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
     private readonly IWindow _window;
     private readonly NotificationService _notificationService;
     private CancellationTokenSource _searchCancellationToken = new();
-
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
-    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
+    
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
+    [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
+    [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
 
-    protected SnoopViewModelBase(NotificationService notificationService, IWindow window)
+    public MoqSnoopViewModel(NotificationService notificationService, IWindow window)
     {
         _notificationService = notificationService;
         _window = window;
@@ -59,7 +57,7 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
         if (selectedItem.Value.Descriptor is not IDescriptorCollector) return;
         if (selectedItem.Value.Descriptor is IDescriptorEnumerator {IsEmpty: true}) return;
 
-        Host.GetService<LookupService>()
+        Host.GetService<MoqLookupService>()
             .Snoop(selectedItem.Value)
             .Attach(_window)
             .Show<SnoopView>();
@@ -106,18 +104,20 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     }
 
     [RelayCommand]
-    private async Task FetchMembersAsync()
+    private Task FetchMembersAsync()
     {
-        await CollectMembersAsync(true);
+        CollectMembers(true);
+        return Task.CompletedTask;
     }
 
     [RelayCommand]
-    private async Task RefreshMembersAsync()
+    private Task RefreshMembersAsync()
     {
-        await CollectMembersAsync(false);
+        CollectMembers(false);
+        return Task.CompletedTask;
     }
 
-    private async Task CollectMembersAsync(bool useCached)
+    private void CollectMembers(bool useCached)
     {
         if (SelectedObject is null)
         {
@@ -127,23 +127,8 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
 
         try
         {
-            SnoopableData = useCached ? await SelectedObject.GetCachedMembersAsync() : await SelectedObject.GetMembersAsync();
-        }
-        catch (InvalidObjectException exception)
-        {
-            _notificationService.ShowError("Invalid object", exception);
-        }
-        catch (InternalException)
-        {
-            _notificationService.ShowError(
-                "Invalid object",
-                "A problem in the Revit code. Usually occurs when a managed API object is no longer valid and is unloaded from memory");
-        }
-        catch (SEHException)
-        {
-            _notificationService.ShowError(
-                "Revit API internal error",
-                "A problem in the Revit code. Usually occurs when a managed API object is no longer valid and is unloaded from memory");
+            // ReSharper disable once MethodHasAsyncOverload
+            SnoopableData = SelectedObject.GetMembers();
         }
         catch (Exception exception)
         {

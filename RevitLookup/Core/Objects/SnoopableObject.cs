@@ -61,7 +61,7 @@ public sealed class SnoopableObject
 
     public async Task<IReadOnlyCollection<Descriptor>> GetMembersAsync()
     {
-        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(GetMembersAsync);
+        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(GetMembers);
     }
 
     public async Task<IReadOnlyCollection<Descriptor>> GetCachedMembersAsync()
@@ -69,7 +69,7 @@ public sealed class SnoopableObject
         return _members ?? await GetMembersAsync();
     }
 
-    private IReadOnlyCollection<Descriptor> GetMembersAsync(UIApplication uiApplication)
+    private IReadOnlyCollection<Descriptor> GetMembers(UIApplication uiApplication)
     {
         return DescriptorBuilder.Build(Object, Context);
     }

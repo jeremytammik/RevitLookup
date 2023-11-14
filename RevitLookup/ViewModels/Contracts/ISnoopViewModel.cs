@@ -24,12 +24,12 @@ using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.ViewModels.Contracts;
 
-public interface ISnoopViewModel : ISnoopService
+public interface ISnoopViewModel
 {
-    IReadOnlyCollection<SnoopableObject> SnoopableObjects { get; }
-    IReadOnlyCollection<Descriptor> SnoopableData { get; }
-    IReadOnlyCollection<SnoopableObject> FilteredSnoopableObjects { get; set; }
-    IReadOnlyCollection<Descriptor> FilteredSnoopableData { get; set; }
+    IReadOnlyCollection<SnoopableObject> SnoopableObjects { get; set; }
+    IReadOnlyCollection<Descriptor> SnoopableData { get; set; }
+    IReadOnlyCollection<SnoopableObject> FilteredSnoopableObjects { get; }
+    IReadOnlyCollection<Descriptor> FilteredSnoopableData { get; }
     IAsyncRelayCommand FetchMembersCommand { get; }
     IAsyncRelayCommand RefreshMembersCommand { get; }
     public string SearchText { get; set; }

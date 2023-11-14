@@ -23,7 +23,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Metadata;
 
-public partial class DescriptorBuilder
+public sealed partial class DescriptorBuilder
 {
     public static IReadOnlyCollection<Descriptor> Build(Type type)
     {

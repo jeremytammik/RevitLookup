@@ -21,6 +21,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Autodesk.Revit.DB;
+using Microsoft.Extensions.DependencyInjection;
+using RevitLookup.Core;
+using RevitLookup.Core.Objects;
+using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Dialogs;
 using RevitLookup.ViewModels.Objects;
 using RevitLookup.Views.Extensions;
@@ -29,8 +34,11 @@ namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class UnitsDialog
 {
-    public UnitsDialog(List<UnitInfo> unitType)
+    private readonly IServiceProvider _serviceProvider;
+
+    public UnitsDialog(IServiceProvider serviceProvider, List<UnitInfo> unitType)
     {
+        _serviceProvider = serviceProvider;
         InitializeComponent();
         DataContext = new UnitsViewModel(unitType);
     }
@@ -51,11 +59,24 @@ public sealed partial class UnitsDialog
 
         row.ContextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy unit")
-            .SetCommand(info, parameter => Clipboard.SetText(parameter.Unit))
+            .SetCommand(info, unitInfo => Clipboard.SetText(unitInfo.Unit))
             .SetShortcut(row, ModifierKeys.Control, Key.C);
         row.ContextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy label")
-            .SetCommand(info, parameter => Clipboard.SetText(parameter.Label))
+            .SetCommand(info, unitInfo => Clipboard.SetText(unitInfo.Label))
             .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
+        row.ContextMenu.AddMenuItem()
+            .SetHeader("Snoop")
+            .SetCommand(info, unitInfo =>
+            {
+                var obj = unitInfo.UnitObject switch
+                {
+                    BuiltInParameter parameter => RevitApi.GetBuiltinParameter(parameter),
+                    BuiltInCategory category => RevitApi.GetBuiltinCategory(category),
+                    _ => unitInfo.UnitObject
+                };
+
+                _serviceProvider.GetService<ISnoopService>().Snoop(new SnoopableObject(obj));
+            });
     }
 }

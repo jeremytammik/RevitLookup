@@ -22,7 +22,7 @@ using System.Collections;
 
 namespace RevitLookup.Core.Metadata;
 
-public partial class DescriptorBuilder
+public sealed partial class DescriptorBuilder
 {
     private void AddEnumerableItems()
     {

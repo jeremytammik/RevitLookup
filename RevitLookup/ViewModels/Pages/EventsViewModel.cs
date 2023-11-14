@@ -22,8 +22,8 @@ using System.Collections.ObjectModel;
 using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Services.Enums;
-using RevitLookup.Views.Pages;
+using RevitLookup.Services;
+using RevitLookup.Services.Contracts;
 using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls.Navigation;
 
@@ -33,11 +33,9 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
 {
     private readonly EventMonitor _eventMonitor;
     private readonly Stack<SnoopableObject> _events = new();
-    private readonly INavigationService _navigationService;
 
-    public EventsViewModel(INavigationService navigationService, ISnackbarService snackbarService) : base(navigationService, snackbarService)
+    public EventsViewModel(NotificationService notificationService, IWindow window) : base(notificationService, window)
     {
-        _navigationService = navigationService;
         SnoopableObjects = new ObservableCollection<SnoopableObject>();
         _eventMonitor = new EventMonitor(OnHandlingEvent);
     }
@@ -52,17 +50,9 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
         _eventMonitor.Unsubscribe();
     }
 
-    public override async Task Snoop(SnoopableType snoopableType)
-    {
-        await Task.CompletedTask;
-        if (snoopableType != SnoopableType.Events) throw new NotSupportedException();
-
-        _navigationService.Navigate(typeof(EventsView));
-    }
-
     private void OnHandlingEvent(string name, EventArgs args)
     {
-        var snoopableObject = new SnoopableObject(RevitApi.Document, args)
+        var snoopableObject = new SnoopableObject(args)
         {
             Descriptor =
             {

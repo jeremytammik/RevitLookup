@@ -21,8 +21,10 @@
 using Autodesk.Revit.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
+using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
 
@@ -32,11 +34,8 @@ public class SnoopSubElementCommand : ExternalCommand
 {
     public override void Execute()
     {
-        RevitLookup.Application.Raise(() =>
-        {
-            var window = Host.GetService<IWindow>();
-            window.Initialize();
-            window.ServiceProvider.GetService<ISnoopService>()!.Snoop(SnoopableType.SubElement);
-        });
+        Host.GetService<LookupService>()
+            .Snoop(SnoopableType.SubElement)
+            .Show<SnoopView>();
     }
 }
