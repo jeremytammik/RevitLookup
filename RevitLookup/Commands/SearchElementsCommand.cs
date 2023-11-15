@@ -35,9 +35,6 @@ public class SearchElementsCommand : ExternalCommand
     {
         Host.GetService<ILookupService>()
             .Show<DashboardView>()
-            .Execute<DashboardViewModel>(dashboard =>
-            {
-                dashboard.OpenDialogCommand.Execute("search");
-            });
+            .Execute<DashboardViewModel>(dashboard => { dashboard.OpenDialogCommand.Execute("search"); });
     }
 }

@@ -92,7 +92,7 @@ public sealed class SnoopVisualService : ISnoopVisualService
             UpdateWindowVisibility(Visibility.Visible);
         }
     }
-    
+
     private void UpdateWindowVisibility(Visibility visibility)
     {
         if (!_window.IsLoaded) return;

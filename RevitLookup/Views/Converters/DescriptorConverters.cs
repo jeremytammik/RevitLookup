@@ -133,7 +133,7 @@ public sealed class IconDescriptorConverter : MarkupExtension, IValueConverter
         if ((attributes & MemberAttributes.Property) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.ClipboardNote16;
         if ((attributes & MemberAttributes.Property) != 0) return SymbolRegular.ClipboardBulletListLtr16;
 
-        if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Private) != 0  && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.ShieldLock16;
+        if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Private) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.ShieldLock16;
         if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Private) != 0) return SymbolRegular.TableLock16;
         if ((attributes & MemberAttributes.Method) != 0 && (attributes & MemberAttributes.Static) != 0) return SymbolRegular.Box16;
         if ((attributes & MemberAttributes.Method) != 0) return SymbolRegular.Cube16;

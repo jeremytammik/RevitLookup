@@ -27,9 +27,5 @@ public interface IWindow
     bool IsLoaded { get; }
     Visibility Visibility { get; set; }
 
-    void Show();
-    bool? ShowDialog();
-    bool Focus();
-
     event RoutedEventHandler Loaded;
 }

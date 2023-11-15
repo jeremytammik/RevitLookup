@@ -56,7 +56,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             }
             else if (rawId.Length == 22 && rawId.Count(c => c == ' ') == 0)
             {
-                var elements = SearchBuIfcGuid(rawId);
+                var elements = SearchByIfcGuid(rawId);
                 results.AddRange(elements);
             }
             else
@@ -69,6 +69,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
         if (results.Count == 0) return false;
 
         snoopVisualService.Snoop(new SnoopableObject(results));
+        throw new Exception("Required navigation");
         return true;
     }
 
@@ -81,7 +82,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             .Where(element => element.Name.Contains(rawId, StringComparison.OrdinalIgnoreCase));
     }
 
-    private static IList<Element> SearchBuIfcGuid(string rawId)
+    private static IList<Element> SearchByIfcGuid(string rawId)
     {
         var guidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_GUID));
         var typeGuidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_TYPE_GUID));
