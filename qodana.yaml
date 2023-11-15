@@ -1,5 +1,5 @@
 version: "1.0"
-linter: jetbrains/qodana-dotnet:2023.1-eap
+linter: jetbrains/qodana-dotnet:latest
 exclude:
   - name: All
     paths:
