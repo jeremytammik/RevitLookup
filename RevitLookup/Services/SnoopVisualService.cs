@@ -29,13 +29,13 @@ using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.Services;
 
-public sealed class SnoopService : ISnoopService
+public sealed class SnoopVisualService : ISnoopVisualService
 {
     private readonly NotificationService _notificationService;
     private readonly ISnoopViewModel _viewModel;
     private readonly IWindow _window;
 
-    public SnoopService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window)
+    public SnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window)
     {
         _notificationService = notificationService;
         _viewModel = viewModel;

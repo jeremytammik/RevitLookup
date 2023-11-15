@@ -36,7 +36,7 @@ namespace RevitLookup.ViewModels.Pages;
 
 public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewModel
 {
-    private readonly IWindow _window;
+    private readonly IServiceProvider _provider;
     private readonly NotificationService _notificationService;
     private CancellationTokenSource _searchCancellationToken = new();
 
@@ -46,10 +46,10 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
-    protected SnoopViewModelBase(NotificationService notificationService, IWindow window)
+    protected SnoopViewModelBase(NotificationService notificationService, IServiceProvider provider)
     {
         _notificationService = notificationService;
-        _window = window;
+        _provider = provider;
     }
 
     public SnoopableObject SelectedObject { get; set; }
@@ -59,9 +59,9 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
         if (selectedItem.Value.Descriptor is not IDescriptorCollector) return;
         if (selectedItem.Value.Descriptor is IDescriptorEnumerator {IsEmpty: true}) return;
 
-        Host.GetService<LookupService>()
+        Host.GetService<ILookupService>()
             .Snoop(selectedItem.Value)
-            .Attach(_window)
+            .DependsOn(_provider)
             .Show<SnoopView>();
     }
 
@@ -106,15 +106,15 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     }
 
     [RelayCommand]
-    private async Task FetchMembersAsync()
+    private Task FetchMembersAsync()
     {
-        await CollectMembersAsync(true);
+        return CollectMembersAsync(true);
     }
 
     [RelayCommand]
-    private async Task RefreshMembersAsync()
+    private Task RefreshMembersAsync()
     {
-        await CollectMembersAsync(false);
+        return CollectMembersAsync(false);
     }
 
     private async Task CollectMembersAsync(bool useCached)

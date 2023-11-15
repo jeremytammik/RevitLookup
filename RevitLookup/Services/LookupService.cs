@@ -29,7 +29,7 @@ using Wpf.Ui.Contracts;
 
 namespace RevitLookup.Services;
 
-public sealed class LookupService
+public sealed class LookupService : ILookupService
 {
     private Window _owner;
     private Task _activeTask;
@@ -40,26 +40,25 @@ public sealed class LookupService
         _serviceProvider = scopeFactory.CreateScope().ServiceProvider;
     }
 
-    public LookupService Snoop(SnoopableType snoopableType)
+    public ILookupServiceDependsStage Snoop(SnoopableType snoopableType)
     {
-        _activeTask = _serviceProvider.GetService<ISnoopService>()!.SnoopAsync(snoopableType);
+        _activeTask = _serviceProvider.GetService<ISnoopVisualService>()!.SnoopAsync(snoopableType);
         return this;
     }
 
-    public LookupService Snoop(SnoopableObject snoopableObject)
+    public ILookupServiceDependsStage Snoop(SnoopableObject snoopableObject)
     {
-        _serviceProvider.GetService<ISnoopService>()!.Snoop(snoopableObject);
-        return this;
-    }
-    
-    
-    public LookupService Attach(IWindow window)
-    {
-        _owner = (Window) window;
+        _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObject);
         return this;
     }
 
-    public LookupService Show<T>() where T : Page
+    public ILookupServiceShowStage DependsOn(IServiceProvider provider)
+    {
+        _owner = (Window) provider.GetService<IWindow>();
+        return this;
+    }
+
+    public ILookupServiceExecuteStage Show<T>() where T : Page
     {
         if (_activeTask is null)
         {

@@ -104,9 +104,9 @@ public static class SearchEngine
         }
     }
 
-    public static async Task<SearchResults> SearchAsync(ISnoopViewModel model, SearchOption option, CancellationToken cancellationToken)
+    public static Task<SearchResults> SearchAsync(ISnoopViewModel model, SearchOption option, CancellationToken cancellationToken)
     {
-        return await Task.Run(() => Search(model, option), cancellationToken);
+        return Task.Run(() => Search(model, option), cancellationToken);
     }
 
     /// <summary>

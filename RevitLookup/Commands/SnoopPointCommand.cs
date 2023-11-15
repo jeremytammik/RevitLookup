@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
@@ -34,7 +33,7 @@ public class SnoopPointCommand : ExternalCommand
 {
     public override void Execute()
     {
-        Host.GetService<LookupService>()
+        Host.GetService<ILookupService>()
             .Snoop(SnoopableType.Point)
             .Show<SnoopView>();
     }

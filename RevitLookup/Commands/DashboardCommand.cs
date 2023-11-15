@@ -19,12 +19,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Views.Pages;
-using Wpf.Ui.Contracts;
 
 namespace RevitLookup.Commands;
 
@@ -34,6 +32,6 @@ public class DashboardCommand : ExternalCommand
 {
     public override void Execute()
     {
-        Host.GetService<LookupService>().Show<DashboardView>();
+        Host.GetService<ILookupService>().Show<DashboardView>();
     }
 }

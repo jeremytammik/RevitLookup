@@ -30,7 +30,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
 {
     [ObservableProperty] private string _searchText = string.Empty;
 
-    public bool SearchIds(ISnoopService snoopService)
+    public bool SearchIds(ISnoopVisualService snoopVisualService)
     {
         var rows = SearchText.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
         var items = ParseRawRequest(rows);
@@ -68,7 +68,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
 
         if (results.Count == 0) return false;
 
-        snoopService.Snoop(new SnoopableObject(results));
+        snoopVisualService.Snoop(new SnoopableObject(results));
         return true;
     }
 

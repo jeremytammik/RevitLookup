@@ -273,42 +273,42 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
             .SetCommand(_settingsService.IsEventsAllowed, parameter =>
             {
                 _settingsService.IsEventsAllowed = !parameter;
-                RefreshGrid();
+                return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Extensions")
             .SetCommand(_settingsService.IsExtensionsAllowed, parameter =>
             {
                 _settingsService.IsExtensionsAllowed = !parameter;
-                RefreshGrid();
+                return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Fields")
             .SetCommand(_settingsService.IsFieldsAllowed, parameter =>
             {
                 _settingsService.IsFieldsAllowed = !parameter;
-                RefreshGrid();
+                return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Non-public")
             .SetCommand(_settingsService.IsPrivateAllowed, parameter =>
             {
                 _settingsService.IsPrivateAllowed = !parameter;
-                RefreshGrid();
+                return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Static")
             .SetCommand(_settingsService.IsStaticAllowed, parameter =>
             {
                 _settingsService.IsStaticAllowed = !parameter;
-                RefreshGrid();
+                return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Unsupported")
             .SetCommand(_settingsService.IsUnsupportedAllowed, parameter =>
             {
                 _settingsService.IsUnsupportedAllowed = !parameter;
-                RefreshGrid();
+                return GetRefreshGridTask();
             });
 
         dataGrid.ContextMenu = contextMenu;
@@ -339,9 +339,9 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
         row.ContextMenu = contextMenu;
     }
 
-    private void RefreshGrid()
+    private Task GetRefreshGridTask()
     {
-        ViewModel.RefreshMembersCommand.ExecuteAsync(null);
+        return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
     }
 
     private async void SetupTreeView()

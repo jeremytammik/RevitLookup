@@ -42,7 +42,7 @@ public static class HostProvider
         services.AddScoped<IContentDialogService, ContentDialogService>();
         services.AddScoped<NotificationService>();
 
-        services.AddScoped<ISnoopService, MoqSnoopService>();
+        services.AddScoped<ISnoopVisualService, MoqSnoopVisualService>();
         services.AddScoped<AboutView>();
         services.AddScoped<AboutViewModel>();
         services.AddScoped<DashboardView>();
@@ -55,7 +55,7 @@ public static class HostProvider
         services.AddScoped<ISnoopViewModel, MoqSnoopViewModel>();
         services.AddScoped<IWindow, RevitLookupView>();
 
-        services.AddTransient<MoqLookupService>();
+        services.AddTransient<ILookupService, MoqLookupService>();
     }
 
     private static void SetConfiguration(IConfigurationBuilder builder)

@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows.Controls;
-using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui.Common;
@@ -32,12 +31,12 @@ namespace RevitLookup.Views.Dialogs;
 public sealed partial class SearchElementsDialog
 {
     private readonly ISnackbarService _snackbarService;
-    private readonly ISnoopService _snoopService;
+    private readonly ISnoopVisualService _snoopVisualService;
     private readonly SearchElementsViewModel _viewModel;
 
     public SearchElementsDialog(IServiceProvider serviceProvider, ContentPresenter contentPresenter) : base(contentPresenter)
     {
-        _snoopService = serviceProvider.GetService<ISnoopService>();
+        _snoopVisualService = serviceProvider.GetService<ISnoopVisualService>();
         _snackbarService = serviceProvider.GetService<ISnackbarService>();
         InitializeComponent();
         _viewModel = new SearchElementsViewModel();
@@ -47,7 +46,7 @@ public sealed partial class SearchElementsDialog
     protected override bool OnButtonClick(ContentDialogButton button)
     {
         if (button != ContentDialogButton.Primary) return true;
-        if (_viewModel.SearchIds(_snoopService)) return true;
+        if (_viewModel.SearchIds(_snoopVisualService)) return true;
 
         _snackbarService.Show("Search elements", "There are no elements found for your request", SymbolRegular.Warning24, ControlAppearance.Caution);
         return false;

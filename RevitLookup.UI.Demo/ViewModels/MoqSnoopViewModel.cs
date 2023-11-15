@@ -34,20 +34,20 @@ namespace RevitLookup.UI.Demo.ViewModels;
 
 public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
 {
-    private readonly IWindow _window;
+    private readonly IServiceProvider _provider;
     private readonly NotificationService _notificationService;
     private CancellationTokenSource _searchCancellationToken = new();
-    
+
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
 
-    public MoqSnoopViewModel(NotificationService notificationService, IWindow window)
+    public MoqSnoopViewModel(NotificationService notificationService, IServiceProvider provider)
     {
         _notificationService = notificationService;
-        _window = window;
+        _provider = provider;
     }
 
     public SnoopableObject SelectedObject { get; set; }
@@ -57,9 +57,9 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         if (selectedItem.Value.Descriptor is not IDescriptorCollector) return;
         if (selectedItem.Value.Descriptor is IDescriptorEnumerator {IsEmpty: true}) return;
 
-        Host.GetService<MoqLookupService>()
+        Host.GetService<ILookupService>()
             .Snoop(selectedItem.Value)
-            .Attach(_window)
+            .DependsOn(_provider)
             .Show<SnoopView>();
     }
 

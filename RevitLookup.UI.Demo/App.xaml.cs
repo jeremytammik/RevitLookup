@@ -37,7 +37,7 @@ public sealed partial class App
         var host = HostProvider.CreateHost();
 
         Host.StartHost(host);
-        Host.GetService<MoqLookupService>().Show<DashboardView>();
+        Host.GetService<ILookupService>().Show<DashboardView>();
     }
 
     private void OnExit(object sender, ExitEventArgs e)

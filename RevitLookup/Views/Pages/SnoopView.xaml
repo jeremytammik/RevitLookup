@@ -13,7 +13,7 @@
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"
-    d:DataContext="{d:DesignInstance pages:SnoopView, IsDesignTimeCreatable=False}">
+    d:DataContext="{d:DesignInstance pages:SnoopView}">
     <pages:SnoopViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -84,7 +84,7 @@
                     VirtualizingStackPanel.VirtualizationMode="Recycling"
                     ItemsSource="{Binding
                         ViewModel.FilteredSnoopableObjects,
-                        Converter={converters:TreeViewGroupConverter}}">
+                        Converter={converters:TreeViewGroupConverter}, IsAsync=True}">
                     <rl:TreeView.ItemTemplate>
                         <HierarchicalDataTemplate
                             ItemsSource="{Binding Items, Mode=OneTime}">

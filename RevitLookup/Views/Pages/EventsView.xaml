@@ -13,7 +13,7 @@
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"
-    d:DataContext="{d:DesignInstance pages:EventsView, IsDesignTimeCreatable=False}">
+    d:DataContext="{d:DesignInstance pages:EventsView}">
     <pages:SnoopViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

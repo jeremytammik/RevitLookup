@@ -31,13 +31,13 @@ using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.UI.Demo.Services;
 
-public class MoqSnoopService : ISnoopService
+public class MoqSnoopVisualService : ISnoopVisualService
 {
     private readonly NotificationService _notificationService;
     private readonly ISnoopViewModel _viewModel;
     private readonly IWindow _window;
 
-    public MoqSnoopService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window)
+    public MoqSnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window)
     {
         _notificationService = notificationService;
         _viewModel = viewModel;

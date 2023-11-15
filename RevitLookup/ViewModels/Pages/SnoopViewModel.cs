@@ -19,13 +19,12 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Services;
-using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed class SnoopViewModel : SnoopViewModelBase
 {
-    public SnoopViewModel(NotificationService notificationService, IWindow window) : base(notificationService, window)
+    public SnoopViewModel(NotificationService notificationService, IServiceProvider provider) : base(notificationService, provider)
     {
     }
 }

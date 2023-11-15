@@ -50,7 +50,7 @@ internal sealed class Settings
 
 public sealed class SettingsService : ISettingsService
 {
-    public const int DefaultTransitionDuration = 200;
+    private const int DefaultTransitionDuration = 200;
     private readonly Settings _settings;
     private readonly string _settingsFile;
 

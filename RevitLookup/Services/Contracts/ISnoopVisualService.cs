@@ -18,23 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.Attributes;
-using Nice3point.Revit.Toolkit.External;
-using RevitLookup.Services;
-using RevitLookup.Services.Contracts;
+using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
-using RevitLookup.Views.Pages;
 
-namespace RevitLookup.Commands;
+namespace RevitLookup.Services.Contracts;
 
-[UsedImplicitly]
-[Transaction(TransactionMode.Manual)]
-public class SnoopSubElementCommand : ExternalCommand
+public interface ISnoopVisualService
 {
-    public override void Execute()
-    {
-        Host.GetService<ILookupService>()
-            .Snoop(SnoopableType.SubElement)
-            .Show<SnoopView>();
-    }
+    void Snoop(SnoopableObject snoopableObject);
+    Task SnoopAsync(SnoopableType snoopableType);
 }

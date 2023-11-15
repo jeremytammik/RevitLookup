@@ -23,8 +23,6 @@ using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
-using RevitLookup.Services.Contracts;
-using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls.Navigation;
 
 namespace RevitLookup.ViewModels.Pages;
@@ -34,7 +32,7 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
     private readonly EventMonitor _eventMonitor;
     private readonly Stack<SnoopableObject> _events = new();
 
-    public EventsViewModel(NotificationService notificationService, IWindow window) : base(notificationService, window)
+    public EventsViewModel(NotificationService notificationService, IServiceProvider provider) : base(notificationService, provider)
     {
         SnoopableObjects = new ObservableCollection<SnoopableObject>();
         _eventMonitor = new EventMonitor(OnHandlingEvent);

@@ -21,6 +21,7 @@
 using Autodesk.Revit.Attributes;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services;
+using RevitLookup.Services.Contracts;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
@@ -31,6 +32,6 @@ public class EventMonitorCommand : ExternalCommand
 {
     public override void Execute()
     {
-        Host.GetService<LookupService>().Show<EventsView>();
+        Host.GetService<ILookupService>().Show<EventsView>();
     }
 }

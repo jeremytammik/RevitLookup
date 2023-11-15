@@ -18,13 +18,32 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows.Controls;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Services.Contracts;
 
-public interface ISnoopService
+public interface ILookupService : ILookupServiceDependsStage, ILookupServiceShowStage, ILookupServiceExecuteStage
 {
-    void Snoop(SnoopableObject snoopableObject);
-    Task SnoopAsync(SnoopableType snoopableType);
+    ILookupServiceDependsStage Snoop(SnoopableType snoopableType);
+    ILookupServiceDependsStage Snoop(SnoopableObject snoopableObject);
+    new ILookupServiceShowStage DependsOn(IServiceProvider provider);
+    new ILookupServiceExecuteStage Show<T>() where T : Page;
+}
+
+public interface ILookupServiceDependsStage
+{
+    ILookupServiceShowStage DependsOn(IServiceProvider provider);
+    ILookupServiceExecuteStage Show<T>() where T : Page;
+}
+
+public interface ILookupServiceShowStage
+{
+    ILookupServiceExecuteStage Show<T>() where T : Page;
+}
+
+public interface ILookupServiceExecuteStage
+{
+    void Execute<T>(Action<T> handler) where T : class;
 }

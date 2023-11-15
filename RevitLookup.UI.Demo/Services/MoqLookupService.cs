@@ -28,7 +28,7 @@ using Wpf.Ui.Contracts;
 
 namespace RevitLookup.UI.Demo.Services;
 
-public class MoqLookupService
+public class MoqLookupService : ILookupService
 {
     private Window _owner;
     private Task _activeTask;
@@ -39,25 +39,25 @@ public class MoqLookupService
         _serviceProvider = scopeFactory.CreateScope().ServiceProvider;
     }
 
-    public MoqLookupService Snoop(SnoopableType snoopableType)
+    public ILookupServiceDependsStage Snoop(SnoopableType snoopableType)
     {
-        _activeTask = _serviceProvider.GetService<ISnoopService>()!.SnoopAsync(snoopableType);
+        _activeTask = _serviceProvider.GetService<ISnoopVisualService>()!.SnoopAsync(snoopableType);
         return this;
     }
 
-    public MoqLookupService Snoop(SnoopableObject snoopableObject)
+    public ILookupServiceDependsStage Snoop(SnoopableObject snoopableObject)
     {
-        _serviceProvider.GetService<ISnoopService>()!.Snoop(snoopableObject);
+        _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObject);
         return this;
     }
     
-    public MoqLookupService Attach(IWindow window)
+    public ILookupServiceShowStage DependsOn(IServiceProvider provider)
     {
-        _owner = (Window) window;
+        _owner = (Window) provider.GetService<IWindow>();
         return this;
     }
 
-    public MoqLookupService Show<T>() where T : Page
+    public ILookupServiceExecuteStage Show<T>() where T : Page
     {
         if (_activeTask is null)
         {

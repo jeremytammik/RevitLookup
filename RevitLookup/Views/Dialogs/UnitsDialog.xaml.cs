@@ -22,7 +22,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Autodesk.Revit.DB;
-using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
@@ -76,7 +75,7 @@ public sealed partial class UnitsDialog
                     _ => unitInfo.UnitObject
                 };
 
-                _serviceProvider.GetService<ISnoopService>().Snoop(new SnoopableObject(obj));
+                _serviceProvider.GetService<ISnoopVisualService>().Snoop(new SnoopableObject(obj));
             });
     }
 }
