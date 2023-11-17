@@ -21,16 +21,37 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
+using RevitLookup.Core.Objects;
+using RevitLookup.Services;
+using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Dialogs;
+using RevitLookup.Views.Pages;
+using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class OpenSourceDialog
 {
-    public OpenSourceDialog()
+    private readonly IContentDialogService _dialogService;
+
+    public OpenSourceDialog(IContentDialogService dialogService)
     {
+        _dialogService = dialogService;
         InitializeComponent();
         DataContext = new OpenSourceViewModel();
+    }
+    
+    public async Task ShowAsync()
+    {
+        var dialogOptions = new SimpleContentDialogCreateOptions
+        {
+            Title = "Third-Party Software",
+            Content = this,
+            CloseButtonText = "Close"
+        };
+
+        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
     }
 
     private void OpenLink(object sender, RoutedEventArgs e)

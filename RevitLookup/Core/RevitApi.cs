@@ -44,8 +44,9 @@ public static class RevitApi
             null);
     }
 
-    public static List<UnitInfo> GetUnitInfos(Type unitType)
+    public static List<UnitInfo> GetUnitInfos<T>()
     {
+        var unitType = typeof(T);
         if (unitType == typeof(BuiltInParameter))
         {
             var parameters = Enum.GetValues(unitType).Cast<BuiltInParameter>();

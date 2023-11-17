@@ -18,36 +18,19 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
-using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
-using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages;
 
 public sealed partial class AboutView : INavigableView<AboutViewModel>
 {
-    private readonly IContentDialogService _dialogService;
-
-    public AboutView(AboutViewModel viewModel, IContentDialogService dialogService, ISettingsService settingsService)
+    public AboutView(AboutViewModel viewModel)
     {
         ViewModel = viewModel;
         InitializeComponent();
         DataContext = this;
-        _dialogService = dialogService;
     }
 
     public AboutViewModel ViewModel { get; }
-
-    private async void ShowSoftwareDialog(object sender, RoutedEventArgs e)
-    {
-        //TODO
-        // var dialog = _dialogService.CreateDialog();
-        // dialog.Title = "Third-Party Software";
-        // dialog.DialogWidth = 500;
-        // dialog.DialogHeight = 465;
-        // dialog.Content = new OpenSourceDialog();
-        // await dialog.ShowAsync();
-    }
 }

@@ -30,7 +30,8 @@ public sealed partial class SearchElementsViewModel : ObservableObject
 {
     [ObservableProperty] private string _searchText = string.Empty;
 
-    public bool SearchIds(ISnoopVisualService snoopVisualService)
+    [Pure]
+    public List<Element> SearchElements()
     {
         var rows = SearchText.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
         var items = ParseRawRequest(rows);
@@ -66,11 +67,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             }
         }
 
-        if (results.Count == 0) return false;
-
-        snoopVisualService.Snoop(new SnoopableObject(results));
-        throw new Exception("Required navigation");
-        return true;
+        return results;
     }
 
     private static IEnumerable<Element> SearchByName(string rawId)

@@ -222,7 +222,7 @@
                 <rl:HyperlinkButton
                     Content="Powered by open-source software"
                     Icon="{rl:SymbolIcon Link48}"
-                    Click="ShowSoftwareDialog" />
+                    Command="{Binding ViewModel.ShowSoftwareDialogCommand}"/>
                 <rl:HyperlinkButton
                     Content="Contact Us"
                     Icon="{rl:SymbolIcon Link48}"

@@ -23,25 +23,30 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.Views.Dialogs;
+using Wpf.Ui;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class AboutViewModel : ObservableObject
 {
     private readonly ISoftwareUpdateService _updateService;
+    private readonly IContentDialogService _dialogService;
+
     [ObservableProperty] private string _dotNetVersion;
     [ObservableProperty] private bool _isUpdateChecked;
     [ObservableProperty] private string _runtimeVersion;
 
-    public AboutViewModel(ISoftwareUpdateService updateService, IConfiguration configuration)
+    public AboutViewModel(ISoftwareUpdateService updateService, IContentDialogService dialogService, IConfiguration configuration)
     {
         _updateService = updateService;
+        _dialogService = dialogService;
         _dotNetVersion = configuration.GetValue<string>("Framework");
         _runtimeVersion = Environment.Version.ToString();
     }
 
     [RelayCommand]
-    private async Task CheckUpdates()
+    private async Task CheckUpdatesAsync()
     {
         await _updateService.CheckUpdates();
         IsUpdateChecked = true;
@@ -53,11 +58,18 @@ public sealed partial class AboutViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task DownloadUpdate()
+    private async Task DownloadUpdateAsync()
     {
         await _updateService.DownloadUpdate();
         OnPropertyChanged(nameof(State));
         OnPropertyChanged(nameof(ErrorMessage));
+    }
+
+    [RelayCommand]
+    private Task ShowSoftwareDialogAsync()
+    {
+        var openSourceDialog = new OpenSourceDialog(_dialogService);
+        return openSourceDialog.ShowAsync();
     }
 
     #region Updater Wrapping

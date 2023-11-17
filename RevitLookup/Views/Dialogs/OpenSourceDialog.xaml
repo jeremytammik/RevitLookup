@@ -7,14 +7,9 @@
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     xmlns:rl="http://revitlookup.com/xaml"
     mc:Ignorable="d"
+    MinWidth="300"
+    MinHeight="265"
     d:DataContext="{d:DesignInstance dialogs:OpenSourceViewModel}">
-    <Grid.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <rl:ControlsDictionary />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Grid.Resources>
     <DataGrid
         AutoGenerateColumns="False"
         GridLinesVisibility="None"
@@ -53,6 +48,9 @@
                 </DataGridHyperlinkColumn.ElementStyle>
             </DataGridHyperlinkColumn>
         </DataGrid.Columns>
+        <DataGrid.Resources>
+            <rl:ControlsDictionary />
+        </DataGrid.Resources>
         <DataGrid.CellStyle>
             <Style
                 TargetType="DataGridCell"

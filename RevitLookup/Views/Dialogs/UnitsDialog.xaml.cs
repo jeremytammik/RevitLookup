@@ -28,18 +28,60 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Dialogs;
 using RevitLookup.ViewModels.Objects;
 using RevitLookup.Views.Extensions;
+using Wpf.Ui;
 
 namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class UnitsDialog
 {
+    private readonly UnitsViewModel _viewModel;
     private readonly IServiceProvider _serviceProvider;
 
-    public UnitsDialog(IServiceProvider serviceProvider, List<UnitInfo> unitType)
+    public UnitsDialog(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
+        _viewModel = new UnitsViewModel();
+        DataContext = _viewModel;
         InitializeComponent();
-        DataContext = new UnitsViewModel(unitType);
+    }
+
+    public async Task ShowParametersAsync()
+    {
+        _viewModel.Units = RevitApi.GetUnitInfos<BuiltInParameter>();
+        var dialogOptions = new SimpleContentDialogCreateOptions
+        {
+            Title = "BuiltIn Parameters",
+            Content = this,
+            CloseButtonText = "Close"
+        };
+
+        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+    }
+
+    public async Task ShowCategoriesAsync()
+    {
+        _viewModel.Units = RevitApi.GetUnitInfos<BuiltInCategory>();
+        var dialogOptions = new SimpleContentDialogCreateOptions
+        {
+            Title = "BuiltIn Categories",
+            Content = this,
+            CloseButtonText = "Close"
+        };
+
+        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+    }
+
+    public async Task ShowForgeSchemaAsync()
+    {
+        _viewModel.Units = RevitApi.GetUnitInfos<ForgeTypeId>();
+        var dialogOptions = new SimpleContentDialogCreateOptions
+        {
+            Title = "Forge Schema",
+            Content = this,
+            CloseButtonText = "Close"
+        };
+
+        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
     }
 
     private void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -53,7 +95,7 @@ public sealed partial class UnitsDialog
     {
         row.ContextMenu = new ContextMenu
         {
-            Resources = Resources
+            Resources = Wpf.Ui.Application.MainWindow.Resources
         };
 
         row.ContextMenu.AddMenuItem("CopyMenuItem")

@@ -18,9 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Controls;
+using RevitLookup.Core.Objects;
+using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Dialogs;
+using RevitLookup.Views.Pages;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
@@ -28,26 +30,39 @@ namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class SearchElementsDialog
 {
-    private readonly ISnackbarService _snackbarService;
-    private readonly ISnoopVisualService _snoopVisualService;
+    private readonly IServiceProvider _serviceProvider;
     private readonly SearchElementsViewModel _viewModel;
 
-    public SearchElementsDialog(IServiceProvider serviceProvider, ContentPresenter contentPresenter) : base(contentPresenter)
+    public SearchElementsDialog(IServiceProvider serviceProvider)
     {
-        _snoopVisualService = serviceProvider.GetService<ISnoopVisualService>();
-        _snackbarService = serviceProvider.GetService<ISnackbarService>();
-        InitializeComponent();
+        _serviceProvider = serviceProvider;
         _viewModel = new SearchElementsViewModel();
         DataContext = _viewModel;
+        InitializeComponent();
     }
 
-    protected override void OnButtonClick(ContentDialogButton button)
+    public async Task ShowAsync()
     {
-        //TODO
-        // if (button != ContentDialogButton.Primary) return;
-        // if (_viewModel.SearchIds(_snoopVisualService)) return;
-        
-        // _snackbarService.Show("Search elements", "There are no elements found for your request", SymbolRegular.Warning24, ControlAppearance.Caution);
-        // return false;
+        var dialogOptions = new SimpleContentDialogCreateOptions
+        {
+            Title = "Search elements",
+            Content = this,
+            CloseButtonText = "Close",
+            PrimaryButtonText = "Search"
+        };
+
+        var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        if (dialogResult != ContentDialogResult.Primary) return;
+
+        var elements = _viewModel.SearchElements();
+        if (elements.Count == 0)
+        {
+            var notificationService = _serviceProvider.GetService<NotificationService>();
+            notificationService.ShowWarning("Search elements", "There are no elements found for your request");
+            return;
+        }
+
+        _serviceProvider.GetService<ISnoopVisualService>().Snoop(new SnoopableObject(elements));
+        _serviceProvider.GetService<INavigationService>().Navigate(typeof(SnoopView));
     }
 }

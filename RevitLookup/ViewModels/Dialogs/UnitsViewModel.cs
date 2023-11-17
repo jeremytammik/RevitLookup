@@ -25,21 +25,15 @@ namespace RevitLookup.ViewModels.Dialogs;
 
 public sealed partial class UnitsViewModel : ObservableObject
 {
-    private readonly List<UnitInfo> _units;
+    [ObservableProperty] private List<UnitInfo> _units;
     [ObservableProperty] private List<UnitInfo> _filteredUnits;
     [ObservableProperty] private string _searchText = string.Empty;
-
-    public UnitsViewModel(List<UnitInfo> unitType)
-    {
-        _units = unitType;
-        _filteredUnits = _units;
-    }
 
     async partial void OnSearchTextChanged(string value)
     {
         if (string.IsNullOrEmpty(SearchText))
         {
-            FilteredUnits = _units;
+            FilteredUnits = Units;
             return;
         }
 
@@ -48,11 +42,16 @@ public sealed partial class UnitsViewModel : ObservableObject
             var formattedText = value.ToLower().Trim();
             var searchResults = new List<UnitInfo>();
             // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var family in _units)
+            foreach (var family in Units)
                 if (family.Label.ToLower().Contains(formattedText) || family.Unit.ToLower().Contains(formattedText))
                     searchResults.Add(family);
 
             return searchResults;
         });
+    }
+
+    partial void OnUnitsChanged(List<UnitInfo> value)
+    {
+        FilteredUnits = value;
     }
 }

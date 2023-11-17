@@ -18,14 +18,17 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -135,44 +138,27 @@ public sealed partial class DashboardViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task OpenDialog(string parameter)
+    private Task OpenDialog(string parameter)
     {
-        if (!Validate()) return;
+        if (!Validate()) return Task.CompletedTask;
 
-        // var dialog = _dialogService.CreateDialog();
-        // switch (parameter)
-        // {
-        //     case "parameters":
-        //         var units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(BuiltInParameter)));
-        //         dialog.Title = "BuiltIn Parameters";
-        //         dialog.Content = new UnitsDialog(_serviceProvider, units);
-        //         dialog.DialogWidth = 800;
-        //         dialog.DialogHeight = 600;
-        //         await dialog.ShowAsync();
-        //         break;
-        //     case "categories":
-        //         units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(BuiltInCategory)));
-        //         dialog.Title = "BuiltIn Categories";
-        //         dialog.Content = new UnitsDialog(_serviceProvider, units);
-        //         dialog.DialogWidth = 800;
-        //         dialog.DialogHeight = 600;
-        //         await dialog.ShowAsync();
-        //         break;
-        //     case "forge":
-        //         units = await Task.Run(() => RevitApi.GetUnitInfos(typeof(ForgeTypeId)));
-        //         dialog.Title = "Forge Schema";
-        //         dialog.Content = new UnitsDialog(_serviceProvider, units);
-        //         dialog.DialogWidth = 800;
-        //         dialog.DialogHeight = 600;
-        //         await dialog.ShowAsync();
-        //         break;
-        //     case "search":
-        //         dialog = new SearchElementsDialog(_serviceProvider, _dialogService.GetContentPresenter());
-        //         dialog.DialogWidth = 570;
-        //         dialog.DialogHeight = 330;
-        //         await dialog.ShowAsync();
-        //         break;
-        // }
+        switch (parameter)
+        {
+            case "parameters":
+                var unitsDialog = new UnitsDialog(_serviceProvider);
+                return unitsDialog.ShowParametersAsync();
+            case "categories":
+                unitsDialog = new UnitsDialog(_serviceProvider);
+                return unitsDialog.ShowCategoriesAsync();
+            case "forge":
+                unitsDialog = new UnitsDialog(_serviceProvider);
+                return unitsDialog.ShowForgeSchemaAsync();
+            case "search":
+                var searchDialog = new SearchElementsDialog(_serviceProvider);
+                return searchDialog.ShowAsync();
+        }
+
+        return Task.CompletedTask;
     }
 
     private bool Validate()
