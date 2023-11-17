@@ -13,8 +13,7 @@ using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
-using Wpf.Ui.Contracts;
-using Wpf.Ui.Services;
+using Wpf.Ui;
 using MoqSnoopViewModel = RevitLookup.UI.Demo.ViewModels.MoqSnoopViewModel;
 
 namespace RevitLookup.UI.Demo;

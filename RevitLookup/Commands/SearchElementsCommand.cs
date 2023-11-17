@@ -20,7 +20,6 @@
 
 using Autodesk.Revit.Attributes;
 using Nice3point.Revit.Toolkit.External;
-using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views.Pages;

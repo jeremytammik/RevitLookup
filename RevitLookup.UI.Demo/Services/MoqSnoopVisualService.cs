@@ -18,8 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Diagnostics;
+using System.Windows.Controls;
 using Autodesk.Revit.DB;
 using Bogus;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
@@ -27,6 +30,7 @@ using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.ViewModels.Contracts;
+using UIFramework;
 using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.UI.Demo.Services;
@@ -118,10 +122,11 @@ public class MoqSnoopVisualService : ISnoopVisualService
         return await Task.Run(() => new Faker<SnoopableObject>()
             .CustomInstantiator(faker =>
             {
-                if (faker.IndexFaker % 1000 == 0) return new SnoopableObject(faker.Make(150, () => faker.Internet.UserName()));
-                if (faker.IndexFaker % 700 == 0) return new SnoopableObject(typeof(Console));
-                if (faker.IndexFaker % 500 == 0) return new SnoopableObject(null);
-                if (faker.IndexFaker % 200 == 0) return new SnoopableObject(string.Empty);
+                if (faker.IndexFaker % 2000 == 0) return new SnoopableObject(null);
+                if (faker.IndexFaker % 1000 == 0) return new SnoopableObject(string.Empty);
+                if (faker.IndexFaker % 700 == 0) return new SnoopableObject(faker.Make(150, () => faker.Internet.UserName()));
+                if (faker.IndexFaker % 500 == 0) return new SnoopableObject(typeof(Debug));
+                if (faker.IndexFaker % 200 == 0) return new SnoopableObject(faker.Lorem.Sentence());
                 if (faker.IndexFaker % 100 == 0) return new SnoopableObject(new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
                 if (faker.IndexFaker % 5 == 0) return new SnoopableObject(faker.Random.Int(0));
                 if (faker.IndexFaker % 3 == 0) return new SnoopableObject(faker.Random.Bool());

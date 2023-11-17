@@ -19,13 +19,13 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls.Window;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Services.Contracts;
 
 public interface ISettingsService
 {
-    ThemeType Theme { get; set; }
+    ApplicationTheme Theme { get; set; }
     WindowBackdropType Background { get; set; }
     int TransitionDuration { get; }
     bool IsHardwareRenderingAllowed { get; set; }

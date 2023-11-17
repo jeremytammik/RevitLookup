@@ -1,18 +1,17 @@
-Fork version b711c9b3 Bump @fluentui/react-icons from 2.0.190 to 2.0.195 in /branding on 25.02.2023 at 3:09
+Fork commit: 54717196. Data: 13.11.2023 23:15
 
 # Common
 
 Application.Current changed to Application.Current static property
 MenuBorderColorDefaultBrush replaced with ControlElevationBorderBrush
 
-# Wpf.Ui.Appearance.AppearanceData
+# Wpf.Ui.Appearance
 
 - Updated uris
-- Class public modifier
 
-# Wpf.Ui.Appearance.Theme
+# Wpf.Ui.Appearance.ApplicationAccentColorManager
 
-- Accent.Apply only with Windows 11
+- GetColorizationColor disable for Windows 10
 
 # Wpf.Ui.Controls.TitleBarControl
 
@@ -22,50 +21,34 @@ MenuBorderColorDefaultBrush replaced with ControlElevationBorderBrush
 
 New control with ItemsSourceChanged event
 
-# Wpf.Ui.Controls.Navigation.NavigationView
+# Wpf.Ui.Controls.NavigationView
 
 - Changed s_titleBarPaneCompactMargin
-- Changed IsPaneOpen default value
+- Changed IsPaneOpen default value to false
+- LeftCompactNavigationViewItemTemplate MinWidth removed
+- LeftCompactNavigationViewItemTemplate IconContentPresenter font size set 18
+- LeftNavigationViewTemplate Trigger IsPaneOpen for PaneGrid width set 40
+- LeftNavigationViewTemplate PART_BackButton margin set 0,3,0,5
+- 
+# Wpf.Ui.Controls.NavigationViewContentPresenter
 
-# Wpf.Ui.Controls.Navigation.AutoSuggestBox
+- Disabled CanContentScrollProperty override
 
-- ReleaseTemplateResources null check
-
-# Wpf.Ui.Controls.Navigation.DataGrid
+# Wpf.Ui.Controls.DataGrid
 
 - ItemsSourceChanged event
 - Removed combobox events
+- DefaultDataGridFontSize set 12
+- DefaultDataGridCellStyle MinHeight set 26
+- DefaultDataGridCellStyle Border set VerticalAlignment="Center" Margin="4,0,4,0"
+- DefaultDataGridColumnHeaderStyle MinHeight set 26
+- DefaultDataGridColumnHeaderStyle columnHeaderBorder set Padding="7,0,7,0"
+- DefaultDataGridColumnHeaderStyle columnHeaderBorder ContentPresenter set TextBlock.FontWeight="Bold"
+- DefaultDataGridStyle PART_VerticalScrollBar set Grid.RowSpan
 
 # Wpf.Ui.Controls.ContentDialog
 
 - Removed ResizeToContentSize
-
-# Wpf.Ui.Styles.Wpf.Ui
-
-- Update uris
-
-# Wpf.Ui.Styles.Assets.Fonts
-
-- Update uris
-
-# Wpf.Ui.Styles.Assets.Fonts
-
-- Changed DefaultUiBreadcrumbBarItemStyle FontSize
-
-# Wpf.Ui.Styles.Controls.TreeView
-
-- Add style for Wpf.Ui.Controls.TreeView
-
-# Wpf.Ui.Styles.Controls.NavigationView
-
-- Changed LeftCompactNavigationViewItemTemplate icon TextElement.FontSize
-- Removed LeftCompactNavigationViewItemTemplate MainBorder MinWidth
-- Removed LeftNavigationViewTemplate PART_ToggleButton Margin
-- Changed LeftNavigationViewTemplate triggers
-- Changed BasePaneButtonStyle icon FontSize
-
-# Wpf.Ui.Styles.Controls.DataGrid
-
 - Changed DefaultDataGridFontSize
 - Changed DefaultDataGridCellStyle MinHeight
 - Changed DefaultDataGridCellStyle ContentPresenter VerticalAlignment, Margin
@@ -73,42 +56,45 @@ New control with ItemsSourceChanged event
 - Changed DefaultDataGridColumnHeaderStyle ContentPresenter VerticalAlignment, Margin
 - Changed DefaultDataGridStyle VerticalScrollBar Grid.RowSpan
 
-# Wpf.Ui.Styles.Controls.ToolTip
+# Wpf.Ui.Controls.TreeViewItem
 
-- Changed MaxWidth
+- TreeViewItemFontSize set 12
+- Add TreeViewItem.xaml.cs
+- Add RequestBringIntoView
+- Set VirtualizationMode="Recycling"
 
-# Wpf.Ui.Styles.Controls.TextBlock
+# Wpf.Ui.Controls.TreeView
 
+- Add style for Wpf.Ui.Controls.TreeView
+
+# Wpf.Ui.Controls.ToolTip
+
+- MaxWidth set 600
+- Set TextElement.FontWeight Normal
+
+# Wpf.Ui.Controls.Contextmenu
+
+- Set TextElement.FontWeight Normal
+
+# Wpf.Ui.Controls.TextBlock
+
+- FontSize set 14
 - Added Foreground for page support
-- 
-# Wpf.Ui.Styles.Controls.TextBox
 
-- Changed PART_ContentHost VerticalAlignment
+[//]: # (# Wpf.Ui.Styles.Controls.ContentDialog)
+[//]: # ()
+[//]: # (- Changed template)
 
-# Wpf.Ui.Styles.Controls.TreeViewItem
+# Wpf.Ui.Controls.MenuItem
 
-- Changed TreeViewItemFontSize
-- Added RequestBringIntoView event
-- Added TreeViewItem.xaml.cs
+- WpfUiMenuItemSubmenuItemTemplateKey removed border
 
-# Wpf.Ui.Styles.Controls.ContentDialog
+# Wpf.Ui.Controls.IconElement.FontIcon
 
-- Changed template
+- Removed (FontSize.Equals(SystemFonts.MessageFontSize))
+- Removed (VisualParent is not null)
 
-# Wpf.Ui.Styles.Controls.Navigation.NavigationViewContentPresenter
+# Wpf.Ui.Resources.Typography
 
-- Add navigation\unloaded events
-- NotifyContentAboutNavigatingTo removed `content is FrameworkElement`
-
-# Wpf.Ui.Styles.Controls.ToolTip
-
-- Add TextElement.FontWeight- 
-
-# Wpf.Ui.Styles.Controls.Contextmenu
-
-- Add TextElement.FontWeight
-
-# Wpf.Ui.Styles.Controls.MenuItem
-
-- Edited SubmenuItem Symbol trigger
-- Removed IsCheckable checkbox icon border
+- TitleTextBlockStyle FontSize set 18
+- TitleTextBlockStyle LineHeight set 18

@@ -24,7 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using Wpf.Ui.Contracts;
+using Wpf.Ui;
 
 namespace RevitLookup.UI.Demo.Services;
 

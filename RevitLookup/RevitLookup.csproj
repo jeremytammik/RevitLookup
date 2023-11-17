@@ -87,6 +87,11 @@
         <Resource Include="Resources\Images\ShellIcon.ico"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ApplicationDefinition Remove="App.xaml" />
+      <Page Include="App.xaml" />
+    </ItemGroup>
+
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
             <RootItem Include="$(ProjectDir)*.addin"/>

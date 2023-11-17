@@ -25,7 +25,7 @@ using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using Wpf.Ui.Contracts;
+using Wpf.Ui;
 
 namespace RevitLookup.Services;
 

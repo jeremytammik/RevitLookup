@@ -22,7 +22,6 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Demo.Services;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.UI.Demo;

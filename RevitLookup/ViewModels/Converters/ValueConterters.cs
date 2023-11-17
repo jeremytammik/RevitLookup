@@ -23,7 +23,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls.Window;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Converters;
 
@@ -55,18 +55,18 @@ public sealed class BackgroundTypeConverter : MarkupExtension, IValueConverter
     }
 }
 
-[ValueConversion(typeof(ThemeType), typeof(string))]
-public sealed class ThemeTypeConverter : MarkupExtension, IValueConverter
+[ValueConversion(typeof(ApplicationTheme), typeof(string))]
+public sealed class ApplicationThemeConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var themeType = (ThemeType) value!;
-        return themeType switch
+        var applicationTheme = (ApplicationTheme) value!;
+        return applicationTheme switch
         {
-            ThemeType.Dark => "Dark",
-            ThemeType.Light => "Light",
-            ThemeType.Unknown => "Invalid",
-            ThemeType.HighContrast => "High contrast",
+            ApplicationTheme.Dark => "Dark",
+            ApplicationTheme.Light => "Light",
+            ApplicationTheme.Unknown => "Invalid",
+            ApplicationTheme.HighContrast => "High contrast",
             _ => throw new ArgumentOutOfRangeException()
         };
     }

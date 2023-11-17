@@ -6,23 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
-    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
-    xmlns:resources="clr-namespace:RevitLookup.Views.Resources"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"
     d:DataContext="{d:DesignInstance pages:EventsView}">
-    <pages:SnoopViewBase.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <markup:ThemesDictionary />
-                <rl:ControlsDictionary />
-                <resources:Menus />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </pages:SnoopViewBase.Resources>
     <Grid
         Margin="12">
         <Grid
@@ -72,7 +61,7 @@
                     x:Name="SearchBox"
                     DockPanel.Dock="Top"
                     PlaceholderText="Search..."
-                    Icon="Search24"
+                    Icon="{rl:SymbolIcon Search24}"
                     IconPlacement="Right"
                     Text="{Binding ViewModel.SearchText,
                         Mode=TwoWay,
@@ -81,7 +70,6 @@
                     x:Name="TreeView"
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
-                    VirtualizingStackPanel.VirtualizationMode="Recycling"
                     ItemsSource="{Binding ViewModel.FilteredSnoopableObjects}">
                     <rl:TreeView.ItemTemplate>
                         <DataTemplate>
@@ -148,6 +136,9 @@
                         Header="Time">
                     </DataGridTextColumn>
                 </rl:DataGrid.Columns>
+                <rl:DataGrid.Resources>
+                    <rl:ControlsDictionary />
+                </rl:DataGrid.Resources>
                 <rl:DataGrid.RowStyle>
                     <Style
                         d:DataContext="{d:DesignInstance objects:Descriptor}"

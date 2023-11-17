@@ -8,36 +8,46 @@
         x:Shared="False"
         FontWeight="DemiBold"
         Focusable="False"
-        IsHitTestVisible="False">
-    </MenuItem>
+        IsHitTestVisible="False" />
     <rl:MenuItem
         x:Key="CheckableMenuItem"
         x:Shared="False"
-        IsCheckable="True">
-    </rl:MenuItem>
+        IsCheckable="True" />
     <rl:MenuItem
         x:Key="CopyMenuItem"
         x:Shared="False"
         Header="Copy"
-        SymbolIcon="Copy16"
         Command="ApplicationCommands.Copy">
+        <rl:MenuItem.Icon>
+            <rl:SymbolIcon
+                Symbol="Copy16" />
+        </rl:MenuItem.Icon>
     </rl:MenuItem>
     <rl:MenuItem
         x:Key="HelpMenuItem"
         x:Shared="False"
-        Header="Help"
-        SymbolIcon="QuestionCircle16">
+        Header="Help">
+        <rl:MenuItem.Icon>
+            <rl:SymbolIcon
+                Symbol="QuestionCircle16" />
+        </rl:MenuItem.Icon>
     </rl:MenuItem>
     <rl:MenuItem
         x:Key="RefreshMenuItem"
         x:Shared="False"
-        Header="Refresh"
-        SymbolIcon="ArrowCounterclockwise12">
+        Header="Refresh">
+        <rl:MenuItem.Icon>
+            <rl:SymbolIcon
+                Symbol="ArrowCounterclockwise12" />
+        </rl:MenuItem.Icon>
     </rl:MenuItem>
     <rl:MenuItem
         x:Key="ShowTimeMenuItem"
         x:Shared="False"
-        Header="Show/hide time"
-        SymbolIcon="Timer12">
+        Header="Show/hide time">
+        <rl:MenuItem.Icon>
+            <rl:SymbolIcon
+                Symbol="Timer12" />
+        </rl:MenuItem.Icon>
     </rl:MenuItem>
 </ResourceDictionary>

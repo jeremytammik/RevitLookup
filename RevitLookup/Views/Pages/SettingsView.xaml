@@ -7,20 +7,11 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
-    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
     d:DesignHeight="1100"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SettingsView}">
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <markup:ThemesDictionary />
-                <rl:ControlsDictionary />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-    <rl:DynamicScrollViewer>
+    <rl:PassiveScrollViewer>
         <StackPanel
             Margin="12">
             <TextBlock
@@ -31,7 +22,7 @@
                 Margin="0,8,0,0">
                 <rl:CardControl
                     Header="Theme"
-                    Icon="Color24">
+                    Icon="{rl:SymbolIcon Color24}">
                     <ComboBox
                         MinWidth="150"
                         IsEnabled="True"
@@ -40,14 +31,14 @@
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
-                                    Text="{Binding ., Converter={converters:ThemeTypeConverter}}" />
+                                    Text="{Binding ., Converter={converters:ApplicationThemeConverter}}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </rl:CardControl>
                 <rl:CardControl
                     Header="Background effect"
-                    Icon="ColorBackground24"
+                    Icon="{rl:SymbolIcon ColorBackground24}"
                     Margin="0,8,0,0">
                     <ComboBox
                         MinWidth="150"
@@ -65,14 +56,14 @@
                 </rl:CardControl>
                 <rl:CardControl
                     Header="Smooth navigation"
-                    Icon="VideoClipMultiple24"
+                    Icon="{rl:SymbolIcon VideoClipMultiple24}"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsSmoothEnabled}" />
                 </rl:CardControl>
                 <rl:CardControl
                     Header="Hardware graphics acceleration"
-                    Icon="TopSpeed24"
+                    Icon="{rl:SymbolIcon TopSpeed24}"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsHardwareRenderingAllowed}" />
@@ -87,12 +78,12 @@
                 Margin="0,8,0,0">
                 <rl:CardControl
                     Header="Interaction panel in a Modify tab"
-                    Icon="PanelRightCursor24"
+                    Icon="{rl:SymbolIcon PanelRightCursor24}"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
                 </rl:CardControl>
             </StackPanel>
         </StackPanel>
-    </rl:DynamicScrollViewer>
+    </rl:PassiveScrollViewer>
 </Page>

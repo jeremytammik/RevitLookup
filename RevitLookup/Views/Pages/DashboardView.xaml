@@ -6,18 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
-    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance pages:DashboardView}">
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <markup:ThemesDictionary />
-                <rl:ControlsDictionary />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-    <rl:DynamicScrollViewer>
+    <rl:PassiveScrollViewer>
         <VirtualizingStackPanel
             Margin="12"
             IsVirtualizing="True"
@@ -45,7 +36,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="Image24"
+                    Icon="{rl:SymbolIcon Image24}"
                     CommandParameter="view"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -58,7 +49,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="Document24"
+                    Icon="{rl:SymbolIcon Document24}"
                     CommandParameter="document"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -71,7 +62,7 @@
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="4,8,4,0"
-                    Icon="Apps24"
+                    Icon="{rl:SymbolIcon Apps24}"
                     CommandParameter="application"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -84,7 +75,7 @@
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="4,8,0,0"
-                    Icon="WindowApps24"
+                    Icon="{rl:SymbolIcon WindowApps24}"
                     CommandParameter="uiApplication"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -97,7 +88,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="Database24"
+                    Icon="{rl:SymbolIcon Database24}"
                     CommandParameter="database"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -110,7 +101,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="DataLine24"
+                    Icon="{rl:SymbolIcon DataLine24}"
                     CommandParameter="dependents"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -145,7 +136,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="SquareHint24"
+                    Icon="{rl:SymbolIcon SquareHint24}"
                     CommandParameter="selection"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -158,7 +149,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="LinkSquare24"
+                    Icon="{rl:SymbolIcon LinkSquare24}"
                     CommandParameter="linked"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -171,7 +162,7 @@
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="4,8,4,0"
-                    Icon="LayerDiagonal20"
+                    Icon="{rl:SymbolIcon LayerDiagonal20}"
                     CommandParameter="face"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -184,7 +175,7 @@
                     Grid.Row="0"
                     Grid.Column="3"
                     Margin="4,8,0,0"
-                    Icon="Line24"
+                    Icon="{rl:SymbolIcon Line24}"
                     CommandParameter="edge"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -197,7 +188,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="Location24"
+                    Icon="{rl:SymbolIcon Location24}"
                     CommandParameter="point"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -210,7 +201,7 @@
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="Subtitles24"
+                    Icon="{rl:SymbolIcon Subtitles24}"
                     CommandParameter="subElement"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -244,7 +235,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="SlideTextMultiple32"
+                    Icon="{rl:SymbolIcon SlideTextMultiple32}"
                     CommandParameter="components"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -257,7 +248,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="HeartPulse24"
+                    Icon="{rl:SymbolIcon HeartPulse24}"
                     CommandParameter="performance"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -291,7 +282,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="Whiteboard24"
+                    Icon="{rl:SymbolIcon Whiteboard24}"
                     CommandParameter="updaters"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -304,7 +295,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="Box24"
+                    Icon="{rl:SymbolIcon Box24}"
                     CommandParameter="schemas"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -317,7 +308,7 @@
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="4,8,4,0"
-                    Icon="WeatherCloudy24"
+                    Icon="{rl:SymbolIcon WeatherCloudy24}"
                     CommandParameter="services"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -351,7 +342,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="LeafOne24"
+                    Icon="{rl:SymbolIcon LeafOne24}"
                     CommandParameter="parameters"
                     Command="{Binding ViewModel.OpenDialogCommand}">
                     <StackPanel>
@@ -364,7 +355,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="LeafTwo24"
+                    Icon="{rl:SymbolIcon LeafTwo24}"
                     CommandParameter="categories"
                     Command="{Binding ViewModel.OpenDialogCommand}">
                     <StackPanel>
@@ -377,7 +368,7 @@
                     Grid.Row="0"
                     Grid.Column="2"
                     Margin="4,8,4,0"
-                    Icon="LeafThree24"
+                    Icon="{rl:SymbolIcon LeafThree24}"
                     CommandParameter="forge"
                     Command="{Binding ViewModel.OpenDialogCommand}">
                     <StackPanel>
@@ -411,7 +402,7 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="0,8,4,0"
-                    Icon="SlideSearch24"
+                    Icon="{rl:SymbolIcon SlideSearch24}"
                     CommandParameter="search"
                     Command="{Binding ViewModel.OpenDialogCommand}">
                     <StackPanel>
@@ -424,7 +415,7 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="4,8,4,0"
-                    Icon="DesktopPulse24"
+                    Icon="{rl:SymbolIcon DesktopPulse24}"
                     CommandParameter="events"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
@@ -435,5 +426,5 @@
                 </rl:CardAction>
             </Grid>
         </VirtualizingStackPanel>
-    </rl:DynamicScrollViewer>
+    </rl:PassiveScrollViewer>
 </Page>

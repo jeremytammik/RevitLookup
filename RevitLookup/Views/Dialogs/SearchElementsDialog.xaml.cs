@@ -21,10 +21,8 @@
 using System.Windows.Controls;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Dialogs;
-using Wpf.Ui.Common;
-using Wpf.Ui.Contracts;
+using Wpf.Ui;
 using Wpf.Ui.Controls;
-using Wpf.Ui.Controls.ContentDialogControl;
 
 namespace RevitLookup.Views.Dialogs;
 
@@ -43,12 +41,13 @@ public sealed partial class SearchElementsDialog
         DataContext = _viewModel;
     }
 
-    protected override bool OnButtonClick(ContentDialogButton button)
+    protected override void OnButtonClick(ContentDialogButton button)
     {
-        if (button != ContentDialogButton.Primary) return true;
-        if (_viewModel.SearchIds(_snoopVisualService)) return true;
-
-        _snackbarService.Show("Search elements", "There are no elements found for your request", SymbolRegular.Warning24, ControlAppearance.Caution);
-        return false;
+        //TODO
+        // if (button != ContentDialogButton.Primary) return;
+        // if (_viewModel.SearchIds(_snoopVisualService)) return;
+        
+        // _snackbarService.Show("Search elements", "There are no elements found for your request", SymbolRegular.Warning24, ControlAppearance.Caution);
+        // return false;
     }
 }

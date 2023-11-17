@@ -21,7 +21,6 @@
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
-using Wpf.Ui.Appearance;
 
 namespace RevitLookup.Views.Pages;
 
@@ -38,7 +37,5 @@ public sealed partial class EventsView
 
         ViewModel = (ISnoopViewModel) serviceProvider.GetService(typeof(EventsViewModel));
         DataContext = this;
-
-        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 }

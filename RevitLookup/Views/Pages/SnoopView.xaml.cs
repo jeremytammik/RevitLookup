@@ -20,7 +20,6 @@
 
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
-using Wpf.Ui.Appearance;
 
 namespace RevitLookup.Views.Pages;
 
@@ -38,7 +37,5 @@ public sealed partial class SnoopView
 
         ViewModel = viewModel;
         DataContext = this;
-
-        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 }

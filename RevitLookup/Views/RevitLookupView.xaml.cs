@@ -21,8 +21,7 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Contracts;
+using Wpf.Ui;
 
 namespace RevitLookup.Views;
 
@@ -43,20 +42,14 @@ public sealed partial class RevitLookupView : IWindow
         ISettingsService settingsService)
         : this()
     {
-        SetTheme(settingsService);
+        RootNavigation.TransitionDuration = settingsService.TransitionDuration;
+        WindowBackdropType = settingsService.Background;
 
         navigationService.SetNavigationControl(RootNavigation);
         dialogService.SetContentPresenter(RootContentDialog);
 
-        snackbarService.SetSnackbarControl(RootSnackbar);
-        snackbarService.Timeout = 3000;
-    }
-
-    private void SetTheme(ISettingsService settingsService)
-    {
-        Theme.Apply(this, settingsService.Theme, settingsService.Background);
-        RootNavigation.TransitionDuration = settingsService.TransitionDuration;
-        WindowBackdropType = settingsService.Background;
+        snackbarService.SetSnackbarPresenter(RootSnackbar);
+        snackbarService.DefaultTimeOut = TimeSpan.FromSeconds(3);
     }
 
     private void AddShortcuts()

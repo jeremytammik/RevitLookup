@@ -21,7 +21,7 @@ public sealed class ThemesDictionary : ResourceDictionary
     public ThemesDictionary()
     {
 #if DEBUG
-        ThemeType theme;
+        ApplicationTheme theme;
         try
         {
             theme = Host.GetService<ISettingsService>().Theme;
@@ -29,18 +29,18 @@ public sealed class ThemesDictionary : ResourceDictionary
         catch
         {
             //UnHosted build
-            theme = ThemeType.Light;
+            theme = ApplicationTheme.Light;
         }
 #else
         var theme = Host.GetService<ISettingsService>().Theme;
 #endif
         var themeName = theme switch
         {
-            ThemeType.Dark => "Dark",
-            ThemeType.HighContrast => "HighContrast",
+            ApplicationTheme.Dark => "Dark",
+            ApplicationTheme.HighContrast => "HighContrast",
             _ => "Light"
         };
 
-        Source = new Uri($"{AppearanceData.LibraryThemeDictionariesUri}{themeName}.xaml", UriKind.Absolute);
+        Source = new Uri($"{ApplicationThemeManager.ThemesDictionaryPath}{themeName}.xaml", UriKind.Absolute);
     }
 }

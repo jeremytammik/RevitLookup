@@ -24,7 +24,7 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls.Window;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Services;
 
@@ -34,7 +34,7 @@ namespace RevitLookup.Services;
 [Serializable]
 internal sealed class Settings
 {
-    public ThemeType Theme { get; set; } = ThemeType.Light;
+    public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;
     public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
     public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
     public bool IsHardwareRenderingAllowed { get; set; } = true;
@@ -60,7 +60,7 @@ public sealed class SettingsService : ISettingsService
         _settings = LoadSettings();
     }
 
-    public ThemeType Theme
+    public ApplicationTheme Theme
     {
         get => _settings.Theme;
         set => _settings.Theme = value;

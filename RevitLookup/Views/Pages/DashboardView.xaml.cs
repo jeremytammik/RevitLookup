@@ -20,8 +20,7 @@
 
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls.Navigation;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages;
 
@@ -32,7 +31,6 @@ public sealed partial class DashboardView : INavigableView<DashboardViewModel>
         ViewModel = viewModel;
         InitializeComponent();
         DataContext = this;
-        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 
     public DashboardViewModel ViewModel { get; }

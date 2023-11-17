@@ -19,7 +19,7 @@
     </DockPanel.Resources>
     <rl:TextBox
         DockPanel.Dock="Top"
-        Icon="Search24"
+        Icon="{rl:SymbolIcon Search24}"
         IconPlacement="Right"
         PlaceholderText="Search..."
         Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

@@ -33,9 +33,10 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
-using Wpf.Ui.Controls.Navigation;
+using Wpf.Ui.Controls;
 using DataGrid = Wpf.Ui.Controls.DataGrid;
 using TreeView = Wpf.Ui.Controls.TreeView;
+using TreeViewItem = System.Windows.Controls.TreeViewItem;
 
 namespace RevitLookup.Views.Pages;
 

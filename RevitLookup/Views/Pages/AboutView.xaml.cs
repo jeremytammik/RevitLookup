@@ -21,10 +21,8 @@
 using System.Windows;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
-using RevitLookup.Views.Dialogs;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Contracts;
-using Wpf.Ui.Controls.Navigation;
+using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages;
 
@@ -38,18 +36,18 @@ public sealed partial class AboutView : INavigableView<AboutViewModel>
         InitializeComponent();
         DataContext = this;
         _dialogService = dialogService;
-        Theme.Apply(this, settingsService.Theme, settingsService.Background);
     }
 
     public AboutViewModel ViewModel { get; }
 
     private async void ShowSoftwareDialog(object sender, RoutedEventArgs e)
     {
-        var dialog = _dialogService.CreateDialog();
-        dialog.Title = "Third-Party Software";
-        dialog.DialogWidth = 500;
-        dialog.DialogHeight = 465;
-        dialog.Content = new OpenSourceDialog();
-        await dialog.ShowAsync();
+        //TODO
+        // var dialog = _dialogService.CreateDialog();
+        // dialog.Title = "Third-Party Software";
+        // dialog.DialogWidth = 500;
+        // dialog.DialogHeight = 465;
+        // dialog.Content = new OpenSourceDialog();
+        // await dialog.ShowAsync();
     }
 }

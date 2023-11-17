@@ -1,0 +1,98 @@
+<!--
+    This Source Code Form is subject to the terms of the MIT License.
+    If a copy of the MIT was not distributed with this file, You can obtain one at https://opensource.org/licenses/MIT.
+    Copyright (C) Leszek Pomianowski and WPF UI Contributors.
+    All Rights Reserved.
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Resources/Variables.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Resources/Fonts.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Resources/Typography.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Resources/StaticColors.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Resources/Accent.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Resources/Palette.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Resources/DefaultContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Resources/DefaultFocusVisualStyle.xaml" />
+
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Anchor/Anchor.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/AutoSuggestBox/AutoSuggestBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Badge/Badge.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/BreadcrumbBar/BreadcrumbBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Button/Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Calendar/Calendar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/CalendarDatePicker/CalendarDatePicker.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Card/Card.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/CardAction/CardAction.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/CardColor/CardColor.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/CardControl/CardControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/CardExpander/CardExpander.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/CheckBox/CheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/CheckBox/CheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ColorPicker/ColorPicker.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ComboBox/ComboBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ContentDialog/ContentDialog.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ContextMenu/ContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ContextMenu/ContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DataGrid/DataGrid.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DatePicker/DatePicker.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DropDownButton/DropDownButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DynamicScrollBar/DynamicScrollBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DynamicScrollViewer/DynamicScrollViewer.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DynamicScrollViewer/PassiveScrollViewer.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Expander/Expander.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/FluentWindow/FluentWindow.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Flyout/Flyout.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Frame/Frame.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/HyperlinkButton/HyperlinkButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Image/Image.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/InfoBar/InfoBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ItemsControl/ItemsControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Label/Label.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ListBox/ListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ListBox/ListBoxItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ListView/ListView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ListView/ListViewItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/LoadingScreen/LoadingScreen.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Menu/Menu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Menu/MenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/MessageBox/MessageBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/NavigationView/NavigationView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/NavigationView/NavigationViewBreadcrumbItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/NavigationView/NavigationViewContentPresenter.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/NavigationView/NavigationViewItemHeader.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/NavigationView/NavigationViewItemSeparator.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/NumberBox/NumberBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Page/Page.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/PasswordBox/PasswordBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ProgressBar/ProgressBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ProgressRing/ProgressRing.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/RadioButton/RadioButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/RatingControl/RatingControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/RichTextBox/RichTextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ScrollBar/ScrollBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ScrollViewer/ScrollViewer.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Separator/Separator.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Slider/Slider.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Snackbar/Snackbar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/SplitButton/SplitButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/StatusBar/StatusBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/TabControl/TabControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/TextBlock/TextBlock.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/TextBox/TextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ThumbRate/ThumbRate.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/TitleBar/TitleBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/TimePicker/TimePicker.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ToggleButton/ToggleButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ToggleSwitch/ToggleSwitch.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ToolBar/ToolBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ToolTip/ToolTip.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/TreeGrid/TreeGrid.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/TreeView/TreeView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/TreeView/TreeViewItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/VirtualizingGridView/VirtualizingGridView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/VirtualizingItemsControl/VirtualizingItemsControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/VirtualizingWrapPanel/VirtualizingWrapPanel.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Window/Window.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

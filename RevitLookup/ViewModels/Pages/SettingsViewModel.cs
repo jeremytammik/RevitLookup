@@ -19,12 +19,11 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
+using Wpf.Ui;
 using Wpf.Ui.Appearance;
-using Wpf.Ui.Common;
-using Wpf.Ui.Contracts;
 using Wpf.Ui.Controls;
-using Wpf.Ui.Controls.Window;
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -32,8 +31,8 @@ public sealed partial class SettingsViewModel : ObservableObject
 {
     private readonly INavigationService _navigationService;
     private readonly ISettingsService _settingsService;
-    private readonly ISnackbarService _snackbarService;
-    [ObservableProperty] private ThemeType _theme;
+    
+    [ObservableProperty] private ApplicationTheme _theme;
     [ObservableProperty] private WindowBackdropType _background;
     [ObservableProperty] private bool _isSmoothEnabled;
     [ObservableProperty] private bool _isHardwareRenderingAllowed;
@@ -45,11 +44,10 @@ public sealed partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private bool _isEventsAllowed;
     [ObservableProperty] private bool _isExtensionsAllowed;
 
-    public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, ISnackbarService snackbarService)
+    public SettingsViewModel(ISettingsService settingsService, INavigationService navigationService)
     {
         _settingsService = settingsService;
         _navigationService = navigationService;
-        _snackbarService = snackbarService;
         _theme = settingsService.Theme;
         _background = settingsService.Background;
         _isSmoothEnabled = settingsService.TransitionDuration > 0;
@@ -63,10 +61,10 @@ public sealed partial class SettingsViewModel : ObservableObject
         _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
     }
 
-    public List<ThemeType> Themes { get; } = new()
+    public List<ApplicationTheme> Themes { get; } = new()
     {
-        ThemeType.Light,
-        ThemeType.Dark
+        ApplicationTheme.Light,
+        ApplicationTheme.Dark
     };
 
     public List<WindowBackdropType> BackgroundEffects { get; } = new()
@@ -75,10 +73,10 @@ public sealed partial class SettingsViewModel : ObservableObject
         WindowBackdropType.Mica
     };
 
-    partial void OnThemeChanged(ThemeType value)
+    partial void OnThemeChanged(ApplicationTheme value)
     {
         _settingsService.Theme = value;
-        _snackbarService.Show("Theme changed", "Changes will take effect for new windows", SymbolRegular.ChatWarning24, ControlAppearance.Success);
+        ApplicationThemeManager.Apply(_settingsService.Theme, _settingsService.Background);
     }
 
     partial void OnBackgroundChanged(WindowBackdropType value)
