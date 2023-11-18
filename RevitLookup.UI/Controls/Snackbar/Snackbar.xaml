@@ -77,7 +77,6 @@
                                         Margin="0"
                                         Content="{TemplateBinding Title}"
                                         ContentTemplate="{TemplateBinding TitleTemplate}"
-                                        TextElement.FontSize="16"
                                         TextElement.FontWeight="SemiBold"
                                         TextElement.Foreground="{TemplateBinding Foreground}">
                                         <ContentPresenter.Resources>
@@ -89,11 +88,12 @@
 
                                     <ContentPresenter
                                         Grid.Row="1"
+                                        Margin="0,4,0,0"
                                         Content="{TemplateBinding Content}"
                                         ContentStringFormat="{TemplateBinding ContentStringFormat}"
                                         ContentTemplate="{TemplateBinding ContentTemplate}"
                                         ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
-                                        TextElement.FontSize="14"
+                                        TextElement.FontSize="12"
                                         TextElement.FontWeight="Regular"
                                         TextElement.Foreground="{TemplateBinding ContentForeground}">
                                         <ContentPresenter.Resources>

@@ -7,8 +7,6 @@
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     xmlns:rl="http://revitlookup.com/xaml"
     mc:Ignorable="d"
-    MinWidth="600"
-    MinHeight="400"
     d:DataContext="{d:DesignInstance dialogs:UnitsViewModel}">
     <rl:TextBox
         DockPanel.Dock="Top"

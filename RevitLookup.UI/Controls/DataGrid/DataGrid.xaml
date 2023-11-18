@@ -663,6 +663,7 @@
         <Setter Property="CellStyle" Value="{StaticResource DefaultDataGridCellStyle}" />
         <Setter Property="ColumnHeaderStyle" Value="{StaticResource DefaultDataGridColumnHeaderStyle}" />
         <Setter Property="DragIndicatorStyle" Value="{StaticResource DefaultDragIndicatorStyleStyle}" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -675,7 +676,7 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding Border.CornerRadius}"
                         SnapsToDevicePixels="True">
-                        <controls:PassiveScrollViewer x:Name="DG_ScrollViewer" Focusable="False">
+                        <controls:PassiveScrollViewer x:Name="DG_ScrollViewer" Focusable="False" VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}">
                             <controls:PassiveScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type controls:PassiveScrollViewer}">
                                     <Grid>

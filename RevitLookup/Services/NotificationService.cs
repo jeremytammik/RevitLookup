@@ -83,17 +83,32 @@ public sealed class NotificationService
 
     private void ShowSuccessBar(string title, string message)
     {
-        _snackbarService.Show(title, message, ControlAppearance.Success, new SymbolIcon(SymbolRegular.ChatWarning24), _snackbarService.DefaultTimeOut);
+        _snackbarService.Show(
+            title,
+            message,
+            ControlAppearance.Success,
+            new SymbolIcon(SymbolRegular.ChatWarning24, 24),
+            _snackbarService.DefaultTimeOut);
     }
 
     private void ShowWarningBar(string title, string message)
     {
-        _snackbarService.Show(title, message, ControlAppearance.Caution, new SymbolIcon(SymbolRegular.Warning24), _snackbarService.DefaultTimeOut);
+        _snackbarService.Show(
+            title,
+            message,
+            ControlAppearance.Caution,
+            new SymbolIcon(SymbolRegular.Warning24, 24),
+            _snackbarService.DefaultTimeOut);
     }
 
     private void ShowErrorBar(string title, string message)
     {
-        _snackbarService.Show(title, message, ControlAppearance.Danger, new SymbolIcon(SymbolRegular.ErrorCircle24), _snackbarService.DefaultTimeOut);
+        _snackbarService.Show(
+            title,
+            message,
+            ControlAppearance.Danger,
+            new SymbolIcon(SymbolRegular.ErrorCircle24, 24),
+            _snackbarService.DefaultTimeOut);
     }
 
     private void ShowPendingNotifications(object sender, RoutedEventArgs args)

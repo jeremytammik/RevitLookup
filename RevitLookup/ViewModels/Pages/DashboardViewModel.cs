@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core;
@@ -28,13 +27,11 @@ using RevitLookup.Services.Enums;
 using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
-using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class DashboardViewModel : ObservableObject
 {
-    private readonly IContentDialogService _dialogService;
     private readonly NotificationService _notificationService;
     private readonly IServiceProvider _serviceProvider;
     private readonly INavigationService _navigationService;
@@ -43,14 +40,12 @@ public sealed partial class DashboardViewModel : ObservableObject
     public DashboardViewModel(
         INavigationService navigationService,
         ISnoopVisualService snoopVisualService,
-        IContentDialogService dialogService,
         NotificationService notificationService,
         IServiceProvider serviceProvider)
     {
         _navigationService = navigationService;
         _snoopVisualService = snoopVisualService;
         _serviceProvider = serviceProvider;
-        _dialogService = dialogService;
         _notificationService = notificationService;
     }
 

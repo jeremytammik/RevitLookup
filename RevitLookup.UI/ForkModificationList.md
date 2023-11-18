@@ -2,8 +2,7 @@ Fork commit: 54717196. Data: 13.11.2023 23:15
 
 # Common
 
-Application.Current changed to Application.Current static property
-MenuBorderColorDefaultBrush replaced with ControlElevationBorderBrush
+- Application.Current changed to Application.MainMenu static property
 
 # Wpf.Ui.Appearance
 
@@ -19,7 +18,11 @@ MenuBorderColorDefaultBrush replaced with ControlElevationBorderBrush
 
 # Wpf.Ui.Controls.TreeView
 
-New control with ItemsSourceChanged event
+- New control with ItemsSourceChanged event
+
+# Wpf.Ui.Controls.ContentDialog
+
+- ShowAsync add catch (OperationCanceledException)
 
 # Wpf.Ui.Controls.NavigationView
 
@@ -45,6 +48,7 @@ New control with ItemsSourceChanged event
 - DefaultDataGridColumnHeaderStyle columnHeaderBorder set Padding="7,0,7,0"
 - DefaultDataGridColumnHeaderStyle columnHeaderBorder ContentPresenter set TextBlock.FontWeight="Bold"
 - DefaultDataGridStyle PART_VerticalScrollBar set Grid.RowSpan
+- VerticalScrollBarVisibility binding
 
 # Wpf.Ui.Controls.ContentDialog
 
@@ -75,19 +79,26 @@ New control with ItemsSourceChanged event
 # Wpf.Ui.Controls.Contextmenu
 
 - Set TextElement.FontWeight Normal
+- Changed BorderBrush
 
 # Wpf.Ui.Controls.TextBlock
 
 - FontSize set 14
 - Added Foreground for page support
 
-[//]: # (# Wpf.Ui.Styles.Controls.ContentDialog)
-[//]: # ()
-[//]: # (- Changed template)
+# Wpf.Ui.Controls.TextBox
+
+- Changed toplevel Thickness
+- VerticalAlignment set Top
 
 # Wpf.Ui.Controls.MenuItem
 
 - WpfUiMenuItemSubmenuItemTemplateKey removed border
+
+# Wpf.Ui.Controls.Snackbar
+
+- Add message margin
+- Set new TextSize
 
 # Wpf.Ui.Controls.IconElement.FontIcon
 

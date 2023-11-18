@@ -16,9 +16,9 @@
 
     <Thickness x:Key="TextBoxBorderThemeThickness">1,1,1,0</Thickness>
     <Thickness x:Key="TextBoxAccentBorderThemeThickness">0,0,0,1</Thickness>
-    <Thickness x:Key="TextBoxLeftIconMargin">10,0,0,0</Thickness>
-    <Thickness x:Key="TextBoxRightIconMargin">0,0,10,0</Thickness>
-    <Thickness x:Key="TextBoxClearButtonMargin">0,0,4,0</Thickness>
+    <Thickness x:Key="TextBoxLeftIconMargin">10,9,0,0</Thickness>
+    <Thickness x:Key="TextBoxRightIconMargin">0,9,10,0</Thickness>
+    <Thickness x:Key="TextBoxClearButtonMargin">0,5,4,0</Thickness>
     <Thickness x:Key="TextBoxClearButtonPadding">0,0,0,0</Thickness>
     <system:Double x:Key="TextBoxClearButtonHeight">24</system:Double>
 
@@ -171,7 +171,7 @@
                     <Grid Grid.Column="1" Margin="{TemplateBinding Padding}">
                         <controls:PassiveScrollViewer
                             x:Name="PART_ContentHost"
-                            VerticalAlignment="Center"
+                            VerticalAlignment="Top"
                             CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
                             HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                             IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
@@ -183,7 +183,7 @@
                             x:Name="PlaceholderTextBox"
                             Margin="0"
                             Padding="1,0"
-                            VerticalAlignment="Center"
+                            VerticalAlignment="Top"
                             Foreground="{DynamicResource TextControlPlaceholderForeground}"
                             Text="{TemplateBinding PlaceholderText}" />
                     </Grid>
@@ -197,7 +197,7 @@
                         Margin="{StaticResource TextBoxClearButtonMargin}"
                         Padding="{StaticResource TextBoxClearButtonPadding}"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
+                        VerticalAlignment="Top"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         Appearance="Secondary"
@@ -215,7 +215,7 @@
                         x:Name="ControlIconRight"
                         Grid.Column="3"
                         Margin="{StaticResource TextBoxRightIconMargin}"
-                        VerticalAlignment="Center"
+                        VerticalAlignment="Top"
                         Content="{TemplateBinding Icon}"
                         TextElement.FontSize="{TemplateBinding FontSize}"
                         TextElement.Foreground="{TemplateBinding Foreground}" />

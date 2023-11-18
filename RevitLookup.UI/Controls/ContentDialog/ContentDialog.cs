@@ -567,6 +567,10 @@ public class ContentDialog : ContentControl
 
             return result;
         }
+        catch (OperationCanceledException)
+        {
+            return result;
+        }
         finally
         {
 #if NET6_0_OR_GREATER

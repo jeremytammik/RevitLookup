@@ -21,8 +21,6 @@
 using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using RevitLookup.Core;
-using RevitLookup.Core.Objects;
-using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.ViewModels.Dialogs;
 

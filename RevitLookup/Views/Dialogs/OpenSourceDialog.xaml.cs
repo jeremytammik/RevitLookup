@@ -21,13 +21,8 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
-using RevitLookup.Core.Objects;
-using RevitLookup.Services;
-using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Dialogs;
-using RevitLookup.Views.Pages;
 using Wpf.Ui;
-using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;
 

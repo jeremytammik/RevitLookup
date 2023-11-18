@@ -95,7 +95,6 @@
                 CanUserResizeRows="False"
                 CanUserSortColumns="False"
                 CanUserReorderColumns="False"
-                VerticalScrollBarVisibility="Visible"
                 HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding ViewModel.FilteredSnoopableData}">
                 <rl:DataGrid.Columns>
@@ -166,7 +165,7 @@
                                     Property="Foreground">
                                     <Setter.Value>
                                         <SolidColorBrush
-                                            Color="{DynamicResource SystemAccentColorSecondary}" />
+                                            Color="{DynamicResource SystemAccentColor}" />
                                     </Setter.Value>
                                 </Setter>
                                 <Setter

@@ -28,6 +28,7 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Dialogs;
 using RevitLookup.ViewModels.Objects;
 using RevitLookup.Views.Extensions;
+using RevitLookup.Views.Pages;
 using Wpf.Ui;
 
 namespace RevitLookup.Views.Dialogs;
@@ -36,6 +37,7 @@ public sealed partial class UnitsDialog
 {
     private readonly UnitsViewModel _viewModel;
     private readonly IServiceProvider _serviceProvider;
+    private readonly CancellationTokenSource _tokenSource = new();
 
     public UnitsDialog(IServiceProvider serviceProvider)
     {
@@ -47,7 +49,7 @@ public sealed partial class UnitsDialog
 
     public async Task ShowParametersAsync()
     {
-        _viewModel.Units = RevitApi.GetUnitInfos<BuiltInParameter>();
+        _viewModel.Units = await Task.Run(RevitApi.GetUnitInfos<BuiltInParameter>);
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "BuiltIn Parameters",
@@ -55,12 +57,13 @@ public sealed partial class UnitsDialog
             CloseButtonText = "Close"
         };
 
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
+        _tokenSource.Dispose();
     }
 
     public async Task ShowCategoriesAsync()
     {
-        _viewModel.Units = RevitApi.GetUnitInfos<BuiltInCategory>();
+        _viewModel.Units = await Task.Run(RevitApi.GetUnitInfos<BuiltInCategory>);
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "BuiltIn Categories",
@@ -68,12 +71,13 @@ public sealed partial class UnitsDialog
             CloseButtonText = "Close"
         };
 
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
+        _tokenSource.Dispose();
     }
 
     public async Task ShowForgeSchemaAsync()
     {
-        _viewModel.Units = RevitApi.GetUnitInfos<ForgeTypeId>();
+        _viewModel.Units = await Task.Run(RevitApi.GetUnitInfos<ForgeTypeId>);
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "Forge Schema",
@@ -81,7 +85,8 @@ public sealed partial class UnitsDialog
             CloseButtonText = "Close"
         };
 
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
+        _tokenSource.Dispose();
     }
 
     private void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -117,7 +122,9 @@ public sealed partial class UnitsDialog
                     _ => unitInfo.UnitObject
                 };
 
+                _tokenSource.Cancel();
                 _serviceProvider.GetService<ISnoopVisualService>().Snoop(new SnoopableObject(obj));
+                _serviceProvider.GetService<INavigationService>().Navigate(typeof(SnoopView));
             });
     }
 }

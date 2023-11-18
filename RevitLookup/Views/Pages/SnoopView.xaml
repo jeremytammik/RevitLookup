@@ -105,7 +105,6 @@
                 CanUserResizeRows="False"
                 CanUserSortColumns="False"
                 CanUserReorderColumns="False"
-                VerticalScrollBarVisibility="Visible"
                 HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding ViewModel.FilteredSnoopableData}">
                 <rl:DataGrid.Columns>

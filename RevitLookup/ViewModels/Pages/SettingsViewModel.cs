@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
