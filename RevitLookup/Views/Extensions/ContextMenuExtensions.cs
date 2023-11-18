@@ -151,7 +151,7 @@ public static class ContextMenuExtensions
 
     public static MenuItem SetAvailability(this MenuItem item, bool condition)
     {
-        item.IsEnabled = condition;
+        item.SetCurrentValue(UIElement.IsEnabledProperty, condition);
 
         return item;
     }

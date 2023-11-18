@@ -7,6 +7,7 @@
         <TargetFramework>net48</TargetFramework>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
+        <NoWarn>CS8603;CS8618;CS8629;CS8600;CS0414;CS4014;CS8604;CS8765;CS8602;CS0168</NoWarn>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
         <DebugSymbols>true</DebugSymbols>
@@ -30,11 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="PolySharp">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="WpfAnalyzers">
+        <PackageReference Include="PolySharp" Version="1.*">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -63,14 +60,6 @@
         <EmbeddedResource Include="Controls\FluentWindow\FluentWindow.bmp"/>
         <EmbeddedResource Include="Controls\VirtualizingItemsControl\VirtualizingItemsControl.bmp"/>
         <EmbeddedResource Include="Controls\VirtualizingWrapPanel\VirtualizingWrapPanel.bmp"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Page Update="Controls\DynamicScrollViewer\PassiveScrollViewer.xaml">
-        <Generator>MSBuild:Compile</Generator>
-        <XamlRuntime>Wpf</XamlRuntime>
-        <SubType>Designer</SubType>
-      </Page>
     </ItemGroup>
 
 </Project>
