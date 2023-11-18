@@ -69,87 +69,68 @@
                         </StackPanel>
                     </rl:CardControl.Header>
                 </rl:CardControl>
-                <rl:Card
+                <rl:CardControl
                     Margin="0,4,0,0"
                     Visibility="{Binding ViewModel.State, Converter={converters:UpdateAvailableCardVisibilityConverter}}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition
-                                Height="Auto" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition
-                                Width="Auto" />
-                            <ColumnDefinition />
-                            <ColumnDefinition
-                                Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <rl:SymbolIcon
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Margin="8,0,0,0"
-                            Symbol="CheckmarkCircle24"
-                            Filled="True"
-                            Foreground="{DynamicResource PaletteGreenBrush}"
-                            VerticalAlignment="Center" />
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Margin="20,0,0,0"
-                            FontWeight="Medium"
-                            VerticalAlignment="Center"
-                            Text="An update is available" />
-                        <StackPanel
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Margin="8,0,0,0"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                Margin="10,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="{Binding ViewModel.NewVersion}" />
-                            <rl:HyperlinkButton
-                                Margin="10,0,0,0"
-                                Padding="0"
-                                Content="See what's new in this version"
-                                NavigateUri="{Binding ViewModel.ReleaseNotesUrl}" />
-                        </StackPanel>
-                        <StackPanel
-                            Grid.Row="0"
-                            Grid.Column="2"
-                            Orientation="Horizontal">
-                            <rl:ProgressRing
-                                Width="20"
-                                Height="20"
-                                IsIndeterminate="True"
-                                VerticalAlignment="Center"
-                                Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
-                            <rl:Button
-                                Margin="9,0,0,0"
-                                Appearance="Secondary"
-                                Content="Download &amp; Install"
-                                Command="{Binding ViewModel.DownloadUpdateCommand}" />
-                        </StackPanel>
-                    </Grid>
-                </rl:Card>
-                <rl:Card
-                    Margin="0 4 0 0"
-                    Background="{DynamicResource PaletteGreenBrush}"
-                    Visibility="{Binding ViewModel.State, Converter={converters:UpdateDownloadedVisibilityConverter}}">
                     <StackPanel
-                        Margin="8,0,0,0"
+                        HorizontalAlignment="Right"
                         Orientation="Horizontal">
-                        <rl:SymbolIcon
-                            Symbol="CheckmarkCircle24"
-                            Foreground="White" />
-                        <TextBlock
-                            Margin="20,0,0,0"
-                            FontWeight="Medium"
-                            Foreground="White"
-                            Text="The new version has been downloaded and will be installed when Revit is closed" />
+                        <rl:ProgressRing
+                            Width="20"
+                            Height="20"
+                            IsIndeterminate="True"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
+                        <rl:Button
+                            Margin="9,0,0,0"
+                            Appearance="Secondary"
+                            Content="Download &amp; Install"
+                            Command="{Binding ViewModel.DownloadUpdateCommand}" />
                     </StackPanel>
-                </rl:Card>
+                    <rl:CardControl.Header>
+                        <Grid
+                            Margin="4,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <rl:SymbolIcon
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Filled="True"
+                                FontSize="16"
+                                Symbol="CheckmarkCircle24"
+                                Foreground="{DynamicResource InfoBarSuccessSeverityIconBackground}" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="20,0,0,0"
+                                FontWeight="Medium"
+                                VerticalAlignment="Center"
+                                Text="An update is available" />
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="8,3,0,0"
+                                Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ViewModel.NewVersion}" />
+                                <rl:HyperlinkButton
+                                    Margin="10,0,0,0"
+                                    Padding="0"
+                                    Content="See what's new in this version"
+                                    NavigateUri="{Binding ViewModel.ReleaseNotesUrl}" />
+                            </StackPanel>
+                        </Grid>
+                    </rl:CardControl.Header>
+                </rl:CardControl>
                 <rl:Card
                     Margin="0,4,0,0"
                     Background="{DynamicResource PaletteGreenBrush}">
@@ -165,11 +146,12 @@
                         </MultiBinding>
                     </rl:Card.Visibility>
                     <StackPanel
-                        Margin="8,0,0,0"
+                        Margin="4,0,0,0"
                         Orientation="Horizontal">
                         <rl:SymbolIcon
-                            Symbol="CheckmarkCircle24"
-                            Foreground="White" />
+                            FontSize="16"
+                            Foreground="White"
+                            Symbol="CheckmarkCircle24" />
                         <TextBlock
                             Margin="20,0,0,0"
                             FontWeight="Medium"
@@ -182,11 +164,12 @@
                     Background="{DynamicResource PaletteRedBrush}"
                     Visibility="{Binding ViewModel.State, Converter={converters:ErrorCardVisibilityConverter}}">
                     <StackPanel
+                        Margin="4,0,0,0"
                         Orientation="Horizontal">
                         <rl:SymbolIcon
-                            Margin="8,0,0,0"
-                            Symbol="ErrorCircle24"
-                            Foreground="White" />
+                            FontSize="16"
+                            Foreground="White"
+                            Symbol="ErrorCircle24" />
                         <TextBlock
                             Margin="20,0,0,0"
                             FontWeight="Medium"
@@ -222,7 +205,7 @@
                 <rl:HyperlinkButton
                     Content="Powered by open-source software"
                     Icon="{rl:SymbolIcon Link48}"
-                    Command="{Binding ViewModel.ShowSoftwareDialogCommand}"/>
+                    Command="{Binding ViewModel.ShowSoftwareDialogCommand}" />
                 <rl:HyperlinkButton
                     Content="Contact Us"
                     Icon="{rl:SymbolIcon Link48}"
