@@ -134,8 +134,7 @@
                         Binding="{Binding Value.Descriptor, 
                             Converter={converters:CombinedDescriptorConverter},
                             Mode=OneTime}"
-                        Header="Value">
-                    </DataGridTextColumn>
+                        Header="Value" />
                     <DataGridTextColumn
                         Width="61"
                         MinWidth="0"
@@ -198,6 +197,15 @@
                         </Style.Triggers>
                     </Style>
                 </rl:DataGrid.RowStyle>
+                <rl:DataGrid.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DataGridRowsPresenter
+                            IsVirtualizing="True"
+                            VirtualizationMode="Recycling"
+                            IsContainerVirtualizable="True"
+                            IsVirtualizingWhenGrouping="True" />
+                    </ItemsPanelTemplate>
+                </rl:DataGrid.ItemsPanel>
                 <rl:DataGrid.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.Panel>

@@ -187,6 +187,15 @@
                         </Style.Triggers>
                     </Style>
                 </rl:DataGrid.RowStyle>
+                <rl:DataGrid.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DataGridRowsPresenter
+                            IsVirtualizing="True"
+                            VirtualizationMode="Recycling"
+                            IsContainerVirtualizable="True"
+                            IsVirtualizingWhenGrouping="True" />
+                    </ItemsPanelTemplate>
+                </rl:DataGrid.ItemsPanel>
                 <rl:DataGrid.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.Panel>
