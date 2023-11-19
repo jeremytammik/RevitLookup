@@ -1,5 +1,48 @@
 # Changelog
 
+# 2023-11-19 **2024.0.9**
+
+## User interface
+
+* **Settings Accessibility:** Most settings have been relocated to the grid context menu for a more intuitive and accessible user experience. Now, users can conveniently access and modify settings directly from the grid context menu
+
+    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/77fc172a-48d3-4439-a5d6-9d8d80ee0efc)
+
+## Improvements
+
+* Added ExtensibleStorage `Array` and `Map` support https://github.com/jeremytammik/RevitLookup/issues/184
+* Added `Room.GetBoundarySegments()` support https://github.com/jeremytammik/RevitLookup/pull/187
+* Added `BoundarySegment` support https://github.com/jeremytammik/RevitLookup/pull/187
+
+* **Optimized Rendering:** significant enhancements in rendering performance for both tree and grid views, resulting in smoother and faster visual representation
+* **User Convenience:** Added shortcuts for close current and all RevitLookup instances https://github.com/jeremytammik/RevitLookup/issues/172
+
+  * `Esc` now closes the current window.
+
+  * `Shift + Esc` closes all RevitLookup instances
+
+  * Explore all available shortcuts [here](https://github.com/jeremytammik/RevitLookup/wiki/Context-actions) 
+
+## Bugs
+
+* Fixed some crashes https://github.com/jeremytammik/RevitLookup/issues/180
+
+## Breaking changes
+
+* Disabled the last selection restoration during search to improve performance, especially on larger lists. 
+This change optimizes search functionality by preventing potential slowdowns previously experienced with extensive lists
+
+## Miscellaneous Updates
+
+* Upgraded the UI library to the latest version, ensuring compatibility and incorporating potential improvements in functionality and design
+* Project updated to .Net 8 and C# 12
+
+## New Contributors
+
+* @SergeyNefyodov  made their first contribution in https://github.com/jeremytammik/RevitLookup/pull/187
+
+Full changelog: https://github.com/jeremytammik/RevitLookup/compare/2024.0.8...2024.0.9
+
 # 2023-06-22 **2024.0.8**
 
 ## Features
