@@ -99,6 +99,8 @@ public static class DescriptorMap
             CompoundStructureLayer value when type is null || type == typeof(CompoundStructureLayer) => new CompoundStructureLayerDescriptor(value),
             Workset value when type is null || type == typeof(Workset) => new WorksetDescriptor(value),
             WorksetTable when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(),
+            BoundarySegment value when type is null || type == typeof(BoundarySegment) => new BoundarySegmentDescriptor(value),
+            SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
 #if R24_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
