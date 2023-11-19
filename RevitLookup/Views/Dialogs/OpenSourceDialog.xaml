@@ -7,7 +7,6 @@
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     xmlns:rl="http://revitlookup.com/xaml"
     mc:Ignorable="d"
-    MinWidth="150"
     d:DataContext="{d:DesignInstance dialogs:OpenSourceViewModel}">
     <DataGrid
         AutoGenerateColumns="False"
