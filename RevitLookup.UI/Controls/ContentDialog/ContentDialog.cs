@@ -661,7 +661,7 @@ public class ContentDialog : ContentControl
         ResizeWidth(rootElement);
         ResizeHeight(rootElement);
     
-        return availableSize;
+        return desiredSize;
     }
 
     /// <summary>
