@@ -24,18 +24,11 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ResolveSetDescriptor : Descriptor, IDescriptorRedirection
+public sealed class ResolveSetDescriptor(ResolveSet set) : Descriptor, IDescriptorRedirection
 {
-    private readonly ResolveSet _set;
-
-    public ResolveSetDescriptor(ResolveSet set)
-    {
-        _set = set;
-    }
-
     public bool TryRedirect(Document context, string target, out object output)
     {
-        output = _set.Variants.Count == 1 ? _set.Variants.Peek() : _set.Variants;
+        output = set.Variants.Count == 1 ? set.Variants.Peek() : set.Variants;
         return true;
     }
 }

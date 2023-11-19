@@ -28,27 +28,20 @@ using Wpf.Ui;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed partial class AboutViewModel : ObservableObject
+public sealed partial class AboutViewModel(
+    ISoftwareUpdateService updateService,
+    IContentDialogService dialogService,
+    IConfiguration configuration)
+    : ObservableObject
 {
-    private readonly ISoftwareUpdateService _updateService;
-    private readonly IContentDialogService _dialogService;
-
-    [ObservableProperty] private string _dotNetVersion;
+    [ObservableProperty] private string _dotNetVersion = configuration.GetValue<string>("Framework");
     [ObservableProperty] private bool _isUpdateChecked;
-    [ObservableProperty] private string _runtimeVersion;
-
-    public AboutViewModel(ISoftwareUpdateService updateService, IContentDialogService dialogService, IConfiguration configuration)
-    {
-        _updateService = updateService;
-        _dialogService = dialogService;
-        _dotNetVersion = configuration.GetValue<string>("Framework");
-        _runtimeVersion = Environment.Version.ToString();
-    }
+    [ObservableProperty] private string _runtimeVersion = Environment.Version.ToString();
 
     [RelayCommand]
     private async Task CheckUpdatesAsync()
     {
-        await _updateService.CheckUpdates();
+        await updateService.CheckUpdates();
         IsUpdateChecked = true;
         OnPropertyChanged(nameof(State));
         OnPropertyChanged(nameof(NewVersion));
@@ -60,7 +53,7 @@ public sealed partial class AboutViewModel : ObservableObject
     [RelayCommand]
     private async Task DownloadUpdateAsync()
     {
-        await _updateService.DownloadUpdate();
+        await updateService.DownloadUpdate();
         OnPropertyChanged(nameof(State));
         OnPropertyChanged(nameof(ErrorMessage));
     }
@@ -68,18 +61,18 @@ public sealed partial class AboutViewModel : ObservableObject
     [RelayCommand]
     private Task ShowSoftwareDialogAsync()
     {
-        var openSourceDialog = new OpenSourceDialog(_dialogService);
+        var openSourceDialog = new OpenSourceDialog(dialogService);
         return openSourceDialog.ShowAsync();
     }
 
     #region Updater Wrapping
 
-    public SoftwareUpdateState State => _updateService.State;
-    public string CurrentVersion => _updateService.CurrentVersion;
-    public string NewVersion => _updateService.NewVersion;
-    public string ErrorMessage => _updateService.ErrorMessage;
-    public string ReleaseNotesUrl => _updateService.ReleaseNotesUrl;
-    public string LatestCheckDate => _updateService.LatestCheckDate;
+    public SoftwareUpdateState State => updateService.State;
+    public string CurrentVersion => updateService.CurrentVersion;
+    public string NewVersion => updateService.NewVersion;
+    public string ErrorMessage => updateService.ErrorMessage;
+    public string ReleaseNotesUrl => updateService.ReleaseNotesUrl;
+    public string LatestCheckDate => updateService.LatestCheckDate;
 
     #endregion
 }

@@ -25,23 +25,15 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.Services;
 
-public sealed class NotificationService
+public sealed class NotificationService(ISnackbarService snackbarService, IWindow window)
 {
-    private readonly IWindow _window;
-    private readonly ISnackbarService _snackbarService;
     private Action _pendingNotifications;
-
-    public NotificationService(ISnackbarService snackbarService, IWindow window)
-    {
-        _snackbarService = snackbarService;
-        _window = window;
-    }
 
     public void ShowSuccess(string title, string message)
     {
-        if (!_window.IsLoaded)
+        if (!window.IsLoaded)
         {
-            if (_pendingNotifications is null) _window.Loaded += ShowPendingNotifications;
+            if (_pendingNotifications is null) window.Loaded += ShowPendingNotifications;
             _pendingNotifications += () => ShowSuccessBar(title, message);
         }
         else
@@ -52,9 +44,9 @@ public sealed class NotificationService
 
     public void ShowWarning(string title, string message)
     {
-        if (!_window.IsLoaded)
+        if (!window.IsLoaded)
         {
-            if (_pendingNotifications is null) _window.Loaded += ShowPendingNotifications;
+            if (_pendingNotifications is null) window.Loaded += ShowPendingNotifications;
             _pendingNotifications += () => ShowWarningBar(title, message);
         }
         else
@@ -70,9 +62,9 @@ public sealed class NotificationService
 
     public void ShowError(string title, string message)
     {
-        if (!_window.IsLoaded)
+        if (!window.IsLoaded)
         {
-            if (_pendingNotifications is null) _window.Loaded += ShowPendingNotifications;
+            if (_pendingNotifications is null) window.Loaded += ShowPendingNotifications;
             _pendingNotifications += () => ShowErrorBar(title, message);
         }
         else
@@ -83,37 +75,37 @@ public sealed class NotificationService
 
     private void ShowSuccessBar(string title, string message)
     {
-        _snackbarService.Show(
+        snackbarService.Show(
             title,
             message,
             ControlAppearance.Success,
             new SymbolIcon(SymbolRegular.ChatWarning24, 24),
-            _snackbarService.DefaultTimeOut);
+            snackbarService.DefaultTimeOut);
     }
 
     private void ShowWarningBar(string title, string message)
     {
-        _snackbarService.Show(
+        snackbarService.Show(
             title,
             message,
             ControlAppearance.Caution,
             new SymbolIcon(SymbolRegular.Warning24, 24),
-            _snackbarService.DefaultTimeOut);
+            snackbarService.DefaultTimeOut);
     }
 
     private void ShowErrorBar(string title, string message)
     {
-        _snackbarService.Show(
+        snackbarService.Show(
             title,
             message,
             ControlAppearance.Danger,
             new SymbolIcon(SymbolRegular.ErrorCircle24, 24),
-            _snackbarService.DefaultTimeOut);
+            snackbarService.DefaultTimeOut);
     }
 
     private void ShowPendingNotifications(object sender, RoutedEventArgs args)
     {
-        _window.Loaded -= ShowPendingNotifications;
+        window.Loaded -= ShowPendingNotifications;
         _pendingNotifications.Invoke();
         _pendingNotifications = null;
     }

@@ -34,10 +34,11 @@ using OperationCanceledException = System.OperationCanceledException;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewModel
+public abstract partial class SnoopViewModelBase(
+    NotificationService notificationService,
+    IServiceProvider provider)
+    : ObservableObject, ISnoopViewModel
 {
-    private readonly IServiceProvider _provider;
-    private readonly NotificationService _notificationService;
     private CancellationTokenSource _searchCancellationToken = new();
 
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
@@ -45,12 +46,6 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
-
-    protected SnoopViewModelBase(NotificationService notificationService, IServiceProvider provider)
-    {
-        _notificationService = notificationService;
-        _provider = provider;
-    }
 
     public SnoopableObject SelectedObject { get; set; }
 
@@ -61,7 +56,7 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
 
         Host.GetService<ILookupService>()
             .Snoop(selectedItem.Value)
-            .DependsOn(_provider)
+            .DependsOn(provider)
             .Show<SnoopView>();
     }
 
@@ -131,23 +126,23 @@ public abstract partial class SnoopViewModelBase : ObservableObject, ISnoopViewM
         }
         catch (InvalidObjectException exception)
         {
-            _notificationService.ShowError("Invalid object", exception);
+            notificationService.ShowError("Invalid object", exception);
         }
         catch (InternalException)
         {
-            _notificationService.ShowError(
+            notificationService.ShowError(
                 "Invalid object",
                 "A problem in the Revit code. Usually occurs when a managed API object is no longer valid and is unloaded from memory");
         }
         catch (SEHException)
         {
-            _notificationService.ShowError(
+            notificationService.ShowError(
                 "Revit API internal error",
                 "A problem in the Revit code. Usually occurs when a managed API object is no longer valid and is unloaded from memory");
         }
         catch (Exception exception)
         {
-            _notificationService.ShowError("Snoop engine error", exception);
+            notificationService.ShowError("Snoop engine error", exception);
         }
     }
 }

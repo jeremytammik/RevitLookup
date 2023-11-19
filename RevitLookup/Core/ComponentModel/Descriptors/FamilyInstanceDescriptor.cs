@@ -25,32 +25,25 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilyInstanceDescriptor : ElementDescriptor, IDescriptorResolver
+public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : ElementDescriptor(familyInstance), IDescriptorResolver
 {
-    private readonly FamilyInstance _familyInstance;
-
-    public FamilyInstanceDescriptor(FamilyInstance familyInstance) : base(familyInstance)
-    {
-        _familyInstance = familyInstance;
-    }
-
     public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
             nameof(FamilyInstance.GetReferences) => new ResolveSet(11)
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Front), "Front")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Left), "Left")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Right), "Right")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Top), "Top")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterElevation), "Center elevation")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference"),
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.Front), "Front")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.Left), "Left")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.Right), "Right")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.Top), "Top")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.CenterElevation), "Center elevation")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
+                .AppendVariant(familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference"),
             "Room" when parameters.Length == 1 => ResolveGetRoom(),
             "FromRoom" when parameters.Length == 1 => ResolveFromRoom(),
             "ToRoom" when parameters.Length == 1 => ResolveToRoom(),
@@ -59,10 +52,10 @@ public sealed class FamilyInstanceDescriptor : ElementDescriptor, IDescriptorRes
 
         ResolveSet ResolveGetRoom()
         {
-            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
-            foreach (Phase phase in _familyInstance.Document.Phases)
+            var resolveSummary = new ResolveSet(familyInstance.Document.Phases.Size);
+            foreach (Phase phase in familyInstance.Document.Phases)
             {
-                resolveSummary.AppendVariant(_familyInstance.get_Room(phase), phase.Name);
+                resolveSummary.AppendVariant(familyInstance.get_Room(phase), phase.Name);
             }
 
             return resolveSummary;
@@ -70,10 +63,10 @@ public sealed class FamilyInstanceDescriptor : ElementDescriptor, IDescriptorRes
 
         ResolveSet ResolveFromRoom()
         {
-            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
-            foreach (Phase phase in _familyInstance.Document.Phases)
+            var resolveSummary = new ResolveSet(familyInstance.Document.Phases.Size);
+            foreach (Phase phase in familyInstance.Document.Phases)
             {
-                resolveSummary.AppendVariant(_familyInstance.get_FromRoom(phase), phase.Name);
+                resolveSummary.AppendVariant(familyInstance.get_FromRoom(phase), phase.Name);
             }
 
             return resolveSummary;
@@ -81,10 +74,10 @@ public sealed class FamilyInstanceDescriptor : ElementDescriptor, IDescriptorRes
 
         ResolveSet ResolveToRoom()
         {
-            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
-            foreach (Phase phase in _familyInstance.Document.Phases)
+            var resolveSummary = new ResolveSet(familyInstance.Document.Phases.Size);
+            foreach (Phase phase in familyInstance.Document.Phases)
             {
-                resolveSummary.AppendVariant(_familyInstance.get_ToRoom(phase), phase.Name);
+                resolveSummary.AppendVariant(familyInstance.get_ToRoom(phase), phase.Name);
             }
 
             return resolveSummary;

@@ -28,16 +28,11 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Demo.Services;
 
-public class MoqLookupService : ILookupService
+public sealed class MoqLookupService(IServiceScopeFactory scopeFactory) : ILookupService
 {
     private Window _owner;
     private Task _activeTask;
-    private readonly IServiceProvider _serviceProvider;
-
-    public MoqLookupService(IServiceScopeFactory scopeFactory)
-    {
-        _serviceProvider = scopeFactory.CreateScope().ServiceProvider;
-    }
+    private readonly IServiceProvider _serviceProvider = scopeFactory.CreateScope().ServiceProvider;
 
     public ILookupServiceDependsStage Snoop(SnoopableType snoopableType)
     {

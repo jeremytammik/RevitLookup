@@ -26,15 +26,8 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
+public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorResolver
 {
-    private readonly Entity _entity;
-
-    public EntityDescriptor(Entity entity)
-    {
-        _entity = entity;
-    }
-
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -50,14 +43,14 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
         ResolveSet ResolveGetByField()
         {
             var resolveSummary = new ResolveSet();
-            foreach (var field in _entity.Schema.ListFields())
+            foreach (var field in entity.Schema.ListFields())
             {
                 var forgeTypeId = field.GetSpecTypeId();
                 if (!string.IsNullOrEmpty(forgeTypeId.TypeId)) continue;
 
-                var method = _entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field)})!;
+                var method = entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field)})!;
                 var genericMethod = method.MakeGenericMethod(field.ValueType);
-                resolveSummary.AppendVariant(genericMethod.Invoke(_entity, new object[] {field}), field.FieldName);
+                resolveSummary.AppendVariant(genericMethod.Invoke(entity, new object[] {field}), field.FieldName);
             }
 
             return resolveSummary;
@@ -66,14 +59,14 @@ public sealed class EntityDescriptor : Descriptor, IDescriptorResolver
         ResolveSet ResolveGetByFieldForge()
         {
             var resolveSummary = new ResolveSet();
-            foreach (var field in _entity.Schema.ListFields())
+            foreach (var field in entity.Schema.ListFields())
             {
                 var forgeTypeId = field.GetSpecTypeId();
                 if (string.IsNullOrEmpty(forgeTypeId.TypeId)) continue;
 
-                var method = _entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field), typeof(ForgeTypeId)})!;
+                var method = entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field), typeof(ForgeTypeId)})!;
                 var genericMethod = method.MakeGenericMethod(field.ValueType);
-                resolveSummary.AppendVariant(genericMethod.Invoke(_entity,
+                resolveSummary.AppendVariant(genericMethod.Invoke(entity,
                     new object[] {field, UnitUtils.GetValidUnits(forgeTypeId).First()}), field.FieldName);
             }
 

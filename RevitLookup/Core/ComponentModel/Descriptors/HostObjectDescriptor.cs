@@ -25,28 +25,21 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class HostObjectDescriptor : ElementDescriptor, IDescriptorExtension, IDescriptorResolver
+public sealed class HostObjectDescriptor(HostObject hostObject) : ElementDescriptor(hostObject), IDescriptorExtension, IDescriptorResolver
 {
-    private readonly HostObject _hostObject;
-
-    public HostObjectDescriptor(HostObject hostObject) : base(hostObject)
-    {
-        _hostObject = hostObject;
-    }
-
     public new void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(_hostObject, extension =>
+        manager.Register(hostObject, extension =>
         {
             extension.Name = nameof(HostExtensions.GetBottomFaces);
             extension.Result = extension.Value.GetBottomFaces();
         });
-        manager.Register(_hostObject, extension =>
+        manager.Register(hostObject, extension =>
         {
             extension.Name = nameof(HostExtensions.GetTopFaces);
             extension.Result = extension.Value.GetTopFaces();
         });
-        manager.Register(_hostObject, extension =>
+        manager.Register(hostObject, extension =>
         {
             extension.Name = nameof(HostExtensions.GetSideFaces);
             extension.Result = new ResolveSet(2)
@@ -59,7 +52,7 @@ public sealed class HostObjectDescriptor : ElementDescriptor, IDescriptorExtensi
     {
         return target switch
         {
-            nameof(HostObject.FindInserts) => ResolveSet.Append(_hostObject.FindInserts(true, true, true, true)),
+            nameof(HostObject.FindInserts) => ResolveSet.Append(hostObject.FindInserts(true, true, true, true)),
             _ => null
         };
     }

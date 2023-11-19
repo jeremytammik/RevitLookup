@@ -25,15 +25,8 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilyManagerDescriptor : Descriptor, IDescriptorResolver
+public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descriptor, IDescriptorResolver
 {
-    private readonly FamilyManager _familyManager;
-
-    public FamilyManagerDescriptor(FamilyManager familyManager)
-    {
-        _familyManager = familyManager;
-    }
-
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -55,7 +48,7 @@ public sealed class FamilyManagerDescriptor : Descriptor, IDescriptorResolver
             {
                 foreach (Parameter parameter in element.Parameters)
                 {
-                    var familyParameter = _familyManager.GetAssociatedFamilyParameter(parameter);
+                    var familyParameter = familyManager.GetAssociatedFamilyParameter(parameter);
                     if (familyParameter is not null)
                     {
                         resolveSet.AppendVariant(new KeyValuePair<Parameter, FamilyParameter>(parameter, familyParameter));

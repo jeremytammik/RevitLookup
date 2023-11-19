@@ -22,9 +22,4 @@ using RevitLookup.Services;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class SnoopViewModel : SnoopViewModelBase
-{
-    public SnoopViewModel(NotificationService notificationService, IServiceProvider provider) : base(notificationService, provider)
-    {
-    }
-}
+public sealed class SnoopViewModel(NotificationService notificationService, IServiceProvider provider) : SnoopViewModelBase(notificationService, provider);

@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Pages;
 using Wpf.Ui.Controls;
 
@@ -26,7 +25,7 @@ namespace RevitLookup.Views.Pages;
 
 public sealed partial class DashboardView : INavigableView<DashboardViewModel>
 {
-    public DashboardView(DashboardViewModel viewModel, ISettingsService settingsService)
+    public DashboardView(DashboardViewModel viewModel)
     {
         ViewModel = viewModel;
         InitializeComponent();

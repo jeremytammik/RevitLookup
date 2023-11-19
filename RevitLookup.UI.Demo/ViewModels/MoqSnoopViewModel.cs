@@ -31,10 +31,8 @@ using RevitLookup.Views.Pages;
 
 namespace RevitLookup.UI.Demo.ViewModels;
 
-public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewModel
+public sealed partial class MoqSnoopViewModel(NotificationService notificationService, IServiceProvider provider) : ObservableObject, ISnoopViewModel
 {
-    private readonly IServiceProvider _provider;
-    private readonly NotificationService _notificationService;
     private CancellationTokenSource _searchCancellationToken = new();
 
     [ObservableProperty] private string _searchText = string.Empty;
@@ -42,12 +40,6 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
-
-    public MoqSnoopViewModel(NotificationService notificationService, IServiceProvider provider)
-    {
-        _notificationService = notificationService;
-        _provider = provider;
-    }
 
     public SnoopableObject SelectedObject { get; set; }
 
@@ -58,7 +50,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
 
         Host.GetService<ILookupService>()
             .Snoop(selectedItem.Value)
-            .DependsOn(_provider)
+            .DependsOn(provider)
             .Show<SnoopView>();
     }
 
@@ -131,7 +123,7 @@ public sealed partial class MoqSnoopViewModel : ObservableObject, ISnoopViewMode
         }
         catch (Exception exception)
         {
-            _notificationService.ShowError("Snoop engine error", exception);
+            notificationService.ShowError("Snoop engine error", exception);
         }
     }
 }

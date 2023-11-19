@@ -29,35 +29,24 @@ using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.Services;
 
-public sealed class SnoopVisualService : ISnoopVisualService
+public sealed class SnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window) : ISnoopVisualService
 {
-    private readonly NotificationService _notificationService;
-    private readonly ISnoopViewModel _viewModel;
-    private readonly IWindow _window;
-
-    public SnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window)
-    {
-        _notificationService = notificationService;
-        _viewModel = viewModel;
-        _window = window;
-    }
-
     public void Snoop(SnoopableObject snoopableObject)
     {
         try
         {
             if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
             {
-                _viewModel.SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
+                viewModel.SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
             }
             else
             {
-                _viewModel.SnoopableObjects = new[] {snoopableObject};
+                viewModel.SnoopableObjects = new[] {snoopableObject};
             }
         }
         catch (Exception exception)
         {
-            _notificationService.ShowError("Invalid object", exception);
+            notificationService.ShowError("Invalid object", exception);
         }
     }
 
@@ -76,16 +65,16 @@ public sealed class SnoopVisualService : ISnoopVisualService
                     break;
             }
 
-            _viewModel.SnoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ => Selector.Snoop(snoopableType));
-            _viewModel.SnoopableData = Array.Empty<Descriptor>();
+            viewModel.SnoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ => Selector.Snoop(snoopableType));
+            viewModel.SnoopableData = Array.Empty<Descriptor>();
         }
         catch (OperationCanceledException)
         {
-            _notificationService.ShowWarning("Operation cancelled", "Operation cancelled by user");
+            notificationService.ShowWarning("Operation cancelled", "Operation cancelled by user");
         }
         catch (Exception exception)
         {
-            _notificationService.ShowError("Operation cancelled", exception);
+            notificationService.ShowError("Operation cancelled", exception);
         }
         finally
         {
@@ -95,8 +84,8 @@ public sealed class SnoopVisualService : ISnoopVisualService
 
     private void UpdateWindowVisibility(Visibility visibility)
     {
-        if (!_window.IsLoaded) return;
+        if (!window.IsLoaded) return;
 
-        _window.Visibility = visibility;
+        window.Visibility = visibility;
     }
 }

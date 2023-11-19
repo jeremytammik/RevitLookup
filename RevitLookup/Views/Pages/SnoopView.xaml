@@ -8,7 +8,6 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
-    xmlns:resources="clr-namespace:RevitLookup.Views.Resources"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"

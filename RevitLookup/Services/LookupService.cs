@@ -29,16 +29,11 @@ using Wpf.Ui;
 
 namespace RevitLookup.Services;
 
-public sealed class LookupService : ILookupService
+public sealed class LookupService(IServiceScopeFactory scopeFactory) : ILookupService
 {
     private Window _owner;
     private Task _activeTask;
-    private readonly IServiceProvider _serviceProvider;
-
-    public LookupService(IServiceScopeFactory scopeFactory)
-    {
-        _serviceProvider = scopeFactory.CreateScope().ServiceProvider;
-    }
+    private readonly IServiceProvider _serviceProvider = scopeFactory.CreateScope().ServiceProvider;
 
     public ILookupServiceDependsStage Snoop(SnoopableType snoopableType)
     {

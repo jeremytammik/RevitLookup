@@ -25,12 +25,8 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class RevitLinkTypeDescriptor : ElementDescriptor, IDescriptorResolver
+public sealed class RevitLinkTypeDescriptor(Element element) : ElementDescriptor(element), IDescriptorResolver
 {
-    public RevitLinkTypeDescriptor(Element element) : base(element)
-    {
-    }
-
     public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch

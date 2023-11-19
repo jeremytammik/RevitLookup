@@ -25,19 +25,12 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolver
+public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : Descriptor, IDescriptorResolver
 {
-    private readonly PerformanceAdviser _adviser;
-
-    public PerformanceAdviserDescriptor(PerformanceAdviser adviser)
-    {
-        _adviser = adviser;
-    }
-
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         if (parameters.Length == 0) return null;
-        var rules = _adviser.GetNumberOfRules();
+        var rules = adviser.GetNumberOfRules();
         var resolveSet = new ResolveSet(rules);
 
         switch (parameters.Length)
@@ -47,7 +40,7 @@ public sealed class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolv
                 {
                     case nameof(PerformanceAdviser.ExecuteAllRules):
                     {
-                        resolveSet.AppendVariant(_adviser.ExecuteAllRules(RevitApi.Document));
+                        resolveSet.AppendVariant(adviser.ExecuteAllRules(RevitApi.Document));
                         break;
                     }
                     default:
@@ -60,27 +53,27 @@ public sealed class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolv
                 {
                     case nameof(PerformanceAdviser.GetRuleDescription):
                     {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, string>(i, _adviser.GetRuleDescription(i)));
+                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, string>(i, adviser.GetRuleDescription(i)));
                         break;
                     }
                     case nameof(PerformanceAdviser.GetRuleId):
                     {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, PerformanceAdviserRuleId>(i, _adviser.GetRuleId(i)));
+                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, PerformanceAdviserRuleId>(i, adviser.GetRuleId(i)));
                         break;
                     }
                     case nameof(PerformanceAdviser.GetRuleName):
                     {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, string>(i, _adviser.GetRuleName(i)));
+                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, string>(i, adviser.GetRuleName(i)));
                         break;
                     }
                     case nameof(PerformanceAdviser.IsRuleEnabled):
                     {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, bool>(i, _adviser.IsRuleEnabled(i)));
+                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, bool>(i, adviser.IsRuleEnabled(i)));
                         break;
                     }
                     case nameof(PerformanceAdviser.WillRuleCheckElements):
                     {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, bool>(i, _adviser.WillRuleCheckElements(i)));
+                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, bool>(i, adviser.WillRuleCheckElements(i)));
                         break;
                     }
                     default:
@@ -94,7 +87,7 @@ public sealed class PerformanceAdviserDescriptor : Descriptor, IDescriptorResolv
                     case nameof(PerformanceAdviser.GetElementFilterFromRule):
                     {
                         for (var i = 0; i < rules; i++)
-                            resolveSet.AppendVariant(new KeyValuePair<int, ElementFilter>(i, _adviser.GetElementFilterFromRule(i, RevitApi.Document)));
+                            resolveSet.AppendVariant(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, RevitApi.Document)));
                         break;
                     }
                     default:

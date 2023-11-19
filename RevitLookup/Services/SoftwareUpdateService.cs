@@ -30,22 +30,14 @@ using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Services;
 
-public sealed class SoftwareUpdateService : ISoftwareUpdateService
+public sealed class SoftwareUpdateService(IConfiguration configuration) : ISoftwareUpdateService
 {
-    private readonly IConfiguration _configuration;
     private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
-    private readonly bool _writeAccess;
+    private readonly bool _writeAccess = configuration.GetValue<string>("FolderAccess") == "Write";
     private string _downloadUrl;
 
-    public SoftwareUpdateService(IConfiguration configuration)
-    {
-        _configuration = configuration;
-        CurrentVersion = configuration.GetValue<string>("AddinVersion");
-        _writeAccess = configuration.GetValue<string>("FolderAccess") == "Write";
-    }
-
     public SoftwareUpdateState State { get; private set; }
-    public string CurrentVersion { get; }
+    public string CurrentVersion { get; } = configuration.GetValue<string>("AddinVersion");
     public string NewVersion { get; private set; }
     public string LatestCheckDate { get; private set; }
     public string ReleaseNotesUrl { get; private set; }
@@ -119,7 +111,7 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
                 }
 
                 // Checking downloaded releases
-                var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
+                var downloadFolder = configuration.GetValue<string>("DownloadFolder");
                 NewVersion = newVersionTag.ToString(3);
                 if (Directory.Exists(downloadFolder))
                     foreach (var file in Directory.EnumerateFiles(downloadFolder))
@@ -159,7 +151,7 @@ public sealed class SoftwareUpdateService : ISoftwareUpdateService
     {
         try
         {
-            var downloadFolder = _configuration.GetValue<string>("DownloadFolder");
+            var downloadFolder = configuration.GetValue<string>("DownloadFolder");
             Directory.CreateDirectory(downloadFolder);
             var fileName = Path.Combine(downloadFolder, Path.GetFileName(_downloadUrl));
 

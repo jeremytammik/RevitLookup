@@ -42,7 +42,7 @@ public static class Tools
             var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
             if (assemblies.Length == 0) continue;
 
-            var version = new Version(FileVersionInfo.GetVersionInfo(assemblies[0]).ProductVersion);
+            var version = new Version(FileVersionInfo.GetVersionInfo(assemblies[0]).FileVersion);
             return new Versions
             {
                 AssemblyVersion = version,

@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections.ObjectModel;
 using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -34,7 +33,6 @@ public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
 
     public EventsViewModel(NotificationService notificationService, IServiceProvider provider) : base(notificationService, provider)
     {
-        SnoopableObjects = new ObservableCollection<SnoopableObject>();
         _eventMonitor = new EventMonitor(OnHandlingEvent);
     }
 

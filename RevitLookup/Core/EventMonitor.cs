@@ -36,11 +36,11 @@ public sealed class EventMonitor
     public EventMonitor(Action<string, EventArgs> handler)
     {
         _handler = handler;
-        _denyList = new List<string>(2)
-        {
+        _denyList =
+        [
             nameof(UIApplication.Idling),
             nameof(Autodesk.Revit.ApplicationServices.Application.ProgressChanged)
-        };
+        ];
 
         _assemblies = AppDomain.CurrentDomain.GetAssemblies()
             .Where(assembly =>

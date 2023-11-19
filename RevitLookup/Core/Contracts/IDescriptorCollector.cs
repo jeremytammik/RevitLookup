@@ -23,6 +23,4 @@ namespace RevitLookup.Core.Contracts;
 /// <summary>
 ///     Indicates that the descriptor can retrieve object members by reflection
 /// </summary>
-public interface IDescriptorCollector
-{
-}
+public interface IDescriptorCollector;

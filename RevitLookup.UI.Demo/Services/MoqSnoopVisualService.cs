@@ -19,10 +19,8 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Diagnostics;
-using System.Windows.Controls;
 using Autodesk.Revit.DB;
 using Bogus;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
@@ -30,40 +28,28 @@ using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.ViewModels.Contracts;
-using UIFramework;
 using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.UI.Demo.Services;
 
-public class MoqSnoopVisualService : ISnoopVisualService
+public sealed class MoqSnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window) : ISnoopVisualService
 {
-    private readonly NotificationService _notificationService;
-    private readonly ISnoopViewModel _viewModel;
-    private readonly IWindow _window;
-
-    public MoqSnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window)
-    {
-        _notificationService = notificationService;
-        _viewModel = viewModel;
-        _window = window;
-    }
-
     public void Snoop(SnoopableObject snoopableObject)
     {
         try
         {
             if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
             {
-                _viewModel.SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
+                viewModel.SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
             }
             else
             {
-                _viewModel.SnoopableObjects = new[] {snoopableObject};
+                viewModel.SnoopableObjects = new[] {snoopableObject};
             }
         }
         catch (Exception exception)
         {
-            _notificationService.ShowError("Invalid object", exception);
+            notificationService.ShowError("Invalid object", exception);
         }
     }
 
@@ -103,16 +89,16 @@ public class MoqSnoopVisualService : ISnoopVisualService
             _ => throw new ArgumentOutOfRangeException(nameof(snoopableType), snoopableType, null)
         };
 
-        _viewModel.SnoopableObjects = await GenerateObjectsAsync(generationCount);
-        _viewModel.SnoopableData = Array.Empty<Descriptor>();
+        viewModel.SnoopableObjects = await GenerateObjectsAsync(generationCount);
+        viewModel.SnoopableData = Array.Empty<Descriptor>();
         UpdateWindowVisibility(Visibility.Visible);
     }
 
     private void UpdateWindowVisibility(Visibility visibility)
     {
-        if (!_window.IsLoaded) return;
+        if (!window.IsLoaded) return;
 
-        _window.Visibility = visibility;
+        window.Visibility = visibility;
     }
 
     private static async Task<IReadOnlyCollection<SnoopableObject>> GenerateObjectsAsync(int generationCount)

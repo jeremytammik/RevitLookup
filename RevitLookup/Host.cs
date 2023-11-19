@@ -61,7 +61,8 @@ public static class Host
     {
         var assembly = Assembly.GetExecutingAssembly();
         var assemblyLocation = assembly.Location;
-        var addinVersion = FileVersionInfo.GetVersionInfo(assemblyLocation).ProductVersion;
+        var versionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
+        var addinVersion = new Version(versionInfo.FileVersion).ToString(3);
 #if RELEASE
         var version = addinVersion.Split('.')[0];
         if (version == "1") version = "Develop";
