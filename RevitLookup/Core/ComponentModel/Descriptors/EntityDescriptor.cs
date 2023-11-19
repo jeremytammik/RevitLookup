@@ -59,7 +59,7 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorRes
             foreach (var field in entity.Schema.ListFields())
             {
                 var forgeTypeId = field.GetSpecTypeId();
-                var unit = UnitUtils.IsMeasurableSpec(forgeTypeId) ? UnitUtils.GetValidUnits(forgeTypeId).First() : UnitTypeId.Custom;
+                var unit = GetValidUnit(forgeTypeId);
                 var method = entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field), typeof(ForgeTypeId)})!;
                 var genericMethod = MakeGenericInvoker(field, method);
                 resolveSummary.AppendVariant(genericMethod.Invoke(entity, new object[] {field, unit}), field.FieldName);
@@ -67,6 +67,29 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorRes
 
             return resolveSummary;
         }
+    }
+
+    private static ForgeTypeId GetValidUnit(ForgeTypeId forgeTypeId)
+    {
+#if R22_OR_GREATER
+        var isMeasurableSpec = UnitUtils.IsMeasurableSpec(forgeTypeId);
+#else
+        var isMeasurableSpec = false;
+        try
+        {
+            if (UnitUtils.IsSpec(forgeTypeId))
+            {
+                UnitUtils.GetValidUnits(forgeTypeId);
+                isMeasurableSpec = true;
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+#endif
+
+        return isMeasurableSpec ? UnitUtils.GetValidUnits(forgeTypeId).First() : UnitTypeId.Custom;
     }
 
     private static MethodInfo MakeGenericInvoker(Field field, MethodInfo invoker)
