@@ -26,7 +26,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class EvaluatedParameterDescriptor : Descriptor, IDescriptorResolver
+public sealed class EvaluatedParameterDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly EvaluatedParameter _parameter;
 

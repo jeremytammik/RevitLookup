@@ -18,16 +18,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Globalization;
 using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class BoundarySegmentDescriptor : Descriptor, IDescriptorCollector
+public sealed class BoundarySegmentDescriptor : Descriptor, IDescriptorCollector
 {
     public BoundarySegmentDescriptor(BoundarySegment boundarySegment)
     {
-        Name = $"ID: {boundarySegment.ElementId}, {boundarySegment.GetCurve()?.Length} ft";
+        var curve = boundarySegment.GetCurve();
+        Name = curve switch
+        {
+            null => $"ID: {boundarySegment.ElementId}",
+            _ => $"ID: {boundarySegment.ElementId}, {curve.Length.ToString(CultureInfo.InvariantCulture)} ft",
+        };
     }
 }
