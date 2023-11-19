@@ -45,11 +45,8 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorRes
             var resolveSummary = new ResolveSet();
             foreach (var field in entity.Schema.ListFields())
             {
-                var forgeTypeId = field.GetSpecTypeId();
-                if (!string.IsNullOrEmpty(forgeTypeId.TypeId)) continue;
-
                 var method = entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field)})!;
-                var genericMethod = method.MakeGenericMethod(field.ValueType);
+                var genericMethod = MakeGenericInvoker(field, method);
                 resolveSummary.AppendVariant(genericMethod.Invoke(entity, new object[] {field}), field.FieldName);
             }
 
@@ -62,15 +59,26 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorRes
             foreach (var field in entity.Schema.ListFields())
             {
                 var forgeTypeId = field.GetSpecTypeId();
-                if (string.IsNullOrEmpty(forgeTypeId.TypeId)) continue;
-
+                var unit = UnitUtils.IsMeasurableSpec(forgeTypeId) ? UnitUtils.GetValidUnits(forgeTypeId).First() : UnitTypeId.Custom;
                 var method = entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field), typeof(ForgeTypeId)})!;
-                var genericMethod = method.MakeGenericMethod(field.ValueType);
-                resolveSummary.AppendVariant(genericMethod.Invoke(entity,
-                    new object[] {field, UnitUtils.GetValidUnits(forgeTypeId).First()}), field.FieldName);
+                var genericMethod = MakeGenericInvoker(field, method);
+                resolveSummary.AppendVariant(genericMethod.Invoke(entity, new object[] {field, unit}), field.FieldName);
             }
 
             return resolveSummary;
         }
+    }
+
+    private static MethodInfo MakeGenericInvoker(Field field, MethodInfo invoker)
+    {
+        var containerType = field.ContainerType switch
+        {
+            ContainerType.Simple => field.ValueType,
+            ContainerType.Array => typeof(IList<>).MakeGenericType(field.ValueType),
+            ContainerType.Map => typeof(IDictionary<,>).MakeGenericType(field.KeyType, field.ValueType),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        return invoker.MakeGenericMethod(containerType);
     }
 }
