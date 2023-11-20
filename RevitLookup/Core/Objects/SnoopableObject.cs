@@ -61,7 +61,7 @@ public sealed class SnoopableObject
 
     public async Task<IReadOnlyCollection<Descriptor>> GetMembersAsync()
     {
-        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(GetMembers);
+        return _members = await Task.Run(() => Application.ExternalDescriptorHandler.RaiseAsync(GetMembers));
     }
 
     public async Task<IReadOnlyCollection<Descriptor>> GetCachedMembersAsync()

@@ -86,7 +86,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
     /// <summary>
     ///     Execute collector for selection
     /// </summary>
-    protected async void OnTreeSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    protected void OnTreeSelectionChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
         switch (e.NewValue)
         {
@@ -101,11 +101,12 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
                 return;
         }
 
-        await ViewModel.FetchMembersCommand.ExecuteAsync(null);
+        ViewModel.FetchMembersCommand.Execute(null);
     }
 
     private async void OnDataGridChanged(DataGrid control)
     {
+        //Lazy init. 1 ms is enough to display data and start initialising components
         await Task.Delay(1);
 
         ValidateTimeColumn(control);
