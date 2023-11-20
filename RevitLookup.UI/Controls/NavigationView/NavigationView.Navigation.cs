@@ -185,7 +185,7 @@ public partial class NavigationView
         }
 
         var pageInstance = GetNavigationItemInstance(viewItem);
-        
+
         if (OnNavigating(pageInstance))
         {
 #if DEBUG
@@ -255,17 +255,17 @@ public partial class NavigationView
         if (_serviceProvider is not null)
         {
             return _serviceProvider.GetService(viewItem.TargetPageType)
-                ?? new ArgumentNullException($"{nameof(_serviceProvider.GetService)} returned null");
+                   ?? new ArgumentNullException($"{nameof(_serviceProvider.GetService)} returned null");
         }
 
         if (_pageService is not null)
         {
             return _pageService.GetPage(viewItem.TargetPageType)
-                ?? throw new ArgumentNullException($"{nameof(_pageService.GetPage)} returned null");
+                   ?? throw new ArgumentNullException($"{nameof(_pageService.GetPage)} returned null");
         }
 
         return NavigationViewActivator.CreateInstance(viewItem.TargetPageType)
-            ?? throw new ArgumentException("Failed to create instance of the page");
+               ?? throw new ArgumentException("Failed to create instance of the page");
 
         //return _cache.Remember(viewItem.TargetPageType, viewItem.NavigationCacheMode, () =>
         //{
@@ -301,10 +301,12 @@ public partial class NavigationView
     {
         if (content is FrameworkElement frameworkViewContent)
         {
-            frameworkViewContent.Resources = Application.MainWindow.Resources;
+            var window = Window.GetWindow(this);
+            if (window is null) return;
+            frameworkViewContent.Resources = window.Resources;
         }
     }
-    
+
     private void UpdateContent(object? content, object? dataContext = null)
     {
         if (dataContext is not null && content is FrameworkElement frameworkViewContent)
