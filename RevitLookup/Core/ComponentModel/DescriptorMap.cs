@@ -101,6 +101,7 @@ public static class DescriptorMap
             WorksetTable when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(),
             BoundarySegment value when type is null || type == typeof(BoundarySegment) => new BoundarySegmentDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
+            MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
 #if R24_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
