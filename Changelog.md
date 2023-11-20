@@ -11,8 +11,8 @@
 ## Improvements
 
 * Added ExtensibleStorage `Array` and `Map` support https://github.com/jeremytammik/RevitLookup/issues/184
-* Added `Room.GetBoundarySegments()` support https://github.com/jeremytammik/RevitLookup/pull/187
-* Added `BoundarySegment` support https://github.com/jeremytammik/RevitLookup/pull/187
+* Added `Room.GetBoundarySegments()` support by [@SergeyNefyodov](https://github.com/SergeyNefyodov) in https://github.com/jeremytammik/RevitLookup/pull/187
+* Added `BoundarySegment` support by [@SergeyNefyodov](https://github.com/SergeyNefyodov) in https://github.com/jeremytammik/RevitLookup/pull/187
 * Added changing theme in runtime
 * Optimized rendering performance for both tree and grid views, resulting in smoother and faster visual representation
 * Added shortcuts for close current and all RevitLookup instances https://github.com/jeremytammik/RevitLookup/issues/172
@@ -39,7 +39,7 @@ This change optimizes search functionality by preventing potential slowdowns pre
 
 ## New Contributors
 
-* @SergeyNefyodov  made their first contribution in https://github.com/jeremytammik/RevitLookup/pull/187
+* [@SergeyNefyodov](https://github.com/SergeyNefyodov)  made their first contribution in https://github.com/jeremytammik/RevitLookup/pull/187
 
 Full changelog: https://github.com/jeremytammik/RevitLookup/compare/2024.0.8...2024.0.9
 
