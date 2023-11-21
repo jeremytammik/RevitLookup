@@ -31,19 +31,32 @@ public class MepSystemDescriptor(MEPSystem mepSystem) : ElementDescriptor(mepSys
     {
         return target switch
         {
-            nameof(MEPSystem.GetSectionByIndex) => ResolveMepSections(),
-            nameof(MEPSystem.GetSectionByNumber) => ResolveMepSections(),
+            nameof(MEPSystem.GetSectionByIndex) => ResolveSectionByIndex(),
+            nameof(MEPSystem.GetSectionByNumber) => ResolveSectionByNumber(),
             _ => null
         };
-        
-        ResolveSet ResolveMepSections()
+
+        ResolveSet ResolveSectionByNumber()
         {
             var capacity = mepSystem.SectionsCount;
             var resolveSummary = new ResolveSet(capacity);
             for (var i = 0; i < capacity; i++)
             {
                 var section = mepSystem.GetSectionByIndex(i);
-                resolveSummary.AppendVariant(section, $"Index: {i}, number: {section.Number}");
+                resolveSummary.AppendVariant(section, $"Number {section.Number}");
+            }
+
+            return resolveSummary;
+        }
+
+        ResolveSet ResolveSectionByIndex()
+        {
+            var capacity = mepSystem.SectionsCount;
+            var resolveSummary = new ResolveSet(capacity);
+            for (var i = 0; i < capacity; i++)
+            {
+                var section = mepSystem.GetSectionByIndex(i);
+                resolveSummary.AppendVariant(section, $"Index {i}");
             }
 
             return resolveSummary;

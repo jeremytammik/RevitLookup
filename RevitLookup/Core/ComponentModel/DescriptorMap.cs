@@ -83,6 +83,8 @@ public static class DescriptorMap
             HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
             RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
             FamilyInstance value when type is null || type == typeof(FamilyInstance) => new FamilyInstanceDescriptor(value),
+            SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
+            MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
@@ -100,8 +102,6 @@ public static class DescriptorMap
             Workset value when type is null || type == typeof(Workset) => new WorksetDescriptor(value),
             WorksetTable when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(),
             BoundarySegment value when type is null || type == typeof(BoundarySegment) => new BoundarySegmentDescriptor(value),
-            SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
-            MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
 #if R24_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
