@@ -22,6 +22,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using WixSharp.CommonTasks;
 
 namespace Installer;
 
@@ -39,10 +40,11 @@ public static class Tools
     {
         foreach (var directory in args)
         {
-            var assemblies = Directory.GetFiles(directory, @"RevitLookup.dll", SearchOption.AllDirectories);
+            var assemblies = Directory.GetFiles(directory, "RevitLookup.dll", SearchOption.AllDirectories);
             if (assemblies.Length == 0) continue;
 
-            var version = new Version(FileVersionInfo.GetVersionInfo(assemblies[0]).FileVersion);
+            var projectAssembly = FileVersionInfo.GetVersionInfo(assemblies[0]);
+            var version = new Version(projectAssembly.FileVersion).ClearRevision();
             return new Versions
             {
                 AssemblyVersion = version,
