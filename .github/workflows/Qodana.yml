@@ -4,12 +4,11 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - master
 
-version: 1.0
 jobs:
   qodana:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       contents: write
       pull-requests: write
@@ -22,7 +21,6 @@ jobs:
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@main
         with:
-          post-pr-comment: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-mode: false
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
