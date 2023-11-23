@@ -43,7 +43,7 @@ The source code is published under [MIT License](http://opensource.org/licenses/
 
 ## Technology Sponsors
 
-Thanks to [JetBrains](https://jetbrains.com) for providing licenses for [Rider](https://jetbrains.com/rider) and [dotUltimate](https://www.jetbrains.com/dotnet/) tools, which both
+Thanks to [JetBrains](https://jetbrains.com) for providing licenses for [Rider](https://jetbrains.com/rider), [dotUltimate](https://www.jetbrains.com/dotnet/) and [Qodana Ultimate Plus](https://www.jetbrains.com/qodana/), which both
 make open-source development a real pleasure!
 
 [<img src="https://user-images.githubusercontent.com/20504884/217069735-6cb06fda-f07a-4bee-a92d-ad4dbc0ab428.png" width="450" />](https://jetbrains.com/)
