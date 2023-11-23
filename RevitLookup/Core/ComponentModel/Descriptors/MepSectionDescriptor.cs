@@ -27,13 +27,8 @@ using ArgumentException = Autodesk.Revit.Exceptions.ArgumentException;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class MepSectionDescriptor : Descriptor, IDescriptorResolver
+public sealed class MepSectionDescriptor(MEPSection mepSection) : Descriptor, IDescriptorResolver
 {
-    private MEPSection _mepSection;
-    public MepSectionDescriptor(MEPSection mepSection)
-    {
-        _mepSection = mepSection;
-    }
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -42,61 +37,84 @@ public class MepSectionDescriptor : Descriptor, IDescriptorResolver
             nameof(MEPSection.GetCoefficient) => ResolveCoefficient(),
             nameof(MEPSection.GetPressureDrop) => ResolvePressureDrop(),
             nameof(MEPSection.GetSegmentLength) => ResolveSegmentLength(),
+            nameof(MEPSection.IsMain) => ResolveIsMain(),
             _ => null
         };
-        
+
         ResolveSet ResolveSectionIds()
         {
-            var elementIds = _mepSection.GetElementIds();
+            var elementIds = mepSection.GetElementIds();
             var resolveSummary = new ResolveSet(elementIds.Count);
             foreach (var id in elementIds)
             {
                 resolveSummary.AppendVariant(id);
             }
+
             return resolveSummary;
         }
+
         ResolveSet ResolveCoefficient()
         {
-            var elementIds = _mepSection.GetElementIds();
+            var elementIds = mepSection.GetElementIds();
             var resolveSummary = new ResolveSet(elementIds.Count);
             foreach (var id in elementIds)
             {
-                resolveSummary.AppendVariant(_mepSection.GetCoefficient(id), $"{id}");
+                resolveSummary.AppendVariant(mepSection.GetCoefficient(id), $"ID{id}");
             }
+
             return resolveSummary;
         }
-        
+
         ResolveSet ResolvePressureDrop()
         {
-            var elementIds = _mepSection.GetElementIds();
+            var elementIds = mepSection.GetElementIds();
             var resolveSummary = new ResolveSet(elementIds.Count);
             foreach (var id in elementIds)
             {
-                resolveSummary.AppendVariant(_mepSection.GetPressureDrop(id), $"{id}");
+                resolveSummary.AppendVariant(mepSection.GetPressureDrop(id), $"ID{id}");
             }
+
             return resolveSummary;
         }
-        
+
         ResolveSet ResolveSegmentLength()
         {
-            var elementIds = _mepSection.GetElementIds();
+            var elementIds = mepSection.GetElementIds();
             var resolveSummary = new ResolveSet(elementIds.Count);
             foreach (var id in elementIds)
             {
-                var length = 0.0d;
                 try
                 {
-                    length = _mepSection.GetSegmentLength(id);
+                    var length = mepSection.GetSegmentLength(id);
+                    resolveSummary.AppendVariant(length, $"ID{id}");
                 }
                 catch (ArgumentException)
                 {
                     // ignored
                 }
-                if (length != 0.0d) resolveSummary.AppendVariant(length, $"{id}");
             }
+
+            return resolveSummary;
+        }
+
+        ResolveSet ResolveIsMain()
+        {
+            var elementIds = mepSection.GetElementIds();
+            var resolveSummary = new ResolveSet(elementIds.Count);
+            foreach (var id in elementIds)
+            {
+                try
+                {
+                    var isMain = mepSection.IsMain(id);
+                    resolveSummary.AppendVariant(isMain, $"ID{id}");
+                }
+                catch (ArgumentException)
+                {
+                    // ignored
+                }
+            }
+
             return resolveSummary;
         }
     }
-
-    
 }

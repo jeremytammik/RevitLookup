@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class MepSystemDescriptor(MEPSystem mepSystem) : ElementDescriptor(mepSystem), IDescriptorResolver
+public sealed class MepSystemDescriptor(MEPSystem mepSystem) : ElementDescriptor(mepSystem), IDescriptorResolver
 {
     public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
