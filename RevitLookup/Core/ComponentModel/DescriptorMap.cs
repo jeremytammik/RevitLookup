@@ -25,6 +25,7 @@ using System.Windows.Threading;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
+using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
@@ -77,6 +78,7 @@ public static class DescriptorMap
             PrintManager value when type is null || type == typeof(PrintManager) => new PrintManagerDescriptor(value),
             DefinitionGroup value when type is null || type == typeof(DefinitionGroup) => new DefinitionGroupDescriptor(value),
             FamilyManager value when type is null || type == typeof(FamilyManager) => new FamilyManagerDescriptor(value),
+            MEPSection value when type is null || type == typeof(MEPSection) => new MepSectionDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables
