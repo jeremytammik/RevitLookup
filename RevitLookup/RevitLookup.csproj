@@ -11,13 +11,11 @@
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
         <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
-        <SharingType>Local</SharingType>
         <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('Release'))">
         <Optimize>true</Optimize>
         <DebugType>none</DebugType>
-        <SharingType>Publish</SharingType>
         <DefineConstants>$(DefineConstants);RELEASE</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('R21'))">
@@ -43,6 +41,7 @@
     <PropertyGroup>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <ApplicationManifest>app.manifest</ApplicationManifest>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
     <PropertyGroup>
@@ -88,23 +87,23 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ApplicationDefinition Remove="App.xaml" />
-      <Page Include="App.xaml" />
+        <ApplicationDefinition Remove="App.xaml"/>
+        <Page Include="App.xaml"/>
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
             <RootItem Include="$(ProjectDir)*.addin"/>
-            <AddinItem Include="$(TargetDir)*"/>
+            <AddinItem Include="$(TargetDir)**\*"/>
         </ItemGroup>
 
         <PropertyGroup>
-            <RootDir>bin\$(SharingType) $(RevitVersion) $(Configuration)\</RootDir>
+            <RootDir>bin\$(RevitVersion) $(Configuration)\</RootDir>
             <AddinDir>$(RootDir)$(AssemblyName)\</AddinDir>
         </PropertyGroup>
 
-        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)"/>
-        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)"/>
+        <Copy SourceFiles="@(RootItem)" DestinationFolder="$(RootDir)%(RecursiveDir)"/>
+        <Copy SourceFiles="@(AddinItem)" DestinationFolder="$(AddinDir)%(RecursiveDir)"/>
 
         <ItemGroup>
             <AddinFiles Include="$(RootDir)**\*.*"/>
