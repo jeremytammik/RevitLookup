@@ -34,6 +34,8 @@ public sealed partial class DescriptorBuilder
             types.Add(type);
             type = type.BaseType;
         }
+        if (_settings.IsObjectMembersAllowed)
+            types.Add(typeof(object));
 
         for (var i = types.Count - 1; i >= 0; i--)
         {

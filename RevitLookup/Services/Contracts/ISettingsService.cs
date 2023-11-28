@@ -37,6 +37,7 @@ public interface ISettingsService
     bool IsEventsAllowed { get; set; }
     bool IsExtensionsAllowed { get; set; }
     bool IsTimeColumnAllowed { get; set; }
+    bool IsObjectMembersAllowed { get; set; }
     int ApplyTransition(bool value);
 
     void Save();
