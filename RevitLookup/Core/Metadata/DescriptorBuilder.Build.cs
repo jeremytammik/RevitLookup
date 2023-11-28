@@ -29,15 +29,11 @@ public sealed partial class DescriptorBuilder
     private IReadOnlyCollection<Descriptor> BuildInstanceObject(Type type)
     {
         var types = new List<Type>();
-        while (type != null)
+        while (_settings.IsObjectMembersAllowed ? type is not null : type!.BaseType is not null)
         {
-            if (type.BaseType != null || _settings.IsObjectMembersAllowed)
-            {
-                types.Add(type);
-            }
+            types.Add(type);
             type = type.BaseType;
         }
-
 
         for (var i = types.Count - 1; i >= 0; i--)
         {
