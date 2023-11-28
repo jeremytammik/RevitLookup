@@ -79,6 +79,7 @@ public static class DescriptorMap
             DefinitionGroup value when type is null || type == typeof(DefinitionGroup) => new DefinitionGroupDescriptor(value),
             FamilyManager value when type is null || type == typeof(FamilyManager) => new FamilyManagerDescriptor(value),
             MEPSection value when type is null || type == typeof(MEPSection) => new MepSectionDescriptor(value),
+            KeyValuePair<Definition, object> value when type is null || type == typeof(KeyValuePair<Definition, object>) => new DefinitionBindingDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables
