@@ -6,7 +6,7 @@ using Nuke.Common.Utilities;
 using Serilog;
 using Serilog.Events;
 
-partial class Build
+sealed partial class Build
 {
     Target CreateInstaller => _ => _
         .TriggeredBy(Compile)

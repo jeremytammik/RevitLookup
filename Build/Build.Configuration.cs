@@ -1,6 +1,6 @@
 ﻿using Nuke.Common.IO;
 
-partial class Build
+sealed partial class Build
 {
     readonly AbsolutePath ArtifactsDirectory = RootDirectory / "output";
     readonly AbsolutePath ChangeLogPath = RootDirectory / "Changelog.md";

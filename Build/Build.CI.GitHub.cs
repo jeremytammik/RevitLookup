@@ -6,14 +6,12 @@ using Nuke.Common.Tools.GitHub;
 using Octokit;
 using Serilog;
 
-partial class Build
+sealed partial class Build
 {
     Target Publish => _ => _
         .TriggeredBy(CreateInstaller)
         .Requires(() => GitHubToken)
-        .Requires(() => GitRepository)
-        .Requires(() => GitVersion)
-        .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() && IsServerBuild)
+        .OnlyWhenStatic(() => IsServerBuild && GitRepository.IsOnMainOrMasterBranch())
         .Executes(async () =>
         {
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(Solution.Name))
@@ -26,7 +24,7 @@ partial class Build
             var artifacts = Directory.GetFiles(ArtifactsDirectory, "*");
             var version = VersionRegex.Match(artifacts[^1]).Value;
 
-            await CheckTagsAsync(gitHubOwner, gitHubName, version);
+            Assert.False(GitRepository.Tags.Contains(version), $"A Release with the specified tag already exists in the repository: {version}");
             Log.Information("Tag: {Version}", version);
 
             var newRelease = new NewRelease(version)
@@ -34,26 +32,13 @@ partial class Build
                 Name = version,
                 Body = CreateChangelog(version),
                 Draft = true,
-                TargetCommitish = GitVersion.Sha
+                TargetCommitish = GitRepository.Commit
             };
 
-            var draft = await CreatedDraftAsync(gitHubOwner, gitHubName, newRelease);
-            await UploadArtifactsAsync(draft, artifacts);
-            await ReleaseDraftAsync(gitHubOwner, gitHubName, draft);
+            var draftRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
+            await UploadArtifactsAsync(draftRelease, artifacts);
+            await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draftRelease.Id, new ReleaseUpdate {Draft = false});
         });
-
-    static async Task CheckTagsAsync(string gitHubOwner, string gitHubName, string version)
-    {
-        var gitHubTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
-        if (gitHubTags.Select(tag => tag.Name).Contains(version))
-            throw new ArgumentException($"A Release with the specified tag already exists in the repository: {version}");
-    }
-
-    static async Task<Release> CreatedDraftAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
-        await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
-
-    static async Task ReleaseDraftAsync(string gitHubOwner, string gitHubName, Release draft) =>
-        await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draft.Id, new ReleaseUpdate {Draft = false});
 
     static async Task UploadArtifactsAsync(Release createdRelease, string[] artifacts)
     {
