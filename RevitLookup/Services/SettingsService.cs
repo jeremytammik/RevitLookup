@@ -46,6 +46,7 @@ internal sealed class Settings
     public bool IsFieldsAllowed { get; set; }
     public bool IsEventsAllowed { get; set; }
     public bool IsExtensionsAllowed { get; set; }
+    public bool IsObjectMembersAllowed { get; set; }
 }
 
 public sealed class SettingsService : ISettingsService
@@ -130,6 +131,12 @@ public sealed class SettingsService : ISettingsService
     {
         get => _settings.IsExtensionsAllowed;
         set => _settings.IsExtensionsAllowed = value;
+    }
+    
+    public bool IsObjectMembersAllowed
+    {
+        get => _settings.IsObjectMembersAllowed;
+        set => _settings.IsObjectMembersAllowed = value;
     }
 
     public int ApplyTransition(bool value)

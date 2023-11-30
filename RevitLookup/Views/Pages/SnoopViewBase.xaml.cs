@@ -269,7 +269,14 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
 
         contextMenu.AddSeparator();
         contextMenu.AddLabel("Show");
-
+        
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Object members")
+            .SetCommand(_settingsService.IsObjectMembersAllowed, parameter =>
+            {
+                _settingsService.IsObjectMembersAllowed = !parameter;
+                return GetRefreshGridTask();
+            });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Events")
             .SetCommand(_settingsService.IsEventsAllowed, parameter =>
