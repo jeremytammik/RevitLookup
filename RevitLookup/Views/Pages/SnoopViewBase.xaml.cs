@@ -269,14 +269,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
 
         contextMenu.AddSeparator();
         contextMenu.AddLabel("Show");
-        
-        contextMenu.AddMenuItem("CheckableMenuItem")
-            .SetHeader("Object members")
-            .SetCommand(_settingsService.IsObjectMembersAllowed, parameter =>
-            {
-                _settingsService.IsObjectMembersAllowed = !parameter;
-                return GetRefreshGridTask();
-            });
+
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Events")
             .SetCommand(_settingsService.IsEventsAllowed, parameter =>
@@ -303,6 +296,13 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
             .SetCommand(_settingsService.IsPrivateAllowed, parameter =>
             {
                 _settingsService.IsPrivateAllowed = !parameter;
+                return GetRefreshGridTask();
+            });
+        contextMenu.AddMenuItem("CheckableMenuItem")
+            .SetHeader("Root hierarchy")
+            .SetCommand(_settingsService.IsRootHierarchyAllowed, parameter =>
+            {
+                _settingsService.IsRootHierarchyAllowed = !parameter;
                 return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
@@ -341,7 +341,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
             .SetAvailability(descriptor.Value.Descriptor.Name is not null);
 
         contextMenu.AddMenuItem("HelpMenuItem")
-            .SetCommand(descriptor, parameter => HelpUtils.ShowHelp($"{parameter.TypeFullName} {parameter.Name}"))
+            .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName, parameter.Name))
             .SetShortcut(row, new KeyGesture(Key.F1));
 
         if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
