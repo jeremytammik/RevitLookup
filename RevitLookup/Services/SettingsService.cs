@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -46,7 +47,7 @@ internal sealed class Settings
     public bool IsFieldsAllowed { get; set; }
     public bool IsEventsAllowed { get; set; }
     public bool IsExtensionsAllowed { get; set; }
-    public bool IsObjectMembersAllowed { get; set; }
+    public bool IsRootHierarchyAllowed { get; set; }
 }
 
 public sealed class SettingsService : ISettingsService
@@ -132,11 +133,11 @@ public sealed class SettingsService : ISettingsService
         get => _settings.IsExtensionsAllowed;
         set => _settings.IsExtensionsAllowed = value;
     }
-    
-    public bool IsObjectMembersAllowed
+
+    public bool IsRootHierarchyAllowed
     {
-        get => _settings.IsObjectMembersAllowed;
-        set => _settings.IsObjectMembersAllowed = value;
+        get => _settings.IsRootHierarchyAllowed;
+        set => _settings.IsRootHierarchyAllowed = value;
     }
 
     public int ApplyTransition(bool value)
@@ -181,6 +182,7 @@ public sealed class SettingsService : ISettingsService
         }
         catch
         {
+            Debug.WriteLine("RevitLookup: settings deserializing error");
             return new Settings();
         }
     }

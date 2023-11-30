@@ -28,13 +28,7 @@ public sealed partial class DescriptorBuilder
 {
     private IReadOnlyCollection<Descriptor> BuildInstanceObject(Type type)
     {
-        var types = new List<Type>();
-        while (_settings.IsObjectMembersAllowed ? type is not null : type!.BaseType is not null)
-        {
-            types.Add(type);
-            type = type.BaseType;
-        }
-
+        var types = GetTypeHierarchy(type);
         for (var i = types.Count - 1; i >= 0; i--)
         {
             _type = types[i];
@@ -56,6 +50,20 @@ public sealed partial class DescriptorBuilder
         AddEnumerableItems();
 
         return _descriptors;
+    }
+
+    private List<Type> GetTypeHierarchy(Type type)
+    {
+        var types = new List<Type>();
+        while (type.BaseType is not null)
+        {
+            types.Add(type);
+            type = type.BaseType;
+        }
+        
+        if (_settings.IsRootHierarchyAllowed) types.Add(type);
+
+        return types;
     }
 
     private IReadOnlyCollection<Descriptor> BuildStaticObject(Type type)
