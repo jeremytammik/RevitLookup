@@ -1,7 +1,6 @@
 ﻿using Nuke.Common;
 using Nuke.Common.IO;
 using Serilog;
-using static Nuke.Common.IO.FileSystemTasks;
 
 sealed partial class Build
 {

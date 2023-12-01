@@ -19,28 +19,31 @@ sealed partial class Build
                 Credentials = new Credentials(GitHubToken)
             };
 
+            var version = VersionMap.Values.Last();
             var gitHubName = GitRepository.GetGitHubName();
             var gitHubOwner = GitRepository.GetGitHubOwner();
             var artifacts = Directory.GetFiles(ArtifactsDirectory, "*");
-            var version = VersionRegex.Match(artifacts[^1]).Value;
+            var tags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
 
-            Assert.False(GitRepository.Tags.Contains(version), $"A Release with the specified tag already exists in the repository: {version}");
-            Log.Information("Tag: {Version}", version);
+            Assert.False(tags.Select(tag => tag.Name).Contains(version), $"A Release with the specified tag already exists in the repository: {version}");
+            Log.Information("Version: {Version}", version);
 
+            var changelog = CreateChangelog(tags[^1].Name, version);
             var newRelease = new NewRelease(version)
             {
                 Name = version,
-                Body = CreateChangelog(version),
-                Draft = true,
+                Body = changelog,
                 TargetCommitish = GitRepository.Commit
             };
 
-            var draftRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
-            await UploadArtifactsAsync(draftRelease, artifacts);
-            await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draftRelease.Id, new ReleaseUpdate {Draft = false});
+            var release = await CreatedReleaseAsync(gitHubOwner, gitHubName, newRelease);
+            await UploadArtifactsAsync(release, artifacts);
         });
 
-    static async Task UploadArtifactsAsync(Release createdRelease, string[] artifacts)
+    static Task<Release> CreatedReleaseAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
+        GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
+
+    static async Task UploadArtifactsAsync(Release createdRelease, IEnumerable<string> artifacts)
     {
         foreach (var file in artifacts)
         {
@@ -56,7 +59,7 @@ sealed partial class Build
         }
     }
 
-    string CreateChangelog(string version)
+    string CreateChangelog(string previousVersion, string version)
     {
         if (!File.Exists(ChangeLogPath))
         {
@@ -64,11 +67,11 @@ sealed partial class Build
             return string.Empty;
         }
 
-        Log.Information("Changelog: {Path}", ChangeLogPath);
+        const string nextRecordSymbol = "# ";
 
         var logBuilder = new StringBuilder();
         var changelogLineRegex = new Regex($@"^.*({version})\S*\s?");
-        const string nextRecordSymbol = "# ";
+        Log.Information("Changelog: {Path}", ChangeLogPath);
 
         foreach (var line in File.ReadLines(ChangeLogPath))
         {
@@ -85,6 +88,14 @@ sealed partial class Build
         }
 
         if (logBuilder.Length == 0) Log.Warning("No version entry exists in the changelog: {Version}", version);
+
+        AppendCompareUrl(logBuilder, previousVersion, version);
         return logBuilder.ToString();
+    }
+
+    void AppendCompareUrl(StringBuilder logBuilder, string previousVersion, string version)
+    {
+        logBuilder.Append("Full changelog: ");
+        logBuilder.Append(GitRepository.GetGitHubCompareTagsUrl(previousVersion, version));
     }
 }
