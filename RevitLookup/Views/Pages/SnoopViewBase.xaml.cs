@@ -216,10 +216,11 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
                 .Append("Description: ")
                 .Append(descriptor.Value.Descriptor.Description);
 
-        builder.AppendLine()
-            .Append("Time: ")
-            .Append(descriptor.ComputationTime)
-            .Append(" ms");
+        if (descriptor.ComputationTime > 0)
+            builder.AppendLine()
+                .Append("Time: ")
+                .Append(descriptor.ComputationTime)
+                .Append(" ms");
 
         row.ToolTip = new ToolTip
         {

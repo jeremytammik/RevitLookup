@@ -30,8 +30,12 @@ public interface ISettingsService
     WindowBackdropType Background { get; set; }
     int TransitionDuration { get; }
     bool UseHardwareRendering { get; set; }
-    bool UseSizeRestoring { get; set; }
     bool ShowTimeColumn { get; set; }
+    
+    //Window
+    bool UseSizeRestoring { get; set; }
+    double WindowWidth { get; set; }
+    double WindowHeight { get; set; }
 
     // Descriptor builder
     bool IncludeUnsupported { get; set; }

@@ -26,7 +26,7 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed partial class SettingsViewModel(ISettingsService settingsService, INavigationService navigationService) : ObservableObject
+public sealed partial class SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, IWindow window) : ObservableObject
 {
     [ObservableProperty] private ApplicationTheme _theme = settingsService.Theme;
     [ObservableProperty] private WindowBackdropType _background = settingsService.Background;
@@ -57,7 +57,6 @@ public sealed partial class SettingsViewModel(ISettingsService settingsService, 
     partial void OnBackgroundChanged(WindowBackdropType value)
     {
         settingsService.Background = value;
-        var window = (FluentWindow) Wpf.Ui.Application.MainWindow;
         window.WindowBackdropType = value;
     }
 
@@ -77,6 +76,8 @@ public sealed partial class SettingsViewModel(ISettingsService settingsService, 
     partial void OnUseSizeRestoringChanged(bool value)
     {
         settingsService.UseSizeRestoring = value;
+        if (value) window.EnableSizeTracking();
+        else window.DisableSizeTracking();
     }
 
     partial void OnUseModifyTabChanged(bool value)

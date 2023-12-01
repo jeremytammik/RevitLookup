@@ -41,6 +41,8 @@ internal sealed class Settings
     [JsonPropertyName("IsHardwareRenderingAllowed")] public bool UseHardwareRendering { get; set; } = true;
     [JsonPropertyName("IsTimeColumnAllowed")] public bool ShowTimeColumn { get; set; }
     [JsonPropertyName("UseSizeRestoring")] public bool UseSizeRestoring { get; set; }
+    [JsonPropertyName("WindowWidth")] public double WindowWidth { get; set; }
+    [JsonPropertyName("WindowHeight")] public double WindowHeight { get; set; }
     [JsonPropertyName("IsUnsupportedAllowed")] public bool IncludeUnsupported { get; set; }
     [JsonPropertyName("IsPrivateAllowed")] public bool IncludePrivate { get; set; }
     [JsonPropertyName("IsStaticAllowed")] public bool IncludeStatic { get; set; }
@@ -103,6 +105,18 @@ public sealed class SettingsService : ISettingsService
     {
         get => _settings.UseSizeRestoring;
         set => _settings.UseSizeRestoring = value;
+    }
+    
+    public double WindowWidth
+    {
+        get => _settings.WindowWidth;
+        set => _settings.WindowWidth = value;
+    }
+
+    public double WindowHeight
+    {
+        get => _settings.WindowHeight;
+        set => _settings.WindowHeight = value;
     }
 
     public bool IncludeUnsupported
