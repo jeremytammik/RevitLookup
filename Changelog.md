@@ -1,12 +1,36 @@
 # Changelog
 
+# 2023-12-01 **2024.0.10**
+
+## General
+
+* Introducing a brand new feature: Restore window size! Now, effortlessly revert back to your preferred window dimensions with a simple click
+
+## Improvements
+
+* Add `MEPSystem.GetSectionByIndex` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/189
+* Add `MEPSystem.GetSectionByNumber` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/189
+* Add `MEPSection.GetElementIds` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/192
+* Add `MEPSection.GetCoefficient` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/192
+* Add `MEPSection.GetPressureDrop` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/192
+* Add `MEPSection.GetSegmentLength` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/192
+* Add `MEPSection.IsMain` support
+* Add show `System.Object` option (named Root hierarchy) by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/193
+* Add generic types support for the help button
+* Minor tooltip changes
+
+## Bugs
+
+* Fixed search that worked in the main thread
+
 # 2023-11-19 **2024.0.9**
 
 ## User interface
 
-* **Settings Accessibility:** Most settings have been relocated to the grid context menu for a more intuitive and accessible user experience. Now, users can conveniently access and modify settings directly from the grid context menu
+* **Settings Accessibility:** Most settings have been relocated to the grid context menu for a more intuitive and accessible user experience. Now, users can conveniently access and modify
+  settings directly from the grid context menu
 
-    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/77fc172a-48d3-4439-a5d6-9d8d80ee0efc)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/77fc172a-48d3-4439-a5d6-9d8d80ee0efc)
 
 ## Improvements
 
@@ -17,11 +41,11 @@
 * Optimized rendering performance for both tree and grid views, resulting in smoother and faster visual representation
 * Added shortcuts for close current and all RevitLookup instances https://github.com/jeremytammik/RevitLookup/issues/172
 
-  * `Esc` now closes the current window.
+    * `Esc` now closes the current window.
 
-  * `Shift + Esc` closes all RevitLookup instances
+    * `Shift + Esc` closes all RevitLookup instances
 
-  * Explore all available shortcuts [here](https://github.com/jeremytammik/RevitLookup/wiki/Context-actions) 
+    * Explore all available shortcuts [here](https://github.com/jeremytammik/RevitLookup/wiki/Context-actions)
 
 ## Bugs
 
@@ -29,8 +53,8 @@
 
 ## Breaking changes
 
-* Disabled the last selection restoration during search to improve performance, especially on larger lists. 
-This change optimizes search functionality by preventing potential slowdowns previously experienced with extensive lists
+* Disabled the last selection restoration during search to improve performance, especially on larger lists.
+  This change optimizes search functionality by preventing potential slowdowns previously experienced with extensive lists
 
 ## Miscellaneous Updates
 
@@ -51,8 +75,8 @@ Full changelog: https://github.com/jeremytammik/RevitLookup/compare/2024.0.8...2
 
 * Computing Time Tracking
 
-  This feature includes the ability to monitor the computing time taken to invoke a member, such as methods or properties. 
-  By tracking the execution time, you can identify and analyze slow-performing methods or properties, gaining insights into their overall performance. 
+  This feature includes the ability to monitor the computing time taken to invoke a member, such as methods or properties.
+  By tracking the execution time, you can identify and analyze slow-performing methods or properties, gaining insights into their overall performance.
   The computing time is displayed in a separate column and a tooltip, providing you with detailed information. This feature is optional and disabled by default
 
   ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/9f9c816f-2f49-49a0-9757-6f0bb0000113)
@@ -61,7 +85,7 @@ Full changelog: https://github.com/jeremytammik/RevitLookup/compare/2024.0.8...2
 
 * Context Menu
 
-  A convenient context menu has been added to the table, providing you with additional options to manage columns and update contents. 
+  A convenient context menu has been added to the table, providing you with additional options to manage columns and update contents.
   This menu enables you to customize your table view and effortlessly perform actions to enhance your experience.
 
   ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/25491ace-1d16-46cc-9dc3-3e5016b266a0)
@@ -95,7 +119,8 @@ Corrective update to the last major release [RevitLookup 2024.0.6](https://githu
 
 ## Improvements
 
-* Added the `BuiltInCategory` extension of the `Category` class for Revit versions 2021-2022 where this property is not present in the official API https://github.com/jeremytammik/RevitLookup/issues/162
+* Added the `BuiltInCategory` extension of the `Category` class for Revit versions 2021-2022 where this property is not present in the official
+  API https://github.com/jeremytammik/RevitLookup/issues/162
 
 # 2023-06-01 **2024.0.6**
 
@@ -115,7 +140,6 @@ Corrective update to the last major release [RevitLookup 2024.0.6](https://githu
 * New Additional Setting Options
 
   Introducing a range of new setting options that expand customization capabilities and provide users with greater control over the tool's behavior
-
 
 ### Core
 
@@ -141,7 +165,8 @@ Corrective update to the last major release [RevitLookup 2024.0.6](https://githu
   Implemented a helpful feature that automatically redirects ElementId to Category, whenever applicable. This simplifies navigation and enhances the user experience
 * Content Virtualization
 
-  Applied content virtualization to the dashboard and settings page, optimizing performance by efficiently managing large amounts of data and dynamically loading content as needed. This results in a smoother and more efficient user interaction
+  Applied content virtualization to the dashboard and settings page, optimizing performance by efficiently managing large amounts of data and dynamically loading content as needed. This
+  results in a smoother and more efficient user interaction
 
 # 2023-05-17 **2024.0.5**
 
@@ -149,7 +174,7 @@ Corrective update to the last major release [RevitLookup 2024.0.6](https://githu
 
 * Static members support
 
-    For example, RevitLookup now supports the display of these and other properties and methods:
+  For example, RevitLookup now supports the display of these and other properties and methods:
     ```c#
     Category.GetCategory();
     Document.GetDocumentVersion()
@@ -157,13 +182,13 @@ Corrective update to the last major release [RevitLookup 2024.0.6](https://githu
     Application.MinimumThickness
     ```
 
-    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/1712cf55-2451-4ed8-8487-20c5ab973278)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/1712cf55-2451-4ed8-8487-20c5ab973278)
 
 * Ribbon update
 
-    SplitButton replaced by PullDownButton. Thank for voting https://github.com/jeremytammik/RevitLookup/discussions/159
+  SplitButton replaced by PullDownButton. Thank for voting https://github.com/jeremytammik/RevitLookup/discussions/159
 
-    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/b6819f3b-5670-45ad-9353-1dabf9d3b512)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/b6819f3b-5670-45ad-9353-1dabf9d3b512)
 
 ## Improvements
 
@@ -303,7 +328,7 @@ In this release, the entire code base has been completely rewritten from scratch
 * Generic names support
 
   | Before                                                                                                          | Now                                                                                                             |
-                |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+                    |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
   | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
 
 * Multiple results for methods with overloads
@@ -383,7 +408,7 @@ Minor UI changes https://github.com/jeremytammik/RevitLookup/pull/135
 
 # 2022-03-02 **2022.0.4.0**
 
-Minimize, maximize support https://github.com/jeremytammik/RevitLookup/pull/134. 
+Minimize, maximize support https://github.com/jeremytammik/RevitLookup/pull/134.
 Fixed problem with sending a print job https://github.com/jeremytammik/RevitLookup/pull/133
 
 # 2022-01-15 **2022.0.3.3**
@@ -425,112 +450,112 @@ Added automatic generation of a release for the master branch
 
 # 2021-10-29 **2022.0.2.0**
 
-integrated pull request [#108](https://github.com/jeremytammik/RevitLookup/pull/108) by Roman @Nice3point 
+integrated pull request [#108](https://github.com/jeremytammik/RevitLookup/pull/108) by Roman @Nice3point
 to include previous versions in the installer
 
 # 2021-10-28 **2022.0.1.6**
 
-integrated pull request [#107](https://github.com/jeremytammik/RevitLookup/pull/107) by Roman @Nice3point 
+integrated pull request [#107](https://github.com/jeremytammik/RevitLookup/pull/107) by Roman @Nice3point
 to rename Build, fix hello world version and move version number into csproj
 
 # 2021-10-28 **2022.0.1.4**
 
-integrated pull request [#105](https://github.com/jeremytammik/RevitLookup/pull/105) by Roman @Nice3point 
+integrated pull request [#105](https://github.com/jeremytammik/RevitLookup/pull/105) by Roman @Nice3point
 to update badges, consolidate version number management, clean up builder and remove gitlab CI
 
 # 2021-10-28 **2022.0.1.3**
 
-integrated pull request [#104](https://github.com/jeremytammik/RevitLookup/pull/104) by Roman @Nice3point 
+integrated pull request [#104](https://github.com/jeremytammik/RevitLookup/pull/104) by Roman @Nice3point
 to fix snoop db exception due to tag and enum mismatch
 
 # 2021-10-28 **2022.0.1.2**
 
-integrated pull request [#102](https://github.com/jeremytammik/RevitLookup/pull/102) by Roman @Nice3point 
+integrated pull request [#102](https://github.com/jeremytammik/RevitLookup/pull/102) by Roman @Nice3point
 to add changelog and remove unused files
 
 # 2021-10-28 **2022.0.1.1**
 
-integrated pull request [#101](https://github.com/jeremytammik/RevitLookup/pull/101) by Roman @Nice3point 
+integrated pull request [#101](https://github.com/jeremytammik/RevitLookup/pull/101) by Roman @Nice3point
 implementing code rerstructuring, cleanup, build system and installer
 
 # 2021-10-24 **2022.0.1.0**
 
-integrated pull request [#99](https://github.com/jeremytammik/RevitLookup/pull/99) by @NeVeS 
+integrated pull request [#99](https://github.com/jeremytammik/RevitLookup/pull/99) by @NeVeS
 to Eliminate warnings from [#98](https://github.com/jeremytammik/RevitLookup/pull/98)
 
 # 2021-10-18 **2022.0.1.0**
 
-integrated pull request [#97](https://github.com/jeremytammik/RevitLookup/pull/97) by @NeVeS 
+integrated pull request [#97](https://github.com/jeremytammik/RevitLookup/pull/97) by @NeVeS
 to restore ability to snoop plan topologies
 
 # 2021-10-17 **2022.0.1.0**
 
-integrated pull request [#96](https://github.com/jeremytammik/RevitLookup/pull/96) by @NeVeS 
+integrated pull request [#96](https://github.com/jeremytammik/RevitLookup/pull/96) by @NeVeS
 to fix crash on user cancel picking object in cmds: SnoopPickFace, SnoopPickEdge, SnoopLinkedElement
 
 # 2021-10-17 **2022.0.1.0**
 
-integrated pull request [#95](https://github.com/jeremytammik/RevitLookup/pull/95) by @NeVeS 
+integrated pull request [#95](https://github.com/jeremytammik/RevitLookup/pull/95) by @NeVeS
 to handle multiple open documents at the same time
 
 # 2021-10-16 **2022.0.1.0**
 
-integrated pull request [#94](https://github.com/jeremytammik/RevitLookup/pull/94) by @NeVeS 
+integrated pull request [#94](https://github.com/jeremytammik/RevitLookup/pull/94) by @NeVeS
 fixing problem with tranferring focus to Revit when using selectors from modeless window
 
 # 2021-10-16 **2022.0.1.0**
 
-integrated pull request [#93](https://github.com/jeremytammik/RevitLookup/pull/93) by @NeVeS 
+integrated pull request [#93](https://github.com/jeremytammik/RevitLookup/pull/93) by @NeVeS
 imlementing Modeless windows
 
 # 2021-09-22 **2022.0.0.16**
 
-integrated pull request [#91](https://github.com/jeremytammik/RevitLookup/pull/91) by @mphelt 
+integrated pull request [#91](https://github.com/jeremytammik/RevitLookup/pull/91) by @mphelt
 to add PartUtilsStream
 
 # 2021-07-01 **2022.0.0.13**
 
-integrated pull request [#86](https://github.com/jeremytammik/RevitLookup/pull/86) by Luiz Henrique Cassettari 
+integrated pull request [#86](https://github.com/jeremytammik/RevitLookup/pull/86) by Luiz Henrique Cassettari
 adding OnLoad to update width of snoop window value ListView last column
 
 # 2021-06-30 **2022.0.0.12**
 
-integrated pull request [#85](https://github.com/jeremytammik/RevitLookup/pull/85) by Luiz Henrique Cassettari 
+integrated pull request [#85](https://github.com/jeremytammik/RevitLookup/pull/85) by Luiz Henrique Cassettari
 increasing width of snoop window value ListView column from 300 to 800
 
 # 2021-06-07 **2022.0.0.11**
 
-integrated pull request [#84](https://github.com/jeremytammik/RevitLookup/pull/84) by @RevitArkitek 
+integrated pull request [#84](https://github.com/jeremytammik/RevitLookup/pull/84) by @RevitArkitek
 adding PlanViewRange functionality to display view range level id and offset
 
 # 2021-06-07 **2022.0.0.10**
 
-integrated pull request [#83](https://github.com/jeremytammik/RevitLookup/pull/83) by @RevitArkitek 
+integrated pull request [#83](https://github.com/jeremytammik/RevitLookup/pull/83) by @RevitArkitek
 fixing error where element cannot be retrieved for an element id because SupportedColorFillCategoryIds returns category ids instead
 
 # 2021-05-18 **2022.0.0.9**
 
-integrated pull request [#81](https://github.com/jeremytammik/RevitLookup/pull/81) by @CADBIMDeveloper 
+integrated pull request [#81](https://github.com/jeremytammik/RevitLookup/pull/81) by @CADBIMDeveloper
 enhancing `ElementId` and Revit 2022 extensible storage support
 
 # 2021-05-14 **2022.0.0.8**
 
-integrated pull request [#80](https://github.com/jeremytammik/RevitLookup/pull/80) by @WspDev 
+integrated pull request [#80](https://github.com/jeremytammik/RevitLookup/pull/80) by @WspDev
 to remove deprecated `ParameterType` usage
 
 # 2021-05-07 **2022.0.0.7**
 
-integrated pull request [#78](https://github.com/jeremytammik/RevitLookup/pull/78) by @RevitArkitek 
+integrated pull request [#78](https://github.com/jeremytammik/RevitLookup/pull/78) by @RevitArkitek
 to handle `TableData.GetSectionData`
 
 # 2021-05-07 **2022.0.0.6**
 
-integrated pull request [#77](https://github.com/jeremytammik/RevitLookup/pull/77) by @RevitArkitek 
+integrated pull request [#77](https://github.com/jeremytammik/RevitLookup/pull/77) by @RevitArkitek
 to get end points for curves
 
 # 2021-04-16 **2022.0.0.5**
 
-integrated pull request [#76](https://github.com/jeremytammik/RevitLookup/pull/76) by @peterhirn 
+integrated pull request [#76](https://github.com/jeremytammik/RevitLookup/pull/76) by @peterhirn
 to fix CI for new VS 2019 Revit 2022 dotnet-core csproj
 
 # 2021-04-15 **2022.0.0.4**
@@ -543,17 +568,17 @@ reset Revit API assembly DLL references to Copy Local false
 
 # 2021-04-15 **2022.0.0.3**
 
-integrated pull request [#73](https://github.com/jeremytammik/RevitLookup/pull/73) by @mphelt 
+integrated pull request [#73](https://github.com/jeremytammik/RevitLookup/pull/73) by @mphelt
 to wrap snoop in temporary transaction allowing to snoop PlanTopologies
 
 # 2021-04-15 **2022.0.0.2**
 
-integrated pull request [#75](https://github.com/jeremytammik/RevitLookup/pull/75) by @peterhirn 
+integrated pull request [#75](https://github.com/jeremytammik/RevitLookup/pull/75) by @peterhirn
 to fix CI for Revit 2022 and non-dotnet-core project file
 
 # 2021-04-15 **2022.0.0.1**
 
-integrated pull request [#74](https://github.com/jeremytammik/RevitLookup/pull/74) by @peterhirn 
+integrated pull request [#74](https://github.com/jeremytammik/RevitLookup/pull/74) by @peterhirn
 setting up CI to Revit 2022
 
 # 2021-04-15 **2022.0.0.0**
@@ -562,17 +587,17 @@ flat migration to Revit 2022
 
 # 2021-02-09 **2021.0.0.13**
 
-integrated pull request https://github.com/jeremytammik/RevitLookup/pull/71 by @RevitArkitek 
+integrated pull request https://github.com/jeremytammik/RevitLookup/pull/71 by @RevitArkitek
 adding handler for ScheduleDefinition.GetField to address issue https://github.com/jeremytammik/RevitLookup/issues/70
 
 # 2021-02-01 **2021.0.0.12**
 
-integrated pull request [#69](https://github.com/jeremytammik/RevitLookup/pull/69) by @RevitArkitek 
+integrated pull request [#69](https://github.com/jeremytammik/RevitLookup/pull/69) by @RevitArkitek
 adding handler for the GetSplitRegionOffsets method to address issue https://github.com/jeremytammik/RevitLookup/issues/68 Split Region Offsets (2021)
 
 # 2021-01-12 **2021.0.0.11**
 
-integrated pull request [#67](https://github.com/jeremytammik/RevitLookup/pull/67) by @peterhirn 
+integrated pull request [#67](https://github.com/jeremytammik/RevitLookup/pull/67) by @peterhirn
 to update timestamp server from Verisign to digicert
 
 # 2021-01-11 **2021.0.0.10**
@@ -585,12 +610,12 @@ locally disable warning CS0618 `DisplayUnitType` is obsolete for one specific us
 
 # 2020-12-04 **2021.0.0.8**
 
-integrated pull request [#66](https://github.com/jeremytammik/RevitLookup/pull/66) by @RevitArkitek 
+integrated pull request [#66](https://github.com/jeremytammik/RevitLookup/pull/66) by @RevitArkitek
 adding handlers for View GetTemplateParameterIds and GetNonControlledTemplateParameterIds
 
 # 2020-11-09 **2021.0.0.7**
 
-integrated pull request [#64](https://github.com/jeremytammik/RevitLookup/pull/64) by @peterhirn 
+integrated pull request [#64](https://github.com/jeremytammik/RevitLookup/pull/64) by @peterhirn
 to update CI for Revit 2021
 
 # 2020-10-20 **2021.0.0.6**
@@ -599,7 +624,7 @@ eliminated deprecated unit api usage
 
 # 2020-10-20 **2021.0.0.5**
 
-integrated pull request [#63](https://github.com/jeremytammik/RevitLookup/pull/63) by @swfaust 
+integrated pull request [#63](https://github.com/jeremytammik/RevitLookup/pull/63) by @swfaust
 to update command registration and remove obsolete test framework command
 
 # 2020-04-14 **2021.0.0.1**
@@ -617,12 +642,14 @@ incremented copyright year
 
 # 2019-08-20 **2020.0.0.3**
 
-integrated pull request [#56](https://github.com/jeremytammik/RevitLookup/pull/56) by @nonoesp 
+integrated pull request [#56](https://github.com/jeremytammik/RevitLookup/pull/56) by @nonoesp
+
 - fix two small typos in readme
 
 # 2019-06-03 **2020.0.0.2**
 
-integrated pull request [#53](https://github.com/jeremytammik/RevitLookup/pull/53) by @CADBIMDeveloper 
+integrated pull request [#53](https://github.com/jeremytammik/RevitLookup/pull/53) by @CADBIMDeveloper
+
 - list available values for ParameterType.FamilyType and FamilyParameters titles
 
 # 2019-04-26 **2020.0.0.1**
@@ -643,12 +670,12 @@ added MSI installer for 2018.0.0.0 submitted by @VBScab in issue [#51](https://g
 
 # 2019-03-26 **2019.0.0.11**
 
-integrated pull request [#50](https://github.com/jeremytammik/RevitLookup/pull/50) by Victor Chekalin 
+integrated pull request [#50](https://github.com/jeremytammik/RevitLookup/pull/50) by Victor Chekalin
 to handle DoubleArray4d values
 
 # 2019-03-25 **2019.0.0.10**
 
-integrated pull requests [#48](https://github.com/jeremytammik/RevitLookup/pull/48) and [#49](https://github.com/jeremytammik/RevitLookup/pull/49) by Victor Chekalin 
+integrated pull requests [#48](https://github.com/jeremytammik/RevitLookup/pull/48) and [#49](https://github.com/jeremytammik/RevitLookup/pull/49) by Victor Chekalin
 to snoop rendering AssetProperty via Material-AppearanceAssetId-GetRenderingAssset
 
 # 2019-03-18 **2019.0.0.9**
@@ -673,12 +700,12 @@ incremented copyright year to 2019
 
 # 2018-12-13 **2019.0.0.4**
 
-merged issue [#45](https://github.com/jeremytammik/RevitLookup/issues/45) and pull request [#46](https://github.com/jeremytammik/RevitLookup/pull/46)from @TheKidMSX 
+merged issue [#45](https://github.com/jeremytammik/RevitLookup/issues/45) and pull request [#46](https://github.com/jeremytammik/RevitLookup/pull/46)from @TheKidMSX
 to center parent for forms
 
 # 2018-05-29 **2019.0.0.2**
 
-merged pull request [#43](https://github.com/jeremytammik/RevitLookup/pull/43) from Levente Koncz @palver123 
+merged pull request [#43](https://github.com/jeremytammik/RevitLookup/pull/43) from Levente Koncz @palver123
 to use ProgramW6432 variable in csproj to locate Revit API assembly DLLs
 
 # 2018-04-15 **2019.0.0.0**
@@ -687,12 +714,12 @@ flat migration to Revit 2019
 
 # 2018-03-12 **2018.0.0.8**
 
-merged pull request [#42](https://github.com/jeremytammik/RevitLookup/pull/42) from @Modis Pekshev: 
+merged pull request [#42](https://github.com/jeremytammik/RevitLookup/pull/42) from @Modis Pekshev:
 Add "Search by and snoop" command
 
 # 2018-03-02 **2018.0.0.7**
 
-merged pull request [#41](https://github.com/jeremytammik/RevitLookup/pull/41) from @Modis Pekshev: 
+merged pull request [#41](https://github.com/jeremytammik/RevitLookup/pull/41) from @Modis Pekshev:
 Add ConvertToStableRepresentation method for References
 
 # 2018-01-05 **2018.0.0.6**
@@ -705,7 +732,7 @@ readme enhancements: badges, installer and updated link to MSI installer
 
 # 2017-08-28 **2018.0.0.3**
 
-merged pull request [#36](https://github.com/jeremytammik/RevitLookup/pull/36) from @Andrey-Bushman: 
+merged pull request [#36](https://github.com/jeremytammik/RevitLookup/pull/36) from @Andrey-Bushman:
 switch target platform to.Net 4.6 and replace Revit 2017 NuGet package by Revit 2018.1 Nuget package
 
 # 2017-06-05 **2018.0.0.1**
@@ -719,12 +746,12 @@ flat migration to Revit 2018
 
 # 2017-04-07 **2017.0.0.24**
 
-merged pull request [#33](https://github.com/jeremytammik/RevitLookup/pull/33) by @peterhirn 
+merged pull request [#33](https://github.com/jeremytammik/RevitLookup/pull/33) by @peterhirn
 added build status badge
 
 # 2017-03-27 **2017.0.0.23**
 
-dummy modification to trigger build for https://lookupbuilds.com 
+dummy modification to trigger build for https://lookupbuilds.com
 cf.https://forums.autodesk.com/t5/revit-api-forum/ci-for-revit-lookup/m-p/6947111
 
 # 2017-03-17 **2017.0.0.22**
@@ -733,37 +760,37 @@ added 'new' keyword to avoid warning and override inherited methods
 
 # 2017-03-17 **2017.0.0.21**
 
-merged pull request [#31](https://github.com/jeremytammik/RevitLookup/pull/31) from @CADBIMDeveloper 
+merged pull request [#31](https://github.com/jeremytammik/RevitLookup/pull/31) from @CADBIMDeveloper
 removing try-catch handler
 
 # 2017-03-16 **2017.0.0.20**
 
-merged pull request [#30](https://github.com/jeremytammik/RevitLookup/pull/30) from @eirannejad 
+merged pull request [#30](https://github.com/jeremytammik/RevitLookup/pull/30) from @eirannejad
 adding icon and exception handling
 
 # 2017-03-15 **2017.0.0.19**
 
-merged pull request [#29](https://github.com/jeremytammik/RevitLookup/pull/29) from @CADBIMDeveloper 
+merged pull request [#29](https://github.com/jeremytammik/RevitLookup/pull/29) from @CADBIMDeveloper
 fixing bugs initialising type and opening background documents
 
 # 2017-03-02 **2017.0.0.18**
 
-merged pull request [#27](https://github.com/jeremytammik/RevitLookup/pull/27) from @CADBIMDeveloper 
+merged pull request [#27](https://github.com/jeremytammik/RevitLookup/pull/27) from @CADBIMDeveloper
 to display category BuiltInCategory, nullable double properties and empty lists
 
 # 2017-02-21 **2017.0.0.17**
 
-merged pull request [#26](https://github.com/jeremytammik/RevitLookup/pull/26) from Alexander Ignatovich 
+merged pull request [#26](https://github.com/jeremytammik/RevitLookup/pull/26) from Alexander Ignatovich
 to restore ability to see extensible storage content
 
 # 2017-02-17 **2017.0.0.16**
 
-merged pull request [#25](https://github.com/jeremytammik/RevitLookup/pull/25) from chekalin-v: 
+merged pull request [#25](https://github.com/jeremytammik/RevitLookup/pull/25) from chekalin-v:
 fix old bugs, significant improvements to the new reflection approach
 
 # 2017-02-06 **2017.0.0.15**
 
-merged pull request [#23](https://github.com/jeremytammik/RevitLookup/pull/23) from awmcc90 
+merged pull request [#23](https://github.com/jeremytammik/RevitLookup/pull/23) from awmcc90
 to catch specific reflection invocation exceptions, not all
 
 # 2017-02-06 **2017.0.0.14**
@@ -785,7 +812,7 @@ fixed issue [#19](https://github.com/jeremytammik/RevitLookup/issues/19) raised 
 
 # 2017-01-06 **2017.0.0.10**
 
-merged pull [#20](https://github.com/jeremytammik/RevitLookup/pull/20) from @luftbanana supporting close-with-ESC 
+merged pull [#20](https://github.com/jeremytammik/RevitLookup/pull/20) from @luftbanana supporting close-with-ESC
 to all forms by assigning the cancel button
 
 # 2017-01-03 **2017.0.0.9**
@@ -798,22 +825,22 @@ added version number to Hello World message box
 
 # 2016-12-20 **2017.0.0.7**
 
-merged pull request [#18](https://github.com/jeremytammik/RevitLookup/pull/18) by @Andrey-Bushman 
+merged pull request [#18](https://github.com/jeremytammik/RevitLookup/pull/18) by @Andrey-Bushman
 to use NuGet Revit API package
 
 # 2016-08-05 **2017.0.0.6**
 
-merged pull request [#16](https://github.com/jeremytammik/RevitLookup/pull/16) by @arif-hanif 
+merged pull request [#16](https://github.com/jeremytammik/RevitLookup/pull/16) by @arif-hanif
 to add post build event to project file to copy addin manifest and dll to addins folder
 
 # 2016-06-23 **2017.0.0.5**
 
-merged pull request [#14](https://github.com/jeremytammik/RevitLookup/pull/14) by Shayneham 
+merged pull request [#14](https://github.com/jeremytammik/RevitLookup/pull/14) by Shayneham
 to handle exceptions snooping flex pipe and duct lacking levels etc.
 
 # 2016-06-04 **2017.0.0.4**
 
-merged pull request [#13](https://github.com/jeremytammik/RevitLookup/pull/13) by awmcc90 
+merged pull request [#13](https://github.com/jeremytammik/RevitLookup/pull/13) by awmcc90
 to skip mepSys.Elements for OST_ElectricalInternalCircuits category
 
 # 2016-06-04 **2017.0.0.3**
