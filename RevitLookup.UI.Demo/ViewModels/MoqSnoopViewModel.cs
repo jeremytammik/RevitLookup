@@ -33,8 +33,6 @@ namespace RevitLookup.UI.Demo.ViewModels;
 
 public sealed partial class MoqSnoopViewModel(NotificationService notificationService, IServiceProvider provider) : ObservableObject, ISnoopViewModel
 {
-    private CancellationTokenSource _searchCancellationToken = new();
-
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
@@ -70,28 +68,21 @@ public sealed partial class MoqSnoopViewModel(NotificationService notificationSe
         UpdateSearchResults(SearchOption.Selection);
     }
 
-    private async void UpdateSearchResults(SearchOption option)
+    private void UpdateSearchResults(SearchOption option)
     {
-        _searchCancellationToken.Cancel();
-        _searchCancellationToken = new CancellationTokenSource();
-
-        if (string.IsNullOrEmpty(SearchText))
+        Task.Run(() =>
         {
-            FilteredSnoopableObjects = SnoopableObjects;
-            FilteredSnoopableData = SnoopableData;
-            return;
-        }
+            if (string.IsNullOrEmpty(SearchText))
+            {
+                FilteredSnoopableObjects = SnoopableObjects;
+                FilteredSnoopableData = SnoopableData;
+                return;
+            }
 
-        try
-        {
-            var results = await SearchEngine.SearchAsync(this, option, _searchCancellationToken.Token);
+            var results = SearchEngine.Search(this, option);
             if (results.Data is not null) FilteredSnoopableData = results.Data;
             if (results.Objects is not null) FilteredSnoopableObjects = results.Objects;
-        }
-        catch (OperationCanceledException)
-        {
-            //Ignored
-        }
+        });
     }
 
     [RelayCommand]

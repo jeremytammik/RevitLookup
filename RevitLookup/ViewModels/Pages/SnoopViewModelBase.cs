@@ -30,17 +30,11 @@ using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
-using OperationCanceledException = System.OperationCanceledException;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public abstract partial class SnoopViewModelBase(
-    NotificationService notificationService,
-    IServiceProvider provider)
-    : ObservableObject, ISnoopViewModel
+public abstract partial class SnoopViewModelBase(NotificationService notificationService, IServiceProvider provider) : ObservableObject, ISnoopViewModel
 {
-    private CancellationTokenSource _searchCancellationToken = new();
-
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private string _searchText = string.Empty;
@@ -76,28 +70,21 @@ public abstract partial class SnoopViewModelBase(
         UpdateSearchResults(SearchOption.Selection);
     }
 
-    private async void UpdateSearchResults(SearchOption option)
+    private void UpdateSearchResults(SearchOption option)
     {
-        _searchCancellationToken.Cancel();
-        _searchCancellationToken = new CancellationTokenSource();
-
-        if (string.IsNullOrEmpty(SearchText))
+        Task.Run(() =>
         {
-            FilteredSnoopableObjects = SnoopableObjects;
-            FilteredSnoopableData = SnoopableData;
-            return;
-        }
+            if (string.IsNullOrEmpty(SearchText))
+            {
+                FilteredSnoopableObjects = SnoopableObjects;
+                FilteredSnoopableData = SnoopableData;
+                return;
+            }
 
-        try
-        {
-            var results = await SearchEngine.SearchAsync(this, option, _searchCancellationToken.Token);
+            var results = SearchEngine.Search(this, option);
             if (results.Data is not null) FilteredSnoopableData = results.Data;
             if (results.Objects is not null) FilteredSnoopableObjects = results.Objects;
-        }
-        catch (OperationCanceledException)
-        {
-            //Ignored
-        }
+        });
     }
 
     [RelayCommand]
