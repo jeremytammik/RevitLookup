@@ -19,8 +19,8 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@main
+        uses: JetBrains/qodana-action@v2023.2
         with:
-          pr-mode: false
+          args: --linter,jetbrains/qodana-dotnet:2023.3-eap
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
