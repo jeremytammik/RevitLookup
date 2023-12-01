@@ -25,20 +25,26 @@ namespace RevitLookup.Services.Contracts;
 
 public interface ISettingsService
 {
+    //User interface
     ApplicationTheme Theme { get; set; }
     WindowBackdropType Background { get; set; }
     int TransitionDuration { get; }
-    bool IsHardwareRenderingAllowed { get; set; }
-    bool IsModifyTabAllowed { get; set; }
-    bool IsUnsupportedAllowed { get; set; }
-    bool IsPrivateAllowed { get; set; }
-    bool IsStaticAllowed { get; set; }
-    bool IsFieldsAllowed { get; set; }
-    bool IsEventsAllowed { get; set; }
-    bool IsExtensionsAllowed { get; set; }
-    bool IsTimeColumnAllowed { get; set; }
-    bool IsRootHierarchyAllowed { get; set; }
-    int ApplyTransition(bool value);
+    bool UseHardwareRendering { get; set; }
+    bool UseSizeRestoring { get; set; }
+    bool ShowTimeColumn { get; set; }
 
+    // Descriptor builder
+    bool IncludeUnsupported { get; set; }
+    bool IncludePrivate { get; set; }
+    bool IncludeStatic { get; set; }
+    bool IncludeFields { get; set; }
+    bool IncludeEvents { get; set; }
+    bool IncludeExtensions { get; set; }
+    bool IncludeRootHierarchy { get; set; }
+
+    // Ribbon
+    bool UseModifyTab { get; set; }
+
+    int ApplyTransition(bool value);
     void Save();
 }

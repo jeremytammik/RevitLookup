@@ -67,16 +67,14 @@ public sealed partial class RevitLookupView : IWindow
         InputBindings.Add(new KeyBinding(closeAllCommand, new KeyGesture(Key.Escape, ModifierKeys.Shift)));
         InputBindings.Add(new KeyBinding(closeCurrentCommand, new KeyGesture(Key.Escape)));
     }
-
+    
     protected override void OnActivated(EventArgs args)
     {
-        base.OnActivated(args);
         Wpf.Ui.Application.MainWindow = this;
     }
 
     protected override void OnClosed(EventArgs args)
     {
-        base.OnClosed(args);
         Wpf.Ui.Application.Windows.Remove(this);
     }
 }

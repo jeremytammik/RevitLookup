@@ -7,7 +7,7 @@ public sealed partial class DescriptorBuilder
 {
     private void AddEvents(BindingFlags bindingFlags)
     {
-        if (!_settings.IsEventsAllowed) return;
+        if (!_settings.IncludeEvents) return;
 
         var members = _type.GetEvents(bindingFlags);
         foreach (var member in members)

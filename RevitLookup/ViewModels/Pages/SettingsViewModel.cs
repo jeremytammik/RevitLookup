@@ -30,15 +30,11 @@ public sealed partial class SettingsViewModel(ISettingsService settingsService, 
 {
     [ObservableProperty] private ApplicationTheme _theme = settingsService.Theme;
     [ObservableProperty] private WindowBackdropType _background = settingsService.Background;
-    [ObservableProperty] private bool _isSmoothEnabled = settingsService.TransitionDuration > 0;
-    [ObservableProperty] private bool _isHardwareRenderingAllowed = settingsService.IsHardwareRenderingAllowed;
-    [ObservableProperty] private bool _isModifyTabAllowed = settingsService.IsModifyTabAllowed;
-    [ObservableProperty] private bool _isUnsupportedAllowed = settingsService.IsUnsupportedAllowed;
-    [ObservableProperty] private bool _isPrivateAllowed = settingsService.IsPrivateAllowed;
-    [ObservableProperty] private bool _isStaticAllowed = settingsService.IsStaticAllowed;
-    [ObservableProperty] private bool _isFieldsAllowed = settingsService.IsFieldsAllowed;
-    [ObservableProperty] private bool _isEventsAllowed = settingsService.IsEventsAllowed;
-    [ObservableProperty] private bool _isExtensionsAllowed = settingsService.IsExtensionsAllowed;
+
+    [ObservableProperty] private bool _useTransition = settingsService.TransitionDuration > 0;
+    [ObservableProperty] private bool _useHardwareRendering = settingsService.UseHardwareRendering;
+    [ObservableProperty] private bool _useSizeRestoring = settingsService.UseSizeRestoring;
+    [ObservableProperty] private bool _useModifyTab = settingsService.UseModifyTab;
 
     public List<ApplicationTheme> Themes { get; } =
     [
@@ -65,52 +61,27 @@ public sealed partial class SettingsViewModel(ISettingsService settingsService, 
         window.WindowBackdropType = value;
     }
 
-    partial void OnIsSmoothEnabledChanged(bool value)
+    partial void OnUseTransitionChanged(bool value)
     {
         var transitionDuration = settingsService.ApplyTransition(value);
         navigationService.GetNavigationControl().TransitionDuration = transitionDuration;
     }
 
-    partial void OnIsHardwareRenderingAllowedChanged(bool value)
+    partial void OnUseHardwareRenderingChanged(bool value)
     {
-        settingsService.IsHardwareRenderingAllowed = value;
+        settingsService.UseHardwareRendering = value;
         if (value) Application.EnableHardwareRendering(settingsService);
         else Application.DisableHardwareRendering(settingsService);
     }
 
-    partial void OnIsModifyTabAllowedChanged(bool value)
+    partial void OnUseSizeRestoringChanged(bool value)
     {
-        settingsService.IsModifyTabAllowed = value;
+        settingsService.UseSizeRestoring = value;
+    }
+
+    partial void OnUseModifyTabChanged(bool value)
+    {
+        settingsService.UseModifyTab = value;
         RibbonController.ReloadPanels(settingsService);
-    }
-
-    partial void OnIsUnsupportedAllowedChanged(bool value)
-    {
-        settingsService.IsUnsupportedAllowed = value;
-    }
-
-    partial void OnIsPrivateAllowedChanged(bool value)
-    {
-        settingsService.IsPrivateAllowed = value;
-    }
-
-    partial void OnIsStaticAllowedChanged(bool value)
-    {
-        settingsService.IsStaticAllowed = value;
-    }
-
-    partial void OnIsFieldsAllowedChanged(bool value)
-    {
-        settingsService.IsFieldsAllowed = value;
-    }
-
-    partial void OnIsEventsAllowedChanged(bool value)
-    {
-        settingsService.IsEventsAllowed = value;
-    }
-
-    partial void OnIsExtensionsAllowedChanged(bool value)
-    {
-        settingsService.IsExtensionsAllowed = value;
     }
 }

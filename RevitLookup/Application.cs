@@ -43,7 +43,7 @@ public class Application : ExternalApplication
     {
         RevitApi.UiApplication = UiApplication;
         RegisterHandlers();
-        Host.StartHost();
+        Host.Start();
 
         var settingsService = Host.GetService<ISettingsService>();
         RibbonController.CreatePanel(Application, settingsService);
@@ -55,7 +55,7 @@ public class Application : ExternalApplication
     {
         SaveSettings();
         UpdateSoftware();
-        Host.StopHost();
+        Host.Stop();
     }
 
     private static void RegisterHandlers()
@@ -86,7 +86,7 @@ public class Application : ExternalApplication
 
     public static void EnableHardwareRendering(ISettingsService settingsService)
     {
-        if (!settingsService.IsHardwareRenderingAllowed) return;
+        if (!settingsService.UseHardwareRendering) return;
 
         //Revit overrides render mode during initialization
         //EventHandler is called after initialisation
@@ -95,12 +95,7 @@ public class Application : ExternalApplication
 
     public static void DisableHardwareRendering(ISettingsService settingsService)
     {
-        if (settingsService.IsHardwareRenderingAllowed) return;
+        if (settingsService.UseHardwareRendering) return;
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-    }
-
-    public static void Raise(Action action)
-    {
-        Dispatcher.FromThread(_thread)!.Invoke(action);
     }
 }

@@ -59,14 +59,21 @@
                     Icon="{rl:SymbolIcon VideoClipMultiple24}"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsSmoothEnabled}" />
+                        IsChecked="{Binding ViewModel.UseTransition}" />
                 </rl:CardControl>
                 <rl:CardControl
                     Header="Hardware graphics acceleration"
                     Icon="{rl:SymbolIcon TopSpeed24}"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsHardwareRenderingAllowed}" />
+                        IsChecked="{Binding ViewModel.UseHardwareRendering}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Restore window size"
+                    Icon="{rl:SymbolIcon SlideSize24}"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.UseSizeRestoring}" />
                 </rl:CardControl>
             </StackPanel>
             <TextBlock
@@ -81,7 +88,7 @@
                     Icon="{rl:SymbolIcon PanelRightCursor24}"
                     Margin="0,8,0,0">
                     <rl:ToggleSwitch
-                        IsChecked="{Binding ViewModel.IsModifyTabAllowed}" />
+                        IsChecked="{Binding ViewModel.UseModifyTab}" />
                 </rl:CardControl>
             </StackPanel>
         </StackPanel>

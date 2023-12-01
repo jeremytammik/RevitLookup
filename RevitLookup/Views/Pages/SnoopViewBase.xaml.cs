@@ -264,7 +264,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
             .SetCommand(dataGrid.Columns[2].Visibility == Visibility.Visible, parameter =>
             {
                 dataGrid.Columns[2].Visibility = parameter ? Visibility.Collapsed : Visibility.Visible;
-                _settingsService.IsTimeColumnAllowed = !parameter;
+                _settingsService.ShowTimeColumn = !parameter;
             });
 
         contextMenu.AddSeparator();
@@ -272,51 +272,51 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
 
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Events")
-            .SetCommand(_settingsService.IsEventsAllowed, parameter =>
+            .SetCommand(_settingsService.IncludeEvents, parameter =>
             {
-                _settingsService.IsEventsAllowed = !parameter;
+                _settingsService.IncludeEvents = !parameter;
                 return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Extensions")
-            .SetCommand(_settingsService.IsExtensionsAllowed, parameter =>
+            .SetCommand(_settingsService.IncludeExtensions, parameter =>
             {
-                _settingsService.IsExtensionsAllowed = !parameter;
+                _settingsService.IncludeExtensions = !parameter;
                 return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Fields")
-            .SetCommand(_settingsService.IsFieldsAllowed, parameter =>
+            .SetCommand(_settingsService.IncludeFields, parameter =>
             {
-                _settingsService.IsFieldsAllowed = !parameter;
+                _settingsService.IncludeFields = !parameter;
                 return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Non-public")
-            .SetCommand(_settingsService.IsPrivateAllowed, parameter =>
+            .SetCommand(_settingsService.IncludePrivate, parameter =>
             {
-                _settingsService.IsPrivateAllowed = !parameter;
+                _settingsService.IncludePrivate = !parameter;
                 return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Root hierarchy")
-            .SetCommand(_settingsService.IsRootHierarchyAllowed, parameter =>
+            .SetCommand(_settingsService.IncludeRootHierarchy, parameter =>
             {
-                _settingsService.IsRootHierarchyAllowed = !parameter;
+                _settingsService.IncludeRootHierarchy = !parameter;
                 return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Static")
-            .SetCommand(_settingsService.IsStaticAllowed, parameter =>
+            .SetCommand(_settingsService.IncludeStatic, parameter =>
             {
-                _settingsService.IsStaticAllowed = !parameter;
+                _settingsService.IncludeStatic = !parameter;
                 return GetRefreshGridTask();
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Unsupported")
-            .SetCommand(_settingsService.IsUnsupportedAllowed, parameter =>
+            .SetCommand(_settingsService.IncludeUnsupported, parameter =>
             {
-                _settingsService.IsUnsupportedAllowed = !parameter;
+                _settingsService.IncludeUnsupported = !parameter;
                 return GetRefreshGridTask();
             });
 
@@ -392,7 +392,7 @@ public class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationA
 
     private void ValidateTimeColumn(System.Windows.Controls.DataGrid control)
     {
-        control.Columns[2].Visibility = _settingsService.IsTimeColumnAllowed ? Visibility.Visible : Visibility.Collapsed;
+        control.Columns[2].Visibility = _settingsService.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void AddShortcuts()

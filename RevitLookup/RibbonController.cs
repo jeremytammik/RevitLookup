@@ -53,7 +53,7 @@ public static class RibbonController
 
     private static void ResolveSelectionButton(ISettingsService settingsService, PulldownButton parentButton)
     {
-        if (!settingsService.IsModifyTabAllowed)
+        if (!settingsService.UseModifyTab)
         {
             parentButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection");
             return;

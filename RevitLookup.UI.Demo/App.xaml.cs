@@ -35,7 +35,7 @@ public sealed partial class App
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
         var host = HostProvider.CreateHost();
 
-        Host.StartHost(host);
+        Host.Start(host);
         Host.GetService<ILookupService>().Show<DashboardView>();
     }
 
@@ -44,7 +44,7 @@ public sealed partial class App
         var settingsService = Host.GetService<ISettingsService>();
         settingsService.Save();
 
-        Host.StopHost();
+        Host.Stop();
     }
 
     private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
