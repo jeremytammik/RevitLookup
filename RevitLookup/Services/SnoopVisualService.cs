@@ -43,6 +43,8 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
             {
                 viewModel.SnoopableObjects = new[] {snoopableObject};
             }
+
+            viewModel.SnoopableData = Array.Empty<Descriptor>();
         }
         catch (Exception exception)
         {
