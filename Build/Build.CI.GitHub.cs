@@ -28,7 +28,7 @@ sealed partial class Build
             Assert.False(tags.Select(tag => tag.Name).Contains(version), $"A Release with the specified tag already exists in the repository: {version}");
             Log.Information("Version: {Version}", version);
 
-            var changelog = CreateChangelog(tags[^1].Name, version);
+            var changelog = CreateChangelog(tags[0].Name, version);
             var newRelease = new NewRelease(version)
             {
                 Name = version,
@@ -96,6 +96,6 @@ sealed partial class Build
     void AppendCompareUrl(StringBuilder logBuilder, string previousVersion, string version)
     {
         logBuilder.Append("Full changelog: ");
-        logBuilder.Append(GitRepository.GetGitHubCompareTagsUrl(previousVersion, version));
+        logBuilder.Append(GitRepository.GetGitHubCompareTagsUrl(version, previousVersion));
     }
 }
