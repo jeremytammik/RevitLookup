@@ -40,11 +40,14 @@ public sealed partial class SettingsViewModel(ISettingsService settingsService, 
     [
         ApplicationTheme.Light,
         ApplicationTheme.Dark
+        // ApplicationTheme.HighContrast
     ];
 
     public List<WindowBackdropType> BackgroundEffects { get; } =
     [
         WindowBackdropType.None,
+        WindowBackdropType.Acrylic,
+        WindowBackdropType.Tabbed,
         WindowBackdropType.Mica
     ];
 
