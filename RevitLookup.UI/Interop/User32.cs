@@ -1308,18 +1308,11 @@ internal static class User32
     [DllImport(Libraries.User32, CharSet = CharSet.Auto)]
     public static extern IntPtr SetWindowLongPtr([In] IntPtr hWnd, [In] int nIndex, [In] IntPtr dwNewLong);
 
-    [DllImport(Libraries.User32, SetLastError = true)]
+    /// <summary>
+    /// Changes an attribute of the specified window.
+    /// </summary>
+    [DllImport(Libraries.User32, CharSet = CharSet.Auto, SetLastError = true)]
     public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-    public static IntPtr SetWindowLong32And64(IntPtr handle, GWL nIndex, long windowStyleLong)
-    {
-        if (IntPtr.Size == 4)
-        {
-            return new IntPtr(SetWindowLong(handle, (int)nIndex, (int)windowStyleLong));
-        }
-
-        return SetWindowLongPtr(handle, (int)nIndex, (IntPtr)windowStyleLong);
-    }
     
     /// <summary>
     /// Destroys an icon and frees any memory the icon occupied.
