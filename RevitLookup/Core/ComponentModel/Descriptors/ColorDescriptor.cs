@@ -18,15 +18,28 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ColorDescriptor : Descriptor
+public sealed class ColorDescriptor : Descriptor, IDescriptorExtension
 {
+    private readonly Color _color;
+
     public ColorDescriptor(Color color)
     {
+        _color = color;
         Name = color.IsValid ? $"RGB: {color.Red} {color.Green} {color.Blue}" : "The color represents uninitialized/invalid value";
+    }
+
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "HEX";
+            extension.Result = $"#{extension.Value.Red:X2}{extension.Value.Green:X2}{extension.Value.Blue:X2}";
+        });
     }
 }

@@ -19,14 +19,21 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using static Wpf.Ui.Win32.Utilities;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed partial class SettingsViewModel(ISettingsService settingsService, INavigationService navigationService, IWindow window) : ObservableObject
+public sealed partial class SettingsViewModel(
+    ISettingsService settingsService,
+    INavigationService navigationService,
+    NotificationService notificationService,
+    IWindow window)
+    : ObservableObject
 {
     [ObservableProperty] private ApplicationTheme _theme = settingsService.Theme;
     [ObservableProperty] private WindowBackdropType _background = settingsService.Background;
@@ -54,7 +61,13 @@ public sealed partial class SettingsViewModel(ISettingsService settingsService, 
     partial void OnThemeChanged(ApplicationTheme value)
     {
         settingsService.Theme = value;
-        ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
+        if (IsOSWindows11OrNewer)
+        {
+            ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
+            return;
+        }
+
+        notificationService.ShowSuccess("Theme changed", "Changes will take effect for new windows");
     }
 
     partial void OnBackgroundChanged(WindowBackdropType value)

@@ -16,7 +16,7 @@ namespace Wpf.Ui.Win32;
 /// </summary>
 // ReSharper disable InconsistentNaming
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-internal class Utilities
+public class Utilities
 {
     private static readonly PlatformID _osPlatform = Environment.OSVersion.Platform;
 
