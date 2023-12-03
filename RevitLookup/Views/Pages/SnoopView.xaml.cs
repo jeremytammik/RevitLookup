@@ -32,7 +32,7 @@ public sealed partial class SnoopView
         DataGridControl = DataGrid;
         TreeViewControl = TreeView;
         SearchBoxControl = SearchBox;
-        TreeView.SelectedItemChanged += OnTreeSelectionChanged;
+        TreeView.SelectedItemChanged += OnTreeItemSelected;
         TreeView.ItemsSourceChanged += OnTreeSourceChanged;
 
         ViewModel = viewModel;

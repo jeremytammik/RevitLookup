@@ -46,11 +46,19 @@ public sealed class MoqSnoopVisualService(NotificationService notificationServic
             {
                 viewModel.SnoopableObjects = new[] {snoopableObject};
             }
+
+            viewModel.SnoopableData = Array.Empty<Descriptor>();
         }
         catch (Exception exception)
         {
             notificationService.ShowError("Invalid object", exception);
         }
+    }
+
+    public void Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    {
+        viewModel.SnoopableObjects = snoopableObjects;
+        viewModel.SnoopableData = Array.Empty<Descriptor>();
     }
 
     public async Task SnoopAsync(SnoopableType snoopableType)
@@ -89,8 +97,8 @@ public sealed class MoqSnoopVisualService(NotificationService notificationServic
             _ => throw new ArgumentOutOfRangeException(nameof(snoopableType), snoopableType, null)
         };
 
-        viewModel.SnoopableObjects = await GenerateObjectsAsync(generationCount);
-        viewModel.SnoopableData = Array.Empty<Descriptor>();
+        var items = await GenerateObjectsAsync(generationCount);
+        Snoop(items);
         UpdateWindowVisibility(Visibility.Visible);
     }
 
@@ -108,10 +116,10 @@ public sealed class MoqSnoopVisualService(NotificationService notificationServic
         return await Task.Run(() => new Faker<SnoopableObject>()
             .CustomInstantiator(faker =>
             {
-                if (faker.IndexFaker % 2000 == 0) return new SnoopableObject(null);
+                if (faker.IndexFaker % 2000 == 0) return new SnoopableObject((object) null);
                 if (faker.IndexFaker % 1000 == 0) return new SnoopableObject(string.Empty);
                 if (faker.IndexFaker % 700 == 0) return new SnoopableObject(faker.Make(150, () => faker.Internet.UserName()));
-                if (faker.IndexFaker % 500 == 0) return new SnoopableObject(typeof(Debug));
+                if (faker.IndexFaker % 500 == 0) return new SnoopableObject(typeof(DateTime));
                 if (faker.IndexFaker % 200 == 0) return new SnoopableObject(faker.Lorem.Sentence());
                 if (faker.IndexFaker % 100 == 0) return new SnoopableObject(new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
                 if (faker.IndexFaker % 5 == 0) return new SnoopableObject(faker.Random.Int(0));

@@ -35,21 +35,28 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
     {
         try
         {
+            IReadOnlyCollection<SnoopableObject> snoopableObjects;
             if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
             {
-                viewModel.SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
+                snoopableObjects = descriptor.ParseEnumerable(snoopableObject);
             }
             else
             {
-                viewModel.SnoopableObjects = new[] {snoopableObject};
+                snoopableObjects = new[] {snoopableObject};
             }
 
-            viewModel.SnoopableData = Array.Empty<Descriptor>();
+            Snoop(snoopableObjects);
         }
         catch (Exception exception)
         {
             notificationService.ShowError("Invalid object", exception);
         }
+    }
+
+    public void Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    {
+        viewModel.SnoopableObjects = snoopableObjects;
+        viewModel.SnoopableData = Array.Empty<Descriptor>();
     }
 
     public async Task SnoopAsync(SnoopableType snoopableType)
@@ -67,8 +74,8 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
                     break;
             }
 
-            viewModel.SnoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ => Selector.Snoop(snoopableType));
-            viewModel.SnoopableData = Array.Empty<Descriptor>();
+            var snoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ => Selector.Snoop(snoopableType));
+            Snoop(snoopableObjects);
         }
         catch (OperationCanceledException)
         {

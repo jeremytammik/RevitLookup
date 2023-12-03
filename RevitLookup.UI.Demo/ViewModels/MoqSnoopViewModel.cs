@@ -41,13 +41,18 @@ public sealed partial class MoqSnoopViewModel(NotificationService notificationSe
 
     public SnoopableObject SelectedObject { get; set; }
 
-    public void Navigate(Descriptor selectedItem)
+    public void Navigate(SnoopableObject selectedItem)
     {
-        if (selectedItem.Value.Descriptor is not IDescriptorCollector) return;
-        if (selectedItem.Value.Descriptor is IDescriptorEnumerator {IsEmpty: true}) return;
-
         Host.GetService<ILookupService>()
-            .Snoop(selectedItem.Value)
+            .Snoop(selectedItem)
+            .DependsOn(provider)
+            .Show<SnoopView>();
+    }
+
+    public void Navigate(IReadOnlyCollection<SnoopableObject> selectedItems)
+    {
+        Host.GetService<ILookupService>()
+            .Snoop(selectedItems)
             .DependsOn(provider)
             .Show<SnoopView>();
     }

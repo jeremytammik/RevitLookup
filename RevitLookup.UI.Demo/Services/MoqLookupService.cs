@@ -45,7 +45,13 @@ public sealed class MoqLookupService(IServiceScopeFactory scopeFactory) : ILooku
         _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObject);
         return this;
     }
-    
+
+    public ILookupServiceDependsStage Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    {
+        _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObjects);
+        return this;
+    }
+
     public ILookupServiceShowStage DependsOn(IServiceProvider provider)
     {
         _owner = (Window) provider.GetService<IWindow>();

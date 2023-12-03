@@ -18,21 +18,23 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core.Objects;
 
-namespace RevitLookup.ViewModels.Contracts;
+namespace RevitLookup.Views.Pages.Abstraction;
 
-public interface ISnoopViewModel
+public partial class SnoopViewBase
 {
-    IReadOnlyCollection<SnoopableObject> SnoopableObjects { get; set; }
-    IReadOnlyCollection<Descriptor> SnoopableData { get; set; }
-    IReadOnlyCollection<SnoopableObject> FilteredSnoopableObjects { get; }
-    IReadOnlyCollection<Descriptor> FilteredSnoopableData { get; }
-    IAsyncRelayCommand FetchMembersCommand { get; }
-    IAsyncRelayCommand RefreshMembersCommand { get; }
-    public string SearchText { get; set; }
-    public SnoopableObject SelectedObject { get; set; }
-    void Navigate(SnoopableObject selectedItem);
-    void Navigate(IReadOnlyCollection<SnoopableObject> selectedItems);
+    private void AddShortcuts()
+    {
+        var command = new AsyncRelayCommand(() => ViewModel.RefreshMembersCommand.ExecuteAsync(null));
+        InputBindings.Add(new KeyBinding(command, new KeyGesture(Key.F5)));
+    }
+
+    private void OnPageKeyPressed(object sender, KeyEventArgs e)
+    {
+        if (SearchBoxControl.IsKeyboardFocused) return;
+        if (e.KeyboardDevice.Modifiers != ModifierKeys.None) return;
+        if (e.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9) SearchBoxControl.Focus();
+    }
 }

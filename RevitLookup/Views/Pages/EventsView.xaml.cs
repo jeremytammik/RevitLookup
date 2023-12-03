@@ -26,16 +26,16 @@ namespace RevitLookup.Views.Pages;
 
 public sealed partial class EventsView
 {
-    public EventsView(IServiceProvider serviceProvider, ISettingsService settingsService) : base(settingsService)
+    public EventsView(EventsViewModel viewModel,  ISettingsService settingsService) : base(settingsService)
     {
         InitializeComponent();
 
         DataGridControl = DataGrid;
         TreeViewControl = TreeView;
         SearchBoxControl = SearchBox;
-        TreeView.SelectedItemChanged += OnTreeSelectionChanged;
+        TreeView.SelectedItemChanged += OnTreeItemSelected;
 
-        ViewModel = (ISnoopViewModel) serviceProvider.GetService(typeof(EventsViewModel));
+        ViewModel = viewModel;
         DataContext = this;
     }
 }

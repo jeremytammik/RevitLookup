@@ -47,6 +47,12 @@ public sealed class LookupService(IServiceScopeFactory scopeFactory) : ILookupSe
         return this;
     }
 
+    public ILookupServiceDependsStage Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    {
+        _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObjects);
+        return this;
+    }
+
     public ILookupServiceShowStage DependsOn(IServiceProvider provider)
     {
         _owner = (Window) provider.GetService<IWindow>();
