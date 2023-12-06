@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <UseWPF>true</UseWPF>
         <LangVersion>latest</LangVersion>
@@ -8,6 +9,20 @@
         <Configurations>Debug R21;Debug R22;Debug R23;Debug R24</Configurations>
         <Configurations>$(Configurations);Release R21;Release R22;Release R23;Release R24</Configurations>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <StartAction>Program</StartAction>
+        <StartProgram>C:\Program Files\Autodesk\Revit $(RevitVersion)\Revit.exe</StartProgram>
+        <StartArguments>/language ENG</StartArguments>
+    </PropertyGroup>
+
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
         <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
@@ -37,17 +52,6 @@
         <RevitVersion>2024</RevitVersion>
         <DefineConstants>$(DefineConstants);R24</DefineConstants>
         <DefineConstants>$(DefineConstants);R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER;R24_OR_GREATER</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup>
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    </PropertyGroup>
-    <PropertyGroup>
-        <StartAction>Program</StartAction>
-        <StartProgram>C:\Program Files\Autodesk\Revit $(RevitVersion)\Revit.exe</StartProgram>
-        <StartArguments>/language ENG</StartArguments>
     </PropertyGroup>
 
     <ItemGroup>
@@ -117,4 +121,5 @@
         <RemoveDir Directories="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\$(ProjectName)"/>
         <Delete Files="$(AppData)\Autodesk\Revit\Addins\$(RevitVersion)\$(ProjectName).addin"/>
     </Target>
+
 </Project>
