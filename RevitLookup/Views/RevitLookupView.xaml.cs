@@ -22,7 +22,9 @@ using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Services.Enums;
 using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views;
 
@@ -42,7 +44,8 @@ public sealed partial class RevitLookupView : IWindow
         INavigationService navigationService,
         IContentDialogService dialogService,
         ISnackbarService snackbarService,
-        ISettingsService settingsService)
+        ISettingsService settingsService,
+        ISoftwareUpdateService updateService)
         : this()
     {
         _settingsService = settingsService;
@@ -56,6 +59,7 @@ public sealed partial class RevitLookupView : IWindow
         snackbarService.DefaultTimeOut = TimeSpan.FromSeconds(3);
 
         RestoreSize(settingsService);
+        SetupIcons(updateService);
     }
 
     private void AddShortcuts()
@@ -82,6 +86,14 @@ public sealed partial class RevitLookupView : IWindow
         if (settingsService.WindowHeight >= MinHeight) Height = settingsService.WindowHeight;
 
         EnableSizeTracking();
+    }
+
+    private void SetupIcons(ISoftwareUpdateService updateService)
+    {
+        if (updateService.State != SoftwareUpdateState.ReadyToDownload) return;
+
+        var symbolIcon = (SymbolIcon) AboutFooterItem.Icon!;
+        symbolIcon.Symbol = SymbolRegular.ArrowCircleDown24;
     }
 
     public void EnableSizeTracking()

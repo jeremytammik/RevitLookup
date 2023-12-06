@@ -41,46 +41,27 @@
             <rl:NavigationView.MenuItems>
                 <rl:NavigationViewItem
                     Content="Dashboard"
-                    TargetPageType="{x:Type pages:DashboardView}">
-                    <rl:NavigationViewItem.Icon>
-                        <rl:SymbolIcon
-                            Symbol="AppGeneric24" />
-                    </rl:NavigationViewItem.Icon>
-                </rl:NavigationViewItem>
+                    TargetPageType="{x:Type pages:DashboardView}"
+                    Icon="{rl:SymbolIcon AppGeneric24}" />
                 <rl:NavigationViewItem
                     Content="Snoop summary"
-                    TargetPageType="{x:Type pages:SnoopView}">
-                    <rl:NavigationViewItem.Icon>
-                        <rl:SymbolIcon
-                            Symbol="SlideSearch24" />
-                    </rl:NavigationViewItem.Icon>
-                </rl:NavigationViewItem>
+                    TargetPageType="{x:Type pages:SnoopView}"
+                    Icon="{rl:SymbolIcon SlideSearch24}" />
                 <rl:NavigationViewItem
                     Content="Event monitor"
-                    TargetPageType="{x:Type pages:EventsView}">
-                    <rl:NavigationViewItem.Icon>
-                        <rl:SymbolIcon
-                            Symbol="DesktopPulse24" />
-                    </rl:NavigationViewItem.Icon>
-                </rl:NavigationViewItem>
+                    TargetPageType="{x:Type pages:EventsView}"
+                    Icon="{rl:SymbolIcon DesktopPulse24}" />
             </rl:NavigationView.MenuItems>
             <rl:NavigationView.FooterMenuItems>
                 <rl:NavigationViewItem
                     Content="Settings"
-                    TargetPageType="{x:Type pages:SettingsView}">
-                    <rl:NavigationViewItem.Icon>
-                        <rl:SymbolIcon
-                            Symbol="Settings24" />
-                    </rl:NavigationViewItem.Icon>
-                </rl:NavigationViewItem>
+                    TargetPageType="{x:Type pages:SettingsView}"
+                    Icon="{rl:SymbolIcon Settings24}" />
                 <rl:NavigationViewItem
+                    x:Name="AboutFooterItem"
                     Content="About"
-                    TargetPageType="{x:Type pages:AboutView}">
-                    <rl:NavigationViewItem.Icon>
-                        <rl:SymbolIcon
-                            Symbol="Info24" />
-                    </rl:NavigationViewItem.Icon>
-                </rl:NavigationViewItem>
+                    TargetPageType="{x:Type pages:AboutView}"
+                    Icon="{rl:SymbolIcon Info24}" />
             </rl:NavigationView.FooterMenuItems>
             <rl:NavigationView.Header>
                 <rl:BreadcrumbBar

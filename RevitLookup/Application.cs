@@ -28,6 +28,8 @@ using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Services.Enums;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup;
 
@@ -46,9 +48,13 @@ public class Application : ExternalApplication
         Host.Start();
 
         var settingsService = Host.GetService<ISettingsService>();
-        RibbonController.CreatePanel(Application, settingsService);
+        var updateService = Host.GetService<ISoftwareUpdateService>();
+
         RunDispatcher();
         EnableHardwareRendering(settingsService);
+        RibbonController.CreatePanel(Application, settingsService);
+
+        updateService.CheckUpdates();
     }
 
     public override void OnShutdown()

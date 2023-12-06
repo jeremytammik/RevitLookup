@@ -17,37 +17,21 @@
         x:Key="CopyMenuItem"
         x:Shared="False"
         Header="Copy"
-        Command="ApplicationCommands.Copy">
-        <rl:MenuItem.Icon>
-            <rl:SymbolIcon
-                Symbol="Copy16" />
-        </rl:MenuItem.Icon>
-    </rl:MenuItem>
+        Command="ApplicationCommands.Copy"
+        Icon="{rl:SymbolIcon Copy16}" />
     <rl:MenuItem
         x:Key="HelpMenuItem"
         x:Shared="False"
-        Header="Help">
-        <rl:MenuItem.Icon>
-            <rl:SymbolIcon
-                Symbol="QuestionCircle16" />
-        </rl:MenuItem.Icon>
-    </rl:MenuItem>
+        Header="Help"
+        Icon="{rl:SymbolIcon QuestionCircle16}" />
     <rl:MenuItem
         x:Key="RefreshMenuItem"
         x:Shared="False"
-        Header="Refresh">
-        <rl:MenuItem.Icon>
-            <rl:SymbolIcon
-                Symbol="ArrowCounterclockwise12" />
-        </rl:MenuItem.Icon>
-    </rl:MenuItem>
+        Header="Refresh"
+        Icon="{rl:SymbolIcon ArrowCounterclockwise12}" />
     <rl:MenuItem
         x:Key="ShowTimeMenuItem"
         x:Shared="False"
-        Header="Show/hide time">
-        <rl:MenuItem.Icon>
-            <rl:SymbolIcon
-                Symbol="Timer12" />
-        </rl:MenuItem.Icon>
-    </rl:MenuItem>
+        Header="Show/hide time"
+        Icon="{rl:SymbolIcon Timer12}" />
 </ResourceDictionary>
