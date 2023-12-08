@@ -73,11 +73,10 @@ public static class DescriptorUtils
         return descriptor;
     }
 
-    private static void ValidateProperties(Descriptor descriptor, Type type)
+    public static string MakeGenericFullTypeName(Type type)
     {
-        descriptor.Type = MakeGenericTypeName(type);
-        descriptor.Name ??= descriptor.Type;
-        descriptor.TypeFullName = type.FullName;
+        if (type.IsGenericType) return type.FullName![..type.FullName!.IndexOf('[')];
+        return type.FullName;
     }
 
     public static string MakeGenericTypeName(Type type)
@@ -97,5 +96,12 @@ public static class DescriptorUtils
 
         typeName += ">";
         return typeName;
+    }
+
+    private static void ValidateProperties(Descriptor descriptor, Type type)
+    {
+        descriptor.Type = MakeGenericTypeName(type);
+        descriptor.Name ??= descriptor.Type;
+        descriptor.TypeFullName = MakeGenericFullTypeName(type);
     }
 }

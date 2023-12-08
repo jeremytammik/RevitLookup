@@ -6,7 +6,7 @@ using Nuke.Common.Utilities;
 using Serilog;
 using Serilog.Events;
 
-partial class Build
+sealed partial class Build
 {
     Target CreateInstaller => _ => _
         .TriggeredBy(Compile)
@@ -20,7 +20,7 @@ partial class Build
                 var exePattern = $"*{installer.Name}.exe";
                 var exeFile = Directory.EnumerateFiles(installer.Directory, exePattern, SearchOption.AllDirectories).First();
 
-                var directories = Directory.GetDirectories(project.Directory, "Publish*", SearchOption.AllDirectories);
+                var directories = Directory.GetDirectories(project.Directory, "* Release *", SearchOption.AllDirectories);
                 if (directories.Length == 0) throw new Exception("No files were found to create an installer");
 
                 foreach (var directory in directories)

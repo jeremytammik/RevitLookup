@@ -132,18 +132,18 @@
     <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush" Color="{StaticResource SystemColorWindowColor}" />
     <SolidColorBrush x:Key="SolidBackgroundFillColorBaseAltBrush" Color="{StaticResource SystemColorWindowColor}" />
 
-    <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{StaticResource SystemFillColorSuccess}" />
-    <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="{StaticResource SystemFillColorCaution}" />
-    <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{StaticResource SystemFillColorCritical}" />
-    <SolidColorBrush x:Key="SystemFillColorNeutralBrush" Color="{StaticResource SystemFillColorNeutral}" />
-    <SolidColorBrush x:Key="SystemFillColorSolidNeutralBrush" Color="{StaticResource SystemFillColorSolidNeutral}" />
-    <SolidColorBrush x:Key="SystemFillColorAttentionBackgroundBrush" Color="{StaticResource SystemFillColorAttentionBackground}" />
-    <SolidColorBrush x:Key="SystemFillColorSuccessBackgroundBrush" Color="{StaticResource SystemFillColorSuccessBackground}" />
-    <SolidColorBrush x:Key="SystemFillColorCautionBackgroundBrush" Color="{StaticResource SystemFillColorCautionBackground}" />
-    <SolidColorBrush x:Key="SystemFillColorCriticalBackgroundBrush" Color="{StaticResource SystemFillColorCriticalBackground}" />
-    <SolidColorBrush x:Key="SystemFillColorNeutralBackgroundBrush" Color="{StaticResource SystemFillColorNeutralBackground}" />
-    <SolidColorBrush x:Key="SystemFillColorSolidAttentionBackgroundBrush" Color="{StaticResource SystemFillColorSolidAttentionBackground}" />
-    <SolidColorBrush x:Key="SystemFillColorSolidNeutralBackgroundBrush" Color="{StaticResource SystemFillColorSolidNeutralBackground}" />
+    <SolidColorBrush x:Key="SystemFillColorSuccessBrush" Color="{DynamicResource SystemFillColorSuccess}" />
+    <SolidColorBrush x:Key="SystemFillColorCautionBrush" Color="{DynamicResource SystemFillColorCaution}" />
+    <SolidColorBrush x:Key="SystemFillColorCriticalBrush" Color="{DynamicResource SystemFillColorCritical}" />
+    <SolidColorBrush x:Key="SystemFillColorNeutralBrush" Color="{DynamicResource SystemFillColorNeutral}" />
+    <SolidColorBrush x:Key="SystemFillColorSolidNeutralBrush" Color="{DynamicResource SystemFillColorSolidNeutral}" />
+    <SolidColorBrush x:Key="SystemFillColorAttentionBackgroundBrush" Color="{DynamicResource SystemFillColorAttentionBackground}" />
+    <SolidColorBrush x:Key="SystemFillColorSuccessBackgroundBrush" Color="{DynamicResource SystemFillColorSuccessBackground}" />
+    <SolidColorBrush x:Key="SystemFillColorCautionBackgroundBrush" Color="{DynamicResource SystemFillColorCautionBackground}" />
+    <SolidColorBrush x:Key="SystemFillColorCriticalBackgroundBrush" Color="{DynamicResource SystemFillColorCriticalBackground}" />
+    <SolidColorBrush x:Key="SystemFillColorNeutralBackgroundBrush" Color="{DynamicResource SystemFillColorNeutralBackground}" />
+    <SolidColorBrush x:Key="SystemFillColorSolidAttentionBackgroundBrush" Color="{DynamicResource SystemFillColorSolidAttentionBackground}" />
+    <SolidColorBrush x:Key="SystemFillColorSolidNeutralBackgroundBrush" Color="{DynamicResource SystemFillColorSolidNeutralBackground}" />
 
     <!--  Elevation border brushes  -->
 
@@ -203,7 +203,9 @@
     <!--  Control brushes  -->
 
     <!--  Badge  -->
-    <!--  TODO  -->
+
+    <SolidColorBrush x:Key="BadgeForeground" Color="{StaticResource SystemColorHighlightTextColor}"/>
+    <SolidColorBrush x:Key="BadgeBackground" Color="{StaticResource SystemColorHighlightColor}"/>
 
     <!--  BreadcrumbBar  -->
     <SolidColorBrush x:Key="BreadcrumbBarNormalForegroundBrush" Color="{StaticResource SystemColorButtonTextColor}" />

@@ -20,7 +20,7 @@ public static class Host
 {
     private static IHost _host;
 
-    public static void StartHost()
+    public static void Start()
     {
         _host = Microsoft.Extensions.Hosting.Host
             .CreateDefaultBuilder()
@@ -29,6 +29,17 @@ public static class Host
             .Build();
 
         _host.Start();
+    }
+
+    public static void Start(IHost host)
+    {
+        _host = host;
+        host.Start();
+    }
+
+    public static void Stop()
+    {
+        _host.StopAsync();
     }
 
     private static void AddServices(HostBuilderContext context, IServiceCollection services)
@@ -87,17 +98,6 @@ public static class Host
             new("DownloadFolder", Path.Combine(userDataLocation, "Downloads")),
             new("FolderAccess", writeAccess ? "Write" : "Read")
         });
-    }
-
-    public static void StartHost(IHost host)
-    {
-        _host = host;
-        host.Start();
-    }
-
-    public static void StopHost()
-    {
-        _host.StopAsync();
     }
 
     public static T GetService<T>() where T : class

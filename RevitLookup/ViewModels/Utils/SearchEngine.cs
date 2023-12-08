@@ -27,7 +27,7 @@ namespace RevitLookup.ViewModels.Utils;
 
 public static class SearchEngine
 {
-    private static SearchResults Search(ISnoopViewModel model, SearchOption option)
+    public static SearchResults Search(ISnoopViewModel model, SearchOption option)
     {
         switch (option)
         {
@@ -102,11 +102,6 @@ public static class SearchEngine
             default:
                 throw new ArgumentOutOfRangeException(nameof(option), option, null);
         }
-    }
-
-    public static Task<SearchResults> SearchAsync(ISnoopViewModel model, SearchOption option, CancellationToken cancellationToken)
-    {
-        return Task.Run(() => Search(model, option), cancellationToken);
     }
 
     /// <summary>

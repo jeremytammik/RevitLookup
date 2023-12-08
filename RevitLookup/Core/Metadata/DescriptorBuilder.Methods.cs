@@ -62,7 +62,7 @@ public sealed partial class DescriptorBuilder
         parameters = member.GetParameters();
         if (member.ReturnType.Name == "Void")
         {
-            if (!_settings.IsUnsupportedAllowed) return false;
+            if (!_settings.IncludeUnsupported) return false;
 
             value = new NotSupportedException("Method doesn't return a value");
             return true;
@@ -76,7 +76,7 @@ public sealed partial class DescriptorBuilder
 
         if (parameters.Length > 0)
         {
-            if (!_settings.IsUnsupportedAllowed) return false;
+            if (!_settings.IncludeUnsupported) return false;
 
             value = new NotSupportedException("Unsupported method overload");
             return true;

@@ -42,7 +42,7 @@ public static class UnsafeNativeMethods
         if (!User32.IsWindow(handle))
             return false;
 
-        int pvAttribute = (int)UnsafeReflection.Cast(cornerPreference);
+        int pvAttribute = (int) UnsafeReflection.Cast(cornerPreference);
 
         // TODO: Validate HRESULT
         Dwmapi.DwmSetWindowAttribute(
@@ -157,12 +157,11 @@ public static class UnsafeNativeMethods
             return false;
 
         var windowStyleLong = User32.GetWindowLong(handle, User32.GWL.GWL_STYLE);
-        windowStyleLong &= ~(int)User32.WS.SYSMENU;
+        windowStyleLong &= ~(int) User32.WS.SYSMENU;
 
-        IntPtr result = User32.SetWindowLong32And64(handle, User32.GWL.GWL_STYLE, windowStyleLong);
-        long resultValue = result.ToInt64();
+        var result = SetWindowLong(handle, User32.GWL.GWL_STYLE, windowStyleLong);
 
-        return resultValue > 0x0;
+        return result.ToInt64() > 0x0;
     }
 
     /// <summary>
@@ -179,9 +178,9 @@ public static class UnsafeNativeMethods
         if (!User32.IsWindow(handle))
             return false;
 
-        var backdropPvAttribute = (int)UnsafeReflection.Cast(backgroundType);
+        var backdropPvAttribute = (int) UnsafeReflection.Cast(backgroundType);
 
-        if (backdropPvAttribute == (int)Dwmapi.DWMSBT.DWMSBT_DISABLE)
+        if (backdropPvAttribute == (int) Dwmapi.DWMSBT.DWMSBT_DISABLE)
             return false;
 
         // TODO: Validate HRESULT
@@ -214,7 +213,7 @@ public static class UnsafeNativeMethods
             Marshal.SizeOf(typeof(int))
         );
 
-        return pvAttribute == (int)UnsafeReflection.Cast(backdropType);
+        return pvAttribute == (int) UnsafeReflection.Cast(backdropType);
     }
 
     /// <summary>
@@ -410,7 +409,7 @@ public static class UnsafeNativeMethods
             hWnd,
             UxTheme.WINDOWTHEMEATTRIBUTETYPE.WTA_NONCLIENT,
             ref wtaOptions,
-            (uint)Marshal.SizeOf(typeof(UxTheme.WTA_OPTIONS))
+            (uint) Marshal.SizeOf(typeof(UxTheme.WTA_OPTIONS))
         );
 
         return true;
@@ -452,7 +451,7 @@ public static class UnsafeNativeMethods
                 hWnd,
                 UxTheme.WINDOWTHEMEATTRIBUTETYPE.WTA_NONCLIENT,
                 ref wtaOptions,
-                (uint)Marshal.SizeOf(typeof(UxTheme.WTA_OPTIONS))
+                (uint) Marshal.SizeOf(typeof(UxTheme.WTA_OPTIONS))
             );
 
         var windowDpi = DpiHelper.GetWindowDpi(hWnd);
@@ -467,10 +466,10 @@ public static class UnsafeNativeMethods
         var dwmMargin = new UxTheme.MARGINS
         {
             // err on the side of pushing in glass an extra pixel.
-            cxLeftWidth = (int)Math.Ceiling(deviceGlassThickness.Left),
-            cxRightWidth = (int)Math.Ceiling(deviceGlassThickness.Right),
-            cyTopHeight = (int)Math.Ceiling(deviceGlassThickness.Top),
-            cyBottomHeight = (int)Math.Ceiling(deviceGlassThickness.Bottom),
+            cxLeftWidth = (int) Math.Ceiling(deviceGlassThickness.Left),
+            cxRightWidth = (int) Math.Ceiling(deviceGlassThickness.Right),
+            cyTopHeight = (int) Math.Ceiling(deviceGlassThickness.Top),
+            cyBottomHeight = (int) Math.Ceiling(deviceGlassThickness.Bottom),
         };
 
         // #3 Extend client area
@@ -519,5 +518,15 @@ public static class UnsafeNativeMethods
         windowHandle = new WindowInteropHelper(window).Handle;
 
         return windowHandle != IntPtr.Zero;
+    }
+
+    private static IntPtr SetWindowLong(IntPtr handle, User32.GWL nIndex, long windowStyleLong)
+    {
+        if (IntPtr.Size == 4)
+        {
+            return new IntPtr(User32.SetWindowLong(handle, (int) nIndex, (int) windowStyleLong));
+        }
+
+        return User32.SetWindowLongPtr(handle, (int) nIndex, (IntPtr) windowStyleLong);
     }
 }

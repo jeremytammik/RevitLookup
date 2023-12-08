@@ -34,7 +34,7 @@ public sealed partial class DescriptorBuilder
         {
             Depth = _depth,
             Value = EvaluateValue(value),
-            TypeFullName = _type.FullName,
+            TypeFullName = DescriptorUtils.MakeGenericFullTypeName(_type),
             MemberAttributes = MemberAttributes.Property,
             Type = DescriptorUtils.MakeGenericTypeName(_type)
         };
@@ -50,7 +50,7 @@ public sealed partial class DescriptorBuilder
             Depth = _depth,
             Name = name,
             Value = EvaluateValue(value),
-            TypeFullName = _type.FullName,
+            TypeFullName = DescriptorUtils.MakeGenericFullTypeName(_type),
             MemberAttributes = MemberAttributes.Extension,
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             ComputationTime = _tracker.Elapsed.TotalMilliseconds
@@ -65,7 +65,7 @@ public sealed partial class DescriptorBuilder
         var descriptor = new ObjectDescriptor
         {
             Depth = _depth,
-            TypeFullName = _type.FullName,
+            TypeFullName = DescriptorUtils.MakeGenericFullTypeName(_type),
             Value = EvaluateValue(member, value),
             Name = EvaluateName(member, parameters),
             MemberAttributes = EvaluateAttributes(member),

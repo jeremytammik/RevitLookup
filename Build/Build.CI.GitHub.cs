@@ -6,14 +6,12 @@ using Nuke.Common.Tools.GitHub;
 using Octokit;
 using Serilog;
 
-partial class Build
+sealed partial class Build
 {
     Target Publish => _ => _
         .TriggeredBy(CreateInstaller)
         .Requires(() => GitHubToken)
-        .Requires(() => GitRepository)
-        .Requires(() => GitVersion)
-        .OnlyWhenStatic(() => GitRepository.IsOnMainOrMasterBranch() && IsServerBuild)
+        .OnlyWhenStatic(() => IsServerBuild && GitRepository.IsOnMainOrMasterBranch())
         .Executes(async () =>
         {
             GitHubTasks.GitHubClient = new GitHubClient(new ProductHeaderValue(Solution.Name))
@@ -21,41 +19,31 @@ partial class Build
                 Credentials = new Credentials(GitHubToken)
             };
 
+            var version = VersionMap.Values.Last();
             var gitHubName = GitRepository.GetGitHubName();
             var gitHubOwner = GitRepository.GetGitHubOwner();
             var artifacts = Directory.GetFiles(ArtifactsDirectory, "*");
-            var version = VersionRegex.Match(artifacts[^1]).Value;
+            var tags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
 
-            await CheckTagsAsync(gitHubOwner, gitHubName, version);
-            Log.Information("Tag: {Version}", version);
+            Assert.False(tags.Select(tag => tag.Name).Contains(version), $"A Release with the specified tag already exists in the repository: {version}");
+            Log.Information("Version: {Version}", version);
 
+            var changelog = CreateChangelog(tags[0].Name, version);
             var newRelease = new NewRelease(version)
             {
                 Name = version,
-                Body = CreateChangelog(version),
-                Draft = true,
-                TargetCommitish = GitVersion.Sha
+                Body = changelog,
+                TargetCommitish = GitRepository.Commit
             };
 
-            var draft = await CreatedDraftAsync(gitHubOwner, gitHubName, newRelease);
-            await UploadArtifactsAsync(draft, artifacts);
-            await ReleaseDraftAsync(gitHubOwner, gitHubName, draft);
+            var release = await CreatedReleaseAsync(gitHubOwner, gitHubName, newRelease);
+            await UploadArtifactsAsync(release, artifacts);
         });
 
-    static async Task CheckTagsAsync(string gitHubOwner, string gitHubName, string version)
-    {
-        var gitHubTags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
-        if (gitHubTags.Select(tag => tag.Name).Contains(version))
-            throw new ArgumentException($"A Release with the specified tag already exists in the repository: {version}");
-    }
+    static Task<Release> CreatedReleaseAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
+        GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
 
-    static async Task<Release> CreatedDraftAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
-        await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
-
-    static async Task ReleaseDraftAsync(string gitHubOwner, string gitHubName, Release draft) =>
-        await GitHubTasks.GitHubClient.Repository.Release.Edit(gitHubOwner, gitHubName, draft.Id, new ReleaseUpdate {Draft = false});
-
-    static async Task UploadArtifactsAsync(Release createdRelease, string[] artifacts)
+    static async Task UploadArtifactsAsync(Release createdRelease, IEnumerable<string> artifacts)
     {
         foreach (var file in artifacts)
         {
@@ -71,7 +59,7 @@ partial class Build
         }
     }
 
-    string CreateChangelog(string version)
+    string CreateChangelog(string previousVersion, string version)
     {
         if (!File.Exists(ChangeLogPath))
         {
@@ -79,11 +67,11 @@ partial class Build
             return string.Empty;
         }
 
-        Log.Information("Changelog: {Path}", ChangeLogPath);
+        const string nextRecordSymbol = "# ";
 
         var logBuilder = new StringBuilder();
         var changelogLineRegex = new Regex($@"^.*({version})\S*\s?");
-        const string nextRecordSymbol = "# ";
+        Log.Information("Changelog: {Path}", ChangeLogPath);
 
         foreach (var line in File.ReadLines(ChangeLogPath))
         {
@@ -100,6 +88,14 @@ partial class Build
         }
 
         if (logBuilder.Length == 0) Log.Warning("No version entry exists in the changelog: {Version}", version);
+
+        AppendCompareUrl(logBuilder, previousVersion, version);
         return logBuilder.ToString();
+    }
+
+    void AppendCompareUrl(StringBuilder logBuilder, string previousVersion, string version)
+    {
+        logBuilder.Append("Full changelog: ");
+        logBuilder.Append(GitRepository.GetGitHubCompareTagsUrl(version, previousVersion));
     }
 }

@@ -27,7 +27,7 @@ public sealed partial class DescriptorBuilder : IExtensionManager
 {
     private void AddExtensions()
     {
-        if (!_settings.IsExtensionsAllowed) return;
+        if (!_settings.IncludeExtensions) return;
         if (_currentDescriptor is not IDescriptorExtension extension) return;
 
         extension.RegisterExtensions(this);

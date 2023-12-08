@@ -29,12 +29,28 @@ public static class HelpUtils
         string uri;
 
         if (query.Contains(' '))
+        {
             uri = $"https://duckduckgo.com/?q={query}";
+        }
         else if (query.StartsWith("System"))
+        {
+            query = query.Replace('`', '-');
             uri = $"https://docs.microsoft.com/en-us/dotnet/api/{query}";
+        }
         else
+        {
             uri = $"https://duckduckgo.com/?q={query}";
+        }
 
         Process.Start(uri);
+    }
+
+    public static void ShowHelp(string query, string parameter)
+    {
+        if (query.StartsWith("System"))
+        {
+            ShowHelp($"{query}.{parameter}");
+        }
+        else ShowHelp($"{query} {parameter}");
     }
 }

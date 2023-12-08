@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -34,18 +35,22 @@ namespace RevitLookup.Services;
 [Serializable]
 internal sealed class Settings
 {
-    public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;
-    public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
-    public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
-    public bool IsHardwareRenderingAllowed { get; set; } = true;
-    public bool IsTimeColumnAllowed { get; set; }
-    public bool IsModifyTabAllowed { get; set; }
-    public bool IsUnsupportedAllowed { get; set; }
-    public bool IsPrivateAllowed { get; set; }
-    public bool IsStaticAllowed { get; set; }
-    public bool IsFieldsAllowed { get; set; }
-    public bool IsEventsAllowed { get; set; }
-    public bool IsExtensionsAllowed { get; set; }
+    [JsonPropertyName("Theme")] public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;
+    [JsonPropertyName("Background")] public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
+    [JsonPropertyName("TransitionDuration")] public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
+    [JsonPropertyName("IsHardwareRenderingAllowed")] public bool UseHardwareRendering { get; set; } = true;
+    [JsonPropertyName("IsTimeColumnAllowed")] public bool ShowTimeColumn { get; set; }
+    [JsonPropertyName("UseSizeRestoring")] public bool UseSizeRestoring { get; set; }
+    [JsonPropertyName("WindowWidth")] public double WindowWidth { get; set; }
+    [JsonPropertyName("WindowHeight")] public double WindowHeight { get; set; }
+    [JsonPropertyName("IsUnsupportedAllowed")] public bool IncludeUnsupported { get; set; }
+    [JsonPropertyName("IsPrivateAllowed")] public bool IncludePrivate { get; set; }
+    [JsonPropertyName("IsStaticAllowed")] public bool IncludeStatic { get; set; }
+    [JsonPropertyName("IsFieldsAllowed")] public bool IncludeFields { get; set; }
+    [JsonPropertyName("IsEventsAllowed")] public bool IncludeEvents { get; set; }
+    [JsonPropertyName("IsExtensionsAllowed")] public bool IncludeExtensions { get; set; }
+    [JsonPropertyName("IsRootHierarchyAllowed")] public bool IncludeRootHierarchy { get; set; }
+    [JsonPropertyName("IsModifyTabAllowed")] public bool UseModifyTab { get; set; }
 }
 
 public sealed class SettingsService : ISettingsService
@@ -78,58 +83,82 @@ public sealed class SettingsService : ISettingsService
         private set => _settings.TransitionDuration = value;
     }
 
-    public bool IsHardwareRenderingAllowed
+    public bool UseHardwareRendering
     {
-        get => _settings.IsHardwareRenderingAllowed;
-        set => _settings.IsHardwareRenderingAllowed = value;
+        get => _settings.UseHardwareRendering;
+        set => _settings.UseHardwareRendering = value;
     }
 
-    public bool IsTimeColumnAllowed
+    public bool ShowTimeColumn
     {
-        get => _settings.IsTimeColumnAllowed;
-        set => _settings.IsTimeColumnAllowed = value;
+        get => _settings.ShowTimeColumn;
+        set => _settings.ShowTimeColumn = value;
     }
 
-    public bool IsModifyTabAllowed
+    public bool UseModifyTab
     {
-        get => _settings.IsModifyTabAllowed;
-        set => _settings.IsModifyTabAllowed = value;
+        get => _settings.UseModifyTab;
+        set => _settings.UseModifyTab = value;
     }
 
-    public bool IsUnsupportedAllowed
+    public bool UseSizeRestoring
     {
-        get => _settings.IsUnsupportedAllowed;
-        set => _settings.IsUnsupportedAllowed = value;
+        get => _settings.UseSizeRestoring;
+        set => _settings.UseSizeRestoring = value;
+    }
+    
+    public double WindowWidth
+    {
+        get => _settings.WindowWidth;
+        set => _settings.WindowWidth = value;
     }
 
-    public bool IsPrivateAllowed
+    public double WindowHeight
     {
-        get => _settings.IsPrivateAllowed;
-        set => _settings.IsPrivateAllowed = value;
+        get => _settings.WindowHeight;
+        set => _settings.WindowHeight = value;
     }
 
-    public bool IsStaticAllowed
+    public bool IncludeUnsupported
     {
-        get => _settings.IsStaticAllowed;
-        set => _settings.IsStaticAllowed = value;
+        get => _settings.IncludeUnsupported;
+        set => _settings.IncludeUnsupported = value;
     }
 
-    public bool IsFieldsAllowed
+    public bool IncludePrivate
     {
-        get => _settings.IsFieldsAllowed;
-        set => _settings.IsFieldsAllowed = value;
+        get => _settings.IncludePrivate;
+        set => _settings.IncludePrivate = value;
     }
 
-    public bool IsEventsAllowed
+    public bool IncludeStatic
     {
-        get => _settings.IsEventsAllowed;
-        set => _settings.IsEventsAllowed = value;
+        get => _settings.IncludeStatic;
+        set => _settings.IncludeStatic = value;
     }
 
-    public bool IsExtensionsAllowed
+    public bool IncludeFields
     {
-        get => _settings.IsExtensionsAllowed;
-        set => _settings.IsExtensionsAllowed = value;
+        get => _settings.IncludeFields;
+        set => _settings.IncludeFields = value;
+    }
+
+    public bool IncludeEvents
+    {
+        get => _settings.IncludeEvents;
+        set => _settings.IncludeEvents = value;
+    }
+
+    public bool IncludeExtensions
+    {
+        get => _settings.IncludeExtensions;
+        set => _settings.IncludeExtensions = value;
+    }
+
+    public bool IncludeRootHierarchy
+    {
+        get => _settings.IncludeRootHierarchy;
+        set => _settings.IncludeRootHierarchy = value;
     }
 
     public int ApplyTransition(bool value)
@@ -174,6 +203,7 @@ public sealed class SettingsService : ISettingsService
         }
         catch
         {
+            Debug.WriteLine("RevitLookup: settings deserializing error");
             return new Settings();
         }
     }
