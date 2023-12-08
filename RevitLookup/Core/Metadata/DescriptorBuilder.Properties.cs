@@ -76,7 +76,7 @@ public sealed partial class DescriptorBuilder
 
         if (parameters.Length > 0)
         {
-            if (!_settings.IsUnsupportedAllowed) return false;
+            if (!_settings.IncludeUnsupported) return false;
 
             value = new NotSupportedException("Unsupported property overload");
             return true;

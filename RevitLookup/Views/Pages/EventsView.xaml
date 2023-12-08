@@ -1,4 +1,4 @@
-<pages:SnoopViewBase
+<abstraction:SnoopViewBase
     x:Class="RevitLookup.Views.Pages.EventsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,6 +8,7 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
+    xmlns:abstraction="clr-namespace:RevitLookup.Views.Pages.Abstraction"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"
@@ -90,13 +91,15 @@
                 ColumnHeaderHeight="30"
                 HeadersVisibility="Column"
                 AutoGenerateColumns="False"
+                SelectionMode="Single"
                 CanUserAddRows="False"
                 CanUserDeleteRows="False"
                 CanUserResizeRows="False"
                 CanUserSortColumns="False"
                 CanUserReorderColumns="False"
                 HorizontalScrollBarVisibility="Disabled"
-                ItemsSource="{Binding ViewModel.FilteredSnoopableData}">
+                ItemsSource="{Binding ViewModel.FilteredSnoopableData}"
+                MouseMove="OnPresenterCursorInteracted">
                 <rl:DataGrid.Columns>
                     <DataGridTemplateColumn
                         Width="*"
@@ -145,7 +148,7 @@
                         BasedOn="{StaticResource DefaultDataGridRowStyle}">
                         <EventSetter
                             Event="PreviewMouseLeftButtonUp"
-                            Handler="OnGridMouseLeftButtonUp" />
+                            Handler="OnGridRowClicked" />
                         <EventSetter
                             Event="Loaded"
                             Handler="OnRowLoaded" />
@@ -240,4 +243,4 @@
             </rl:DataGrid>
         </Grid>
     </Grid>
-</pages:SnoopViewBase>
+</abstraction:SnoopViewBase>

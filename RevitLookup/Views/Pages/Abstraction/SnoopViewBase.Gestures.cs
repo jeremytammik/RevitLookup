@@ -18,28 +18,23 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
-using Color = Autodesk.Revit.DB.Color;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
+namespace RevitLookup.Views.Pages.Abstraction;
 
-public sealed class ColorDescriptor : Descriptor, IDescriptorExtension
+public partial class SnoopViewBase
 {
-    private readonly Color _color;
-
-    public ColorDescriptor(Color color)
+    private void AddShortcuts()
     {
-        _color = color;
-        Name = color.IsValid ? $"RGB: {color.Red} {color.Green} {color.Blue}" : "The color represents uninitialized/invalid value";
+        var command = new AsyncRelayCommand(() => ViewModel.RefreshMembersCommand.ExecuteAsync(null));
+        InputBindings.Add(new KeyBinding(command, new KeyGesture(Key.F5)));
     }
 
-    public void RegisterExtensions(IExtensionManager manager)
+    private void OnPageKeyPressed(object sender, KeyEventArgs e)
     {
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "HEX";
-            extension.Result = $"#{extension.Value.Red:X2}{extension.Value.Green:X2}{extension.Value.Blue:X2}";
-        });
+        if (SearchBoxControl.IsKeyboardFocused) return;
+        if (e.KeyboardDevice.Modifiers != ModifierKeys.None) return;
+        if (e.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9) SearchBoxControl.Focus();
     }
 }

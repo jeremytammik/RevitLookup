@@ -28,21 +28,15 @@ public sealed partial class DescriptorBuilder
 {
     private IReadOnlyCollection<Descriptor> BuildInstanceObject(Type type)
     {
-        var types = new List<Type>();
-        while (type.BaseType is not null)
-        {
-            types.Add(type);
-            type = type.BaseType;
-        }
-
+        var types = GetTypeHierarchy(type);
         for (var i = types.Count - 1; i >= 0; i--)
         {
             _type = types[i];
             _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
 
             var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-            if (_settings.IsStaticAllowed) flags |= BindingFlags.Static;
-            if (_settings.IsPrivateAllowed) flags |= BindingFlags.NonPublic;
+            if (_settings.IncludeStatic) flags |= BindingFlags.Static;
+            if (_settings.IncludePrivate) flags |= BindingFlags.NonPublic;
 
             AddProperties(flags);
             AddMethods(flags);
@@ -58,12 +52,26 @@ public sealed partial class DescriptorBuilder
         return _descriptors;
     }
 
+    private List<Type> GetTypeHierarchy(Type type)
+    {
+        var types = new List<Type>();
+        while (type.BaseType is not null)
+        {
+            types.Add(type);
+            type = type.BaseType;
+        }
+
+        if (_settings.IncludeRootHierarchy) types.Add(type);
+
+        return types;
+    }
+
     private IReadOnlyCollection<Descriptor> BuildStaticObject(Type type)
     {
         _type = type;
 
         var flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
-        if (_settings.IsPrivateAllowed) flags |= BindingFlags.NonPublic;
+        if (_settings.IncludePrivate) flags |= BindingFlags.NonPublic;
 
         AddProperties(flags);
         AddMethods(flags);

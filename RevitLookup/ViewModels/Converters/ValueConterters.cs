@@ -22,65 +22,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Converters;
-
-[ValueConversion(typeof(WindowBackdropType), typeof(string))]
-public sealed class BackgroundTypeConverter : MarkupExtension, IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        var backgroundType = (WindowBackdropType) value!;
-        return backgroundType switch
-        {
-            WindowBackdropType.None => "Disabled",
-            WindowBackdropType.Auto => "Windows default",
-            WindowBackdropType.Mica => "Mica",
-            WindowBackdropType.Acrylic => "Acrylic",
-            WindowBackdropType.Tabbed => "Tabbed",
-            _ => throw new ArgumentOutOfRangeException()
-        };
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
-}
-
-[ValueConversion(typeof(ApplicationTheme), typeof(string))]
-public sealed class ApplicationThemeConverter : MarkupExtension, IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        var applicationTheme = (ApplicationTheme) value!;
-        return applicationTheme switch
-        {
-            ApplicationTheme.Dark => "Dark",
-            ApplicationTheme.Light => "Light",
-            ApplicationTheme.Unknown => "Invalid",
-            ApplicationTheme.HighContrast => "High contrast",
-            _ => throw new ArgumentOutOfRangeException()
-        };
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
-}
 
 [ValueConversion(typeof(bool), typeof(bool))]
 public sealed class InverseBooleanConverter : MarkupExtension, IValueConverter

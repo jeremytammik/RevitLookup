@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <NoWarn>CS0649;CS0169</NoWarn>
@@ -10,10 +11,9 @@
         <Configurations>Release;Debug</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Nuke.Common" Version="7.0.6" />
+        <PackageReference Include="Nuke.Common" Version="7.0.6"/>
     </ItemGroup>
-    <ItemGroup>
-        <PackageDownload Include="GitVersion.Tool" Version="[5.12.0]" />
-    </ItemGroup>
+
 </Project>

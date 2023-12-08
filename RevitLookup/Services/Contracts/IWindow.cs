@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Services.Contracts;
 
@@ -26,6 +27,10 @@ public interface IWindow
 {
     bool IsLoaded { get; }
     Visibility Visibility { get; set; }
+    WindowBackdropType WindowBackdropType { get; set; }
+
+    void EnableSizeTracking();
+    void DisableSizeTracking();
 
     event RoutedEventHandler Loaded;
 }

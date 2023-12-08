@@ -26,7 +26,7 @@ public sealed partial class DescriptorBuilder
 {
     private void AddFields(BindingFlags bindingFlags)
     {
-        if (!_settings.IsFieldsAllowed) return;
+        if (!_settings.IncludeFields) return;
 
         var members = _type.GetFields(bindingFlags);
         foreach (var member in members)

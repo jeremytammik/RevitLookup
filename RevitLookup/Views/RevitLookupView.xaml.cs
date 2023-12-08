@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
@@ -27,6 +28,8 @@ namespace RevitLookup.Views;
 
 public sealed partial class RevitLookupView : IWindow
 {
+    private readonly ISettingsService _settingsService;
+
     private RevitLookupView()
     {
         Wpf.Ui.Application.MainWindow = this;
@@ -42,6 +45,7 @@ public sealed partial class RevitLookupView : IWindow
         ISettingsService settingsService)
         : this()
     {
+        _settingsService = settingsService;
         RootNavigation.TransitionDuration = settingsService.TransitionDuration;
         WindowBackdropType = settingsService.Background;
 
@@ -50,6 +54,8 @@ public sealed partial class RevitLookupView : IWindow
 
         snackbarService.SetSnackbarPresenter(RootSnackbar);
         snackbarService.DefaultTimeOut = TimeSpan.FromSeconds(3);
+
+        RestoreSize(settingsService);
     }
 
     private void AddShortcuts()
@@ -66,6 +72,32 @@ public sealed partial class RevitLookupView : IWindow
 
         InputBindings.Add(new KeyBinding(closeAllCommand, new KeyGesture(Key.Escape, ModifierKeys.Shift)));
         InputBindings.Add(new KeyBinding(closeCurrentCommand, new KeyGesture(Key.Escape)));
+    }
+
+    private void RestoreSize(ISettingsService settingsService)
+    {
+        if (!settingsService.UseSizeRestoring) return;
+
+        if (settingsService.WindowWidth >= MinWidth) Width = settingsService.WindowWidth;
+        if (settingsService.WindowHeight >= MinHeight) Height = settingsService.WindowHeight;
+
+        EnableSizeTracking();
+    }
+
+    public void EnableSizeTracking()
+    {
+        SizeChanged += OnSizeChanged;
+    }
+
+    public void DisableSizeTracking()
+    {
+        SizeChanged -= OnSizeChanged;
+    }
+
+    private void OnSizeChanged(object sender, SizeChangedEventArgs args)
+    {
+        _settingsService.WindowWidth = args.NewSize.Width;
+        _settingsService.WindowHeight = args.NewSize.Height;
     }
 
     protected override void OnActivated(EventArgs args)

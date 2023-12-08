@@ -1,9 +1,8 @@
 ﻿using Nuke.Common;
 using Nuke.Common.IO;
 using Serilog;
-using static Nuke.Common.IO.FileSystemTasks;
 
-partial class Build
+sealed partial class Build
 {
     Target Clean => _ => _
         .OnlyWhenStatic(() => IsLocalBuild)
