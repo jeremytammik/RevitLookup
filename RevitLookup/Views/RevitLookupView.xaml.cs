@@ -23,6 +23,8 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Win32;
 
 namespace RevitLookup.Views;
 
@@ -104,6 +106,11 @@ public sealed partial class RevitLookupView : IWindow
     {
         base.OnActivated(args);
         Wpf.Ui.Application.MainWindow = this;
+        ApplicationThemeManager.ApplySystemTheme();
+        if (Utilities.IsOSWindows11OrNewer)
+        {
+            ApplicationThemeManager.Apply(_settingsService.Theme, _settingsService.Background);
+        }
     }
 
     protected override void OnClosed(EventArgs args)
