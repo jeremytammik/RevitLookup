@@ -20,6 +20,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
@@ -29,85 +30,130 @@ using Wpf.Ui;
 
 namespace RevitLookup.Services;
 
-public sealed class LookupService(IServiceScopeFactory scopeFactory) : ILookupService
+public sealed class LookupService : ILookupService
 {
+    private static Dispatcher _dispatcher;
+
     private Window _owner;
     private Task _activeTask;
-    private readonly IServiceProvider _serviceProvider = scopeFactory.CreateScope().ServiceProvider;
+    private IServiceScope _serviceScope;
+    private ISnoopVisualService _visualService;
+    private INavigationService _navigationService;
+    private Window _window;
+
+    static LookupService()
+    {
+        var uiThread = new Thread(Dispatcher.Run);
+        uiThread.SetApartmentState(ApartmentState.STA);
+        uiThread.Start();
+
+        EnsureThreadStart(uiThread);
+    }
+
+    public LookupService(IServiceScopeFactory scopeFactory)
+    {
+        _dispatcher.Invoke(() =>
+        {
+            _serviceScope = scopeFactory.CreateScope();
+
+            _window = (Window) _serviceScope.ServiceProvider.GetService<IWindow>();
+            _visualService = _serviceScope.ServiceProvider.GetService<ISnoopVisualService>();
+            _navigationService = _serviceScope.ServiceProvider.GetService<INavigationService>();
+
+            _window.Closed += (_, _) => _serviceScope.Dispose();
+        });
+    }
 
     public ILookupServiceDependsStage Snoop(SnoopableType snoopableType)
     {
-        _activeTask = _serviceProvider.GetService<ISnoopVisualService>()!.SnoopAsync(snoopableType);
+        _dispatcher.Invoke(() => _activeTask = _visualService!.SnoopAsync(snoopableType));
         return this;
     }
 
     public ILookupServiceDependsStage Snoop(SnoopableObject snoopableObject)
     {
-        _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObject);
+        _dispatcher.Invoke(() => _visualService.Snoop(snoopableObject));
         return this;
     }
 
     public ILookupServiceDependsStage Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
     {
-        _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObjects);
+        _dispatcher.Invoke(() => _visualService.Snoop(snoopableObjects));
         return this;
     }
 
     public ILookupServiceShowStage DependsOn(IServiceProvider provider)
     {
-        _owner = (Window) provider.GetService<IWindow>();
+        _dispatcher.Invoke(() => _owner = (Window) provider.GetService<IWindow>());
         return this;
     }
 
     public ILookupServiceExecuteStage Show<T>() where T : Page
     {
-        if (_activeTask is null)
+        _dispatcher.Invoke(() =>
         {
-            ShowPage();
-        }
-        else
-        {
-            _activeTask = _activeTask.ContinueWith(_ => ShowPage(), TaskScheduler.FromCurrentSynchronizationContext());
-        }
-
-        return this;
-
-        void ShowPage()
-        {
-            var window = (Window) _serviceProvider.GetService<IWindow>();
-
-            if (_owner is null)
+            if (_activeTask is null)
             {
-                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                ShowPage<T>();
             }
             else
             {
-                window.Left = _owner.Left + 47;
-                window.Top = _owner.Top + 49;
+                _activeTask = _activeTask.ContinueWith(_ => ShowPage<T>(), TaskScheduler.FromCurrentSynchronizationContext());
             }
-
-            window.Show(RevitApi.UiApplication.MainWindowHandle);
-            _serviceProvider.GetService<INavigationService>().Navigate(typeof(T));
-        }
+        });
+        return this;
     }
 
     public void Execute<T>(Action<T> handler) where T : class
     {
-        if (_activeTask is null)
+        _dispatcher.Invoke(() =>
         {
-            InvokeHandler();
+            if (_activeTask is null)
+            {
+                InvokeHandler(handler);
+            }
+            else
+            {
+                _activeTask = _activeTask.ContinueWith(_ => InvokeHandler(handler), TaskScheduler.FromCurrentSynchronizationContext());
+            }
+        });
+    }
+
+    private void InvokeHandler<T>(Action<T> handler) where T : class
+    {
+        var service = _serviceScope.ServiceProvider.GetService<T>();
+        handler.Invoke(service);
+    }
+
+    private void ShowPage<T>() where T : Page
+    {
+        if (_owner is null)
+        {
+            _window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
         else
         {
-            _activeTask = _activeTask.ContinueWith(_ => InvokeHandler(), TaskScheduler.FromCurrentSynchronizationContext());
+            _window.Left = _owner.Left + 47;
+            _window.Top = _owner.Top + 49;
         }
 
-        return;
+        _window.Show(RevitApi.UiApplication.MainWindowHandle);
+        _navigationService.Navigate(typeof(T));
+    }
 
-        void InvokeHandler()
+    private static void EnsureThreadStart(Thread thread)
+    {
+        var dispatcher = Dispatcher.FromThread(thread);
+        if (dispatcher is null)
         {
-            var service = _serviceProvider.GetService<T>();
-            handler.Invoke(service);
+            var spinWait = new SpinWait();
+            while (dispatcher is null)
+            {
+                spinWait.SpinOnce();
+                dispatcher = Dispatcher.FromThread(thread);
+            }
         }
+
+        _dispatcher = dispatcher;
     }
 }

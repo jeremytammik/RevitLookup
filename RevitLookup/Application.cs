@@ -28,15 +28,12 @@ using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
-using RevitLookup.Services.Enums;
-using Wpf.Ui.Controls;
 
 namespace RevitLookup;
 
 [UsedImplicitly]
 public class Application : ExternalApplication
 {
-    private static Thread _thread;
     public static ActionEventHandler ActionEventHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<SnoopableObject>> ExternalElementHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<Descriptor>> ExternalDescriptorHandler { get; private set; }
@@ -50,7 +47,6 @@ public class Application : ExternalApplication
         var settingsService = Host.GetService<ISettingsService>();
         var updateService = Host.GetService<ISoftwareUpdateService>();
 
-        RunDispatcher();
         EnableHardwareRendering(settingsService);
         RibbonController.CreatePanel(Application, settingsService);
 
@@ -81,13 +77,6 @@ public class Application : ExternalApplication
     {
         var settingsService = Host.GetService<ISettingsService>();
         settingsService.Save();
-    }
-
-    private static void RunDispatcher()
-    {
-        _thread = new Thread(Dispatcher.Run);
-        _thread.SetApartmentState(ApartmentState.STA);
-        _thread.Start();
     }
 
     public static void EnableHardwareRendering(ISettingsService settingsService)

@@ -62,51 +62,50 @@ public sealed class MoqLookupService(IServiceScopeFactory scopeFactory) : ILooku
     {
         if (_activeTask is null)
         {
-            ShowPage();
+            ShowPage<T>();
         }
         else
         {
-            _activeTask = _activeTask.ContinueWith(_ => ShowPage(), TaskScheduler.FromCurrentSynchronizationContext());
+            _activeTask = _activeTask.ContinueWith(_ => ShowPage<T>(), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         return this;
-
-        void ShowPage()
-        {
-            var window = (Window) _serviceProvider.GetService<IWindow>();
-
-            if (_owner is null)
-            {
-                window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            }
-            else
-            {
-                window.Left = _owner.Left + 47;
-                window.Top = _owner.Top + 49;
-            }
-
-            window.Show();
-            _serviceProvider.GetService<INavigationService>().Navigate(typeof(T));
-        }
     }
 
     public void Execute<T>(Action<T> handler) where T : class
     {
         if (_activeTask is null)
         {
-            InvokeHandler();
+            InvokeHandler(handler);
         }
         else
         {
-            _activeTask = _activeTask.ContinueWith(_ => InvokeHandler(), TaskScheduler.FromCurrentSynchronizationContext());
+            _activeTask = _activeTask.ContinueWith(_ => InvokeHandler(handler), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        return;
+    }
 
-        void InvokeHandler()
+    private void ShowPage<T>() where T : Page
+    {
+        var window = (Window) _serviceProvider.GetService<IWindow>();
+
+        if (_owner is null)
         {
-            var service = _serviceProvider.GetService<T>();
-            handler.Invoke(service);
+            window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
+        else
+        {
+            window.Left = _owner.Left + 47;
+            window.Top = _owner.Top + 49;
+        }
+
+        window.Show();
+        _serviceProvider.GetService<INavigationService>().Navigate(typeof(T));
+    }
+
+    private void InvokeHandler<T>(Action<T> handler) where T : class
+    {
+        var service = _serviceProvider.GetService<T>();
+        handler.Invoke(service);
     }
 }
