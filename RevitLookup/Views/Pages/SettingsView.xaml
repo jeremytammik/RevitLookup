@@ -11,7 +11,7 @@
     d:DesignHeight="1100"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SettingsView}">
-    <rl:PassiveScrollViewer>
+    <rl:DynamicScrollViewer>
         <StackPanel
             Margin="12">
             <TextBlock
@@ -92,5 +92,5 @@
                 </rl:CardControl>
             </StackPanel>
         </StackPanel>
-    </rl:PassiveScrollViewer>
+    </rl:DynamicScrollViewer>
 </Page>

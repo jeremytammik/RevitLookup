@@ -18,12 +18,12 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="DefaultNavigationViewContentPresenterWithDynamicScrollViewerControlTemplate" TargetType="{x:Type controls:NavigationViewContentPresenter}">
-        <controls:PassiveScrollViewer
+        <controls:DynamicScrollViewer
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Focusable="False">
             <ContentPresenter x:Name="PART_FrameCP" Margin="{TemplateBinding Padding}" />
-        </controls:PassiveScrollViewer>
+        </controls:DynamicScrollViewer>
     </ControlTemplate>
 
     <Style x:Key="DefaultNavigationViewContentPresenterStyle" TargetType="{x:Type controls:NavigationViewContentPresenter}">

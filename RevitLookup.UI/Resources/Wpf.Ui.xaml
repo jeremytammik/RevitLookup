@@ -39,7 +39,6 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DropDownButton/DropDownButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DynamicScrollBar/DynamicScrollBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DynamicScrollViewer/DynamicScrollViewer.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/DynamicScrollViewer/PassiveScrollViewer.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Expander/Expander.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/FluentWindow/FluentWindow.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Flyout/Flyout.xaml" />

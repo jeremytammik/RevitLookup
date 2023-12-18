@@ -56,8 +56,9 @@ public partial class SnoopViewBase
     /// </summary>
     protected void OnGridRowClicked(object sender, RoutedEventArgs routedEventArgs)
     {
+        if (DataGridControl.SelectedItem is null) return;
+        
         var selectedItem = (Descriptor) DataGridControl.SelectedItem;
-
         if ((Keyboard.Modifiers & ModifierKeys.Control) == 0)
         {
             if (selectedItem.Value.Descriptor is not IDescriptorCollector) return;

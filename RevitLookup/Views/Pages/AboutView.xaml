@@ -9,7 +9,7 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance pages:AboutView}">
-    <rl:PassiveScrollViewer>
+    <rl:DynamicScrollViewer>
         <DockPanel
             Margin="12">
             <Image
@@ -212,5 +212,5 @@
                     NavigateUri="https://github.com/jeremytammik/RevitLookup/issues/new" />
             </StackPanel>
         </DockPanel>
-    </rl:PassiveScrollViewer>
+    </rl:DynamicScrollViewer>
 </Page>
