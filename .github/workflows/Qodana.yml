@@ -21,6 +21,7 @@ jobs:
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@main
         with:
+          pr-mode: false
           github-token: ${{ secrets.GITHUB_TOKEN }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
