@@ -37,14 +37,12 @@
                         -->
                         <Grid
                             Grid.Row="0"
-                            Grid.RowSpan="2"
                             Grid.Column="0"
-                            Grid.ColumnSpan="2"
                             Margin="{TemplateBinding Padding}">
                             <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}" />
                         </Grid>
 
-                        <ScrollBar
+                        <controls:DynamicScrollBar
                             x:Name="PART_VerticalScrollBar"
                             Grid.Row="0"
                             Grid.Column="1"
@@ -53,7 +51,7 @@
                             Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                             Value="{TemplateBinding VerticalOffset}" />
 
-                        <ScrollBar
+                        <controls:DynamicScrollBar
                             x:Name="PART_HorizontalScrollBar"
                             Grid.Row="1"
                             Grid.Column="0"

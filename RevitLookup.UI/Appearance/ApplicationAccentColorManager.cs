@@ -193,8 +193,7 @@ public static class ApplicationAccentColorManager
     /// </summary>
     public static Color GetColorizationColor()
     {
-        //  Windows 10 Dwmapi.dll file not found exception
-        return Win32.Utilities.IsOSWindows11OrNewer ? UnsafeNativeMethods.GetDwmColor() : Color.FromArgb(255, 0, 120, 212);
+        return UnsafeNativeMethods.GetDwmColor();
     }
 
     /// <summary>

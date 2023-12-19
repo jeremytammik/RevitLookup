@@ -24,6 +24,7 @@ using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using Wpf.Ui;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views;
@@ -60,6 +61,7 @@ public sealed partial class RevitLookupView : IWindow
 
         RestoreSize(settingsService);
         SetupIcons(updateService);
+        ApplicationThemeManager.Apply(_settingsService.Theme, _settingsService.Background);
     }
 
     private void AddShortcuts()
