@@ -20,6 +20,7 @@
 
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Utils;
 using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
@@ -39,7 +40,77 @@ public sealed class ColorDescriptor : Descriptor, IDescriptorExtension
         manager.Register(_color, extension =>
         {
             extension.Name = "HEX";
-            extension.Result = $"#{extension.Value.Red:X2}{extension.Value.Green:X2}{extension.Value.Blue:X2}";
+            extension.Result = ColorRepresentationUtils.ColorToHex(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "HEX int";
+            extension.Result = ColorRepresentationUtils.ColorToHexInteger(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "RGB";
+            extension.Result = ColorRepresentationUtils.ColorToRgb(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "HSL";
+            extension.Result = ColorRepresentationUtils.ColorToHsl(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "HSV";
+            extension.Result = ColorRepresentationUtils.ColorToHsv(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "CMYK";
+            extension.Result = ColorRepresentationUtils.ColorToCmyk(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "HSB";
+            extension.Result = ColorRepresentationUtils.ColorToHsb(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "HSI";
+            extension.Result = ColorRepresentationUtils.ColorToHsi(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "HWB";
+            extension.Result = ColorRepresentationUtils.ColorToHwb(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "NCol";
+            extension.Result = ColorRepresentationUtils.ColorToNCol(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "CIELAB";
+            extension.Result = ColorRepresentationUtils.ColorToCielab(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "CIEXYZ";
+            extension.Result = ColorRepresentationUtils.ColorToCieXyz(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "VEC4";
+            extension.Result = ColorRepresentationUtils.ColorToFloat(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "Decimal";
+            extension.Result = ColorRepresentationUtils.ColorToDecimal(extension.Value.GetMediaColor());
+        });
+        manager.Register(_color, extension =>
+        {
+            extension.Name = "Name";
+            extension.Result = ColorRepresentationUtils.GetColorName(extension.Value.GetMediaColor());
         });
     }
 }
