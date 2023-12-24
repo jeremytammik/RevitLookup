@@ -9,42 +9,19 @@
     xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:abstraction="clr-namespace:RevitLookup.Views.Pages.Abstraction"
+    xmlns:controls="clr-namespace:RevitLookup.Views.Controls"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"
     d:DataContext="{d:DesignInstance pages:EventsView}">
     <Grid
         Margin="12">
-        <Grid
+        <controls:ContentPlaceholder
+            Text="Waiting for events"
+            MaxHeight="300"
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:CollectionEmptyVisibilityConverter}}">
-            <Image
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-                MaxHeight="300">
-                <Image.Source>
-                    <DrawingImage>
-                        <DrawingImage.Drawing>
-                            <GeometryDrawing
-                                Geometry="M159.1 110.6C94.1 204.3 -147.8 214.7 -203.8 126.1C-259.8 37.5 -129.9 -150 -8.9 -155.2C112 -160.3 224 16.8 159.1 110.6">
-                                <GeometryDrawing.Pen>
-                                    <Pen
-                                        Brush="{DynamicResource ControlStrokeColorTertiaryBrush}"
-                                        Thickness="1" />
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-                </Image.Source>
-            </Image>
-            <TextBlock
-                FontSize="24"
-                Margin="0 40 0 0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontWeight="Medium"
-                Text="Waiting for events" />
-        </Grid>
+        </controls:ContentPlaceholder>
         <Grid
             Visibility="{Binding ViewModel.SnoopableObjects,
                 Converter={converters:InverseCollectionSizeVisibilityConverter}}"

@@ -120,11 +120,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         await Task.Delay(1);
 
         var treeItem = VisualUtils.FindVisualParent<TreeViewItem>((DependencyObject) sender);
-        if (treeItem is null)
-        {
-            Debug.WriteLine("Revit Lookup: null header");
-            return;
-        }
+        if (treeItem is null) return;
 
         treeItem.PreviewMouseLeftButtonUp += OnTreeItemClicked;
     }
