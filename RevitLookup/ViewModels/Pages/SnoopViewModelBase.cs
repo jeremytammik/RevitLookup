@@ -22,7 +22,6 @@ using System.Runtime.InteropServices;
 using Autodesk.Revit.Exceptions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;

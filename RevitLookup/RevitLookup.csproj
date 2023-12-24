@@ -94,6 +94,31 @@
         <Page Include="App.xaml"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\Resources\Colors.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Colors.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Localization\Colors.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Colors.Designer.cs</LastGenOutput>
+        <CustomToolNamespace>PublicResXFileCodeGenerator</CustomToolNamespace>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\Resources\Colors.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Colors.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Localization\Colors.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Colors.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
     <Target Name="CopyFiles" AfterTargets="CoreBuild">
         <ItemGroup>
             <RootItem Include="$(ProjectDir)*.addin"/>
