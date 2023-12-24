@@ -113,6 +113,9 @@ public static class DescriptorMap
             ResolveSet value => new ResolveSetDescriptor(value),
             ResolveSummary value => new ResolveSummaryDescriptor(value),
 
+            //Media
+            System.Windows.Media.Color value when type is null || type == typeof(System.Windows.Media.Color) => new ColorMediaDescriptor(value),
+
             //ComponentManager
             UIElement => new UiElementDescriptor(),
             DispatcherObject => new DependencyObjectDescriptor(),
