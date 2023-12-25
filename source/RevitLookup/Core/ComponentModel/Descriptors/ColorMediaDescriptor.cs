@@ -40,77 +40,77 @@ public sealed class ColorMediaDescriptor : Descriptor, IDescriptorExtension
         manager.Register(_color, extension =>
         {
             extension.Name = "HEX";
-            extension.Result = ColorRepresentationUtils.ColorToHex(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToHex(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "HEX int";
-            extension.Result = ColorRepresentationUtils.ColorToHexInteger(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToHexInteger(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "RGB";
-            extension.Result = ColorRepresentationUtils.ColorToRgb(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToRgb(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "HSL";
-            extension.Result = ColorRepresentationUtils.ColorToHsl(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToHsl(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "HSV";
-            extension.Result = ColorRepresentationUtils.ColorToHsv(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToHsv(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "CMYK";
-            extension.Result = ColorRepresentationUtils.ColorToCmyk(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToCmyk(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "HSB";
-            extension.Result = ColorRepresentationUtils.ColorToHsb(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToHsb(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "HSI";
-            extension.Result = ColorRepresentationUtils.ColorToHsi(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToHsi(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "HWB";
-            extension.Result = ColorRepresentationUtils.ColorToHwb(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToHwb(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "NCol";
-            extension.Result = ColorRepresentationUtils.ColorToNCol(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToNCol(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "CIELAB";
-            extension.Result = ColorRepresentationUtils.ColorToCielab(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToCielab(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "CIEXYZ";
-            extension.Result = ColorRepresentationUtils.ColorToCieXyz(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToCieXyz(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "VEC4";
-            extension.Result = ColorRepresentationUtils.ColorToFloat(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToFloat(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "Decimal";
-            extension.Result = ColorRepresentationUtils.ColorToDecimal(extension.Value);
+            extension.Result = ColorRepresentationUtils.ColorToDecimal(extension.Value.GetDrawingColor());
         });
         manager.Register(_color, extension =>
         {
             extension.Name = "Name";
-            extension.Result = ColorRepresentationUtils.GetColorName(extension.Value);
+            extension.Result = ColorRepresentationUtils.GetColorName(extension.Value.GetDrawingColor());
         });
     }
 }

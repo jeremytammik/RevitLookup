@@ -18,7 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Media;
+using System.Drawing;
 
 namespace RevitLookup.Utils;
 
@@ -31,14 +31,21 @@ namespace RevitLookup.Utils;
 public static class ColorFormatUtils
 {
     /// <summary>
-    ///     Return a media color of a given <see cref="Autodesk.Revit.DB.Color"/>
+    ///     Return a drawing color of a given <see cref="System.Windows.Media.Color"/>
     /// </summary>
-    /// <param name="color">The <see cref="Color"/> for the convertion</param>
-    public static Color GetMediaColor(this Autodesk.Revit.DB.Color color)
+    public static Color GetDrawingColor(this System.Windows.Media.Color color)
+    {
+        return Color.FromArgb(1, color.R, color.G, color.B);
+    }
+
+    /// <summary>
+    ///     Return a drawing color of a given <see cref="Autodesk.Revit.DB.Color"/>
+    /// </summary>
+    public static Color GetDrawingColor(this Autodesk.Revit.DB.Color color)
     {
         return Color.FromArgb(1, color.Red, color.Green, color.Blue);
     }
-    
+
     /// <summary>
     /// Convert a given <see cref="Color"/> to a CMYK color (cyan, magenta, yellow, black key)
     /// </summary>
@@ -47,7 +54,7 @@ public static class ColorFormatUtils
     public static (double Cyan, double Magenta, double Yellow, double BlackKey) ConvertToCmykColor(Color color)
     {
         // special case for black (avoid division by zero)
-        if (color.R == 0 && color.G == 0 && color.B == 0)
+        if (color is { R: 0, G: 0, B: 0})
         {
             return (0d, 0d, 0d, 1d);
         }
@@ -92,7 +99,7 @@ public static class ColorFormatUtils
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
         var max = Math.Max(Math.Max(color.R, color.G), color.B) / 255d;
 
-        return (GetHue(color), max == 0d ? 0d : (max - min) / max, max);
+        return (color.GetHue(), max == 0d ? 0d : (max - min) / max, max);
     }
 
     /// <summary>
@@ -116,7 +123,7 @@ public static class ColorFormatUtils
 
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
 
-        return (GetHue(color), 1d - (min / intensity), intensity);
+        return (color.GetHue(), 1d - (min / intensity), intensity);
     }
 
     /// <summary>
@@ -133,15 +140,15 @@ public static class ColorFormatUtils
 
         if (lightness == 0d || Math.Abs(min - max) < 1e-9)
         {
-            return (GetHue(color), 0d, lightness);
+            return (color.GetHue(), 0d, lightness);
         }
 
         if (lightness is > 0d and <= 0.5d)
         {
-            return (GetHue(color), (max - min) / (max + min), lightness);
+            return (color.GetHue(), (max - min) / (max + min), lightness);
         }
 
-        return (GetHue(color), (max - min) / (2d - (max + min)), lightness);
+        return (color.GetHue(), (max - min) / (2d - (max + min)), lightness);
     }
 
     /// <summary>
@@ -154,7 +161,7 @@ public static class ColorFormatUtils
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
         var max = Math.Max(Math.Max(color.R, color.G), color.B) / 255d;
 
-        return (GetHue(color), min, 1 - max);
+        return (color.GetHue(), min, 1 - max);
     }
 
     /// <summary>
@@ -248,7 +255,7 @@ public static class ColorFormatUtils
         var min = Math.Min(Math.Min(color.R, color.G), color.B) / 255d;
         var max = Math.Max(Math.Max(color.R, color.G), color.B) / 255d;
 
-        return (GetNaturalColorFromHue(GetHue(color)), min, 1 - max);
+        return (GetNaturalColorFromHue(color.GetHue()), min, 1 - max);
     }
 
     /// <summary>
@@ -267,50 +274,5 @@ public static class ColorFormatUtils
             < 300d => $"B{Math.Round((hue - 240d) / 0.6d, 0)}",
             _ => $"M{Math.Round((hue - 300d) / 0.6d, 0)}"
         };
-    }
-
-    private static double GetHue(Color color)
-    {
-        const double byteMax = byte.MaxValue;
-        int red = color.R;
-        int green = color.G;
-        int blue = color.B;
-
-        var max = Math.Max(red, Math.Max(green, blue));
-        var min = Math.Min(red, Math.Min(green, blue));
-
-        var fDelta = (max - min) / byteMax;
-
-        double hue;
-
-        if (max <= 0)
-        {
-            return 0f;
-        }
-
-        if (fDelta <= 0.0)
-        {
-            return 0f;
-        }
-
-        if (max == red)
-        {
-            hue = ((green - blue) / byteMax) / fDelta;
-        }
-        else if (max == green)
-        {
-            hue = 2f + (((blue - red) / byteMax) / fDelta);
-        }
-        else
-        {
-            hue = 4f + (((red - green) / byteMax) / fDelta);
-        }
-
-        if (hue < 0)
-        {
-            hue += 360;
-        }
-
-        return hue * 60f;
     }
 }

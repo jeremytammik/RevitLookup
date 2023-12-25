@@ -18,8 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Drawing;
 using System.Globalization;
-using System.Windows.Media;
 
 namespace RevitLookup.Utils;
 
@@ -764,7 +764,7 @@ public static class ColorRepresentationUtils
         var green = byte.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
         var blue = byte.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
 
-        return Color.FromRgb(red, green, blue);
+        return Color.FromArgb(red, green, blue);
     }
 
     [Pure]
