@@ -60,7 +60,7 @@ public sealed partial class RevitLookupView : IWindow
         snackbarService.DefaultTimeOut = TimeSpan.FromSeconds(3);
 
         RestoreSize(settingsService);
-        SetupIcons(updateService);
+        SetupBadges(updateService);
         ApplicationThemeManager.Apply(_settingsService.Theme, _settingsService.Background);
     }
 
@@ -90,12 +90,10 @@ public sealed partial class RevitLookupView : IWindow
         EnableSizeTracking();
     }
 
-    private void SetupIcons(ISoftwareUpdateService updateService)
+    private void SetupBadges(ISoftwareUpdateService updateService)
     {
         if (updateService.State != SoftwareUpdateState.ReadyToDownload) return;
-
-        var symbolIcon = (SymbolIcon) AboutFooterItem.Icon!;
-        symbolIcon.Symbol = SymbolRegular.ArrowCircleDown24;
+        AboutItemBadge.Visibility = Visibility.Visible;
     }
 
     public void EnableSizeTracking()

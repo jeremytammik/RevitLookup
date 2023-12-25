@@ -60,10 +60,18 @@
                     TargetPageType="{x:Type pages:SettingsView}"
                     Icon="{rl:SymbolIcon Settings24}" />
                 <rl:NavigationViewItem
-                    x:Name="AboutFooterItem"
                     Content="About"
                     TargetPageType="{x:Type pages:AboutView}"
-                    Icon="{rl:SymbolIcon Info24}" />
+                    Icon="{rl:SymbolIcon Info24}">
+                    <rl:NavigationViewItem.InfoBadge>
+                        <rl:InfoBadge
+                            x:Name="AboutItemBadge"
+                            Severity="Attention"
+                            Margin="0 6 6 0"
+                            Visibility="Collapsed"
+                            Style="{DynamicResource DotInfoBadgeStyle}" />
+                    </rl:NavigationViewItem.InfoBadge>
+                </rl:NavigationViewItem>
             </rl:NavigationView.FooterMenuItems>
             <rl:NavigationView.Header>
                 <rl:BreadcrumbBar
