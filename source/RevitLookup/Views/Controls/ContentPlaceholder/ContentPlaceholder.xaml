@@ -1,0 +1,38 @@
+﻿<Grid
+    x:Class="RevitLookup.Views.Controls.ContentPlaceholder"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:controls="clr-namespace:RevitLookup.Views.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="300">
+    <Image
+        VerticalAlignment="Center"
+        HorizontalAlignment="Center">
+        <Image.Source>
+            <DrawingImage>
+                <DrawingImage.Drawing>
+                    <GeometryDrawing
+                        Geometry="M159.1 110.6C94.1 204.3 -147.8 214.7 -203.8 126.1C-259.8 37.5 -129.9 -150 -8.9 -155.2C112 -160.3 224 16.8 159.1 110.6">
+                        <GeometryDrawing.Pen>
+                            <Pen
+                                Brush="{DynamicResource ControlStrokeColorTertiaryBrush}"
+                                Thickness="1" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+        </Image.Source>
+    </Image>
+    <TextBlock
+        FontSize="24"
+        Margin="0 40 0 0"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        FontWeight="Medium"
+        Text="{Binding Text, 
+            RelativeSource={RelativeSource FindAncestor, 
+            AncestorType={x:Type controls:ContentPlaceholder}}}" />
+</Grid>

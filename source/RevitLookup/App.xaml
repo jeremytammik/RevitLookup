@@ -1,0 +1,16 @@
+<Application
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:markup="clr-namespace:RevitLookup.Views.Markup">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <rl:ThemesDictionary />
+                <rl:ControlsDictionary />
+                <markup:MenusDictionary />
+                <markup:StylesDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

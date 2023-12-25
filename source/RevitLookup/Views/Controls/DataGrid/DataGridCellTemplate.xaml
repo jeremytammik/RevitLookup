@@ -1,0 +1,56 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
+    xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
+    mc:Ignorable="d">
+
+    <DataTemplate
+        x:Key="DefaultLookupDataGridCellTemplate">
+        <TextBlock
+            d:DataContext="{d:DesignInstance objects:Descriptor}"
+            Text="{Binding Value.Descriptor,
+                Converter={converters:CombinedDescriptorConverter},
+                Mode=OneTime}" />
+    </DataTemplate>
+
+    <DataTemplate
+        x:Key="DataGridColorCellTemplate">
+        <StackPanel
+            Orientation="Horizontal">
+            <TextBlock
+                d:DataContext="{d:DesignInstance objects:Descriptor}"
+                VerticalAlignment="Center"
+                Text="{Binding Value.Descriptor,
+                    Converter={converters:CombinedDescriptorConverter},
+                    Mode=OneTime}" />
+            <Border
+                CornerRadius="4"
+                Padding="4 2"
+                Margin="4 0 0 0"
+                VerticalAlignment="Center"
+                d:DataContext="{d:DesignInstance objects:Descriptor}">
+                <Border.Background>
+                    <SolidColorBrush
+                        Opacity="0.05"
+                        Color="{DynamicResource FocusStrokeColorOuter}">
+                    </SolidColorBrush>
+                </Border.Background>
+                <Border
+                    Width="10"
+                    Height="10">
+                    <Border.Background>
+                        <SolidColorBrush
+                            Color="{Binding Value.Object,
+                            Converter={converters:ObjectColorConverter},
+                            Mode=OneTime}">
+                        </SolidColorBrush>
+                    </Border.Background>
+                </Border>
+            </Border>
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

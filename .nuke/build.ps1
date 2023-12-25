@@ -13,7 +13,7 @@ Set-StrictMode -Version 2.0; $ErrorActionPreference = "Stop"; $ConfirmPreference
 ###########################################################################
 
 $SolutionDirectory = Split-Path $PSScriptRoot -Parent
-$BuildProjectFile = "$SolutionDirectory\Build\Build.csproj"
+$BuildProjectFile = "$SolutionDirectory\build\Build.csproj"
 $TempDirectory = "$SolutionDirectory\.nuke\temp"
 
 $DotNetGlobalFile = "$SolutionDirectory\global.json"

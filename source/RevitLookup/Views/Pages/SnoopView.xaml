@@ -1,0 +1,140 @@
+<abstraction:SnoopViewBase
+    x:Class="RevitLookup.Views.Pages.SnoopView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
+    xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
+    xmlns:abstraction="clr-namespace:RevitLookup.Views.Pages.Abstraction"
+    xmlns:controls="clr-namespace:RevitLookup.Views.Controls"
+    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
+    mc:Ignorable="d"
+    d:DesignHeight="500"
+    d:DesignWidth="700"
+    d:DataContext="{d:DesignInstance pages:SnoopView}">
+
+    <abstraction:SnoopViewBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <markup:StylesDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </abstraction:SnoopViewBase.Resources>
+
+    <Grid
+        Margin="12">
+        <controls:ContentPlaceholder
+            Text="Nothing to show"
+            MaxHeight="300"
+            Visibility="{Binding ViewModel.SnoopableObjects,
+                Converter={converters:CollectionEmptyVisibilityConverter}}">
+        </controls:ContentPlaceholder>
+        <Grid
+            Visibility="{Binding ViewModel.SnoopableObjects,
+                Converter={converters:InverseCollectionSizeVisibilityConverter}}"
+            Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="250" />
+                <ColumnDefinition
+                    Width="9" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <DockPanel
+                Grid.Column="0">
+                <rl:TextBox
+                    x:Name="SearchBox"
+                    DockPanel.Dock="Top"
+                    PlaceholderText="Search..."
+                    Icon="{rl:SymbolIcon Search24}"
+                    IconPlacement="Right"
+                    Text="{Binding ViewModel.SearchText,
+                        Mode=TwoWay,
+                        UpdateSourceTrigger=PropertyChanged}" />
+                <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
+                <rl:TreeView
+                    x:Name="TreeView"
+                    Margin="0 8 0 0"
+                    VirtualizingStackPanel.IsVirtualizing="True"
+                    ItemsSource="{Binding
+                        ViewModel.FilteredSnoopableObjects,
+                        Converter={converters:TreeViewGroupConverter}}"
+                    MouseMove="OnPresenterCursorInteracted"
+                    ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}" />
+                <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
+            </DockPanel>
+            <rl:DataGrid
+                Grid.Column="2"
+                x:Name="DataGrid"
+                IsReadOnly="True"
+                MinColumnWidth="100"
+                ColumnHeaderHeight="30"
+                HeadersVisibility="Column"
+                AutoGenerateColumns="False"
+                SelectionMode="Single"
+                CanUserAddRows="False"
+                CanUserDeleteRows="False"
+                CanUserResizeRows="False"
+                CanUserSortColumns="False"
+                CanUserReorderColumns="False"
+                HorizontalScrollBarVisibility="Disabled"
+                ItemsSource="{Binding ViewModel.FilteredSnoopableData}"
+                MouseMove="OnPresenterCursorInteracted"
+                LoadingRow="OnGridRowLoading">
+                <rl:DataGrid.Columns>
+                    <DataGridTemplateColumn
+                        Width="*"
+                        Header="Member">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <rl:SymbolIcon
+                                        FontSize="16"
+                                        FontWeight="Normal"
+                                        Symbol="{Binding MemberAttributes,
+                                            Converter={converters:IconDescriptorConverter},
+                                            Mode=OneTime}" />
+                                    <TextBlock
+                                        Margin="4 0 0 0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Name, Mode=OneTime}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
+                    <DataGridTemplateColumn
+                        Width="2*"
+                        Header="Value"
+                        CellTemplateSelector="{StaticResource DataGridCellStyleSelector}"/>
+                    <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
+                    <DataGridTextColumn
+                        Width="61"
+                        MinWidth="0"
+                        CanUserResize="False"
+                        Binding="{Binding ComputationTime,
+                            Converter={converters:TimeToStringConverter},
+                            Mode=OneTime}"
+                        Header="Time">
+                    </DataGridTextColumn>
+                </rl:DataGrid.Columns>
+                <rl:DataGrid.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DataGridRowsPresenter
+                            IsVirtualizing="True"
+                            VirtualizationMode="Recycling"
+                            IsContainerVirtualizable="True"
+                            IsVirtualizingWhenGrouping="True" />
+                    </ItemsPanelTemplate>
+                </rl:DataGrid.ItemsPanel>
+                <rl:DataGrid.GroupStyle>
+                    <controls:DataGridGroupStyle />
+                </rl:DataGrid.GroupStyle>
+            </rl:DataGrid>
+        </Grid>
+    </Grid>
+
+</abstraction:SnoopViewBase>

@@ -1,0 +1,1428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="000000" xml:space="preserve">
+        <value>Black</value>
+    </data>
+    <data name="000080" xml:space="preserve">
+        <value>Navy blue</value>
+    </data>
+    <data name="0000FF" xml:space="preserve">
+        <value>Blue</value>
+    </data>
+    <data name="0018A8" xml:space="preserve">
+        <value>Blue (Pantone)</value>
+    </data>
+    <data name="002E63" xml:space="preserve">
+        <value>Cool Black</value>
+    </data>
+    <data name="003153" xml:space="preserve">
+        <value>Prussian blue</value>
+    </data>
+    <data name="003366" xml:space="preserve">
+        <value>Midnight Blue</value>
+    </data>
+    <data name="003399" xml:space="preserve">
+        <value>Powder blue</value>
+    </data>
+    <data name="003A6C" xml:space="preserve">
+        <value>Ateneo blue</value>
+    </data>
+    <data name="004225" xml:space="preserve">
+        <value>British racing green</value>
+    </data>
+    <data name="0047AB" xml:space="preserve">
+        <value>Cobalt</value>
+    </data>
+    <data name="0048BA" xml:space="preserve">
+        <value>Absolute zero</value>
+    </data>
+    <data name="00563F" xml:space="preserve">
+        <value>Castleton green</value>
+    </data>
+    <data name="006A4E" xml:space="preserve">
+        <value>Bottle green</value>
+    </data>
+    <data name="006B3C" xml:space="preserve">
+        <value>Cadmium green</value>
+    </data>
+    <data name="007BA7" xml:space="preserve">
+        <value>Cerulean</value>
+    </data>
+    <data name="007DFF" xml:space="preserve">
+        <value>Gradus Blue</value>
+    </data>
+    <data name="007FFF" xml:space="preserve">
+        <value>Azure</value>
+    </data>
+    <data name="008080" xml:space="preserve">
+        <value>Teal</value>
+    </data>
+    <data name="0088DC" xml:space="preserve">
+        <value>Blue cola</value>
+    </data>
+    <data name="0093AF" xml:space="preserve">
+        <value>Blue (Munsell)</value>
+    </data>
+    <data name="0095B6" xml:space="preserve">
+        <value>Bondi Blue</value>
+    </data>
+    <data name="00A86B" xml:space="preserve">
+        <value>Jade</value>
+    </data>
+    <data name="00B9FB" xml:space="preserve">
+        <value>Blue Bolt</value>
+    </data>
+    <data name="00BFFF" xml:space="preserve">
+        <value>Deep sky blue</value>
+    </data>
+    <data name="00C4B0" xml:space="preserve">
+        <value>Amazonite</value>
+    </data>
+    <data name="00CC99" xml:space="preserve">
+        <value>Caribbean green</value>
+    </data>
+    <data name="00CCCC" xml:space="preserve">
+        <value>Robin egg blue</value>
+    </data>
+    <data name="00FF00" xml:space="preserve">
+        <value>Green</value>
+    </data>
+    <data name="00FF7F" xml:space="preserve">
+        <value>Spring Green</value>
+    </data>
+    <data name="00FFFF" xml:space="preserve">
+        <value>Aqua</value>
+    </data>
+    <data name="013220" xml:space="preserve">
+        <value>Dark green</value>
+    </data>
+    <data name="01796F" xml:space="preserve">
+        <value>Pine Green</value>
+    </data>
+    <data name="03C03C" xml:space="preserve">
+        <value>Dark pastel green</value>
+    </data>
+    <data name="064E40" xml:space="preserve">
+        <value>Blue-green (color wheel)</value>
+    </data>
+    <data name="082567" xml:space="preserve">
+        <value>Sapphire</value>
+    </data>
+    <data name="08457E" xml:space="preserve">
+        <value>Dark cerulean</value>
+    </data>
+    <data name="08E8DE" xml:space="preserve">
+        <value>Bright turquoise</value>
+    </data>
+    <data name="0A1195" xml:space="preserve">
+        <value>Cadmium blue</value>
+    </data>
+    <data name="0BDA51" xml:space="preserve">
+        <value>Malachite</value>
+    </data>
+    <data name="0D98BA" xml:space="preserve">
+        <value>Blue-green</value>
+    </data>
+    <data name="116062" xml:space="preserve">
+        <value>Dark turquoise</value>
+    </data>
+    <data name="120A8F" xml:space="preserve">
+        <value>Ultramarine</value>
+    </data>
+    <data name="126180" xml:space="preserve">
+        <value>Blue sapphire</value>
+    </data>
+    <data name="141414" xml:space="preserve">
+        <value>Chinese black</value>
+    </data>
+    <data name="1560BD" xml:space="preserve">
+        <value>Denim</value>
+    </data>
+    <data name="177245" xml:space="preserve">
+        <value>Dark spring green</value>
+    </data>
+    <data name="1974D2" xml:space="preserve">
+        <value>Bright navy blue</value>
+    </data>
+    <data name="1A4780" xml:space="preserve">
+        <value>Black Sea</value>
+    </data>
+    <data name="1B1811" xml:space="preserve">
+        <value>Black chocolate</value>
+    </data>
+    <data name="1B4D3E" xml:space="preserve">
+        <value>Brunswick green</value>
+    </data>
+    <data name="1C6B72" xml:space="preserve">
+        <value>Moray</value>
+    </data>
+    <data name="1DACD6" xml:space="preserve">
+        <value>Bright cerulean</value>
+    </data>
+    <data name="1E90FF" xml:space="preserve">
+        <value>Dodger blue</value>
+    </data>
+    <data name="1F4037" xml:space="preserve">
+        <value>Red Sea</value>
+    </data>
+    <data name="1F75FE" xml:space="preserve">
+        <value>Blue (Crayola)</value>
+    </data>
+    <data name="21ABCD" xml:space="preserve">
+        <value>Ball blue</value>
+    </data>
+    <data name="232B2B" xml:space="preserve">
+        <value>Charleston green</value>
+    </data>
+    <data name="246BCE" xml:space="preserve">
+        <value>Celtic Blue</value>
+    </data>
+    <data name="24A0ED" xml:space="preserve">
+        <value>Button Blue</value>
+    </data>
+    <data name="253529" xml:space="preserve">
+        <value>Black leather jacket</value>
+    </data>
+    <data name="2A52BE" xml:space="preserve">
+        <value>Cerulean blue</value>
+    </data>
+    <data name="2A8FBD" xml:space="preserve">
+        <value>Christmas blue</value>
+    </data>
+    <data name="2E2D88" xml:space="preserve">
+        <value>Cosmic Cobalt</value>
+    </data>
+    <data name="2E5894" xml:space="preserve">
+        <value>B'dazzled blue</value>
+    </data>
+    <data name="2E8B57" xml:space="preserve">
+        <value>Sea Green</value>
+    </data>
+    <data name="2F4F4F" xml:space="preserve">
+        <value>Dark slate gray</value>
+    </data>
+    <data name="30D5C8" xml:space="preserve">
+        <value>Turquoise</value>
+    </data>
+    <data name="310062" xml:space="preserve">
+        <value>Dark Indigo</value>
+    </data>
+    <data name="318CE7" xml:space="preserve">
+        <value>Bleu de France</value>
+    </data>
+    <data name="333399" xml:space="preserve">
+        <value>Blue (pigment)</value>
+    </data>
+    <data name="3399FF" xml:space="preserve">
+        <value>Brilliant azure</value>
+    </data>
+    <data name="34B334" xml:space="preserve">
+        <value>American green</value>
+    </data>
+    <data name="34C924" xml:space="preserve">
+        <value>Vert-de-pomme</value>
+    </data>
+    <data name="36454F" xml:space="preserve">
+        <value>Charcoal</value>
+    </data>
+    <data name="365194" xml:space="preserve">
+        <value>Chinese blue</value>
+    </data>
+    <data name="391802" xml:space="preserve">
+        <value>American bronze</value>
+    </data>
+    <data name="3A75C4" xml:space="preserve">
+        <value>Klein Blue</value>
+    </data>
+    <data name="3B2F2F" xml:space="preserve">
+        <value>Black coffee</value>
+    </data>
+    <data name="3B3B6D" xml:space="preserve">
+        <value>American blue</value>
+    </data>
+    <data name="3B3C36" xml:space="preserve">
+        <value>Black olive</value>
+    </data>
+    <data name="3B444B" xml:space="preserve">
+        <value>Arsenic</value>
+    </data>
+    <data name="3B7A57" xml:space="preserve">
+        <value>Amazon</value>
+    </data>
+    <data name="3C1421" xml:space="preserve">
+        <value>Chocolate Kisses</value>
+    </data>
+    <data name="3C3024" xml:space="preserve">
+        <value>Cola</value>
+    </data>
+    <data name="3C8D0D" xml:space="preserve">
+        <value>Christmas green</value>
+    </data>
+    <data name="3CAA3C" xml:space="preserve">
+        <value>Toad in love</value>
+    </data>
+    <data name="3D0C02" xml:space="preserve">
+        <value>Black bean</value>
+    </data>
+    <data name="3D2B1F" xml:space="preserve">
+        <value>Bistre</value>
+    </data>
+    <data name="3F000F" xml:space="preserve">
+        <value>Chocolate Brown</value>
+    </data>
+    <data name="40826D" xml:space="preserve">
+        <value>Viridian</value>
+    </data>
+    <data name="4169E1" xml:space="preserve">
+        <value>Royal Blue</value>
+    </data>
+    <data name="423189" xml:space="preserve">
+        <value>Dark violet</value>
+    </data>
+    <data name="442D25" xml:space="preserve">
+        <value>Coffee</value>
+    </data>
+    <data name="45161C" xml:space="preserve">
+        <value>Fulvous</value>
+    </data>
+    <data name="464451" xml:space="preserve">
+        <value>Anthracite</value>
+    </data>
+    <data name="465945" xml:space="preserve">
+        <value>Gray-asparagus</value>
+    </data>
+    <data name="4682B4" xml:space="preserve">
+        <value>Steel blue</value>
+    </data>
+    <data name="480607" xml:space="preserve">
+        <value>Bulgarian rose</value>
+    </data>
+    <data name="4A2C2A" xml:space="preserve">
+        <value>Brown Coffee</value>
+    </data>
+    <data name="4AFF00" xml:space="preserve">
+        <value>Chlorophyll green</value>
+    </data>
+    <data name="4B0082" xml:space="preserve">
+        <value>Indigo</value>
+    </data>
+    <data name="4B3621" xml:space="preserve">
+        <value>Caf? noir</value>
+    </data>
+    <data name="4B5320" xml:space="preserve">
+        <value>Army green</value>
+    </data>
+    <data name="4C2F27" xml:space="preserve">
+        <value>Acajou</value>
+    </data>
+    <data name="4C5866" xml:space="preserve">
+        <value>Marengo</value>
+    </data>
+    <data name="4D1A7F" xml:space="preserve">
+        <value>Blue-violet (color wheel)</value>
+    </data>
+    <data name="4E1609" xml:space="preserve">
+        <value>Flea belly</value>
+    </data>
+    <data name="4F7942" xml:space="preserve">
+        <value>Fern green</value>
+    </data>
+    <data name="4F86F7" xml:space="preserve">
+        <value>Blueberry</value>
+    </data>
+    <data name="5072A7" xml:space="preserve">
+        <value>Blue yonder</value>
+    </data>
+    <data name="50C878" xml:space="preserve">
+        <value>Emerald</value>
+    </data>
+    <data name="54626F" xml:space="preserve">
+        <value>Black Coral</value>
+    </data>
+    <data name="551B8C" xml:space="preserve">
+        <value>American violet</value>
+    </data>
+    <data name="553592" xml:space="preserve">
+        <value>Blue-magenta violet</value>
+    </data>
+    <data name="556832" xml:space="preserve">
+        <value>Dark Olive</value>
+    </data>
+    <data name="560319" xml:space="preserve">
+        <value>Dark Scarlet</value>
+    </data>
+    <data name="568203" xml:space="preserve">
+        <value>Avocado</value>
+    </data>
+    <data name="56A0D3" xml:space="preserve">
+        <value>Carolina blue</value>
+    </data>
+    <data name="58111A" xml:space="preserve">
+        <value>Chocolate Cosmos</value>
+    </data>
+    <data name="592720" xml:space="preserve">
+        <value>Caput mortuum</value>
+    </data>
+    <data name="5D2B2C" xml:space="preserve">
+        <value>Christmas brown</value>
+    </data>
+    <data name="5D8AA8" xml:space="preserve">
+        <value>Air Force Navy(RAF)</value>
+    </data>
+    <data name="5DA130" xml:space="preserve">
+        <value>Grass</value>
+    </data>
+    <data name="5DADEC" xml:space="preserve">
+        <value>Blue Jeans</value>
+    </data>
+    <data name="5F1933" xml:space="preserve">
+        <value>Brown Chocolate</value>
+    </data>
+    <data name="630F0F" xml:space="preserve">
+        <value>Blood (Organ)</value>
+    </data>
+    <data name="63775B" xml:space="preserve">
+        <value>Axolotl</value>
+    </data>
+    <data name="6495ED" xml:space="preserve">
+        <value>Cornflower blue</value>
+    </data>
+    <data name="654321" xml:space="preserve">
+        <value>Dark brown</value>
+    </data>
+    <data name="660000" xml:space="preserve">
+        <value>Blood red</value>
+    </data>
+    <data name="660066" xml:space="preserve">
+        <value>Plum</value>
+    </data>
+    <data name="660099" xml:space="preserve">
+        <value>Purple</value>
+    </data>
+    <data name="6600FF" xml:space="preserve">
+        <value>Persian blue</value>
+    </data>
+    <data name="663398" xml:space="preserve">
+        <value>Christmas purple</value>
+    </data>
+    <data name="665D1E" xml:space="preserve">
+        <value>Antique bronze</value>
+    </data>
+    <data name="6699CC" xml:space="preserve">
+        <value>Blue-gray</value>
+    </data>
+    <data name="66B447" xml:space="preserve">
+        <value>Apple</value>
+    </data>
+    <data name="66FF00" xml:space="preserve">
+        <value>Bright green</value>
+    </data>
+    <data name="6B4423" xml:space="preserve">
+        <value>Brown-nose</value>
+    </data>
+    <data name="6B8E23" xml:space="preserve">
+        <value>Olive Drab</value>
+    </data>
+    <data name="6E7F80" xml:space="preserve">
+        <value>AuroMetalSaurus</value>
+    </data>
+    <data name="702963" xml:space="preserve">
+        <value>Byzantium</value>
+    </data>
+    <data name="703642" xml:space="preserve">
+        <value>Catawba</value>
+    </data>
+    <data name="704214" xml:space="preserve">
+        <value>Sepia</value>
+    </data>
+    <data name="708090" xml:space="preserve">
+        <value>Slate gray</value>
+    </data>
+    <data name="720B98" xml:space="preserve">
+        <value>Chinese purple</value>
+    </data>
+    <data name="72A0C1" xml:space="preserve">
+        <value>Air superiority blue</value>
+    </data>
+    <data name="734A12" xml:space="preserve">
+        <value>Raw umber</value>
+    </data>
+    <data name="735184" xml:space="preserve">
+        <value>Seroburomalinovyj</value>
+    </data>
+    <data name="7366BD" xml:space="preserve">
+        <value>Blue-violet (Crayola)</value>
+    </data>
+    <data name="737000" xml:space="preserve">
+        <value>Bronze Yellow</value>
+    </data>
+    <data name="755A57" xml:space="preserve">
+        <value>Russet</value>
+    </data>
+    <data name="77DD77" xml:space="preserve">
+        <value>Pastel green</value>
+    </data>
+    <data name="78866B" xml:space="preserve">
+        <value>Camouflage green</value>
+    </data>
+    <data name="79443B" xml:space="preserve">
+        <value>Bole</value>
+    </data>
+    <data name="79A0C1" xml:space="preserve">
+        <value>Bluish</value>
+    </data>
+    <data name="7B3F00" xml:space="preserve">
+        <value>Cinnamon</value>
+    </data>
+    <data name="7B917B" xml:space="preserve">
+        <value>Fainted frog</value>
+    </data>
+    <data name="7BA05B" xml:space="preserve">
+        <value>Asparagus</value>
+    </data>
+    <data name="7BB661" xml:space="preserve">
+        <value>Bud green</value>
+    </data>
+    <data name="7C0A02" xml:space="preserve">
+        <value>Barn red</value>
+    </data>
+    <data name="7CB9E8" xml:space="preserve">
+        <value>Aero</value>
+    </data>
+    <data name="7DF9FF" xml:space="preserve">
+        <value>Electric</value>
+    </data>
+    <data name="7F1734" xml:space="preserve">
+        <value>Claret</value>
+    </data>
+    <data name="7F3E98" xml:space="preserve">
+        <value>Cadmium violet</value>
+    </data>
+    <data name="7FC7FF" xml:space="preserve">
+        <value>Sky</value>
+    </data>
+    <data name="7FFF00" xml:space="preserve">
+        <value>Chartreuse</value>
+    </data>
+    <data name="7FFFD4" xml:space="preserve">
+        <value>Aquamarine</value>
+    </data>
+    <data name="800000" xml:space="preserve">
+        <value>Maroon</value>
+    </data>
+    <data name="800020" xml:space="preserve">
+        <value>Burgundy</value>
+    </data>
+    <data name="804040" xml:space="preserve">
+        <value>American brown</value>
+    </data>
+    <data name="808000" xml:space="preserve">
+        <value>Olive</value>
+    </data>
+    <data name="808080" xml:space="preserve">
+        <value>Gray</value>
+    </data>
+    <data name="81613C" xml:space="preserve">
+        <value>Coyote brown</value>
+    </data>
+    <data name="834D18" xml:space="preserve">
+        <value>Byron</value>
+    </data>
+    <data name="841B2D" xml:space="preserve">
+        <value>Antique ruby</value>
+    </data>
+    <data name="848482" xml:space="preserve">
+        <value>Battleship grey</value>
+    </data>
+    <data name="84DE02" xml:space="preserve">
+        <value>Alien Armpit</value>
+    </data>
+    <data name="856088" xml:space="preserve">
+        <value>Chinese violet</value>
+    </data>
+    <data name="87413F" xml:space="preserve">
+        <value>Brandy</value>
+    </data>
+    <data name="87A96B" xml:space="preserve">
+        <value>Asparagus</value>
+    </data>
+    <data name="884535" xml:space="preserve">
+        <value>Brick</value>
+    </data>
+    <data name="893F45" xml:space="preserve">
+        <value>Cordovan</value>
+    </data>
+    <data name="89CFF0" xml:space="preserve">
+        <value>Baby blue</value>
+    </data>
+    <data name="8A0303" xml:space="preserve">
+        <value>Blood</value>
+    </data>
+    <data name="8A2BE2" xml:space="preserve">
+        <value>Blue-violet</value>
+    </data>
+    <data name="8A3324" xml:space="preserve">
+        <value>Burnt umber</value>
+    </data>
+    <data name="8B00FF" xml:space="preserve">
+        <value>Violet</value>
+    </data>
+    <data name="8C92AC" xml:space="preserve">
+        <value>Cool grey</value>
+    </data>
+    <data name="8DB600" xml:space="preserve">
+        <value>Apple Green</value>
+    </data>
+    <data name="8F5973" xml:space="preserve">
+        <value>Blackberry</value>
+    </data>
+    <data name="8F9779" xml:space="preserve">
+        <value>Artichoke</value>
+    </data>
+    <data name="900020" xml:space="preserve">
+        <value>Burgundy</value>
+    </data>
+    <data name="904D30" xml:space="preserve">
+        <value>Terracotta</value>
+    </data>
+    <data name="911E42" xml:space="preserve">
+        <value>Cherry</value>
+    </data>
+    <data name="915C83" xml:space="preserve">
+        <value>Antique fuchsia</value>
+    </data>
+    <data name="918151" xml:space="preserve">
+        <value>Dark tan</value>
+    </data>
+    <data name="92000A" xml:space="preserve">
+        <value>Sangria</value>
+    </data>
+    <data name="954535" xml:space="preserve">
+        <value>Chestnut</value>
+    </data>
+    <data name="960018" xml:space="preserve">
+        <value>Carmine</value>
+    </data>
+    <data name="964B00" xml:space="preserve">
+        <value>Brown</value>
+    </data>
+    <data name="965A3E" xml:space="preserve">
+        <value>Coconut</value>
+    </data>
+    <data name="967117" xml:space="preserve">
+        <value>Bistre brown</value>
+    </data>
+    <data name="986960" xml:space="preserve">
+        <value>Dark chestnut</value>
+    </data>
+    <data name="987654" xml:space="preserve">
+        <value>Pale brown</value>
+    </data>
+    <data name="98777B" xml:space="preserve">
+        <value>Bazaar</value>
+    </data>
+    <data name="98817B" xml:space="preserve">
+        <value>Cinereous</value>
+    </data>
+    <data name="98FF98" xml:space="preserve">
+        <value>Mint Green</value>
+    </data>
+    <data name="990066" xml:space="preserve">
+        <value>Eggplant</value>
+    </data>
+    <data name="991199" xml:space="preserve">
+        <value>Violet-eggplant</value>
+    </data>
+    <data name="993366" xml:space="preserve">
+        <value>Mauve</value>
+    </data>
+    <data name="996666" xml:space="preserve">
+        <value>Copper rose</value>
+    </data>
+    <data name="9966CC" xml:space="preserve">
+        <value>Amethyst</value>
+    </data>
+    <data name="997A8D" xml:space="preserve">
+        <value>Mountbatten pink</value>
+    </data>
+    <data name="99958C" xml:space="preserve">
+        <value>Quartz</value>
+    </data>
+    <data name="9B2D30" xml:space="preserve">
+        <value>Wine red</value>
+    </data>
+    <data name="9C2542" xml:space="preserve">
+        <value>Big dip o’ruby</value>
+    </data>
+    <data name="9DB1CC" xml:space="preserve">
+        <value>Niagara</value>
+    </data>
+    <data name="9F2B68" xml:space="preserve">
+        <value>Amaranth deep purple</value>
+    </data>
+    <data name="9F8170" xml:space="preserve">
+        <value>Beaver</value>
+    </data>
+    <data name="9FA91F" xml:space="preserve">
+        <value>Citron</value>
+    </data>
+    <data name="A08040" xml:space="preserve">
+        <value>Chamois</value>
+    </data>
+    <data name="A17A74" xml:space="preserve">
+        <value>Burnished Brown</value>
+    </data>
+    <data name="A1CAF1" xml:space="preserve">
+        <value>Baby blue eyes</value>
+    </data>
+    <data name="A25F2A" xml:space="preserve">
+        <value>Camelopardalis</value>
+    </data>
+    <data name="A2A2D0" xml:space="preserve">
+        <value>Blue Bell</value>
+    </data>
+    <data name="A41313" xml:space="preserve">
+        <value>Blood (Animal)</value>
+    </data>
+    <data name="A4C639" xml:space="preserve">
+        <value>Android green</value>
+    </data>
+    <data name="A5260A" xml:space="preserve">
+        <value>Bismarck-furious</value>
+    </data>
+    <data name="A52A2A" xml:space="preserve">
+        <value>Auburn</value>
+    </data>
+    <data name="A57164" xml:space="preserve">
+        <value>Blast-off bronze</value>
+    </data>
+    <data name="A67B5B" xml:space="preserve">
+        <value>Caf? au lait</value>
+    </data>
+    <data name="A8516E" xml:space="preserve">
+        <value>China rose</value>
+    </data>
+    <data name="AA381E" xml:space="preserve">
+        <value>Chinese red</value>
+    </data>
+    <data name="AB274F" xml:space="preserve">
+        <value>Amaranth purple</value>
+    </data>
+    <data name="AB381F" xml:space="preserve">
+        <value>Chinese brown</value>
+    </data>
+    <data name="ABCDEF" xml:space="preserve">
+        <value>Pale cornflower blue</value>
+    </data>
+    <data name="ACB78E" xml:space="preserve">
+        <value>Swamp green</value>
+    </data>
+    <data name="ACE1AF" xml:space="preserve">
+        <value>Celadon</value>
+    </data>
+    <data name="ACE5EE" xml:space="preserve">
+        <value>Blue Lagoon</value>
+    </data>
+    <data name="AD6F69" xml:space="preserve">
+        <value>Copper penny</value>
+    </data>
+    <data name="ADDFAD" xml:space="preserve">
+        <value>Moss green</value>
+    </data>
+    <data name="ADFF2F" xml:space="preserve">
+        <value>Green-yellow</value>
+    </data>
+    <data name="AF002A" xml:space="preserve">
+        <value>Alabama crimson</value>
+    </data>
+    <data name="AF4035" xml:space="preserve">
+        <value>Pale carmine</value>
+    </data>
+    <data name="AF6E4D" xml:space="preserve">
+        <value>Brown Sugar</value>
+    </data>
+    <data name="AFEEEE" xml:space="preserve">
+        <value>Pale Blue</value>
+    </data>
+    <data name="B01B2E" xml:space="preserve">
+        <value>Christmas red</value>
+    </data>
+    <data name="B08D57" xml:space="preserve">
+        <value>Bronze (Metallic)</value>
+    </data>
+    <data name="B0BF1A" xml:space="preserve">
+        <value>Acid green</value>
+    </data>
+    <data name="B284BE" xml:space="preserve">
+        <value>African violet</value>
+    </data>
+    <data name="B2BEB5" xml:space="preserve">
+        <value>Ash gray</value>
+    </data>
+    <data name="B31B1B" xml:space="preserve">
+        <value>Carnelian</value>
+    </data>
+    <data name="B32134" xml:space="preserve">
+        <value>American red</value>
+    </data>
+    <data name="B5A642" xml:space="preserve">
+        <value>Brass</value>
+    </data>
+    <data name="B60C26" xml:space="preserve">
+        <value>Cadmium Purple</value>
+    </data>
+    <data name="B7410E" xml:space="preserve">
+        <value>Rust</value>
+    </data>
+    <data name="B87333" xml:space="preserve">
+        <value>Copper</value>
+    </data>
+    <data name="B8860B" xml:space="preserve">
+        <value>Dark goldenrod</value>
+    </data>
+    <data name="BADBAD" xml:space="preserve">
+        <value>Dark Tea Green</value>
+    </data>
+    <data name="BBBBBB" xml:space="preserve">
+        <value>Light Grey</value>
+    </data>
+    <data name="BCD4E6" xml:space="preserve">
+        <value>Beau blue</value>
+    </data>
+    <data name="BD33A4" xml:space="preserve">
+        <value>Byzantine</value>
+    </data>
+    <data name="BDB76B" xml:space="preserve">
+        <value>Dark Khaki</value>
+    </data>
+    <data name="BEF574" xml:space="preserve">
+        <value>Pistachio</value>
+    </data>
+    <data name="BF4F51" xml:space="preserve">
+        <value>Bittersweet shimmer</value>
+    </data>
+    <data name="BF94E4" xml:space="preserve">
+        <value>Bright lavender</value>
+    </data>
+    <data name="BFAFB2" xml:space="preserve">
+        <value>Black Shadows</value>
+    </data>
+    <data name="BFFF00" xml:space="preserve">
+        <value>Bitter lime</value>
+    </data>
+    <data name="C0C0C0" xml:space="preserve">
+        <value>Silver</value>
+    </data>
+    <data name="C19A6B" xml:space="preserve">
+        <value>Camel</value>
+    </data>
+    <data name="C32148" xml:space="preserve">
+        <value>Bright maroon</value>
+    </data>
+    <data name="C39953" xml:space="preserve">
+        <value>Aztec Gold</value>
+    </data>
+    <data name="C3B091" xml:space="preserve">
+        <value>Khaki</value>
+    </data>
+    <data name="C41E3A" xml:space="preserve">
+        <value>Cardinal</value>
+    </data>
+    <data name="C46210" xml:space="preserve">
+        <value>Alloy orange</value>
+    </data>
+    <data name="C4D8E2" xml:space="preserve">
+        <value>Columbia Blue</value>
+    </data>
+    <data name="C71585" xml:space="preserve">
+        <value>Red-violet</value>
+    </data>
+    <data name="C7D0CC" xml:space="preserve">
+        <value>Gris de perle</value>
+    </data>
+    <data name="C7FCEC" xml:space="preserve">
+        <value>Pang</value>
+    </data>
+    <data name="C8A2C8" xml:space="preserve">
+        <value>Lilac</value>
+    </data>
+    <data name="C95A49" xml:space="preserve">
+        <value>Cedar Chest</value>
+    </data>
+    <data name="C9A0DC" xml:space="preserve">
+        <value>Wisteria</value>
+    </data>
+    <data name="C9FFE5" xml:space="preserve">
+        <value>Aero blue</value>
+    </data>
+    <data name="CAA906" xml:space="preserve">
+        <value>Christmas gold</value>
+    </data>
+    <data name="CADABA" xml:space="preserve">
+        <value>Gray-Tea Green</value>
+    </data>
+    <data name="CAE00D" xml:space="preserve">
+        <value>Bitter lemon</value>
+    </data>
+    <data name="CB4154" xml:space="preserve">
+        <value>Brick red</value>
+    </data>
+    <data name="CC0000" xml:space="preserve">
+        <value>Boston University Red</value>
+    </data>
+    <data name="CC5500" xml:space="preserve">
+        <value>Burnt orange</value>
+    </data>
+    <data name="CC7722" xml:space="preserve">
+        <value>Ochre</value>
+    </data>
+    <data name="CC8899" xml:space="preserve">
+        <value>Puce</value>
+    </data>
+    <data name="CC9900" xml:space="preserve">
+        <value>Chinese gold</value>
+    </data>
+    <data name="CC9966" xml:space="preserve">
+        <value>Brown Yellow</value>
+    </data>
+    <data name="CCCCCC" xml:space="preserve">
+        <value>Chinese silver</value>
+    </data>
+    <data name="CCCCFF" xml:space="preserve">
+        <value>Periwinkle</value>
+    </data>
+    <data name="CCFF00" xml:space="preserve">
+        <value>Lime</value>
+    </data>
+    <data name="CD00CD" xml:space="preserve">
+        <value>Bright violet</value>
+    </data>
+    <data name="CD5700" xml:space="preserve">
+        <value>Tenne</value>
+    </data>
+    <data name="CD5B45" xml:space="preserve">
+        <value>Dark coral</value>
+    </data>
+    <data name="CD5C5C" xml:space="preserve">
+        <value>Chestnut</value>
+    </data>
+    <data name="CD607E" xml:space="preserve">
+        <value>Cinnamon Satin</value>
+    </data>
+    <data name="CD7F32" xml:space="preserve">
+        <value>Bronze</value>
+    </data>
+    <data name="CD8032" xml:space="preserve">
+        <value>Chinese bronze</value>
+    </data>
+    <data name="CD853F" xml:space="preserve">
+        <value>Light brown</value>
+    </data>
+    <data name="CD9575" xml:space="preserve">
+        <value>Antique brass</value>
+    </data>
+    <data name="CFB53B" xml:space="preserve">
+        <value>Old Gold</value>
+    </data>
+    <data name="CFCFCF" xml:space="preserve">
+        <value>American silver</value>
+    </data>
+    <data name="D0DB61" xml:space="preserve">
+        <value>Chinese green</value>
+    </data>
+    <data name="D0F0C0" xml:space="preserve">
+        <value>Tea Green</value>
+    </data>
+    <data name="D0FF14" xml:space="preserve">
+        <value>Arctic lime</value>
+    </data>
+    <data name="D1001C" xml:space="preserve">
+        <value>Blood orange</value>
+    </data>
+    <data name="D19FE8" xml:space="preserve">
+        <value>Bright ube</value>
+    </data>
+    <data name="D1E231" xml:space="preserve">
+        <value>Pear</value>
+    </data>
+    <data name="D2691E" xml:space="preserve">
+        <value>Chocolate</value>
+    </data>
+    <data name="D2B48C" xml:space="preserve">
+        <value>Tan</value>
+    </data>
+    <data name="D3212D" xml:space="preserve">
+        <value>Amaranth red</value>
+    </data>
+    <data name="D3AF37" xml:space="preserve">
+        <value>American gold</value>
+    </data>
+    <data name="D53E07" xml:space="preserve">
+        <value>Titian</value>
+    </data>
+    <data name="D5713F" xml:space="preserve">
+        <value>Vanilla</value>
+    </data>
+    <data name="D5D5D5" xml:space="preserve">
+        <value>Abdel Kerim's beard</value>
+    </data>
+    <data name="D77D31" xml:space="preserve">
+        <value>Reddish-brown</value>
+    </data>
+    <data name="D891EF" xml:space="preserve">
+        <value>Bright lilac</value>
+    </data>
+    <data name="D8A903" xml:space="preserve">
+        <value>Dark pear</value>
+    </data>
+    <data name="D8BFD8" xml:space="preserve">
+        <value>Thistle</value>
+    </data>
+    <data name="DA70D6" xml:space="preserve">
+        <value>Orchid</value>
+    </data>
+    <data name="DAA520" xml:space="preserve">
+        <value>Goldenrod</value>
+    </data>
+    <data name="DABDAB" xml:space="preserve">
+        <value>Pale Sandy Brown</value>
+    </data>
+    <data name="DAD871" xml:space="preserve">
+        <value>Vert-de-pеche</value>
+    </data>
+    <data name="DB7093" xml:space="preserve">
+        <value>Pale red-violet</value>
+    </data>
+    <data name="DBE9F4" xml:space="preserve">
+        <value>Azureish white</value>
+    </data>
+    <data name="DC143C" xml:space="preserve">
+        <value>Crimson</value>
+    </data>
+    <data name="DDADAF" xml:space="preserve">
+        <value>Pale chestnut</value>
+    </data>
+    <data name="DDE26A" xml:space="preserve">
+        <value>Booger Buster</value>
+    </data>
+    <data name="DE3163" xml:space="preserve">
+        <value>Cerise</value>
+    </data>
+    <data name="DE5D83" xml:space="preserve">
+        <value>Blush</value>
+    </data>
+    <data name="DE6FA1" xml:space="preserve">
+        <value>China pink</value>
+    </data>
+    <data name="DF73FF" xml:space="preserve">
+        <value>Heliotrope</value>
+    </data>
+    <data name="E0218A" xml:space="preserve">
+        <value>Barbie pink</value>
+    </data>
+    <data name="E1DFE0" xml:space="preserve">
+        <value>Christmas silver</value>
+    </data>
+    <data name="E28B00" xml:space="preserve">
+        <value>Siena</value>
+    </data>
+    <data name="E2E5DE" xml:space="preserve">
+        <value>Chinese white</value>
+    </data>
+    <data name="E30022" xml:space="preserve">
+        <value>Cadmium red</value>
+    </data>
+    <data name="E32636" xml:space="preserve">
+        <value>Alizarin crimson</value>
+    </data>
+    <data name="E34234" xml:space="preserve">
+        <value>Cinnabar</value>
+    </data>
+    <data name="E3DAC9" xml:space="preserve">
+        <value>Bone</value>
+    </data>
+    <data name="E4717A" xml:space="preserve">
+        <value>Candy pink</value>
+    </data>
+    <data name="E49B0F" xml:space="preserve">
+        <value>Gamboge</value>
+    </data>
+    <data name="E4D00A" xml:space="preserve">
+        <value>Citrine</value>
+    </data>
+    <data name="E52B50" xml:space="preserve">
+        <value>Amaranth</value>
+    </data>
+    <data name="E6E6FA" xml:space="preserve">
+        <value>Lavender</value>
+    </data>
+    <data name="E75480" xml:space="preserve">
+        <value>Dark pink</value>
+    </data>
+    <data name="E7FEFF" xml:space="preserve">
+        <value>Bubbles</value>
+    </data>
+    <data name="E88E5A" xml:space="preserve">
+        <value>Big Foot Feet</value>
+    </data>
+    <data name="E97451" xml:space="preserve">
+        <value>Burnt sienna</value>
+    </data>
+    <data name="E9967A" xml:space="preserve">
+        <value>Dark salmon</value>
+    </data>
+    <data name="E9D66B" xml:space="preserve">
+        <value>Arylide yellow</value>
+    </data>
+    <data name="EA8DF7" xml:space="preserve">
+        <value>Violaceous</value>
+    </data>
+    <data name="EB4C42" xml:space="preserve">
+        <value>Carmine pink</value>
+    </data>
+    <data name="EBC2AF" xml:space="preserve">
+        <value>Zinnwaldite</value>
+    </data>
+    <data name="EBECF0" xml:space="preserve">
+        <value>Bright gray</value>
+    </data>
+    <data name="ED872D" xml:space="preserve">
+        <value>Cadmium orange</value>
+    </data>
+    <data name="ED9121" xml:space="preserve">
+        <value>Carrot</value>
+    </data>
+    <data name="EEDC82" xml:space="preserve">
+        <value>Flax</value>
+    </data>
+    <data name="EEE0B1" xml:space="preserve">
+        <value>Cookies and cream</value>
+    </data>
+    <data name="EEE6A3" xml:space="preserve">
+        <value>Perhydor</value>
+    </data>
+    <data name="EFAF8C" xml:space="preserve">
+        <value>Saumon</value>
+    </data>
+    <data name="EFBBCC" xml:space="preserve">
+        <value>Cameo pink</value>
+    </data>
+    <data name="EFDECD" xml:space="preserve">
+        <value>Almond</value>
+    </data>
+    <data name="F0DC82" xml:space="preserve">
+        <value>Buff</value>
+    </data>
+    <data name="F0F8FF" xml:space="preserve">
+        <value>Alice blue</value>
+    </data>
+    <data name="F19CBB" xml:space="preserve">
+        <value>Amaranth pink</value>
+    </data>
+    <data name="F1DDCF" xml:space="preserve">
+        <value>Champagne pink</value>
+    </data>
+    <data name="F28E1C" xml:space="preserve">
+        <value>Beer</value>
+    </data>
+    <data name="F2B400" xml:space="preserve">
+        <value>American yellow</value>
+    </data>
+    <data name="F2E8C9" xml:space="preserve">
+        <value>Light cream</value>
+    </data>
+    <data name="F2F0E6" xml:space="preserve">
+        <value>Alabaster</value>
+    </data>
+    <data name="F2F3F4" xml:space="preserve">
+        <value>Anti-flash white</value>
+    </data>
+    <data name="F37042" xml:space="preserve">
+        <value>Chinese orange</value>
+    </data>
+    <data name="F4A460" xml:space="preserve">
+        <value>Sandy brown</value>
+    </data>
+    <data name="F4BBFF" xml:space="preserve">
+        <value>Brilliant lavender</value>
+    </data>
+    <data name="F4C2C2" xml:space="preserve">
+        <value>Baby pink</value>
+    </data>
+    <data name="F4C430" xml:space="preserve">
+        <value>Saffron</value>
+    </data>
+    <data name="F5DEB3" xml:space="preserve">
+        <value>Wheat</value>
+    </data>
+    <data name="F5F5DC" xml:space="preserve">
+        <value>Beige</value>
+    </data>
+    <data name="F7E7CE" xml:space="preserve">
+        <value>Champagne</value>
+    </data>
+    <data name="F7F21A" xml:space="preserve">
+        <value>Child's surprise</value>
+    </data>
+    <data name="F88379" xml:space="preserve">
+        <value>Congo pink</value>
+    </data>
+    <data name="F984E5" xml:space="preserve">
+        <value>Pale magenta</value>
+    </data>
+    <data name="FA6E79" xml:space="preserve">
+        <value>Begonia</value>
+    </data>
+    <data name="FADADD" xml:space="preserve">
+        <value>Pale pink</value>
+    </data>
+    <data name="FADFAD" xml:space="preserve">
+        <value>Peach-yellow</value>
+    </data>
+    <data name="FAE7B5" xml:space="preserve">
+        <value>Banana Mania</value>
+    </data>
+    <data name="FAEBD7" xml:space="preserve">
+        <value>Antique white</value>
+    </data>
+    <data name="FAEEDD" xml:space="preserve">
+        <value>Scared nymph</value>
+    </data>
+    <data name="FAF0E6" xml:space="preserve">
+        <value>Linen</value>
+    </data>
+    <data name="FB607F" xml:space="preserve">
+        <value>Brink pink</value>
+    </data>
+    <data name="FBCCE7" xml:space="preserve">
+        <value>Classic rose</value>
+    </data>
+    <data name="FBCEB1" xml:space="preserve">
+        <value>Apricot</value>
+    </data>
+    <data name="FBEC5D" xml:space="preserve">
+        <value>Corn</value>
+    </data>
+    <data name="FC0FC0" xml:space="preserve">
+        <value>Hot pink</value>
+    </data>
+    <data name="FD7C6E" xml:space="preserve">
+        <value>Coral Reef</value>
+    </data>
+    <data name="FDE910" xml:space="preserve">
+        <value>Lemon</value>
+    </data>
+    <data name="FDEE00" xml:space="preserve">
+        <value>Aureolin</value>
+    </data>
+    <data name="FE6F5E" xml:space="preserve">
+        <value>Bittersweet</value>
+    </data>
+    <data name="FEF200" xml:space="preserve">
+        <value>Christmas yellow</value>
+    </data>
+    <data name="FEFEFA" xml:space="preserve">
+        <value>Baby powder</value>
+    </data>
+    <data name="FF0000" xml:space="preserve">
+        <value>Red</value>
+    </data>
+    <data name="FF0038" xml:space="preserve">
+        <value>Carmine red</value>
+    </data>
+    <data name="FF007F" xml:space="preserve">
+        <value>Bright pink</value>
+    </data>
+    <data name="FF00FF" xml:space="preserve">
+        <value>Magenta (Fuchsia)</value>
+    </data>
+    <data name="FF033E" xml:space="preserve">
+        <value>American rose</value>
+    </data>
+    <data name="FF0800" xml:space="preserve">
+        <value>Candy apple red</value>
+    </data>
+    <data name="FF2052" xml:space="preserve">
+        <value>Awesome</value>
+    </data>
+    <data name="FF2400" xml:space="preserve">
+        <value>Scarlet</value>
+    </data>
+    <data name="FF47CA" xml:space="preserve">
+        <value>Shocked star</value>
+    </data>
+    <data name="FF4D00" xml:space="preserve">
+        <value>Vermilion</value>
+    </data>
+    <data name="FF4F00" xml:space="preserve">
+        <value>Safety orange</value>
+    </data>
+    <data name="FF55A3" xml:space="preserve">
+        <value>Brilliant rose</value>
+    </data>
+    <data name="FF6600" xml:space="preserve">
+        <value>Christmas orange</value>
+    </data>
+    <data name="FF7518" xml:space="preserve">
+        <value>Pumpkin</value>
+    </data>
+    <data name="FF7E00" xml:space="preserve">
+        <value>Amber (SAE/ECE)</value>
+    </data>
+    <data name="FF7F50" xml:space="preserve">
+        <value>Coral</value>
+    </data>
+    <data name="FF8B00" xml:space="preserve">
+        <value>American orange</value>
+    </data>
+    <data name="FF8C69" xml:space="preserve">
+        <value>Salmon</value>
+    </data>
+    <data name="FF91AF" xml:space="preserve">
+        <value>Baker-Miller pink</value>
+    </data>
+    <data name="FF9218" xml:space="preserve">
+        <value>Jaco</value>
+    </data>
+    <data name="FF9900" xml:space="preserve">
+        <value>Blaze Orange</value>
+    </data>
+    <data name="FF9966" xml:space="preserve">
+        <value>Pink-orange</value>
+    </data>
+    <data name="FFA500" xml:space="preserve">
+        <value>Orange</value>
+    </data>
+    <data name="FFA600" xml:space="preserve">
+        <value>Cheese</value>
+    </data>
+    <data name="FFA6C9" xml:space="preserve">
+        <value>Carnation pink</value>
+    </data>
+    <data name="FFA812" xml:space="preserve">
+        <value>Dark tangerine</value>
+    </data>
+    <data name="FFAA1D" xml:space="preserve">
+        <value>Bright Yellow (Crayola)</value>
+    </data>
+    <data name="FFBA00" xml:space="preserve">
+        <value>Selective yellow</value>
+    </data>
+    <data name="FFBCD9" xml:space="preserve">
+        <value>Cotton candy</value>
+    </data>
+    <data name="FFBF00" xml:space="preserve">
+        <value>Amber</value>
+    </data>
+    <data name="FFC0CB" xml:space="preserve">
+        <value>Pink</value>
+    </data>
+    <data name="FFC1CC" xml:space="preserve">
+        <value>Bubble gum</value>
+    </data>
+    <data name="FFCC00" xml:space="preserve">
+        <value>Tangerine</value>
+    </data>
+    <data name="FFCC99" xml:space="preserve">
+        <value>Peach-orange</value>
+    </data>
+    <data name="FFCCCB" xml:space="preserve">
+        <value>Christmas pink</value>
+    </data>
+    <data name="FFD1DC" xml:space="preserve">
+        <value>Pastel pink</value>
+    </data>
+    <data name="FFD59A" xml:space="preserve">
+        <value>Caramel</value>
+    </data>
+    <data name="FFD700" xml:space="preserve">
+        <value>Gold</value>
+    </data>
+    <data name="FFD800" xml:space="preserve">
+        <value>School bus yellow</value>
+    </data>
+    <data name="FFDAB9" xml:space="preserve">
+        <value>Dark Peach</value>
+    </data>
+    <data name="FFDB58" xml:space="preserve">
+        <value>Mustard</value>
+    </data>
+    <data name="FFDEAD" xml:space="preserve">
+        <value>Navajo white</value>
+    </data>
+    <data name="FFE135" xml:space="preserve">
+        <value>Banana yellow</value>
+    </data>
+    <data name="FFE4B2" xml:space="preserve">
+        <value>Yellow Pink</value>
+    </data>
+    <data name="FFE4C4" xml:space="preserve">
+        <value>Bisque</value>
+    </data>
+    <data name="FFE5B4" xml:space="preserve">
+        <value>Peach</value>
+    </data>
+    <data name="FFEBCD" xml:space="preserve">
+        <value>Blanched almond</value>
+    </data>
+    <data name="FFEF00" xml:space="preserve">
+        <value>Canary yellow</value>
+    </data>
+    <data name="FFEFD5" xml:space="preserve">
+        <value>Papaya whip</value>
+    </data>
+    <data name="FFF0F5" xml:space="preserve">
+        <value>Lavender Blush</value>
+    </data>
+    <data name="FFF5EE" xml:space="preserve">
+        <value>Seashell</value>
+    </data>
+    <data name="FFF600" xml:space="preserve">
+        <value>Cadmium yellow</value>
+    </data>
+    <data name="FFF8DC" xml:space="preserve">
+        <value>Cornsilk</value>
+    </data>
+    <data name="FFF8E7" xml:space="preserve">
+        <value>Cosmic latte</value>
+    </data>
+    <data name="FFFACD" xml:space="preserve">
+        <value>Lemon Cream</value>
+    </data>
+    <data name="FFFDD0" xml:space="preserve">
+        <value>Cream</value>
+    </data>
+    <data name="FFFDDF" xml:space="preserve">
+        <value>Ivory</value>
+    </data>
+    <data name="FFFF00" xml:space="preserve">
+        <value>Yellow</value>
+    </data>
+    <data name="FFFF99" xml:space="preserve">
+        <value>Canary</value>
+    </data>
+    <data name="FFFFCC" xml:space="preserve">
+        <value>Conditioner</value>
+    </data>
+    <data name="FFFFFF" xml:space="preserve">
+        <value>White</value>
+    </data>
+</root>

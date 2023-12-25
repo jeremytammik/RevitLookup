@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="RevitLookup.Views.Pages.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
+    xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
+    mc:Ignorable="d"
+    d:DesignHeight="1100"
+    d:DesignWidth="500"
+    d:DataContext="{d:DesignInstance pages:SettingsView}">
+    
+    <rl:DynamicScrollViewer>
+        <StackPanel
+            Margin="12">
+            <TextBlock
+                FontSize="16"
+                FontWeight="Medium"
+                Text="User interface" />
+            <StackPanel
+                Margin="0,8,0,0">
+                <rl:CardControl
+                    Header="Theme"
+                    Icon="{rl:SymbolIcon Color24}">
+                    <ComboBox
+                        MinWidth="150"
+                        IsEnabled="True"
+                        SelectedItem="{Binding ViewModel.Theme}"
+                        ItemsSource="{Binding ViewModel.Themes}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding ., Converter={converters:ApplicationThemeConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Background effect"
+                    Icon="{rl:SymbolIcon ColorBackground24}"
+                    Margin="0,8,0,0">
+                    <ComboBox
+                        MinWidth="150"
+                        IsEnabled="True"
+                        SelectedItem="{Binding ViewModel.Background}"
+                        ItemsSource="{Binding ViewModel.BackgroundEffects}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding ., 
+                                    Converter={converters:BackgroundTypeConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Smooth navigation"
+                    Icon="{rl:SymbolIcon VideoClipMultiple24}"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.UseTransition}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Hardware graphics acceleration"
+                    Icon="{rl:SymbolIcon TopSpeed24}"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.UseHardwareRendering}" />
+                </rl:CardControl>
+                <rl:CardControl
+                    Header="Restore window size"
+                    Icon="{rl:SymbolIcon SlideSize24}"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.UseSizeRestoring}" />
+                </rl:CardControl>
+            </StackPanel>
+            <TextBlock
+                FontSize="16"
+                FontWeight="Medium"
+                Text="Ribbon"
+                Margin="0,17,0,0" />
+            <StackPanel
+                Margin="0,8,0,0">
+                <rl:CardControl
+                    Header="Interaction panel in a Modify tab"
+                    Icon="{rl:SymbolIcon PanelRightCursor24}"
+                    Margin="0,8,0,0">
+                    <rl:ToggleSwitch
+                        IsChecked="{Binding ViewModel.UseModifyTab}" />
+                </rl:CardControl>
+            </StackPanel>
+        </StackPanel>
+    </rl:DynamicScrollViewer>
+
+</Page>

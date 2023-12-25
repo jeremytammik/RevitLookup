@@ -1,0 +1,90 @@
+﻿<rl:FluentWindow
+    x:Class="RevitLookup.Views.RevitLookupView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
+    xmlns:ml="clr-namespace:RevitLookup.Views.Markup"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="200"
+    MinWidth="644"
+    MinHeight="371"
+    Width="1016"
+    Height="555"
+    ExtendsContentIntoTitleBar="True"
+    Icon="../Resources/Images/ShellIcon.ico">
+
+    <rl:FluentWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ml:ThemesDictionary />
+                <rl:ControlsDictionary />
+                <ml:MenusDictionary />
+                <ml:StylesDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </rl:FluentWindow.Resources>
+
+    <Grid>
+        <rl:TitleBar
+            x:Name="TitleBar"
+            Title="RevitLookup"
+            Margin="42,0,0,0" />
+        <rl:NavigationView
+            x:Name="RootNavigation"
+            IsBackButtonVisible="Collapsed"
+            PaneDisplayMode="Left"
+            OpenPaneLength="159"
+            BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
+            TitleBar="{Binding ElementName=TitleBar, Mode=OneWay}">
+            <rl:NavigationView.MenuItems>
+                <rl:NavigationViewItem
+                    Content="Dashboard"
+                    TargetPageType="{x:Type pages:DashboardView}"
+                    Icon="{rl:SymbolIcon AppGeneric24}" />
+                <rl:NavigationViewItem
+                    Content="Snoop summary"
+                    TargetPageType="{x:Type pages:SnoopView}"
+                    Icon="{rl:SymbolIcon SlideSearch24}" />
+                <rl:NavigationViewItem
+                    Content="Event monitor"
+                    TargetPageType="{x:Type pages:EventsView}"
+                    Icon="{rl:SymbolIcon DesktopPulse24}" />
+            </rl:NavigationView.MenuItems>
+            <rl:NavigationView.FooterMenuItems>
+                <rl:NavigationViewItem
+                    Content="Settings"
+                    TargetPageType="{x:Type pages:SettingsView}"
+                    Icon="{rl:SymbolIcon Settings24}" />
+                <rl:NavigationViewItem
+                    Content="About"
+                    TargetPageType="{x:Type pages:AboutView}"
+                    Icon="{rl:SymbolIcon Info24}">
+                    <rl:NavigationViewItem.InfoBadge>
+                        <rl:InfoBadge
+                            x:Name="AboutItemBadge"
+                            Severity="Attention"
+                            Margin="0 6 6 0"
+                            Visibility="Collapsed"
+                            Style="{DynamicResource DotInfoBadgeStyle}" />
+                    </rl:NavigationViewItem.InfoBadge>
+                </rl:NavigationViewItem>
+            </rl:NavigationView.FooterMenuItems>
+            <rl:NavigationView.Header>
+                <rl:BreadcrumbBar
+                    x:Name="BreadcrumbBar"
+                    Margin="12 12 0 0" />
+            </rl:NavigationView.Header>
+            <rl:NavigationView.ContentOverlay>
+                <rl:SnackbarPresenter
+                    x:Name="RootSnackbar" />
+            </rl:NavigationView.ContentOverlay>
+        </rl:NavigationView>
+        <ContentPresenter
+            x:Name="RootContentDialog" />
+    </Grid>
+
+</rl:FluentWindow>

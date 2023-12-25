@@ -1,0 +1,1421 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="000000" xml:space="preserve">
+        <value>Чёрный</value>
+    </data>
+    <data name="0000FF" xml:space="preserve">
+        <value>Синий</value>
+    </data>
+    <data name="0018A8" xml:space="preserve">
+        <value>Синий (Пантон)</value>
+    </data>
+    <data name="002E63" xml:space="preserve">
+        <value>Прохладный черный</value>
+    </data>
+    <data name="003153" xml:space="preserve">
+        <value>Берлинская лазурь</value>
+    </data>
+    <data name="003366" xml:space="preserve">
+        <value>Полуночно-синий</value>
+    </data>
+    <data name="003399" xml:space="preserve">
+        <value>Пороховая синь</value>
+    </data>
+    <data name="003A6C" xml:space="preserve">
+        <value>Атенео синий</value>
+    </data>
+    <data name="004225" xml:space="preserve">
+        <value>Британский гоночный зеленый</value>
+    </data>
+    <data name="0047AB" xml:space="preserve">
+        <value>Кобальт синий</value>
+    </data>
+    <data name="0048BA" xml:space="preserve">
+        <value>Абсолютный ноль</value>
+    </data>
+    <data name="00563F" xml:space="preserve">
+        <value>Каслтон зеленый</value>
+    </data>
+    <data name="006A4E" xml:space="preserve">
+        <value>Зелёная бутылка</value>
+    </data>
+    <data name="006B3C" xml:space="preserve">
+        <value>Кадмий зеленый</value>
+    </data>
+    <data name="007BA7" xml:space="preserve">
+        <value>Лазурный</value>
+    </data>
+    <data name="007DFF" xml:space="preserve">
+        <value>Синий Градуса</value>
+    </data>
+    <data name="007FFF" xml:space="preserve">
+        <value>Лазурный</value>
+    </data>
+    <data name="008080" xml:space="preserve">
+        <value>Сине-зелёный</value>
+    </data>
+    <data name="0088DC" xml:space="preserve">
+        <value>Голубая кола</value>
+    </data>
+    <data name="0093AF" xml:space="preserve">
+        <value>Синий (Мунселл)</value>
+    </data>
+    <data name="0095B6" xml:space="preserve">
+        <value>Вода пляжа Бонди</value>
+    </data>
+    <data name="00A86B" xml:space="preserve">
+        <value>Жёлто-зелёный</value>
+    </data>
+    <data name="00B9FB" xml:space="preserve">
+        <value>Голубой болт</value>
+    </data>
+    <data name="00BFFF" xml:space="preserve">
+        <value>Голубой</value>
+    </data>
+    <data name="00C4B0" xml:space="preserve">
+        <value>Амазонит</value>
+    </data>
+    <data name="00CC99" xml:space="preserve">
+        <value>Карибский зеленый</value>
+    </data>
+    <data name="00CCCC" xml:space="preserve">
+        <value>Яйца дрозда</value>
+    </data>
+    <data name="00FF00" xml:space="preserve">
+        <value>Зелёный</value>
+    </data>
+    <data name="00FF7F" xml:space="preserve">
+        <value>Зелёная весна</value>
+    </data>
+    <data name="00FFFF" xml:space="preserve">
+        <value>Морской волны</value>
+    </data>
+    <data name="013220" xml:space="preserve">
+        <value>Тёмно-зелёный</value>
+    </data>
+    <data name="01796F" xml:space="preserve">
+        <value>Зелёная сосна</value>
+    </data>
+    <data name="03C03C" xml:space="preserve">
+        <value>Тёмный пастельно-зелёный</value>
+    </data>
+    <data name="064E40" xml:space="preserve">
+        <value>Сине-зеленый (цветное колесо)</value>
+    </data>
+    <data name="082567" xml:space="preserve">
+        <value>Сапфировый</value>
+    </data>
+    <data name="08457E" xml:space="preserve">
+        <value>Тёмно-лазурный</value>
+    </data>
+    <data name="08E8DE" xml:space="preserve">
+        <value>Яркий бирюзовый</value>
+    </data>
+    <data name="0A1195" xml:space="preserve">
+        <value>Кадмий синий</value>
+    </data>
+    <data name="0BDA51" xml:space="preserve">
+        <value>Малахитовый</value>
+    </data>
+    <data name="0D98BA" xml:space="preserve">
+        <value>Цвет морской волны</value>
+    </data>
+    <data name="116062" xml:space="preserve">
+        <value>Тёмно-бирюзовый</value>
+    </data>
+    <data name="120A8F" xml:space="preserve">
+        <value>Ультрамариновый</value>
+    </data>
+    <data name="126180" xml:space="preserve">
+        <value>Синий сапфир</value>
+    </data>
+    <data name="141414" xml:space="preserve">
+        <value>Китайский черный</value>
+    </data>
+    <data name="1560BD" xml:space="preserve">
+        <value>Джинсовый синий</value>
+    </data>
+    <data name="177245" xml:space="preserve">
+        <value>Тёмный весенне-зелёный</value>
+    </data>
+    <data name="1974D2" xml:space="preserve">
+        <value>Яркий темно-синий</value>
+    </data>
+    <data name="1A4780" xml:space="preserve">
+        <value>Чёрного моря</value>
+    </data>
+    <data name="1B1811" xml:space="preserve">
+        <value>Черный шоколад</value>
+    </data>
+    <data name="1B4D3E" xml:space="preserve">
+        <value>Брансуик зеленый</value>
+    </data>
+    <data name="1C6B72" xml:space="preserve">
+        <value>Мурена</value>
+    </data>
+    <data name="1DACD6" xml:space="preserve">
+        <value>Яркий цветной</value>
+    </data>
+    <data name="1E90FF" xml:space="preserve">
+        <value>Защитно-синий</value>
+    </data>
+    <data name="1F4037" xml:space="preserve">
+        <value>Красного моря</value>
+    </data>
+    <data name="1F75FE" xml:space="preserve">
+        <value>Синий (Crayola)</value>
+    </data>
+    <data name="21ABCD" xml:space="preserve">
+        <value>Шарик синий</value>
+    </data>
+    <data name="232B2B" xml:space="preserve">
+        <value>Зелёный чарльстон</value>
+    </data>
+    <data name="246BCE" xml:space="preserve">
+        <value>Кельтский синий</value>
+    </data>
+    <data name="24A0ED" xml:space="preserve">
+        <value>Синяя кнопка</value>
+    </data>
+    <data name="253529" xml:space="preserve">
+        <value>Черный кожаный пиджак</value>
+    </data>
+    <data name="2A52BE" xml:space="preserve">
+        <value>Лазурно-синий</value>
+    </data>
+    <data name="2A8FBD" xml:space="preserve">
+        <value>Рождественский синий</value>
+    </data>
+    <data name="2E2D88" xml:space="preserve">
+        <value>Космический кобальт</value>
+    </data>
+    <data name="2E5894" xml:space="preserve">
+        <value>Ослепительный голубой</value>
+    </data>
+    <data name="2E8B57" xml:space="preserve">
+        <value>Зелёное море</value>
+    </data>
+    <data name="2F4F4F" xml:space="preserve">
+        <value>Тёмно-аспидный серый</value>
+    </data>
+    <data name="30D5C8" xml:space="preserve">
+        <value>Бирюзовый</value>
+    </data>
+    <data name="310062" xml:space="preserve">
+        <value>Тёмный индиго</value>
+    </data>
+    <data name="318CE7" xml:space="preserve">
+        <value>Синий французский</value>
+    </data>
+    <data name="333399" xml:space="preserve">
+        <value>Синий (пигмент)</value>
+    </data>
+    <data name="3399FF" xml:space="preserve">
+        <value>Блестящая лазурь</value>
+    </data>
+    <data name="34B334" xml:space="preserve">
+        <value>Американский зеленый</value>
+    </data>
+    <data name="34C924" xml:space="preserve">
+        <value>Вердепомовый</value>
+    </data>
+    <data name="36454F" xml:space="preserve">
+        <value>Древесный уголь</value>
+    </data>
+    <data name="365194" xml:space="preserve">
+        <value>Китайский синий</value>
+    </data>
+    <data name="391802" xml:space="preserve">
+        <value>Американская бронза</value>
+    </data>
+    <data name="3A75C4" xml:space="preserve">
+        <value>Синий Клейна</value>
+    </data>
+    <data name="3B2F2F" xml:space="preserve">
+        <value>Черный кофе</value>
+    </data>
+    <data name="3B3B6D" xml:space="preserve">
+        <value>Американский синий</value>
+    </data>
+    <data name="3B3C36" xml:space="preserve">
+        <value>Черный оливковый</value>
+    </data>
+    <data name="3B444B" xml:space="preserve">
+        <value>Мышьяк</value>
+    </data>
+    <data name="3B7A57" xml:space="preserve">
+        <value>Амазонка</value>
+    </data>
+    <data name="3C1421" xml:space="preserve">
+        <value>Шоколадный поцелуй</value>
+    </data>
+    <data name="3C3024" xml:space="preserve">
+        <value>Кола</value>
+    </data>
+    <data name="3C8D0D" xml:space="preserve">
+        <value>Рождественский зеленый</value>
+    </data>
+    <data name="3CAA3C" xml:space="preserve">
+        <value>Влюбленной жабы</value>
+    </data>
+    <data name="3D0C02" xml:space="preserve">
+        <value>Черный Боб</value>
+    </data>
+    <data name="3D2B1F" xml:space="preserve">
+        <value>Бистр</value>
+    </data>
+    <data name="3F000F" xml:space="preserve">
+        <value>Шоколадный коричневый</value>
+    </data>
+    <data name="40826D" xml:space="preserve">
+        <value>Ядовито-зелёный</value>
+    </data>
+    <data name="4169E1" xml:space="preserve">
+        <value>Королевский синий</value>
+    </data>
+    <data name="423189" xml:space="preserve">
+        <value>Тёмно-фиолетовый</value>
+    </data>
+    <data name="442D25" xml:space="preserve">
+        <value>Кофейный</value>
+    </data>
+    <data name="45161C" xml:space="preserve">
+        <value>Бурый</value>
+    </data>
+    <data name="464451" xml:space="preserve">
+        <value>Антрацитовый</value>
+    </data>
+    <data name="465945" xml:space="preserve">
+        <value>Серая спаржа</value>
+    </data>
+    <data name="4682B4" xml:space="preserve">
+        <value>Синяя сталь</value>
+    </data>
+    <data name="480607" xml:space="preserve">
+        <value>Болгарский розовый</value>
+    </data>
+    <data name="4A2C2A" xml:space="preserve">
+        <value>Кофейный кофе</value>
+    </data>
+    <data name="4AFF00" xml:space="preserve">
+        <value>Хлорофилл зеленый</value>
+    </data>
+    <data name="4B0082" xml:space="preserve">
+        <value>Индиго</value>
+    </data>
+    <data name="4B3621" xml:space="preserve">
+        <value>Кафе нуар</value>
+    </data>
+    <data name="4B5320" xml:space="preserve">
+        <value>Армейский зеленый</value>
+    </data>
+    <data name="4C2F27" xml:space="preserve">
+        <value>Акажу</value>
+    </data>
+    <data name="4C5866" xml:space="preserve">
+        <value>Маренго</value>
+    </data>
+    <data name="4D1A7F" xml:space="preserve">
+        <value>Сине-фиолетовый (цветное колесо)</value>
+    </data>
+    <data name="4E1609" xml:space="preserve">
+        <value>Блошиного брюшка</value>
+    </data>
+    <data name="4F7942" xml:space="preserve">
+        <value>Зелёный папоротник</value>
+    </data>
+    <data name="4F86F7" xml:space="preserve">
+        <value>Черника</value>
+    </data>
+    <data name="5072A7" xml:space="preserve">
+        <value>Вот тот голубой</value>
+    </data>
+    <data name="50C878" xml:space="preserve">
+        <value>Изумрудный</value>
+    </data>
+    <data name="54626F" xml:space="preserve">
+        <value>Черный коралл</value>
+    </data>
+    <data name="551B8C" xml:space="preserve">
+        <value>Американский фиолетовый</value>
+    </data>
+    <data name="553592" xml:space="preserve">
+        <value>Сине-пурпурный фиолетовый</value>
+    </data>
+    <data name="556832" xml:space="preserve">
+        <value>Тёмно-оливковый</value>
+    </data>
+    <data name="560319" xml:space="preserve">
+        <value>Тёмно-алый</value>
+    </data>
+    <data name="568203" xml:space="preserve">
+        <value>Авокадо</value>
+    </data>
+    <data name="56A0D3" xml:space="preserve">
+        <value>Синяя Каролина</value>
+    </data>
+    <data name="58111A" xml:space="preserve">
+        <value>Шоколадный Космос</value>
+    </data>
+    <data name="592720" xml:space="preserve">
+        <value>Порошок капута</value>
+    </data>
+    <data name="5D2B2C" xml:space="preserve">
+        <value>Рождественский коричневый</value>
+    </data>
+    <data name="5D8AA8" xml:space="preserve">
+        <value>Военно-воздушные силы (ВВС)</value>
+    </data>
+    <data name="5DA130" xml:space="preserve">
+        <value>Травяной</value>
+    </data>
+    <data name="5DADEC" xml:space="preserve">
+        <value>Синие джинсы</value>
+    </data>
+    <data name="5F1933" xml:space="preserve">
+        <value>Коричневый шоколад</value>
+    </data>
+    <data name="630F0F" xml:space="preserve">
+        <value>Кровь (орган)</value>
+    </data>
+    <data name="63775B" xml:space="preserve">
+        <value>Аксолотль</value>
+    </data>
+    <data name="6495ED" xml:space="preserve">
+        <value>Васильковый</value>
+    </data>
+    <data name="654321" xml:space="preserve">
+        <value>Тёмно-коричневый</value>
+    </data>
+    <data name="660000" xml:space="preserve">
+        <value>Кроваво-красный</value>
+    </data>
+    <data name="660066" xml:space="preserve">
+        <value>Сливовый</value>
+    </data>
+    <data name="660099" xml:space="preserve">
+        <value>Пурпурный</value>
+    </data>
+    <data name="6600FF" xml:space="preserve">
+        <value>Персидский синий</value>
+    </data>
+    <data name="663398" xml:space="preserve">
+        <value>Рождественский фиолетовый</value>
+    </data>
+    <data name="665D1E" xml:space="preserve">
+        <value>Античная бронза</value>
+    </data>
+    <data name="6699CC" xml:space="preserve">
+        <value>Серо-голубой</value>
+    </data>
+    <data name="66B447" xml:space="preserve">
+        <value>Яблоко</value>
+    </data>
+    <data name="66FF00" xml:space="preserve">
+        <value>Ярко-зеленый</value>
+    </data>
+    <data name="6B4423" xml:space="preserve">
+        <value>Коричневый носовой</value>
+    </data>
+    <data name="6B8E23" xml:space="preserve">
+        <value>Нежно-оливковый</value>
+    </data>
+    <data name="6E7F80" xml:space="preserve">
+        <value>АуроМеталЗаигиз</value>
+    </data>
+    <data name="702963" xml:space="preserve">
+        <value>Византия</value>
+    </data>
+    <data name="703642" xml:space="preserve">
+        <value>Катоба</value>
+    </data>
+    <data name="704214" xml:space="preserve">
+        <value>Сепия</value>
+    </data>
+    <data name="708090" xml:space="preserve">
+        <value>Серый шифер</value>
+    </data>
+    <data name="720B98" xml:space="preserve">
+        <value>Китайский пурпурный</value>
+    </data>
+    <data name="72A0C1" xml:space="preserve">
+        <value>Высокое качество воздуха</value>
+    </data>
+    <data name="734A12" xml:space="preserve">
+        <value>Умбра</value>
+    </data>
+    <data name="735184" xml:space="preserve">
+        <value>Серобуромалиновый</value>
+    </data>
+    <data name="7366BD" xml:space="preserve">
+        <value>Сине-фиолетовый (Crayola)</value>
+    </data>
+    <data name="737000" xml:space="preserve">
+        <value>Бронзовый желтый</value>
+    </data>
+    <data name="755A57" xml:space="preserve">
+        <value>Красновато-коричневый</value>
+    </data>
+    <data name="77DD77" xml:space="preserve">
+        <value>Пастельно-зелёный</value>
+    </data>
+    <data name="78866B" xml:space="preserve">
+        <value>Камуфляжный зеленый</value>
+    </data>
+    <data name="79443B" xml:space="preserve">
+        <value>Ствол</value>
+    </data>
+    <data name="79A0C1" xml:space="preserve">
+        <value>Сизый</value>
+    </data>
+    <data name="7B3F00" xml:space="preserve">
+        <value>Коричневый</value>
+    </data>
+    <data name="7B917B" xml:space="preserve">
+        <value>Лягушки в обмороке</value>
+    </data>
+    <data name="7BA05B" xml:space="preserve">
+        <value>Спаржа</value>
+    </data>
+    <data name="7BB661" xml:space="preserve">
+        <value>Зелёный бутон</value>
+    </data>
+    <data name="7C0A02" xml:space="preserve">
+        <value>Красный сарай</value>
+    </data>
+    <data name="7CB9E8" xml:space="preserve">
+        <value>Аэро</value>
+    </data>
+    <data name="7DF9FF" xml:space="preserve">
+        <value>Электрик</value>
+    </data>
+    <data name="7F1734" xml:space="preserve">
+        <value>Бордо</value>
+    </data>
+    <data name="7F3E98" xml:space="preserve">
+        <value>Кадмий фиолетовый</value>
+    </data>
+    <data name="7FC7FF" xml:space="preserve">
+        <value>Небесный</value>
+    </data>
+    <data name="7FFF00" xml:space="preserve">
+        <value>Салатовый / Шартрез</value>
+    </data>
+    <data name="7FFFD4" xml:space="preserve">
+        <value>Аквамариновый</value>
+    </data>
+    <data name="800000" xml:space="preserve">
+        <value>Коричнево-малиновый</value>
+    </data>
+    <data name="800020" xml:space="preserve">
+        <value>Бургундия</value>
+    </data>
+    <data name="804040" xml:space="preserve">
+        <value>Американский коричневый</value>
+    </data>
+    <data name="808000" xml:space="preserve">
+        <value>Оливковый</value>
+    </data>
+    <data name="808080" xml:space="preserve">
+        <value>Серый</value>
+    </data>
+    <data name="81613C" xml:space="preserve">
+        <value>Коричневый койот</value>
+    </data>
+    <data name="834D18" xml:space="preserve">
+        <value>Медвежьего ушка</value>
+    </data>
+    <data name="841B2D" xml:space="preserve">
+        <value>Античный рубин</value>
+    </data>
+    <data name="848482" xml:space="preserve">
+        <value>Серый броненосец</value>
+    </data>
+    <data name="84DE02" xml:space="preserve">
+        <value>Подмышка инопланетянина</value>
+    </data>
+    <data name="856088" xml:space="preserve">
+        <value>Китайская фиалка</value>
+    </data>
+    <data name="87413F" xml:space="preserve">
+        <value>Бренди</value>
+    </data>
+    <data name="87A96B" xml:space="preserve">
+        <value>Спаржа</value>
+    </data>
+    <data name="884535" xml:space="preserve">
+        <value>Кирпичный</value>
+    </data>
+    <data name="893F45" xml:space="preserve">
+        <value>кордовский</value>
+    </data>
+    <data name="89CFF0" xml:space="preserve">
+        <value>Детский голубой</value>
+    </data>
+    <data name="8A0303" xml:space="preserve">
+        <value>Кровь</value>
+    </data>
+    <data name="8A2BE2" xml:space="preserve">
+        <value>Сине-фиолетовый</value>
+    </data>
+    <data name="8A3324" xml:space="preserve">
+        <value>Умбра жжёная</value>
+    </data>
+    <data name="8B00FF" xml:space="preserve">
+        <value>Фиолетовый</value>
+    </data>
+    <data name="8C92AC" xml:space="preserve">
+        <value>Холодный серый</value>
+    </data>
+    <data name="8DB600" xml:space="preserve">
+        <value>Зеленое яблоко</value>
+    </data>
+    <data name="8F5973" xml:space="preserve">
+        <value>Ежевика</value>
+    </data>
+    <data name="8F9779" xml:space="preserve">
+        <value>Артишок</value>
+    </data>
+    <data name="900020" xml:space="preserve">
+        <value>Бургундский</value>
+    </data>
+    <data name="904D30" xml:space="preserve">
+        <value>Терракотовый</value>
+    </data>
+    <data name="911E42" xml:space="preserve">
+        <value>Вишнёвый</value>
+    </data>
+    <data name="915C83" xml:space="preserve">
+        <value>Античная фуксия</value>
+    </data>
+    <data name="918151" xml:space="preserve">
+        <value>Тёмный жёлто-коричневый</value>
+    </data>
+    <data name="92000A" xml:space="preserve">
+        <value>Сангрия</value>
+    </data>
+    <data name="954535" xml:space="preserve">
+        <value>Каштановый</value>
+    </data>
+    <data name="960018" xml:space="preserve">
+        <value>Карминный</value>
+    </data>
+    <data name="964B00" xml:space="preserve">
+        <value>Коричневый</value>
+    </data>
+    <data name="965A3E" xml:space="preserve">
+        <value>Кокосовый</value>
+    </data>
+    <data name="967117" xml:space="preserve">
+        <value>Бистр коричневый</value>
+    </data>
+    <data name="986960" xml:space="preserve">
+        <value>Тёмно-каштановый</value>
+    </data>
+    <data name="987654" xml:space="preserve">
+        <value>Бледно-коричневый</value>
+    </data>
+    <data name="98777B" xml:space="preserve">
+        <value>Восточный базар</value>
+    </data>
+    <data name="98817B" xml:space="preserve">
+        <value>пепельный цвет</value>
+    </data>
+    <data name="98FF98" xml:space="preserve">
+        <value>Зелёная мята</value>
+    </data>
+    <data name="990066" xml:space="preserve">
+        <value>Баклажановый</value>
+    </data>
+    <data name="991199" xml:space="preserve">
+        <value>Фиолетово-баклажанный</value>
+    </data>
+    <data name="993366" xml:space="preserve">
+        <value>Розовато-лиловый</value>
+    </data>
+    <data name="996666" xml:space="preserve">
+        <value>Медный розовый</value>
+    </data>
+    <data name="9966CC" xml:space="preserve">
+        <value>Аметистовый</value>
+    </data>
+    <data name="997A8D" xml:space="preserve">
+        <value>Розовый Маунтбэттена</value>
+    </data>
+    <data name="99958C" xml:space="preserve">
+        <value>Кварцевый</value>
+    </data>
+    <data name="9B2D30" xml:space="preserve">
+        <value>Бордовый</value>
+    </data>
+    <data name="9C2542" xml:space="preserve">
+        <value>Большой окулуб</value>
+    </data>
+    <data name="9DB1CC" xml:space="preserve">
+        <value>Ниагара</value>
+    </data>
+    <data name="9F2B68" xml:space="preserve">
+        <value>Амарант темно-фиолетовый</value>
+    </data>
+    <data name="9F8170" xml:space="preserve">
+        <value>Бобр</value>
+    </data>
+    <data name="9FA91F" xml:space="preserve">
+        <value>Цитрон</value>
+    </data>
+    <data name="A08040" xml:space="preserve">
+        <value>Шамуа</value>
+    </data>
+    <data name="A17A74" xml:space="preserve">
+        <value>Отполированный коричневый</value>
+    </data>
+    <data name="A1CAF1" xml:space="preserve">
+        <value>Детские голубые глаза</value>
+    </data>
+    <data name="A25F2A" xml:space="preserve">
+        <value>Камелопардовый</value>
+    </data>
+    <data name="A2A2D0" xml:space="preserve">
+        <value>Голубой колокол</value>
+    </data>
+    <data name="A41313" xml:space="preserve">
+        <value>Кровь (животное)</value>
+    </data>
+    <data name="A4C639" xml:space="preserve">
+        <value>Зелёный андроид</value>
+    </data>
+    <data name="A5260A" xml:space="preserve">
+        <value>Бисмарк-фуриозо</value>
+    </data>
+    <data name="A52A2A" xml:space="preserve">
+        <value>Рыжеватый</value>
+    </data>
+    <data name="A57164" xml:space="preserve">
+        <value>Взрывная бронза</value>
+    </data>
+    <data name="A67B5B" xml:space="preserve">
+        <value>Кофе с молоком</value>
+    </data>
+    <data name="A8516E" xml:space="preserve">
+        <value>Китайская роза</value>
+    </data>
+    <data name="AA381E" xml:space="preserve">
+        <value>Китайский красный</value>
+    </data>
+    <data name="AB274F" xml:space="preserve">
+        <value>Амарант фиолетовый</value>
+    </data>
+    <data name="AB381F" xml:space="preserve">
+        <value>Китайский коричневый</value>
+    </data>
+    <data name="ABCDEF" xml:space="preserve">
+        <value>Бледно-васильковый</value>
+    </data>
+    <data name="ACB78E" xml:space="preserve">
+        <value>Болотный</value>
+    </data>
+    <data name="ACE1AF" xml:space="preserve">
+        <value>Серовато-зеленый</value>
+    </data>
+    <data name="ACE5EE" xml:space="preserve">
+        <value>Голубая лагуна</value>
+    </data>
+    <data name="AD6F69" xml:space="preserve">
+        <value>Медный пенни</value>
+    </data>
+    <data name="ADDFAD" xml:space="preserve">
+        <value>Зелёный мох</value>
+    </data>
+    <data name="ADFF2F" xml:space="preserve">
+        <value>Жёлто-зелёный</value>
+    </data>
+    <data name="AF002A" xml:space="preserve">
+        <value>Алабама малиновая</value>
+    </data>
+    <data name="AF4035" xml:space="preserve">
+        <value>Бледно-карминный</value>
+    </data>
+    <data name="AF6E4D" xml:space="preserve">
+        <value>Коричневый сахар</value>
+    </data>
+    <data name="AFEEEE" xml:space="preserve">
+        <value>Бледно-синий</value>
+    </data>
+    <data name="B01B2E" xml:space="preserve">
+        <value>Рождественский красный</value>
+    </data>
+    <data name="B08D57" xml:space="preserve">
+        <value>Бронзовый (металлик)</value>
+    </data>
+    <data name="B0BF1A" xml:space="preserve">
+        <value>Кислотно-зеленый</value>
+    </data>
+    <data name="B284BE" xml:space="preserve">
+        <value>Африканский фиолетовый</value>
+    </data>
+    <data name="B2BEB5" xml:space="preserve">
+        <value>Ясень серый</value>
+    </data>
+    <data name="B31B1B" xml:space="preserve">
+        <value>Сердолик</value>
+    </data>
+    <data name="B32134" xml:space="preserve">
+        <value>Американский красный</value>
+    </data>
+    <data name="B5A642" xml:space="preserve">
+        <value>Латунный</value>
+    </data>
+    <data name="B60C26" xml:space="preserve">
+        <value>Кадмий пурпурный</value>
+    </data>
+    <data name="B7410E" xml:space="preserve">
+        <value>Ржаво-коричневый</value>
+    </data>
+    <data name="B87333" xml:space="preserve">
+        <value>Медный</value>
+    </data>
+    <data name="B8860B" xml:space="preserve">
+        <value>Тёмно-золотой</value>
+    </data>
+    <data name="BADBAD" xml:space="preserve">
+        <value>Тёмный зелёный чай</value>
+    </data>
+    <data name="BBBBBB" xml:space="preserve">
+        <value>Светло-серый</value>
+    </data>
+    <data name="BCD4E6" xml:space="preserve">
+        <value>Голубой кавалер</value>
+    </data>
+    <data name="BD33A4" xml:space="preserve">
+        <value>Византийский</value>
+    </data>
+    <data name="BDB76B" xml:space="preserve">
+        <value>Тёмный хаки</value>
+    </data>
+    <data name="BEF574" xml:space="preserve">
+        <value>Фисташковый</value>
+    </data>
+    <data name="BF4F51" xml:space="preserve">
+        <value>Сладковатый мерцающий блеск</value>
+    </data>
+    <data name="BF94E4" xml:space="preserve">
+        <value>Яркая лаванда</value>
+    </data>
+    <data name="BFAFB2" xml:space="preserve">
+        <value>Черные тени</value>
+    </data>
+    <data name="BFFF00" xml:space="preserve">
+        <value>Горький лайм</value>
+    </data>
+    <data name="C0C0C0" xml:space="preserve">
+        <value>Серебряный</value>
+    </data>
+    <data name="C19A6B" xml:space="preserve">
+        <value>Верблюжий</value>
+    </data>
+    <data name="C32148" xml:space="preserve">
+        <value>Яркий бордовый</value>
+    </data>
+    <data name="C39953" xml:space="preserve">
+        <value>Ацтекское золото</value>
+    </data>
+    <data name="C3B091" xml:space="preserve">
+        <value>Хаки</value>
+    </data>
+    <data name="C41E3A" xml:space="preserve">
+        <value>Кардинал</value>
+    </data>
+    <data name="C46210" xml:space="preserve">
+        <value>Оранжевый сплав</value>
+    </data>
+    <data name="C4D8E2" xml:space="preserve">
+        <value>Колумбийский голубой</value>
+    </data>
+    <data name="C71585" xml:space="preserve">
+        <value>Фиолетово-красный</value>
+    </data>
+    <data name="C7D0CC" xml:space="preserve">
+        <value>Гридеперлевый</value>
+    </data>
+    <data name="C7FCEC" xml:space="preserve">
+        <value>Панг</value>
+    </data>
+    <data name="C8A2C8" xml:space="preserve">
+        <value>Сиреневый</value>
+    </data>
+    <data name="C95A49" xml:space="preserve">
+        <value>Кедровый сундук</value>
+    </data>
+    <data name="C9A0DC" xml:space="preserve">
+        <value>Глициния</value>
+    </data>
+    <data name="C9FFE5" xml:space="preserve">
+        <value>Аэро голубой</value>
+    </data>
+    <data name="CAA906" xml:space="preserve">
+        <value>Рождественское золото</value>
+    </data>
+    <data name="CADABA" xml:space="preserve">
+        <value>Зелёный серый чай</value>
+    </data>
+    <data name="CAE00D" xml:space="preserve">
+        <value>Горький лимон</value>
+    </data>
+    <data name="CB4154" xml:space="preserve">
+        <value>Кирпично-красный</value>
+    </data>
+    <data name="CC0000" xml:space="preserve">
+        <value>Бостонский университет Красный</value>
+    </data>
+    <data name="CC5500" xml:space="preserve">
+        <value>Выгоревший оранжевый</value>
+    </data>
+    <data name="CC7722" xml:space="preserve">
+        <value>Охра</value>
+    </data>
+    <data name="CC8899" xml:space="preserve">
+        <value>Красновато-коричневый</value>
+    </data>
+    <data name="CC9900" xml:space="preserve">
+        <value>Китайское золото</value>
+    </data>
+    <data name="CC9966" xml:space="preserve">
+        <value>Коричневый желтый</value>
+    </data>
+    <data name="CCCCCC" xml:space="preserve">
+        <value>Китайское серебро</value>
+    </data>
+    <data name="CCCCFF" xml:space="preserve">
+        <value>Барвинок</value>
+    </data>
+    <data name="CCFF00" xml:space="preserve">
+        <value>Лайм</value>
+    </data>
+    <data name="CD00CD" xml:space="preserve">
+        <value>Ярко-фиолетовый</value>
+    </data>
+    <data name="CD5700" xml:space="preserve">
+        <value>Краснобуро-оранжевый</value>
+    </data>
+    <data name="CD5B45" xml:space="preserve">
+        <value>Тёмно-коралловый</value>
+    </data>
+    <data name="CD5C5C" xml:space="preserve">
+        <value>Каштановый</value>
+    </data>
+    <data name="CD607E" xml:space="preserve">
+        <value>Коричневый атласный</value>
+    </data>
+    <data name="CD7F32" xml:space="preserve">
+        <value>Бронзовый</value>
+    </data>
+    <data name="CD8032" xml:space="preserve">
+        <value>Китайская бронза</value>
+    </data>
+    <data name="CD853F" xml:space="preserve">
+        <value>Светло-коричневый</value>
+    </data>
+    <data name="CD9575" xml:space="preserve">
+        <value>Античная латунь</value>
+    </data>
+    <data name="CFB53B" xml:space="preserve">
+        <value>Старое золото</value>
+    </data>
+    <data name="CFCFCF" xml:space="preserve">
+        <value>Американское серебро</value>
+    </data>
+    <data name="D0DB61" xml:space="preserve">
+        <value>Китайский зеленый</value>
+    </data>
+    <data name="D0F0C0" xml:space="preserve">
+        <value>Зелёный чай</value>
+    </data>
+    <data name="D0FF14" xml:space="preserve">
+        <value>Арктическая известь</value>
+    </data>
+    <data name="D1001C" xml:space="preserve">
+        <value>Кровавый оранжевый</value>
+    </data>
+    <data name="D19FE8" xml:space="preserve">
+        <value>Яркий ВБО</value>
+    </data>
+    <data name="D1E231" xml:space="preserve">
+        <value>Грушевый</value>
+    </data>
+    <data name="D2691E" xml:space="preserve">
+        <value>Шоколадный</value>
+    </data>
+    <data name="D2B48C" xml:space="preserve">
+        <value>Загара</value>
+    </data>
+    <data name="D3212D" xml:space="preserve">
+        <value>Амарант красный</value>
+    </data>
+    <data name="D3AF37" xml:space="preserve">
+        <value>Американское золото</value>
+    </data>
+    <data name="D53E07" xml:space="preserve">
+        <value>Тициановый</value>
+    </data>
+    <data name="D5713F" xml:space="preserve">
+        <value>Ванильный</value>
+    </data>
+    <data name="D5D5D5" xml:space="preserve">
+        <value>Бороды Абдель-Керима</value>
+    </data>
+    <data name="D77D31" xml:space="preserve">
+        <value>Рыжий</value>
+    </data>
+    <data name="D891EF" xml:space="preserve">
+        <value>Яркий сиреневый</value>
+    </data>
+    <data name="D8A903" xml:space="preserve">
+        <value>Тёмно-грушевый</value>
+    </data>
+    <data name="D8BFD8" xml:space="preserve">
+        <value>Чертополох</value>
+    </data>
+    <data name="DA70D6" xml:space="preserve">
+        <value>Орхидея</value>
+    </data>
+    <data name="DAA520" xml:space="preserve">
+        <value>Золотисто-берёзовый</value>
+    </data>
+    <data name="DABDAB" xml:space="preserve">
+        <value>Бледно-песочный</value>
+    </data>
+    <data name="DAD871" xml:space="preserve">
+        <value>Вердепешевый</value>
+    </data>
+    <data name="DB7093" xml:space="preserve">
+        <value>Лиловый</value>
+    </data>
+    <data name="DBE9F4" xml:space="preserve">
+        <value>Лазурный белый</value>
+    </data>
+    <data name="DC143C" xml:space="preserve">
+        <value>Малиновый</value>
+    </data>
+    <data name="DDADAF" xml:space="preserve">
+        <value>Бледно-каштановый</value>
+    </data>
+    <data name="DDE26A" xml:space="preserve">
+        <value>Необычная козявка</value>
+    </data>
+    <data name="DE3163" xml:space="preserve">
+        <value>Светло-вишневый</value>
+    </data>
+    <data name="DE5D83" xml:space="preserve">
+        <value>Румянец</value>
+    </data>
+    <data name="DE6FA1" xml:space="preserve">
+        <value>Китайский розовый</value>
+    </data>
+    <data name="DF73FF" xml:space="preserve">
+        <value>Гелиотроп</value>
+    </data>
+    <data name="E0218A" xml:space="preserve">
+        <value>Розовая барби</value>
+    </data>
+    <data name="E1DFE0" xml:space="preserve">
+        <value>Рождественское серебро</value>
+    </data>
+    <data name="E28B00" xml:space="preserve">
+        <value>Сиена</value>
+    </data>
+    <data name="E2E5DE" xml:space="preserve">
+        <value>Китайский белый</value>
+    </data>
+    <data name="E30022" xml:space="preserve">
+        <value>Кадмий красный</value>
+    </data>
+    <data name="E32636" xml:space="preserve">
+        <value>Ализарин малиновый</value>
+    </data>
+    <data name="E34234" xml:space="preserve">
+        <value>Киноварь</value>
+    </data>
+    <data name="E3DAC9" xml:space="preserve">
+        <value>Кость</value>
+    </data>
+    <data name="E4717A" xml:space="preserve">
+        <value>Конфетный розовый</value>
+    </data>
+    <data name="E49B0F" xml:space="preserve">
+        <value>Гуммигут</value>
+    </data>
+    <data name="E4D00A" xml:space="preserve">
+        <value>Цитрин</value>
+    </data>
+    <data name="E52B50" xml:space="preserve">
+        <value>Амарант</value>
+    </data>
+    <data name="E6E6FA" xml:space="preserve">
+        <value>Лаванда</value>
+    </data>
+    <data name="E75480" xml:space="preserve">
+        <value>Тёмно-розовый</value>
+    </data>
+    <data name="E7FEFF" xml:space="preserve">
+        <value>Пузыри</value>
+    </data>
+    <data name="E88E5A" xml:space="preserve">
+        <value>Большие ноги</value>
+    </data>
+    <data name="E97451" xml:space="preserve">
+        <value>Сиена жжёная</value>
+    </data>
+    <data name="E9967A" xml:space="preserve">
+        <value>Тёмная лососина</value>
+    </data>
+    <data name="E9D66B" xml:space="preserve">
+        <value>Арилово-желтый</value>
+    </data>
+    <data name="EA8DF7" xml:space="preserve">
+        <value>Фиалковый</value>
+    </data>
+    <data name="EB4C42" xml:space="preserve">
+        <value>Карминный розовый</value>
+    </data>
+    <data name="EBC2AF" xml:space="preserve">
+        <value>Циннвальдит</value>
+    </data>
+    <data name="EBECF0" xml:space="preserve">
+        <value>Ярко-серый</value>
+    </data>
+    <data name="ED872D" xml:space="preserve">
+        <value>Кадмий оранжевый</value>
+    </data>
+    <data name="ED9121" xml:space="preserve">
+        <value>Морковный</value>
+    </data>
+    <data name="EEDC82" xml:space="preserve">
+        <value>Льняной</value>
+    </data>
+    <data name="EEE0B1" xml:space="preserve">
+        <value>Печенье и крем</value>
+    </data>
+    <data name="EEE6A3" xml:space="preserve">
+        <value>Пергидрольной блондинки</value>
+    </data>
+    <data name="EFAF8C" xml:space="preserve">
+        <value>Сомон</value>
+    </data>
+    <data name="EFBBCC" xml:space="preserve">
+        <value>Камея розовая</value>
+    </data>
+    <data name="EFDECD" xml:space="preserve">
+        <value>Миндальный</value>
+    </data>
+    <data name="F0DC82" xml:space="preserve">
+        <value>Кожа буйвола</value>
+    </data>
+    <data name="F0F8FF" xml:space="preserve">
+        <value>Алиса синяя</value>
+    </data>
+    <data name="F19CBB" xml:space="preserve">
+        <value>Розовый амарант</value>
+    </data>
+    <data name="F1DDCF" xml:space="preserve">
+        <value>Шампанское розовое</value>
+    </data>
+    <data name="F28E1C" xml:space="preserve">
+        <value>Пиво</value>
+    </data>
+    <data name="F2B400" xml:space="preserve">
+        <value>Американский желтый</value>
+    </data>
+    <data name="F2E8C9" xml:space="preserve">
+        <value>Сливочный</value>
+    </data>
+    <data name="F2F0E6" xml:space="preserve">
+        <value>Алебастр</value>
+    </data>
+    <data name="F2F3F4" xml:space="preserve">
+        <value>Анти-вспышка белого цвета</value>
+    </data>
+    <data name="F37042" xml:space="preserve">
+        <value>Китайский оранжевый</value>
+    </data>
+    <data name="F4A460" xml:space="preserve">
+        <value>Песочный</value>
+    </data>
+    <data name="F4BBFF" xml:space="preserve">
+        <value>Блестящая лаванда</value>
+    </data>
+    <data name="F4C2C2" xml:space="preserve">
+        <value>Розовый розовый</value>
+    </data>
+    <data name="F4C430" xml:space="preserve">
+        <value>Шафрановый</value>
+    </data>
+    <data name="F5DEB3" xml:space="preserve">
+        <value>Пшеничный</value>
+    </data>
+    <data name="F5F5DC" xml:space="preserve">
+        <value>Бежевый</value>
+    </data>
+    <data name="F7E7CE" xml:space="preserve">
+        <value>Шампань</value>
+    </data>
+    <data name="F7F21A" xml:space="preserve">
+        <value>Детской неожиданности</value>
+    </data>
+    <data name="F88379" xml:space="preserve">
+        <value>Конго розовый</value>
+    </data>
+    <data name="F984E5" xml:space="preserve">
+        <value>Бледно-пурпурный</value>
+    </data>
+    <data name="FA6E79" xml:space="preserve">
+        <value>Бегония</value>
+    </data>
+    <data name="FADADD" xml:space="preserve">
+        <value>Бледно-розовый</value>
+    </data>
+    <data name="FADFAD" xml:space="preserve">
+        <value>Жёлто-персиковый</value>
+    </data>
+    <data name="FAE7B5" xml:space="preserve">
+        <value>Банановая мания</value>
+    </data>
+    <data name="FAEBD7" xml:space="preserve">
+        <value>Античный белый</value>
+    </data>
+    <data name="FAEEDD" xml:space="preserve">
+        <value>Бедра испуганной нимфы</value>
+    </data>
+    <data name="FAF0E6" xml:space="preserve">
+        <value>Льняной</value>
+    </data>
+    <data name="FB607F" xml:space="preserve">
+        <value>Розовый берег</value>
+    </data>
+    <data name="FBCCE7" xml:space="preserve">
+        <value>Классический розовый</value>
+    </data>
+    <data name="FBCEB1" xml:space="preserve">
+        <value>Абрикос</value>
+    </data>
+    <data name="FBEC5D" xml:space="preserve">
+        <value>Кукурузный</value>
+    </data>
+    <data name="FC0FC0" xml:space="preserve">
+        <value>Ярко-розовый</value>
+    </data>
+    <data name="FD7C6E" xml:space="preserve">
+        <value>Коралловый риф</value>
+    </data>
+    <data name="FDE910" xml:space="preserve">
+        <value>Лимонный</value>
+    </data>
+    <data name="FDEE00" xml:space="preserve">
+        <value>Ореолин</value>
+    </data>
+    <data name="FE6F5E" xml:space="preserve">
+        <value>Горьковато-сладкий</value>
+    </data>
+    <data name="FEF200" xml:space="preserve">
+        <value>Рождественский желтый</value>
+    </data>
+    <data name="FEFEFA" xml:space="preserve">
+        <value>Присыпка для малышей</value>
+    </data>
+    <data name="FF0000" xml:space="preserve">
+        <value>Красный</value>
+    </data>
+    <data name="FF0038" xml:space="preserve">
+        <value>Карминный красный</value>
+    </data>
+    <data name="FF007F" xml:space="preserve">
+        <value>Ярко-розовый</value>
+    </data>
+    <data name="FF00FF" xml:space="preserve">
+        <value>Фуксия</value>
+    </data>
+    <data name="FF033E" xml:space="preserve">
+        <value>Американская роза</value>
+    </data>
+    <data name="FF0800" xml:space="preserve">
+        <value>Конфеты яблочные красные</value>
+    </data>
+    <data name="FF2052" xml:space="preserve">
+        <value>Потрясающие</value>
+    </data>
+    <data name="FF2400" xml:space="preserve">
+        <value>Алый</value>
+    </data>
+    <data name="FF47CA" xml:space="preserve">
+        <value>Звезды в шоке</value>
+    </data>
+    <data name="FF4D00" xml:space="preserve">
+        <value>Киноварь</value>
+    </data>
+    <data name="FF4F00" xml:space="preserve">
+        <value>Международный оранжевый</value>
+    </data>
+    <data name="FF55A3" xml:space="preserve">
+        <value>Блестящая роза</value>
+    </data>
+    <data name="FF6600" xml:space="preserve">
+        <value>Рождественский оранжевый</value>
+    </data>
+    <data name="FF7518" xml:space="preserve">
+        <value>Тыква</value>
+    </data>
+    <data name="FF7E00" xml:space="preserve">
+        <value>Янтарный (SAE / ECE)</value>
+    </data>
+    <data name="FF7F50" xml:space="preserve">
+        <value>Коралловый</value>
+    </data>
+    <data name="FF8B00" xml:space="preserve">
+        <value>Американский оранжевый</value>
+    </data>
+    <data name="FF8C69" xml:space="preserve">
+        <value>Лососёвый</value>
+    </data>
+    <data name="FF91AF" xml:space="preserve">
+        <value>Бейкер-Миллер розовый</value>
+    </data>
+    <data name="FF9218" xml:space="preserve">
+        <value>Последний вздох Жако</value>
+    </data>
+    <data name="FF9900" xml:space="preserve">
+        <value>Сигнальный оранжевый</value>
+    </data>
+    <data name="FF9966" xml:space="preserve">
+        <value>Оранжево-розовый</value>
+    </data>
+    <data name="FFA500" xml:space="preserve">
+        <value>Оранжевый</value>
+    </data>
+    <data name="FFA600" xml:space="preserve">
+        <value>Сырный</value>
+    </data>
+    <data name="FFA6C9" xml:space="preserve">
+        <value>Гвоздика розовая</value>
+    </data>
+    <data name="FFA812" xml:space="preserve">
+        <value>Тёмно-мандариновый</value>
+    </data>
+    <data name="FFAA1D" xml:space="preserve">
+        <value>Яркий желтый (Crayola)</value>
+    </data>
+    <data name="FFBA00" xml:space="preserve">
+        <value>Отборный жёлтый</value>
+    </data>
+    <data name="FFBCD9" xml:space="preserve">
+        <value>Сахарная вата</value>
+    </data>
+    <data name="FFBF00" xml:space="preserve">
+        <value>Янтарный</value>
+    </data>
+    <data name="FFC0CB" xml:space="preserve">
+        <value>Розовый</value>
+    </data>
+    <data name="FFC1CC" xml:space="preserve">
+        <value>Жевательная резинка</value>
+    </data>
+    <data name="FFCC00" xml:space="preserve">
+        <value>Мандариновый</value>
+    </data>
+    <data name="FFCC99" xml:space="preserve">
+        <value>Оранжево-персиковый</value>
+    </data>
+    <data name="FFCCCB" xml:space="preserve">
+        <value>Рождественский розовый</value>
+    </data>
+    <data name="FFD1DC" xml:space="preserve">
+        <value>Пастельно-розовый</value>
+    </data>
+    <data name="FFD59A" xml:space="preserve">
+        <value>Карамель</value>
+    </data>
+    <data name="FFD700" xml:space="preserve">
+        <value>Золотой</value>
+    </data>
+    <data name="FFD800" xml:space="preserve">
+        <value>Жёлтого школьного автобуса</value>
+    </data>
+    <data name="FFDAB9" xml:space="preserve">
+        <value>Тёмно-персиковый</value>
+    </data>
+    <data name="FFDB58" xml:space="preserve">
+        <value>Горчичный</value>
+    </data>
+    <data name="FFDEAD" xml:space="preserve">
+        <value>Белый навахо</value>
+    </data>
+    <data name="FFE135" xml:space="preserve">
+        <value>Банановый желтый</value>
+    </data>
+    <data name="FFE4B2" xml:space="preserve">
+        <value>Жёлто-розовый</value>
+    </data>
+    <data name="FFE4C4" xml:space="preserve">
+        <value>Суп-пюре</value>
+    </data>
+    <data name="FFE5B4" xml:space="preserve">
+        <value>Персиковый</value>
+    </data>
+    <data name="FFEBCD" xml:space="preserve">
+        <value>Бланшированный миндаль</value>
+    </data>
+    <data name="FFEF00" xml:space="preserve">
+        <value>Канарейка желтая</value>
+    </data>
+    <data name="FFEFD5" xml:space="preserve">
+        <value>Побег папайи</value>
+    </data>
+    <data name="FFF0F5" xml:space="preserve">
+        <value>Розово-лавандовый</value>
+    </data>
+    <data name="FFF5EE" xml:space="preserve">
+        <value>Морской пены</value>
+    </data>
+    <data name="FFF600" xml:space="preserve">
+        <value>Кадмий желтый</value>
+    </data>
+    <data name="FFF8DC" xml:space="preserve">
+        <value>Кукурузные рыльца</value>
+    </data>
+    <data name="FFF8E7" xml:space="preserve">
+        <value>Космический латте</value>
+    </data>
+    <data name="FFFACD" xml:space="preserve">
+        <value>Лимонно-кремовый</value>
+    </data>
+    <data name="FFFDD0" xml:space="preserve">
+        <value>Кремовый</value>
+    </data>
+    <data name="FFFDDF" xml:space="preserve">
+        <value>Слоновой кости</value>
+    </data>
+    <data name="FFFF00" xml:space="preserve">
+        <value>Жёлтый</value>
+    </data>
+    <data name="FFFF99" xml:space="preserve">
+        <value>Канарейка</value>
+    </data>
+    <data name="FFFFCC" xml:space="preserve">
+        <value>Кондиционер</value>
+    </data>
+    <data name="FFFFFF" xml:space="preserve">
+        <value>Белый</value>
+    </data>
+    <data name="000080" xml:space="preserve">
+        <value>Тёмно-синий</value>
+    </data>
+</root>
