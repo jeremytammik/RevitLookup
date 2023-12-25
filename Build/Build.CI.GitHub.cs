@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Nuke.Common;
 using Nuke.Common.Git;
+using Nuke.Common.Tools.Git;
 using Nuke.Common.Tools.GitHub;
 using Octokit;
 using Serilog;
@@ -9,7 +10,7 @@ using Serilog;
 sealed partial class Build
 {
     Target Publish => _ => _
-        .TriggeredBy(CreateInstaller)
+        .DependsOn(CreateInstaller)
         .Requires(() => GitHubToken)
         .OnlyWhenStatic(() => IsServerBuild && GitRepository.IsOnMainOrMasterBranch())
         .Executes(async () =>
@@ -22,13 +23,12 @@ sealed partial class Build
             var version = VersionMap.Values.Last();
             var gitHubName = GitRepository.GetGitHubName();
             var gitHubOwner = GitRepository.GetGitHubOwner();
+
+            Validate(version);
+
             var artifacts = Directory.GetFiles(ArtifactsDirectory, "*");
-            var tags = await GitHubTasks.GitHubClient.Repository.GetAllTags(gitHubOwner, gitHubName);
+            var changelog = CreateChangelog(version);
 
-            Assert.False(tags.Select(tag => tag.Name).Contains(version), $"A Release with the specified tag already exists in the repository: {version}");
-            Log.Information("Version: {Version}", version);
-
-            var changelog = CreateChangelog(tags[0].Name, version);
             var newRelease = new NewRelease(version)
             {
                 Name = version,
@@ -36,12 +36,17 @@ sealed partial class Build
                 TargetCommitish = GitRepository.Commit
             };
 
-            var release = await CreatedReleaseAsync(gitHubOwner, gitHubName, newRelease);
+            var release = await GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
             await UploadArtifactsAsync(release, artifacts);
         });
 
-    static Task<Release> CreatedReleaseAsync(string gitHubOwner, string gitHubName, NewRelease newRelease) =>
-        GitHubTasks.GitHubClient.Repository.Release.Create(gitHubOwner, gitHubName, newRelease);
+    static void Validate(string version)
+    {
+        var tags = GitTasks.Git("tag --list");
+        Assert.False(tags.Any(tag => tag.Text == version), $"A Release with the specified tag already exists in the repository: {version}");
+
+        Log.Information("Version: {Version}", version);
+    }
 
     static async Task UploadArtifactsAsync(Release createdRelease, IEnumerable<string> artifacts)
     {
@@ -59,7 +64,7 @@ sealed partial class Build
         }
     }
 
-    string CreateChangelog(string previousVersion, string version)
+    string CreateChangelog(string version)
     {
         if (!File.Exists(ChangeLogPath))
         {
@@ -67,35 +72,52 @@ sealed partial class Build
             return string.Empty;
         }
 
-        const string nextRecordSymbol = "# ";
-
-        var logBuilder = new StringBuilder();
-        var changelogLineRegex = new Regex($@"^.*({version})\S*\s?");
         Log.Information("Changelog: {Path}", ChangeLogPath);
 
+        var changelog = ReadChangelog(version);
+        if (changelog.Length == 0)
+        {
+            Log.Warning("No version entry exists in the changelog: {Version}", version);
+            return string.Empty;
+        }
+
+        WriteCompareUrl(version, changelog);
+        return changelog.ToString();
+    }
+
+    void WriteCompareUrl(string version, StringBuilder changelog)
+    {
+        var tags = GitTasks.Git("tag --list");
+        if (tags.Count == 0) return;
+
+        changelog.Append("Full changelog: ");
+        changelog.Append(GitRepository.GetGitHubCompareTagsUrl(version, tags.Last().Text));
+    }
+
+    StringBuilder ReadChangelog(string version)
+    {
+        const char separator = '#';
+
+        var hasEntry = false;
+        var changelog = new StringBuilder();
         foreach (var line in File.ReadLines(ChangeLogPath))
         {
-            if (logBuilder.Length > 0)
+            if (hasEntry)
             {
-                if (line.StartsWith(nextRecordSymbol)) break;
-                logBuilder.AppendLine(line);
+                if (line.StartsWith(separator)) break;
+                if (line == string.Empty) continue;
+
+                if (changelog.Length > 0) changelog.AppendLine();
+                changelog.Append(line);
                 continue;
             }
 
-            if (!changelogLineRegex.Match(line).Success) continue;
-            var truncatedLine = changelogLineRegex.Replace(line, string.Empty);
-            logBuilder.AppendLine(truncatedLine);
+            if (line.StartsWith(separator) && line.Contains(version))
+            {
+                hasEntry = true;
+            }
         }
 
-        if (logBuilder.Length == 0) Log.Warning("No version entry exists in the changelog: {Version}", version);
-
-        AppendCompareUrl(logBuilder, previousVersion, version);
-        return logBuilder.ToString();
-    }
-
-    void AppendCompareUrl(StringBuilder logBuilder, string previousVersion, string version)
-    {
-        logBuilder.Append("Full changelog: ");
-        logBuilder.Append(GitRepository.GetGitHubCompareTagsUrl(version, previousVersion));
+        return changelog;
     }
 }

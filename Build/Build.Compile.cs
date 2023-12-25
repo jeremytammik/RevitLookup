@@ -6,7 +6,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 sealed partial class Build
 {
     Target Compile => _ => _
-        .TriggeredBy(Clean)
+        .DependsOn(Clean)
         .Executes(() =>
         {
             foreach (var configuration in GlobBuildConfigurations())

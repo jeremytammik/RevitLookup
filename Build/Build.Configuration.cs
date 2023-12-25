@@ -7,11 +7,11 @@ sealed partial class Build
 
     protected override void OnBuildInitialized()
     {
-        Configurations = new[]
-        {
+        Configurations =
+        [
             "Release*",
             "Installer*"
-        };
+        ];
 
         InstallersMap = new()
         {

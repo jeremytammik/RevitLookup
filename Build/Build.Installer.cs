@@ -9,7 +9,7 @@ using Serilog.Events;
 sealed partial class Build
 {
     Target CreateInstaller => _ => _
-        .TriggeredBy(Compile)
+        .DependsOn(Compile)
         .OnlyWhenStatic(() => IsLocalBuild || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
@@ -25,18 +25,18 @@ sealed partial class Build
 
                 foreach (var directory in directories)
                 {
-                    var proc = new Process();
-                    proc.StartInfo.FileName = exeFile;
-                    proc.StartInfo.Arguments = directory.DoubleQuoteIfNeeded();
-                    proc.StartInfo.RedirectStandardOutput = true;
-                    proc.StartInfo.RedirectStandardError = true;
-                    proc.Start();
+                    var process = new Process();
+                    process.StartInfo.FileName = exeFile;
+                    process.StartInfo.Arguments = directory.DoubleQuoteIfNeeded();
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.RedirectStandardError = true;
+                    process.Start();
 
-                    RedirectStream(proc.StandardOutput, LogEventLevel.Information);
-                    RedirectStream(proc.StandardError, LogEventLevel.Error);
+                    RedirectStream(process.StandardOutput, LogEventLevel.Information);
+                    RedirectStream(process.StandardError, LogEventLevel.Error);
 
-                    proc.WaitForExit();
-                    if (proc.ExitCode != 0) throw new Exception($"The installer creation failed with ExitCode {proc.ExitCode}");
+                    process.WaitForExit();
+                    if (process.ExitCode != 0) throw new Exception($"The installer creation failed with ExitCode {process.ExitCode}");
                 }
             }
         });
