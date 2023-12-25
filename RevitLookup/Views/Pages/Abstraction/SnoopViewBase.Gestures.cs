@@ -20,21 +20,38 @@
 
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages.Abstraction;
 
-public partial class SnoopViewBase
+public partial class SnoopViewBase : INavigationAware
 {
+    /// <summary>
+    ///     Page shortcuts
+    /// </summary>
     private void AddShortcuts()
     {
         var command = new AsyncRelayCommand(() => ViewModel.RefreshMembersCommand.ExecuteAsync(null));
         InputBindings.Add(new KeyBinding(command, new KeyGesture(Key.F5)));
     }
 
+    /// <summary>
+    ///     Window shortcuts
+    /// </summary>
     private void OnPageKeyPressed(object sender, KeyEventArgs e)
     {
         if (SearchBoxControl.IsKeyboardFocused) return;
         if (e.KeyboardDevice.Modifiers != ModifierKeys.None) return;
         if (e.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9) SearchBoxControl.Focus();
+    }
+
+    public void OnNavigatedTo()
+    {
+        Wpf.Ui.Application.MainWindow.PreviewKeyDown += OnPageKeyPressed;
+    }
+
+    public void OnNavigatedFrom()
+    {
+        Wpf.Ui.Application.MainWindow.PreviewKeyDown -= OnPageKeyPressed;
     }
 }

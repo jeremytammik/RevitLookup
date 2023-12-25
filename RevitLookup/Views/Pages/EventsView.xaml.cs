@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Services.Contracts;
-using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.Views.Pages;
@@ -29,13 +28,13 @@ public sealed partial class EventsView
     public EventsView(EventsViewModel viewModel,  ISettingsService settingsService) : base(settingsService)
     {
         InitializeComponent();
+        ViewModel = viewModel;
 
         DataGridControl = DataGrid;
         TreeViewControl = TreeView;
         SearchBoxControl = SearchBox;
         TreeView.SelectedItemChanged += OnTreeItemSelected;
 
-        ViewModel = viewModel;
         DataContext = this;
     }
 }

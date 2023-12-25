@@ -22,6 +22,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
@@ -30,14 +31,14 @@ using RevitLookup.Views.Utils;
 using Wpf.Ui.Controls;
 using DataGrid = Wpf.Ui.Controls.DataGrid;
 using TreeView = Wpf.Ui.Controls.TreeView;
-using TreeViewItem = System.Windows.Controls.TreeViewItem;
 
 namespace RevitLookup.Views.Pages.Abstraction;
 
-public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INavigationAware
+public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 {
-    private readonly ISettingsService _settingsService;
+    private readonly TreeView _treeViewControl;
     private readonly DataGrid _dataGridControl;
+    private readonly ISettingsService _settingsService;
 
     protected SnoopViewBase(ISettingsService settingsService)
     {
@@ -45,8 +46,15 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         AddShortcuts();
     }
 
-    protected UIElement SearchBoxControl { get; init; }
-    protected TreeView TreeViewControl { get; init; }
+    protected TreeView TreeViewControl
+    {
+        get => _treeViewControl;
+        init
+        {
+            _treeViewControl = value;
+            OnTreeChanged(value);
+        }
+    }
 
     protected DataGrid DataGridControl
     {
@@ -58,8 +66,26 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         }
     }
 
+    protected UIElement SearchBoxControl { get; init; }
     public ISnoopViewModel ViewModel { get; protected init; }
 
+    /// <summary>
+    ///     Handle data grid reference changed event
+    /// </summary>
+    /// <remarks>
+    ///     Data grid initialization
+    /// </remarks>
+    private void OnTreeChanged(TreeView control)
+    {
+        control.ItemContainerGenerator.StatusChanged += OnTreeViewItemGenerated;
+    }
+
+    /// <summary>
+    ///     Handle tree view source changed
+    /// </summary>
+    /// <remarks>
+    ///     Tree view initialization, apply transition
+    /// </remarks>
     protected void OnTreeSourceChanged(object sender, IEnumerable enumerable)
     {
         if (IsLoaded)
@@ -78,16 +104,94 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         }
     }
 
-    private async void OnGridChanged(DataGrid control)
+    /// <summary>
+    ///     Handle tree view item loaded
+    /// </summary>
+    /// <remarks>
+    ///     TreeView item customization after loading
+    /// </remarks>
+    private void OnTreeViewItemGenerated(object sender, EventArgs _)
     {
-        //Lazy init. 1 ms is enough to display data and start initialising components
-        await Task.Delay(1);
+        var generator = (ItemContainerGenerator) sender;
+        if (generator.Status == GeneratorStatus.ContainersGenerated)
+        {
+            foreach (var item in generator.Items)
+            {
+                var treeItem = (ItemsControl) generator.ContainerFromItem(item);
+                if (treeItem is null) continue;
 
-        ValidateTimeColumn(control);
-        CreateGridContextMenu(control);
+                treeItem.Loaded -= OnTreeItemLoaded;
+                treeItem.PreviewMouseLeftButtonUp -= OnTreeItemClicked;
+
+                treeItem.Loaded += OnTreeItemLoaded;
+                treeItem.PreviewMouseLeftButtonUp += OnTreeItemClicked;
+
+                if (treeItem.Items.Count > 0)
+                {
+                    treeItem.ItemContainerGenerator.StatusChanged -= OnTreeViewItemGenerated;
+                    treeItem.ItemContainerGenerator.StatusChanged += OnTreeViewItemGenerated;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Handle tree view loaded event
+    /// </summary>
+    /// <remarks>
+    ///     Create tree view tooltips, menus
+    /// </remarks>
+    private void OnTreeItemLoaded(object sender, RoutedEventArgs args)
+    {
+        var element = (FrameworkElement) sender;
+        switch (element.DataContext)
+        {
+            case SnoopableObject context:
+                CreateTreeTooltip(context.Descriptor, element);
+                CreateTreeContextMenu(context.Descriptor, element);
+                break;
+        }
+    }
+
+    /// <summary>
+    ///     Handle tree view reference changed event
+    /// </summary>
+    /// <remarks>
+    ///     Tree view initialization, apply transition
+    /// </remarks>
+    private async void SetupTreeView()
+    {
+        // Await Frame transition. GetMembers freezes the thread and breaks the animation
+        await Task.Delay(_settingsService.TransitionDuration);
+
+        // if (TryRestoreSelection()) return;
+
+        ExpandFirstTreeGroup();
+    }
+
+    /// <summary>
+    ///     Handle data grid reference changed event
+    /// </summary>
+    /// <remarks>
+    ///     Data grid initialization, validation
+    /// </remarks>
+    private void OnGridChanged(DataGrid control)
+    {
+        control.Loaded += (sender, _) =>
+        {
+            var dataGrid = (DataGrid) sender;
+            ValidateTimeColumn(dataGrid);
+            CreateGridContextMenu(dataGrid);
+        };
         control.ItemsSourceChanged += OnGridItemsSourceChanged;
     }
 
+    /// <summary>
+    ///     Handle data grid source changed
+    /// </summary>
+    /// <remarks>
+    ///     Group and sort items
+    /// </remarks>
     private void OnGridItemsSourceChanged(object sender, EventArgs _)
     {
         var dataGrid = (DataGrid) sender;
@@ -100,33 +204,12 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         dataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
     }
 
-    public void OnNavigatedTo()
-    {
-        Wpf.Ui.Application.MainWindow.PreviewKeyDown += OnPageKeyPressed;
-    }
-
-    public void OnNavigatedFrom()
-    {
-        Wpf.Ui.Application.MainWindow.PreviewKeyDown -= OnPageKeyPressed;
-    }
-
     /// <summary>
-    ///     Enable navigation
+    ///     Handle data grid row loading event
     /// </summary>
-    protected async void OnHeaderLoaded(object sender, RoutedEventArgs routedEventArgs)
-    {
-        //Lazy init. 1 ms is enough to display data and start initialising components
-        await Task.Delay(1);
-
-        var treeItem = VisualUtils.FindVisualParent<TreeViewItem>((DependencyObject) sender);
-        if (treeItem is null) return;
-
-        treeItem.PreviewMouseLeftButtonUp += OnTreeItemClicked;
-    }
-
-    /// <summary>
-    ///     Pre setup dataGrid row
-    /// </summary>
+    /// <remarks>
+    ///     Select row style
+    /// </remarks>
     protected void OnGridRowLoading(object sender, DataGridRowEventArgs args)
     {
         var row = args.Row;
@@ -136,40 +219,22 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
     }
 
     /// <summary>
-    ///     Post setup dataGrid row
+    ///     Handle data grid row loaded event
     /// </summary>
-    protected async void OnGridRowLoaded(object sender, RoutedEventArgs routedEventArgs)
+    /// <remarks>
+    ///     Create tooltips, context menu
+    /// </remarks>
+    protected void OnGridRowLoaded(object sender, RoutedEventArgs args)
     {
-        //Lazy init. 1 ms is enough to display data and start initialising components
-        await Task.Delay(1);
-
         var element = (FrameworkElement) sender;
-        switch (element.DataContext)
-        {
-            case SnoopableObject context:
-                var treeItem = VisualUtils.FindVisualParent<TreeViewItem>((DependencyObject) sender);
-                CreateTreeTooltip(context.Descriptor, treeItem);
-                CreateTreeContextMenu(context.Descriptor, treeItem);
-                break;
-            case Descriptor context:
-                CreateGridRowTooltip(context, element);
-                CreateGridRowContextMenu(context, element);
-                break;
-            default:
-                return;
-        }
+        var context = (Descriptor) element.DataContext;
+        CreateGridRowTooltip(context, element);
+        CreateGridRowContextMenu(context, element);
     }
 
-    private async void SetupTreeView()
-    {
-        // Await Frame transition. GetMembers freezes the thread and breaks the animation
-        await Task.Delay(_settingsService.TransitionDuration);
-
-        // if (TryRestoreSelection()) return;
-
-        ExpandFirstGroup();
-    }
-
+    /// <summary>
+    ///     Restore the previous selection when cancelling a search
+    /// </summary>
     [Obsolete("Low performance")]
     private bool TryRestoreSelection()
     {
@@ -184,7 +249,10 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         return true;
     }
 
-    private void ExpandFirstGroup()
+    /// <summary>
+    ///     Expand first tree view group after navigation
+    /// </summary>
+    private void ExpandFirstTreeGroup()
     {
         if (TreeViewControl.Items.Count > 3) return;
 
@@ -197,11 +265,17 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         nestedItem.IsSelected = true;
     }
 
+    /// <summary>
+    ///     Show/hide time column
+    /// </summary>
     private void ValidateTimeColumn(System.Windows.Controls.DataGrid control)
     {
         control.Columns[2].Visibility = _settingsService.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
     }
 
+    /// <summary>
+    ///     Recollect all data on the selected item
+    /// </summary>
     private Task RefreshGridAsync()
     {
         return ViewModel.RefreshMembersCommand.ExecuteAsync(null);

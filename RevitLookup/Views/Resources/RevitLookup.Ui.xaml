@@ -5,8 +5,10 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/RevitLookup;component/Views/Controls/DataGrid/DataGridRowStyle.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup;component/Views/Controls/DataGrid/DataGridCellTemplate.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup;component/Views/Controls/TreeView/TreeViewItemTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <abstraction:DataGridCellStyleSelector x:Key="DataGridCellStyleSelector" />
+    <abstraction:TreeViewItemTemplateSelector x:Key="TreeViewItemTemplateSelector" />
 
 </ResourceDictionary>

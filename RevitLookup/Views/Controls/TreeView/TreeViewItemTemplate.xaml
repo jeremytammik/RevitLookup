@@ -5,33 +5,46 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
+    xmlns:abstraction="clr-namespace:RevitLookup.Views.Pages.Abstraction"
     mc:Ignorable="d">
 
-    <DataTemplate
-        x:Key="DefaultLookupDataGridCellTemplate">
+    <abstraction:TreeViewItemTemplateSelector
+        x:Key="TreeViewItemTemplateSelector" />
+
+    <HierarchicalDataTemplate
+        x:Key="DefaultLookupTreeViewGroupTemplate"
+        ItemsSource="{Binding Items, Mode=OneTime}"
+        ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}">
         <TextBlock
-            d:DataContext="{d:DesignInstance objects:Descriptor}"
-            Text="{Binding Value.Descriptor,
-                Converter={converters:CombinedDescriptorConverter},
-                Mode=OneTime}" />
+            d:DataContext="{d:DesignInstance CollectionViewGroup}"
+            Text="{Binding Name, Mode=OneTime}" />
+    </HierarchicalDataTemplate>
+
+    <DataTemplate
+        x:Key="DefaultLookupTreeViewItemTemplate">
+        <TextBlock
+            d:DataContext="{d:DesignInstance objects:SnoopableObject}"
+            Text="{Binding Descriptor,
+                                        Converter={converters:SingleDescriptorConverter},
+                                        Mode=OneTime}" />
     </DataTemplate>
 
     <DataTemplate
-        x:Key="DataGridColorCellTemplate">
+        x:Key="TreeViewColorItemTemplate">
         <StackPanel
             Orientation="Horizontal">
             <TextBlock
-                d:DataContext="{d:DesignInstance objects:Descriptor}"
+                d:DataContext="{d:DesignInstance objects:SnoopableObject}"
                 VerticalAlignment="Center"
-                Text="{Binding Value.Descriptor,
-                    Converter={converters:CombinedDescriptorConverter},
-                    Mode=OneTime}" />
+                Text="{Binding Descriptor,
+                                        Converter={converters:SingleDescriptorConverter},
+                                        Mode=OneTime}" />
             <Border
                 CornerRadius="4"
                 Padding="4 2"
                 Margin="4 0 0 0"
                 VerticalAlignment="Center"
-                d:DataContext="{d:DesignInstance objects:Descriptor}">
+                d:DataContext="{d:DesignInstance objects:SnoopableObject}">
                 <Border.Background>
                     <SolidColorBrush
                         Opacity="0.05"
@@ -43,7 +56,7 @@
                     Height="10">
                     <Border.Background>
                         <SolidColorBrush
-                            Color="{Binding Value.Object,
+                            Color="{Binding Object,
                             Converter={converters:ObjectColorConverter},
                             Mode=OneTime}">
                         </SolidColorBrush>

@@ -53,21 +53,15 @@
                     Text="{Binding ViewModel.SearchText,
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" />
+                <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
                 <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
                     VirtualizingStackPanel.IsVirtualizing="True"
-                    ItemsSource="{Binding ViewModel.FilteredSnoopableObjects}">
-                    <rl:TreeView.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                                Loaded="OnGridRowLoaded"
-                                Text="{Binding Descriptor, 
-                                    Converter={converters:SingleDescriptorConverter},
-                                    Mode=OneTime}" />
-                        </DataTemplate>
-                    </rl:TreeView.ItemTemplate>
-                </rl:TreeView>
+                    ItemsSource="{Binding ViewModel.FilteredSnoopableObjects}"
+                    MouseMove="OnPresenterCursorInteracted"
+                    ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}" />
+                <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
             </DockPanel>
             <rl:DataGrid
                 Grid.Column="2"
@@ -113,7 +107,7 @@
                     <DataGridTemplateColumn
                         Width="2*"
                         Header="Value"
-                        CellTemplateSelector="{StaticResource DataGridCellStyleSelector}"/>
+                        CellTemplateSelector="{StaticResource DataGridCellStyleSelector}" />
                     <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
                     <DataGridTextColumn
                         Width="61"

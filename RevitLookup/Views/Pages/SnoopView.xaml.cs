@@ -28,6 +28,7 @@ public sealed partial class SnoopView
     public SnoopView(ISettingsService settingsService, ISnoopViewModel viewModel) : base(settingsService)
     {
         InitializeComponent();
+        ViewModel = viewModel;
 
         DataGridControl = DataGrid;
         TreeViewControl = TreeView;
@@ -35,7 +36,6 @@ public sealed partial class SnoopView
         TreeView.SelectedItemChanged += OnTreeItemSelected;
         TreeView.ItemsSourceChanged += OnTreeSourceChanged;
 
-        ViewModel = viewModel;
         DataContext = this;
     }
 }

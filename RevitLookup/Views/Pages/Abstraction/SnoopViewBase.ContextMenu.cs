@@ -30,6 +30,9 @@ namespace RevitLookup.Views.Pages.Abstraction;
 
 public partial class SnoopViewBase
 {
+    /// <summary>
+    ///     Tree view context menu
+    /// </summary>
     private void CreateTreeContextMenu(Descriptor descriptor, FrameworkElement row)
     {
         var contextMenu = new ContextMenu
@@ -48,6 +51,9 @@ public partial class SnoopViewBase
         row.ContextMenu = contextMenu;
     }
 
+    /// <summary>
+    ///     Data grid context menu
+    /// </summary>
     private void CreateGridContextMenu(DataGrid dataGrid)
     {
         var contextMenu = new ContextMenu
@@ -126,6 +132,9 @@ public partial class SnoopViewBase
         dataGrid.ContextMenu = contextMenu;
     }
 
+    /// <summary>
+    ///     Data grid row context menu
+    /// </summary>
     private void CreateGridRowContextMenu(Descriptor descriptor, FrameworkElement row)
     {
         var contextMenu = new ContextMenu

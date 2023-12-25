@@ -28,6 +28,9 @@ namespace RevitLookup.Views.Pages.Abstraction;
 
 public partial class SnoopViewBase
 {
+    /// <summary>
+    ///     Create tree view tooltips
+    /// </summary>
     private void CreateTreeTooltip(Descriptor descriptor, FrameworkElement row)
     {
         row.ToolTip = new ToolTip
@@ -41,6 +44,9 @@ public partial class SnoopViewBase
         };
     }
 
+    /// <summary>
+    ///     Create data grid tooltips
+    /// </summary>
     private void CreateGridRowTooltip(Descriptor descriptor, FrameworkElement row)
     {
         var builder = new StringBuilder();

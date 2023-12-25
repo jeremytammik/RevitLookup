@@ -20,6 +20,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -28,6 +29,9 @@ namespace RevitLookup.Views.Pages.Abstraction;
 
 public partial class SnoopViewBase
 {
+    /// <summary>
+    ///     Data grid row style selector
+    /// </summary>
     private void SelectDataGridRowStyle(DataGridRow row)
     {
         var rowDescriptor = (Descriptor) row.DataContext;
@@ -46,17 +50,47 @@ public partial class SnoopViewBase
 
 public class DataGridCellStyleSelector : DataTemplateSelector
 {
+    /// <summary>
+    ///     Data grid cell style selector
+    /// </summary>
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         if (item is null) return null;
 
         var descriptor = (Descriptor) item;
-        var presenter = (ContentPresenter) container;
+        var presenter = (FrameworkElement) container;
         var templateName = descriptor.Value.Descriptor switch
         {
-            ColorDescriptor => "ColorCellTemplate",
-            ColorMediaDescriptor => "ColorCellTemplate",
+            ColorDescriptor => "DataGridColorCellTemplate",
+            ColorMediaDescriptor => "DataGridColorCellTemplate",
             _ => "DefaultLookupDataGridCellTemplate"
+        };
+
+        return (DataTemplate) presenter.FindResource(templateName);
+    }
+}
+
+public class TreeViewItemTemplateSelector : DataTemplateSelector
+{
+    /// <summary>
+    ///     Tree view row style selector
+    /// </summary>
+    public override DataTemplate SelectTemplate(object item, DependencyObject container)
+    {
+        if (item is null) return null;
+
+        var presenter = (FrameworkElement) container;
+        var templateName = item switch
+        {
+            CollectionViewGroup => "DefaultLookupTreeViewGroupTemplate",
+            SnoopableObject snoopableObject => snoopableObject.Descriptor switch
+            {
+                ColorDescriptor => "TreeViewColorItemTemplate",
+                ColorMediaDescriptor => "TreeViewColorItemTemplate",
+                _ => "DefaultLookupTreeViewItemTemplate"
+            },
+
+            _ => "DefaultLookupTreeViewItemTemplate"
         };
 
         return (DataTemplate) presenter.FindResource(templateName);

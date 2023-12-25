@@ -31,11 +31,14 @@ namespace RevitLookup.Views.Pages.Abstraction;
 public partial class SnoopViewBase
 {
     /// <summary>
-    ///     Execute collector for selection
+    ///     Handle tree view select event
     /// </summary>
-    protected void OnTreeItemSelected(object sender, RoutedPropertyChangedEventArgs<object> e)
+    /// <remarks>
+    ///     Collect data for selected item
+    /// </remarks>
+    protected void OnTreeItemSelected(object sender, RoutedPropertyChangedEventArgs<object> args)
     {
-        switch (e.NewValue)
+        switch (args.NewValue)
         {
             case SnoopableObject snoopableObject:
                 ViewModel.SelectedObject = snoopableObject;
@@ -50,33 +53,20 @@ public partial class SnoopViewBase
 
         ViewModel.FetchMembersCommand.Execute(null);
     }
-
+    
     /// <summary>
-    ///     Navigate selection in new window
+    ///     Handle tree view click event
     /// </summary>
-    protected void OnGridRowClicked(object sender, RoutedEventArgs routedEventArgs)
-    {
-        if (DataGridControl.SelectedItem is null) return;
-        
-        var selectedItem = (Descriptor) DataGridControl.SelectedItem;
-        if ((Keyboard.Modifiers & ModifierKeys.Control) == 0)
-        {
-            if (selectedItem.Value.Descriptor is not IDescriptorCollector) return;
-            if (selectedItem.Value.Descriptor is IDescriptorEnumerator {IsEmpty: true}) return;
-        }
-
-        ViewModel.Navigate(selectedItem.Value);
-    }
-
-    /// <summary>
-    ///     Navigate selection in new window
-    /// </summary>
-    protected void OnTreeItemClicked(object sender, RoutedEventArgs args)
+    /// <remarks>
+    ///     Open new window for navigation on Ctrl pressed
+    /// </remarks>
+    private void OnTreeItemClicked(object sender, RoutedEventArgs args)
     {
         if ((Keyboard.Modifiers & ModifierKeys.Control) == 0) return;
         args.Handled = true;
 
-        switch (TreeViewControl.SelectedItem)
+        var element = (FrameworkElement) args.OriginalSource;
+        switch (element.DataContext)
         {
             case SnoopableObject item:
                 ViewModel.Navigate(item);
@@ -87,6 +77,28 @@ public partial class SnoopViewBase
         }
     }
 
+    /// <summary>
+    ///     Handle data grid click event
+    /// </summary>
+    /// <remarks>
+    ///     Open new window for navigation
+    /// </remarks>
+    private void OnGridRowClicked(object sender, RoutedEventArgs args)
+    {
+        var row = (DataGridRow) sender;
+        var context = (Descriptor) row.DataContext;
+        if ((Keyboard.Modifiers & ModifierKeys.Control) == 0)
+        {
+            if (context.Value.Descriptor is not IDescriptorCollector) return;
+            if (context.Value.Descriptor is IDescriptorEnumerator {IsEmpty: true}) return;
+        }
+
+        ViewModel.Navigate(context.Value);
+    }
+
+    /// <summary>
+    ///     Handle cursor interaction
+    /// </summary>
     protected void OnPresenterCursorInteracted(object sender, MouseEventArgs args)
     {
         var presenter = (FrameworkElement) sender;

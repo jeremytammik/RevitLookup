@@ -53,6 +53,7 @@
                     Text="{Binding ViewModel.SearchText,
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}" />
+                <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
                 <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
@@ -60,25 +61,9 @@
                     ItemsSource="{Binding
                         ViewModel.FilteredSnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"
-                    MouseMove="OnPresenterCursorInteracted">
-                    <rl:TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate
-                            ItemsSource="{Binding Items, Mode=OneTime}">
-                            <TextBlock
-                                Loaded="OnHeaderLoaded"
-                                Text="{Binding Name, Mode=OneTime}" />
-                            <HierarchicalDataTemplate.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock
-                                        Loaded="OnGridRowLoaded"
-                                        Text="{Binding Descriptor, 
-                                            Converter={converters:SingleDescriptorConverter},
-                                            Mode=OneTime}" />
-                                </DataTemplate>
-                            </HierarchicalDataTemplate.ItemTemplate>
-                        </HierarchicalDataTemplate>
-                    </rl:TreeView.ItemTemplate>
-                </rl:TreeView>
+                    MouseMove="OnPresenterCursorInteracted"
+                    ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}" />
+                <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
             </DockPanel>
             <rl:DataGrid
                 Grid.Column="2"
