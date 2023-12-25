@@ -1,5 +1,50 @@
 # Changelog
 
+# 2023-12-01 **2024.0.11**
+
+In this release RevitLookup welcomes you with improved visuals, support for templates to fine-tune data display, improved navigation, in-depth color support, let's take a look
+
+## General
+
+- **Navigation**. Updated navigation allows `Ctrl + Click` in the tree or grid to open any selected item or group of items in a new tab. 
+    This also allows you to analyze items that RevitLookup doesn't support, how about looking at StackTrace for exceptions 
+    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/0c13c6da-772f-453b-9d34-bff609c04d95)
+
+- **Color Preview**. Changes to the user interface give us the ability to customize the display of any type of data. 
+    And now you will be able to visually see how materials or ribbon looks like. 
+    `Autodesk.Revit.DB.Color` and `System.Windows.Media.Color` are supported
+    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/3b736961-26fa-4a24-b916-bb7c4fddfda9)
+
+## Improvements
+
+- **Update available notification**. Updates are now checked automatically and an icon is now displayed in the navigation area if a new version is available
+
+    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/b7ab5fd0-b927-4b9a-805c-91e45fbd9f14)
+
+- **Background effects** Available on windows 11 only.
+
+    Acrylic:
+
+    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/259012f7-f19d-4779-8b17-4be96a404023)
+
+    Blur:
+
+    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/e8046bf0-ae48-446e-94e3-e3fdc59898e4)
+
+    The visual representation of the background depends on your desktop image and current theme
+
+- **Color extensions** Convert color to other formats HEX, CMYK, etc. Color name identification, `en` and `ru` localizations available. 
+    `Autodesk.Revit.DB.Color` and `System.Windows.Media.Color` are supported
+    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/668a9c5c-3239-4100-8829-63fc71c880fb)
+
+## Bugs
+
+- Fixed incorrect display when switching themes on windows 10 https://github.com/jeremytammik/RevitLookup/issues/194
+
+## Misc
+
+- Updated developer's [guide](https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#styles).
+
 # 2023-12-01 **2024.0.10**
 
 ## General
