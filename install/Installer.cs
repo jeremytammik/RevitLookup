@@ -35,13 +35,13 @@ var project = new Project
     UI = WUI.WixUI_InstallDir,
     Version = versions.InstallerVersion,
     MajorUpgrade = MajorUpgrade.Default,
-    BackgroundImage = @"Installer\Resources\Icons\BackgroundImage.png",
-    BannerImage = @"Installer\Resources\Icons\BannerImage.png",
+    BackgroundImage = @"install\Resources\Icons\BackgroundImage.png",
+    BannerImage = @"install\Resources\Icons\BannerImage.png",
     ControlPanelInfo =
     {
         Manufacturer = "Autodesk",
         HelpLink = "https://github.com/jeremytammik/RevitLookup/issues",
-        ProductIcon = @"Installer\Resources\Icons\ShellIcon.ico"
+        ProductIcon = @"install\Resources\Icons\ShellIcon.ico"
     }
 };
 
