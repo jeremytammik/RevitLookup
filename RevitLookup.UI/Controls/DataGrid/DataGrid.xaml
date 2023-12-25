@@ -928,6 +928,6 @@
 
     <Style BasedOn="{StaticResource DefaultDataGridColumnHeadersPresenterStyle}" TargetType="{x:Type DataGridColumnHeadersPresenter}" />
     <Style BasedOn="{StaticResource DefaultDataGridStyle}" TargetType="{x:Type DataGrid}" />
-    <Style BasedOn="{StaticResource DefaultUiDataGridStyle}" TargetType="{x:Type controls:DataGrid}" />
+    <Style BasedOn="{StaticResource DefaultDataGridStyle}" TargetType="{x:Type controls:DataGrid}" />
 
 </ResourceDictionary>
