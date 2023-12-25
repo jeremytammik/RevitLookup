@@ -18,12 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Views.Resources;
+using System.Windows;
+using System.Windows.Markup;
 
-sealed partial class Menus
+namespace RevitLookup.Views.Markup;
+
+[Localizability(LocalizationCategory.Ignore)]
+[Ambient]
+[UsableDuringInitialization(true)]
+public class StylesDictionary : ResourceDictionary
 {
-    public Menus()
+    private const string DictionaryUri = "pack://application:,,,/RevitLookup;component/Views/Resources/RevitLookup.Ui.xaml";
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StylesDictionary"/> class.
+    /// Default constructor defining <see cref="ResourceDictionary.Source"/> of the <c>RevitLookup UI</c> controls dictionary.
+    /// </summary>
+    public StylesDictionary()
     {
-        InitializeComponent();
+        Source = new Uri(DictionaryUri, UriKind.Absolute);
     }
 }

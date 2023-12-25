@@ -20,7 +20,6 @@
 
 using System.Collections;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -55,7 +54,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         init
         {
             _dataGridControl = value;
-            OnDataGridChanged(value);
+            OnGridChanged(value);
         }
     }
 
@@ -79,7 +78,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
         }
     }
 
-    private async void OnDataGridChanged(DataGrid control)
+    private async void OnGridChanged(DataGrid control)
     {
         //Lazy init. 1 ms is enough to display data and start initialising components
         await Task.Delay(1);
@@ -126,9 +125,20 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>, INav
     }
 
     /// <summary>
-    ///     Create tooltip, menu
+    ///     Pre setup dataGrid row
     /// </summary>
-    protected async void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
+    protected void OnGridRowLoading(object sender, DataGridRowEventArgs args)
+    {
+        var row = args.Row;
+        row.Loaded += OnGridRowLoaded;
+        row.PreviewMouseLeftButtonUp += OnGridRowClicked;
+        SelectDataGridRowStyle(row);
+    }
+
+    /// <summary>
+    ///     Post setup dataGrid row
+    /// </summary>
+    protected async void OnGridRowLoaded(object sender, RoutedEventArgs routedEventArgs)
     {
         //Lazy init. 1 ms is enough to display data and start initialising components
         await Task.Delay(1);

@@ -8,6 +8,7 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance pages:DashboardView}">
+
     <rl:DynamicScrollViewer>
         <VirtualizingStackPanel
             Margin="12"
@@ -427,4 +428,5 @@
             </Grid>
         </VirtualizingStackPanel>
     </rl:DynamicScrollViewer>
+
 </Page>

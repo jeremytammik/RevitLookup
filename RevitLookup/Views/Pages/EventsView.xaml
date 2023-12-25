@@ -6,14 +6,23 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
-    xmlns:objects="clr-namespace:RevitLookup.Core.Objects"
     xmlns:converters="clr-namespace:RevitLookup.Views.Converters"
     xmlns:abstraction="clr-namespace:RevitLookup.Views.Pages.Abstraction"
     xmlns:controls="clr-namespace:RevitLookup.Views.Controls"
+    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"
     d:DataContext="{d:DesignInstance pages:EventsView}">
+
+    <abstraction:SnoopViewBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <markup:StylesDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </abstraction:SnoopViewBase.Resources>
+
     <Grid
         Margin="12">
         <controls:ContentPlaceholder
@@ -52,7 +61,7 @@
                     <rl:TreeView.ItemTemplate>
                         <DataTemplate>
                             <TextBlock
-                                Loaded="OnRowLoaded"
+                                Loaded="OnGridRowLoaded"
                                 Text="{Binding Descriptor, 
                                     Converter={converters:SingleDescriptorConverter},
                                     Mode=OneTime}" />
@@ -76,7 +85,8 @@
                 CanUserReorderColumns="False"
                 HorizontalScrollBarVisibility="Disabled"
                 ItemsSource="{Binding ViewModel.FilteredSnoopableData}"
-                MouseMove="OnPresenterCursorInteracted">
+                MouseMove="OnPresenterCursorInteracted"
+                LoadingRow="OnGridRowLoading">
                 <rl:DataGrid.Columns>
                     <DataGridTemplateColumn
                         Width="*"
@@ -88,7 +98,7 @@
                                     <rl:SymbolIcon
                                         FontSize="16"
                                         FontWeight="Normal"
-                                        Symbol="{Binding MemberAttributes, 
+                                        Symbol="{Binding MemberAttributes,
                                             Converter={converters:IconDescriptorConverter},
                                             Mode=OneTime}" />
                                     <TextBlock
@@ -99,12 +109,12 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn
+                    <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
+                    <DataGridTemplateColumn
                         Width="2*"
-                        Binding="{Binding Value.Descriptor, 
-                            Converter={converters:CombinedDescriptorConverter},
-                            Mode=OneTime}"
-                        Header="Value" />
+                        Header="Value"
+                        CellTemplateSelector="{StaticResource DataGridCellStyleSelector}"/>
+                    <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
                     <DataGridTextColumn
                         Width="61"
                         MinWidth="0"
@@ -115,58 +125,6 @@
                         Header="Time">
                     </DataGridTextColumn>
                 </rl:DataGrid.Columns>
-                <rl:DataGrid.Resources>
-                    <rl:ControlsDictionary />
-                </rl:DataGrid.Resources>
-                <rl:DataGrid.RowStyle>
-                    <Style
-                        d:DataContext="{d:DesignInstance objects:Descriptor}"
-                        TargetType="DataGridRow"
-                        BasedOn="{StaticResource DefaultDataGridRowStyle}">
-                        <EventSetter
-                            Event="PreviewMouseLeftButtonUp"
-                            Handler="OnGridRowClicked" />
-                        <EventSetter
-                            Event="Loaded"
-                            Handler="OnRowLoaded" />
-                        <Setter
-                            Property="ToolTipService.InitialShowDelay"
-                            Value="666" />
-                        <Setter
-                            Property="ToolTipService.BetweenShowDelay"
-                            Value="0" />
-                        <Style.Triggers>
-                            <DataTrigger
-                                Binding="{Binding Value.Descriptor, 
-                                    Converter={converters:HandledDescriptorConverter},
-                                    Mode=OneTime}"
-                                Value="true">
-                                <Setter
-                                    Property="Foreground">
-                                    <Setter.Value>
-                                        <SolidColorBrush
-                                            Color="{DynamicResource SystemAccentColor}" />
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter
-                                    Property="FontWeight"
-                                    Value="DemiBold" />
-                                <Setter
-                                    Property="Cursor"
-                                    Value="Hand" />
-                            </DataTrigger>
-                            <DataTrigger
-                                Binding="{Binding Value.Descriptor, 
-                                    Converter={converters:ExceptionDescriptorConverter},
-                                    Mode=OneTime}"
-                                Value="true">
-                                <Setter
-                                    Property="Foreground"
-                                    Value="{DynamicResource PaletteRedBrush}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </rl:DataGrid.RowStyle>
                 <rl:DataGrid.ItemsPanel>
                     <ItemsPanelTemplate>
                         <DataGridRowsPresenter
@@ -177,47 +135,10 @@
                     </ItemsPanelTemplate>
                 </rl:DataGrid.ItemsPanel>
                 <rl:DataGrid.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.Panel>
-                            <ItemsPanelTemplate>
-                                <DataGridRowsPresenter
-                                    IsVirtualizing="True"
-                                    VirtualizationMode="Recycling"
-                                    IsContainerVirtualizable="True"
-                                    IsVirtualizingWhenGrouping="True" />
-                            </ItemsPanelTemplate>
-                        </GroupStyle.Panel>
-                        <GroupStyle.ContainerStyle>
-                            <Style
-                                TargetType="{x:Type GroupItem}">
-                                <Setter
-                                    Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate
-                                            TargetType="{x:Type GroupItem}">
-                                            <DockPanel>
-                                                <Border
-                                                    DockPanel.Dock="Top"
-                                                    Height="25"
-                                                    BorderThickness="0 0 1 1"
-                                                    Background="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"
-                                                    BorderBrush="{DynamicResource ControlElevationBorderBrush}">
-                                                    <TextBlock
-                                                        VerticalAlignment="Center"
-                                                        Margin="6,0,6,0"
-                                                        FontWeight="Bold"
-                                                        Text="{Binding Name, Mode=OneTime}" />
-                                                </Border>
-                                                <ItemsPresenter />
-                                            </DockPanel>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </GroupStyle.ContainerStyle>
-                    </GroupStyle>
+                    <controls:DataGridGroupStyle />
                 </rl:DataGrid.GroupStyle>
             </rl:DataGrid>
         </Grid>
     </Grid>
+
 </abstraction:SnoopViewBase>

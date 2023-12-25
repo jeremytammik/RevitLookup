@@ -18,23 +18,32 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
+using Autodesk.Revit.DB;
 
-namespace RevitLookup.Views.Controls;
+namespace RevitLookup.Views.Converters;
 
-public partial class ContentPlaceholder
+public class ObjectColorConverter : MarkupExtension, IValueConverter
 {
-    public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register(nameof(Text), typeof(string), typeof(ContentPlaceholder), new PropertyMetadata(default(string)));
-
-    public string Text
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        get => (string) GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
+        return value switch
+        {
+            Color color =>  System.Windows.Media.Color.FromArgb(byte.MaxValue, color.Red, color.Green, color.Blue),
+            System.Windows.Media.Color color => color,
+            _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
+        };
     }
 
-    public ContentPlaceholder()
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        InitializeComponent();
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
     }
 }

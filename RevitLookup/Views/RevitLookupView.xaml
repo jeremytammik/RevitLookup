@@ -7,7 +7,6 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:ml="clr-namespace:RevitLookup.Views.Markup"
-    xmlns:resources="clr-namespace:RevitLookup.Views.Resources"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="200"
@@ -17,15 +16,18 @@
     Height="555"
     ExtendsContentIntoTitleBar="True"
     Icon="../Resources/Images/ShellIcon.ico">
+
     <rl:FluentWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ml:ThemesDictionary />
                 <rl:ControlsDictionary />
-                <resources:Menus />
+                <ml:MenusDictionary />
+                <ml:StylesDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </rl:FluentWindow.Resources>
+
     <Grid>
         <rl:TitleBar
             x:Name="TitleBar"
@@ -76,4 +78,5 @@
         <ContentPresenter
             x:Name="RootContentDialog" />
     </Grid>
+
 </rl:FluentWindow>

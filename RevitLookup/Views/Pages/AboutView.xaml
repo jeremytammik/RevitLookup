@@ -9,6 +9,7 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance pages:AboutView}">
+
     <rl:DynamicScrollViewer>
         <DockPanel
             Margin="12">
@@ -213,4 +214,5 @@
             </StackPanel>
         </DockPanel>
     </rl:DynamicScrollViewer>
+
 </Page>

@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:rl="http://revitlookup.com/xaml"
-    x:Class="RevitLookup.Views.Resources.Menus">
+    xmlns:rl="http://revitlookup.com/xaml">
     <MenuItem
         x:Key="Label"
         x:Shared="False"

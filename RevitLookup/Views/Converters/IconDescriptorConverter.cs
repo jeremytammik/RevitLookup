@@ -22,105 +22,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
-using RevitLookup.Core.ComponentModel.Descriptors;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Enums;
-using RevitLookup.Core.Objects;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Converters;
-
-public abstract class DescriptorConverter : MarkupExtension, IValueConverter
-{
-    public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-
-    protected static string CreateCombinedName(Descriptor descriptor)
-    {
-        if (string.IsNullOrEmpty(descriptor.Name)) return descriptor.Name;
-        return string.IsNullOrEmpty(descriptor.Description) ? descriptor.Name : $"{descriptor.Description}: {descriptor.Name}";
-    }
-
-    protected static string CreateSingleName(Descriptor descriptor)
-    {
-        if (string.IsNullOrEmpty(descriptor.Name)) return descriptor.Name;
-        return string.IsNullOrEmpty(descriptor.Description) ? descriptor.Name : descriptor.Description;
-    }
-
-    protected string ConvertInvalidNames(string text)
-    {
-        return text switch
-        {
-            null => "<null>",
-            "" => "<empty>",
-            _ => text
-        };
-    }
-
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
-}
-
-public sealed class SingleDescriptorConverter : DescriptorConverter
-{
-    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        return ConvertInvalidNames(CreateSingleName((Descriptor) value!));
-    }
-}
-
-public sealed class CombinedDescriptorConverter : DescriptorConverter
-{
-    public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        return ConvertInvalidNames(CreateCombinedName((Descriptor) value!));
-    }
-}
-
-public sealed class HandledDescriptorConverter : MarkupExtension, IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        var descriptor = (Descriptor) value!;
-        if (descriptor is IDescriptorEnumerator enumerator) return !enumerator.IsEmpty;
-        return descriptor is IDescriptorCollector;
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
-}
-
-public sealed class ExceptionDescriptorConverter : MarkupExtension, IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        var descriptor = (Descriptor) value!;
-        return descriptor is ExceptionDescriptor;
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
-}
 
 public sealed class IconDescriptorConverter : MarkupExtension, IValueConverter
 {

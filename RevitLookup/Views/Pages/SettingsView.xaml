@@ -11,6 +11,7 @@
     d:DesignHeight="1100"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SettingsView}">
+    
     <rl:DynamicScrollViewer>
         <StackPanel
             Margin="12">
@@ -93,4 +94,5 @@
             </StackPanel>
         </StackPanel>
     </rl:DynamicScrollViewer>
+
 </Page>

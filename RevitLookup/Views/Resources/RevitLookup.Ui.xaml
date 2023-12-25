@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:abstraction="clr-namespace:RevitLookup.Views.Pages.Abstraction">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup;component/Views/Controls/DataGrid/DataGridRowStyle.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup;component/Views/Controls/DataGrid/DataGridCellTemplate.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <abstraction:DataGridCellStyleSelector x:Key="DataGridCellStyleSelector" />
+
+</ResourceDictionary>
