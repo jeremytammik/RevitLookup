@@ -7,14 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Demo.Services;
+using RevitLookup.UI.Demo.Mock;
 using RevitLookup.Utils;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
-using MoqSnoopViewModel = RevitLookup.UI.Demo.ViewModels.MoqSnoopViewModel;
+using MoqSnoopViewModel = RevitLookup.UI.Demo.Mock.MoqSnoopViewModel;
 
 namespace RevitLookup.UI.Demo;
 

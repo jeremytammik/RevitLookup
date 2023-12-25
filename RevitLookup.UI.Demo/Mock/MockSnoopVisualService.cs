@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
 using Autodesk.Revit.DB;
 using Bogus;
 using RevitLookup.Core.Contracts;
@@ -30,7 +29,7 @@ using RevitLookup.Services.Enums;
 using RevitLookup.ViewModels.Contracts;
 using Visibility = System.Windows.Visibility;
 
-namespace RevitLookup.UI.Demo.Services;
+namespace RevitLookup.UI.Demo.Mock;
 
 public sealed class MoqSnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window) : ISnoopVisualService
 {
@@ -121,7 +120,7 @@ public sealed class MoqSnoopVisualService(NotificationService notificationServic
                 if (faker.IndexFaker % 700 == 0) return new SnoopableObject(faker.Make(150, () => faker.Internet.UserName()));
                 if (faker.IndexFaker % 500 == 0) return new SnoopableObject(typeof(DateTime));
                 if (faker.IndexFaker % 200 == 0) return new SnoopableObject(faker.Lorem.Sentence());
-                if (faker.IndexFaker % 100 == 0) return new SnoopableObject(new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
+                if (faker.IndexFaker % 100 == 0) return new SnoopableObject(faker.Make(150, ()=> new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte())));
                 if (faker.IndexFaker % 5 == 0) return new SnoopableObject(faker.Random.Int(0));
                 if (faker.IndexFaker % 3 == 0) return new SnoopableObject(faker.Random.Bool());
 

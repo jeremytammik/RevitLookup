@@ -26,7 +26,7 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using Wpf.Ui;
 
-namespace RevitLookup.UI.Demo.Services;
+namespace RevitLookup.UI.Demo.Mock;
 
 public sealed class MoqLookupService(IServiceScopeFactory scopeFactory) : ILookupService
 {

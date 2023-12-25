@@ -20,7 +20,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
@@ -29,7 +28,7 @@ using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
 
-namespace RevitLookup.UI.Demo.ViewModels;
+namespace RevitLookup.UI.Demo.Mock;
 
 public sealed partial class MoqSnoopViewModel(NotificationService notificationService, IServiceProvider provider) : ObservableObject, ISnoopViewModel
 {
