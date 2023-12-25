@@ -167,7 +167,7 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorConnector
 The application UI is divided into templates, where each template can be customized for different types of data. 
 There are several different rules for customizing TreeView, DataGrid row, DataGrid cell and they are all located in the file `RevitLookup/Views/Pages/Abstraction/SnoopViewBase.Styles.cs`.
 
-Suggested methods search for a style/template by name:
+Suggested methods search for a style/template by `x:Key`:
 
 ```C#
 public override DataTemplate SelectTemplate(object item, DependencyObject container)
