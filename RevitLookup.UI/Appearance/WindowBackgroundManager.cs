@@ -5,6 +5,7 @@
 
 using Wpf.Ui.Controls;
 using Wpf.Ui.Interop;
+using Wpf.Ui.Win32;
 
 namespace Wpf.Ui.Appearance;
 
@@ -72,10 +73,13 @@ public static class WindowBackgroundManager
         }
 
         // This was required to update the background when moving from a HC theme to light/dark theme. However, this breaks theme proper light/dark theme changing on Windows 10.
-        // else
-        // {
-        //    _ = WindowBackdrop.RemoveBackground(window);
-        // }
+        else
+        {
+            if (Utilities.IsOSWindows11OrNewer)
+            {
+                _ = WindowBackdrop.RemoveBackground(window);
+            }
+        }
         _ = WindowBackdrop.ApplyBackdrop(window, backdrop);
         if (applicationTheme is ApplicationTheme.Dark)
         {
