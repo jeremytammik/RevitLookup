@@ -161,3 +161,44 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorConnector
     }
 }
 ```
+
+## Styles
+
+The application UI is divided into templates, where each template can be customized for different types of data. 
+There are several different rules for customizing TreeView, DataGrid row, DataGrid cell and they are all located in the file `RevitLookup/Views/Pages/Abstraction/SnoopViewBase.Styles.cs`.
+
+Suggested methods search for a style/template by name:
+
+```C#
+public override DataTemplate SelectTemplate(object item, DependencyObject container)
+{
+    if (item is null) return null;
+
+    var descriptor = (Descriptor) item;
+    var presenter = (FrameworkElement) container;
+    var templateName = descriptor.Value.Descriptor switch
+    {
+        ColorDescriptor => "DataGridColorCellTemplate",
+        ColorMediaDescriptor => "DataGridColorCellTemplate",
+        _ => "DefaultLookupDataGridCellTemplate"
+    };
+
+    return (DataTemplate) presenter.FindResource(templateName);
+}
+```
+
+The templates themselves are located in the `RevitLookup/Views/Controls` folder. 
+For example, in the `RevitLookup/Views/Controls/DataGrid/DataGridCellTemplate.xaml` file there is a cell template that displays the text:
+
+```xaml
+<DataTemplate
+    x:Key="DefaultLookupDataGridCellTemplate">
+    <TextBlock
+        d:DataContext="{d:DesignInstance objects:Descriptor}"
+        Text="{Binding Value.Descriptor,
+            Converter={converters:CombinedDescriptorConverter},
+            Mode=OneTime}" />
+</DataTemplate>
+```
+
+References to additional files must be registered in `RevitLookup/Views/Resources/RevitLookup.Ui.xaml`.
