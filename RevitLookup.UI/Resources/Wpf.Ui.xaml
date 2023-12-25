@@ -46,6 +46,7 @@
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/HyperlinkButton/HyperlinkButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Image/Image.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/InfoBar/InfoBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/InfoBadge/InfoBadge.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ItemsControl/ItemsControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/Label/Label.xaml" />
         <ResourceDictionary Source="pack://application:,,,/RevitLookup.UI;component/Controls/ListBox/ListBox.xaml" />
