@@ -40,7 +40,7 @@ public static class RevitApi
             typeof(UIControlledApplication),
             BindingFlags.Instance | BindingFlags.NonPublic,
             null,
-            new object[] {UiApplication},
+            [UiApplication],
             null);
     }
 
@@ -113,7 +113,7 @@ public static class RevitApi
         var elementIdType = assembly.GetType("ElementId");
         var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
         var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
-        var parameterCtorType = parameterType.GetConstructor(bindingFlags, null, new[] {aDocumentType.MakePointerType(), elementIdType.MakePointerType()}, null)!;
+        var parameterCtorType = parameterType.GetConstructor(bindingFlags, null, [aDocumentType.MakePointerType(), elementIdType.MakePointerType()], null)!;
 
         var elementId = Activator.CreateInstance(elementIdType);
         elementIdIdType.SetValue(elementId, builtInParameter);
@@ -122,7 +122,7 @@ public static class RevitApi
         var elementIdPointer = GCHandle.ToIntPtr(handle);
         Marshal.StructureToPtr(elementId, elementIdPointer, true);
 
-        var parameter = (Parameter) parameterCtorType.Invoke(new[] {getADocumentType.Invoke(Document, null), elementIdPointer});
+        var parameter = (Parameter) parameterCtorType.Invoke([getADocumentType.Invoke(Document, null), elementIdPointer]);
         handle.Free();
 
         return parameter;
@@ -139,7 +139,7 @@ public static class RevitApi
         var elementIdType = assembly.GetType("ElementId");
         var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
         var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
-        var categoryCtorType = categoryType.GetConstructor(bindingFlags, null, new[] {aDocumentType.MakePointerType(), elementIdType.MakePointerType()}, null)!;
+        var categoryCtorType = categoryType.GetConstructor(bindingFlags, null, [aDocumentType.MakePointerType(), elementIdType.MakePointerType()], null)!;
 
         var elementId = Activator.CreateInstance(elementIdType);
         elementIdIdType.SetValue(elementId, builtInCategory);
@@ -148,7 +148,7 @@ public static class RevitApi
         var elementIdPointer = GCHandle.ToIntPtr(handle);
         Marshal.StructureToPtr(elementId, elementIdPointer, true);
 
-        var category = (Category) categoryCtorType.Invoke(new[] {getADocumentType.Invoke(Document, null), elementIdPointer});
+        var category = (Category) categoryCtorType.Invoke([getADocumentType.Invoke(Document, null), elementIdPointer]);
         handle.Free();
 
         return category;

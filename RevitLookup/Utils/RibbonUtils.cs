@@ -45,7 +45,7 @@ public static class RibbonUtils
         var createMethod = buttonDataType.GetMethod("createPushButton", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)!;
         var buttonField = buttonType.GetField("m_RibbonItem", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)!;
 
-        var button = (PushButton) createMethod.Invoke(null, new object[] {pushButtonData, false, internalPanel.Source.Id});
+        var button = (PushButton) createMethod.Invoke(null, [pushButtonData, false, internalPanel.Source.Id]);
         var internalButton = (RibbonButton) buttonField.GetValue(button);
 
         internalPanel.Source.Items.Add(internalButton);
@@ -93,8 +93,8 @@ public static class RibbonUtils
         var type = typeof(ShortcutsHelper);
         var methodInfo = type.GetMethod("LoadRibbonCommands", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
 
-        methodInfo.Invoke(null, new object[] {DocUIType.Model});
-        methodInfo.Invoke(null, new object[] {DocUIType.Project});
+        methodInfo.Invoke(null, [DocUIType.Model]);
+        methodInfo.Invoke(null, [DocUIType.Project]);
 
         RevitRibbonControl.RibbonControl.ShouldJournalTabChange = true;
     }

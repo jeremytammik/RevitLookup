@@ -31,7 +31,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
     [Pure]
     public List<Element> SearchElements()
     {
-        var rows = SearchText.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+        var rows = SearchText.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
         var items = ParseRawRequest(rows);
         var results = new List<Element>(items.Count);
 
@@ -111,7 +111,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             for (var i = 0; i < delimiters.Length; i++)
             {
                 var delimiter = delimiters[i];
-                var split = row.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries);
+                var split = row.Split([delimiter], StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length > 1 || i == delimiters.Length - 1 || split.Length == 1 && split[0] != row)
                 {
                     items.AddRange(split);

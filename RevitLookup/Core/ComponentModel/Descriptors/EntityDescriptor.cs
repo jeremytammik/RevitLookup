@@ -45,9 +45,9 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorRes
             var resolveSummary = new ResolveSet();
             foreach (var field in entity.Schema.ListFields())
             {
-                var method = entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field)})!;
+                var method = entity.GetType().GetMethod(nameof(Entity.Get), [typeof(Field)])!;
                 var genericMethod = MakeGenericInvoker(field, method);
-                resolveSummary.AppendVariant(genericMethod.Invoke(entity, new object[] {field}), field.FieldName);
+                resolveSummary.AppendVariant(genericMethod.Invoke(entity, [field]), field.FieldName);
             }
 
             return resolveSummary;
@@ -60,9 +60,9 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorRes
             {
                 var forgeTypeId = field.GetSpecTypeId();
                 var unit = GetValidUnit(forgeTypeId);
-                var method = entity.GetType().GetMethod(nameof(Entity.Get), new[] {typeof(Field), typeof(ForgeTypeId)})!;
+                var method = entity.GetType().GetMethod(nameof(Entity.Get), [typeof(Field), typeof(ForgeTypeId)])!;
                 var genericMethod = MakeGenericInvoker(field, method);
-                resolveSummary.AppendVariant(genericMethod.Invoke(entity, new object[] {field, unit}), field.FieldName);
+                resolveSummary.AppendVariant(genericMethod.Invoke(entity, [field, unit]), field.FieldName);
             }
 
             return resolveSummary;
