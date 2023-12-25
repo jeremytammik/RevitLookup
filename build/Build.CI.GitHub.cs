@@ -9,7 +9,7 @@ using Serilog;
 
 sealed partial class Build
 {
-    Target Publish => _ => _
+    Target PublishGitHub => _ => _
         .DependsOn(CreateInstaller)
         .Requires(() => GitHubToken)
         .OnlyWhenStatic(() => IsServerBuild && GitRepository.IsOnMainOrMasterBranch())
