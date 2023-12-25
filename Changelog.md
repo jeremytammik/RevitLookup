@@ -1,6 +1,6 @@
 # Changelog
 
-# 2023-12-01 **2024.0.11**
+# 2023-12-25 **2024.0.11**
 
 In this release RevitLookup welcomes you with improved visuals, support for templates to fine-tune data display, improved navigation, in-depth color support, let's take a look
 
