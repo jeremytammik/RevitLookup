@@ -31,6 +31,7 @@ public class ObjectColorConverter : MarkupExtension, IValueConverter
     {
         return value switch
         {
+            Color {IsValid: false} =>  System.Windows.Media.Colors.Transparent,
             Color color =>  System.Windows.Media.Color.FromArgb(byte.MaxValue, color.Red, color.Green, color.Blue),
             System.Windows.Media.Color color => color,
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
