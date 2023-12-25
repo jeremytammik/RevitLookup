@@ -45,6 +45,8 @@ In this release RevitLookup welcomes you with improved visuals, support for temp
 
 - Updated developer's [guide](https://github.com/jeremytammik/RevitLookup/blob/dev/Contributing.md#styles).
 
+Here, I'm wrapping things up. Wishing everyone a splendid New Year and a joyous Christmas ahead. As always, yours truly @Nice3point 🎅
+
 # 2023-12-01 **2024.0.10**
 
 ## General
