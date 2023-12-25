@@ -133,6 +133,23 @@
                     </rl:CardControl.Header>
                 </rl:CardControl>
                 <rl:Card
+                    Margin="0 4 0 0"
+                    Background="{DynamicResource PaletteGreenBrush}"
+                    Visibility="{Binding ViewModel.State, Converter={converters:UpdateDownloadedVisibilityConverter}}">
+                    <StackPanel
+                        Margin="8,0,0,0"
+                        Orientation="Horizontal">
+                        <rl:SymbolIcon
+                            Symbol="CheckmarkCircle24"
+                            Foreground="White" />
+                        <TextBlock
+                            Margin="20,0,0,0"
+                            FontWeight="Medium"
+                            Foreground="White"
+                            Text="The new version has been downloaded and will be installed when Revit is closed" />
+                    </StackPanel>
+                </rl:Card>
+                <rl:Card
                     Margin="0,4,0,0"
                     Background="{DynamicResource PaletteGreenBrush}">
                     <rl:Card.Visibility>
