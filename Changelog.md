@@ -40,6 +40,7 @@ In this release RevitLookup welcomes you with improved visuals, support for temp
 ## Bugs
 
 - Fixed incorrect display when switching themes on windows 10 https://github.com/jeremytammik/RevitLookup/issues/194
+- Returned deleted notification when checking for updates
 
 ## Misc
 
