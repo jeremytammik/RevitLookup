@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Services.Contracts;
+using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.Views.Pages;
