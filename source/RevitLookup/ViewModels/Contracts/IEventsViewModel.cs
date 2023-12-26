@@ -22,7 +22,4 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Contracts;
 
-public interface IEventsViewModel : INavigationAware, ISnoopViewModel
-{
-
-}
+public interface IEventsViewModel : INavigationAware, ISnoopViewModel;
