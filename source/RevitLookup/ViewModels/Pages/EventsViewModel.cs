@@ -27,7 +27,7 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware, IEventsViewModel
+public sealed class EventsViewModel : SnoopViewModelBase, IEventsViewModel
 {
     private readonly EventMonitor _eventMonitor;
     private readonly Stack<SnoopableObject> _events = new();

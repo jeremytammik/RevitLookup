@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -54,12 +54,12 @@ public sealed class EventMonitor
 
     public void Subscribe()
     {
-        Application.ActionEventHandler?.Raise(Subscribe);
+        Application.ActionEventHandler.Raise(Subscribe);
     }
 
     public void Unsubscribe()
     {
-        Application.ActionEventHandler?.Raise(Unsubscribe);
+        Application.ActionEventHandler.Raise(Unsubscribe);
     }
 
     private void Subscribe(UIApplication uiApplication)
