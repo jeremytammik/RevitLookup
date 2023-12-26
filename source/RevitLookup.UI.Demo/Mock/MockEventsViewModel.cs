@@ -1,23 +1,5 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
-// 
-// Permission to use, copy, modify, and distribute this software in
-// object code form for any purpose and without fee is hereby granted,
-// provided that the above copyright notice appears in all copies and
-// that both that copyright notice and the limited warranty and
-// restricted rights notice below appear in all supporting
-// documentation.
-// 
-// AUTODESK PROVIDES THIS PROGRAM "AS IS" AND WITH ALL FAULTS.
-// AUTODESK SPECIFICALLY DISCLAIMS ANY IMPLIED WARRANTY OF
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR USE.  AUTODESK, INC.
-// DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
-// UNINTERRUPTED OR ERROR FREE.
-// 
-// Use, duplication, or disclosure by the U.S. Government is subject to
-// restrictions set forth in FAR 52.227-19 (Commercial Computer
-// Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
-// (Rights in Technical Data and Computer Software), as applicable.
-
+﻿using System.Windows.Media;
+using Bogus;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Objects;
@@ -30,8 +12,13 @@ using RevitLookup.Views.Pages;
 
 namespace RevitLookup.UI.Demo.Mock;
 
-public sealed partial class MockSnoopViewModel(NotificationService notificationService, IServiceProvider provider) : ObservableObject, ISnoopViewModel
+public sealed partial class MockEventsViewModel(
+    NotificationService notificationService,
+    IServiceProvider provider)
+    : ObservableObject, IEventsViewModel
 {
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
+    private readonly Stack<SnoopableObject> _events = new();
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
@@ -120,5 +107,42 @@ public sealed partial class MockSnoopViewModel(NotificationService notificationS
         {
             notificationService.ShowError("Snoop engine error", exception);
         }
+    }
+
+    public void OnNavigatedTo()
+    {
+        PushEvents(_cancellationTokenSource.Token);
+    }
+
+    public void OnNavigatedFrom()
+    {
+        _cancellationTokenSource.Cancel();
+    }
+
+    private void PushEvents(CancellationToken cancellationToken)
+    {
+        Task.Run(async () =>
+        {
+            var iteration = 0;
+            var faker = new Faker();
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+                var snoopableObject = GenerateEvent(faker, iteration);
+                _events.Push(snoopableObject);
+                SnoopableObjects = new List<SnoopableObject>(_events);
+                iteration++;
+            }
+        }, cancellationToken);
+    }
+
+    private static SnoopableObject GenerateEvent(Faker faker, int iteration)
+    {
+        if (iteration % 5 == 0) return new SnoopableObject(typeof(DateTime));
+        if (iteration % 4 == 0) return new SnoopableObject(Color.FromRgb(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte()));
+        if (iteration % 3 == 0) return new SnoopableObject(faker.Random.Int(0));
+        if (iteration % 2 == 0) return new SnoopableObject(faker.Random.Bool());
+        return new SnoopableObject(faker.Lorem.Word());
     }
 }

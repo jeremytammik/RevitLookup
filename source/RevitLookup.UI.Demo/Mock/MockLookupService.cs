@@ -28,7 +28,7 @@ using Wpf.Ui;
 
 namespace RevitLookup.UI.Demo.Mock;
 
-public sealed class MoqLookupService(IServiceScopeFactory scopeFactory) : ILookupService
+public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILookupService
 {
     private Window _owner;
     private Task _activeTask;

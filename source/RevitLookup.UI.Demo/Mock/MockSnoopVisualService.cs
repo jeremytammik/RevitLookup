@@ -31,19 +31,19 @@ using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.UI.Demo.Mock;
 
-public sealed class MoqSnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window) : ISnoopVisualService
+public sealed class MockSnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window) : ISnoopVisualService
 {
     public void Snoop(SnoopableObject snoopableObject)
     {
         try
         {
-            if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
+            if (snoopableObject.Descriptor is IDescriptorEnumerator { IsEmpty: false } descriptor)
             {
                 viewModel.SnoopableObjects = descriptor.ParseEnumerable(snoopableObject);
             }
             else
             {
-                viewModel.SnoopableObjects = new[] {snoopableObject};
+                viewModel.SnoopableObjects = new[] { snoopableObject };
             }
 
             viewModel.SnoopableData = Array.Empty<Descriptor>();
@@ -115,12 +115,12 @@ public sealed class MoqSnoopVisualService(NotificationService notificationServic
         return await Task.Run(() => new Faker<SnoopableObject>()
             .CustomInstantiator(faker =>
             {
-                if (faker.IndexFaker % 2000 == 0) return new SnoopableObject((object) null);
+                if (faker.IndexFaker % 2000 == 0) return new SnoopableObject((object)null);
                 if (faker.IndexFaker % 1000 == 0) return new SnoopableObject(string.Empty);
                 if (faker.IndexFaker % 700 == 0) return new SnoopableObject(faker.Make(150, () => faker.Internet.UserName()));
                 if (faker.IndexFaker % 500 == 0) return new SnoopableObject(typeof(DateTime));
                 if (faker.IndexFaker % 200 == 0) return new SnoopableObject(faker.Lorem.Sentence());
-                if (faker.IndexFaker % 100 == 0) return new SnoopableObject(faker.Make(150, ()=> new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte())));
+                if (faker.IndexFaker % 100 == 0) return new SnoopableObject(faker.Make(150, () => new Color(faker.Random.Byte(), faker.Random.Byte(), faker.Random.Byte())));
                 if (faker.IndexFaker % 5 == 0) return new SnoopableObject(faker.Random.Int(0));
                 if (faker.IndexFaker % 3 == 0) return new SnoopableObject(faker.Random.Bool());
 

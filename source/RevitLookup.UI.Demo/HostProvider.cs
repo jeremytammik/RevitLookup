@@ -14,8 +14,6 @@ using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
-using MoqSnoopViewModel = RevitLookup.UI.Demo.Mock.MoqSnoopViewModel;
-using MoqEventsViewModel = RevitLookup.UI.Demo.Mock.MoqEventsViewModel;
 
 namespace RevitLookup.UI.Demo;
 
@@ -42,7 +40,7 @@ public static class HostProvider
         services.AddScoped<IContentDialogService, ContentDialogService>();
         services.AddScoped<NotificationService>();
 
-        services.AddScoped<ISnoopVisualService, MoqSnoopVisualService>();
+        services.AddScoped<ISnoopVisualService, MockSnoopVisualService>();
         services.AddScoped<AboutView>();
         services.AddScoped<AboutViewModel>();
         services.AddScoped<DashboardView>();
@@ -50,12 +48,12 @@ public static class HostProvider
         services.AddScoped<SettingsView>();
         services.AddScoped<SettingsViewModel>();
         services.AddScoped<EventsView>();
-        services.AddScoped<IEventsViewModel, MoqEventsViewModel>();
+        services.AddScoped<IEventsViewModel, MockEventsViewModel>();
         services.AddScoped<SnoopView>();
-        services.AddScoped<ISnoopViewModel, MoqSnoopViewModel>();
+        services.AddScoped<ISnoopViewModel, MockSnoopViewModel>();
         services.AddScoped<IWindow, RevitLookupView>();
 
-        services.AddTransient<ILookupService, MoqLookupService>();
+        services.AddTransient<ILookupService, MockLookupService>();
     }
 
     private static void SetConfiguration(IConfigurationBuilder builder)
@@ -76,7 +74,7 @@ public static class HostProvider
         var writeAccess = AccessUtils.CheckWriteAccess(assemblyLocation) && !assemblyLocation.StartsWith(appDataPath);
 
         var targetFrameworkAttributes = assembly.GetCustomAttributes(typeof(TargetFrameworkAttribute), true);
-        var targetFrameworkAttribute = (TargetFrameworkAttribute) targetFrameworkAttributes.First();
+        var targetFrameworkAttribute = (TargetFrameworkAttribute)targetFrameworkAttributes.First();
         var targetFramework = targetFrameworkAttribute.FrameworkDisplayName;
 
         builder.AddInMemoryCollection(new KeyValuePair<string, string>[]
