@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Versioning;
@@ -60,7 +60,7 @@ public static class Host
         services.AddScoped<SettingsView>();
         services.AddScoped<SettingsViewModel>();
         services.AddScoped<EventsView>();
-        services.AddScoped<EventsViewModel>();
+        services.AddScoped<IEventsViewModel, EventsViewModel>();
         services.AddScoped<SnoopView>();
         services.AddScoped<ISnoopViewModel, SnoopViewModel>();
         services.AddScoped<IWindow, RevitLookupView>();

@@ -19,13 +19,14 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Services.Contracts;
+using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.Views.Pages;
 
 public sealed partial class EventsView
 {
-    public EventsView(EventsViewModel viewModel,  ISettingsService settingsService) : base(settingsService)
+    public EventsView(IEventsViewModel viewModel,  ISettingsService settingsService) : base(settingsService)
     {
         InitializeComponent();
         ViewModel = viewModel;

@@ -15,6 +15,7 @@ using RevitLookup.Views;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
 using MoqSnoopViewModel = RevitLookup.UI.Demo.Mock.MoqSnoopViewModel;
+using MoqEventsViewModel = RevitLookup.UI.Demo.Mock.MoqEventsViewModel;
 
 namespace RevitLookup.UI.Demo;
 
@@ -49,7 +50,7 @@ public static class HostProvider
         services.AddScoped<SettingsView>();
         services.AddScoped<SettingsViewModel>();
         services.AddScoped<EventsView>();
-        services.AddScoped<EventsViewModel>();
+        services.AddScoped<IEventsViewModel, MoqEventsViewModel>();
         services.AddScoped<SnoopView>();
         services.AddScoped<ISnoopViewModel, MoqSnoopViewModel>();
         services.AddScoped<IWindow, RevitLookupView>();

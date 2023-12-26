@@ -18,21 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core.Objects;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Contracts;
 
-public interface ISnoopViewModel
-{
-    IReadOnlyCollection<SnoopableObject> SnoopableObjects { get; set; }
-    IReadOnlyCollection<Descriptor> SnoopableData { get; set; }
-    IReadOnlyCollection<SnoopableObject> FilteredSnoopableObjects { get; }
-    IReadOnlyCollection<Descriptor> FilteredSnoopableData { get; }
-    IAsyncRelayCommand FetchMembersCommand { get; }
-    IAsyncRelayCommand RefreshMembersCommand { get; }
-    public string SearchText { get; set; }
-    public SnoopableObject SelectedObject { get; set; }
-    void Navigate(SnoopableObject selectedItem);
-    void Navigate(IReadOnlyCollection<SnoopableObject> selectedItems);
-}
+public interface IEventsViewModel : INavigationAware, ISnoopViewModel;
