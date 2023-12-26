@@ -27,10 +27,9 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public interface IEventsViewModel : ISnoopViewModel
+public interface IEventsViewModel : INavigationAware, ISnoopViewModel
 {
-    void OnNavigatedTo();
-    void OnNavigatedFrom();
+
 }
 
 public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware, IEventsViewModel
