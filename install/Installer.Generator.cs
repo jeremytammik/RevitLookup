@@ -34,39 +34,46 @@ public static class Generator
         var entities = new List<WixEntity>();
         foreach (var directory in args)
         {
-            var queue = new Queue<string>();
-            queue.Enqueue(directory);
-
             Console.WriteLine($"Installer files for version '{version}':");
-            while (queue.Count > 0)
-            {
-                var currentPath = queue.Dequeue();
-                if (currentPath == directory)
-                {
-                    foreach (var file in Directory.GetFiles(currentPath))
-                    {
-                        Console.WriteLine($"'{file}'");
-                        entities.Add(new File(file));
-                    }
-                }
-                else
-                {
-                    var currentFolder = Path.GetFileName(currentPath);
-                    var currentDir = new Dir(currentFolder);
-                    entities.Add(currentDir);
-
-                    foreach (var file in Directory.GetFiles(currentPath))
-                    {
-                        Console.WriteLine($"'{file}'");
-                        currentDir.AddFile(new File(file));
-                    }
-                }
-
-                foreach (var subfolder in Directory.GetDirectories(currentPath))
-                    queue.Enqueue(subfolder);
-            }
+            ProcessDirectory(directory, entities);
         }
 
         return entities.ToArray();
+    }
+
+    private static void ProcessDirectory(string directory, List<WixEntity> entities)
+    {
+        foreach (var file in Directory.GetFiles(directory))
+        {
+            Console.WriteLine($"'{file}'");
+            entities.Add(new File(file));
+        }
+
+        foreach (var folder in Directory.GetDirectories(directory))
+        {
+            var folderName = Path.GetFileName(folder);
+            var entity = new Dir(folderName);
+            entities.Add(entity);
+
+            ProcessDirectoryFiles(folder, entity);
+        }
+    }
+
+    private static void ProcessDirectoryFiles(string directory, Dir parent)
+    {
+        foreach (var file in Directory.GetFiles(directory))
+        {
+            Console.WriteLine($"'{file}'");
+            parent.AddFile(new File(file));
+        }
+
+        foreach (var subfolder in Directory.GetDirectories(directory))
+        {
+            var folderName = Path.GetFileName(subfolder);
+            var entity = new Dir(folderName);
+            parent.AddDir(entity);
+
+            ProcessDirectoryFiles(subfolder, entity);
+        }
     }
 }
