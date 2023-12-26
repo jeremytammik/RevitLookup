@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -54,12 +54,12 @@ public sealed class EventMonitor
 
     public void Subscribe()
     {
-        Application.ActionEventHandler.Raise(Subscribe);
+        Application.ActionEventHandler?.Raise(Subscribe);
     }
 
     public void Unsubscribe()
     {
-        Application.ActionEventHandler.Raise(Unsubscribe);
+        Application.ActionEventHandler?.Raise(Unsubscribe);
     }
 
     private void Subscribe(UIApplication uiApplication)
@@ -67,26 +67,26 @@ public sealed class EventMonitor
         if (_eventInfos.Count > 0) return;
 
         foreach (var dll in _assemblies)
-        foreach (var type in dll.GetTypes())
-        foreach (var eventInfo in type.GetEvents())
-        {
-            Debug.Write($"RevitLookup EventMonitor: {eventInfo.ReflectedType}.{eventInfo.Name}");
-            if (_denyList.Contains(eventInfo.Name)) continue;
+            foreach (var type in dll.GetTypes())
+                foreach (var eventInfo in type.GetEvents())
+                {
+                    Debug.Write($"RevitLookup EventMonitor: {eventInfo.ReflectedType}.{eventInfo.Name}");
+                    if (_denyList.Contains(eventInfo.Name)) continue;
 
-            var targets = FindValidTargets(eventInfo.ReflectedType);
-            if (targets is null)
-            {
-                Debug.WriteLine(" - missing target");
-                break;
-            }
+                    var targets = FindValidTargets(eventInfo.ReflectedType);
+                    if (targets is null)
+                    {
+                        Debug.WriteLine(" - missing target");
+                        break;
+                    }
 
-            var methodInfo = GetType().GetMethod(nameof(OnHandlingEvent), BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!;
-            var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
+                    var methodInfo = GetType().GetMethod(nameof(OnHandlingEvent), BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!;
+                    var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
 
-            foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
-            _eventInfos.Add(eventInfo, eventHandler);
-            Debug.WriteLine(" - success");
-        }
+                    foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
+                    _eventInfos.Add(eventInfo, eventHandler);
+                    Debug.WriteLine(" - success");
+                }
     }
 
     private void Unsubscribe(UIApplication _)
@@ -103,8 +103,8 @@ public sealed class EventMonitor
     private static IEnumerable FindValidTargets(Type targetType)
     {
         if (targetType == typeof(Document)) return RevitApi.Application.Documents;
-        if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return new[] {RevitApi.Application};
-        if (targetType == typeof(UIApplication)) return new[] {RevitApi.UiApplication};
+        if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return new[] { RevitApi.Application };
+        if (targetType == typeof(UIApplication)) return new[] { RevitApi.UiApplication };
 
         return null;
     }
