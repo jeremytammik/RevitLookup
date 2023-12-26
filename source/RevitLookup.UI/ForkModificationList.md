@@ -109,3 +109,7 @@
 
 - TitleTextBlockStyle FontSize set 18
 - TitleTextBlockStyle LineHeight set 18
+
+# Wpf.Ui.Controls.WindowBackdrop
+
+- Increased WindowBackdropType.Acrylic supported OS

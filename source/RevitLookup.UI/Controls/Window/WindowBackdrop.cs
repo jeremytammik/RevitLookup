@@ -26,7 +26,7 @@ public static class WindowBackdrop
             WindowBackdropType.Auto => Win32.Utilities.IsOSWindows11Insider1OrNewer,
             WindowBackdropType.Tabbed => Win32.Utilities.IsOSWindows11Insider1OrNewer,
             WindowBackdropType.Mica => Win32.Utilities.IsOSWindows11OrNewer,
-            WindowBackdropType.Acrylic => Win32.Utilities.IsOSWindows7OrNewer,
+            WindowBackdropType.Acrylic => Win32.Utilities.IsOSWindows11OrNewer,
             WindowBackdropType.None => true,
             _ => false
         };

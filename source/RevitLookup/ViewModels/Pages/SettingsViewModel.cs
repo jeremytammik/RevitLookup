@@ -19,19 +19,16 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
-using static Wpf.Ui.Win32.Utilities;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class SettingsViewModel(
     ISettingsService settingsService,
     INavigationService navigationService,
-    NotificationService notificationService,
     IWindow window)
     : ObservableObject
 {
@@ -50,30 +47,18 @@ public sealed partial class SettingsViewModel(
         // ApplicationTheme.HighContrast
     ];
 
-    public List<WindowBackdropType> BackgroundEffects { get; } =
-    [
-        WindowBackdropType.None,
-        WindowBackdropType.Acrylic,
-        WindowBackdropType.Tabbed,
-        WindowBackdropType.Mica
-    ];
+    public List<WindowBackdropType> BackgroundEffects { get; } = GetSupportedBackdrops();
 
     partial void OnThemeChanged(ApplicationTheme value)
     {
         settingsService.Theme = value;
-        if (IsOSWindows11OrNewer)
-        {
-            ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
-            return;
-        }
-
-        notificationService.ShowSuccess("Theme changed", "Changes will take effect for new windows");
+        ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
     }
 
     partial void OnBackgroundChanged(WindowBackdropType value)
     {
         settingsService.Background = value;
-        window.WindowBackdropType = value;
+        ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
     }
 
     partial void OnUseTransitionChanged(bool value)
@@ -100,5 +85,22 @@ public sealed partial class SettingsViewModel(
     {
         settingsService.UseModifyTab = value;
         RibbonController.ReloadPanels(settingsService);
+    }
+
+    private static List<WindowBackdropType> GetSupportedBackdrops()
+    {
+        var backdropTypes = new List<WindowBackdropType>(4);
+
+        AddEffect(WindowBackdropType.None);
+        AddEffect(WindowBackdropType.Acrylic);
+        AddEffect(WindowBackdropType.Tabbed);
+        AddEffect(WindowBackdropType.Mica);
+
+        return backdropTypes;
+
+        void AddEffect(WindowBackdropType backdropType)
+        {
+            if (WindowBackdrop.IsSupported(backdropType)) backdropTypes.Add(backdropType);
+        }
     }
 }
