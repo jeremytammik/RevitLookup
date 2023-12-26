@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+// Copyright 2003-2023 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -22,11 +22,18 @@ using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
+using RevitLookup.ViewModels.Contracts;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware
+public interface IEventsViewModel : ISnoopViewModel
+{
+    void OnNavigatedTo();
+    void OnNavigatedFrom();
+}
+
+public sealed class EventsViewModel : SnoopViewModelBase, INavigationAware, IEventsViewModel
 {
     private readonly EventMonitor _eventMonitor;
     private readonly Stack<SnoopableObject> _events = new();

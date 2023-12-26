@@ -49,7 +49,7 @@ public static class HostProvider
         services.AddScoped<SettingsView>();
         services.AddScoped<SettingsViewModel>();
         services.AddScoped<EventsView>();
-        services.AddScoped<EventsViewModel>();
+        services.AddScoped<IEventsViewModel, EventsViewModel>();
         services.AddScoped<SnoopView>();
         services.AddScoped<ISnoopViewModel, MoqSnoopViewModel>();
         services.AddScoped<IWindow, RevitLookupView>();

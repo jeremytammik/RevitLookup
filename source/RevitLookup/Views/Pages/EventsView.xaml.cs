@@ -25,7 +25,7 @@ namespace RevitLookup.Views.Pages;
 
 public sealed partial class EventsView
 {
-    public EventsView(EventsViewModel viewModel,  ISettingsService settingsService) : base(settingsService)
+    public EventsView(IEventsViewModel viewModel,  ISettingsService settingsService) : base(settingsService)
     {
         InitializeComponent();
         ViewModel = viewModel;
