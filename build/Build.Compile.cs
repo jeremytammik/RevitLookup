@@ -28,9 +28,7 @@ sealed partial class Build
             .Where(config => Configurations.Any(wildcard => FileSystemName.MatchesSimpleExpression(wildcard, config)))
             .ToList();
 
-        if (configurations.Count == 0)
-            throw new Exception($"No solution configurations have been found. Pattern: {string.Join(" | ", Configurations)}");
-
+        Assert.NotEmpty(configurations, $"No solution configurations have been found. Pattern: {string.Join(" | ", Configurations)}");
         return configurations;
     }
 }

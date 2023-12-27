@@ -24,7 +24,9 @@ var guidMap = new Dictionary<int, string>
 
 var versions = Tools.ComputeVersions(args);
 if (!guidMap.TryGetValue(versions.RevitVersion, out var guid))
+{
     throw new Exception($"Version GUID mapping missing for the specified version: '{versions.RevitVersion}'");
+}
 
 var project = new Project
 {

@@ -18,10 +18,12 @@ sealed partial class Build
                 Log.Information("Project: {Name}", project.Name);
 
                 var exePattern = $"*{installer.Name}.exe";
-                var exeFile = Directory.EnumerateFiles(installer.Directory, exePattern, SearchOption.AllDirectories).First();
+                var exeFile = Directory.EnumerateFiles(installer.Directory, exePattern, SearchOption.AllDirectories)
+                    .FirstOrDefault()
+                    .NotNull($"No installer file was found for the project: {installer.Name}");
 
                 var directories = Directory.GetDirectories(project.Directory, "* Release *", SearchOption.AllDirectories);
-                if (directories.Length == 0) throw new Exception("No files were found to create an installer");
+                Assert.NotEmpty(directories, "No files were found to create an installer");
 
                 foreach (var directory in directories)
                 {
@@ -36,7 +38,7 @@ sealed partial class Build
                     RedirectStream(process.StandardError, LogEventLevel.Error);
 
                     process.WaitForExit();
-                    if (process.ExitCode != 0) throw new Exception($"The installer creation failed with ExitCode {process.ExitCode}");
+                    if (process.ExitCode != 0) throw new InvalidOperationException($"The installer creation failed with ExitCode {process.ExitCode}");
                 }
             }
         });

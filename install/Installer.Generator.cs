@@ -29,19 +29,19 @@ namespace Installer;
 
 public static class Generator
 {
-    public static WixEntity[] GenerateWixEntities(string[] args, Version version)
+    public static WixEntity[] GenerateWixEntities(IEnumerable<string> args, Version version)
     {
         var entities = new List<WixEntity>();
         foreach (var directory in args)
         {
             Console.WriteLine($"Installer files for version '{version}':");
-            ProcessDirectory(directory, entities);
+            GenerateRootEntities(directory, entities);
         }
 
         return entities.ToArray();
     }
 
-    private static void ProcessDirectory(string directory, List<WixEntity> entities)
+    private static void GenerateRootEntities(string directory, ICollection<WixEntity> entities)
     {
         foreach (var file in Directory.GetFiles(directory))
         {
@@ -55,11 +55,11 @@ public static class Generator
             var entity = new Dir(folderName);
             entities.Add(entity);
 
-            ProcessDirectoryFiles(folder, entity);
+            GenerateSubEntities(folder, entity);
         }
     }
 
-    private static void ProcessDirectoryFiles(string directory, Dir parent)
+    private static void GenerateSubEntities(string directory, Dir parent)
     {
         foreach (var file in Directory.GetFiles(directory))
         {
@@ -73,7 +73,7 @@ public static class Generator
             var entity = new Dir(folderName);
             parent.AddDir(entity);
 
-            ProcessDirectoryFiles(subfolder, entity);
+            GenerateSubEntities(subfolder, entity);
         }
     }
 }

@@ -1,5 +1,4 @@
 using System.Text;
-using System.Text.RegularExpressions;
 using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.Tools.Git;
@@ -24,10 +23,11 @@ sealed partial class Build
             var gitHubName = GitRepository.GetGitHubName();
             var gitHubOwner = GitRepository.GetGitHubOwner();
 
-            Validate(version);
+            ValidateRelease(version);
 
             var artifacts = Directory.GetFiles(ArtifactsDirectory, "*");
-            var changelog = CreateChangelog(version);
+            var changelog = CreateGithubChangelog(version);
+            Assert.NotEmpty(artifacts, "No artifacts were found to create the Release");
 
             var newRelease = new NewRelease(version)
             {
@@ -40,11 +40,12 @@ sealed partial class Build
             await UploadArtifactsAsync(release, artifacts);
         });
 
-    static void Validate(string version)
+    void ValidateRelease(string version)
     {
-        var tags = GitTasks.Git("tag --list");
-        Assert.False(tags.Any(tag => tag.Text == version), $"A Release with the specified tag already exists in the repository: {version}");
+        var tags = GitTasks.Git("describe --tags --abbrev=0", logInvocation: false, logOutput: false);
+        if (tags.Count == 0) return;
 
+        Assert.False(tags.Last().Text == version, $"A Release with the specified tag already exists in the repository: {version}");
         Log.Information("Version: {Version}", version);
     }
 
@@ -64,22 +65,13 @@ sealed partial class Build
         }
     }
 
-    string CreateChangelog(string version)
+    string CreateGithubChangelog(string version)
     {
-        if (!File.Exists(ChangeLogPath))
-        {
-            Log.Warning("Unable to locate the changelog file: {Log}", ChangeLogPath);
-            return string.Empty;
-        }
-
+        Assert.True(File.Exists(ChangeLogPath), $"Unable to locate the changelog file: {ChangeLogPath}");
         Log.Information("Changelog: {Path}", ChangeLogPath);
 
-        var changelog = ReadChangelog(version);
-        if (changelog.Length == 0)
-        {
-            Log.Warning("No version entry exists in the changelog: {Version}", version);
-            return string.Empty;
-        }
+        var changelog = BuildChangelog(version);
+        Assert.True(changelog.Length > 0, $"No version entry exists in the changelog: {version}");
 
         WriteCompareUrl(version, changelog);
         return changelog.ToString();
@@ -87,16 +79,17 @@ sealed partial class Build
 
     void WriteCompareUrl(string version, StringBuilder changelog)
     {
-        var tags = GitTasks.Git("tag --list");
+        var tags = GitTasks.Git("describe --tags --abbrev=0", logInvocation: false, logOutput: false);
         if (tags.Count == 0) return;
 
+        if (changelog[^1] != '\r' || changelog[^1] != '\n') changelog.AppendLine();
         changelog.Append("Full changelog: ");
         changelog.Append(GitRepository.GetGitHubCompareTagsUrl(version, tags.Last().Text));
     }
 
-    StringBuilder ReadChangelog(string version)
+    StringBuilder BuildChangelog(string version)
     {
-        const char separator = '#';
+        const string separator = "# ";
 
         var hasEntry = false;
         var changelog = new StringBuilder();
@@ -105,10 +98,8 @@ sealed partial class Build
             if (hasEntry)
             {
                 if (line.StartsWith(separator)) break;
-                if (line == string.Empty) continue;
 
-                if (changelog.Length > 0) changelog.AppendLine();
-                changelog.Append(line);
+                changelog.AppendLine(line);
                 continue;
             }
 
@@ -118,6 +109,20 @@ sealed partial class Build
             }
         }
 
+        TrimEmptyLines(changelog);
         return changelog;
+    }
+
+    static void TrimEmptyLines(StringBuilder builder)
+    {
+        while (builder[^1] == '\r' || builder[^1] == '\n')
+        {
+            builder.Remove(builder.Length - 1, 1);
+        }
+
+        while (builder[0] == '\r' || builder[0] == '\n')
+        {
+            builder.Remove(0, 1);
+        }
     }
 }
