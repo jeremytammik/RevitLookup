@@ -47,7 +47,13 @@ public sealed partial class SettingsViewModel(
         // ApplicationTheme.HighContrast
     ];
 
-    public List<WindowBackdropType> BackgroundEffects { get; } = GetSupportedBackdrops();
+    public List<WindowBackdropType> BackgroundEffects { get; } =
+    [
+        WindowBackdropType.None,
+        WindowBackdropType.Acrylic,
+        WindowBackdropType.Tabbed,
+        WindowBackdropType.Mica
+    ];
 
     partial void OnThemeChanged(ApplicationTheme value)
     {
@@ -85,22 +91,5 @@ public sealed partial class SettingsViewModel(
     {
         settingsService.UseModifyTab = value;
         RibbonController.ReloadPanels(settingsService);
-    }
-
-    private static List<WindowBackdropType> GetSupportedBackdrops()
-    {
-        var backdropTypes = new List<WindowBackdropType>(4);
-
-        AddEffect(WindowBackdropType.None);
-        AddEffect(WindowBackdropType.Acrylic);
-        AddEffect(WindowBackdropType.Tabbed);
-        AddEffect(WindowBackdropType.Mica);
-
-        return backdropTypes;
-
-        void AddEffect(WindowBackdropType backdropType)
-        {
-            if (WindowBackdrop.IsSupported(backdropType)) backdropTypes.Add(backdropType);
-        }
     }
 }
