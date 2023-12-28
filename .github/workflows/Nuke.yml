@@ -13,4 +13,4 @@ jobs:
         with:
           fetch-depth: 0
       - name: Run Nuke Build
-        run: ./.nuke/build.cmd PublishGitHub --GitHubToken ${{ secrets.GITHUB_TOKEN }}
+        run: ./.nuke/build.cmd Compile PublishGitHub --GitHubToken ${{ secrets.GITHUB_TOKEN }}
