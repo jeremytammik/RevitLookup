@@ -1,5 +1,15 @@
 # Changelog
 
+# 2023-12-25 **2024.0.12**
+
+Last corrective update for this year, bringing minor tweaks and improvements
+
+- Add theme update for all open RevitLookup instances by @ricaun in https://github.com/jeremytammik/RevitLookup/pull/200
+- Fix incorrect Hue calculation for some colour formats
+- Disable all background effects for Windows 10. Thanks @ricaun for help and testing https://github.com/jeremytammik/RevitLookup/issues/194
+
+That's all for now. I wish you all a Happy New Year with best regards, do what you love, evolve, travel, don't forget to have a rest and keep coding 🎉
+
 # 2023-12-25 **2024.0.11**
 
 In this release RevitLookup welcomes you with improved visuals, support for templates to fine-tune data display, improved navigation, in-depth color support, let's take a look
