@@ -69,94 +69,86 @@ public static class ApplicationThemeManager
         bool updateAccent = true,
         bool forceBackground = false)
     {
-        var mainWindow = Application.MainWindow;
-
-        foreach (var window in Application.Windows)
+        if (updateAccent)
         {
-            Application.MainWindow = window;
-
-            if (updateAccent)
-            {
-                ApplicationAccentColorManager.Apply(ApplicationAccentColorManager.GetColorizationColor(),
-                    applicationTheme,
-                    false
-                );
-            }
-
-            if (applicationTheme == ApplicationTheme.Unknown)
-            {
-                return;
-            }
-
-            var appDictionaries = new ResourceDictionaryManager(LibraryNamespace);
-
-            var themeDictionaryName = "Light";
-
-            switch (applicationTheme)
-            {
-                case ApplicationTheme.Dark:
-                    themeDictionaryName = "Dark";
-                    break;
-                case ApplicationTheme.HighContrast:
-                    switch (ApplicationThemeManager.GetSystemTheme())
-                    {
-                        case SystemTheme.HC1:
-                            themeDictionaryName = "HC1";
-                            break;
-                        case SystemTheme.HC2:
-                            themeDictionaryName = "HC2";
-                            break;
-                        case SystemTheme.HCBlack:
-                            themeDictionaryName = "HCBlack";
-                            break;
-                        case SystemTheme.HCWhite:
-                        default:
-                            themeDictionaryName = "HCWhite";
-                            break;
-                    }
-
-                    break;
-            }
-
-            var isUpdated = appDictionaries.UpdateDictionary("theme",
-                new Uri(ThemesDictionaryPath + themeDictionaryName + ".xaml", UriKind.Absolute)
+            ApplicationAccentColorManager.Apply(ApplicationAccentColorManager.GetColorizationColor(),
+                applicationTheme,
+                false
             );
-
-            //var wpfUiDictionary = appDictionaries.GetDictionary("wpf.ui");
-
-            // Force reloading ALL dictionaries
-            // Works but is terrible
-            //var isCoreUpdated = appDictionaries.UpdateDictionary(
-            //    "wpf.ui",
-            //    new Uri(
-            //        AppearanceData.LibraryDictionariesUri + "Wpf.Ui.xaml",
-            //        UriKind.Absolute
-            //    )
-            //);
-
-            //var isBrushesUpdated = appDictionaries.UpdateDictionary(
-            //        "assets/brushes",
-            //        new Uri(
-            //            AppearanceData.LibraryDictionariesUri + "Assets/Brushes.xaml",
-            //            UriKind.Absolute
-            //        )
-            //    );
-
-    #if DEBUG
-            System
-                .Diagnostics
-                .Debug
-                .WriteLine(
-                    $"INFO | {typeof(ApplicationThemeManager)} tries to update theme to {themeDictionaryName} ({applicationTheme}): {isUpdated}",
-                    nameof(ApplicationThemeManager)
-                );
-    #endif
-            if (!isUpdated)
-            {
-                return;
-            }
         }
-        Application.MainWindow = mainWindow; // Restore MainWindow
+
+        if (applicationTheme == ApplicationTheme.Unknown)
+        {
+            return;
+        }
+
+        var appDictionaries = new ResourceDictionaryManager(LibraryNamespace);
+
+        var themeDictionaryName = "Light";
+
+        switch (applicationTheme)
+        {
+            case ApplicationTheme.Dark:
+                themeDictionaryName = "Dark";
+                break;
+            case ApplicationTheme.HighContrast:
+                switch (ApplicationThemeManager.GetSystemTheme())
+                {
+                    case SystemTheme.HC1:
+                        themeDictionaryName = "HC1";
+                        break;
+                    case SystemTheme.HC2:
+                        themeDictionaryName = "HC2";
+                        break;
+                    case SystemTheme.HCBlack:
+                        themeDictionaryName = "HCBlack";
+                        break;
+                    case SystemTheme.HCWhite:
+                    default:
+                        themeDictionaryName = "HCWhite";
+                        break;
+                }
+
+                break;
+        }
+
+        var isUpdated = appDictionaries.UpdateDictionary("theme",
+            new Uri(ThemesDictionaryPath + themeDictionaryName + ".xaml", UriKind.Absolute)
+        );
+
+        //var wpfUiDictionary = appDictionaries.GetDictionary("wpf.ui");
+
+        // Force reloading ALL dictionaries
+        // Works but is terrible
+        //var isCoreUpdated = appDictionaries.UpdateDictionary(
+        //    "wpf.ui",
+        //    new Uri(
+        //        AppearanceData.LibraryDictionariesUri + "Wpf.Ui.xaml",
+        //        UriKind.Absolute
+        //    )
+        //);
+
+        //var isBrushesUpdated = appDictionaries.UpdateDictionary(
+        //        "assets/brushes",
+        //        new Uri(
+        //            AppearanceData.LibraryDictionariesUri + "Assets/Brushes.xaml",
+        //            UriKind.Absolute
+        //        )
+        //    );
+
+#if DEBUG
+        System
+            .Diagnostics
+            .Debug
+            .WriteLine(
+                $"INFO | {typeof(ApplicationThemeManager)} tries to update theme to {themeDictionaryName} ({applicationTheme}): {isUpdated}",
+                nameof(ApplicationThemeManager)
+            );
+#endif
+        if (!isUpdated)
+        {
+            return;
+        }
 
         SystemThemeManager.UpdateSystemThemeCache();
 
@@ -164,21 +156,15 @@ public static class ApplicationThemeManager
 
         Changed?.Invoke(applicationTheme, ApplicationAccentColorManager.SystemAccent);
 
-        foreach (var window in Application.Windows)
+        if (Application.MainWindow is not null)
         {
-            Application.MainWindow = window;
-
-            if (Application.MainWindow is not null)
-            {
-                WindowBackgroundManager.UpdateBackground(
-                    Application.MainWindow,
-                    applicationTheme,
-                    backgroundEffect,
-                    forceBackground
-                );
-            }
+            WindowBackgroundManager.UpdateBackground(
+                Application.MainWindow,
+                applicationTheme,
+                backgroundEffect,
+                forceBackground
+            );
         }
-        Application.MainWindow = mainWindow; // Restore MainWindow
     }
 
     public static void ApplySystemTheme()
