@@ -58,7 +58,12 @@ public sealed partial class SettingsViewModel(
     partial void OnThemeChanged(ApplicationTheme value)
     {
         settingsService.Theme = value;
-        ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
+
+        foreach (var target in Wpf.Ui.Application.Windows)
+        {
+            Wpf.Ui.Application.MainWindow = target;
+            ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
+        }
     }
 
     partial void OnBackgroundChanged(WindowBackdropType value)

@@ -113,7 +113,3 @@
 # Wpf.Ui.Controls.WindowBackdrop
 
 - Increased WindowBackdropType.Acrylic supported OS
-
-# Wpf.Ui.Appearance.ApplicationThemeManager
-
-- Apply multi windows support

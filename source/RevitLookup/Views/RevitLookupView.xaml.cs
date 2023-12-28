@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
@@ -115,6 +116,7 @@ public sealed partial class RevitLookupView : IWindow
     protected override void OnActivated(EventArgs args)
     {
         base.OnActivated(args);
+        Debug.WriteLine("Activated");
         Wpf.Ui.Application.MainWindow = this;
     }
 
