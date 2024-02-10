@@ -24,13 +24,14 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.DTO;
 using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Services;
 
-public sealed class SoftwareUpdateService(IConfiguration configuration) : ISoftwareUpdateService
+public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<SoftwareUpdateService> logger) : ISoftwareUpdateService
 {
     private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     private readonly bool _writeAccess = configuration.GetValue<string>("FolderAccess") == "Write";
@@ -131,15 +132,17 @@ public sealed class SoftwareUpdateService(IConfiguration configuration) : ISoftw
                 ErrorMessage = "GitHub server unavailable to check for updates";
             }
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException exception)
         {
             // GitHub request limit exceeded
             State = SoftwareUpdateState.UpToDate;
+            logger.LogError(exception, "Checking updates fail");
         }
-        catch
+        catch (Exception exception)
         {
             State = SoftwareUpdateState.ErrorChecking;
             ErrorMessage = "An error occurred while checking for updates";
+            logger.LogError(exception, "Checking updates fail");
         }
         finally
         {
@@ -160,10 +163,11 @@ public sealed class SoftwareUpdateService(IConfiguration configuration) : ISoftw
             LocalFilePath = fileName;
             State = SoftwareUpdateState.ReadyToInstall;
         }
-        catch
+        catch (Exception exception)
         {
             State = SoftwareUpdateState.ErrorDownloading;
             ErrorMessage = "An error occurred while downloading the update";
+            logger.LogError(exception, "Downloading updates fail");
         }
     }
 }

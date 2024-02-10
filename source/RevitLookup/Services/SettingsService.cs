@@ -23,6 +23,7 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -56,12 +57,14 @@ internal sealed class Settings
 public sealed class SettingsService : ISettingsService
 {
     private const int DefaultTransitionDuration = 200;
+    private readonly IConfiguration _configuration;
+    private readonly ILogger<SettingsService> _logger;
     private readonly Settings _settings;
-    private readonly string _settingsFile;
 
-    public SettingsService(IConfiguration configuration)
+    public SettingsService(IConfiguration configuration, ILogger<SettingsService> logger)
     {
-        _settingsFile = configuration.GetValue<string>("ConfigFolder").AppendPath("Settings.cfg");
+        _configuration = configuration;
+        _logger = logger;
         _settings = LoadSettings();
     }
 
@@ -106,7 +109,7 @@ public sealed class SettingsService : ISettingsService
         get => _settings.UseSizeRestoring;
         set => _settings.UseSizeRestoring = value;
     }
-    
+
     public double WindowWidth
     {
         get => _settings.WindowWidth;
@@ -168,7 +171,9 @@ public sealed class SettingsService : ISettingsService
 
     public void Save()
     {
-        Directory.CreateDirectory(Path.GetDirectoryName(_settingsFile)!);
+        var settingsFile = _configuration.GetValue<string>("SettingsPath");
+
+        Directory.CreateDirectory(Path.GetDirectoryName(settingsFile)!);
 
         var jsonSerializerOptions = new JsonSerializerOptions
         {
@@ -181,16 +186,17 @@ public sealed class SettingsService : ISettingsService
 
         var json = JsonSerializer.Serialize(_settings, jsonSerializerOptions);
 
-        File.WriteAllText(_settingsFile, json);
+        File.WriteAllText(settingsFile, json);
     }
 
     private Settings LoadSettings()
     {
-        if (!File.Exists(_settingsFile)) return new Settings();
+        var settingsFile = _configuration.GetValue<string>("SettingsPath");
+        if (!File.Exists(settingsFile)) return new Settings();
 
         try
         {
-            using var config = File.OpenRead(_settingsFile);
+            using var config = File.OpenRead(settingsFile);
             var jsonSerializerOptions = new JsonSerializerOptions
             {
                 Converters =
@@ -203,8 +209,9 @@ public sealed class SettingsService : ISettingsService
         }
         catch
         {
-            Debug.WriteLine("RevitLookup: settings deserializing error");
-            return new Settings();
+            _logger.LogInformation("Settings deserializing error");
         }
+
+        return new Settings();
     }
 }
