@@ -36,4 +36,14 @@ public class SimpleContentDialogCreateOptions
     /// <para>If not added, or <see cref="String.Empty"/>, it will not be displayed.</para>
     /// </summary>
     public string SecondaryButtonText { get; set; } = String.Empty;
+
+    /// <summary>
+    /// Gets or sets a max content dialog width.
+    /// </summary>
+    public double DialogMaxWidth { get; set; } = double.MaxValue;
+
+    /// <summary>
+    /// Gets or sets a max content dialog height.
+    /// </summary>
+    public double DialogMaxHeight { get; set; } = double.MaxValue;
 }
