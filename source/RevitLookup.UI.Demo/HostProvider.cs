@@ -1,14 +1,12 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using System.Runtime.Versioning;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using RevitLookup.Config;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.UI.Demo.Mock;
-using RevitLookup.Utils;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
@@ -21,70 +19,46 @@ public static class HostProvider
 {
     public static IHost CreateHost()
     {
-        var host = Microsoft.Extensions.Hosting.Host
-            .CreateDefaultBuilder()
-            .ConfigureAppConfiguration(SetConfiguration)
-            .ConfigureServices(AddServices)
-            .Build();
-
-        return host;
-    }
-
-    private static void AddServices(HostBuilderContext _, IServiceCollection services)
-    {
-        services.AddSingleton<ISettingsService, SettingsService>();
-        services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
-
-        services.AddScoped<INavigationService, NavigationService>();
-        services.AddScoped<ISnackbarService, SnackbarService>();
-        services.AddScoped<IContentDialogService, ContentDialogService>();
-        services.AddScoped<NotificationService>();
-
-        services.AddScoped<ISnoopVisualService, MockSnoopVisualService>();
-        services.AddScoped<AboutView>();
-        services.AddScoped<AboutViewModel>();
-        services.AddScoped<DashboardView>();
-        services.AddScoped<DashboardViewModel>();
-        services.AddScoped<SettingsView>();
-        services.AddScoped<SettingsViewModel>();
-        services.AddScoped<EventsView>();
-        services.AddScoped<IEventsViewModel, MockEventsViewModel>();
-        services.AddScoped<SnoopView>();
-        services.AddScoped<ISnoopViewModel, MockSnoopViewModel>();
-        services.AddScoped<IWindow, RevitLookupView>();
-
-        services.AddTransient<ILookupService, MockLookupService>();
-    }
-
-    private static void SetConfiguration(IConfigurationBuilder builder)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-        var assemblyLocation = assembly.Location;
-        var versionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
-        var addinVersion = new Version(versionInfo.FileVersion).ToString(3);
-#if RELEASE
-        var version = addinVersion.Split('.')[0];
-        if (version == "1") version = "Develop";
-        var programDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var userDataLocation = Path.Combine(programDataPath, @"Autodesk\Revit\Addins\", version, "RevitLookup");
-#else
-        var userDataLocation = Path.GetDirectoryName(assemblyLocation)!;
-#endif
-        var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-        var writeAccess = AccessUtils.CheckWriteAccess(assemblyLocation) && !assemblyLocation.StartsWith(appDataPath);
-
-        var targetFrameworkAttributes = assembly.GetCustomAttributes(typeof(TargetFrameworkAttribute), true);
-        var targetFrameworkAttribute = (TargetFrameworkAttribute)targetFrameworkAttributes.First();
-        var targetFramework = targetFrameworkAttribute.FrameworkDisplayName;
-
-        builder.AddInMemoryCollection(new KeyValuePair<string, string>[]
+        var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(new HostApplicationBuilderSettings
         {
-            new("Assembly", assemblyLocation),
-            new("Framework", targetFramework),
-            new("AddinVersion", addinVersion),
-            new("ConfigFolder", Path.Combine(userDataLocation, "Config")),
-            new("DownloadFolder", Path.Combine(userDataLocation, "Downloads")),
-            new("FolderAccess", writeAccess ? "Write" : "Read")
+            ContentRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location),
+            DisableDefaults = true
         });
+
+        //Logging
+        builder.Logging.ClearProviders();
+        builder.Logging.AddLoggerConfiguration();
+
+        //Configuration
+        builder.Configuration.AddFoldersConfiguration();
+
+        //App services
+        builder.Services.AddSingleton<ISettingsService, SettingsService>();
+        builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
+
+        //UI services
+        builder.Services.AddScoped<INavigationService, NavigationService>();
+        builder.Services.AddScoped<ISnackbarService, SnackbarService>();
+        builder.Services.AddScoped<IContentDialogService, ContentDialogService>();
+        builder.Services.AddScoped<NotificationService>();
+
+        //Views
+        builder.Services.AddScoped<ISnoopVisualService, MockSnoopVisualService>();
+        builder.Services.AddScoped<AboutView>();
+        builder.Services.AddScoped<AboutViewModel>();
+        builder.Services.AddScoped<DashboardView>();
+        builder.Services.AddScoped<IDashboardViewModel, MockDashboardViewModel>();
+        builder.Services.AddScoped<SettingsView>();
+        builder.Services.AddScoped<SettingsViewModel>();
+        builder.Services.AddScoped<EventsView>();
+        builder.Services.AddScoped<IEventsViewModel, MockEventsViewModel>();
+        builder.Services.AddScoped<SnoopView>();
+        builder.Services.AddScoped<ISnoopViewModel, MockSnoopViewModel>();
+        builder.Services.AddScoped<IWindow, RevitLookupView>();
+
+        //Startup view
+        builder.Services.AddTransient<ILookupService, MockLookupService>();
+
+        return builder.Build();
     }
 }

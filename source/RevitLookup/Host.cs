@@ -4,7 +4,11 @@ using System.Reflection;
 using System.Runtime.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.Metrics;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using RevitLookup.Config;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;
@@ -22,12 +26,47 @@ public static class Host
 
     public static void Start()
     {
-        _host = Microsoft.Extensions.Hosting.Host
-            .CreateDefaultBuilder()
-            .ConfigureAppConfiguration(SetConfiguration)
-            .ConfigureServices(AddServices)
-            .Build();
+        var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(new HostApplicationBuilderSettings
+        {
+            ContentRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location),
+            DisableDefaults = true
+        });
 
+        //Logging
+        builder.Logging.ClearProviders();
+        builder.Logging.AddLoggerConfiguration();
+
+        //Configuration
+        builder.Configuration.AddFoldersConfiguration();
+
+        //App services
+        builder.Services.AddSingleton<ISettingsService, SettingsService>();
+        builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
+
+        //UI services
+        builder.Services.AddScoped<INavigationService, NavigationService>();
+        builder.Services.AddScoped<ISnackbarService, SnackbarService>();
+        builder.Services.AddScoped<IContentDialogService, ContentDialogService>();
+        builder.Services.AddScoped<NotificationService>();
+
+        //Views
+        builder.Services.AddScoped<ISnoopVisualService, SnoopVisualService>();
+        builder.Services.AddScoped<AboutView>();
+        builder.Services.AddScoped<AboutViewModel>();
+        builder.Services.AddScoped<DashboardView>();
+        builder.Services.AddScoped<IDashboardViewModel, DashboardViewModel>();
+        builder.Services.AddScoped<SettingsView>();
+        builder.Services.AddScoped<SettingsViewModel>();
+        builder.Services.AddScoped<EventsView>();
+        builder.Services.AddScoped<IEventsViewModel, EventsViewModel>();
+        builder.Services.AddScoped<SnoopView>();
+        builder.Services.AddScoped<ISnoopViewModel, SnoopViewModel>();
+        builder.Services.AddScoped<IWindow, RevitLookupView>();
+
+        //Startup view
+        builder.Services.AddTransient<ILookupService, LookupService>();
+
+        _host = builder.Build();
         _host.Start();
     }
 
@@ -40,64 +79,6 @@ public static class Host
     public static void Stop()
     {
         _host.StopAsync();
-    }
-
-    private static void AddServices(HostBuilderContext context, IServiceCollection services)
-    {
-        services.AddSingleton<ISettingsService, SettingsService>();
-        services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
-
-        services.AddScoped<INavigationService, NavigationService>();
-        services.AddScoped<ISnackbarService, SnackbarService>();
-        services.AddScoped<IContentDialogService, ContentDialogService>();
-        services.AddScoped<NotificationService>();
-
-        services.AddScoped<ISnoopVisualService, SnoopVisualService>();
-        services.AddScoped<AboutView>();
-        services.AddScoped<AboutViewModel>();
-        services.AddScoped<DashboardView>();
-        services.AddScoped<DashboardViewModel>();
-        services.AddScoped<SettingsView>();
-        services.AddScoped<SettingsViewModel>();
-        services.AddScoped<EventsView>();
-        services.AddScoped<IEventsViewModel, EventsViewModel>();
-        services.AddScoped<SnoopView>();
-        services.AddScoped<ISnoopViewModel, SnoopViewModel>();
-        services.AddScoped<IWindow, RevitLookupView>();
-
-        services.AddTransient<ILookupService, LookupService>();
-    }
-
-    private static void SetConfiguration(IConfigurationBuilder builder)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-        var assemblyLocation = assembly.Location;
-        var versionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
-        var addinVersion = new Version(versionInfo.FileVersion).ToString(3);
-#if RELEASE
-        var version = addinVersion.Split('.')[0];
-        if (version == "1") version = "Develop";
-        var programDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var userDataLocation = Path.Combine(programDataPath, @"Autodesk\Revit\Addins\", version, "RevitLookup");
-#else
-        var userDataLocation = Path.GetDirectoryName(assemblyLocation)!;
-#endif
-        var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-        var writeAccess = AccessUtils.CheckWriteAccess(assemblyLocation) && !assemblyLocation.StartsWith(appDataPath);
-
-        var targetFrameworkAttributes = assembly.GetCustomAttributes(typeof(TargetFrameworkAttribute), true);
-        var targetFrameworkAttribute = (TargetFrameworkAttribute) targetFrameworkAttributes.First();
-        var targetFramework = targetFrameworkAttribute.FrameworkDisplayName;
-
-        builder.AddInMemoryCollection(new KeyValuePair<string, string>[]
-        {
-            new("Assembly", assemblyLocation),
-            new("Framework", targetFramework),
-            new("AddinVersion", addinVersion),
-            new("ConfigFolder", Path.Combine(userDataLocation, "Config")),
-            new("DownloadFolder", Path.Combine(userDataLocation, "Downloads")),
-            new("FolderAccess", writeAccess ? "Write" : "Read")
-        });
     }
 
     public static T GetService<T>() where T : class
