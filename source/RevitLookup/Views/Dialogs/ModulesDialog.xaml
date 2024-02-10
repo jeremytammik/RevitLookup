@@ -1,0 +1,92 @@
+﻿<DockPanel
+    x:Class="RevitLookup.Views.Dialogs.ModulesDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
+    xmlns:rl="http://revitlookup.com/xaml"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance dialogs:ModulesViewModel}">
+    <rl:TextBox
+        DockPanel.Dock="Top"
+        Icon="{rl:SymbolIcon Search24}"
+        IconPlacement="Right"
+        PlaceholderText="Search..."
+        Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    <DataGrid
+        Margin="0 8 0 0"
+        AutoGenerateColumns="False"
+        GridLinesVisibility="None"
+        HeadersVisibility="Column"
+        IsReadOnly="True"
+        ColumnHeaderHeight="30"
+        CanUserReorderColumns="False"
+        CanUserResizeColumns="True"
+        CanUserSortColumns="True"
+        MinColumnWidth="100"
+        ItemsSource="{Binding FilteredModules}">
+        <DataGrid.Columns>
+            <DataGridTemplateColumn
+                Width="2*"
+                Header="Name">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Name}"
+                            ToolTip="{Binding Name}">
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn
+                Width="5*"
+                Header="Path">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Path}"
+                            ToolTip="{Binding Path}">
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn
+                Width="1*"
+                Header="Load Order">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Order}"
+                            ToolTip="{Binding Order}">
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn
+                Width="1*"
+                Header="Version">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Version}"
+                            ToolTip="{Binding Version}">
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn
+                Width="2*"
+                Header="Domain">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Domain}"
+                            ToolTip="{Binding Domain}">
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+</DockPanel>
