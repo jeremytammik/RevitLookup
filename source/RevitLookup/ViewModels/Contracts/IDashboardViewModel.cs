@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,19 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.ViewModels.Contracts;
-using Wpf.Ui.Controls;
+using CommunityToolkit.Mvvm.Input;
 
-namespace RevitLookup.Views.Pages;
+namespace RevitLookup.ViewModels.Contracts;
 
-public sealed partial class DashboardView : INavigableView<IDashboardViewModel>
+public interface IDashboardViewModel
 {
-    public DashboardView(IDashboardViewModel viewModel)
-    {
-        ViewModel = viewModel;
-        InitializeComponent();
-        DataContext = this;
-    }
-
-    public IDashboardViewModel ViewModel { get; }
+    IAsyncRelayCommand<string> NavigateSnoopPageCommand { get; }
+    IAsyncRelayCommand<string> OpenDialogCommand { get; }
 }

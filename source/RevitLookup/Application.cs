@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Core;

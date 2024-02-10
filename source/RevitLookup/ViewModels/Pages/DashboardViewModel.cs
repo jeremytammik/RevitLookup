@@ -24,6 +24,7 @@ using RevitLookup.Core;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
@@ -35,7 +36,7 @@ public sealed partial class DashboardViewModel(
     ISnoopVisualService snoopVisualService,
     NotificationService notificationService,
     IServiceProvider serviceProvider)
-    : ObservableObject
+    : ObservableObject, IDashboardViewModel
 {
     [RelayCommand]
     private async Task NavigateSnoopPage(string parameter)
@@ -139,6 +140,9 @@ public sealed partial class DashboardViewModel(
             case "search":
                 var searchDialog = new SearchElementsDialog(serviceProvider);
                 return searchDialog.ShowAsync();
+            case "modules":
+                var modulesDialog = new ModulesDialog(serviceProvider);
+                return modulesDialog.ShowAsync();
         }
 
         return Task.CompletedTask;

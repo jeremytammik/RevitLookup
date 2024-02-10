@@ -425,6 +425,19 @@
                             Text="Event monitor" />
                     </StackPanel>
                 </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="4,8,4,0"
+                    Icon="{rl:SymbolIcon BroadActivityFeed24}"
+                    CommandParameter="modules"
+                    Command="{Binding  ViewModel.OpenDialogCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Modules" />
+                    </StackPanel>
+                </rl:CardAction>
             </Grid>
         </VirtualizingStackPanel>
     </rl:DynamicScrollViewer>
