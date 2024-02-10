@@ -1,5 +1,19 @@
 # Changelog
 
+# 2024-02-10 **2024.0.13**
+
+## General
+
+- **Modules view**
+
+    The new Modules view lets you inspect the dynamic link libraries (DLLs) and executables that your app uses. In this view, you’ll find information such as module names, versions, application domains, paths to the module.
+    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/b9f23a6c-24c8-4ff5-a4d1-59a3a685ac4d)
+
+## Bugs
+
+- Fix clipboard exception causing Revit crash https://github.com/jeremytammik/RevitLookup/issues/202
+- Fix opening Search Elements dialog from Revit ribbon
+
 # 2023-12-25 **2024.0.12**
 
 Last corrective update for this year, bringing minor tweaks and improvements

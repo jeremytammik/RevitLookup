@@ -20,10 +20,10 @@ sealed partial class Build
 
         VersionMap = new()
         {
-            {"Release R21", "2021.2.12"},
-            {"Release R22", "2022.2.12"},
-            {"Release R23", "2023.2.12"},
-            {"Release R24", "2024.0.12"}
+            {"Release R21", "2021.2.13"},
+            {"Release R22", "2022.2.13"},
+            {"Release R23", "2023.2.13"},
+            {"Release R24", "2024.0.13"}
         };
     }
 }
