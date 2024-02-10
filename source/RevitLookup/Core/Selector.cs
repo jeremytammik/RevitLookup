@@ -128,7 +128,7 @@ public static class Selector
 
     private static IReadOnlyCollection<SnoopableObject> SnoopDependentElements()
     {
-        var selectedIds = RevitApi.UiDocument.Selection.GetElementIds();
+        var selectedIds = RevitApi.UiDocument!.Selection.GetElementIds();
         if (selectedIds.Count == 0) return Array.Empty<SnoopableObject>();
 
         var elements = new List<ElementId>();
@@ -173,7 +173,7 @@ public static class Selector
 
     private static SnoopableObject SelectObject(ObjectType objectType)
     {
-        var reference = RevitApi.UiDocument.Selection.PickObject(objectType);
+        var reference = RevitApi.UiDocument!.Selection.PickObject(objectType);
 
         object element;
         switch (objectType)

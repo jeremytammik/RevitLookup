@@ -20,7 +20,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
 using RevitLookup.Core.Metadata;
 using RevitLookup.Core.Utils;
 

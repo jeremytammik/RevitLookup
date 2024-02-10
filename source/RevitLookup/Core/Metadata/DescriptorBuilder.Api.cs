@@ -38,12 +38,12 @@ public sealed partial class DescriptorBuilder
 
     public static IReadOnlyCollection<Descriptor> Build(object obj, Document context)
     {
+        if (obj is null) return Array.Empty<Descriptor>();
+
         var builder = new DescriptorBuilder();
 
         switch (obj)
         {
-            case null:
-                return Array.Empty<Descriptor>();
             case Type staticObjectType:
                 builder._obj = null;
                 builder.Context = context;
