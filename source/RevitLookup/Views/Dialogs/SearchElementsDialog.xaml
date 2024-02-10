@@ -8,7 +8,7 @@
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     mc:Ignorable="d"
     MinWidth="416"
-    MinHeight="119"
+    MinHeight="147"
     d:DataContext="{d:DesignInstance dialogs:SearchElementsViewModel}">
     <rl:TextBox
         Icon="{rl:SymbolIcon Search24}"

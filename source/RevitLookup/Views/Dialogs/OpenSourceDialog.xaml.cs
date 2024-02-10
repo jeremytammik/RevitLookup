@@ -43,7 +43,8 @@ public sealed partial class OpenSourceDialog
         {
             Title = "Third-Party Software",
             Content = this,
-            CloseButtonText = "Close"
+            CloseButtonText = "Close",
+            DialogMaxWidth = 600
         };
 
         await _dialogService.ShowSimpleDialogAsync(dialogOptions);
