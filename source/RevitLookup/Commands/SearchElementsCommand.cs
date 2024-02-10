@@ -21,7 +21,7 @@
 using Autodesk.Revit.Attributes;
 using Nice3point.Revit.Toolkit.External;
 using RevitLookup.Services.Contracts;
-using RevitLookup.ViewModels.Pages;
+using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Pages;
 
 namespace RevitLookup.Commands;
@@ -34,6 +34,6 @@ public class SearchElementsCommand : ExternalCommand
     {
         Host.GetService<ILookupService>()
             .Show<DashboardView>()
-            .Execute<DashboardViewModel>(dashboard => { dashboard.OpenDialogCommand.Execute("search"); });
+            .Execute<IDashboardViewModel>(dashboard => dashboard.OpenDialogCommand.Execute("search"));
     }
 }
