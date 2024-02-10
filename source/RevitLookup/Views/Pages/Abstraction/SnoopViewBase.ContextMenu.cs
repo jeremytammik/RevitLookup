@@ -41,7 +41,7 @@ public partial class SnoopViewBase
         };
 
         contextMenu.AddMenuItem("CopyMenuItem")
-            .SetCommand(descriptor, parameter => Clipboard.SetText(parameter.Name))
+            .SetCommand(descriptor, parameter => Clipboard.SetDataObject(parameter.Name))
             .SetShortcut(row, ModifierKeys.Control, Key.C);
         contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
@@ -143,12 +143,12 @@ public partial class SnoopViewBase
         };
 
         contextMenu.AddMenuItem("CopyMenuItem")
-            .SetCommand(descriptor, parameter => Clipboard.SetText($"{parameter.Name}: {parameter.Value.Descriptor.Name}"))
+            .SetCommand(descriptor, parameter => Clipboard.SetDataObject($"{parameter.Name}: {parameter.Value.Descriptor.Name}"))
             .SetShortcut(row, ModifierKeys.Control, Key.C);
 
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy value")
-            .SetCommand(descriptor, parameter => Clipboard.SetText(parameter.Value.Descriptor.Name))
+            .SetCommand(descriptor, parameter => Clipboard.SetDataObject(parameter.Value.Descriptor.Name))
             .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C)
             .SetAvailability(descriptor.Value.Descriptor.Name is not null);
 

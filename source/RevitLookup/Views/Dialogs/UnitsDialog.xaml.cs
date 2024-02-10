@@ -105,11 +105,11 @@ public sealed partial class UnitsDialog
 
         row.ContextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy unit")
-            .SetCommand(info, unitInfo => Clipboard.SetText(unitInfo.Unit))
+            .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Unit))
             .SetShortcut(row, ModifierKeys.Control, Key.C);
         row.ContextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy label")
-            .SetCommand(info, unitInfo => Clipboard.SetText(unitInfo.Label))
+            .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Label))
             .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
         row.ContextMenu.AddMenuItem()
             .SetHeader("Snoop")
