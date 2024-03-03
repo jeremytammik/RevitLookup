@@ -27,12 +27,16 @@ sealed partial class Build
 
                 foreach (var directory in directories)
                 {
-                    var process = new Process();
-                    process.StartInfo.FileName = exeFile;
-                    process.StartInfo.Arguments = directory.DoubleQuoteIfNeeded();
-                    process.StartInfo.RedirectStandardOutput = true;
-                    process.StartInfo.RedirectStandardError = true;
-                    process.Start();
+                    var startInfo = new ProcessStartInfo
+                    {
+                        FileName = exeFile,
+                        Arguments = directory.DoubleQuoteIfNeeded(),
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true
+                    };
+
+                    var process = Process.Start(startInfo)!;
 
                     RedirectStream(process.StandardOutput, LogEventLevel.Information);
                     RedirectStream(process.StandardError, LogEventLevel.Error);

@@ -18,9 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Documents;
+using RevitLookup.Utils;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
 
@@ -29,7 +29,7 @@ namespace RevitLookup.Views.Dialogs;
 public sealed partial class OpenSourceDialog
 {
     private readonly IContentDialogService _dialogService;
-
+    
     public OpenSourceDialog(IContentDialogService dialogService)
     {
         _dialogService = dialogService;
@@ -46,13 +46,13 @@ public sealed partial class OpenSourceDialog
             CloseButtonText = "Close",
             DialogMaxWidth = 600
         };
-
+        
         await _dialogService.ShowSimpleDialogAsync(dialogOptions);
     }
-
-    private void OpenLink(object sender, RoutedEventArgs e)
+    
+    private void OpenLink(object sender, RoutedEventArgs args)
     {
-        if (e.OriginalSource is not Hyperlink link) return;
-        Process.Start(link.NavigateUri.OriginalString);
+        var link = (Hyperlink) args.OriginalSource;
+        ProcessTasks.StartShell(link.NavigateUri.OriginalString);
     }
 }

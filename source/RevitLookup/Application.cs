@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -27,6 +26,7 @@ using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Utils;
 
 namespace RevitLookup;
 
@@ -69,7 +69,7 @@ public class Application : ExternalApplication
     private static void UpdateSoftware()
     {
         var updateService = Host.GetService<ISoftwareUpdateService>();
-        if (File.Exists(updateService.LocalFilePath)) Process.Start(updateService.LocalFilePath);
+        if (File.Exists(updateService.LocalFilePath)) ProcessTasks.StartShell(updateService.LocalFilePath);
     }
 
     private static void SaveSettings()

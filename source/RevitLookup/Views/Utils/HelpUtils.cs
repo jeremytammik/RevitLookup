@@ -18,7 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
+using RevitLookup.Utils;
 
 namespace RevitLookup.Views.Utils;
 
@@ -41,8 +41,8 @@ public static class HelpUtils
         {
             uri = $"https://duckduckgo.com/?q={query}";
         }
-
-        Process.Start(uri);
+        
+        ProcessTasks.StartShell(uri);
     }
 
     public static void ShowHelp(string query, string parameter)
@@ -51,6 +51,9 @@ public static class HelpUtils
         {
             ShowHelp($"{query}.{parameter}");
         }
-        else ShowHelp($"{query} {parameter}");
+        else
+        {
+            ShowHelp($"{query} {parameter}");
+        }
     }
 }

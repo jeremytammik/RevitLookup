@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Version>2024.0</Version>
         <UseWPF>true</UseWPF>
         <LangVersion>latest</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
