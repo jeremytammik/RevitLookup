@@ -36,7 +36,7 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
     private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     private readonly bool _writeAccess = configuration.GetValue<string>("FolderAccess") == "Write";
     private string _downloadUrl;
-
+    
     public SoftwareUpdateState State { get; private set; }
     public string CurrentVersion { get; } = configuration.GetValue<string>("AddinVersion");
     public string NewVersion { get; private set; }
@@ -44,7 +44,7 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
     public string ReleaseNotesUrl { get; private set; }
     public string ErrorMessage { get; private set; }
     public string LocalFilePath { get; private set; }
-
+    
     public async Task CheckUpdates()
     {
         try
@@ -59,29 +59,33 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
                         return;
                     }
                 }
-
+            
             string releasesJson;
             using (var gitHubClient = new HttpClient())
             {
                 gitHubClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "RevitLookup");
                 releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
             }
-
+            
             var releases = JsonSerializer.Deserialize<List<GutHubResponse>>(releasesJson);
             if (releases is not null)
             {
                 var latestRelease = releases
                     .Where(response => !response.Draft)
                     .Where(response => !response.PreRelease)
+#if NETCOREAPP
+                    .MaxBy(release => release.PublishedDate);
+#else
                     .OrderByDescending(release => release.PublishedDate)
                     .FirstOrDefault();
-
+#endif
+                
                 if (latestRelease is null)
                 {
                     State = SoftwareUpdateState.UpToDate;
                     return;
                 }
-
+                
                 // Finding a new version
                 Version newVersionTag = null;
                 var currentTag = new Version(CurrentVersion);
@@ -91,26 +95,26 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
                     if (!match.Success) continue;
                     if (!match.Value.StartsWith(currentTag.Major.ToString())) continue;
                     if (_writeAccess && asset.Name.Contains("MultiUser")) continue;
-
+                    
                     newVersionTag = new Version(match.Value);
                     _downloadUrl = asset.DownloadUrl;
                     break;
                 }
-
+                
                 // Checking available releases
                 if (newVersionTag is null)
                 {
                     State = SoftwareUpdateState.UpToDate;
                     return;
                 }
-
+                
                 // Checking for a new release version
                 if (newVersionTag <= currentTag)
                 {
                     State = SoftwareUpdateState.UpToDate;
                     return;
                 }
-
+                
                 // Checking downloaded releases
                 var downloadFolder = configuration.GetValue<string>("DownloadFolder");
                 NewVersion = newVersionTag.ToString(3);
@@ -122,7 +126,7 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
                             State = SoftwareUpdateState.ReadyToInstall;
                             return;
                         }
-
+                
                 State = SoftwareUpdateState.ReadyToDownload;
                 ReleaseNotesUrl = latestRelease.Url;
             }
@@ -149,17 +153,25 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
             LatestCheckDate = DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
         }
     }
-
+    
     public async Task DownloadUpdate()
     {
         try
         {
             var downloadFolder = configuration.GetValue<string>("DownloadFolder");
             Directory.CreateDirectory(downloadFolder);
-            var fileName = Path.Combine(downloadFolder, Path.GetFileName(_downloadUrl));
+            var fileName = Path.Combine(downloadFolder, Path.GetFileName(_downloadUrl)!);
 
-            using var webClient = new WebClient();
-            await webClient.DownloadFileTaskAsync(_downloadUrl!, fileName);
+            using var httpClient = new HttpClient();
+            var response = await httpClient.GetStreamAsync(_downloadUrl);
+            
+#if NETCOREAPP
+            await using var fileStream = new FileStream(fileName, FileMode.Create);
+#else
+            using var fileStream = new FileStream(fileName, FileMode.Create);
+#endif
+            await response.CopyToAsync(fileStream);
+            
             LocalFilePath = fileName;
             State = SoftwareUpdateState.ReadyToInstall;
         }

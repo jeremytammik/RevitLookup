@@ -545,7 +545,7 @@ public class TitleBar : System.Windows.Controls.Control, IThemeControl
         }
     }
 
-    private void OnParentWindowStateChanged(object sender, EventArgs e)
+    private void OnParentWindowStateChanged(object? sender, EventArgs e)
     {
         if (IsMaximized != (_currentWindow.WindowState == WindowState.Maximized))
             IsMaximized = _currentWindow.WindowState == WindowState.Maximized;

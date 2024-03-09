@@ -3,12 +3,12 @@
     <PropertyGroup>
         <Version>2024.0</Version>
         <UseWPF>true</UseWPF>
+        <Nullable>disable</Nullable>
         <LangVersion>latest</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
         <ImplicitUsings>true</ImplicitUsings>
-        <TargetFramework>net48</TargetFramework>
-        <Configurations>Debug R21;Debug R22;Debug R23;Debug R24</Configurations>
-        <Configurations>$(Configurations);Release R21;Release R22;Release R23;Release R24</Configurations>
+        <Configurations>Debug R21;Debug R22;Debug R23;Debug R24;Debug R25</Configurations>
+        <Configurations>$(Configurations);Release R21;Release R22;Release R23;Release R24;Release R25</Configurations>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -29,23 +29,33 @@
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('R21'))">
         <RevitVersion>2021</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
         <DefineConstants>$(DefineConstants);R21</DefineConstants>
         <DefineConstants>$(DefineConstants);R21_OR_GREATER</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('R22'))">
         <RevitVersion>2022</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
         <DefineConstants>$(DefineConstants);R22</DefineConstants>
         <DefineConstants>$(DefineConstants);R21_OR_GREATER;R22_OR_GREATER</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('R23'))">
         <RevitVersion>2023</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
         <DefineConstants>$(DefineConstants);R23</DefineConstants>
         <DefineConstants>$(DefineConstants);R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="$(Configuration.Contains('R24'))">
         <RevitVersion>2024</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
         <DefineConstants>$(DefineConstants);R24</DefineConstants>
         <DefineConstants>$(DefineConstants);R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER;R24_OR_GREATER</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Configuration.Contains('R25'))">
+        <RevitVersion>2025</RevitVersion>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <DefineConstants>$(DefineConstants);R25</DefineConstants>
+        <DefineConstants>$(DefineConstants);R21_OR_GREATER;R22_OR_GREATER;R23_OR_GREATER;R24_OR_GREATER;R25_OR_GREATER</DefineConstants>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -59,13 +69,13 @@
         <Using Include="JetBrains.Annotations"/>
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="!$(DefineConstants.Contains('NETCOREAPP'))">
         <Reference Include="System.Net.Http"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
-        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*-*"/>
+        <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="Nice3point.Revit.Api.AdWindows" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*-*"/>
@@ -96,28 +106,28 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="Resources\Resources\Colors.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Colors.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Localization\Colors.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Colors.Designer.cs</LastGenOutput>
-        <CustomToolNamespace>PublicResXFileCodeGenerator</CustomToolNamespace>
-      </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Resources\Colors.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Colors.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\Localization\Colors.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>Colors.Designer.cs</LastGenOutput>
+            <CustomToolNamespace>PublicResXFileCodeGenerator</CustomToolNamespace>
+        </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Resources\Resources\Colors.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Colors.resx</DependentUpon>
-      </Compile>
-      <Compile Update="Resources\Localization\Colors.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>Colors.resx</DependentUpon>
-      </Compile>
+        <Compile Update="Resources\Resources\Colors.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Colors.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Resources\Localization\Colors.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>Colors.resx</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <Target Name="CopyFiles" AfterTargets="CoreBuild">

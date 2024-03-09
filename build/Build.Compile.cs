@@ -16,7 +16,7 @@ sealed partial class Build
                 DotNetBuild(settings => settings
                     .SetConfiguration(configuration)
                     .SetVersion(value)
-                    .SetVerbosity(DotNetVerbosity.Minimal));
+                    .SetVerbosity(DotNetVerbosity.minimal));
             }
         });
 

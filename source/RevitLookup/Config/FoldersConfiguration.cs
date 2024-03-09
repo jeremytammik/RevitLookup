@@ -26,7 +26,7 @@ public static class FoldersConfiguration
         {
             {"Assembly", assemblyLocation},
             {"Framework", targetFrameworkAttribute.FrameworkDisplayName},
-            {"AddinVersion", new Version(versionInfo.FileVersion).ToString(3)},
+            {"AddinVersion", new Version(versionInfo.FileVersion!).ToString(3)},
             {"FolderAccess", writeAccess ? "Write" : "Read"}
         });
 

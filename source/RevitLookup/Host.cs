@@ -1,17 +1,11 @@
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Runtime.Versioning;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.Metrics;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using RevitLookup.Config;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
-using RevitLookup.Utils;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;

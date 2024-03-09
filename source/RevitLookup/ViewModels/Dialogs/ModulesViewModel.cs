@@ -49,7 +49,7 @@ public partial class ModulesViewModel : ObservableObject
                 Name = assemblyName.Name,
                 Path = assembly.IsDynamic ? string.Empty : assembly.Location,
                 Order = i + 1,
-                Version = assemblyName.Version.ToString(),
+                Version = assemblyName.Version is null ? string.Empty : assemblyName.Version.ToString(),
                 Domain = domain.FriendlyName
             };
 
