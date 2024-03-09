@@ -18,13 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.ViewModels.Objects;
+using RevitLookup.Core.Objects;
 
-public class ModuleInfo
+namespace RevitLookup.Models;
+
+public sealed class SearchResults
 {
-    public required string Name { get; set; }
-    public required string Path { get; set; }
-    public required int Order { get; set; }
-    public required string Version { get; set; }
-    public required string Domain { get; set; }
+    public IReadOnlyCollection<Descriptor> Data { get; set; }
+    public IReadOnlyCollection<SnoopableObject> Objects { get; set; }
 }

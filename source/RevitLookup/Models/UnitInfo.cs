@@ -18,7 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.ViewModels.Objects;
+namespace RevitLookup.Models;
 
 public sealed class UnitInfo(object unitObject, string unit, string label)
 {

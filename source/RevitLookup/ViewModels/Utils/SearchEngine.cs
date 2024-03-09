@@ -19,9 +19,9 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.Objects;
+using RevitLookup.Models;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Enums;
-using RevitLookup.ViewModels.Objects;
 
 namespace RevitLookup.ViewModels.Utils;
 

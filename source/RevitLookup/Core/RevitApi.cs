@@ -22,7 +22,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using RevitLookup.ViewModels.Objects;
+using RevitLookup.Models;
 
 namespace RevitLookup.Core;
 
