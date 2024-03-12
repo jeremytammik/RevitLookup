@@ -198,15 +198,7 @@
                 <TextBlock
                     FontSize="12"
                     Margin="0,12,0,0"
-                    Text="{Binding ViewModel.DotNetVersion}" />
-                <TextBlock
-                    FontSize="12"
-                    Margin="0,6,0,0">
-                    <Run
-                        Text="Runtime" />
-                    <Run
-                        Text="{Binding ViewModel.RuntimeVersion}" />
-                </TextBlock>
+                    Text="{Binding ViewModel.Runtime}" />
                 <TextBlock
                     FontSize="12"
                     Margin="0,6,0,0"
