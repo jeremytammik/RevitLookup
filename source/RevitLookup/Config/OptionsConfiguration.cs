@@ -25,14 +25,14 @@ public static class OptionsConfiguration
         
         var rootPath = configuration.GetValue<string>("contentRoot");
         var fileVersion = new Version(versionInfo.FileVersion!);
-
+        
         services.Configure<AssemblyInfo>(options =>
         {
             options.Framework = targetFrameworkAttribute.FrameworkDisplayName;
             options.AddinVersion = new Version(fileVersion.Major, fileVersion.Minor, fileVersion.Build);
             options.IsAdminInstallation = assemblyLocation.StartsWith(appDataPath) || !AccessUtils.CheckWriteAccess(assemblyLocation);
         });
-
+        
         services.Configure<FolderLocations>(options =>
         {
             options.RootFolder = rootPath;
