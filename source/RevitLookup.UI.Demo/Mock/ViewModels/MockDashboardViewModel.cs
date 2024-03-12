@@ -27,7 +27,7 @@ using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
 
-namespace RevitLookup.UI.Demo.Mock;
+namespace RevitLookup.UI.Demo.Mock.ViewModels;
 
 public partial class MockDashboardViewModel(
     INavigationService navigationService,

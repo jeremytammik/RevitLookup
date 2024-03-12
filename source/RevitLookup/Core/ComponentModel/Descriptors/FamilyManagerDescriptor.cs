@@ -37,8 +37,8 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
 
         ResolveSet ResolveGetAssociatedFamilyParameter()
         {
-            var elementTypes = RevitApi.Document.GetElements().WhereElementIsElementType();
-            var elementInstances = RevitApi.Document.GetElements().WhereElementIsNotElementType();
+            var elementTypes = RevitShell.Document.GetElements().WhereElementIsElementType();
+            var elementInstances = RevitShell.Document.GetElements().WhereElementIsNotElementType();
             var elements = elementTypes
                 .UnionWith(elementInstances)
                 .ToElements();

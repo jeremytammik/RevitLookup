@@ -74,7 +74,7 @@ public static class RibbonController
             RibbonUtils.RemovePanel("CustomCtrl_%CustomCtrl_%Add-Ins%Revit Lookup%RevitLookupButton", PanelName);
             RibbonUtils.RemovePanel("CustomCtrl_%Revit Lookup%RevitLookup.Commands.SnoopSelectionCommand", PanelName);
 
-            var controlledApplication = RevitApi.CreateUiControlledApplication();
+            var controlledApplication = RevitShell.CreateUiControlledApplication();
             CreatePanel(controlledApplication, settingsService);
 
             RibbonUtils.ReloadShortcuts();

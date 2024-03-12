@@ -10,7 +10,7 @@ using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
 
-namespace RevitLookup.UI.Demo.Mock;
+namespace RevitLookup.UI.Demo.Mock.ViewModels;
 
 public sealed partial class MockEventsViewModel(
     NotificationService notificationService,
@@ -121,7 +121,7 @@ public sealed partial class MockEventsViewModel(
 
     private void PushEvents(CancellationToken cancellationToken)
     {
-        Task.Run(async () =>
+        Task.Run((Func<Task>)(async () =>
         {
             var iteration = 0;
             var faker = new Faker();
@@ -134,7 +134,7 @@ public sealed partial class MockEventsViewModel(
                 SnoopableObjects = new List<SnoopableObject>(_events);
                 iteration++;
             }
-        }, cancellationToken);
+        }), cancellationToken);
     }
 
     private static SnoopableObject GenerateEvent(Faker faker, int iteration)

@@ -150,8 +150,8 @@ public sealed partial class DashboardViewModel(
 
     private bool Validate()
     {
-        if (RevitApi.UiApplication is null) return true;
-        if (RevitApi.UiDocument is not null) return true;
+        if (RevitShell.UiApplication is null) return true;
+        if (RevitShell.UiDocument is not null) return true;
 
         notificationService.ShowWarning("Request denied", "There are no open documents");
         return false;

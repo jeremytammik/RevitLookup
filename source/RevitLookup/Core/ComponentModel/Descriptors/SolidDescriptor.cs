@@ -54,7 +54,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitApi.UiDocument is null) return;
+                    if (RevitShell.UiDocument is null) return;
                     var references = solid.Faces
                         .Cast<Face>()
                         .Select(face => face.Reference)
@@ -63,9 +63,9 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
 
                     if (references.Count == 0) return;
 
-                    var element = references[0].ElementId.ToElement(RevitApi.Document);
-                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetReferences(references);
+                    var element = references[0].ElementId.ToElement(RevitShell.Document);
+                    if (element is not null) RevitShell.UiDocument.ShowElements(element);
+                    RevitShell.UiDocument.Selection.SetReferences(references);
                 });
             })
             .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);

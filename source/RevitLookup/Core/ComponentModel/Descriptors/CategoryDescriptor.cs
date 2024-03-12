@@ -60,8 +60,8 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
     {
         return target switch
         {
-            "AllowsVisibilityControl" => ResolveSet.Append(_category.get_AllowsVisibilityControl(RevitApi.ActiveView), "Active view"),
-            "Visible" => ResolveSet.Append(_category.get_Visible(RevitApi.ActiveView), "Active view"),
+            "AllowsVisibilityControl" => ResolveSet.Append(_category.get_AllowsVisibilityControl(RevitShell.ActiveView), "Active view"),
+            "Visible" => ResolveSet.Append(_category.get_Visible(RevitShell.ActiveView), "Active view"),
             nameof(Category.GetGraphicsStyle) => ResolveSet
                 .Append(_category.GetGraphicsStyle(GraphicsStyleType.Cut), "Cut")
                 .AppendVariant(_category.GetGraphicsStyle(GraphicsStyleType.Projection), "Projection"),

@@ -102,9 +102,9 @@ public sealed class EventMonitor
 
     private static IEnumerable FindValidTargets(Type targetType)
     {
-        if (targetType == typeof(Document)) return RevitApi.Application.Documents;
-        if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return new[] {RevitApi.Application};
-        if (targetType == typeof(UIApplication)) return new[] {RevitApi.UiApplication};
+        if (targetType == typeof(Document)) return RevitShell.Application.Documents;
+        if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return new[] {RevitShell.Application};
+        if (targetType == typeof(UIApplication)) return new[] {RevitShell.UiApplication};
 
         return null;
     }

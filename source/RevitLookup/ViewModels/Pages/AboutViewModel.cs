@@ -18,9 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Runtime;
+using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using RevitLookup.Models.Options;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.Views.Dialogs;
@@ -31,12 +34,19 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed partial class AboutViewModel(
     ISoftwareUpdateService updateService,
     IContentDialogService dialogService,
-    IConfiguration configuration)
+    IOptions<AssemblyInfo> assemblyOptions)
     : ObservableObject
 {
-    [ObservableProperty] private string _dotNetVersion = configuration.GetValue<string>("Framework");
     [ObservableProperty] private bool _isUpdateChecked;
-    [ObservableProperty] private string _runtimeVersion = Environment.Version.ToString();
+
+    [ObservableProperty] private string _runtime = new StringBuilder()
+        .Append(assemblyOptions.Value.Framework)
+        .Append(' ')
+        .Append(Environment.Is64BitProcess ? "x64" : "x86")
+        .Append(" (")
+        .Append(GCSettings.IsServerGC ? "Server" : "Workstation")
+        .Append(" GC)")
+        .ToString();
 
     [RelayCommand]
     private async Task CheckUpdatesAsync()
@@ -49,7 +59,7 @@ public sealed partial class AboutViewModel(
         OnPropertyChanged(nameof(LatestCheckDate));
         OnPropertyChanged(nameof(ReleaseNotesUrl));
     }
-
+    
     [RelayCommand]
     private async Task DownloadUpdateAsync()
     {
@@ -57,22 +67,22 @@ public sealed partial class AboutViewModel(
         OnPropertyChanged(nameof(State));
         OnPropertyChanged(nameof(ErrorMessage));
     }
-
+    
     [RelayCommand]
     private Task ShowSoftwareDialogAsync()
     {
         var openSourceDialog = new OpenSourceDialog(dialogService);
         return openSourceDialog.ShowAsync();
     }
-
+    
     #region Updater Wrapping
-
+    
     public SoftwareUpdateState State => updateService.State;
-    public string CurrentVersion => updateService.CurrentVersion;
+    public Version CurrentVersion => updateService.CurrentVersion;
     public string NewVersion => updateService.NewVersion;
     public string ErrorMessage => updateService.ErrorMessage;
     public string ReleaseNotesUrl => updateService.ReleaseNotesUrl;
     public string LatestCheckDate => updateService.LatestCheckDate;
-
+    
     #endregion
 }

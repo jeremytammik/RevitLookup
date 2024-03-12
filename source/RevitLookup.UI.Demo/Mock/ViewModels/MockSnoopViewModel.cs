@@ -28,7 +28,7 @@ using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
 
-namespace RevitLookup.UI.Demo.Mock;
+namespace RevitLookup.UI.Demo.Mock.ViewModels;
 
 public sealed partial class MockSnoopViewModel(NotificationService notificationService, IServiceProvider provider) : ObservableObject, ISnoopViewModel
 {

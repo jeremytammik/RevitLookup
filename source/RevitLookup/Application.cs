@@ -39,7 +39,7 @@ public class Application : ExternalApplication
 
     public override void OnStartup()
     {
-        RevitApi.UiApplication = UiApplication;
+        RevitShell.UiApplication = UiApplication;
         RegisterHandlers();
         Host.Start();
 
@@ -83,7 +83,7 @@ public class Application : ExternalApplication
         if (!settingsService.UseHardwareRendering) return;
 
         //Revit overrides render mode during initialization
-        //EventHandler is called after initialisation
+        //EventHandler is called after initialization
         ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
     }
 

@@ -26,29 +26,29 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using Wpf.Ui;
 
-namespace RevitLookup.UI.Demo.Mock;
+namespace RevitLookup.UI.Demo.Mock.Services;
 
 public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILookupService
 {
     private Window _owner;
     private Task _activeTask;
-    private readonly IServiceProvider _serviceProvider = scopeFactory.CreateScope().ServiceProvider;
+    private readonly IServiceScope _scope = scopeFactory.CreateScope();
 
     public ILookupServiceDependsStage Snoop(SnoopableType snoopableType)
     {
-        _activeTask = _serviceProvider.GetService<ISnoopVisualService>()!.SnoopAsync(snoopableType);
+        _activeTask = _scope.ServiceProvider.GetService<ISnoopVisualService>()!.SnoopAsync(snoopableType);
         return this;
     }
 
     public ILookupServiceDependsStage Snoop(SnoopableObject snoopableObject)
     {
-        _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObject);
+        _scope.ServiceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObject);
         return this;
     }
 
     public ILookupServiceDependsStage Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
     {
-        _serviceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObjects);
+        _scope.ServiceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObjects);
         return this;
     }
 
@@ -82,12 +82,12 @@ public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILook
         {
             _activeTask = _activeTask.ContinueWith(_ => InvokeHandler(handler), TaskScheduler.FromCurrentSynchronizationContext());
         }
-
     }
 
     private void ShowPage<T>() where T : Page
     {
-        var window = (Window) _serviceProvider.GetService<IWindow>();
+        var window = (Window) _scope.ServiceProvider.GetService<IWindow>();
+        window.Closed += OnWindowClosed;
 
         if (_owner is null)
         {
@@ -100,12 +100,17 @@ public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILook
         }
 
         window.Show();
-        _serviceProvider.GetService<INavigationService>().Navigate(typeof(T));
+        _scope.ServiceProvider.GetService<INavigationService>().Navigate(typeof(T));
     }
 
     private void InvokeHandler<T>(Action<T> handler) where T : class
     {
-        var service = _serviceProvider.GetService<T>();
+        var service = _scope.ServiceProvider.GetService<T>();
         handler.Invoke(service);
+    }
+
+    private void OnWindowClosed(object sender, EventArgs e)
+    {
+        _scope.Dispose();
     }
 }

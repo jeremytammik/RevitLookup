@@ -29,7 +29,7 @@ public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
 {
     public SchedulableFieldDescriptor(SchedulableField field)
     {
-        Name = field.GetName(RevitApi.Document);
+        Name = field.GetName(RevitShell.Document);
     }
 
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)

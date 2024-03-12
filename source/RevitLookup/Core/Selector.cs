@@ -57,22 +57,22 @@ public static class Selector
 
     private static IReadOnlyCollection<SnoopableObject> SnoopView()
     {
-        return new SnoopableObject[] {new(RevitApi.ActiveView)};
+        return new SnoopableObject[] {new(RevitShell.ActiveView)};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopDocument()
     {
-        return new SnoopableObject[] {new(RevitApi.Document)};
+        return new SnoopableObject[] {new(RevitShell.Document)};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopApplication()
     {
-        return new SnoopableObject[] {new(RevitApi.Application)};
+        return new SnoopableObject[] {new(RevitShell.Application)};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopUiApplication()
     {
-        return new SnoopableObject[] {new(RevitApi.UiApplication)};
+        return new SnoopableObject[] {new(RevitShell.UiApplication)};
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopEdge()
@@ -102,24 +102,24 @@ public static class Selector
 
     private static IReadOnlyCollection<SnoopableObject> SnoopSelection()
     {
-        var selectedIds = RevitApi.UiApplication.ActiveUIDocument.Selection.GetElementIds();
+        var selectedIds = RevitShell.UiApplication.ActiveUIDocument.Selection.GetElementIds();
         if (selectedIds.Count > 0)
-            return RevitApi.Document
+            return RevitShell.Document
                 .GetElements(selectedIds)
                 .WherePasses(new ElementIdSetFilter(selectedIds))
                 .Select(element => new SnoopableObject(element))
                 .ToList();
 
-        return RevitApi.Document
-            .GetElements(RevitApi.ActiveView.Id)
+        return RevitShell.Document
+            .GetElements(RevitShell.ActiveView.Id)
             .Select(element => new SnoopableObject(element))
             .ToList();
     }
 
     private static IReadOnlyCollection<SnoopableObject> SnoopDatabase()
     {
-        var elementTypes = RevitApi.Document.GetElements().WhereElementIsElementType();
-        var elementInstances = RevitApi.Document.GetElements().WhereElementIsNotElementType();
+        var elementTypes = RevitShell.Document.GetElements().WhereElementIsElementType();
+        var elementInstances = RevitShell.Document.GetElements().WhereElementIsNotElementType();
         return elementTypes
             .UnionWith(elementInstances)
             .Select(element => new SnoopableObject(element))
@@ -128,11 +128,11 @@ public static class Selector
 
     private static IReadOnlyCollection<SnoopableObject> SnoopDependentElements()
     {
-        var selectedIds = RevitApi.UiDocument!.Selection.GetElementIds();
+        var selectedIds = RevitShell.UiDocument!.Selection.GetElementIds();
         if (selectedIds.Count == 0) return Array.Empty<SnoopableObject>();
 
         var elements = new List<ElementId>();
-        var selectedElements = RevitApi.Document.GetElements(selectedIds).WhereElementIsNotElementType();
+        var selectedElements = RevitShell.Document.GetElements(selectedIds).WhereElementIsNotElementType();
 
         foreach (var selectedElement in selectedElements)
         {
@@ -140,7 +140,7 @@ public static class Selector
             foreach (var dependentElement in dependentElements) elements.Add(dependentElement);
         }
 
-        return RevitApi.Document.GetElements()
+        return RevitShell.Document.GetElements()
             .WherePasses(new ElementIdSetFilter(elements))
             .Select(element => new SnoopableObject(element))
             .ToList();
@@ -173,24 +173,24 @@ public static class Selector
 
     private static SnoopableObject SelectObject(ObjectType objectType)
     {
-        var reference = RevitApi.UiDocument!.Selection.PickObject(objectType);
+        var reference = RevitShell.UiDocument!.Selection.PickObject(objectType);
 
         object element;
         switch (objectType)
         {
             case ObjectType.Edge:
             case ObjectType.Face:
-                element = RevitApi.Document.GetElement(reference).GetGeometryObjectFromReference(reference);
+                element = RevitShell.Document.GetElement(reference).GetGeometryObjectFromReference(reference);
                 break;
             case ObjectType.Element:
             case ObjectType.Subelement:
-                element = RevitApi.Document.GetElement(reference);
+                element = RevitShell.Document.GetElement(reference);
                 break;
             case ObjectType.PointOnElement:
                 element = reference.GlobalPoint;
                 break;
             case ObjectType.LinkedElement:
-                var revitLinkInstance = reference.ElementId.ToElement<RevitLinkInstance>(RevitApi.Document);
+                var revitLinkInstance = reference.ElementId.ToElement<RevitLinkInstance>(RevitShell.Document);
                 element = revitLinkInstance.GetLinkDocument().GetElement(reference.LinkedElementId);
                 break;
             case ObjectType.Nothing:

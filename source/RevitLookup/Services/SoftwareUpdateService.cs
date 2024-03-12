@@ -19,26 +19,31 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using RevitLookup.Models.Options;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.DTO;
 using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Services;
 
-public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<SoftwareUpdateService> logger) : ISoftwareUpdateService
+public sealed class SoftwareUpdateService(
+    IOptions<AssemblyInfo> assemblyOptions,
+    IOptions<FolderLocations> foldersOptions,
+    ILogger<SoftwareUpdateService> logger)
+    : ISoftwareUpdateService
 {
-    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
-    private readonly bool _writeAccess = configuration.GetValue<string>("FolderAccess") == "Write";
     private string _downloadUrl;
+    private readonly AssemblyInfo _assemblyInfo = assemblyOptions.Value;
+    private readonly FolderLocations _folderLocations = foldersOptions.Value;
+    private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
     
     public SoftwareUpdateState State { get; private set; }
-    public string CurrentVersion { get; } = configuration.GetValue<string>("AddinVersion");
+    public Version CurrentVersion => _assemblyInfo.AddinVersion;
     public string NewVersion { get; private set; }
     public string LatestCheckDate { get; private set; }
     public string ReleaseNotesUrl { get; private set; }
@@ -88,13 +93,12 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
                 
                 // Finding a new version
                 Version newVersionTag = null;
-                var currentTag = new Version(CurrentVersion);
                 foreach (var asset in latestRelease.Assets)
                 {
                     var match = _versionRegex.Match(asset.Name);
                     if (!match.Success) continue;
-                    if (!match.Value.StartsWith(currentTag.Major.ToString())) continue;
-                    if (_writeAccess && asset.Name.Contains("MultiUser")) continue;
+                    if (!match.Value.StartsWith(CurrentVersion.Major.ToString())) continue;
+                    if (!_assemblyInfo.IsAdminInstallation && asset.Name.Contains("MultiUser")) continue;
                     
                     newVersionTag = new Version(match.Value);
                     _downloadUrl = asset.DownloadUrl;
@@ -109,23 +113,26 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
                 }
                 
                 // Checking for a new release version
-                if (newVersionTag <= currentTag)
+                if (newVersionTag <= CurrentVersion)
                 {
                     State = SoftwareUpdateState.UpToDate;
                     return;
                 }
                 
                 // Checking downloaded releases
-                var downloadFolder = configuration.GetValue<string>("DownloadFolder");
                 NewVersion = newVersionTag.ToString(3);
-                if (Directory.Exists(downloadFolder))
-                    foreach (var file in Directory.EnumerateFiles(downloadFolder))
+                if (Directory.Exists(_folderLocations.DownloadFolder))
+                {
+                    foreach (var file in Directory.EnumerateFiles(_folderLocations.DownloadFolder))
+                    {
                         if (file.EndsWith(Path.GetFileName(_downloadUrl)!))
                         {
                             LocalFilePath = file;
                             State = SoftwareUpdateState.ReadyToInstall;
                             return;
                         }
+                    }
+                }
                 
                 State = SoftwareUpdateState.ReadyToDownload;
                 ReleaseNotesUrl = latestRelease.Url;
@@ -158,10 +165,9 @@ public sealed class SoftwareUpdateService(IConfiguration configuration, ILogger<
     {
         try
         {
-            var downloadFolder = configuration.GetValue<string>("DownloadFolder");
-            Directory.CreateDirectory(downloadFolder);
-            var fileName = Path.Combine(downloadFolder, Path.GetFileName(_downloadUrl)!);
-
+            Directory.CreateDirectory(_folderLocations.DownloadFolder);
+            var fileName = Path.Combine(_folderLocations.DownloadFolder, Path.GetFileName(_downloadUrl)!);
+            
             using var httpClient = new HttpClient();
             var response = await httpClient.GetStreamAsync(_downloadUrl);
             

@@ -31,7 +31,7 @@ public static class Host
         builder.Logging.AddLoggerConfiguration();
 
         //Configuration
-        builder.Configuration.AddFoldersConfiguration();
+        builder.Configuration.AddOptions(builder.Services);
 
         //App services
         builder.Services.AddSingleton<ISettingsService, SettingsService>();

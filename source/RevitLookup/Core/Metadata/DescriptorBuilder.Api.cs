@@ -30,7 +30,7 @@ public sealed partial class DescriptorBuilder
         var builder = new DescriptorBuilder
         {
             _obj = null,
-            Context = RevitApi.Document
+            Context = RevitShell.Document
         };
 
         return builder.BuildStaticObject(type);

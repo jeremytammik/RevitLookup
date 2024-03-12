@@ -6,12 +6,15 @@ using Microsoft.Extensions.Logging;
 using RevitLookup.Config;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
-using RevitLookup.UI.Demo.Mock;
+using RevitLookup.UI.Demo.Mock.Services;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
+using MockDashboardViewModel = RevitLookup.UI.Demo.Mock.ViewModels.MockDashboardViewModel;
+using MockEventsViewModel = RevitLookup.UI.Demo.Mock.ViewModels.MockEventsViewModel;
+using MockSnoopViewModel = RevitLookup.UI.Demo.Mock.ViewModels.MockSnoopViewModel;
 
 namespace RevitLookup.UI.Demo;
 
@@ -30,7 +33,7 @@ public static class HostProvider
         builder.Logging.AddLoggerConfiguration();
 
         //Configuration
-        builder.Configuration.AddFoldersConfiguration();
+        builder.Configuration.AddOptions(builder.Services);
 
         //App services
         builder.Services.AddSingleton<ISettingsService, SettingsService>();

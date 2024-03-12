@@ -54,11 +54,11 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitApi.UiDocument is null) return;
+                    if (RevitShell.UiDocument is null) return;
                     if (edge.Reference is null) return;
-                    var element = edge.Reference.ElementId.ToElement(RevitApi.Document);
-                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
+                    var element = edge.Reference.ElementId.ToElement(RevitShell.Document);
+                    if (element is not null) RevitShell.UiDocument.ShowElements(element);
+                    RevitShell.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
                 });
             })
             .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);

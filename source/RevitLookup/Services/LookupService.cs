@@ -155,20 +155,20 @@ public sealed class LookupService : ILookupService
     {
         private Window _owner;
         private Task _activeTask;
-        private readonly IServiceScope _serviceScope;
+        private readonly IServiceScope _scope;
         private readonly ISnoopVisualService _visualService;
         private readonly INavigationService _navigationService;
         private readonly Window _window;
 
         public LookupServiceImpl(IServiceScopeFactory scopeFactory)
         {
-            _serviceScope = scopeFactory.CreateScope();
+            _scope = scopeFactory.CreateScope();
 
-            _window = (Window) _serviceScope.ServiceProvider.GetService<IWindow>();
-            _visualService = _serviceScope.ServiceProvider.GetService<ISnoopVisualService>();
-            _navigationService = _serviceScope.ServiceProvider.GetService<INavigationService>();
+            _window = (Window) _scope.ServiceProvider.GetService<IWindow>();
+            _visualService = _scope.ServiceProvider.GetService<ISnoopVisualService>();
+            _navigationService = _scope.ServiceProvider.GetService<INavigationService>();
 
-            _window.Closed += (_, _) => _serviceScope.Dispose();
+            _window.Closed += (_, _) => _scope.Dispose();
         }
 
         public void Snoop(SnoopableType snoopableType)
@@ -217,7 +217,7 @@ public sealed class LookupService : ILookupService
 
         private void InvokeHandler<T>(Action<T> handler) where T : class
         {
-            var service = _serviceScope.ServiceProvider.GetService<T>();
+            var service = _scope.ServiceProvider.GetService<T>();
             handler.Invoke(service);
         }
 
@@ -233,7 +233,7 @@ public sealed class LookupService : ILookupService
                 _window.Top = _owner.Top + 49;
             }
 
-            _window.Show(RevitApi.UiApplication.MainWindowHandle);
+            _window.Show(RevitShell.UiApplication.MainWindowHandle);
             _navigationService.Navigate(typeof(T));
         }
     }

@@ -51,11 +51,11 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitApi.UiDocument is null) return;
+                    if (RevitShell.UiDocument is null) return;
                     if (curve.Reference is null) return;
-                    var element = curve.Reference.ElementId.ToElement(RevitApi.Document);
-                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {curve.Reference});
+                    var element = curve.Reference.ElementId.ToElement(RevitShell.Document);
+                    if (element is not null) RevitShell.UiDocument.ShowElements(element);
+                    RevitShell.UiDocument.Selection.SetReferences(new List<Reference>(1) {curve.Reference});
                 });
             })
             .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);

@@ -50,9 +50,9 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitApi.UiDocument is null) return;
-                    RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
+                    if (RevitShell.UiDocument is null) return;
+                    RevitShell.UiDocument.ShowElements(element);
+                    RevitShell.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
                 });
             })
             .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
@@ -76,24 +76,24 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
     {
         return target switch
         {
-            nameof(Element.CanBeHidden) => ResolveSet.Append(_element.CanBeHidden(RevitApi.ActiveView), "Active view"),
-            nameof(Element.IsHidden) => ResolveSet.Append(_element.IsHidden(RevitApi.ActiveView), "Active view"),
+            nameof(Element.CanBeHidden) => ResolveSet.Append(_element.CanBeHidden(RevitShell.ActiveView), "Active view"),
+            nameof(Element.IsHidden) => ResolveSet.Append(_element.IsHidden(RevitShell.ActiveView), "Active view"),
             nameof(Element.GetDependentElements) => ResolveSet.Append(_element.GetDependentElements(null)),
             nameof(Element.GetMaterialIds) => ResolveSet
                 .Append(_element.GetMaterialIds(true), "Paint materials")
                 .AppendVariant(_element.GetMaterialIds(false), "Geometry and compound structure materials"),
             "BoundingBox" => ResolveSet
                 .Append(_element.get_BoundingBox(null), "Model")
-                .AppendVariant(_element.get_BoundingBox(RevitApi.ActiveView), "Active view"),
+                .AppendVariant(_element.get_BoundingBox(RevitShell.ActiveView), "Active view"),
             "Geometry" => new ResolveSet(10)
                 .AppendVariant(_element.get_Geometry(new Options
                 {
-                    View = RevitApi.ActiveView,
+                    View = RevitShell.ActiveView,
                     ComputeReferences = true
                 }), "Active view")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
-                    View = RevitApi.ActiveView,
+                    View = RevitShell.ActiveView,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
                 }), "Active view, including non-visible objects")

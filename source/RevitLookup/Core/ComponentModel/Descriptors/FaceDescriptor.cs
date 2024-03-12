@@ -54,11 +54,11 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitApi.UiDocument is null) return;
+                    if (RevitShell.UiDocument is null) return;
                     if (face.Reference is null) return;
-                    var element = face.Reference.ElementId.ToElement(RevitApi.Document);
-                    if (element is not null) RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetReferences(new List<Reference>(1) {face.Reference});
+                    var element = face.Reference.ElementId.ToElement(RevitShell.Document);
+                    if (element is not null) RevitShell.UiDocument.ShowElements(element);
+                    RevitShell.UiDocument.Selection.SetReferences(new List<Reference>(1) {face.Reference});
                 });
             })
             .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);

@@ -29,8 +29,8 @@ public static class ContextUtils
         var context = FindContext(obj);
         if (context is not null) return context;
 
-        if (RevitApi.UiApplication is null) return null;
-        return RevitApi.Document;
+        if (RevitShell.UiApplication is null) return null;
+        return RevitShell.Document;
     }
 
     public static Document FindSuitableContext(object obj, Document context)

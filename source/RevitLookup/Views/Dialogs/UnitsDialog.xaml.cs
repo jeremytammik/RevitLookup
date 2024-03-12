@@ -49,7 +49,7 @@ public sealed partial class UnitsDialog
 
     public async Task ShowParametersAsync()
     {
-        _viewModel.Units = await Task.Run(RevitApi.GetUnitInfos<BuiltInParameter>);
+        _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<BuiltInParameter>);
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "BuiltIn Parameters",
@@ -63,7 +63,7 @@ public sealed partial class UnitsDialog
 
     public async Task ShowCategoriesAsync()
     {
-        _viewModel.Units = await Task.Run(RevitApi.GetUnitInfos<BuiltInCategory>);
+        _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<BuiltInCategory>);
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "BuiltIn Categories",
@@ -77,7 +77,7 @@ public sealed partial class UnitsDialog
 
     public async Task ShowForgeSchemaAsync()
     {
-        _viewModel.Units = await Task.Run(RevitApi.GetUnitInfos<ForgeTypeId>);
+        _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<ForgeTypeId>);
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "Forge Schema",
@@ -117,8 +117,8 @@ public sealed partial class UnitsDialog
             {
                 var obj = unitInfo.UnitObject switch
                 {
-                    BuiltInParameter parameter => RevitApi.GetBuiltinParameter(parameter),
-                    BuiltInCategory category => RevitApi.GetBuiltinCategory(category),
+                    BuiltInParameter parameter => RevitShell.GetBuiltinParameter(parameter),
+                    BuiltInCategory category => RevitShell.GetBuiltinCategory(category),
                     _ => unitInfo.UnitObject
                 };
 

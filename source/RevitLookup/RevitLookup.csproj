@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Version>2024.0</Version>
+        <Version>2024</Version>
         <UseWPF>true</UseWPF>
         <Nullable>disable</Nullable>
         <LangVersion>latest</LangVersion>

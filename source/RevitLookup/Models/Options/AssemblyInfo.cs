@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,22 +18,11 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
-using Autodesk.Revit.DB;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
+namespace RevitLookup.Models.Options;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
-
-public sealed class WorksetTableDescriptor : Descriptor, IDescriptorResolver
+public class AssemblyInfo
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
-    {
-        return target switch
-        {
-            nameof(WorksetTable.GetWorkset) when parameters.Length == 1 && parameters[0].ParameterType == typeof(WorksetId) =>
-                ResolveSet.Append(new FilteredWorksetCollector(RevitShell.Document).ToWorksets()),
-            _ => null
-        };
-    }
+    public string Framework { get; set; }
+    public Version AddinVersion { get; set; }
+    public bool IsAdminInstallation { get; set; }
 }

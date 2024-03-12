@@ -26,7 +26,7 @@ using RevitLookup.Models;
 
 namespace RevitLookup.Core;
 
-public static class RevitApi
+public static class RevitShell
 {
     public static UIApplication UiApplication { get; set; }
     public static Autodesk.Revit.ApplicationServices.Application Application => UiApplication.Application;

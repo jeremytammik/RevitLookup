@@ -29,7 +29,7 @@ using RevitLookup.Services.Enums;
 using RevitLookup.ViewModels.Contracts;
 using Visibility = System.Windows.Visibility;
 
-namespace RevitLookup.UI.Demo.Mock;
+namespace RevitLookup.UI.Demo.Mock.Services;
 
 public sealed class MockSnoopVisualService(NotificationService notificationService, ISnoopViewModel viewModel, IWindow window) : ISnoopVisualService
 {

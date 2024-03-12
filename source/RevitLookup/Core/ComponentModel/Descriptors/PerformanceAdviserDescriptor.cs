@@ -40,7 +40,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
                 {
                     case nameof(PerformanceAdviser.ExecuteAllRules):
                     {
-                        resolveSet.AppendVariant(adviser.ExecuteAllRules(RevitApi.Document));
+                        resolveSet.AppendVariant(adviser.ExecuteAllRules(RevitShell.Document));
                         break;
                     }
                     default:
@@ -87,7 +87,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
                     case nameof(PerformanceAdviser.GetElementFilterFromRule):
                     {
                         for (var i = 0; i < rules; i++)
-                            resolveSet.AppendVariant(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, RevitApi.Document)));
+                            resolveSet.AppendVariant(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, RevitShell.Document)));
                         break;
                     }
                     default:
