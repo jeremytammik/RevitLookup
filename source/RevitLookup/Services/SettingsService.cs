@@ -57,158 +57,150 @@ internal sealed class Settings
 public sealed class SettingsService : ISettingsService
 {
     private const int DefaultTransitionDuration = 200;
+
     private readonly FolderLocations _folderLocations;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
     private readonly ILogger<SettingsService> _logger;
     private readonly Settings _settings;
-
-    public SettingsService(IOptions<FolderLocations> foldersOptions, ILogger<SettingsService> logger)
+    
+    public SettingsService(IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
     {
         _folderLocations = foldersOptions.Value;
+        _jsonSerializerOptions = jsonOptions.Value;
         _logger = logger;
         _settings = LoadSettings();
     }
-
+    
     public ApplicationTheme Theme
     {
         get => _settings.Theme;
         set => _settings.Theme = value;
     }
-
+    
     public WindowBackdropType Background
     {
         get => _settings.Background;
         set => _settings.Background = value;
     }
-
+    
     public int TransitionDuration
     {
         get => _settings.TransitionDuration;
         private set => _settings.TransitionDuration = value;
     }
-
+    
     public bool UseHardwareRendering
     {
         get => _settings.UseHardwareRendering;
         set => _settings.UseHardwareRendering = value;
     }
-
+    
     public bool ShowTimeColumn
     {
         get => _settings.ShowTimeColumn;
         set => _settings.ShowTimeColumn = value;
     }
-
+    
     public bool UseModifyTab
     {
         get => _settings.UseModifyTab;
         set => _settings.UseModifyTab = value;
     }
-
+    
     public bool UseSizeRestoring
     {
         get => _settings.UseSizeRestoring;
         set => _settings.UseSizeRestoring = value;
     }
-
+    
     public double WindowWidth
     {
         get => _settings.WindowWidth;
         set => _settings.WindowWidth = value;
     }
-
+    
     public double WindowHeight
     {
         get => _settings.WindowHeight;
         set => _settings.WindowHeight = value;
     }
-
+    
     public bool IncludeUnsupported
     {
         get => _settings.IncludeUnsupported;
         set => _settings.IncludeUnsupported = value;
     }
-
+    
     public bool IncludePrivate
     {
         get => _settings.IncludePrivate;
         set => _settings.IncludePrivate = value;
     }
-
+    
     public bool IncludeStatic
     {
         get => _settings.IncludeStatic;
         set => _settings.IncludeStatic = value;
     }
-
+    
     public bool IncludeFields
     {
         get => _settings.IncludeFields;
         set => _settings.IncludeFields = value;
     }
-
+    
     public bool IncludeEvents
     {
         get => _settings.IncludeEvents;
         set => _settings.IncludeEvents = value;
     }
-
+    
     public bool IncludeExtensions
     {
         get => _settings.IncludeExtensions;
         set => _settings.IncludeExtensions = value;
     }
-
+    
     public bool IncludeRootHierarchy
     {
         get => _settings.IncludeRootHierarchy;
         set => _settings.IncludeRootHierarchy = value;
     }
-
+    
     public int ApplyTransition(bool value)
     {
         return TransitionDuration = value ? DefaultTransitionDuration : 0;
     }
-
+    
     public void Save()
     {
         Directory.CreateDirectory(Path.GetDirectoryName(_folderLocations.SettingsPath)!);
-
-        var jsonSerializerOptions = new JsonSerializerOptions
+        
+        try
         {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            Converters =
-            {
-                new JsonStringEnumConverter()
-            }
-        };
-
-        var json = JsonSerializer.Serialize(_settings, jsonSerializerOptions);
-
-        File.WriteAllText(_folderLocations.SettingsPath, json);
+            var json = JsonSerializer.Serialize(_settings, _jsonSerializerOptions);
+            File.WriteAllText(_folderLocations.SettingsPath, json);
+        }
+        catch
+        {
+            _logger.LogInformation("Settings serializing error");
+        }
     }
-
+    
     private Settings LoadSettings()
     {
         if (!File.Exists(_folderLocations.SettingsPath)) return new Settings();
-
+        
         try
         {
             using var config = File.OpenRead(_folderLocations.SettingsPath);
-            var jsonSerializerOptions = new JsonSerializerOptions
-            {
-                Converters =
-                {
-                    new JsonStringEnumConverter()
-                }
-            };
-
-            return JsonSerializer.Deserialize<Settings>(config, jsonSerializerOptions);
+            return JsonSerializer.Deserialize<Settings>(config, _jsonSerializerOptions);
         }
         catch
         {
             _logger.LogInformation("Settings deserializing error");
         }
-
+        
         return new Settings();
     }
 }

@@ -2,6 +2,8 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.Versioning;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Models.Options;
@@ -24,19 +26,25 @@ public static class OptionsConfiguration
         var rootPath = configuration.GetValue<string>("contentRoot");
         var fileVersion = new Version(versionInfo.FileVersion!);
 
-        services.Configure<AssemblyInfo>(info =>
+        services.Configure<AssemblyInfo>(options =>
         {
-            info.Framework = targetFrameworkAttribute.FrameworkDisplayName;
-            info.AddinVersion = new Version(fileVersion.Major, fileVersion.Minor, fileVersion.Build);
-            info.IsAdminInstallation = assemblyLocation.StartsWith(appDataPath) || !AccessUtils.CheckWriteAccess(assemblyLocation);
+            options.Framework = targetFrameworkAttribute.FrameworkDisplayName;
+            options.AddinVersion = new Version(fileVersion.Major, fileVersion.Minor, fileVersion.Build);
+            options.IsAdminInstallation = assemblyLocation.StartsWith(appDataPath) || !AccessUtils.CheckWriteAccess(assemblyLocation);
         });
 
-        services.Configure<FolderLocations>(info =>
+        services.Configure<FolderLocations>(options =>
         {
-            info.RootFolder = rootPath;
-            info.ConfigFolder = Path.Combine(rootPath, "Config");
-            info.DownloadFolder = Path.Combine(rootPath, "Downloads");
-            info.SettingsPath = Path.Combine(rootPath, "Config", "Settings.cfg");
+            options.RootFolder = rootPath;
+            options.ConfigFolder = Path.Combine(rootPath, "Config");
+            options.DownloadFolder = Path.Combine(rootPath, "Downloads");
+            options.SettingsPath = Path.Combine(rootPath, "Config", "Settings.cfg");
+        });
+        
+        services.Configure<JsonSerializerOptions>(options =>
+        {
+            options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+            options.Converters.Add(new JsonStringEnumConverter());
         });
     }
 }
