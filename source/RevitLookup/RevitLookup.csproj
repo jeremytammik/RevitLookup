@@ -81,7 +81,7 @@
         <PackageReference Include="Nice3point.Revit.Api.UIFramework" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="Nice3point.Revit.Api.UIFrameworkServices" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.*"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.*"/>
         <PackageReference Include="PolySharp" Version="1.*">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
