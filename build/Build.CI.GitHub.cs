@@ -74,6 +74,7 @@ sealed partial class Build
         Assert.True(changelog.Length > 0, $"No version entry exists in the changelog: {version}");
 
         WriteCompareUrl(version, changelog);
+        WriteAdditionalInfo(changelog);
         return changelog.ToString();
     }
 
@@ -85,6 +86,11 @@ sealed partial class Build
         if (changelog[^1] != '\r' || changelog[^1] != '\n') changelog.AppendLine(Environment.NewLine);
         changelog.Append("Full changelog: ");
         changelog.Append(GitRepository.GetGitHubCompareTagsUrl(version, tags.Last().Text));
+    }
+
+    void WriteAdditionalInfo(StringBuilder changelog)
+    {
+        changelog.Append("RevitLookup versioning: https://github.com/jeremytammik/RevitLookup/wiki/Versions");
     }
 
     StringBuilder BuildChangelog(string version)
