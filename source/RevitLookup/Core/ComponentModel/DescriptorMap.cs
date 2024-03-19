@@ -26,6 +26,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.DB.Visual;
 using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Objects;
@@ -104,6 +105,8 @@ public static class DescriptorMap
             Workset value when type is null || type == typeof(Workset) => new WorksetDescriptor(value),
             WorksetTable when type is null || type == typeof(WorksetTable) => new WorksetTableDescriptor(),
             BoundarySegment value when type is null || type == typeof(BoundarySegment) => new BoundarySegmentDescriptor(value),
+            AssetProperties value when type is null || type == typeof(AssetProperties) => new AssetPropertiesDescriptor(value),
+            AssetProperty value when type is null || type == typeof(AssetProperty) => new AssetPropertyDescriptor(value),
 #if R24_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
