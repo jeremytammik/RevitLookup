@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <LangVersion>latest</LangVersion>
-        <ImplicitUsings>enable</ImplicitUsings>
         <TargetFramework>net48</TargetFramework>
     </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.13.*" />
+        <PackageReference Include="BenchmarkDotNet"/>
     </ItemGroup>
+
 </Project>

@@ -1,0 +1,23 @@
+﻿<Project>
+
+    <PropertyGroup>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>true</ImplicitUsings>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageVersion Include="Bogus" Version="35.5.0"/>
+        <PackageVersion Include="BenchmarkDotNet" Version="0.13.12"/>
+        <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2"/>
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="7.0.1" Condition="$(Configuration.Contains('R25'))"/>
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0"/>
+        <PackageVersion Include="Nuke.Common" Version="8.0.0"/>
+        <PackageVersion Include="PolySharp" Version="1.14.1" PrivateAssets="All" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+        <PackageVersion Include="JetBrains.Annotations" Version="2023.3.0"/>
+        <PackageVersion Include="WixSharp.bin" Version="1.25.2"/>
+        <PackageVersion Include="WixSharp.wix.bin" Version="3.14.0.1"/>
+    </ItemGroup>
+
+</Project>

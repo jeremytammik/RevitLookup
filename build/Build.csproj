@@ -3,8 +3,6 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <NoWarn>CS0649;CS0169</NoWarn>
-        <LangVersion>latest</LangVersion>
-        <ImplicitUsings>true</ImplicitUsings>
         <TargetFramework>net8.0</TargetFramework>
         <NukeRootDirectory>..</NukeRootDirectory>
         <NukeScriptDirectory>..</NukeScriptDirectory>
@@ -14,7 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nuke.Common" Version="8.0.0"/>
+        <PackageReference Include="Nuke.Common"/>
     </ItemGroup>
 
     <ItemGroup>

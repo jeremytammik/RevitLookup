@@ -2,18 +2,12 @@
 
     <PropertyGroup>
         <UseWPF>true</UseWPF>
-        <LangVersion>latest</LangVersion>
-        <PlatformTarget>x64</PlatformTarget>
-        <ImplicitUsings>true</ImplicitUsings>
-        <TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
-        <NoWarn>CS8603;CS8618;CS8629;CS8600;CS0414;CS4014;CS8604;CS8765;CS8602;CS0168</NoWarn>
-    </PropertyGroup>
-
-    <PropertyGroup>
+        <PlatformTarget>x64</PlatformTarget>
         <RootNamespace>Wpf.Ui</RootNamespace>
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
+        <NoWarn>CS8603;CS8618;CS8629;CS8600;CS0414;CS4014;CS8604;CS8765;CS8602;CS0168</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
@@ -33,10 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="PolySharp" Version="1.*">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="PolySharp"/>
     </ItemGroup>
 
 </Project>
