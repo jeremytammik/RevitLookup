@@ -1,9 +1,17 @@
+#-------------------------------------------------------------------------------#
+#               Qodana analysis is configured by qodana.yaml file               #
+#             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
+#-------------------------------------------------------------------------------#
 version: "1.0"
 linter: jetbrains/qodana-dotnet:latest
 failThreshold: 0
+
+profile:
+  name: qodana.recommended
+
 exclude:
   - name: All
     paths:
-      - RevitLookup.UI
-      - Benchmarks
-      - Installer
+      - source/Benchmarks
+      - source/RevitLookup.UI
+      - source/RevitLookup.UI.Demo
