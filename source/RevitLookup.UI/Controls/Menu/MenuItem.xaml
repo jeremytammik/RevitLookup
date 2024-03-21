@@ -636,8 +636,8 @@
                 <Border
                     x:Name="CheckBoxIconBorder"
                     Grid.Column="0"
-                    Width="20"
-                    Height="20"
+                    Width="16"
+                    Height="16"
                     Margin="0"
                     VerticalAlignment="Center"
                     BorderThickness="1"
@@ -656,6 +656,8 @@
                 <ContentControl
                     x:Name="IconElement"
                     Grid.Column="1"
+                    Width="16"
+                    Height="16"
                     Margin="0,0,6,0"
                     VerticalAlignment="Center"
                     Content="{TemplateBinding Icon}"
@@ -665,13 +667,14 @@
                     Grid.Column="3"
                     ContentSource="Header"
                     RecognizesAccessKey="True"
+                    VerticalAlignment="Center"
                     TextElement.Foreground="{TemplateBinding Foreground}" />
 
                 <TextBlock
                     x:Name="InputGestureText"
                     Grid.Column="4"
                     Margin="25,0,0,0"
-                    VerticalAlignment="Bottom"
+                    VerticalAlignment="Center"
                     DockPanel.Dock="Right"
                     FontSize="11"
                     Foreground="{DynamicResource TextFillColorDisabledBrush}"
@@ -683,10 +686,11 @@
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource MenuBarItemBackgroundSelected}" />
             </Trigger>
             <Trigger Property="Icon" Value="{x:Null}">
-                <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
-                <Setter TargetName="IconElement" Property="Margin" Value="0" />
+                <Setter TargetName="IconElement" Property="Visibility" Value="Hidden" />
+                <!-- <Setter TargetName="IconElement" Property="Margin" Value="0" /> -->
             </Trigger>
             <Trigger Property="IsCheckable" Value="True">
+                <Setter TargetName="IconElement" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="CheckBoxIconBorder" Property="Visibility" Value="Visible" />
                 <Setter TargetName="CheckBoxIconBorder" Property="Margin" Value="0,0,6,0" />
             </Trigger>

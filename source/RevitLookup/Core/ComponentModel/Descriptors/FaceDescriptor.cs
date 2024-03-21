@@ -45,7 +45,7 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
 
-    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
+    public void RegisterMenu(ContextMenu contextMenu)
     {
 #if R23_OR_GREATER
         contextMenu.AddMenuItem()
@@ -58,10 +58,10 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
                     if (face.Reference is null) return;
                     var element = face.Reference.ElementId.ToElement(RevitShell.Document);
                     if (element is not null) RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetReferences(new List<Reference>(1) {face.Reference});
+                    RevitShell.UiDocument.Selection.SetReferences([face.Reference]);
                 });
             })
-            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(ModifierKeys.Alt, Key.F7);
 #endif
     }
 }

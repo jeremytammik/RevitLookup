@@ -35,9 +35,9 @@ public static class VisualUtils
         if (item is null) return null;
         if (container.DataContext == item) return container as TreeViewItem;
         if (container.Items.Count == 0) return null;
-
+        
         if (container is TreeViewItem {IsExpanded: false} viewItem) viewItem.SetValue(TreeViewItem.IsExpandedProperty, true);
-
+        
         container.ApplyTemplate();
         var itemsPresenter = (ItemsPresenter) container.Template.FindName("ItemsHost", container);
         if (itemsPresenter != null)
@@ -53,10 +53,10 @@ public static class VisualUtils
                 itemsPresenter = FindVisualChild<ItemsPresenter>(container);
             }
         }
-
+        
         var itemsHostPanel = (Panel) VisualTreeHelper.GetChild(itemsPresenter, 0);
         var virtualizingPanel = (VirtualizingStackPanel) itemsHostPanel;
-
+        
         for (int i = 0, count = container.Items.Count; i < count; i++)
         {
             virtualizingPanel.BringIndexIntoViewPublic(i);
@@ -65,24 +65,24 @@ public static class VisualUtils
             if (subContainer.DataContext is CollectionViewGroup viewGroup)
                 if ((string) viewGroup.Name != item.Descriptor.Type)
                     continue;
-
+            
             var resultContainer = GetTreeViewItem(subContainer, item);
             if (resultContainer != null) return resultContainer;
-
+            
             subContainer.IsExpanded = false;
         }
-
+        
         return null;
     }
-
+    
     public static TreeViewItem GetTreeViewItem(ItemsControl container, int index)
     {
         if (container == null) return null;
         if (container.Items.Count == 0) return null;
-
+        
         if (container is TreeViewItem {IsExpanded: false} viewItem)
             viewItem.SetValue(TreeViewItem.IsExpandedProperty, true);
-
+        
         container.ApplyTemplate();
         var itemsPresenter = (ItemsPresenter) container.Template.FindName("ItemsHost", container);
         if (itemsPresenter != null)
@@ -98,26 +98,26 @@ public static class VisualUtils
                 itemsPresenter = FindVisualChild<ItemsPresenter>(container);
             }
         }
-
+        
         var itemsHostPanel = (VirtualizingStackPanel) VisualTreeHelper.GetChild(itemsPresenter, 0);
         itemsHostPanel.BringIndexIntoViewPublic(index);
         return (TreeViewItem) container.ItemContainerGenerator.ContainerFromIndex(index);
     }
-
+    
     public static T FindVisualChild<T>(Visual visual) where T : Visual
     {
         for (var i = 0; i < VisualTreeHelper.GetChildrenCount(visual); i++)
         {
             var child = (Visual) VisualTreeHelper.GetChild(visual, i);
             if (child is T correctlyTyped) return correctlyTyped;
-
+            
             var descendent = FindVisualChild<T>(child);
             if (descendent != null) return descendent;
         }
-
+        
         return null;
     }
-
+    
     public static T FindVisualParent<T>(DependencyObject dependencyObject) where T : DependencyObject
     {
         var parentObject = VisualTreeHelper.GetParent(dependencyObject);
@@ -126,7 +126,32 @@ public static class VisualUtils
             if (parentObject is T parent) return parent;
             parentObject = VisualTreeHelper.GetParent(parentObject);
         }
-
+        
+        return null;
+    }
+    
+    public static T FindLogicalChild<T>(Visual visual) where T : Visual
+    {
+        foreach (Visual child in LogicalTreeHelper.GetChildren(visual))
+        {
+            if (child is T correctlyTyped) return correctlyTyped;
+            
+            var descendent = FindLogicalChild<T>(child);
+            if (descendent != null) return descendent;
+        }
+        
+        return null;
+    }
+    
+    public static T FindLogicalParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+    {
+        var parentObject = LogicalTreeHelper.GetParent(dependencyObject);
+        while (parentObject != null)
+        {
+            if (parentObject is T parent) return parent;
+            parentObject = LogicalTreeHelper.GetParent(parentObject);
+        }
+        
         return null;
     }
 }

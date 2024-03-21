@@ -45,7 +45,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
     }
 
-    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
+    public void RegisterMenu(ContextMenu contextMenu)
     {
 #if R23_OR_GREATER
         contextMenu.AddMenuItem()
@@ -68,7 +68,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
                     RevitShell.UiDocument.Selection.SetReferences(references);
                 });
             })
-            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(ModifierKeys.Alt, Key.F7);
 #endif
     }
 }

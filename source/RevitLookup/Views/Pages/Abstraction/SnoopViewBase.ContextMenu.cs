@@ -37,20 +37,23 @@ public partial class SnoopViewBase
     {
         var contextMenu = new ContextMenu
         {
-            Resources = Resources
+            Resources = Resources,
+            PlacementTarget = row,
+            DataContext = ViewModel
         };
 
+        row.ContextMenu = contextMenu;
+        
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetCommand(descriptor, parameter => Clipboard.SetDataObject(parameter.Name))
-            .SetShortcut(row, ModifierKeys.Control, Key.C);
+            .SetShortcut(ModifierKeys.Control, Key.C);
         contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
-            .SetShortcut(row, Key.F1);
-
-        if (descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
-        row.ContextMenu = contextMenu;
+            .SetShortcut(Key.F1);
+        
+        if (descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu);
     }
-
+    
     /// <summary>
     ///     Data grid context menu
     /// </summary>
@@ -58,80 +61,82 @@ public partial class SnoopViewBase
     {
         var contextMenu = new ContextMenu
         {
-            Resources = Resources
+            Resources = Resources,
+            PlacementTarget = dataGrid,
+            DataContext = ViewModel
         };
-
+        
+        dataGrid.ContextMenu = contextMenu;
+        
         contextMenu.AddMenuItem("RefreshMenuItem")
             .SetCommand(ViewModel.RefreshMembersCommand)
             .SetGestureText(Key.F5);
-
+        
         contextMenu.AddSeparator();
         contextMenu.AddLabel("Columns");
-
+        
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Time")
-            .SetCommand(dataGrid.Columns[2].Visibility == Visibility.Visible, parameter =>
+            .SetCommand(dataGrid.Columns[2], parameter =>
             {
-                dataGrid.Columns[2].Visibility = parameter ? Visibility.Collapsed : Visibility.Visible;
-                _settingsService.ShowTimeColumn = !parameter;
+                _settingsService.ShowTimeColumn = parameter.Visibility != Visibility.Visible;
+                parameter.Visibility = _settingsService.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
             });
-
+        
         contextMenu.AddSeparator();
         contextMenu.AddLabel("Show");
-
+        
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Events")
-            .SetCommand(_settingsService.IncludeEvents, parameter =>
+            .SetCommand(_settingsService, parameter =>
             {
-                _settingsService.IncludeEvents = !parameter;
-                return RefreshGridAsync();
+                parameter.IncludeEvents = !parameter.IncludeEvents;
+                return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Extensions")
-            .SetCommand(_settingsService.IncludeExtensions, parameter =>
+            .SetCommand(_settingsService, parameter =>
             {
-                _settingsService.IncludeExtensions = !parameter;
-                return RefreshGridAsync();
+                parameter.IncludeExtensions = !parameter.IncludeExtensions;
+                return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Fields")
-            .SetCommand(_settingsService.IncludeFields, parameter =>
+            .SetCommand(_settingsService, parameter =>
             {
-                _settingsService.IncludeFields = !parameter;
-                return RefreshGridAsync();
+                parameter.IncludeFields = !parameter.IncludeFields;
+                return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Non-public")
-            .SetCommand(_settingsService.IncludePrivate, parameter =>
+            .SetCommand(_settingsService, parameter =>
             {
-                _settingsService.IncludePrivate = !parameter;
-                return RefreshGridAsync();
+                parameter.IncludePrivate = !parameter.IncludePrivate;
+                return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Root hierarchy")
-            .SetCommand(_settingsService.IncludeRootHierarchy, parameter =>
+            .SetCommand(_settingsService, parameter =>
             {
-                _settingsService.IncludeRootHierarchy = !parameter;
-                return RefreshGridAsync();
+                parameter.IncludeRootHierarchy = !parameter.IncludeRootHierarchy;
+                return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Static")
-            .SetCommand(_settingsService.IncludeStatic, parameter =>
+            .SetCommand(_settingsService, parameter =>
             {
-                _settingsService.IncludeStatic = !parameter;
-                return RefreshGridAsync();
+                parameter.IncludeStatic = !parameter.IncludeStatic;
+                return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Unsupported")
-            .SetCommand(_settingsService.IncludeUnsupported, parameter =>
+            .SetCommand(_settingsService, parameter =>
             {
-                _settingsService.IncludeUnsupported = !parameter;
-                return RefreshGridAsync();
+                parameter.IncludeUnsupported = !parameter.IncludeUnsupported;
+                return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
-
-        dataGrid.ContextMenu = contextMenu;
     }
-
+    
     /// <summary>
     ///     Data grid row context menu
     /// </summary>
@@ -139,24 +144,28 @@ public partial class SnoopViewBase
     {
         var contextMenu = new ContextMenu
         {
-            Resources = Resources
+            Resources = Resources,
+            PlacementTarget = row,
+            DataContext = ViewModel
         };
-
+        
+        row.ContextMenu = contextMenu;
+        
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetCommand(descriptor, parameter => Clipboard.SetDataObject($"{parameter.Name}: {parameter.Value.Descriptor.Name}"))
-            .SetShortcut(row, ModifierKeys.Control, Key.C);
-
+            .SetShortcut(ModifierKeys.Control, Key.C)
+            .SetAvailability(descriptor.Value.Descriptor.Name is not null);
+        
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy value")
             .SetCommand(descriptor, parameter => Clipboard.SetDataObject(parameter.Value.Descriptor.Name))
-            .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C)
+            .SetShortcut(ModifierKeys.Control | ModifierKeys.Shift, Key.C)
             .SetAvailability(descriptor.Value.Descriptor.Name is not null);
-
+        
         contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName, parameter.Name))
-            .SetShortcut(row, new KeyGesture(Key.F1));
+            .SetShortcut(new KeyGesture(Key.F1));
 
-        if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu, row);
-        row.ContextMenu = contextMenu;
+        if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu);
     }
 }

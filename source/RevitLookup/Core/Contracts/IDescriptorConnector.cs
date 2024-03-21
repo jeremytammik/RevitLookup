@@ -28,5 +28,5 @@ namespace RevitLookup.Core.Contracts;
 /// </summary>
 public interface IDescriptorConnector
 {
-    void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement);
+    void RegisterMenu(ContextMenu contextMenu);
 }

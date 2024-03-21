@@ -21,10 +21,9 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.ViewModels.Converters;
+using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Views.Extensions;
 
@@ -35,124 +34,107 @@ public static class ContextMenuExtensions
         var separator = new Separator();
         menu.Items.Add(separator);
     }
-
+    
     public static void AddLabel(this ContextMenu menu, string text)
     {
         var label = (MenuItem) menu.Resources["Label"];
         label.Header = text;
         menu.Items.Add(label);
     }
-
+    
     public static MenuItem AddMenuItem(this ContextMenu menu)
     {
         var item = new Wpf.Ui.Controls.MenuItem();
         menu.Items.Add(item);
-
+        
         return item;
     }
-
+    
     public static MenuItem AddMenuItem(this ContextMenu menu, string resource)
     {
         var item = (MenuItem) menu.Resources[resource];
         menu.Items.Add(item);
-
+        
         return item;
     }
-
+    
     public static MenuItem SetCommand(this MenuItem item, Action command)
     {
         item.Command = new RelayCommand(command);
-
+        
         return item;
     }
-
+    
     public static MenuItem SetCommand(this MenuItem item, ICommand command)
     {
         item.Command = command;
-
+        
         return item;
     }
-
+    
     public static MenuItem SetCommand<T>(this MenuItem item, T parameter, Action<T> command)
     {
         item.CommandParameter = parameter;
         item.Command = new RelayCommand<T>(command);
-
+        
         return item;
     }
-
-    public static MenuItem SetCommand(this MenuItem item, bool isChecked, Action<bool> command)
+    
+    public static MenuItem SetCommand<T>(this MenuItem item, T parameter, Func<T, Task> command)
     {
-        item.IsChecked = isChecked;
-        item.SetBinding(MenuItem.CommandParameterProperty, new Binding
-        {
-            Source = item,
-            Converter = new InverseBooleanConverter(),
-            Path = new PropertyPath(nameof(MenuItem.IsChecked))
-        });
-        item.Command = new RelayCommand<bool>(command);
-
+        item.CommandParameter = parameter;
+        item.Command = new AsyncRelayCommand<T>(command);
+        
         return item;
     }
-
-    public static MenuItem SetCommand(this MenuItem item, bool isChecked, Func<bool, Task> command)
+    
+    public static MenuItem SetShortcut(this MenuItem item, KeyGesture gesture)
     {
-        item.IsChecked = isChecked;
-        item.SetBinding(MenuItem.CommandParameterProperty, new Binding
-        {
-            Source = item,
-            Converter = new InverseBooleanConverter(),
-            Path = new PropertyPath(nameof(MenuItem.IsChecked))
-        });
-        item.Command = new AsyncRelayCommand<bool>(command);
-
-        return item;
-    }
-
-    public static MenuItem SetShortcut(this MenuItem item, UIElement bindableElement, KeyGesture gesture)
-    {
-        bindableElement.InputBindings.Add(new InputBinding(item.Command, gesture) {CommandParameter = item.CommandParameter});
+        var menu = VisualUtils.FindLogicalParent<ContextMenu>(item);
+        menu.PlacementTarget.InputBindings.Add(new InputBinding(item.Command, gesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = gesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
-
+        
         return item;
     }
-
-    public static MenuItem SetShortcut(this MenuItem item, UIElement bindableElement, ModifierKeys modifiers, Key key)
+    
+    public static MenuItem SetShortcut(this MenuItem item, ModifierKeys modifiers, Key key)
     {
         var inputGesture = new KeyGesture(key, modifiers);
-        bindableElement.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
+        var menu = VisualUtils.FindLogicalParent<ContextMenu>(item);
+        menu.PlacementTarget.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = inputGesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
-
+        
         return item;
     }
-
-    public static MenuItem SetShortcut(this MenuItem item, UIElement bindableElement, Key key)
+    
+    public static MenuItem SetShortcut(this MenuItem item, Key key)
     {
         var inputGesture = new KeyGesture(key);
-        bindableElement.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
+        var menu = VisualUtils.FindLogicalParent<ContextMenu>(item);
+        menu.PlacementTarget.InputBindings.Add(new InputBinding(item.Command, inputGesture) {CommandParameter = item.CommandParameter});
         item.InputGestureText = inputGesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
-
+        
         return item;
     }
-
+    
     public static MenuItem SetHeader(this MenuItem item, string text)
     {
         item.Header = text;
-
+        
         return item;
     }
-
+    
     public static MenuItem SetGestureText(this MenuItem item, Key key)
     {
         item.InputGestureText = new KeyGesture(key).GetDisplayStringForCulture(CultureInfo.InvariantCulture);
-
+        
         return item;
     }
-
+    
     public static MenuItem SetAvailability(this MenuItem item, bool condition)
     {
         item.SetCurrentValue(UIElement.IsEnabledProperty, condition);
-
+        
         return item;
     }
 }

@@ -42,7 +42,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
         if (curve.IsBound || curve.IsCyclic) Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
-    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
+    public void RegisterMenu(ContextMenu contextMenu)
     {
 #if R23_OR_GREATER
         contextMenu.AddMenuItem()
@@ -55,10 +55,10 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                     if (curve.Reference is null) return;
                     var element = curve.Reference.ElementId.ToElement(RevitShell.Document);
                     if (element is not null) RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetReferences(new List<Reference>(1) {curve.Reference});
+                    RevitShell.UiDocument.Selection.SetReferences([curve.Reference]);
                 });
             })
-            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(ModifierKeys.Alt, Key.F7);
 #endif
     }
 

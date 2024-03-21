@@ -40,7 +40,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 
-    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
+    public void RegisterMenu(ContextMenu contextMenu)
     {
         if (_element is ElementType) return;
 
@@ -52,10 +52,10 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 {
                     if (RevitShell.UiDocument is null) return;
                     RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
+                    RevitShell.UiDocument.Selection.SetElementIds([element.Id]);
                 });
             })
-            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(ModifierKeys.Alt, Key.F7);
     }
 
     public void RegisterExtensions(IExtensionManager manager)

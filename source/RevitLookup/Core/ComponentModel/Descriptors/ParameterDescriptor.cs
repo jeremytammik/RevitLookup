@@ -19,22 +19,30 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Autodesk.Revit.DB;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs;
+using RevitLookup.Views.Extensions;
+using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
+public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension, IDescriptorConnector
 {
     private readonly Parameter _parameter;
-
+    
     public ParameterDescriptor(Parameter parameter)
     {
         _parameter = parameter;
         Name = parameter.Definition.Name;
     }
-
+    
     public void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(_parameter, extension =>
@@ -42,13 +50,13 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             extension.Name = nameof(ParameterExtensions.AsBool);
             extension.Result = extension.Value.AsBool();
         });
-
+        
         manager.Register(_parameter, extension =>
         {
             extension.Name = nameof(ParameterExtensions.AsColor);
             extension.Result = extension.Value.AsColor();
         });
-
+        
         if (manager.Context.IsFamilyDocument)
         {
             manager.Register(_parameter, extension =>
@@ -58,7 +66,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             });
         }
     }
-
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -66,5 +74,30 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             nameof(Parameter.ClearValue) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
             _ => null
         };
+    }
+    
+    public void RegisterMenu(ContextMenu contextMenu)
+    {
+        contextMenu.AddMenuItem()
+            .SetHeader("Edit value")
+            .SetAvailability(!_parameter.IsReadOnly && _parameter.StorageType != StorageType.ElementId && _parameter.StorageType != StorageType.None)
+            .SetCommand(_parameter, async parameter =>
+            {
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                try
+                {
+                    var modulesDialog = new EditParameterDialog(context.ServiceProvider, parameter);
+                    var result = await modulesDialog.ShowAsync();
+                    if (result)
+                    {
+                        context.RefreshMembersCommand.Execute(null);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<ParameterDescriptor>>();
+                    logger.LogError(exception, "Initialize EditParameterDialog error");
+                }
+            });
     }
 }

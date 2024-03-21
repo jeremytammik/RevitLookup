@@ -233,23 +233,6 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     }
 
     /// <summary>
-    ///     Restore the previous selection when cancelling a search
-    /// </summary>
-    [Obsolete("Low performance")]
-    private bool TryRestoreSelection()
-    {
-        if (ViewModel.SelectedObject is null) return false;
-
-        var treeViewItem = VisualUtils.GetTreeViewItem(TreeViewControl, ViewModel.SelectedObject);
-        if (treeViewItem is null || treeViewItem.IsSelected) return false;
-
-        TreeViewControl.SelectedItemChanged -= OnTreeItemSelected;
-        treeViewItem.IsSelected = true;
-        TreeViewControl.SelectedItemChanged += OnTreeItemSelected;
-        return true;
-    }
-
-    /// <summary>
     ///     Expand first tree view group after navigation
     /// </summary>
     private void ExpandFirstTreeGroup()
@@ -271,13 +254,5 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private void ValidateTimeColumn(System.Windows.Controls.DataGrid control)
     {
         control.Columns[2].Visibility = _settingsService.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
-    }
-
-    /// <summary>
-    ///     Recollect all data on the selected item
-    /// </summary>
-    private Task RefreshGridAsync()
-    {
-        return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
     }
 }

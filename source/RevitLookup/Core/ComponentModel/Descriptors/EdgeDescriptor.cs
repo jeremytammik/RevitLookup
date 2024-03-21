@@ -45,7 +45,7 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
 
-    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
+    public void RegisterMenu(ContextMenu contextMenu)
     {
 #if R23_OR_GREATER
         contextMenu.AddMenuItem()
@@ -58,10 +58,10 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
                     if (edge.Reference is null) return;
                     var element = edge.Reference.ElementId.ToElement(RevitShell.Document);
                     if (element is not null) RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetReferences(new List<Reference>(1) {edge.Reference});
+                    RevitShell.UiDocument.Selection.SetReferences([edge.Reference]);
                 });
             })
-            .SetShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .SetShortcut(ModifierKeys.Alt, Key.F7);
 #endif
     }
 }
