@@ -26,6 +26,8 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Services;
+using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
@@ -38,24 +40,6 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
     {
         _element = element;
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
-    }
-
-    public void RegisterMenu(ContextMenu contextMenu)
-    {
-        if (_element is ElementType) return;
-
-        contextMenu.AddMenuItem()
-            .SetHeader("Show element")
-            .SetCommand(_element, element =>
-            {
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    if (RevitShell.UiDocument is null) return;
-                    RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetElementIds([element.Id]);
-                });
-            })
-            .SetShortcut(ModifierKeys.Alt, Key.F7);
     }
 
     public void RegisterExtensions(IExtensionManager manager)
@@ -202,5 +186,69 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
 
             return resolveSummary;
         }
+    }
+    
+    public void RegisterMenu(ContextMenu contextMenu)
+    {
+        if (_element is ElementType) return;
+        
+        contextMenu.AddMenuItem()
+            .SetHeader("Show element")
+            .SetCommand(_element, element =>
+            {
+                Application.ActionEventHandler.Raise(_ =>
+                {
+                    if (RevitShell.UiDocument is null) return;
+                    RevitShell.UiDocument.ShowElements(element);
+                    RevitShell.UiDocument.Selection.SetElementIds([element.Id]);
+                });
+            })
+            .SetShortcut(ModifierKeys.Alt, Key.F7);
+        
+        contextMenu.AddMenuItem()
+            .SetHeader("Delete")
+            .SetCommand(_element, async element =>
+            {
+                if (RevitShell.UiDocument is null) return;
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                
+                try
+                {
+                    await Application.AsyncEventHandler.RaiseAsync(_ =>
+                    {
+                        var transaction = new Transaction(element.Document);
+                        transaction.Start($"Delete {element.Name}");
+                        
+                        try
+                        {
+                            element.Document.Delete(element.Id);
+                            transaction.Commit();
+                            
+                            if (transaction.GetStatus() == TransactionStatus.RolledBack) throw new OperationCanceledException("Element deletion cancelled by user");
+                        }
+                        catch
+                        {
+                            if (!transaction.HasEnded()) transaction.RollBack();
+                            throw;
+                        }
+                    });
+                    
+                    var placementTarget = (FrameworkElement) contextMenu.PlacementTarget;
+                    var collection = new List<SnoopableObject>(context.SnoopableObjects);
+                    collection.Remove((SnoopableObject) placementTarget.DataContext);
+                    context.SnoopableObjects = collection;
+                }
+                catch (OperationCanceledException exception)
+                {
+                    var notificationService = context.ServiceProvider.GetService<NotificationService>();
+                    notificationService.ShowWarning("Element deletion error", exception.Message);
+                }
+                catch (Exception exception)
+                {
+                    var notificationService = context.ServiceProvider.GetService<NotificationService>();
+                    notificationService.ShowError("Element deletion error", exception.Message);
+                }
+            })
+            .SetShortcut(Key.Delete);
     }
 }
