@@ -142,12 +142,11 @@ Adding an option for the context menu:
 ```c#
 public sealed class ElementDescriptor : Descriptor, IDescriptorConnector
 {
-    public void RegisterMenu(ContextMenu contextMenu, UIElement bindableElement)
+    public void RegisterMenu(ContextMenu contextMenu)
     {
-        if (_element is ElementType) return;
-
         contextMenu.AddMenuItem()
             .SetHeader("Show element")
+            .SetAvailability(_element is not ElementType)
             .SetCommand(_element, element =>
             {
                 Application.ActionEventHandler.Raise(_ =>
@@ -157,7 +156,7 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorConnector
                     RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
                 });
             })
-            .AddShortcut(bindableElement, ModifierKeys.Alt, Key.F7);
+            .AddShortcut(ModifierKeys.Alt, Key.F7);
     }
 }
 ```
