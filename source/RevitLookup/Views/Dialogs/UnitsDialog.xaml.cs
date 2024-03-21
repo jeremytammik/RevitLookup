@@ -100,17 +100,18 @@ public sealed partial class UnitsDialog
     {
         row.ContextMenu = new ContextMenu
         {
-            Resources = Wpf.Ui.Application.MainWindow.Resources
+            Resources = Wpf.Ui.Application.MainWindow.Resources,
+            PlacementTarget = row
         };
 
         row.ContextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy unit")
             .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Unit))
-            .SetShortcut(row, ModifierKeys.Control, Key.C);
+            .SetShortcut(ModifierKeys.Control, Key.C);
         row.ContextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy label")
             .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Label))
-            .SetShortcut(row, ModifierKeys.Control | ModifierKeys.Shift, Key.C);
+            .SetShortcut(ModifierKeys.Control | ModifierKeys.Shift, Key.C);
         row.ContextMenu.AddMenuItem()
             .SetHeader("Snoop")
             .SetCommand(info, unitInfo =>

@@ -34,62 +34,64 @@ namespace RevitLookup;
 public class Application : ExternalApplication
 {
     public static ActionEventHandler ActionEventHandler { get; private set; }
+    public static AsyncEventHandler AsyncEventHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<SnoopableObject>> ExternalElementHandler { get; private set; }
     public static AsyncEventHandler<IReadOnlyCollection<Descriptor>> ExternalDescriptorHandler { get; private set; }
-
+    
     public override void OnStartup()
     {
         RevitShell.UiApplication = UiApplication;
         RegisterHandlers();
         Host.Start();
-
+        
         var settingsService = Host.GetService<ISettingsService>();
         var updateService = Host.GetService<ISoftwareUpdateService>();
-
+        
         EnableHardwareRendering(settingsService);
         RibbonController.CreatePanel(Application, settingsService);
-
+        
         updateService.CheckUpdates();
     }
-
+    
     public override void OnShutdown()
     {
         SaveSettings();
         UpdateSoftware();
         Host.Stop();
     }
-
-    private static void RegisterHandlers()
-    {
-        ActionEventHandler = new ActionEventHandler();
-        ExternalElementHandler = new AsyncEventHandler<IReadOnlyCollection<SnoopableObject>>();
-        ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyCollection<Descriptor>>();
-    }
-
+    
     private static void UpdateSoftware()
     {
         var updateService = Host.GetService<ISoftwareUpdateService>();
         if (File.Exists(updateService.LocalFilePath)) ProcessTasks.StartShell(updateService.LocalFilePath);
     }
-
+    
     private static void SaveSettings()
     {
         var settingsService = Host.GetService<ISettingsService>();
         settingsService.Save();
     }
-
+    
     public static void EnableHardwareRendering(ISettingsService settingsService)
     {
         if (!settingsService.UseHardwareRendering) return;
-
+        
         //Revit overrides render mode during initialization
         //EventHandler is called after initialization
         ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
     }
-
+    
     public static void DisableHardwareRendering(ISettingsService settingsService)
     {
         if (settingsService.UseHardwareRendering) return;
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+    }
+    
+    private static void RegisterHandlers()
+    {
+        ActionEventHandler = new ActionEventHandler();
+        AsyncEventHandler = new AsyncEventHandler();
+        ExternalElementHandler = new AsyncEventHandler<IReadOnlyCollection<SnoopableObject>>();
+        ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyCollection<Descriptor>>();
     }
 }

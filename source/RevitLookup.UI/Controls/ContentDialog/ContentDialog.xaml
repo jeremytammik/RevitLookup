@@ -20,7 +20,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="DialogMaxHeight" Value="850" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Padding" Value="24" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="DialogMaxWidth" Value="1000" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -36,9 +36,11 @@
                     <Grid Background="{DynamicResource ContentDialogSmokeFill}" Focusable="False">
 
                         <Border
-                            MaxWidth="{TemplateBinding DialogWidth}"
-                            MaxHeight="{TemplateBinding DialogHeight}"
-                            Margin="{TemplateBinding DialogMargin}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            MaxWidth="{TemplateBinding DialogMaxWidth}"
+                            MaxHeight="{TemplateBinding DialogMaxHeight}"
+                            Margin="35"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -92,8 +94,6 @@
                                         IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
                                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                                         <ContentPresenter
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                             Content="{TemplateBinding Content}"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
                                             ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}">
@@ -110,7 +110,7 @@
 
                                 <Border
                                     Grid.Row="1"
-                                    Padding="{TemplateBinding Padding}"
+                                    Padding="24"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Bottom"
                                     BorderBrush="{DynamicResource ContentDialogSeparatorBorderBrush}"

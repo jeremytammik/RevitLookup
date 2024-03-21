@@ -41,7 +41,7 @@ public partial class ModulesDialog
             Title = "Modules",
             Content = this,
             CloseButtonText = "Close",
-            DialogMaxWidth = 1500,
+            DialogMaxWidth = 1500
         };
 
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);

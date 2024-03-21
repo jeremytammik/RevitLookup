@@ -22,7 +22,7 @@ public static class HostProvider
 {
     public static IHost CreateHost()
     {
-        var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(new HostApplicationBuilderSettings
+        var builder = new HostApplicationBuilder(new HostApplicationBuilderSettings
         {
             ContentRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location),
             DisableDefaults = true
@@ -33,7 +33,7 @@ public static class HostProvider
         builder.Logging.AddLoggerConfiguration();
 
         //Configuration
-        builder.Configuration.AddOptions(builder.Services);
+        builder.Services.AddOptions(builder.Configuration);
 
         //App services
         builder.Services.AddSingleton<ISettingsService, SettingsService>();

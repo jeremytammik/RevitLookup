@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
@@ -48,7 +49,9 @@ public sealed partial class SearchElementsDialog
             Title = "Search elements",
             Content = this,
             CloseButtonText = "Close",
-            PrimaryButtonText = "Search"
+            PrimaryButtonText = "Search",
+            DialogVerticalAlignment = VerticalAlignment.Center,
+            DialogHorizontalAlignment = HorizontalAlignment.Center
         };
 
         var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);

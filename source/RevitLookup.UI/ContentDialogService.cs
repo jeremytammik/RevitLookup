@@ -95,7 +95,9 @@ public class ContentDialogService : IContentDialogService
             PrimaryButtonText = options.PrimaryButtonText,
             SecondaryButtonText = options.SecondaryButtonText,
             DialogMaxWidth = options.DialogMaxWidth,
-            DialogMaxHeight = options.DialogMaxHeight
+            DialogMaxHeight = options.DialogMaxHeight,
+            HorizontalContentAlignment = options.DialogHorizontalAlignment,
+            VerticalContentAlignment = options.DialogVerticalAlignment
         };
 
         return dialog.ShowAsync(cancellationToken);

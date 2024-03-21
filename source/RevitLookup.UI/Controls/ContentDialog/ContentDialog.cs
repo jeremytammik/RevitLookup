@@ -646,24 +646,6 @@ public class ContentDialog : ContentControl
 
     #region Base methods
 
-    protected override Size MeasureOverride(Size availableSize)
-    {
-        var rootElement = (UIElement)GetVisualChild(0)!;
-    
-        rootElement.Measure(availableSize);
-        Size desiredSize = rootElement.DesiredSize;
-    
-        Size newSize = GetNewDialogSize(desiredSize);
-    
-        DialogHeight = newSize.Height;
-        DialogWidth = newSize.Width;
-    
-        ResizeWidth(rootElement);
-        ResizeHeight(rootElement);
-    
-        return desiredSize;
-    }
-
     /// <summary>
     /// Occurs after Loaded event
     /// </summary>
@@ -672,58 +654,6 @@ public class ContentDialog : ContentControl
         Focus();
 
         RaiseEvent(new RoutedEventArgs(OpenedEvent));
-    }
-
-    #endregion
-
-    #region Resize private methods
-
-    private Size GetNewDialogSize(Size desiredSize)
-    {
-        var paddingWidth = Padding.Left + Padding.Right;
-        var paddingHeight = Padding.Top + Padding.Bottom;
-
-        var marginHeight = DialogMargin.Bottom + DialogMargin.Top;
-        var marginWidth = DialogMargin.Left + DialogMargin.Right;
-
-        var width = desiredSize.Width - marginWidth + paddingWidth;
-        var height = desiredSize.Height - marginHeight + paddingHeight;
-
-        return new Size(width, height);
-    }
-
-    private void ResizeWidth(UIElement element)
-    {
-        if (DialogWidth <= DialogMaxWidth)
-            return;
-
-        DialogWidth = DialogMaxWidth;
-        element.UpdateLayout();
-        
-        DialogHeight = element.DesiredSize.Height;
-        
-        if (DialogHeight > DialogMaxHeight)
-        {
-            DialogMaxHeight = DialogHeight;
-            //Debug.WriteLine($"DEBUG | {GetType()} | WARNING | DialogHeight > DialogMaxHeight after resizing width!");
-        }
-    }
-
-    private void ResizeHeight(UIElement element)
-    {
-        if (DialogHeight <= DialogMaxHeight)
-            return;
-
-        DialogHeight = DialogMaxHeight;
-        element.UpdateLayout();
-        
-        DialogWidth = element.DesiredSize.Width;
-        
-        if (DialogWidth > DialogMaxWidth)
-        {
-            DialogMaxWidth = DialogWidth;
-            //Debug.WriteLine($"DEBUG | {GetType()} | WARNING | DialogWidth > DialogMaxWidth after resizing height!");
-        }
     }
 
     #endregion

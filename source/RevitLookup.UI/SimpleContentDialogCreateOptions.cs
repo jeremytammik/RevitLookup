@@ -46,4 +46,14 @@ public class SimpleContentDialogCreateOptions
     /// Gets or sets a max content dialog height.
     /// </summary>
     public double DialogMaxHeight { get; set; } = double.MaxValue;
+
+    /// <summary>
+    /// Gets or sets a dialog Horizontal Alignment.
+    /// </summary>
+    public HorizontalAlignment DialogHorizontalAlignment { get; set; } = HorizontalAlignment.Stretch;
+    
+    /// <summary>
+    /// Gets or sets a dialog Vertical Alignment.
+    /// </summary>
+    public VerticalAlignment DialogVerticalAlignment { get; set; } = VerticalAlignment.Stretch;
 }
