@@ -41,12 +41,13 @@ public abstract partial class SnoopViewModelBase(NotificationService notificatio
     [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
 
     public SnoopableObject SelectedObject { get; set; }
+    public IServiceProvider ServiceProvider { get; } = provider;
 
     public void Navigate(SnoopableObject selectedItem)
     {
         Host.GetService<ILookupService>()
             .Snoop(selectedItem)
-            .DependsOn(provider)
+            .DependsOn(ServiceProvider)
             .Show<SnoopView>();
     }
 
@@ -54,7 +55,7 @@ public abstract partial class SnoopViewModelBase(NotificationService notificatio
     {
         Host.GetService<ILookupService>()
             .Snoop(selectedItems)
-            .DependsOn(provider)
+            .DependsOn(ServiceProvider)
             .Show<SnoopView>();
     }
 

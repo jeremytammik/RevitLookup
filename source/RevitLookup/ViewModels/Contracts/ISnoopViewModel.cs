@@ -33,6 +33,7 @@ public interface ISnoopViewModel
     IAsyncRelayCommand RefreshMembersCommand { get; }
     public string SearchText { get; set; }
     public SnoopableObject SelectedObject { get; set; }
+    public IServiceProvider ServiceProvider { get; }
     void Navigate(SnoopableObject selectedItem);
     void Navigate(IReadOnlyCollection<SnoopableObject> selectedItems);
 }
