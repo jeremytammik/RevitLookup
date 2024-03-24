@@ -21,7 +21,7 @@
 using System.Reflection;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
-using RevitLookup.Core;
+using Nice3point.Revit.Toolkit;
 using UIFramework;
 using UIFrameworkServices;
 using RibbonButton = Autodesk.Windows.RibbonButton;
@@ -79,7 +79,7 @@ public static class RibbonUtils
         //RibbonItemDictionary used to block RibbonItem re-creation
         var uiApplicationType = typeof(UIApplication);
         var ribbonItemsProperty = uiApplicationType.GetProperty("RibbonItemDictionary", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
-        var ribbonItems = (Dictionary<string, Dictionary<string, Autodesk.Revit.UI.RibbonPanel>>) ribbonItemsProperty.GetValue(RevitShell.UiApplication);
+        var ribbonItems = (Dictionary<string, Dictionary<string, Autodesk.Revit.UI.RibbonPanel>>) ribbonItemsProperty.GetValue(Context.UiApplication);
         if (ribbonItems.TryGetValue(tab.Id, out var tabItem)) tabItem.Remove(panelName);
     }
 

@@ -20,6 +20,7 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -40,7 +41,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
                 {
                     case nameof(PerformanceAdviser.ExecuteAllRules):
                     {
-                        resolveSet.AppendVariant(adviser.ExecuteAllRules(RevitShell.Document));
+                        resolveSet.AppendVariant(adviser.ExecuteAllRules(Context.Document));
                         break;
                     }
                     default:
@@ -87,7 +88,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
                     case nameof(PerformanceAdviser.GetElementFilterFromRule):
                     {
                         for (var i = 0; i < rules; i++)
-                            resolveSet.AppendVariant(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, RevitShell.Document)));
+                            resolveSet.AppendVariant(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, Context.Document)));
                         break;
                     }
                     default:

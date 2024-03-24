@@ -20,6 +20,7 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -60,8 +61,8 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
     {
         return target switch
         {
-            "AllowsVisibilityControl" => ResolveSet.Append(_category.get_AllowsVisibilityControl(RevitShell.ActiveView), "Active view"),
-            "Visible" => ResolveSet.Append(_category.get_Visible(RevitShell.ActiveView), "Active view"),
+            "AllowsVisibilityControl" => ResolveSet.Append(_category.get_AllowsVisibilityControl(Context.ActiveView), "Active view"),
+            "Visible" => ResolveSet.Append(_category.get_Visible(Context.ActiveView), "Active view"),
             nameof(Category.GetGraphicsStyle) => ResolveSet
                 .Append(_category.GetGraphicsStyle(GraphicsStyleType.Cut), "Cut")
                 .AppendVariant(_category.GetGraphicsStyle(GraphicsStyleType.Projection), "Projection"),

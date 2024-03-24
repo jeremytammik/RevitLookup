@@ -20,10 +20,10 @@
 
 using System.Globalization;
 using System.Reflection;
-using System.Windows;
 using System.Windows.Controls;
 #if R23_OR_GREATER
 using System.Windows.Input;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Views.Extensions;
 #endif
 using Autodesk.Revit.DB;
@@ -51,11 +51,11 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitShell.UiDocument is null) return;
+                    if (Context.UiDocument is null) return;
                     if (curve.Reference is null) return;
-                    var element = curve.Reference.ElementId.ToElement(RevitShell.Document);
-                    if (element is not null) RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetReferences([curve.Reference]);
+                    var element = curve.Reference.ElementId.ToElement(Context.Document);
+                    if (element is not null) Context.UiDocument.ShowElements(element);
+                    Context.UiDocument.Selection.SetReferences([curve.Reference]);
                 });
             })
             .SetShortcut(ModifierKeys.Alt, Key.F7);

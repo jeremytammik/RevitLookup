@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Autodesk.Revit.DB;
+using Nice3point.Revit.Toolkit;
 
 namespace RevitLookup.Core.Utils;
 
@@ -29,8 +30,8 @@ public static class ContextUtils
         var context = FindContext(obj);
         if (context is not null) return context;
 
-        if (RevitShell.UiApplication is null) return null;
-        return RevitShell.Document;
+        if (Context.UiApplication is null) return null;
+        return Context.Document;
     }
 
     public static Document FindSuitableContext(object obj, Document context)

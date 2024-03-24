@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using Nice3point.Revit.Toolkit;
 
 namespace RevitLookup.Core;
 
@@ -102,9 +103,9 @@ public sealed class EventMonitor
 
     private static IEnumerable FindValidTargets(Type targetType)
     {
-        if (targetType == typeof(Document)) return RevitShell.Application.Documents;
-        if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return new[] {RevitShell.Application};
-        if (targetType == typeof(UIApplication)) return new[] {RevitShell.UiApplication};
+        if (targetType == typeof(Document)) return Context.Application.Documents;
+        if (targetType == typeof(Autodesk.Revit.ApplicationServices.Application)) return new[] {Context.Application};
+        if (targetType == typeof(UIApplication)) return new[] {Context.UiApplication};
 
         return null;
     }

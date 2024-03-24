@@ -20,6 +20,7 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -29,7 +30,7 @@ public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
 {
     public SchedulableFieldDescriptor(SchedulableField field)
     {
-        Name = field.GetName(RevitShell.Document);
+        Name = field.GetName(Context.Document);
     }
 
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)

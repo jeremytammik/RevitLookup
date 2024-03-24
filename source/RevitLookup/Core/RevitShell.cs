@@ -22,25 +22,20 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Models;
 
 namespace RevitLookup.Core;
 
 public static class RevitShell
 {
-    public static UIApplication UiApplication { get; set; }
-    public static Autodesk.Revit.ApplicationServices.Application Application => UiApplication.Application;
-    public static UIDocument UiDocument => UiApplication.ActiveUIDocument;
-    public static Document Document => UiApplication.ActiveUIDocument.Document;
-    public static View ActiveView => UiApplication.ActiveUIDocument.ActiveView;
-
     public static UIControlledApplication CreateUiControlledApplication()
     {
         return (UIControlledApplication) Activator.CreateInstance(
             typeof(UIControlledApplication),
             BindingFlags.Instance | BindingFlags.NonPublic,
             null,
-            [UiApplication],
+            [Context.UiApplication],
             null);
     }
 
@@ -122,7 +117,7 @@ public static class RevitShell
         var elementIdPointer = GCHandle.ToIntPtr(handle);
         Marshal.StructureToPtr(elementId, elementIdPointer, true);
 
-        var parameter = (Parameter) parameterCtorType.Invoke([getADocumentType.Invoke(Document, null), elementIdPointer]);
+        var parameter = (Parameter) parameterCtorType.Invoke([getADocumentType.Invoke(Context.Document, null), elementIdPointer]);
         handle.Free();
 
         return parameter;
@@ -148,7 +143,7 @@ public static class RevitShell
         var elementIdPointer = GCHandle.ToIntPtr(handle);
         Marshal.StructureToPtr(elementId, elementIdPointer, true);
 
-        var category = (Category) categoryCtorType.Invoke([getADocumentType.Invoke(Document, null), elementIdPointer]);
+        var category = (Category) categoryCtorType.Invoke([getADocumentType.Invoke(Context.Document, null), elementIdPointer]);
         handle.Free();
 
         return category;

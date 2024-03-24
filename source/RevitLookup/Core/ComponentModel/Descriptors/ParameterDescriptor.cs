@@ -19,9 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using Autodesk.Revit.DB;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
@@ -29,7 +27,6 @@ using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Extensions;
-using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 

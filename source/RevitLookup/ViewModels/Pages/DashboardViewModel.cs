@@ -20,7 +20,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
@@ -150,8 +150,8 @@ public sealed partial class DashboardViewModel(
 
     private bool Validate()
     {
-        if (RevitShell.UiApplication is null) return true;
-        if (RevitShell.UiDocument is not null) return true;
+        if (Context.UiApplication is null) return true;
+        if (Context.UiDocument is not null) return true;
 
         notificationService.ShowWarning("Request denied", "There are no open documents");
         return false;

@@ -19,10 +19,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
-using System.Windows;
 using System.Windows.Controls;
 #if R23_OR_GREATER
 using System.Windows.Input;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Views.Extensions;
 #endif
 using Autodesk.Revit.DB;
@@ -54,7 +54,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitShell.UiDocument is null) return;
+                    if (Context.UiDocument is null) return;
                     var references = solid.Faces
                         .Cast<Face>()
                         .Select(face => face.Reference)
@@ -63,9 +63,9 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
 
                     if (references.Count == 0) return;
 
-                    var element = references[0].ElementId.ToElement(RevitShell.Document);
-                    if (element is not null) RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetReferences(references);
+                    var element = references[0].ElementId.ToElement(Context.Document);
+                    if (element is not null) Context.UiDocument.ShowElements(element);
+                    Context.UiDocument.Selection.SetReferences(references);
                 });
             })
             .SetShortcut(ModifierKeys.Alt, Key.F7);

@@ -19,10 +19,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
-using System.Windows;
 using System.Windows.Controls;
 #if R23_OR_GREATER
 using System.Windows.Input;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Views.Extensions;
 #endif
 using Autodesk.Revit.DB;
@@ -54,11 +54,11 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitShell.UiDocument is null) return;
+                    if (Context.UiDocument is null) return;
                     if (edge.Reference is null) return;
-                    var element = edge.Reference.ElementId.ToElement(RevitShell.Document);
-                    if (element is not null) RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetReferences([edge.Reference]);
+                    var element = edge.Reference.ElementId.ToElement(Context.Document);
+                    if (element is not null) Context.UiDocument.ShowElements(element);
+                    Context.UiDocument.Selection.SetReferences([edge.Reference]);
                 });
             })
             .SetShortcut(ModifierKeys.Alt, Key.F7);

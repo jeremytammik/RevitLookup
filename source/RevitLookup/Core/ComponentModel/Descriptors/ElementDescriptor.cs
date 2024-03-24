@@ -24,6 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
@@ -60,24 +61,24 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
     {
         return target switch
         {
-            nameof(Element.CanBeHidden) => ResolveSet.Append(_element.CanBeHidden(RevitShell.ActiveView), "Active view"),
-            nameof(Element.IsHidden) => ResolveSet.Append(_element.IsHidden(RevitShell.ActiveView), "Active view"),
+            nameof(Element.CanBeHidden) => ResolveSet.Append(_element.CanBeHidden(Context.ActiveView), "Active view"),
+            nameof(Element.IsHidden) => ResolveSet.Append(_element.IsHidden(Context.ActiveView), "Active view"),
             nameof(Element.GetDependentElements) => ResolveSet.Append(_element.GetDependentElements(null)),
             nameof(Element.GetMaterialIds) => ResolveSet
                 .Append(_element.GetMaterialIds(true), "Paint materials")
                 .AppendVariant(_element.GetMaterialIds(false), "Geometry and compound structure materials"),
             "BoundingBox" => ResolveSet
                 .Append(_element.get_BoundingBox(null), "Model")
-                .AppendVariant(_element.get_BoundingBox(RevitShell.ActiveView), "Active view"),
+                .AppendVariant(_element.get_BoundingBox(Context.ActiveView), "Active view"),
             "Geometry" => new ResolveSet(10)
                 .AppendVariant(_element.get_Geometry(new Options
                 {
-                    View = RevitShell.ActiveView,
+                    View = Context.ActiveView,
                     ComputeReferences = true
                 }), "Active view")
                 .AppendVariant(_element.get_Geometry(new Options
                 {
-                    View = RevitShell.ActiveView,
+                    View = Context.ActiveView,
                     IncludeNonVisibleObjects = true,
                     ComputeReferences = true
                 }), "Active view, including non-visible objects")
@@ -198,9 +199,9 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             {
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (RevitShell.UiDocument is null) return;
-                    RevitShell.UiDocument.ShowElements(element);
-                    RevitShell.UiDocument.Selection.SetElementIds([element.Id]);
+                    if (Context.UiDocument is null) return;
+                    Context.UiDocument.ShowElements(element);
+                    Context.UiDocument.Selection.SetElementIds([element.Id]);
                 });
             })
             .SetShortcut(ModifierKeys.Alt, Key.F7);
@@ -209,7 +210,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             .SetHeader("Delete")
             .SetCommand(_element, async element =>
             {
-                if (RevitShell.UiDocument is null) return;
+                if (Context.UiDocument is null) return;
                 var context = (ISnoopViewModel) contextMenu.DataContext;
                 
                 try

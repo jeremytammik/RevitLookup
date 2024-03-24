@@ -20,9 +20,7 @@
 
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Views.Utils;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages.Abstraction;

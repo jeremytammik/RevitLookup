@@ -23,7 +23,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
-using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;
@@ -40,7 +39,6 @@ public class Application : ExternalApplication
     
     public override void OnStartup()
     {
-        RevitShell.UiApplication = UiApplication;
         RegisterHandlers();
         Host.Start();
         

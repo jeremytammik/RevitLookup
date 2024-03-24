@@ -20,6 +20,7 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -37,8 +38,8 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
 
         ResolveSet ResolveGetAssociatedFamilyParameter()
         {
-            var elementTypes = RevitShell.Document.GetElements().WhereElementIsElementType();
-            var elementInstances = RevitShell.Document.GetElements().WhereElementIsNotElementType();
+            var elementTypes = Context.Document.GetElements().WhereElementIsElementType();
+            var elementInstances = Context.Document.GetElements().WhereElementIsNotElementType();
             var elements = elementTypes
                 .UnionWith(elementInstances)
                 .ToElements();

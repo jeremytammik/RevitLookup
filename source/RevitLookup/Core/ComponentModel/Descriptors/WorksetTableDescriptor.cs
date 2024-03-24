@@ -20,6 +20,7 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -32,7 +33,7 @@ public sealed class WorksetTableDescriptor : Descriptor, IDescriptorResolver
         return target switch
         {
             nameof(WorksetTable.GetWorkset) when parameters.Length == 1 && parameters[0].ParameterType == typeof(WorksetId) =>
-                ResolveSet.Append(new FilteredWorksetCollector(RevitShell.Document).ToWorksets()),
+                ResolveSet.Append(new FilteredWorksetCollector(Context.Document).ToWorksets()),
             _ => null
         };
     }
