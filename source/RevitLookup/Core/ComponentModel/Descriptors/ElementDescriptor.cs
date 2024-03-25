@@ -200,6 +200,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 Application.ActionEventHandler.Raise(_ =>
                 {
                     if (Context.UiDocument is null) return;
+                    if (!element.IsValidObject) return;
                     Context.UiDocument.ShowElements(element);
                     Context.UiDocument.Selection.SetElementIds([element.Id]);
                 });

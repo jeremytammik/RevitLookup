@@ -113,6 +113,11 @@ public static class RevitShell
         dataTypes.AddRange(typeof(GroupTypeId).GetProperties(searchFlags));
         dataTypes.AddRange(typeof(DisciplineTypeId).GetProperties(searchFlags));
         dataTypes.AddRange(typeof(SymbolTypeId).GetProperties(searchFlags));
+#else
+        dataTypes.AddRange(typeof(UnitTypeId).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(SpecTypeId).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(SymbolTypeId).GetProperties(searchFlags));
+#endif
         return dataTypes.Select(info =>
             {
                 var typeId = (ForgeTypeId) info.GetValue(null);
@@ -121,12 +126,6 @@ public static class RevitShell
                 return new UnitInfo(typeId, typeId.TypeId, label, className);
             })
             .ToList();
-        
-#else
-            return UnitUtils.GetAllUnits().Select(typeId => new UnitInfo(typeId, typeId.TypeId, typeId.ToUnitLabel()))
-                .Concat(UnitUtils.GetAllSpecs().Select(typeId => new UnitInfo(typeId, typeId.TypeId, typeId.ToSpecLabel())))
-                .ToList();
-#endif
     }
     
     private static string GetClassName(PropertyInfo property)
@@ -164,10 +163,12 @@ public static class RevitShell
             {
                 nameof(UnitTypeId) => typeId.ToUnitLabel(),
                 nameof(SpecTypeId) => typeId.ToSpecLabel(),
+                nameof(SymbolTypeId) => typeId.ToSymbolLabel(),
+#if R22_OR_GREATER
                 nameof(ParameterTypeId) => typeId.ToParameterLabel(),
                 nameof(GroupTypeId) => typeId.ToGroupLabel(),
                 nameof(DisciplineTypeId) => typeId.ToDisciplineLabel(),
-                nameof(SymbolTypeId) => typeId.ToSymbolLabel(),
+#endif
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
