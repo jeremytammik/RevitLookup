@@ -31,8 +31,10 @@
             <controls:ContentPlaceholder.Visibility>
                 <MultiBinding
                     Converter="{converters:CollectionEmptyVisibilityConverter}">
-                    <Binding Path="ViewModel.SnoopableObjects" />
-                    <Binding Path="ViewModel.SnoopableObjects.Count" />
+                    <Binding
+                        Path="ViewModel.SnoopableObjects" />
+                    <Binding
+                        Path="ViewModel.SnoopableObjects.Count" />
                 </MultiBinding>
             </controls:ContentPlaceholder.Visibility>
         </controls:ContentPlaceholder>
@@ -41,8 +43,10 @@
             <Grid.Visibility>
                 <MultiBinding
                     Converter="{converters:InverseCollectionEmptyVisibilityConverter}">
-                    <Binding Path="ViewModel.SnoopableObjects" />
-                    <Binding Path="ViewModel.SnoopableObjects.Count" />
+                    <Binding
+                        Path="ViewModel.SnoopableObjects" />
+                    <Binding
+                        Path="ViewModel.SnoopableObjects.Count" />
                 </MultiBinding>
             </Grid.Visibility>
             <Grid.ColumnDefinitions>
@@ -67,12 +71,12 @@
                 <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
-                    ItemsSource="{Binding
-                        ViewModel.FilteredSnoopableObjects,
-                        Converter={converters:TreeViewGroupConverter}}"
                     MouseMove="OnPresenterCursorInteracted"
                     VirtualizingStackPanel.IsVirtualizing="True"
-                    ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}" />
+                    ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}"
+                    ItemsSource="{Binding
+                        ViewModel.FilteredSnoopableObjects,
+                        Converter={converters:TreeViewGroupConverter}}" />
                 <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
             </DockPanel>
             <rl:DataGrid
@@ -119,7 +123,7 @@
                     <DataGridTemplateColumn
                         Width="2*"
                         Header="Value"
-                        CellTemplateSelector="{StaticResource DataGridCellStyleSelector}"/>
+                        CellTemplateSelector="{StaticResource DataGridCellStyleSelector}" />
                     <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
                     <DataGridTextColumn
                         Width="61"

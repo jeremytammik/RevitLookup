@@ -12,7 +12,7 @@
         <TextBlock
             d:DataContext="{d:DesignInstance objects:Descriptor}"
             Text="{Binding Value.Descriptor,
-                Converter={converters:CombinedDescriptorConverter},
+                Converter={converters:CombinedDescriptorLabelConverter},
                 Mode=OneTime}" />
     </DataTemplate>
 
@@ -24,7 +24,7 @@
                 d:DataContext="{d:DesignInstance objects:Descriptor}"
                 VerticalAlignment="Center"
                 Text="{Binding Value.Descriptor,
-                    Converter={converters:CombinedDescriptorConverter},
+                    Converter={converters:CombinedDescriptorLabelConverter},
                     Mode=OneTime}" />
             <Border
                 CornerRadius="4"

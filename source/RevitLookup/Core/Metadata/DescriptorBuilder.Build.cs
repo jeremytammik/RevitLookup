@@ -26,7 +26,7 @@ namespace RevitLookup.Core.Metadata;
 
 public sealed partial class DescriptorBuilder
 {
-    private IReadOnlyCollection<Descriptor> BuildInstanceObject(Type type)
+    private IList<Descriptor> BuildInstanceObject(Type type)
     {
         var types = GetTypeHierarchy(type);
         for (var i = types.Count - 1; i >= 0; i--)
@@ -66,7 +66,7 @@ public sealed partial class DescriptorBuilder
         return types;
     }
 
-    private IReadOnlyCollection<Descriptor> BuildStaticObject(Type type)
+    private IList<Descriptor> BuildStaticObject(Type type)
     {
         _type = type;
 

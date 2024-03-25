@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -44,57 +44,6 @@ public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IMulti
         throw new NotSupportedException();
     }
     
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
-}
-
-public sealed class InverseCollectionEmptyVisibilityConverter : MarkupExtension, IMultiValueConverter
-{
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-    {
-        var collection = (IReadOnlyCollection<SnoopableObject>) values[0]!;
-        var count = (int) values[1]!;
-        
-        if (collection.Count == 0) return Visibility.Collapsed;
-        if (count == 0) return Visibility.Collapsed;
-        
-        return Visibility.Visible;
-    }
-    
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-    
-    public override object ProvideValue(IServiceProvider serviceProvider)
-    {
-        return this;
-    }
-}
-
-public sealed class TimeToStringConverter : MarkupExtension, IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        var milliseconds = (double) value!;
-        return milliseconds switch
-        {
-            0 => string.Empty,
-            < 1e-3 => "0.001 ms",
-            < 10 => $"{milliseconds:F3} ms",
-            < 100 => $"{milliseconds:F2} ms",
-            < 1000 => $"{milliseconds:F1} ms",
-            _ => $"{milliseconds:0} ms"
-        };
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotSupportedException();
-    }
-
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;

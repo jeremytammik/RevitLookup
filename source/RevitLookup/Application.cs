@@ -34,8 +34,8 @@ public class Application : ExternalApplication
 {
     public static ActionEventHandler ActionEventHandler { get; private set; }
     public static AsyncEventHandler AsyncEventHandler { get; private set; }
-    public static AsyncEventHandler<IReadOnlyCollection<SnoopableObject>> ExternalElementHandler { get; private set; }
-    public static AsyncEventHandler<IReadOnlyCollection<Descriptor>> ExternalDescriptorHandler { get; private set; }
+    public static AsyncEventHandler<IList<SnoopableObject>> ExternalElementHandler { get; private set; }
+    public static AsyncEventHandler<IList<Descriptor>> ExternalDescriptorHandler { get; private set; }
     
     public override void OnStartup()
     {
@@ -89,7 +89,7 @@ public class Application : ExternalApplication
     {
         ActionEventHandler = new ActionEventHandler();
         AsyncEventHandler = new AsyncEventHandler();
-        ExternalElementHandler = new AsyncEventHandler<IReadOnlyCollection<SnoopableObject>>();
-        ExternalDescriptorHandler = new AsyncEventHandler<IReadOnlyCollection<Descriptor>>();
+        ExternalElementHandler = new AsyncEventHandler<IList<SnoopableObject>>();
+        ExternalDescriptorHandler = new AsyncEventHandler<IList<Descriptor>>();
     }
 }

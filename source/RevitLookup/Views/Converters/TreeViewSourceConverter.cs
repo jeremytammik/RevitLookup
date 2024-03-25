@@ -35,7 +35,6 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
         {
             Source = value
         };
-
         viewSource.SortDescriptions.Add(new SortDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Type)}", ListSortDirection.Ascending));
         viewSource.SortDescriptions.Add(new SortDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Name)}", ListSortDirection.Ascending));
         viewSource.SortDescriptions.Add(new SortDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Description)}", ListSortDirection.Ascending));
@@ -44,18 +43,20 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
         return viewSource.View.Groups;
     }
     
-    private static void OnViewOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
-    {
-        //Even an empty subscription tracks the deletion of an item and updates the TreeView. The update doesn't work without a subscription, why I don't know
-    }
-    
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotSupportedException();
     }
-
+    
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;
+    }
+    
+    /// <remarks>
+    ///     Even an empty subscription tracks the deletion of an item and updates the TreeView. The update doesn't work without a subscription
+    /// </remarks>
+    private static void OnViewOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+    {
     }
 }

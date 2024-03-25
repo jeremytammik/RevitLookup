@@ -84,7 +84,7 @@ public sealed class LookupService : ILookupService
         return this;
     }
 
-    public ILookupServiceDependsStage Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    public ILookupServiceDependsStage Snoop(IList<SnoopableObject> snoopableObjects)
     {
         if (Thread.CurrentThread == _dispatcher.Thread)
         {
@@ -181,7 +181,7 @@ public sealed class LookupService : ILookupService
             _visualService.Snoop(snoopableObject);
         }
 
-        public void Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+        public void Snoop(IList<SnoopableObject> snoopableObjects)
         {
             _visualService.Snoop(snoopableObjects);
         }

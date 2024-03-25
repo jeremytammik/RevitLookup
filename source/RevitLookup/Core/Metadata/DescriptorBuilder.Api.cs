@@ -25,7 +25,7 @@ namespace RevitLookup.Core.Metadata;
 
 public sealed partial class DescriptorBuilder
 {
-    public static IReadOnlyCollection<Descriptor> Build(Type type)
+    public static IList<Descriptor> Build(Type type)
     {
         var builder = new DescriptorBuilder
         {
@@ -36,7 +36,7 @@ public sealed partial class DescriptorBuilder
         return builder.BuildStaticObject(type);
     }
 
-    public static IReadOnlyCollection<Descriptor> Build(object obj, Document context)
+    public static IList<Descriptor> Build(object obj, Document context)
     {
         if (obj is null) return Array.Empty<Descriptor>();
 

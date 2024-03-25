@@ -40,8 +40,8 @@ public abstract partial class SnoopViewModelBase(NotificationService notificatio
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IList<SnoopableObject> _snoopableObjects = [];
     [ObservableProperty] private IList<SnoopableObject> _filteredSnoopableObjects = [];
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
+    [ObservableProperty] private IList<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IList<Descriptor> _snoopableData;
     
     public SnoopableObject SelectedObject { get; set; }
     public IServiceProvider ServiceProvider { get; } = provider;
@@ -54,7 +54,7 @@ public abstract partial class SnoopViewModelBase(NotificationService notificatio
             .Show<SnoopView>();
     }
     
-    public void Navigate(IReadOnlyCollection<SnoopableObject> selectedItems)
+    public void Navigate(IList<SnoopableObject> selectedItems)
     {
         Host.GetService<ILookupService>()
             .Snoop(selectedItems)
@@ -75,7 +75,7 @@ public abstract partial class SnoopViewModelBase(NotificationService notificatio
         UpdateSearchResults(SearchOption.Objects);
     }
     
-    async partial void OnSnoopableDataChanged(IReadOnlyCollection<Descriptor> value)
+    async partial void OnSnoopableDataChanged(IList<Descriptor> value)
     {
         await _updatingTask;
         UpdateSearchResults(SearchOption.Selection);

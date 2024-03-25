@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Views.Converters;
 
-public abstract class DescriptorConverter : MarkupExtension, IValueConverter
+public abstract class DescriptorLabelConverter : MarkupExtension, IValueConverter
 {
     protected string ConvertInvalidNames(string text)
     {
@@ -62,7 +62,7 @@ public abstract class DescriptorConverter : MarkupExtension, IValueConverter
     }
 }
 
-public sealed class SingleDescriptorConverter : DescriptorConverter
+public sealed class SingleDescriptorLabelConverter : DescriptorLabelConverter
 {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -70,7 +70,7 @@ public sealed class SingleDescriptorConverter : DescriptorConverter
     }
 }
 
-public sealed class CombinedDescriptorConverter : DescriptorConverter
+public sealed class CombinedDescriptorLabelConverter : DescriptorLabelConverter
 {
     public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

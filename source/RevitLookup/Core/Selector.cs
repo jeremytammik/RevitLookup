@@ -31,7 +31,7 @@ namespace RevitLookup.Core;
 
 public static class Selector
 {
-    public static IReadOnlyCollection<SnoopableObject> Snoop(SnoopableType type)
+    public static IList<SnoopableObject> Snoop(SnoopableType type)
     {
         return type switch
         {
@@ -56,52 +56,52 @@ public static class Selector
         };
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopView()
+    private static IList<SnoopableObject> SnoopView()
     {
         return [new SnoopableObject(Context.ActiveView)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopDocument()
+    private static IList<SnoopableObject> SnoopDocument()
     {
         return [new SnoopableObject(Context.Document)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopApplication()
+    private static IList<SnoopableObject> SnoopApplication()
     {
         return [new SnoopableObject(Context.Application)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopUiApplication()
+    private static IList<SnoopableObject> SnoopUiApplication()
     {
         return [new SnoopableObject(Context.UiApplication)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopEdge()
+    private static IList<SnoopableObject> SnoopEdge()
     {
         return [SelectObject(ObjectType.Edge)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopFace()
+    private static IList<SnoopableObject> SnoopFace()
     {
         return [SelectObject(ObjectType.Face)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopSubElement()
+    private static IList<SnoopableObject> SnoopSubElement()
     {
         return [SelectObject(ObjectType.Subelement)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopPoint()
+    private static IList<SnoopableObject> SnoopPoint()
     {
         return [SelectObject(ObjectType.PointOnElement)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopLinkedElement()
+    private static IList<SnoopableObject> SnoopLinkedElement()
     {
         return [SelectObject(ObjectType.LinkedElement)];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopSelection()
+    private static IList<SnoopableObject> SnoopSelection()
     {
         var selectedIds = Context.UiApplication.ActiveUIDocument.Selection.GetElementIds();
         if (selectedIds.Count > 0)
@@ -117,7 +117,7 @@ public static class Selector
             .ToArray();
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopDatabase()
+    private static IList<SnoopableObject> SnoopDatabase()
     {
         var elementTypes = Context.Document.GetElements().WhereElementIsElementType();
         var elementInstances = Context.Document.GetElements().WhereElementIsNotElementType();
@@ -127,7 +127,7 @@ public static class Selector
             .ToArray();
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopDependentElements()
+    private static IList<SnoopableObject> SnoopDependentElements()
     {
         var selectedIds = Context.UiDocument!.Selection.GetElementIds();
         if (selectedIds.Count == 0) return Array.Empty<SnoopableObject>();
@@ -147,27 +147,27 @@ public static class Selector
             .ToArray();
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopComponentManager()
+    private static IList<SnoopableObject> SnoopComponentManager()
     {
         return [new SnoopableObject(typeof(ComponentManager))];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopPerformanceAdviser()
+    private static IList<SnoopableObject> SnoopPerformanceAdviser()
     {
         return [new SnoopableObject(PerformanceAdviser.GetPerformanceAdviser())];
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopUpdaterRegistry()
+    private static IList<SnoopableObject> SnoopUpdaterRegistry()
     {
         return UpdaterRegistry.GetRegisteredUpdaterInfos().Select(schema => new SnoopableObject(schema)).ToArray();
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopSchemas()
+    private static IList<SnoopableObject> SnoopSchemas()
     {
         return Schema.ListSchemas().Select(schema => new SnoopableObject(schema)).ToArray();
     }
 
-    private static IReadOnlyCollection<SnoopableObject> SnoopServices()
+    private static IList<SnoopableObject> SnoopServices()
     {
         return ExternalServiceRegistry.GetServices().Select(service => new SnoopableObject(service)).ToArray();
     }

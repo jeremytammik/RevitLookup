@@ -67,7 +67,7 @@ public static class SearchEngine
                         Data = isObjectSelected ? model.SnoopableData : filteredData
                     };
 
-                //Display unfiltered data if object greater than 1 or single object
+                //Display unfiltered data if the object greater than 1 or single object
                 if (objectsCount > 1 || objectsCount == 1 && model.SnoopableObjects.Count > 1)
                     return new SearchResults
                     {
@@ -86,7 +86,7 @@ public static class SearchEngine
             {
                 var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
 
-                //Display unfiltered data if object greater than 1 or single object
+                //Display unfiltered data if the object greater than 1 or single object
                 if (filteredObjects.Count > 1 || filteredObjects.Count == 1 && model.SnoopableObjects.Count > 1)
                     return new SearchResults
                     {

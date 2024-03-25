@@ -25,7 +25,7 @@ namespace RevitLookup.Core.Utils;
 
 public static class SnoopUtils
 {
-    public static IReadOnlyList<SnoopableObject> ParseEnumerable(this IDescriptorEnumerator descriptor, SnoopableObject snoopableObject)
+    public static IList<SnoopableObject> ParseEnumerable(this IDescriptorEnumerator descriptor, SnoopableObject snoopableObject)
     {
         var items = new List<SnoopableObject>();
         descriptor.Enumerator.Reset();

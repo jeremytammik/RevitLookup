@@ -25,7 +25,7 @@
         <TextBlock
             d:DataContext="{d:DesignInstance objects:SnoopableObject}"
             Text="{Binding Descriptor,
-                                        Converter={converters:SingleDescriptorConverter},
+                                        Converter={converters:SingleDescriptorLabelConverter},
                                         Mode=OneTime}" />
     </DataTemplate>
 
@@ -37,7 +37,7 @@
                 d:DataContext="{d:DesignInstance objects:SnoopableObject}"
                 VerticalAlignment="Center"
                 Text="{Binding Descriptor,
-                                        Converter={converters:SingleDescriptorConverter},
+                                        Converter={converters:SingleDescriptorLabelConverter},
                                         Mode=OneTime}" />
             <Border
                 CornerRadius="4"

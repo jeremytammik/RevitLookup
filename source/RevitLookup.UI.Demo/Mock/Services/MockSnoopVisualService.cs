@@ -54,7 +54,7 @@ public sealed class MockSnoopVisualService(NotificationService notificationServi
         }
     }
 
-    public void Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    public void Snoop(IList<SnoopableObject> snoopableObjects)
     {
         viewModel.SnoopableObjects = snoopableObjects;
         viewModel.SnoopableData = Array.Empty<Descriptor>();
@@ -108,7 +108,7 @@ public sealed class MockSnoopVisualService(NotificationService notificationServi
         window.Visibility = visibility;
     }
 
-    private static async Task<IReadOnlyCollection<SnoopableObject>> GenerateObjectsAsync(int generationCount)
+    private static async Task<IList<SnoopableObject>> GenerateObjectsAsync(int generationCount)
     {
         if (generationCount == 0) return Array.Empty<SnoopableObject>();
 

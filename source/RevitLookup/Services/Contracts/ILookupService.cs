@@ -28,7 +28,7 @@ public interface ILookupService : ILookupServiceDependsStage, ILookupServiceShow
 {
     ILookupServiceDependsStage Snoop(SnoopableType snoopableType);
     ILookupServiceDependsStage Snoop(SnoopableObject snoopableObject);
-    ILookupServiceDependsStage Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects);
+    ILookupServiceDependsStage Snoop(IList<SnoopableObject> snoopableObjects);
     new ILookupServiceShowStage DependsOn(IServiceProvider provider);
     new ILookupServiceExecuteStage Show<T>() where T : Page;
 }

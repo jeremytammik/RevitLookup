@@ -18,23 +18,35 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.Input;
-using RevitLookup.Core.Objects;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
 
-namespace RevitLookup.ViewModels.Contracts;
+namespace RevitLookup.Views.Converters;
 
-public interface ISnoopViewModel
+public sealed class TimeToStringConverter : MarkupExtension, IValueConverter
 {
-    IList<SnoopableObject> SnoopableObjects { get; set; }
-    IList<SnoopableObject> FilteredSnoopableObjects { get; }
-    IList<Descriptor> SnoopableData { get; set; }
-    IList<Descriptor> FilteredSnoopableData { get; }
-    IAsyncRelayCommand FetchMembersCommand { get; }
-    IAsyncRelayCommand RefreshMembersCommand { get; }
-    public string SearchText { get; set; }
-    public SnoopableObject SelectedObject { get; set; }
-    public IServiceProvider ServiceProvider { get; }
-    void Navigate(SnoopableObject selectedItem);
-    void Navigate(IList<SnoopableObject> selectedItems);
-    void RemoveObject(SnoopableObject obj);
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var milliseconds = (double) value!;
+        return milliseconds switch
+        {
+            0 => string.Empty,
+            < 1e-3 => "0.001 ms",
+            < 10 => $"{milliseconds:F3} ms",
+            < 100 => $"{milliseconds:F2} ms",
+            < 1000 => $"{milliseconds:F1} ms",
+            _ => $"{milliseconds:0} ms"
+        };
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
 }

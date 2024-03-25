@@ -36,7 +36,7 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
     {
         try
         {
-            IReadOnlyCollection<SnoopableObject> snoopableObjects;
+            IList<SnoopableObject> snoopableObjects;
             if (snoopableObject.Descriptor is IDescriptorEnumerator {IsEmpty: false} descriptor)
             {
                 snoopableObjects = descriptor.ParseEnumerable(snoopableObject);
@@ -86,7 +86,7 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
         }
     }
     
-    public void Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    public void Snoop(IList<SnoopableObject> snoopableObjects)
     {
         viewModel.SnoopableObjects = new ObservableCollection<SnoopableObject>(snoopableObjects);
         viewModel.SnoopableData = Array.Empty<Descriptor>();
