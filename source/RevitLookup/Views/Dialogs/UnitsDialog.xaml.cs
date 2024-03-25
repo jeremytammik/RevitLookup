@@ -30,6 +30,7 @@ using RevitLookup.ViewModels.Dialogs;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
+using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.Views.Dialogs;
 
@@ -54,9 +55,10 @@ public sealed partial class UnitsDialog
         {
             Title = "BuiltIn Parameters",
             Content = this,
-            CloseButtonText = "Close"
+            CloseButtonText = "Close",
+            DialogMaxWidth = 1000,
         };
-
+        
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
@@ -68,9 +70,10 @@ public sealed partial class UnitsDialog
         {
             Title = "BuiltIn Categories",
             Content = this,
-            CloseButtonText = "Close"
+            CloseButtonText = "Close",
+            DialogMaxWidth = 600,
         };
-
+        
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
@@ -82,9 +85,11 @@ public sealed partial class UnitsDialog
         {
             Title = "Forge Schema",
             Content = this,
-            CloseButtonText = "Close"
+            CloseButtonText = "Close",
+            DialogMaxWidth = 1100,
         };
-
+        
+        ClassColumn.Visibility = Visibility.Visible;
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
@@ -101,7 +106,8 @@ public sealed partial class UnitsDialog
         row.ContextMenu = new ContextMenu
         {
             Resources = Wpf.Ui.Application.MainWindow.Resources,
-            PlacementTarget = row
+            PlacementTarget = row,
+            DataContext = row.DataContext
         };
 
         row.ContextMenu.AddMenuItem("CopyMenuItem")
@@ -112,6 +118,15 @@ public sealed partial class UnitsDialog
             .SetHeader("Copy label")
             .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Label))
             .SetShortcut(ModifierKeys.Control | ModifierKeys.Shift, Key.C);
+        
+        if (info.Class is not null)
+        {
+            row.ContextMenu.AddMenuItem("CopyMenuItem")
+                .SetHeader("Copy class name")
+                .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Class))
+                .SetShortcut(ModifierKeys.Control | ModifierKeys.Alt | ModifierKeys.Shift, Key.C);
+        }
+        
         row.ContextMenu.AddMenuItem()
             .SetHeader("Snoop")
             .SetCommand(info, unitInfo =>

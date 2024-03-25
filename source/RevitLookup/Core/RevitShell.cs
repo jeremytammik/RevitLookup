@@ -20,6 +20,7 @@
 
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Nice3point.Revit.Toolkit;
@@ -38,69 +39,149 @@ public static class RevitShell
             [Context.UiApplication],
             null);
     }
-
+    
     public static List<UnitInfo> GetUnitInfos<T>()
     {
         var unitType = typeof(T);
         if (unitType == typeof(BuiltInParameter))
         {
-            var parameters = Enum.GetValues(unitType).Cast<BuiltInParameter>();
-            var list = new List<UnitInfo>();
-            foreach (var parameter in parameters)
-                try
-                {
-                    list.Add(new UnitInfo(parameter, parameter.ToString(), parameter.ToLabel()));
-                }
-                catch
-                {
-                    // ignored
-                    // Some parameters don't have a label
-                }
-
-            return list;
+            return GetBuiltinParametersInfo();
         }
-
+        
         if (unitType == typeof(BuiltInCategory))
         {
-            var categories = Enum.GetValues(unitType).Cast<BuiltInCategory>();
-            var list = new List<UnitInfo>();
-            foreach (var category in categories)
-                try
-                {
-                    list.Add(new UnitInfo(category, category.ToString(), category.ToLabel()));
-                }
-                catch
-                {
-                    // ignored
-                    // Some categories don't have a label
-                }
-
-            return list;
+            return GetBuiltinCategoriesInfo();
         }
-
+        
         if (unitType == typeof(ForgeTypeId))
+        {
+            return GetForgeInfo();
+        }
+        
+        throw new NotSupportedException();
+    }
+    
+    private static List<UnitInfo> GetBuiltinParametersInfo()
+    {
+        var parameters = Enum.GetValues(typeof(BuiltInParameter)).Cast<BuiltInParameter>();
+        var list = new List<UnitInfo>();
+        foreach (var parameter in parameters)
+            try
+            {
+                list.Add(new UnitInfo(parameter, parameter.ToString(), parameter.ToLabel()));
+            }
+            catch
+            {
+                // ignored
+                // Some parameters don't have a label
+            }
+        
+        return list;
+    }
+    
+    private static List<UnitInfo> GetBuiltinCategoriesInfo()
+    {
+        var categories = Enum.GetValues(typeof(BuiltInCategory)).Cast<BuiltInCategory>();
+        var list = new List<UnitInfo>();
+        foreach (var category in categories)
+            try
+            {
+                list.Add(new UnitInfo(category, category.ToString(), category.ToLabel()));
+            }
+            catch
+            {
+                // ignored
+                // Some categories don't have a label
+            }
+        
+        return list;
+    }
+    
+    private static List<UnitInfo> GetForgeInfo()
+    {
+        const BindingFlags searchFlags = BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;
+        
+        var dataTypes = new List<PropertyInfo>();
 #if R22_OR_GREATER
-            return UnitUtils.GetAllUnits()
-                .Concat(UnitUtils.GetAllDisciplines())
-                .Concat(UnitUtils.GetAllMeasurableSpecs())
-                .Concat(SpecUtils.GetAllSpecs())
-                .Concat(ParameterUtils.GetAllBuiltInGroups())
-                .Concat(ParameterUtils.GetAllBuiltInParameters())
-                .Select(typeId => new UnitInfo(typeId, typeId.TypeId, typeId.ToLabel()))
-                .ToList();
+        dataTypes.AddRange(typeof(UnitTypeId).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(SpecTypeId).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(SpecTypeId.Boolean).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(SpecTypeId.String).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(SpecTypeId.Int).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(SpecTypeId.Reference).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(ParameterTypeId).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(GroupTypeId).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(DisciplineTypeId).GetProperties(searchFlags));
+        dataTypes.AddRange(typeof(SymbolTypeId).GetProperties(searchFlags));
+        return dataTypes.Select(info =>
+            {
+                var typeId = (ForgeTypeId) info.GetValue(null);
+                var label = GetLabel(typeId, info);
+                var className = GetClassName(info);
+                return new UnitInfo(typeId, typeId.TypeId, label, className);
+            })
+            .ToList();
+        
 #else
             return UnitUtils.GetAllUnits().Select(typeId => new UnitInfo(typeId, typeId.TypeId, typeId.ToUnitLabel()))
                 .Concat(UnitUtils.GetAllSpecs().Select(typeId => new UnitInfo(typeId, typeId.TypeId, typeId.ToSpecLabel())))
                 .ToList();
 #endif
-
-        throw new NotSupportedException();
     }
-
+    
+    private static string GetClassName(PropertyInfo property)
+    {
+        var type = property.DeclaringType!;
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append(type.Name);
+        stringBuilder.Append('.');
+        stringBuilder.Append(property.Name);
+        
+        while (type.IsNested)
+        {
+            type = type.DeclaringType!;
+            stringBuilder.Insert(0, '.');
+            stringBuilder.Insert(0, type.Name);
+        }
+        
+        return stringBuilder.ToString();
+    }
+    
+    private static string GetLabel(ForgeTypeId typeId, PropertyInfo property)
+    {
+        if (typeId.Empty()) return string.Empty;
+        if (property.Name == nameof(SpecTypeId.Custom)) return string.Empty;
+        
+        var type = property.DeclaringType;
+        while (type!.IsNested)
+        {
+            type = type.DeclaringType;
+        }
+        
+        try
+        {
+            return type.Name switch
+            {
+                nameof(UnitTypeId) => typeId.ToUnitLabel(),
+                nameof(SpecTypeId) => typeId.ToSpecLabel(),
+                nameof(ParameterTypeId) => typeId.ToParameterLabel(),
+                nameof(GroupTypeId) => typeId.ToGroupLabel(),
+                nameof(DisciplineTypeId) => typeId.ToDisciplineLabel(),
+                nameof(SymbolTypeId) => typeId.ToSymbolLabel(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+        catch
+        {
+            //Some parameter label thrown an exception
+            return string.Empty;
+        }
+    }
+    
     public static Parameter GetBuiltinParameter(BuiltInParameter builtInParameter)
     {
         const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-
+        
         var documentType = typeof(Document);
         var parameterType = typeof(Parameter);
         var assembly = Assembly.GetAssembly(parameterType);
@@ -109,24 +190,24 @@ public static class RevitShell
         var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
         var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
         var parameterCtorType = parameterType.GetConstructor(bindingFlags, null, [aDocumentType.MakePointerType(), elementIdType.MakePointerType()], null)!;
-
+        
         var elementId = Activator.CreateInstance(elementIdType);
         elementIdIdType.SetValue(elementId, builtInParameter);
-
+        
         var handle = GCHandle.Alloc(elementId);
         var elementIdPointer = GCHandle.ToIntPtr(handle);
         Marshal.StructureToPtr(elementId, elementIdPointer, true);
-
+        
         var parameter = (Parameter) parameterCtorType.Invoke([getADocumentType.Invoke(Context.Document, null), elementIdPointer]);
         handle.Free();
-
+        
         return parameter;
     }
-
+    
     public static Category GetBuiltinCategory(BuiltInCategory builtInCategory)
     {
         const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-
+        
         var documentType = typeof(Document);
         var categoryType = typeof(Category);
         var assembly = Assembly.GetAssembly(categoryType);
@@ -135,17 +216,17 @@ public static class RevitShell
         var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
         var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
         var categoryCtorType = categoryType.GetConstructor(bindingFlags, null, [aDocumentType.MakePointerType(), elementIdType.MakePointerType()], null)!;
-
+        
         var elementId = Activator.CreateInstance(elementIdType);
         elementIdIdType.SetValue(elementId, builtInCategory);
-
+        
         var handle = GCHandle.Alloc(elementId);
         var elementIdPointer = GCHandle.ToIntPtr(handle);
         Marshal.StructureToPtr(elementId, elementIdPointer, true);
-
+        
         var category = (Category) categoryCtorType.Invoke([getADocumentType.Invoke(Context.Document, null), elementIdPointer]);
         handle.Free();
-
+        
         return category;
     }
 }

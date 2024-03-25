@@ -20,9 +20,25 @@
 
 namespace RevitLookup.Models;
 
-public sealed class UnitInfo(object unitObject, string unit, string label)
+public sealed class UnitInfo
 {
-    public string Unit { get; } = unit;
-    public string Label { get; } = label;
-    public object UnitObject { get; } = unitObject;
+    public UnitInfo(object unitObject, string unit, string label)
+    {
+        Unit = unit;
+        Label = label;
+        UnitObject = unitObject;
+    }
+    
+    public UnitInfo(object unitObject, string unit, string label, string className)
+    {
+        Unit = unit;
+        Label = label;
+        UnitObject = unitObject;
+        Class = className;
+    }
+    
+    public string Unit { get; }
+    public string Label { get; }
+    public string Class { get; }
+    public object UnitObject { get; }
 }

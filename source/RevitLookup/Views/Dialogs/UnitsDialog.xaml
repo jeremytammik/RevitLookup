@@ -35,6 +35,12 @@
                 Width="*"
                 Binding="{Binding Label}"
                 Header="Label" />
+            <DataGridTextColumn
+                x:Name="ClassColumn"
+                Width="2*"
+                Binding="{Binding Class}"
+                Header="Class"
+                Visibility="Collapsed"/>
         </DataGrid.Columns>
         <DataGrid.Resources>
             <rl:ControlsDictionary />
