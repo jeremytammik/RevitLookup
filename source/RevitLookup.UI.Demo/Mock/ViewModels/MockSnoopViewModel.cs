@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Core.Objects;
@@ -32,11 +33,13 @@ namespace RevitLookup.UI.Demo.Mock.ViewModels;
 
 public sealed partial class MockSnoopViewModel(NotificationService notificationService, IServiceProvider provider) : ObservableObject, ISnoopViewModel
 {
+    private Task _updatingTask = Task.CompletedTask;
+
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
-    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
+    [ObservableProperty] private IList<SnoopableObject> _snoopableObjects = [];
+    [ObservableProperty] private IList<SnoopableObject> _filteredSnoopableObjects = [];
     [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
 
     public SnoopableObject SelectedObject { get; set; }
     public IServiceProvider ServiceProvider { get; } = provider;
@@ -57,37 +60,50 @@ public sealed partial class MockSnoopViewModel(NotificationService notificationS
             .Show<SnoopView>();
     }
 
-    partial void OnSearchTextChanged(string value)
+    async partial void OnSearchTextChanged(string value)
     {
+        await _updatingTask;
         UpdateSearchResults(SearchOption.Objects);
     }
 
-    partial void OnSnoopableObjectsChanged(IReadOnlyCollection<SnoopableObject> value)
+    async partial void OnSnoopableObjectsChanged(IList<SnoopableObject> value)
     {
         SelectedObject = null;
+        await _updatingTask;
         UpdateSearchResults(SearchOption.Objects);
     }
 
-    partial void OnSnoopableDataChanged(IReadOnlyCollection<Descriptor> value)
+    async partial void OnSnoopableDataChanged(IReadOnlyCollection<Descriptor> value)
     {
+        await _updatingTask;
         UpdateSearchResults(SearchOption.Selection);
     }
 
     private void UpdateSearchResults(SearchOption option)
     {
-        Task.Run(() =>
+        _updatingTask = Task.Run(() =>
         {
             if (string.IsNullOrEmpty(SearchText))
             {
-                FilteredSnoopableObjects = SnoopableObjects;
+                if (option == SearchOption.Objects)
+                {
+                    FilteredSnoopableObjects = SnoopableObjects;
+                }
+
                 FilteredSnoopableData = SnoopableData;
                 return;
             }
 
             var results = SearchEngine.Search(this, option);
             if (results.Data is not null) FilteredSnoopableData = results.Data;
-            if (results.Objects is not null) FilteredSnoopableObjects = results.Objects;
+            if (results.Objects is not null) FilteredSnoopableObjects = new ObservableCollection<SnoopableObject>(results.Objects);
         });
+    }
+
+    public void RemoveObject(SnoopableObject snoopableObject)
+    {
+        SnoopableObjects.Remove(snoopableObject);
+        FilteredSnoopableObjects.Remove(snoopableObject);
     }
 
     [RelayCommand]

@@ -26,38 +26,48 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Views.Converters;
 
-public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IMultiValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        var collection = (IReadOnlyCollection<SnoopableObject>) value!;
-        return collection.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        var collection = (IReadOnlyCollection<SnoopableObject>) values[0]!;
+        var count = (int) values[1]!;
+        
+        if (collection.Count > 0) return Visibility.Collapsed;
+        if (count > 0) return Visibility.Collapsed;
+        
+        return Visibility.Visible;
     }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
         throw new NotSupportedException();
     }
-
+    
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;
     }
 }
 
-public sealed class InverseCollectionSizeVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class InverseCollectionEmptyVisibilityConverter : MarkupExtension, IMultiValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        var collection = (IReadOnlyCollection<SnoopableObject>) value!;
-        return collection.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        var collection = (IReadOnlyCollection<SnoopableObject>) values[0]!;
+        var count = (int) values[1]!;
+        
+        if (collection.Count == 0) return Visibility.Collapsed;
+        if (count == 0) return Visibility.Collapsed;
+        
+        return Visibility.Visible;
     }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
         throw new NotSupportedException();
     }
-
+    
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;

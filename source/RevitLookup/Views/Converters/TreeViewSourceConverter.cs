@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Data;
@@ -39,9 +40,15 @@ public sealed class TreeViewGroupConverter : MarkupExtension, IValueConverter
         viewSource.SortDescriptions.Add(new SortDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Name)}", ListSortDirection.Ascending));
         viewSource.SortDescriptions.Add(new SortDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Description)}", ListSortDirection.Ascending));
         viewSource.GroupDescriptions.Add(new PropertyGroupDescription($"{nameof(Descriptor)}.{nameof(Descriptor.Type)}"));
+        viewSource.View.CollectionChanged += OnViewOnCollectionChanged;
         return viewSource.View.Groups;
     }
-
+    
+    private static void OnViewOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+    {
+        //Even an empty subscription tracks the deletion of an item and updates the TreeView. The update doesn't work without a subscription, why I don't know
+    }
+    
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotSupportedException();

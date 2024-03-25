@@ -27,14 +27,24 @@
         Margin="12">
         <controls:ContentPlaceholder
             Text="Nothing to show"
-            MaxHeight="300"
-            Visibility="{Binding ViewModel.SnoopableObjects,
-                Converter={converters:CollectionEmptyVisibilityConverter}}">
+            MaxHeight="300">
+            <controls:ContentPlaceholder.Visibility>
+                <MultiBinding
+                    Converter="{converters:CollectionEmptyVisibilityConverter}">
+                    <Binding Path="ViewModel.SnoopableObjects" />
+                    <Binding Path="ViewModel.SnoopableObjects.Count" />
+                </MultiBinding>
+            </controls:ContentPlaceholder.Visibility>
         </controls:ContentPlaceholder>
         <Grid
-            Visibility="{Binding ViewModel.SnoopableObjects,
-                Converter={converters:InverseCollectionSizeVisibilityConverter}}"
             Margin="0">
+            <Grid.Visibility>
+                <MultiBinding
+                    Converter="{converters:InverseCollectionEmptyVisibilityConverter}">
+                    <Binding Path="ViewModel.SnoopableObjects" />
+                    <Binding Path="ViewModel.SnoopableObjects.Count" />
+                </MultiBinding>
+            </Grid.Visibility>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
                     Width="250" />
@@ -57,11 +67,11 @@
                 <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
-                    VirtualizingStackPanel.IsVirtualizing="True"
                     ItemsSource="{Binding
                         ViewModel.FilteredSnoopableObjects,
                         Converter={converters:TreeViewGroupConverter}}"
                     MouseMove="OnPresenterCursorInteracted"
+                    VirtualizingStackPanel.IsVirtualizing="True"
                     ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}" />
                 <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
             </DockPanel>

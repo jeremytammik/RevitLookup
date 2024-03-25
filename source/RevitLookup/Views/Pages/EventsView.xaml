@@ -27,14 +27,24 @@
         Margin="12">
         <controls:ContentPlaceholder
             Text="Waiting for events"
-            MaxHeight="300"
-            Visibility="{Binding ViewModel.SnoopableObjects,
-                Converter={converters:CollectionEmptyVisibilityConverter}}">
+            MaxHeight="300">
+            <controls:ContentPlaceholder.Visibility>
+                <MultiBinding
+                    Converter="{converters:CollectionEmptyVisibilityConverter}">
+                    <Binding Path="ViewModel.SnoopableObjects" />
+                    <Binding Path="ViewModel.SnoopableObjects.Count" />
+                </MultiBinding>
+            </controls:ContentPlaceholder.Visibility>
         </controls:ContentPlaceholder>
         <Grid
-            Visibility="{Binding ViewModel.SnoopableObjects,
-                Converter={converters:InverseCollectionSizeVisibilityConverter}}"
             Margin="0">
+            <Grid.Visibility>
+                <MultiBinding
+                    Converter="{converters:InverseCollectionEmptyVisibilityConverter}">
+                    <Binding Path="ViewModel.SnoopableObjects" />
+                    <Binding Path="ViewModel.SnoopableObjects.Count" />
+                </MultiBinding>
+            </Grid.Visibility>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
                     Width="250" />

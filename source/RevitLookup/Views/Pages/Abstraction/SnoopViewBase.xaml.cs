@@ -164,8 +164,6 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         // Await Frame transition. GetMembers freezes the thread and breaks the animation
         await Task.Delay(_settingsService.TransitionDuration);
 
-        // if (TryRestoreSelection()) return;
-
         ExpandFirstTreeGroup();
     }
 

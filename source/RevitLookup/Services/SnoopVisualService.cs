@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections.ObjectModel;
 using System.Windows;
 using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
@@ -42,7 +43,7 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
             }
             else
             {
-                snoopableObjects = new[] {snoopableObject};
+                snoopableObjects = [snoopableObject];
             }
 
             Snoop(snoopableObjects);
@@ -51,12 +52,6 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
         {
             notificationService.ShowError("Invalid object", exception);
         }
-    }
-
-    public void Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
-    {
-        viewModel.SnoopableObjects = snoopableObjects;
-        viewModel.SnoopableData = Array.Empty<Descriptor>();
     }
 
     public async Task SnoopAsync(SnoopableType snoopableType)
@@ -90,7 +85,13 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
             UpdateWindowVisibility(Visibility.Visible);
         }
     }
-
+    
+    public void Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    {
+        viewModel.SnoopableObjects = new ObservableCollection<SnoopableObject>(snoopableObjects);
+        viewModel.SnoopableData = Array.Empty<Descriptor>();
+    }
+    
     private void UpdateWindowVisibility(Visibility visibility)
     {
         if (!window.IsLoaded) return;
