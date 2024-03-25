@@ -38,8 +38,8 @@ public sealed partial class MockSnoopViewModel(NotificationService notificationS
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private IList<SnoopableObject> _snoopableObjects = [];
     [ObservableProperty] private IList<SnoopableObject> _filteredSnoopableObjects = [];
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
+    [ObservableProperty] private IList<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IList<Descriptor> _snoopableData;
 
     public SnoopableObject SelectedObject { get; set; }
     public IServiceProvider ServiceProvider { get; } = provider;
@@ -52,7 +52,7 @@ public sealed partial class MockSnoopViewModel(NotificationService notificationS
             .Show<SnoopView>();
     }
 
-    public void Navigate(IReadOnlyCollection<SnoopableObject> selectedItems)
+    public void Navigate(IList<SnoopableObject> selectedItems)
     {
         Host.GetService<ILookupService>()
             .Snoop(selectedItems)
@@ -73,7 +73,7 @@ public sealed partial class MockSnoopViewModel(NotificationService notificationS
         UpdateSearchResults(SearchOption.Objects);
     }
 
-    async partial void OnSnoopableDataChanged(IReadOnlyCollection<Descriptor> value)
+    async partial void OnSnoopableDataChanged(IList<Descriptor> value)
     {
         await _updatingTask;
         UpdateSearchResults(SearchOption.Selection);
@@ -100,8 +100,15 @@ public sealed partial class MockSnoopViewModel(NotificationService notificationS
         });
     }
 
-    public void RemoveObject(SnoopableObject snoopableObject)
+    public void RemoveObject(object obj)
     {
+        var snoopableObject = obj switch
+        {
+            SnoopableObject snoopable => snoopable,
+            Descriptor descriptor => descriptor.Value.Descriptor.Value,
+            _ => throw new NotSupportedException($"Type {obj.GetType().Name} removing not supported")
+        };
+        
         SnoopableObjects.Remove(snoopableObject);
         FilteredSnoopableObjects.Remove(snoopableObject);
     }

@@ -102,8 +102,15 @@ public abstract partial class SnoopViewModelBase(NotificationService notificatio
         });
     }
     
-    public void RemoveObject(SnoopableObject snoopableObject)
+    public void RemoveObject(object obj)
     {
+        var snoopableObject = obj switch
+        {
+            SnoopableObject snoopable => snoopable,
+            Descriptor descriptor => descriptor.Value.Descriptor.Value,
+            _ => throw new NotSupportedException($"Type {obj.GetType().Name} removing not supported")
+        };
+        
         SnoopableObjects.Remove(snoopableObject);
         FilteredSnoopableObjects.Remove(snoopableObject);
     }

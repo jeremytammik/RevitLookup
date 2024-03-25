@@ -122,30 +122,40 @@ public sealed partial class DashboardViewModel(
     }
 
     [RelayCommand]
-    private Task OpenDialog(string parameter)
+    private async Task OpenDialog(string parameter)
     {
-        if (!Validate()) return Task.CompletedTask;
-
-        switch (parameter)
+        if (!Validate()) return;
+        
+        try
         {
-            case "parameters":
-                var unitsDialog = new UnitsDialog(serviceProvider);
-                return unitsDialog.ShowParametersAsync();
-            case "categories":
-                unitsDialog = new UnitsDialog(serviceProvider);
-                return unitsDialog.ShowCategoriesAsync();
-            case "forge":
-                unitsDialog = new UnitsDialog(serviceProvider);
-                return unitsDialog.ShowForgeSchemaAsync();
-            case "search":
-                var searchDialog = new SearchElementsDialog(serviceProvider);
-                return searchDialog.ShowAsync();
-            case "modules":
-                var modulesDialog = new ModulesDialog(serviceProvider);
-                return modulesDialog.ShowAsync();
+            switch (parameter)
+            {
+                case "parameters":
+                    var unitsDialog = new UnitsDialog(serviceProvider);
+                    await unitsDialog.ShowParametersAsync();
+                    return;
+                case "categories":
+                    unitsDialog = new UnitsDialog(serviceProvider);
+                    await unitsDialog.ShowCategoriesAsync();
+                    return;
+                case "forge":
+                    unitsDialog = new UnitsDialog(serviceProvider);
+                    await unitsDialog.ShowForgeSchemaAsync();
+                    return;
+                case "search":
+                    var searchDialog = new SearchElementsDialog(serviceProvider);
+                    await searchDialog.ShowAsync();
+                    return;
+                case "modules":
+                    var modulesDialog = new ModulesDialog(serviceProvider);
+                    await modulesDialog.ShowAsync();
+                    return;
+            }
         }
-
-        return Task.CompletedTask;
+        catch (Exception exception)
+        {
+            notificationService.ShowError("Failed open dialog", exception);
+        }
     }
 
     private bool Validate()

@@ -45,7 +45,7 @@ public partial class SnoopViewBase : INavigationAware
         if (args.KeyboardDevice.Modifiers != ModifierKeys.None) return;
         
         var rootWindow = (RevitLookupView) sender;
-        if (rootWindow.RootNavigation.ContentOverlay is SnackbarPresenter {Visibility: Visibility.Visible}) return;
+        if (rootWindow.RootContentDialog.Content is not null) return;
 
         if (args.Key is >= Key.D0 and <= Key.Z or >= Key.NumPad0 and <= Key.NumPad9) SearchBoxControl.Focus();
     }

@@ -235,7 +235,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                     });
                     
                     var placementTarget = (FrameworkElement) contextMenu.PlacementTarget;
-                    context.RemoveObject((SnoopableObject)placementTarget.DataContext);
+                    context.RemoveObject(placementTarget.DataContext);
                 }
                 catch (OperationCanceledException exception)
                 {

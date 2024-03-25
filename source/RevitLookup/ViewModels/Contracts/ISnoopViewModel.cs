@@ -36,5 +36,5 @@ public interface ISnoopViewModel
     public IServiceProvider ServiceProvider { get; }
     void Navigate(SnoopableObject selectedItem);
     void Navigate(IList<SnoopableObject> selectedItems);
-    void RemoveObject(SnoopableObject obj);
+    void RemoveObject(object obj);
 }
