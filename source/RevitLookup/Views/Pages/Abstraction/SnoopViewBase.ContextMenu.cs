@@ -164,7 +164,7 @@ public partial class SnoopViewBase
         
         contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName, parameter.Name))
-            .SetShortcut(new KeyGesture(Key.F1));
+            .SetShortcut(Key.F1);
 
         if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu);
     }

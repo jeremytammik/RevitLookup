@@ -88,15 +88,6 @@ public static class ContextMenuExtensions
         return item;
     }
     
-    public static MenuItem SetShortcut(this MenuItem item, KeyGesture gesture)
-    {
-        var menu = VisualUtils.FindLogicalParent<ContextMenu>(item);
-        menu.PlacementTarget.InputBindings.Add(new InputBinding(item.Command, gesture) {CommandParameter = item.CommandParameter});
-        item.InputGestureText = gesture.GetDisplayStringForCulture(CultureInfo.InvariantCulture);
-        
-        return item;
-    }
-    
     public static MenuItem SetShortcut(this MenuItem item, ModifierKeys modifiers, Key key)
     {
         var inputGesture = new KeyGesture(key, modifiers);

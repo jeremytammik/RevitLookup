@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -39,7 +40,7 @@ public sealed partial class UnitsDialog
     private readonly UnitsViewModel _viewModel;
     private readonly IServiceProvider _serviceProvider;
     private readonly CancellationTokenSource _tokenSource = new();
-
+    
     public UnitsDialog(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
@@ -47,7 +48,7 @@ public sealed partial class UnitsDialog
         DataContext = _viewModel;
         InitializeComponent();
     }
-
+    
     public async Task ShowParametersAsync()
     {
         _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<BuiltInParameter>);
@@ -62,7 +63,7 @@ public sealed partial class UnitsDialog
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
-
+    
     public async Task ShowCategoriesAsync()
     {
         _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<BuiltInCategory>);
@@ -77,7 +78,7 @@ public sealed partial class UnitsDialog
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
-
+    
     public async Task ShowForgeSchemaAsync()
     {
         _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<ForgeTypeId>);
@@ -93,41 +94,42 @@ public sealed partial class UnitsDialog
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
-
-    private void OnRowLoaded(object sender, RoutedEventArgs routedEventArgs)
+    
+    private void OnMouseEnter(object sender, RoutedEventArgs routedEventArgs)
     {
         var element = (FrameworkElement) sender;
         var unitInfo = (UnitInfo) element.DataContext;
         CreateTreeContextMenu(unitInfo, element);
     }
-
+    
     private void CreateTreeContextMenu(UnitInfo info, FrameworkElement row)
     {
-        row.ContextMenu = new ContextMenu
+        Debug.WriteLine(info.Label);
+        var contextMenu = new ContextMenu
         {
             Resources = Wpf.Ui.Application.MainWindow.Resources,
-            PlacementTarget = row,
-            DataContext = row.DataContext
+            PlacementTarget = row
         };
-
-        row.ContextMenu.AddMenuItem("CopyMenuItem")
+        
+        contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy unit")
             .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Unit))
             .SetShortcut(ModifierKeys.Control, Key.C);
-        row.ContextMenu.AddMenuItem("CopyMenuItem")
+        
+        contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy label")
             .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Label))
             .SetShortcut(ModifierKeys.Control | ModifierKeys.Shift, Key.C);
         
         if (info.Class is not null)
         {
-            row.ContextMenu.AddMenuItem("CopyMenuItem")
-                .SetHeader("Copy class name")
+            contextMenu.AddMenuItem("CopyMenuItem")
+                .SetHeader("Copy class")
                 .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Class))
                 .SetShortcut(ModifierKeys.Control | ModifierKeys.Alt | ModifierKeys.Shift, Key.C);
         }
         
-        row.ContextMenu.AddMenuItem()
+        contextMenu.AddMenuItem()
             .SetHeader("Snoop")
             .SetCommand(info, unitInfo =>
             {
@@ -137,10 +139,13 @@ public sealed partial class UnitsDialog
                     BuiltInCategory category => RevitShell.GetBuiltinCategory(category),
                     _ => unitInfo.UnitObject
                 };
-
+                
                 _tokenSource.Cancel();
                 _serviceProvider.GetService<ISnoopVisualService>().Snoop(new SnoopableObject(obj));
                 _serviceProvider.GetService<INavigationService>().Navigate(typeof(SnoopView));
             });
+        
+        
+        row.ContextMenu = contextMenu;
     }
 }

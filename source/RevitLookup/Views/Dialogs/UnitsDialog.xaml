@@ -59,8 +59,8 @@
                 TargetType="DataGridRow"
                 BasedOn="{StaticResource DefaultDataGridRowStyle}">
                 <EventSetter
-                    Event="Loaded"
-                    Handler="OnRowLoaded" />
+                    Event="MouseEnter"
+                    Handler="OnMouseEnter" />
             </Style>
         </DataGrid.RowStyle>
     </DataGrid>
