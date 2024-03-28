@@ -9,10 +9,6 @@
         Focusable="False"
         IsHitTestVisible="False" />
     <rl:MenuItem
-        x:Key="CheckableMenuItem"
-        x:Shared="False"
-        IsCheckable="True" />
-    <rl:MenuItem
         x:Key="CopyMenuItem"
         x:Shared="False"
         Header="Copy"

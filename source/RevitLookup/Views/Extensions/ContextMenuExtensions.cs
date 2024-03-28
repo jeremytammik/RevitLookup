@@ -113,10 +113,11 @@ public static class ContextMenuExtensions
         item.Header = text;
         
         return item;
-    }    
+    }
     
     public static MenuItem SetChecked(this MenuItem item, bool state)
     {
+        item.IsCheckable = true;
         item.IsChecked = state;
         
         return item;
