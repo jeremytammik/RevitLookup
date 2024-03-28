@@ -113,6 +113,13 @@ public static class ContextMenuExtensions
         item.Header = text;
         
         return item;
+    }    
+    
+    public static MenuItem SetChecked(this MenuItem item, bool state)
+    {
+        item.IsChecked = state;
+        
+        return item;
     }
     
     public static MenuItem SetGestureText(this MenuItem item, Key key)

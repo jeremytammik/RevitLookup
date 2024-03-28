@@ -77,6 +77,7 @@ public partial class SnoopViewBase
         
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Time")
+            .SetChecked(dataGrid.Columns[2].Visibility == Visibility.Visible)
             .SetCommand(dataGrid.Columns[2], parameter =>
             {
                 _settingsService.ShowTimeColumn = parameter.Visibility != Visibility.Visible;
@@ -88,6 +89,7 @@ public partial class SnoopViewBase
         
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Events")
+            .SetChecked(_settingsService.IncludeEvents)
             .SetCommand(_settingsService, parameter =>
             {
                 parameter.IncludeEvents = !parameter.IncludeEvents;
@@ -95,6 +97,7 @@ public partial class SnoopViewBase
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Extensions")
+            .SetChecked(_settingsService.IncludeExtensions)
             .SetCommand(_settingsService, parameter =>
             {
                 parameter.IncludeExtensions = !parameter.IncludeExtensions;
@@ -102,6 +105,7 @@ public partial class SnoopViewBase
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Fields")
+            .SetChecked(_settingsService.IncludeFields)
             .SetCommand(_settingsService, parameter =>
             {
                 parameter.IncludeFields = !parameter.IncludeFields;
@@ -109,6 +113,7 @@ public partial class SnoopViewBase
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Non-public")
+            .SetChecked(_settingsService.IncludePrivate)
             .SetCommand(_settingsService, parameter =>
             {
                 parameter.IncludePrivate = !parameter.IncludePrivate;
@@ -116,6 +121,7 @@ public partial class SnoopViewBase
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Root hierarchy")
+            .SetChecked(_settingsService.IncludeRootHierarchy)
             .SetCommand(_settingsService, parameter =>
             {
                 parameter.IncludeRootHierarchy = !parameter.IncludeRootHierarchy;
@@ -123,6 +129,7 @@ public partial class SnoopViewBase
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Static")
+            .SetChecked(_settingsService.IncludeStatic)
             .SetCommand(_settingsService, parameter =>
             {
                 parameter.IncludeStatic = !parameter.IncludeStatic;
@@ -130,6 +137,7 @@ public partial class SnoopViewBase
             });
         contextMenu.AddMenuItem("CheckableMenuItem")
             .SetHeader("Unsupported")
+            .SetChecked(_settingsService.IncludeUnsupported)
             .SetCommand(_settingsService, parameter =>
             {
                 parameter.IncludeUnsupported = !parameter.IncludeUnsupported;
