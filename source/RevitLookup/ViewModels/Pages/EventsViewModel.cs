@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -30,10 +31,11 @@ public sealed class EventsViewModel : SnoopViewModelBase, IEventsViewModel
 {
     private readonly EventMonitor _eventMonitor;
     private readonly Stack<SnoopableObject> _events = new();
-
-    public EventsViewModel(NotificationService notificationService, IServiceProvider provider) : base(notificationService, provider)
+    
+    // ReSharper disable once ContextualLoggerProblem
+    public EventsViewModel(NotificationService notificationService, IServiceProvider provider, ILogger<EventMonitor> logger) : base(notificationService, provider)
     {
-        _eventMonitor = new EventMonitor(OnHandlingEvent);
+        _eventMonitor = new EventMonitor(OnHandlingEvent, logger: logger);
     }
 
     public void OnNavigatedTo()

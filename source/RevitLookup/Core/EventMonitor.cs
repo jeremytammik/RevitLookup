@@ -23,7 +23,9 @@ using System.Diagnostics;
 using System.Reflection;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using Microsoft.Extensions.Logging;
 using Nice3point.Revit.Toolkit;
+using RevitLookup.ViewModels.Pages;
 
 namespace RevitLookup.Core;
 
@@ -33,10 +35,12 @@ public sealed class EventMonitor
     private readonly List<string> _denyList;
     private readonly Dictionary<EventInfo, Delegate> _eventInfos = new();
     private readonly Action<string, EventArgs> _handler;
-
-    public EventMonitor(Action<string, EventArgs> handler)
+    private readonly ILogger<EventMonitor> _logger;
+    
+    public EventMonitor(Action<string, EventArgs> handler, ILogger<EventMonitor> logger)
     {
         _handler = handler;
+        _logger = logger;
         _denyList =
         [
             nameof(UIApplication.Idling),
@@ -71,13 +75,13 @@ public sealed class EventMonitor
         foreach (var type in dll.GetTypes())
         foreach (var eventInfo in type.GetEvents())
         {
-            Debug.Write($"RevitLookup EventMonitor: {eventInfo.ReflectedType}.{eventInfo.Name}");
+            _logger.LogDebug($"RevitLookup EventMonitor: {eventInfo.ReflectedType}.{eventInfo.Name}");
             if (_denyList.Contains(eventInfo.Name)) continue;
 
             var targets = FindValidTargets(eventInfo.ReflectedType);
             if (targets is null)
             {
-                Debug.WriteLine(" - missing target");
+                _logger.LogDebug(" - missing target");
                 break;
             }
 
@@ -86,7 +90,7 @@ public sealed class EventMonitor
 
             foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
             _eventInfos.Add(eventInfo, eventHandler);
-            Debug.WriteLine(" - success");
+            _logger.LogDebug(" - success");
         }
     }
 

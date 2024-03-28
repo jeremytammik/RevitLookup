@@ -73,6 +73,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <!--Revit references-->
         <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*-*"/>
@@ -80,9 +81,21 @@
         <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="Nice3point.Revit.Api.UIFramework" Version="$(RevitVersion).*-*"/>
         <PackageReference Include="Nice3point.Revit.Api.UIFrameworkServices" Version="$(RevitVersion).*-*"/>
+
+        <!--MVVM-->
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*"/>
+
+        <!--IOC-->
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.*" Condition="$(Configuration.Contains('R25'))"/>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.*"/>
+        
+        <!--Logging-->
+        <PackageReference Include="Serilog.Sinks.Debug" Version="2.*"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="5.*"/>
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="7.*" Condition="$(Configuration.Contains('R25'))"/>
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="8.*"/>
+        
+        <!--Compability-->
         <PackageReference Include="PolySharp" Version="1.*" PrivateAssets="All" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
     </ItemGroup>
 

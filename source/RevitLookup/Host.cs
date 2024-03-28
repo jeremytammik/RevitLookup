@@ -28,7 +28,7 @@ public static class Host
 
         //Logging
         builder.Logging.ClearProviders();
-        builder.Logging.AddLoggerConfiguration();
+        builder.Logging.AddSerilogConfiguration();
 
         //Configuration
         builder.Services.AddOptions(builder.Configuration);
