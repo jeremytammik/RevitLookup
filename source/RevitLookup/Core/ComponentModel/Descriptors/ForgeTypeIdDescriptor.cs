@@ -25,13 +25,16 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver
+public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
 {
+    private readonly ForgeTypeId _typeId;
+    
     public ForgeTypeIdDescriptor(ForgeTypeId typeId)
     {
+        _typeId = typeId;
         Name = typeId.TypeId;
     }
-
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -39,5 +42,69 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver
             nameof(ForgeTypeId.Clear) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
             _ => null
         };
+    }
+    
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "ToUnitLabel";
+            extension.Result = extension.Value.ToUnitLabel();
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "ToSpecLabel";
+            extension.Result = extension.Value.ToSpecLabel();
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "ToGroupLabel";
+            extension.Result = extension.Value.ToGroupLabel();
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "ToDisciplineLabel";
+            extension.Result = extension.Value.ToDisciplineLabel();
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "ToSymbolLabel";
+            extension.Result = extension.Value.ToSymbolLabel();
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "ToParameterLabel";
+            extension.Result = extension.Value.ToParameterLabel();
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "IsSpec";
+            extension.Result = SpecUtils.IsSpec(extension.Value);
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "IsMeasurableSpec";
+            extension.Result = UnitUtils.IsMeasurableSpec(extension.Value);
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "IsUnit";
+            extension.Result = UnitUtils.IsUnit(extension.Value);
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "IsSymbol";
+            extension.Result = UnitUtils.IsSymbol(extension.Value);
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "IsBuiltInParameter";
+            extension.Result = ParameterUtils.IsBuiltInParameter(extension.Value);
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "IsBuiltInGroup";
+            extension.Result = ParameterUtils.IsBuiltInGroup(extension.Value);
+        });
     }
 }
