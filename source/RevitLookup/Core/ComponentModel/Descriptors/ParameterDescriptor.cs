@@ -77,7 +77,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
     {
         contextMenu.AddMenuItem()
             .SetHeader("Edit value")
-            .SetAvailability(!_parameter.IsReadOnly && _parameter.StorageType != StorageType.ElementId && _parameter.StorageType != StorageType.None)
+            .SetAvailability(!_parameter.IsReadOnly && _parameter.StorageType != StorageType.None)
             .SetCommand(_parameter, async parameter =>
             {
                 var context = (ISnoopViewModel) contextMenu.DataContext;

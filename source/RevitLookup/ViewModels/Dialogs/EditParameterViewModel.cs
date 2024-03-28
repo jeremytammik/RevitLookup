@@ -37,7 +37,7 @@ public partial class EditParameterViewModel : ObservableObject
             StorageType.Integer => parameter.AsInteger().ToString(),
             StorageType.Double => parameter.AsValueString(),
             StorageType.String => parameter.AsString(),
-            StorageType.ElementId => parameter.AsValueString(),
+            StorageType.ElementId => parameter.AsElementId().ToString(),
             StorageType.None => parameter.AsValueString(),
             _ => parameter.AsValueString()
         };
@@ -72,6 +72,15 @@ public partial class EditParameterViewModel : ObservableObject
                     result = _parameter.Set(Value);
                     break;
                 case StorageType.ElementId:
+#if R24_OR_GREATER
+                    result = long.TryParse(Value, out var idValue);
+#else
+                    result = int.TryParse(Value, out var idValue);
+#endif
+                    if (!result) break;
+                    
+                    result = _parameter.Set(new ElementId(idValue));
+                    break;
                 case StorageType.None:
                 default:
                     result = _parameter.SetValueString(Value);
