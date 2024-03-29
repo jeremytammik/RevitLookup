@@ -58,6 +58,12 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
         });
         manager.Register(_typeId, extension =>
         {
+            extension.Name = "ToSymbolLabel";
+            extension.Result = extension.Value.ToSymbolLabel();
+        });
+#if R22_OR_GREATER
+        manager.Register(_typeId, extension =>
+        {
             extension.Name = "ToGroupLabel";
             extension.Result = extension.Value.ToGroupLabel();
         });
@@ -68,14 +74,21 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
         });
         manager.Register(_typeId, extension =>
         {
-            extension.Name = "ToSymbolLabel";
-            extension.Result = extension.Value.ToSymbolLabel();
-        });
-        manager.Register(_typeId, extension =>
-        {
             extension.Name = "ToParameterLabel";
             extension.Result = extension.Value.ToParameterLabel();
         });
+#endif
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "IsUnit";
+            extension.Result = UnitUtils.IsUnit(extension.Value);
+        });
+        manager.Register(_typeId, extension =>
+        {
+            extension.Name = "IsSymbol";
+            extension.Result = UnitUtils.IsSymbol(extension.Value);
+        });
+#if R22_OR_GREATER
         manager.Register(_typeId, extension =>
         {
             extension.Name = "IsSpec";
@@ -88,16 +101,6 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
         });
         manager.Register(_typeId, extension =>
         {
-            extension.Name = "IsUnit";
-            extension.Result = UnitUtils.IsUnit(extension.Value);
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "IsSymbol";
-            extension.Result = UnitUtils.IsSymbol(extension.Value);
-        });
-        manager.Register(_typeId, extension =>
-        {
             extension.Name = "IsBuiltInParameter";
             extension.Result = ParameterUtils.IsBuiltInParameter(extension.Value);
         });
@@ -106,5 +109,6 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
             extension.Name = "IsBuiltInGroup";
             extension.Result = ParameterUtils.IsBuiltInGroup(extension.Value);
         });
+#endif
     }
 }
