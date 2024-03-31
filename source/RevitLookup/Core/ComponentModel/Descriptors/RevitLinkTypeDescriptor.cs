@@ -27,12 +27,15 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class RevitLinkTypeDescriptor(Element element) : ElementDescriptor(element), IDescriptorResolver
 {
+    private readonly Element _element = element;
+
     public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
             nameof(RevitLinkType.Load) => ResolveSet.Append(new LinkLoadResult(), "Overridden"),
             nameof(RevitLinkType.Reload) => ResolveSet.Append(new LinkLoadResult(), "Overridden"),
+            nameof(RevitLinkType.IsLoaded) => ResolveSet.Append(RevitLinkType.IsLoaded(_element.Document, _element.Id)),
             _ => null
         };
     }
