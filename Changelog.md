@@ -1,5 +1,34 @@
 # Changelog
 
+# 2025-04-02 **2025.0.2**
+
+## General
+
+- Revit 2025 support
+
+- **Action for deleting element**
+
+  Now you can delete an item from the project, the action is available both from the left panel and from the table.
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/e8b4d939-db4f-4a14-847f-5852cb4ebec9)
+
+- **Action for editing element parameter value**
+
+  Now you can edit the parameter value. String, Double, Int, ElementId supported.
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/e6b9dbe2-f5db-4a93-ae58-ccb82cdb3d88)
+
+- **ForgeTypeId class name**
+
+  For developer convenience, the Forge Schema dialog now displays the full class and property name, for direct use in code.
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/780f27dd-2aa2-4cfb-b7c2-ef1970aaaf07)
+
+## Improvements
+
+- Added Symbols, groups to the Forge Schema dialog.
+- Add `RevitLinkType.IsLoaded` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/208
+- Add .LocationCurve.ElementsAtJoin` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/205
+- Add .LocationCurve.JoinType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/205
+
+
 # 2024-02-10 **2024.0.13**
 
 ## General
