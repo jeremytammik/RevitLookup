@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,14 +19,13 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.Services.Enums;
+using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.ViewModels.Converters;
 
-[ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
 public sealed class UpToDateVisibilityConverter : MarkupExtension, IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -48,7 +47,6 @@ public sealed class UpToDateVisibilityConverter : MarkupExtension, IMultiValueCo
     }
 }
 
-[ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
 public sealed class UpdateAvailableCardVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -68,7 +66,6 @@ public sealed class UpdateAvailableCardVisibilityConverter : MarkupExtension, IV
     }
 }
 
-[ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
 public sealed class UpdateDownloadedVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -88,7 +85,6 @@ public sealed class UpdateDownloadedVisibilityConverter : MarkupExtension, IValu
     }
 }
 
-[ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
 public class InverseUpdateDownloadedVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -108,7 +104,6 @@ public class InverseUpdateDownloadedVisibilityConverter : MarkupExtension, IValu
     }
 }
 
-[ValueConversion(typeof(SoftwareUpdateState), typeof(Visibility))]
 public sealed class ErrorCardVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

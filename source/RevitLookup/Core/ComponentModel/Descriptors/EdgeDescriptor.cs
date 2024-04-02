@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -20,12 +20,11 @@
 
 using System.Globalization;
 using System.Windows.Controls;
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
 using System.Windows.Input;
 using Nice3point.Revit.Toolkit;
 using RevitLookup.Views.Extensions;
 #endif
-using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -33,13 +32,13 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
     private readonly Edge _edge;
 
 #endif
     public EdgeDescriptor(Edge edge)
     {
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
         _edge = edge;
 #endif
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
@@ -47,7 +46,7 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
 
     public void RegisterMenu(ContextMenu contextMenu)
     {
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
         contextMenu.AddMenuItem()
             .SetHeader("Show edge")
             .SetCommand(_edge, edge =>

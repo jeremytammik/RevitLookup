@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -71,7 +70,7 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorRes
 
     private static ForgeTypeId GetValidUnit(ForgeTypeId forgeTypeId)
     {
-#if R22_OR_GREATER
+#if REVIT2022_OR_GREATER
         var isMeasurableSpec = UnitUtils.IsMeasurableSpec(forgeTypeId);
 #else
         var isMeasurableSpec = false;

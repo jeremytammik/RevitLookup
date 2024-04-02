@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace RevitLookup.ViewModels.Dialogs;
@@ -72,7 +71,7 @@ public partial class EditParameterViewModel : ObservableObject
                     result = _parameter.Set(Value);
                     break;
                 case StorageType.ElementId:
-#if R24_OR_GREATER
+#if REVIT2024_OR_GREATER
                     result = long.TryParse(Value, out var idValue);
 #else
                     result = int.TryParse(Value, out var idValue);

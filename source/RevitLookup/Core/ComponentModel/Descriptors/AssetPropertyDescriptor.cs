@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Visual;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;

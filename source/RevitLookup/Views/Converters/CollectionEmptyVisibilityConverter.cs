@@ -19,10 +19,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.Core.Objects;
+using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.Views.Converters;
 

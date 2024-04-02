@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -24,6 +24,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using RevitLookup.Core.Enums;
 using Wpf.Ui.Controls;
+using Binding = System.Windows.Data.Binding;
 
 namespace RevitLookup.Views.Converters;
 

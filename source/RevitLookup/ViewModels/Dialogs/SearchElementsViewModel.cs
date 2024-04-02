@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Autodesk.Revit.DB;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Nice3point.Revit.Toolkit;
 
@@ -37,7 +36,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
 
         foreach (var rawId in items)
         {
-#if R24_OR_GREATER
+#if REVIT2024_OR_GREATER
             if (long.TryParse(rawId, out var id))
             {
                 var element = Context.Document.GetElement(new ElementId(id));
@@ -81,7 +80,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
     {
         var guidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_GUID));
         var typeGuidProvider = new ParameterValueProvider(new ElementId(BuiltInParameter.IFC_TYPE_GUID));
-#if R22_OR_GREATER
+#if REVIT2022_OR_GREATER
         var filterRule = new FilterStringRule(guidProvider, new FilterStringEquals(), rawId);
         var typeFilterRule = new FilterStringRule(typeGuidProvider, new FilterStringEquals(), rawId);
 #else

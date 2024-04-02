@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -61,7 +60,7 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
             extension.Name = "ToSymbolLabel";
             extension.Result = extension.Value.ToSymbolLabel();
         });
-#if R22_OR_GREATER
+#if REVIT2022_OR_GREATER
         manager.Register(_typeId, extension =>
         {
             extension.Name = "ToGroupLabel";
@@ -88,7 +87,7 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
             extension.Name = "IsSymbol";
             extension.Result = UnitUtils.IsSymbol(extension.Value);
         });
-#if R22_OR_GREATER
+#if REVIT2022_OR_GREATER
         manager.Register(_typeId, extension =>
         {
             extension.Name = "IsSpec";

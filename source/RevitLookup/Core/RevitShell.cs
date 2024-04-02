@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -21,7 +21,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Nice3point.Revit.Toolkit;
 using RevitLookup.Models;
@@ -102,7 +101,7 @@ public static class RevitShell
         const BindingFlags searchFlags = BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;
         
         var dataTypes = new List<PropertyInfo>();
-#if R22_OR_GREATER
+#if REVIT2022_OR_GREATER
         dataTypes.AddRange(typeof(UnitTypeId).GetProperties(searchFlags));
         dataTypes.AddRange(typeof(SpecTypeId).GetProperties(searchFlags));
         dataTypes.AddRange(typeof(SpecTypeId.Boolean).GetProperties(searchFlags));
@@ -164,7 +163,7 @@ public static class RevitShell
                 nameof(UnitTypeId) => typeId.ToUnitLabel(),
                 nameof(SpecTypeId) => typeId.ToSpecLabel(),
                 nameof(SymbolTypeId) => typeId.ToSymbolLabel(),
-#if R22_OR_GREATER
+#if REVIT2022_OR_GREATER
                 nameof(ParameterTypeId) => typeId.ToParameterLabel(),
                 nameof(GroupTypeId) => typeId.ToGroupLabel(),
                 nameof(DisciplineTypeId) => typeId.ToDisciplineLabel(),

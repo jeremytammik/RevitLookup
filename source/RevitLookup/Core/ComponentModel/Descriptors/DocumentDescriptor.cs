@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -41,7 +40,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
         {
             nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
             nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
-#if R24_OR_GREATER
+#if REVIT2024_OR_GREATER
             nameof(Document.GetUnusedElements) => ResolveSet.Append(context.GetUnusedElements(new HashSet<ElementId>())),
 #endif
             _ => null

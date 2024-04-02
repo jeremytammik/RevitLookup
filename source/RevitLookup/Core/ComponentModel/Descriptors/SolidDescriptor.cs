@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -20,12 +20,11 @@
 
 using System.Globalization;
 using System.Windows.Controls;
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
 using System.Windows.Input;
 using Nice3point.Revit.Toolkit;
 using RevitLookup.Views.Extensions;
 #endif
-using Autodesk.Revit.DB;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -33,13 +32,13 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
     private readonly Solid _solid;
 
 #endif
     public SolidDescriptor(Solid solid)
     {
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
         _solid = solid;
 #endif
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
@@ -47,7 +46,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
 
     public void RegisterMenu(ContextMenu contextMenu)
     {
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
         contextMenu.AddMenuItem()
             .SetHeader("Show solid")
             .SetCommand(_solid, solid =>

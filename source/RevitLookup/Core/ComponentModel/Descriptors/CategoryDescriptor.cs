@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2023 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB;
 using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -42,13 +41,13 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
         {
             extension.Name = "GetElements";
             extension.Result = extension.Context
-#if R23_OR_GREATER
+#if REVIT2023_OR_GREATER
                 .GetInstances(_category.BuiltInCategory);
 #else
                 .GetInstances((BuiltInCategory) _category.Id.IntegerValue);
 #endif
         });
-#if R21 || R22
+#if !REVIT2023_OR_GREATER
         manager.Register(_category, extension =>
         {
             extension.Name = "BuiltInCategory";

@@ -18,20 +18,28 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
-using Wpf.Ui.Controls;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
 using Visibility = System.Windows.Visibility;
 
-namespace RevitLookup.Services.Contracts;
+namespace RevitLookup.ViewModels.Converters;
 
-public interface IWindow
+public sealed class InverseBoolVisibilityConverter : MarkupExtension, IValueConverter
 {
-    bool IsLoaded { get; }
-    Visibility Visibility { get; set; }
-    WindowBackdropType WindowBackdropType { get; set; }
-
-    void EnableSizeTracking();
-    void DisableSizeTracking();
-
-    event RoutedEventHandler Loaded;
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not bool b) return Visibility.Collapsed;
+        return b ? Visibility.Collapsed : Visibility.Visible;
+    }
+    
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Convert(value, targetType, parameter, culture);
+    }
+    
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
 }
