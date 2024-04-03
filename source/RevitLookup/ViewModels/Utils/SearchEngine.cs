@@ -37,28 +37,28 @@ public static class SearchEngine
                 var filteredData = Search(model.SearchText, model.SnoopableData);
                 var objectsCount = filteredObjects.Count;
                 var dataCount = filteredData.Count;
-
+                
                 var isObjectSelected = false;
-
+                
                 if (model.SelectedObject is not null)
                 {
                     //Add other types to selection if no objects are found
                     if (objectsCount == 0 && dataCount > 0)
                         filteredObjects = Search(model.SelectedObject, model.SnoopableObjects);
-
+                    
                     foreach (var item in filteredObjects)
                         if (item == model.SelectedObject)
                         {
                             isObjectSelected = true;
                             break;
                         }
-
+                    
                     if (dataCount > 0)
                         //Add selected object to results
                         if (!isObjectSelected)
                             filteredObjects.Add(model.SelectedObject);
                 }
-
+                
                 //Add data of the selected object if no others are found
                 if (objectsCount > 0 && dataCount == 0)
                     return new SearchResults
@@ -66,7 +66,7 @@ public static class SearchEngine
                         Objects = filteredObjects,
                         Data = isObjectSelected ? model.SnoopableData : filteredData
                     };
-
+                
                 //Display unfiltered data if the object greater than 1 or single object
                 if (objectsCount > 1 || objectsCount == 1 && model.SnoopableObjects.Count > 1)
                     return new SearchResults
@@ -74,7 +74,7 @@ public static class SearchEngine
                         Objects = filteredObjects,
                         Data = model.SnoopableData
                     };
-
+                
                 //Output as is
                 return new SearchResults
                 {
@@ -85,14 +85,14 @@ public static class SearchEngine
             case SearchOption.Selection:
             {
                 var filteredObjects = Search(model.SearchText, model.SnoopableObjects);
-
+                
                 //Display unfiltered data if the object greater than 1 or single object
                 if (filteredObjects.Count > 1 || filteredObjects.Count == 1 && model.SnoopableObjects.Count > 1)
                     return new SearchResults
                     {
                         Data = model.SnoopableData
                     };
-
+                
                 //Output as is
                 return new SearchResults
                 {
@@ -103,7 +103,7 @@ public static class SearchEngine
                 throw new ArgumentOutOfRangeException(nameof(option), option, null);
         }
     }
-
+    
     /// <summary>
     ///     Search all types for selected object
     /// </summary>
@@ -113,10 +113,10 @@ public static class SearchEngine
         foreach (var item in data)
             if (item.Descriptor.Type == query.Descriptor.Type)
                 filteredSnoopableObjects.Add(item);
-
+        
         return filteredSnoopableObjects;
     }
-
+    
     /// <summary>
     ///     Objects filtering
     /// </summary>
@@ -128,10 +128,10 @@ public static class SearchEngine
                 filteredSnoopableObjects.Add(item);
             else if (item.Descriptor.Type.Contains(query, StringComparison.OrdinalIgnoreCase))
                 filteredSnoopableObjects.Add(item);
-
+        
         return filteredSnoopableObjects;
     }
-
+    
     /// <summary>
     ///     Data filtering
     /// </summary>
@@ -139,10 +139,20 @@ public static class SearchEngine
     {
         var filteredSnoopableData = new List<Descriptor>();
         foreach (var item in data)
-            if (item.Name.Contains(query, StringComparison.OrdinalIgnoreCase)) filteredSnoopableData.Add(item);
-            else if (item.Value.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+        {
+            if (item.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            {
                 filteredSnoopableData.Add(item);
-
+            }
+            else if (item.Value.Descriptor.Name is null)
+            {
+            }
+            else if (item.Value.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            {
+                filteredSnoopableData.Add(item);
+            }
+        }
+        
         return filteredSnoopableData;
     }
 }
