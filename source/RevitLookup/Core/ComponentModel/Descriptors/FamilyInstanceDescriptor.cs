@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -46,6 +47,7 @@ public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : El
             "Room" when parameters.Length == 1 => ResolveGetRoom(),
             "FromRoom" when parameters.Length == 1 => ResolveFromRoom(),
             "ToRoom" when parameters.Length == 1 => ResolveToRoom(),
+            nameof(FamilyInstance.GetOriginalGeometry) => ResolveOriginalGeometry(),
             _ => null
         };
 
@@ -80,6 +82,56 @@ public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : El
             }
 
             return resolveSummary;
+        }
+
+        ResolveSet ResolveOriginalGeometry()
+        {
+            return new ResolveSet(10)
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    View = Context.ActiveView,
+                }), "Active view")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    View = Context.ActiveView,
+                    IncludeNonVisibleObjects = true,
+                }), "Active view, including non-visible objects")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Coarse,
+                }), "Model, coarse detail level")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Fine,
+                }), "Model, fine detail level")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Medium,
+                }), "Model, medium detail level")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Undefined,
+                }), "Model, undefined detail level")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Coarse,
+                    IncludeNonVisibleObjects = true,
+                }), "Model, coarse detail level, including non-visible objects")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Fine,
+                    IncludeNonVisibleObjects = true,
+                }), "Model, fine detail level, including non-visible objects")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Medium,
+                    IncludeNonVisibleObjects = true,
+                }), "Model, medium detail level, including non-visible objects")
+                .AppendVariant(familyInstance.GetOriginalGeometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Undefined,
+                    IncludeNonVisibleObjects = true,
+                }), "Model, undefined detail level, including non-visible objects");
         }
     }
 }
