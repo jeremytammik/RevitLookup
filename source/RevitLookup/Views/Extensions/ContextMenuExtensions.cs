@@ -22,7 +22,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Views.Extensions;

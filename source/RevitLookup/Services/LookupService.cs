@@ -22,7 +22,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Microsoft.Extensions.DependencyInjection;
-using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;

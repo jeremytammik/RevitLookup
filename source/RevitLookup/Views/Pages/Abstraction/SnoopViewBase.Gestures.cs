@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages.Abstraction;

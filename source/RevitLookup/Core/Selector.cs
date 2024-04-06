@@ -22,7 +22,6 @@ using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Windows;
-using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
 

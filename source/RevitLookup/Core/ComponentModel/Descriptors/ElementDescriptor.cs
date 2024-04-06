@@ -23,7 +23,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Autodesk.Revit.DB.ExtensibleStorage;
-using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;

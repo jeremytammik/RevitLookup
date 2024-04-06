@@ -20,7 +20,6 @@
 
 using System.Windows;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using Wpf.Ui;

@@ -18,9 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Nice3point.Revit.Toolkit;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;

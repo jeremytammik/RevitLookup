@@ -22,7 +22,6 @@ using System.Globalization;
 using System.Windows.Controls;
 #if REVIT2023_OR_GREATER
 using System.Windows.Input;
-using Nice3point.Revit.Toolkit;
 using RevitLookup.Views.Extensions;
 #endif
 using RevitLookup.Core.Contracts;

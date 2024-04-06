@@ -22,7 +22,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using Autodesk.Revit.UI;
-using Nice3point.Revit.Toolkit;
 using RevitLookup.Models;
 
 namespace RevitLookup.Core;

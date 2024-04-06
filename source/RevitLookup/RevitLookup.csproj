@@ -44,7 +44,7 @@
 
     <ItemGroup>
         <!--Revit references-->
-        <PackageReference Include="Nice3point.Revit.Build.Tasks" Version="1.0"/>
+        <PackageReference Include="Nice3point.Revit.Build.Tasks" Version="1.*"/>
         <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
         <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
         <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
@@ -74,12 +74,6 @@
         <ProjectReference Include="..\RevitLookup.UI\RevitLookup.UI.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Using Include="Autodesk.Revit.DB"/>
-        <Using Include="Nice3point.Revit.Extensions"/>
-        <Using Include="JetBrains.Annotations"/>
-    </ItemGroup>
-    
     <ItemGroup>
         <Resource Include="Resources\Images\RibbonIcon16.png"/>
         <Resource Include="Resources\Images\RibbonIcon32.png"/>

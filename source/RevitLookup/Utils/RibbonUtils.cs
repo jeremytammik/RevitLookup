@@ -21,7 +21,6 @@
 using System.Reflection;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
-using Nice3point.Revit.Toolkit;
 using UIFramework;
 using UIFrameworkServices;
 using RibbonButton = Autodesk.Windows.RibbonButton;

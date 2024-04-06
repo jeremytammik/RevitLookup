@@ -23,7 +23,6 @@ using System.Diagnostics;
 using System.Reflection;
 using Autodesk.Revit.UI;
 using Microsoft.Extensions.Logging;
-using Nice3point.Revit.Toolkit;
 
 namespace RevitLookup.Core;
 

@@ -18,8 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Nice3point.Revit.Toolkit;
-
 namespace RevitLookup.Core.Utils;
 
 public static class ContextUtils
