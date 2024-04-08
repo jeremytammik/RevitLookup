@@ -91,6 +91,7 @@ public static class DescriptorMap
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
+            ElevationMarker value when type == typeof(ElevationMarker) => new ElevationMarkerDescriptor(value),
             ForgeTypeId value when type is null || type == typeof(ForgeTypeId) => new ForgeTypeIdDescriptor(value),
             Entity value when type is null || type == typeof(Entity) => new EntityDescriptor(value),
             Field value when type is null || type == typeof(Field) => new FieldDescriptor(value),
