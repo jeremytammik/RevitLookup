@@ -107,8 +107,8 @@ public static class DescriptorMap
             BoundarySegment value when type is null || type == typeof(BoundarySegment) => new BoundarySegmentDescriptor(value),
             AssetProperties value when type is null || type == typeof(AssetProperties) => new AssetPropertiesDescriptor(value),
             AssetProperty value when type is null || type == typeof(AssetProperty) => new AssetPropertyDescriptor(value),
-            BasePoint when type == typeof(BasePoint) => new BasePointDescriptor(),
-            InternalOrigin when type == typeof(InternalOrigin) => new InternalOriginDescriptor(),
+            BasePoint value when type == typeof(BasePoint) => new BasePointDescriptor(value),
+            InternalOrigin value when type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
 #if REVIT2024_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif

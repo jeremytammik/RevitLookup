@@ -25,14 +25,14 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class BasePointDescriptor : Descriptor, IDescriptorResolver
+public class BasePointDescriptor(BasePoint basePoint) : Descriptor, IDescriptorResolver
 {
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(BasePoint.GetSurveyPoint) => ResolveSet.Append(BasePoint.GetSurveyPoint(Context.Document)),
-            nameof(BasePoint.GetProjectBasePoint) => ResolveSet.Append(BasePoint.GetProjectBasePoint(Context.Document)),
+            nameof(BasePoint.GetSurveyPoint) => ResolveSet.Append(BasePoint.GetSurveyPoint(basePoint.Document)),
+            nameof(BasePoint.GetProjectBasePoint) => ResolveSet.Append(BasePoint.GetProjectBasePoint(basePoint.Document)),
             _ => null
         };
     }
