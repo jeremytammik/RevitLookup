@@ -80,12 +80,14 @@ public static class DescriptorMap
             FamilyManager value when type is null || type == typeof(FamilyManager) => new FamilyManagerDescriptor(value),
             MEPSection value when type is null || type == typeof(MEPSection) => new MepSectionDescriptor(value),
             LocationCurve value when type is null || type == typeof(LocationCurve) => new LocationCurveDescriptor(value),
+            CurtainGrid value when type is null || type == typeof(CurtainGrid) => new CurtainGridDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables
             HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
             RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
             FamilyInstance value when type is null || type == typeof(FamilyInstance) => new FamilyInstanceDescriptor(value),
+            Panel value when type == typeof(Panel) => new PanelDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
