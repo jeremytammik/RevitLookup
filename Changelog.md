@@ -1,5 +1,24 @@
 # Changelog
 
+# 2025-04-02 **2025.0.1**
+
+## HotFix
+
+- Fixed Search Bar causing Revit crashing https://github.com/jeremytammik/RevitLookup/issues/214
+
+## Improvements
+
+- Ref parameter type support
+- Add `BasePoint.GetSurveyPoint` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/212
+- Add `BasePoint.GetProjectBasePoint` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/212
+- Add `InternalOrigin.Get` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/212
+- Add `ElevationMarker.GetViewId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/213
+- Add `CurtainGrid.GetCell` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/215
+- Add `CurtainGrid.GetPanel` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/215
+- Add `Panel.GetRefGridLines` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/215
+
+Many thanks to @SergeyNefyodov for contributing to RevitLookup
+
 # 2025-04-02 **2025.0.0**
 
 ## General
