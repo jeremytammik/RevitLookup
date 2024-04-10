@@ -60,19 +60,20 @@ public sealed partial class DescriptorBuilder
     {
         value = null;
         parameters = member.GetParameters();
-        if (member.ReturnType.Name == "Void")
-        {
-            if (!_settings.IncludeUnsupported) return false;
-
-            value = new NotSupportedException("Method doesn't return a value");
-            return true;
-        }
 
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
             value = resolver.Resolve(Context, member.Name, parameters);
             if (value is not null) return true;
         }
+        
+        if (member.ReturnType.Name == "Void")
+        {
+            if (!_settings.IncludeUnsupported) return false;
+
+            value = new NotSupportedException("Method doesn't return a value");
+            return true;
+        }   
 
         if (parameters.Length > 0)
         {

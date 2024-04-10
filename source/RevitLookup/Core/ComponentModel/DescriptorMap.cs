@@ -80,17 +80,20 @@ public static class DescriptorMap
             FamilyManager value when type is null || type == typeof(FamilyManager) => new FamilyManagerDescriptor(value),
             MEPSection value when type is null || type == typeof(MEPSection) => new MepSectionDescriptor(value),
             LocationCurve value when type is null || type == typeof(LocationCurve) => new LocationCurveDescriptor(value),
+            CurtainGrid value when type is null || type == typeof(CurtainGrid) => new CurtainGridDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables
             HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
             RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
             FamilyInstance value when type is null || type == typeof(FamilyInstance) => new FamilyInstanceDescriptor(value),
+            Panel value when type == typeof(Panel) => new PanelDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
+            ElevationMarker value when type == typeof(ElevationMarker) => new ElevationMarkerDescriptor(value),
             ForgeTypeId value when type is null || type == typeof(ForgeTypeId) => new ForgeTypeIdDescriptor(value),
             Entity value when type is null || type == typeof(Entity) => new EntityDescriptor(value),
             Field value when type is null || type == typeof(Field) => new FieldDescriptor(value),
@@ -107,6 +110,8 @@ public static class DescriptorMap
             BoundarySegment value when type is null || type == typeof(BoundarySegment) => new BoundarySegmentDescriptor(value),
             AssetProperties value when type is null || type == typeof(AssetProperties) => new AssetPropertiesDescriptor(value),
             AssetProperty value when type is null || type == typeof(AssetProperty) => new AssetPropertyDescriptor(value),
+            BasePoint value when type == typeof(BasePoint) => new BasePointDescriptor(value),
+            InternalOrigin value when type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
 #if REVIT2024_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
