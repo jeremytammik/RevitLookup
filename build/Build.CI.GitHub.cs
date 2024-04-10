@@ -90,6 +90,7 @@ sealed partial class Build
 
     void WriteAdditionalInfo(StringBuilder changelog)
     {
+        changelog.AppendLine();
         changelog.Append("RevitLookup versioning: https://github.com/jeremytammik/RevitLookup/wiki/Versions");
     }
 
