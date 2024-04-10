@@ -140,14 +140,15 @@ public static class SearchEngine
         var filteredSnoopableData = new List<Descriptor>();
         foreach (var item in data)
         {
+            if (item.Value.Descriptor.Name is null) continue;
+            
             if (item.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
             {
                 filteredSnoopableData.Add(item);
+                continue;
             }
-            else if (item.Value.Descriptor.Name is null)
-            {
-            }
-            else if (item.Value.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+            
+            if (item.Value.Descriptor.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
             {
                 filteredSnoopableData.Add(item);
             }
