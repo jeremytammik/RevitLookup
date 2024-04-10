@@ -38,11 +38,11 @@ public sealed partial class DescriptorBuilder
             MemberAttributes = MemberAttributes.Property,
             Type = DescriptorUtils.MakeGenericTypeName(_type)
         };
-
+        
         descriptor.Name = descriptor.Value.Descriptor.Type;
         _descriptors.Add(descriptor);
     }
-
+    
     private void WriteDescriptor(string name, object value)
     {
         var descriptor = new ObjectDescriptor
@@ -55,11 +55,11 @@ public sealed partial class DescriptorBuilder
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             ComputationTime = _tracker.Elapsed.TotalMilliseconds
         };
-
+        
         _descriptors.Add(descriptor);
         _tracker.Reset();
     }
-
+    
     private void WriteDescriptor(MemberInfo member, object value, ParameterInfo[] parameters)
     {
         var descriptor = new ObjectDescriptor
@@ -72,11 +72,11 @@ public sealed partial class DescriptorBuilder
             Type = DescriptorUtils.MakeGenericTypeName(_type),
             ComputationTime = _tracker.Elapsed.TotalMilliseconds
         };
-
+        
         _descriptors.Add(descriptor);
         _tracker.Reset();
     }
-
+    
     private SnoopableObject EvaluateValue(MemberInfo member, object value)
     {
         var snoopableObject = new SnoopableObject(value, Context);
@@ -84,7 +84,7 @@ public sealed partial class DescriptorBuilder
         RestoreSetDescription(member, value, snoopableObject);
         return snoopableObject;
     }
-
+    
     private SnoopableObject EvaluateValue(object value)
     {
         var snoopableObject = new SnoopableObject(value, Context);
@@ -92,17 +92,25 @@ public sealed partial class DescriptorBuilder
         RestoreSetDescription(value, snoopableObject);
         return snoopableObject;
     }
-
+    
     private static string EvaluateName(MemberInfo member, [CanBeNull] ParameterInfo[] types)
     {
         if (types is null) return member.Name;
         if (types.Length == 0) return member.Name;
-
-        var parameterNames = types.Select(info => DescriptorUtils.MakeGenericTypeName(info.ParameterType));
+        
+        var parameterNames = types.Select(info =>
+        {
+            return info.ParameterType.IsByRef switch
+            {
+                true => $"ref {DescriptorUtils.MakeGenericTypeName(info.ParameterType).Replace("&", string.Empty)}",
+                _ => DescriptorUtils.MakeGenericTypeName(info.ParameterType)
+            };
+        });
+        
         var parameters = string.Join(", ", parameterNames);
         return $"{member.Name} ({parameters})";
     }
-
+    
     private static MemberAttributes EvaluateAttributes(MemberInfo member)
     {
         return member switch
@@ -114,44 +122,44 @@ public sealed partial class DescriptorBuilder
             _ => throw new ArgumentOutOfRangeException(nameof(member))
         };
     }
-
+    
     private static MemberAttributes GetModifiers(MemberAttributes attributes, MethodAttributes methodAttributes)
     {
         if ((methodAttributes & MethodAttributes.Static) != 0) attributes |= MemberAttributes.Static;
         if ((methodAttributes & MethodAttributes.Private) != 0) attributes |= MemberAttributes.Private;
         return attributes;
     }
-
+    
     private static MemberAttributes GetModifiers(MemberAttributes attributes, FieldAttributes fieldAttributes)
     {
         if ((fieldAttributes & FieldAttributes.Static) != 0) attributes |= MemberAttributes.Static;
         if ((fieldAttributes & FieldAttributes.Private) != 0) attributes |= MemberAttributes.Private;
         return attributes;
     }
-
+    
     private static void RestoreSetDescription(object value, SnoopableObject snoopableObject)
     {
         if (value is not ResolveSet set) return;
         if (set.Variants.Count == 1) return;
-
+        
         var type = set.Variants.Peek().Result.GetType();
         var name = DescriptorUtils.MakeGenericTypeName(type);
         snoopableObject.Descriptor.Name = name;
         snoopableObject.Descriptor.Type = name;
     }
-
+    
     private static void RestoreSetDescription(MemberInfo member, object value, SnoopableObject snoopableObject)
     {
         if (value is not ResolveSet set) return;
         if (set.Variants.Count == 1) return;
-
+        
         var name = member switch
         {
             PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
             MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
             _ => snoopableObject.Descriptor.Name
         };
-
+        
         snoopableObject.Descriptor.Name = name;
         snoopableObject.Descriptor.Type = name;
     }
