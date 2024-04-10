@@ -28,12 +28,6 @@ public class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescr
 {
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
-        var uLinesIds = curtainGrid.GetUGridLineIds().ToList();
-        var vLinesIds = curtainGrid.GetVGridLineIds().ToList();
-        uLinesIds.Add(ElementId.InvalidElementId);
-        vLinesIds.Add(ElementId.InvalidElementId);
-        var capacity = uLinesIds.Count * vLinesIds.Count;
-        
         return target switch
         {
             nameof(CurtainGrid.GetCell) => ResolveCells(),
@@ -43,13 +37,19 @@ public class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescr
 
         ResolveSet ResolveCells()
         {
+            var uLinesIds = (List<ElementId>) curtainGrid.GetUGridLineIds();
+            var vLinesIds = (List<ElementId>) curtainGrid.GetVGridLineIds();
+            uLinesIds.Add(ElementId.InvalidElementId);
+            vLinesIds.Add(ElementId.InvalidElementId);
+            var capacity = uLinesIds.Count * vLinesIds.Count;
+            
             var resolveSummary = new ResolveSet(capacity);
             foreach (var uLineId in uLinesIds)
             {
                 foreach (var vLineId in vLinesIds)
                 {
-                    var cell = (curtainGrid.GetCell(uLineId, vLineId));
-                    resolveSummary.AppendVariant(cell, $"Curtain cell. U: {uLineId}, V: {vLineId}");
+                    var cell = curtainGrid.GetCell(uLineId, vLineId);
+                    resolveSummary.AppendVariant(cell, $"U: {uLineId}, V: {vLineId}");
                 }
             }
 
@@ -58,13 +58,19 @@ public class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescr
         
         ResolveSet ResolvePanels()
         {
+            var uLinesIds = (List<ElementId>) curtainGrid.GetUGridLineIds();
+            var vLinesIds = (List<ElementId>) curtainGrid.GetVGridLineIds();
+            uLinesIds.Add(ElementId.InvalidElementId);
+            vLinesIds.Add(ElementId.InvalidElementId);
+            var capacity = uLinesIds.Count * vLinesIds.Count;
+            
             var resolveSummary = new ResolveSet(capacity);
             foreach (var uLineId in uLinesIds)
             {
                 foreach (var vLineId in vLinesIds)
                 {
                     var panel = curtainGrid.GetPanel(uLineId, vLineId);
-                    resolveSummary.AppendVariant(panel, $"U: {uLineId}, V: {vLineId}. Panel: {panel.Name}, ID{panel.Id}");
+                    resolveSummary.AppendVariant(panel, $"U: {uLineId}, V: {vLineId} - {panel.Name}, ID{panel.Id}");
                 }
             }
 

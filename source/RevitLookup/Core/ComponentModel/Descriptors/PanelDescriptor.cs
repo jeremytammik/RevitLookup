@@ -33,16 +33,17 @@ public class PanelDescriptor(Panel panel) : Descriptor, IDescriptorResolver
             nameof(Panel.GetRefGridLines) => ResolveGridLines(),
             _ => null
         };
-
+        
         ResolveSet ResolveGridLines()
         {
-            var resolveSummary = new ResolveSet(2);
             ElementId uId = null;
             ElementId vId = null;
             panel.GetRefGridLines(ref uId, ref vId);
+            
+            var resolveSummary = new ResolveSet(2);
             resolveSummary.AppendVariant(uId);
             resolveSummary.AppendVariant(vId);
-            return resolveSummary; 
+            return resolveSummary;
         }
     }
 }
