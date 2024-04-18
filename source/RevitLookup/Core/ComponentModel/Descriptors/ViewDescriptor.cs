@@ -36,6 +36,11 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             nameof(View.GetFilterOverrides) => ResolveFilterOverrides(),
             nameof(View.GetFilterVisibility) => ResolveFilterVisibility(),
             nameof(View.GetWorksetVisibility) => ResolveWorksetVisibility(),
+            nameof(View.IsCategoryOverridable) => ResolveIsCategoryOverridable(),
+            nameof(View.IsFilterApplied) => ResolveIsFilterApplied(),
+            nameof(View.IsInTemporaryViewMode) => ResolveIsInTemporaryViewMode(),
+            nameof(View.IsValidViewTemplate) => ResolveIsValidViewTemplate(),
+            nameof(View.IsWorksetVisible) => ResolveIsWorksetVisible(),
 #if REVIT2022_OR_GREATER
             nameof(View.GetColorFillSchemeId) => ResolveColorFillSchemeId(),
 #endif
@@ -66,6 +71,21 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
                 if (!category.IsVisibleInUI) continue;
 
                 var result = view.GetCategoryOverrides(category.Id);
+                resolveSummary.AppendVariant(result, category.Name);
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsCategoryOverridable()
+        {
+            var categories = context.Settings.Categories;
+            var resolveSummary = new ResolveSet(categories.Size);
+            foreach (Category category in categories)
+            {
+                if (!category.IsVisibleInUI) continue;
+                
+                var result = view.IsCategoryOverridable(category.Id);
                 resolveSummary.AppendVariant(result, category.Name);
             }
             
@@ -114,9 +134,63 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             return resolveSummary;
         }
         
+        ResolveSet ResolveIsFilterApplied()
+        {
+            var filters = view.GetFilters();
+            var resolveSummary = new ResolveSet(filters.Count);
+            foreach (var filterId in filters)
+            {
+                var filter = filterId.ToElement(context)!;
+                var result = view.IsFilterApplied(filterId);
+                resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
+            }
+            
+            return resolveSummary;
+        }
+        
+        
+        ResolveSet ResolveIsInTemporaryViewMode()
+        {
+            var values = Enum.GetValues(typeof(TemporaryViewMode));
+            var resolveSummary = new ResolveSet(values.Length);
+            
+            foreach (TemporaryViewMode mode in values)
+            {
+                resolveSummary.AppendVariant(view.IsInTemporaryViewMode(mode), mode.ToString());
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsValidViewTemplate()
+        {
+            var templates = context.EnumerateInstances<View>().Where(x => x.IsTemplate).ToArray();
+            var resolveSummary = new ResolveSet(templates.Length);
+            foreach (var template in templates)
+            {
+                var result = view.IsValidViewTemplate(template.Id);
+                resolveSummary.AppendVariant(result, $"{template.Name}: {result}");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsWorksetVisible()
+        {
+            var workSets = new FilteredWorksetCollector(context).OfKind(WorksetKind.UserWorkset).ToWorksets();
+            var resolveSummary = new ResolveSet(workSets.Count);
+            foreach (var workSet in workSets)
+            {
+                var result = view.IsWorksetVisible(workSet.Id);
+                resolveSummary.AppendVariant(result, $"{workSet.Name}: {result}");
+            }
+            
+            return resolveSummary;
+        }
+        
         ResolveSet ResolveWorksetVisibility()
         {
-            var workSets = new FilteredWorksetCollector(Context.Document).OfKind(WorksetKind.UserWorkset).ToWorksets();
+            var workSets = new FilteredWorksetCollector(context).OfKind(WorksetKind.UserWorkset).ToWorksets();
             var resolveSummary = new ResolveSet(workSets.Count);
             foreach (var workSet in workSets)
             {
