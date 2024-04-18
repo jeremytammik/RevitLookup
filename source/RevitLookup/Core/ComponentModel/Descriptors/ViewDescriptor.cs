@@ -44,31 +44,29 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveCategoryHidden()
         {
-            var values = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(values.Size);
-            foreach (Category value in values)
+            var categories = context.Settings.Categories;
+            var resolveSummary = new ResolveSet(categories.Size);
+            foreach (Category category in categories)
             {
-                if (value is null || !value.IsVisibleInUI) continue;
-                var id = value.Id;
-                var name = value.Name;
-                var result = view.GetCategoryHidden(id);
-                resolveSummary.AppendVariant(result, $"{name}, {result}");
+                if (!category.IsVisibleInUI) continue;
+
+                var result = view.GetCategoryHidden(category.Id);
+                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
             }
-            
+
             return resolveSummary;
         }
         
         ResolveSet ResolveCategoryOverrides()
         {
-            var values = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(values.Size);
-            foreach (Category value in values)
+            var categories = context.Settings.Categories;
+            var resolveSummary = new ResolveSet(categories.Size);
+            foreach (Category category in categories)
             {
-                if (value is null || !value.IsVisibleInUI) continue;
-                var id = value.Id;
-                var name = value.Name;
-                var result = view.GetCategoryOverrides(id);
-                resolveSummary.AppendVariant(result, $"Settings: {name}");
+                if (!category.IsVisibleInUI) continue;
+
+                var result = view.GetCategoryOverrides(category.Id);
+                resolveSummary.AppendVariant(result, category.Name);
             }
             
             return resolveSummary;
@@ -76,13 +74,13 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveFilterOverrides()
         {
-            var values = view.GetFilters();
-            var resolveSummary = new ResolveSet(values.Count);
-            foreach (var id in values)
+            var filters = view.GetFilters();
+            var resolveSummary = new ResolveSet(filters.Count);
+            foreach (var filterId in filters)
             {
-                var name = id.ToElement(context)!.Name;
-                var result = view.GetFilterOverrides(id);
-                resolveSummary.AppendVariant(result, $"Filter: {name}");
+                var filter = filterId.ToElement(context)!;
+                var result = view.GetFilterOverrides(filterId);
+                resolveSummary.AppendVariant(result, filter.Name);
             }
             
             return resolveSummary;
@@ -90,13 +88,13 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveFilterVisibility()
         {
-            var values = view.GetFilters();
-            var resolveSummary = new ResolveSet(values.Count);
-            foreach (var id in values)
+            var filters = view.GetFilters();
+            var resolveSummary = new ResolveSet(filters.Count);
+            foreach (var filterId in filters)
             {
-                var name = id.ToElement(context)!.Name;
-                var result = view.GetFilterVisibility(id);
-                resolveSummary.AppendVariant(result, $"Filter: {name}");
+                var filter = filterId.ToElement(context)!;
+                var result = view.GetFilterVisibility(filterId);
+                resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
             }
             
             return resolveSummary;
@@ -104,13 +102,13 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveFilterEnabled()
         {
-            var values = view.GetFilters();
-            var resolveSummary = new ResolveSet(values.Count);
-            foreach (var id in values)
+            var filters = view.GetFilters();
+            var resolveSummary = new ResolveSet(filters.Count);
+            foreach (var filterId in filters)
             {
-                var name = id.ToElement(context)!.Name;
-                var result = view.GetIsFilterEnabled(id);
-                resolveSummary.AppendVariant(result, $"Filter: {name}");
+                var filter = filterId.ToElement(context)!;
+                var result = view.GetIsFilterEnabled(filterId);
+                resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
             }
             
             return resolveSummary;
@@ -118,31 +116,28 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveWorksetVisibility()
         {
-            if (!context.IsWorkshared)
-                return new ResolveSet().AppendVariant("The document is not workshared");
             var workSets = new FilteredWorksetCollector(Context.Document).OfKind(WorksetKind.UserWorkset).ToWorksets();
             var resolveSummary = new ResolveSet(workSets.Count);
             foreach (var workSet in workSets)
             {
-                var name = workSet.Name;
                 var result = view.GetWorksetVisibility(workSet.Id);
-                resolveSummary.AppendVariant(result, $"Workset: {name}");
+                resolveSummary.AppendVariant(result, $"{workSet.Name}: {result}");
             }
             
             return resolveSummary;
         }
-#if REVIT2022_OR_GREATER        
+#if REVIT2022_OR_GREATER      
+
         ResolveSet ResolveColorFillSchemeId()
         {
-            var values = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(values.Size);
-            foreach (Category value in values)
+            var categories = context.Settings.Categories;
+            var resolveSummary = new ResolveSet(categories.Size);
+            foreach (Category category in categories)
             {
-                if (value is null || !value.IsVisibleInUI) continue;
-                var id = value.Id;
-                var name = value.Name;
-                var result = view.GetColorFillSchemeId(id);
-                resolveSummary.AppendVariant(result, $"{name}, ColorFillScheme: {result}");
+                if (!category.IsVisibleInUI) continue;
+
+                var result = view.GetColorFillSchemeId(category.Id);
+                resolveSummary.AppendVariant(result, category.Name);
             }
             
             return resolveSummary;
