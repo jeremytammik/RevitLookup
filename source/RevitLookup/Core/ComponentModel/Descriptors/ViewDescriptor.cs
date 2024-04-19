@@ -53,8 +53,6 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                if (!category.IsVisibleInUI) continue;
-
                 var result = view.GetCategoryHidden(category.Id);
                 resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
             }
@@ -68,8 +66,6 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                if (!category.IsVisibleInUI) continue;
-
                 var result = view.GetCategoryOverrides(category.Id);
                 resolveSummary.AppendVariant(result, category.Name);
             }
@@ -83,8 +79,6 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                if (!category.IsVisibleInUI) continue;
-                
                 var result = view.IsCategoryOverridable(category.Id);
                 resolveSummary.AppendVariant(result, category.Name);
             }
@@ -208,8 +202,6 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                if (!category.IsVisibleInUI) continue;
-
                 var result = view.GetColorFillSchemeId(category.Id);
                 resolveSummary.AppendVariant(result, category.Name);
             }
