@@ -30,6 +30,9 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
     {
         return target switch
         {
+            nameof(View.CanCategoryBeHidden) => ResolveCanCategoryBeHidden(),
+            nameof(View.CanCategoryBeHiddenTemporary) => ResolveCanCategoryBeHiddenTemporary(),
+            nameof(View.CanViewBeDuplicated) => ResolveCanViewBeDuplicated(),
             nameof(View.GetCategoryHidden) => ResolveCategoryHidden(),
             nameof(View.GetCategoryOverrides) => ResolveCategoryOverrides(),
             nameof(View.GetIsFilterEnabled) => ResolveFilterEnabled(),
@@ -41,11 +44,51 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             nameof(View.IsInTemporaryViewMode) => ResolveIsInTemporaryViewMode(),
             nameof(View.IsValidViewTemplate) => ResolveIsValidViewTemplate(),
             nameof(View.IsWorksetVisible) => ResolveIsWorksetVisible(),
+            nameof(View.SupportsWorksharingDisplayMode) => ResolveSupportsWorksharingDisplayMode(),
 #if REVIT2022_OR_GREATER
             nameof(View.GetColorFillSchemeId) => ResolveColorFillSchemeId(),
 #endif
             _ => null
         };
+        
+        ResolveSet ResolveCanCategoryBeHidden()
+        {
+            var categories = context.Settings.Categories;
+            var resolveSummary = new ResolveSet(categories.Size);
+            foreach (Category category in categories)
+            {
+                var result = view.CanCategoryBeHidden(category.Id);
+                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveCanCategoryBeHiddenTemporary()
+        {
+            var categories = context.Settings.Categories;
+            var resolveSummary = new ResolveSet(categories.Size);
+            foreach (Category category in categories)
+            {
+                var result = view.CanCategoryBeHiddenTemporary(category.Id);
+                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveCanViewBeDuplicated()
+        {
+            var values = Enum.GetValues(typeof(ViewDuplicateOption));
+            var resolveSummary = new ResolveSet(values.Length);
+            
+            foreach (ViewDuplicateOption option in values)
+            {
+                resolveSummary.AppendVariant(view.CanViewBeDuplicated(option), option.ToString());
+            }
+            
+            return resolveSummary;
+        }
         
         ResolveSet ResolveCategoryHidden()
         {
@@ -142,7 +185,6 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             return resolveSummary;
         }
         
-        
         ResolveSet ResolveIsInTemporaryViewMode()
         {
             var values = Enum.GetValues(typeof(TemporaryViewMode));
@@ -190,6 +232,19 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             {
                 var result = view.GetWorksetVisibility(workSet.Id);
                 resolveSummary.AppendVariant(result, $"{workSet.Name}: {result}");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveSupportsWorksharingDisplayMode()
+        {
+            var values = Enum.GetValues(typeof(WorksharingDisplayMode));
+            var resolveSummary = new ResolveSet(values.Length);
+            
+            foreach (WorksharingDisplayMode mode in values)
+            {
+                resolveSummary.AppendVariant(view.SupportsWorksharingDisplayMode(mode), mode.ToString());
             }
             
             return resolveSummary;
