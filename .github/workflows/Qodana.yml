@@ -1,27 +1,24 @@
 ﻿name: Code quality
+
 on:
   workflow_dispatch:
-  pull_request:
+  pull_request_target:
   push:
     branches:
       - master
 
 jobs:
   qodana:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      checks: write
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: 0
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@main
+        uses: JetBrains/qodana-action@v2023.3
         with:
-          pr-mode: false
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          args: --ide,QDNET
+          pr-mode: ${{ github.event_name == 'pull_request_target' }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
