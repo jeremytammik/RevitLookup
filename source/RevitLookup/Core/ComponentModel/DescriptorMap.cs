@@ -112,6 +112,8 @@ public static class DescriptorMap
             AssetProperty value when type is null || type == typeof(AssetProperty) => new AssetPropertyDescriptor(value),
             BasePoint value when type == typeof(BasePoint) => new BasePointDescriptor(value),
             InternalOrigin value when type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
+            View value when type == typeof(View) => new ViewDescriptor(value),
+            ScheduleDefinition value when type == typeof(ScheduleDefinition) => new ScheduleDefinitionDescriptor(value),
 #if REVIT2024_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
