@@ -113,6 +113,7 @@ public static class DescriptorMap
             BasePoint value when type == typeof(BasePoint) => new BasePointDescriptor(value),
             InternalOrigin value when type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
             View value when type == typeof(View) => new ViewDescriptor(value),
+            ViewSchedule value when type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
             ScheduleDefinition value when type == typeof(ScheduleDefinition) => new ScheduleDefinitionDescriptor(value),
 #if REVIT2024_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
