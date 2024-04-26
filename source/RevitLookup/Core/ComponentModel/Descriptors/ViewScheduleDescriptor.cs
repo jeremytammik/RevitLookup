@@ -106,11 +106,20 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
         ResolveSet ResolveDefaultNameForSchedule()
         {
             var categories = ViewSchedule.GetValidCategoriesForSchedule();
-            var resolveSummary = new ResolveSet(categories.Count);
+            var areas = context.EnumerateInstances<AreaScheme>().ToArray();
+            var resolveSummary = new ResolveSet(categories.Count + areas.Length - 1);
+            var areaId = new ElementId(BuiltInCategory.OST_Areas);
             foreach (var id in categories)
             {
-                if (id == new ElementId(BuiltInCategory.OST_Areas)) continue;
-                resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, id));
+                if (id == areaId)
+                {
+                    foreach (var area in areas)
+                    {
+                        resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, id, area.Id));
+                    }
+                }
+                else
+                    resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, id));
             }
             
             return resolveSummary;
@@ -174,7 +183,7 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
             var count = viewSchedule.GetSegmentCount();
             var resolveSummary = new ResolveSet(count);
             
-            for (var i = 0; i<count; i++)
+            for (var i = 0; i < count; i++)
             {
                 resolveSummary.AppendVariant(viewSchedule.GetScheduleInstances(i));
             }
@@ -187,13 +196,13 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
             var count = viewSchedule.GetSegmentCount();
             var resolveSummary = new ResolveSet(count);
             
-            for (var i = 0; i<count; i++)
+            for (var i = 0; i < count; i++)
             {
                 resolveSummary.AppendVariant(viewSchedule.GetSegmentHeight(i));
             }
             
             return resolveSummary;
         }
-#endif  
+#endif
     }
 }
