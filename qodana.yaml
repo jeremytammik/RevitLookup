@@ -3,7 +3,7 @@
 #             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
 #-------------------------------------------------------------------------------#
 version: "1.0"
-linter: jetbrains/qodana-dotnet:latest
+ide: QDNET
 failThreshold: 0
 
 profile:
