@@ -54,10 +54,10 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
         
         ResolveSet ResolveStripedRowsColor()
         {
-            var values = Enum.GetValues(typeof(StripedRowPattern));
-            var resolveSummary = new ResolveSet(values.Length);
+            var patterns = Enum.GetValues(typeof(StripedRowPattern));
+            var resolveSummary = new ResolveSet(patterns.Length);
             
-            foreach (StripedRowPattern pattern in values)
+            foreach (StripedRowPattern pattern in patterns)
             {
                 resolveSummary.AppendVariant(viewSchedule.GetStripedRowsColor(pattern), pattern.ToString());
             }
@@ -83,9 +83,9 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
         {
             var categories = ViewSchedule.GetValidCategoriesForKeySchedule();
             var resolveSummary = new ResolveSet(categories.Count);
-            foreach (var id in categories)
+            foreach (var categoryId in categories)
             {
-                resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForKeySchedule(context, id));
+                resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForKeySchedule(context, categoryId));
             }
             
             return resolveSummary;
@@ -95,9 +95,9 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
         {
             var categories = ViewSchedule.GetValidCategoriesForMaterialTakeoff();
             var resolveSummary = new ResolveSet(categories.Count);
-            foreach (var id in categories)
+            foreach (var categoryId in categories)
             {
-                resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForMaterialTakeoff(context, id));
+                resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForMaterialTakeoff(context, categoryId));
             }
             
             return resolveSummary;
@@ -107,19 +107,21 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
         {
             var categories = ViewSchedule.GetValidCategoriesForSchedule();
             var areas = context.EnumerateInstances<AreaScheme>().ToArray();
-            var resolveSummary = new ResolveSet(categories.Count + areas.Length - 1);
+            var resolveSummary = new ResolveSet(categories.Count + areas.Length);
             var areaId = new ElementId(BuiltInCategory.OST_Areas);
-            foreach (var id in categories)
+            foreach (var categoryId in categories)
             {
-                if (id == areaId)
+                if (categoryId == areaId)
                 {
                     foreach (var area in areas)
                     {
-                        resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, id, area.Id));
+                        resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, categoryId, area.Id));
                     }
                 }
                 else
-                    resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, id));
+                {
+                    resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, categoryId));
+                }
             }
             
             return resolveSummary;
@@ -129,12 +131,13 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
         {
             var categories = ViewSchedule.GetValidCategoriesForKeySchedule();
             var resolveSummary = new ResolveSet(categories.Count);
-            foreach (var id in categories)
+            var areaId = new ElementId(BuiltInCategory.OST_Areas);
+            foreach (var categoryId in categories)
             {
-                if (id == new ElementId(BuiltInCategory.OST_Areas)) continue;
-                resolveSummary.AppendVariant(ViewSchedule.GetDefaultParameterNameForKeySchedule(context, id));
+                if (categoryId == areaId) continue;
+                resolveSummary.AppendVariant(ViewSchedule.GetDefaultParameterNameForKeySchedule(context, categoryId));
             }
-            
+
             return resolveSummary;
         }
         
@@ -183,7 +186,7 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
             var count = viewSchedule.GetSegmentCount();
             var resolveSummary = new ResolveSet(count);
             
-            for (var i = 0; i < count; i++)
+            for (var i = -1; i < count; i++)
             {
                 resolveSummary.AppendVariant(viewSchedule.GetScheduleInstances(i));
             }
