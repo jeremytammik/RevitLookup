@@ -45,6 +45,7 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
             nameof(ViewSchedule.GetDefaultNameForSheetList) => ResolveSet.Append(ViewSchedule.GetDefaultNameForSheetList(context)),
             nameof(ViewSchedule.GetDefaultNameForViewList) => ResolveSet.Append(ViewSchedule.GetDefaultNameForViewList(context)),
             nameof(ViewSchedule.GetValidFamiliesForNoteBlock) => ResolveSet.Append(ViewSchedule.GetValidFamiliesForNoteBlock(context)),
+            nameof(ViewSchedule.RefreshData) => ResolveSet.Append(false, "Overridden"),
 #if REVIT2022_OR_GREATER
             nameof(ViewSchedule.GetScheduleInstances) => ResolveScheduleInstances(),
             nameof(ViewSchedule.GetSegmentHeight) => ResolveSegmentHeight(),
