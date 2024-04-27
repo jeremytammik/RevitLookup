@@ -37,11 +37,11 @@ public class TableDataDescriptor(TableData tableData) : Descriptor, IDescriptorR
         
         ResolveSet ResolveSectionData()
         {
-            var values = Enum.GetValues(typeof(SectionType));
-            var resolveSummary = new ResolveSet(values.Length);
-            foreach (SectionType type in values)
+            var sectionTypes = Enum.GetValues(typeof(SectionType));
+            var resolveSummary = new ResolveSet(sectionTypes.Length);
+            foreach (SectionType sectionType in sectionTypes)
             {
-                resolveSummary.AppendVariant(tableData.GetSectionData(type), type.ToString());
+                resolveSummary.AppendVariant(tableData.GetSectionData(sectionType), sectionType.ToString());
             }
             
             return resolveSummary;
@@ -49,12 +49,24 @@ public class TableDataDescriptor(TableData tableData) : Descriptor, IDescriptorR
         
         ResolveSet ResolveZoomLevel()
         {
-            var resolveSummary = new ResolveSet();
-            for (var i = 1; i < 511; i += 1)
+            var resolveSummary = new ResolveSet(512);
+            
+            var zoom = 0;
+            var emptyIterations = 0;
+            while (emptyIterations < 50)
             {
-                var result = tableData.IsValidZoomLevel(i);
-                if (result)
-                    resolveSummary.AppendVariant(true, $"{i}: True");
+                var isValid = tableData.IsValidZoomLevel(zoom);
+                if (isValid)
+                {
+                    resolveSummary.AppendVariant(true, $"{zoom}: valid");
+                    emptyIterations = 0;
+                }
+                else
+                {
+                    emptyIterations++;
+                }
+                
+                zoom++;
             }
             
             return resolveSummary;
