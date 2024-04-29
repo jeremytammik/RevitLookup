@@ -116,6 +116,7 @@ public static class DescriptorMap
             ViewSchedule value when type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
             ScheduleDefinition value when type == typeof(ScheduleDefinition) => new ScheduleDefinitionDescriptor(value),
             TableData value when type == typeof(TableData) => new TableDataDescriptor(value),
+            TableSectionData value when type == typeof(TableSectionData) => new TableSectionDataDescriptor(value),
 #if REVIT2024_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
