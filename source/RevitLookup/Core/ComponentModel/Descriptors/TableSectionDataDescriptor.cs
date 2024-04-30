@@ -50,7 +50,17 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             nameof(TableSectionData.GetCellText) => ResolveCellText(),
             nameof(TableSectionData.GetCellType) when parameters.Length == 1 => ResolveCellTypeForColumns(),
             nameof(TableSectionData.GetCellType) when parameters.Length == 2 => ResolveCellTypeForTable(),
+            nameof(TableSectionData.GetColumnWidth) => ResolveColumnWidth(),
+            nameof(TableSectionData.GetColumnWidthInPixels) => ResolveColumnWidthInPixels(),
+            nameof(TableSectionData.GetMergedCell) => ResolveMergedCell(),
             nameof(TableSectionData.GetRowHeight) => ResolveRowHeight(),
+            nameof(TableSectionData.GetRowHeightInPixels) => ResolveRowHeightInPixels(),
+            nameof(TableSectionData.GetTableCellStyle) => ResolveTableCellStyle(),
+            nameof(TableSectionData.IsCellFormattable) => ResolveIsCellFormattable(),
+            nameof(TableSectionData.IsCellOverridden) when parameters.Length == 1 => ResolveIsCellOverriddenForColumns(),
+            nameof(TableSectionData.IsCellOverridden) when parameters.Length == 2 => ResolveIsCellOverriddenForTable(),
+            nameof(TableSectionData.IsValidColumnNumber) => ResolveIsValidColumnNumber(),
+            nameof(TableSectionData.IsValidRowNumber) => ResolveIsValidRowNumber(),
             nameof(TableSectionData.RefreshData) => ResolveSet.Append(false, "Overridden"),
             _ => null
         };
@@ -361,6 +371,50 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             return resolveSummary;
         }
         
+        ResolveSet ResolveColumnWidth()
+        {
+            var count = tableSectionData.NumberOfColumns;
+            var resolveSummary = new ResolveSet(count);
+            for (var i = 0; i < count; i++)
+            {
+                var result = tableSectionData.GetColumnWidth(i);
+                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)} ft");
+            }
+            
+            return resolveSummary;
+        }
+        
+        
+        ResolveSet ResolveColumnWidthInPixels()
+        {
+            var count = tableSectionData.NumberOfColumns;
+            var resolveSummary = new ResolveSet(count);
+            for (var i = 0; i < count; i++)
+            {
+                var result = tableSectionData.GetColumnWidthInPixels(i);
+                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)} px");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveMergedCell()
+        {
+            var rowsNumber = tableSectionData.NumberOfRows;
+            var columnsNumber = tableSectionData.NumberOfColumns;
+            var resolveSummary = new ResolveSet(rowsNumber * columnsNumber);
+            for (var i = 0; i < columnsNumber; i++)
+            {
+                for (var j = 0; j < rowsNumber; j++)
+                {
+                    var result = tableSectionData.GetMergedCell(j, i);
+                    resolveSummary.AppendVariant(result, $"Row {j}, Column {i}");
+                }
+            }
+            
+            return resolveSummary;
+        }
+        
         ResolveSet ResolveRowHeight()
         {
             var count = tableSectionData.NumberOfRows;
@@ -369,6 +423,109 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             {
                 var result = tableSectionData.GetRowHeight(i);
                 resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)} ft");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveRowHeightInPixels()
+        {
+            var count = tableSectionData.NumberOfRows;
+            var resolveSummary = new ResolveSet(count);
+            for (var i = 0; i < count; i++)
+            {
+                var result = tableSectionData.GetRowHeightInPixels(i);
+                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)} px");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveTableCellStyle()
+        {
+            var rowsNumber = tableSectionData.NumberOfRows;
+            var columnsNumber = tableSectionData.NumberOfColumns;
+            var resolveSummary = new ResolveSet(rowsNumber * columnsNumber);
+            for (var i = 0; i < columnsNumber; i++)
+            {
+                for (var j = 0; j < rowsNumber; j++)
+                {
+                    var result = tableSectionData.GetTableCellStyle(j, i);
+                    resolveSummary.AppendVariant(result, $"Row {j}, Column {i}");
+                }
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsCellFormattable()
+        {
+            var rowsNumber = tableSectionData.NumberOfRows;
+            var columnsNumber = tableSectionData.NumberOfColumns;
+            var resolveSummary = new ResolveSet(rowsNumber * columnsNumber);
+            for (var i = 0; i < columnsNumber; i++)
+            {
+                for (var j = 0; j < rowsNumber; j++)
+                {
+                    var result = tableSectionData.IsCellFormattable(j, i);
+                    resolveSummary.AppendVariant(result, $"Row {j}, Column {i}: {result}");
+                }
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsCellOverriddenForColumns()
+        {
+            var columnsNumber = tableSectionData.NumberOfColumns;
+            var resolveSummary = new ResolveSet(columnsNumber);
+            for (var i = 0; i < columnsNumber; i++)
+            {
+                var columnResult = tableSectionData.IsCellOverridden(i);
+                resolveSummary.AppendVariant(columnResult, $"Column {i}: {columnResult}");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsCellOverriddenForTable()
+        {
+            var rowsNumber = tableSectionData.NumberOfRows;
+            var columnsNumber = tableSectionData.NumberOfColumns;
+            var resolveSummary = new ResolveSet(rowsNumber * columnsNumber);
+            for (var i = 0; i < columnsNumber; i++)
+            {
+                for (var j = 0; j < rowsNumber; j++)
+                {
+                    var result = tableSectionData.IsCellOverridden(j, i);
+                    resolveSummary.AppendVariant(result, $"Row {j}, Column {i}: {result}");
+                }
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsValidColumnNumber()
+        {
+            var count = tableSectionData.NumberOfColumns;
+            var resolveSummary = new ResolveSet(count);
+            for (var i = 0; i < count; i++)
+            {
+                var result = tableSectionData.IsValidColumnNumber(i);
+                resolveSummary.AppendVariant(result, $"{i}: {result}");
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsValidRowNumber()
+        {
+            var count = tableSectionData.NumberOfRows;
+            var resolveSummary = new ResolveSet(count);
+            for (var i = 0; i < count; i++)
+            {
+                var result = tableSectionData.IsValidRowNumber(i);
+                resolveSummary.AppendVariant(result, $"{i}: {result}");
             }
             
             return resolveSummary;
