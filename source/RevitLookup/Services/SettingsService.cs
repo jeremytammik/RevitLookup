@@ -181,9 +181,9 @@ public sealed class SettingsService : ISettingsService
             var json = JsonSerializer.Serialize(_settings, _jsonSerializerOptions);
             File.WriteAllText(_folderLocations.SettingsPath, json);
         }
-        catch
+        catch (Exception exception)
         {
-            _logger.LogInformation("Settings serializing error");
+            _logger.LogError(exception, "Settings serializing error");
         }
     }
     
@@ -196,9 +196,9 @@ public sealed class SettingsService : ISettingsService
             using var config = File.OpenRead(_folderLocations.SettingsPath);
             return JsonSerializer.Deserialize<Settings>(config, _jsonSerializerOptions);
         }
-        catch
+        catch (Exception exception)
         {
-            _logger.LogInformation("Settings deserializing error");
+            _logger.LogError(exception, "Settings deserializing error");
         }
         
         return new Settings();

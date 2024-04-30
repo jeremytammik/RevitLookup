@@ -22,7 +22,7 @@ public static class LoggerConfigurator
         return new LoggerConfiguration()
             .WriteTo.Console(LogEventLevel.Information, LogTemplate)
             .WriteTo.Debug(LogEventLevel.Debug, LogTemplate)
-            .WriteTo.RevitJournal(Context.UiApplication, restrictedToMinimumLevel: LogEventLevel.Information, outputTemplate: LogTemplate)
+            .WriteTo.RevitJournal(Context.UiApplication, restrictedToMinimumLevel: LogEventLevel.Error, outputTemplate: LogTemplate)
             .MinimumLevel.Debug()
             .CreateLogger();
     }
