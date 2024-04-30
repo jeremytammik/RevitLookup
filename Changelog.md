@@ -1,5 +1,76 @@
 # Changelog
 
+# 2025-04-02 **2025.0.2**
+
+# General
+
+- Displaying the original exception type, instead of TargetInvocationException.
+
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/af613323-0aeb-4e4a-aac2-b1523380d2f9)
+
+- Output error and failure messages to the Revit journal.
+
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/d8c94d84-24f7-417c-b76b-1cf070e2ba16)
+  Messages include detailed crash information, including StackTrace. It works for Revit in general, and will output all failure messages, including third-party plugins.
+  Journals path: `%LocalAppData%\Autodesk\Revit`
+
+## Improvements
+
+- View class support
+  - Added `View.GetCategoryHidden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+  - Added `View.GetCategoryOverrides` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+  - Added `View.GetIsFilterEnabled` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+  - Added `View.GetFilterOverrides` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+  - Added `View.GetFilterVisibility` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+  - Added `View.GetWorksetVisibility` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+  - Added `View.GetColorFillSchemeId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+  - Added `View.IsCategoryOverridable` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+  - Added `View.IsFilterApplied` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+  - Added `View.IsInTemporaryViewMode` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+  - Added `View.IsValidViewTemplate` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+  - Added `View.IsWorksetVisible` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+  - Added `View.CanCategoryBeHidden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
+  - Added `View.CanCategoryBeHiddenTemporary` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
+  - Added `View.CanViewBeDuplicated` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
+  - Added `View.SupportsWorksharingDisplayMode` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
+- ScheduleDefinition class support
+  - Added `ScheduleDefinition.CanFilterByGlobalParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.CanFilterByParameterExistence` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.CanFilterBySubstring` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.CanFilterByValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.CanFilterByValuePresence` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.CanSortByField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.GetField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.GetFieldId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.GetFieldIndex` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.GetFilter` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.GetSortGroupField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+  - Added `ScheduleDefinition.IsValidCategoryForEmbeddedSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+- ViewSchedule class support 
+  - Added `ViewSchedule.GetStripedRowsColor` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.IsValidTextTypeId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultNameForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultNameForMaterialTakeoff` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultNameForSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultParameterNameForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.IsValidCategoryForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.IsValidCategoryForMaterialTakeoff` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.IsValidCategoryForSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultNameForKeynoteLegend` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultNameForNoteBlock` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultNameForRevisionSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultNameForSheetList` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetDefaultNameForViewList` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetValidFamiliesForNoteBlock` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetScheduleInstances` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Added `ViewSchedule.GetSegmentHeight` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+  - Disabled `ViewSchedule.RefreshData`
+- TableData class support
+  - Added `TableData.GetSectionData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
+  - Added `TableData.IsValidZoomLevel` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
+
+
+
 # 2025-04-02 **2025.0.1**
 
 ## HotFix
