@@ -122,6 +122,8 @@ sealed partial class Build
 
     static void TrimEmptyLines(StringBuilder builder)
     {
+        if (builder.Length == 0) return;
+
         while (builder[^1] == '\r' || builder[^1] == '\n')
         {
             builder.Remove(builder.Length - 1, 1);
