@@ -67,7 +67,7 @@ public sealed partial class DescriptorBuilder
             return true;
         }
 
-        parameters = member.GetMethod.GetParameters();
+        parameters = member.GetMethod!.GetParameters();
         if (_currentDescriptor is IDescriptorResolver resolver)
         {
             value = resolver.Resolve(Context, member.Name, parameters);
