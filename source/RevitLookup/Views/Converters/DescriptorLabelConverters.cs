@@ -36,26 +36,27 @@ public abstract class DescriptorLabelConverter : MarkupExtension, IValueConverte
             _ => text
         };
     }
-
+    
     protected static string CreateCombinedName(Descriptor descriptor)
     {
-        if (string.IsNullOrEmpty(descriptor.Name)) return descriptor.Name;
-        return string.IsNullOrEmpty(descriptor.Description) ? descriptor.Name : $"{descriptor.Description}: {descriptor.Name}";
+        if (string.IsNullOrEmpty(descriptor.Description)) return descriptor.Name;
+        if (descriptor.Description.EndsWith(descriptor.Name, StringComparison.OrdinalIgnoreCase)) return descriptor.Description;
+        
+        return $"{descriptor.Description}: {descriptor.Name}";
     }
-
+    
     protected static string CreateSingleName(Descriptor descriptor)
     {
-        if (string.IsNullOrEmpty(descriptor.Name)) return descriptor.Name;
         return string.IsNullOrEmpty(descriptor.Description) ? descriptor.Name : descriptor.Description;
     }
-
+    
     public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
-
+    
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotSupportedException();
     }
-
+    
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;
