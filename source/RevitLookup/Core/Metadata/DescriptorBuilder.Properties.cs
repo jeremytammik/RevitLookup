@@ -43,6 +43,10 @@ public sealed partial class DescriptorBuilder
                     continue;
                 }
             }
+            catch (TargetInvocationException exception)
+            {
+                value = exception.InnerException;
+            }
             catch (Exception exception)
             {
                 value = exception;
