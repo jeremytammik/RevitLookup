@@ -84,11 +84,15 @@ public static class DescriptorMap
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
 
             //IDisposables
+            View value when type == typeof(View) => new ViewDescriptor(value),
             HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
             RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
             FamilyInstance value when type is null || type == typeof(FamilyInstance) => new FamilyInstanceDescriptor(value),
             Panel value when type == typeof(Panel) => new PanelDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
+#if REVIT2025_OR_GREATER
+            IndependentTag value when type is null || type == typeof(IndependentTag) => new IndependentTagDescriptor(value),
+#endif
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
@@ -112,7 +116,6 @@ public static class DescriptorMap
             AssetProperty value when type is null || type == typeof(AssetProperty) => new AssetPropertyDescriptor(value),
             BasePoint value when type == typeof(BasePoint) => new BasePointDescriptor(value),
             InternalOrigin value when type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
-            View value when type == typeof(View) => new ViewDescriptor(value),
             ViewSchedule value when type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
             ScheduleDefinition value when type == typeof(ScheduleDefinition) => new ScheduleDefinitionDescriptor(value),
             TableData value when type == typeof(TableData) => new TableDataDescriptor(value),
