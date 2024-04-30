@@ -41,7 +41,7 @@ public class ElevationMarkerDescriptor(ElevationMarker elevationMarker) : Descri
             for (var i = 0; i < elevationMarker.MaximumViewCount; i++)
             {
                 var result = elevationMarker.IsAvailableIndex(i);
-                resolveSummary.AppendVariant(result, $"Index: {i}, {result}");
+                resolveSummary.AppendVariant(result, $"Index {i}: {result}");
             }
             return resolveSummary;
         }
@@ -56,7 +56,7 @@ public class ElevationMarkerDescriptor(ElevationMarker elevationMarker) : Descri
                     var result = elevationMarker.GetViewId(i);
                     var element = result.ToElement(context);
                     var name = element!.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
-                    resolveSummary.AppendVariant(result, $"Index: {i}, {name}");
+                    resolveSummary.AppendVariant(result, $"Index {i}: {name}");
                 }
             }
             return resolveSummary;; 

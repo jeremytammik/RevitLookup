@@ -32,9 +32,9 @@ public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
         return target switch
         {
             nameof(UIElement.GetLocalValueEnumerator) => ResolveSet.Append(null),
-            nameof(UIElement.CaptureMouse) => ResolveSet.Append(false, "Overridden"),
-            nameof(UIElement.CaptureStylus) => ResolveSet.Append(false, "Overridden"),
-            nameof(UIElement.Focus) => ResolveSet.Append(false, "Overridden"),
+            nameof(UIElement.CaptureMouse) => ResolveSet.Append(false, "Method execution disabled"),
+            nameof(UIElement.CaptureStylus) => ResolveSet.Append(false, "Method execution disabled"),
+            nameof(UIElement.Focus) => ResolveSet.Append(false, "Method execution disabled"),
             _ => null
         };
     }

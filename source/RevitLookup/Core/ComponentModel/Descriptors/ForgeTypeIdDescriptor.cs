@@ -38,7 +38,7 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
     {
         return target switch
         {
-            nameof(ForgeTypeId.Clear) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
+            nameof(ForgeTypeId.Clear) when parameters.Length == 0 => ResolveSet.Append(false, "Method execution disabled"),
             _ => null
         };
     }

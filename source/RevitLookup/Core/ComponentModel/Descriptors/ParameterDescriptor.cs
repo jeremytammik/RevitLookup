@@ -67,7 +67,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
     {
         return target switch
         {
-            nameof(Parameter.ClearValue) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
+            nameof(Parameter.ClearValue) when parameters.Length == 0 => ResolveSet.Append(false, "Method execution disabled"),
             _ => null
         };
     }

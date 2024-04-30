@@ -32,8 +32,8 @@ public sealed class RevitLinkTypeDescriptor(Element element) : ElementDescriptor
     {
         return target switch
         {
-            nameof(RevitLinkType.Load) => ResolveSet.Append(new LinkLoadResult(), "Overridden"),
-            nameof(RevitLinkType.Reload) => ResolveSet.Append(new LinkLoadResult(), "Overridden"),
+            nameof(RevitLinkType.Load) => ResolveSet.Append(new LinkLoadResult(), "Method execution disabled"),
+            nameof(RevitLinkType.Reload) => ResolveSet.Append(new LinkLoadResult(), "Method execution disabled"),
             nameof(RevitLinkType.IsLoaded) => ResolveSet.Append(RevitLinkType.IsLoaded(_element.Document, _element.Id)),
             _ => null
         };

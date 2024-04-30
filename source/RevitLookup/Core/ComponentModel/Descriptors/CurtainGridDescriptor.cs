@@ -49,7 +49,7 @@ public class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescr
                 foreach (var vLineId in vLinesIds)
                 {
                     var cell = curtainGrid.GetCell(uLineId, vLineId);
-                    resolveSummary.AppendVariant(cell, $"U: {uLineId}, V: {vLineId}");
+                    resolveSummary.AppendVariant(cell, $"U {uLineId}, V {vLineId}");
                 }
             }
 
@@ -70,7 +70,7 @@ public class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescr
                 foreach (var vLineId in vLinesIds)
                 {
                     var panel = curtainGrid.GetPanel(uLineId, vLineId);
-                    resolveSummary.AppendVariant(panel, $"U: {uLineId}, V: {vLineId} - {panel.Name}, ID{panel.Id}");
+                    resolveSummary.AppendVariant(panel, $"U {uLineId}, V {vLineId} - {panel.Name}, ID{panel.Id}");
                 }
             }
 

@@ -30,18 +30,32 @@ public class TableDataDescriptor(TableData tableData) : Descriptor, IDescriptorR
     {
         return target switch
         {
-            nameof(TableData.GetSectionData) => ResolveSectionData(),
+            nameof(TableData.GetSectionData) when parameters.Length == 1 && 
+                                                  parameters[0].ParameterType == typeof(SectionType) => ResolveSectionDataBySectionType(),
+            nameof(TableData.GetSectionData) when parameters.Length == 1 && 
+                                                  parameters[0].ParameterType == typeof(int) => ResolveSectionDataByIndex(),
             nameof(TableData.IsValidZoomLevel) => ResolveZoomLevel(),
             _ => null
         };
         
-        ResolveSet ResolveSectionData()
+        ResolveSet ResolveSectionDataBySectionType()
         {
             var sectionTypes = Enum.GetValues(typeof(SectionType));
             var resolveSummary = new ResolveSet(sectionTypes.Length);
             foreach (SectionType sectionType in sectionTypes)
             {
                 resolveSummary.AppendVariant(tableData.GetSectionData(sectionType), sectionType.ToString());
+            }
+            
+            return resolveSummary;
+        }    
+        
+        ResolveSet ResolveSectionDataByIndex()
+        {
+            var resolveSummary = new ResolveSet(tableData.NumberOfSections);
+            for (var i = 0; i < tableData.NumberOfSections; i++)
+            {
+                resolveSummary.AppendVariant(tableData.GetSectionData(i), i.ToString());
             }
             
             return resolveSummary;

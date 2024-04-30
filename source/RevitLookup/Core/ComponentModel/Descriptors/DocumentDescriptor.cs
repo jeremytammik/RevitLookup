@@ -38,7 +38,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
-            nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Overridden"),
+            nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Method execution disabled"),
             nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
 #if REVIT2024_OR_GREATER
             nameof(Document.GetUnusedElements) => ResolveSet.Append(context.GetUnusedElements(new HashSet<ElementId>())),

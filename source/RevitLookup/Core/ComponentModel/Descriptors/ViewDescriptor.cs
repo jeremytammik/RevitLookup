@@ -60,7 +60,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
                 var result = view.CanCategoryBeHidden(category.Id);
                 resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
             }
-            
+
             return resolveSummary;
         }
         

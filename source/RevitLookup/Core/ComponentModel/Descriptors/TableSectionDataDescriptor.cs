@@ -61,7 +61,7 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             nameof(TableSectionData.IsCellOverridden) when parameters.Length == 2 => ResolveIsCellOverriddenForTable(),
             nameof(TableSectionData.IsValidColumnNumber) => ResolveIsValidColumnNumber(),
             nameof(TableSectionData.IsValidRowNumber) => ResolveIsValidRowNumber(),
-            nameof(TableSectionData.RefreshData) => ResolveSet.Append(false, "Overridden"),
+            nameof(TableSectionData.RefreshData) => ResolveSet.Append(false, "Method execution disabled"),
             _ => null
         };
         
@@ -171,14 +171,12 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             for (var i = 0; i < columnsNumber; i++)
             {
                 var result = tableSectionData.GetCellCategoryId(i);
-                if (result != ElementId.InvalidElementId)
-                {
-                    var category = Category.GetCategory(context, result);
-                    if (category is not null)
-                    {
-                        resolveSummary.AppendVariant(result, $"Column {i}: {category.Name}");
-                    }
-                }
+                if (result == ElementId.InvalidElementId) continue;
+                
+                var category = Category.GetCategory(context, result);
+                if (category is null) continue;
+                
+                resolveSummary.AppendVariant(result, $"Column {i}: {category.Name}");
             }
             
             return resolveSummary;
@@ -194,14 +192,12 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
                 for (var j = 0; j < rowsNumber; j++)
                 {
                     var result = tableSectionData.GetCellCategoryId(j, i);
-                    if (result != ElementId.InvalidElementId)
-                    {
-                        var category = Category.GetCategory(context, result);
-                        if (category is not null)
-                        {
-                            resolveSummary.AppendVariant(result, $"Row {j}, Column {i}: {category.Name}");
-                        }
-                    }
+                    if (result == ElementId.InvalidElementId) continue;
+                    
+                    var category = Category.GetCategory(context, result);
+                    if (category is null) continue;
+                    
+                    resolveSummary.AppendVariant(result, $"Row {j}, Column {i}: {category.Name}");
                 }
             }
             
@@ -295,11 +291,12 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
                 for (var j = 0; j < rowsNumber; j++)
                 {
                     var result = tableSectionData.GetCellParamId(j, i);
-                    if (result != ElementId.InvalidElementId)
-                    {
-                        var parameter = result.ToElement(context);
-                        resolveSummary.AppendVariant(result, $"Row {j}, Column {i}: {parameter!.Name}");
-                    }
+                    if (result == ElementId.InvalidElementId) continue;
+                    
+                    var parameter = result.ToElement(context);
+                    if (parameter is null) continue;
+                    
+                    resolveSummary.AppendVariant(result, $"Row {j}, Column {i}: {parameter.Name}");
                 }
             }
             
@@ -316,8 +313,9 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
                 for (var j = 0; j < rowsNumber; j++)
                 {
                     var result = tableSectionData.GetCellSpec(j, i);
-                    if (!result.Empty())
-                        resolveSummary.AppendVariant(result, $"Row {j}, Column {i}: {result.ToUnitLabel()}");
+                    if (result.Empty()) continue;
+                    
+                    resolveSummary.AppendVariant(result, $"Row {j}, Column {i}: {result.ToSpecLabel()}");
                 }
             }
             
@@ -347,8 +345,8 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             var resolveSummary = new ResolveSet(columnsNumber);
             for (var i = 0; i < columnsNumber; i++)
             {
-                var columnResult = tableSectionData.GetCellType(i);
-                resolveSummary.AppendVariant(columnResult, $"Column {i}: {columnResult}");
+                var result = tableSectionData.GetCellType(i);
+                resolveSummary.AppendVariant(result, $"Column {i}: {result}");
             }
             
             return resolveSummary;
@@ -378,7 +376,7 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             for (var i = 0; i < count; i++)
             {
                 var result = tableSectionData.GetColumnWidth(i);
-                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)} ft");
+                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)}");
             }
             
             return resolveSummary;
@@ -392,7 +390,7 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             for (var i = 0; i < count; i++)
             {
                 var result = tableSectionData.GetColumnWidthInPixels(i);
-                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)} px");
+                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)}");
             }
             
             return resolveSummary;
@@ -422,7 +420,7 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             for (var i = 0; i < count; i++)
             {
                 var result = tableSectionData.GetRowHeight(i);
-                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)} ft");
+                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)}");
             }
             
             return resolveSummary;
@@ -435,7 +433,7 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             for (var i = 0; i < count; i++)
             {
                 var result = tableSectionData.GetRowHeightInPixels(i);
-                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)} px");
+                resolveSummary.AppendVariant(result, $"{i}: {result.ToString(CultureInfo.InvariantCulture)}");
             }
             
             return resolveSummary;
@@ -481,8 +479,8 @@ public class TableSectionDataDescriptor(TableSectionData tableSectionData) : Des
             var resolveSummary = new ResolveSet(columnsNumber);
             for (var i = 0; i < columnsNumber; i++)
             {
-                var columnResult = tableSectionData.IsCellOverridden(i);
-                resolveSummary.AppendVariant(columnResult, $"Column {i}: {columnResult}");
+                var result = tableSectionData.IsCellOverridden(i);
+                resolveSummary.AppendVariant(result, $"Column {i}: {result}");
             }
             
             return resolveSummary;
