@@ -4,15 +4,18 @@
 
 # General
 
-- Displaying the original exception type, instead of TargetInvocationException.
-
-  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/af613323-0aeb-4e4a-aac2-b1523380d2f9)
-
 - Output error and failure messages to the Revit journal.
 
-  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/d8c94d84-24f7-417c-b76b-1cf070e2ba16)
-  Messages include detailed crash information, including StackTrace. It works for Revit in general, and will output all failure messages, including third-party plugins.
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/732db483-b4fd-4a32-bc3e-3e88548c0f3d)
+
+  Messages include detailed crash information, including StackTrace.
+  It works for Revit in general and outputs all Domain fatal errors, including failures caused by third-party plugins.
+  
   Journals path: `%LocalAppData%\Autodesk\Revit`
+
+- Displaying the original exception type in tooltips, instead of TargetInvocationException.
+
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/af613323-0aeb-4e4a-aac2-b1523380d2f9)
 
 ## Improvements
 
@@ -68,10 +71,42 @@
 - TableData class support
   - Added `TableData.GetSectionData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
   - Added `TableData.IsValidZoomLevel` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
+- TableSectionData class support
+  - Added `TableSectionData.AllowOverrideCellStyle` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.CanInsertColumn` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.CanInsertRow` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.CanRemoveColumn` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.CanRemoveRow` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellCalculatedValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellCalculatedValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellCategoryId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellCategoryId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellCombinedParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellCombinedParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellFormatOptions` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellFormatOptions` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellParamId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellParamId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellSpec` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellText` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetCellType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetColumnWidth` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetColumnWidthInPixels` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetMergedCell` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetRowHeight` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetRowHeightInPixels` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.GetTableCellStyle` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.IsCellFormattable` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.IsCellOverridden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.IsCellOverridden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.IsValidColumnNumber` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.IsValidRowNumber` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+  - Added `TableSectionData.RefreshData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
 
 # Bugs
 
-- Temporary disabled `IndependentTag.TagText` for RebarBendingDetail in Revit 2025 https://github.com/jeremytammik/RevitLookup/issues/225
+- Temporary disabled `IndependentTag.TagText` for RebarBendingDetail in Revit 2025. Revit API issue https://github.com/jeremytammik/RevitLookup/issues/225
 
 # 2025-04-02 **2025.0.1**
 
