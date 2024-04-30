@@ -69,7 +69,9 @@
   - Added `TableData.GetSectionData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
   - Added `TableData.IsValidZoomLevel` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
 
+# Bugs
 
+- Temporary disabled `IndependentTag.TagText` for RebarBendingDetail in Revit 2025 https://github.com/jeremytammik/RevitLookup/issues/225
 
 # 2025-04-02 **2025.0.1**
 
