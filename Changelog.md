@@ -1,8 +1,8 @@
 # Changelog
 
-# 2025-04-02 **2025.0.2**
+# 2025-05-01 **2025.0.2**
 
-# General
+## General
 
 - Output error and failure messages to the Revit journal.
 
