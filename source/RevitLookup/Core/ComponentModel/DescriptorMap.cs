@@ -116,6 +116,7 @@ public static class DescriptorMap
             AssetProperty value when type is null || type == typeof(AssetProperty) => new AssetPropertyDescriptor(value),
             BasePoint value when type == typeof(BasePoint) => new BasePointDescriptor(value),
             InternalOrigin value when type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
+            ConnectorManager value when type == typeof(ConnectorManager) => new ConnectorManagerDescriptor(value),
             ViewSchedule value when type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
             ScheduleDefinition value when type == typeof(ScheduleDefinition) => new ScheduleDefinitionDescriptor(value),
             TableData value when type == typeof(TableData) => new TableDataDescriptor(value),
