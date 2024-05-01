@@ -104,7 +104,7 @@
   - Added `TableSectionData.IsValidRowNumber` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
   - Added `TableSectionData.RefreshData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
 
-# Bugs
+## Bugs
 
 - Temporary disabled `IndependentTag.TagText` for RebarBendingDetail in Revit 2025. Revit API issue https://github.com/jeremytammik/RevitLookup/issues/225
 
