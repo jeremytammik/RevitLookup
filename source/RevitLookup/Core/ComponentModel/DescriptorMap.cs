@@ -22,6 +22,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Threading;
+using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.DB.Mechanical;
@@ -117,6 +118,7 @@ public static class DescriptorMap
             BasePoint value when type == typeof(BasePoint) => new BasePointDescriptor(value),
             InternalOrigin value when type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
             ConnectorManager value when type == typeof(ConnectorManager) => new ConnectorManagerDescriptor(value),
+            Wire value when type == typeof(Wire) => new WireDescriptor(value),
             ViewSchedule value when type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
             ScheduleDefinition value when type == typeof(ScheduleDefinition) => new ScheduleDefinitionDescriptor(value),
             TableData value when type == typeof(TableData) => new TableDataDescriptor(value),
