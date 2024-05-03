@@ -91,9 +91,7 @@ public static class DescriptorMap
             FamilyInstance value when type is null || type == typeof(FamilyInstance) => new FamilyInstanceDescriptor(value),
             Panel value when type == typeof(Panel) => new PanelDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
-#if REVIT2025_OR_GREATER
             IndependentTag value when type is null || type == typeof(IndependentTag) => new IndependentTagDescriptor(value),
-#endif
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
