@@ -119,6 +119,7 @@ public static class DescriptorMap
             InternalOrigin value when type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
             ConnectorManager value when type == typeof(ConnectorManager) => new ConnectorManagerDescriptor(value),
             Wire value when type == typeof(Wire) => new WireDescriptor(value),
+            CurveElement value when type == typeof(CurveElement) => new CurveElementDescriptor(value),
             ViewSchedule value when type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
             ScheduleDefinition value when type == typeof(ScheduleDefinition) => new ScheduleDefinitionDescriptor(value),
             TableData value when type == typeof(TableData) => new TableDataDescriptor(value),
