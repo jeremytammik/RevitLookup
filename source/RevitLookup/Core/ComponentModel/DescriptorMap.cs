@@ -121,6 +121,7 @@ public static class DescriptorMap
             Wire value when type == typeof(Wire) => new WireDescriptor(value),
             ViewSchedule value when type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
             ScheduleDefinition value when type == typeof(ScheduleDefinition) => new ScheduleDefinitionDescriptor(value),
+            TableView value when type == typeof(TableView) => new TableViewDescriptor(value),
             TableData value when type == typeof(TableData) => new TableDataDescriptor(value),
             TableSectionData value when type == typeof(TableSectionData) => new TableSectionDataDescriptor(value),
 #if REVIT2024_OR_GREATER
