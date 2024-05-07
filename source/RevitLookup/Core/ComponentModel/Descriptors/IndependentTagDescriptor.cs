@@ -42,6 +42,8 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             nameof(IndependentTag.GetLeaderElbow) => ResolveLeaderElbow(),
             nameof(IndependentTag.GetLeaderEnd) => ResolveLeaderEnd(),
             nameof(IndependentTag.HasLeaderElbow) => ResolveHasLeaderElbow(),
+#endif
+#if REVIT2023_OR_GREATER
             nameof(IndependentTag.IsLeaderVisible) => ResolveIsLeaderVisible(),
 #endif
             _ => null
@@ -68,7 +70,9 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             
             foreach (var reference in references)
             {
+#if REVIT2023_OR_GREATER
                 if (!tag.IsLeaderVisible(reference)) continue;
+#endif
                 if (!tag.HasLeaderElbow(reference)) continue;
                 
                 resolveSummary.AppendVariant(tag.GetLeaderElbow(reference));
@@ -89,7 +93,9 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             
             foreach (var reference in references)
             {
+#if REVIT2023_OR_GREATER
                 if (!tag.IsLeaderVisible(reference)) continue;
+#endif
                 
                 resolveSummary.AppendVariant(tag.GetLeaderEnd(reference));
             }
@@ -103,13 +109,17 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             var resolveSummary = new ResolveSet(references.Count);
             foreach (var reference in references)
             {
+#if REVIT2023_OR_GREATER
                 if (!tag.IsLeaderVisible(reference)) continue;
+#endif
                 
                 resolveSummary.AppendVariant(tag.HasLeaderElbow(reference));
             }
             
             return resolveSummary;
         }
+#endif
+#if REVIT2023_OR_GREATER
         
         ResolveSet ResolveIsLeaderVisible()
         {
