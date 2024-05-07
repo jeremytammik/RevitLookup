@@ -34,7 +34,8 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
         return target switch
         {
 #if REVIT2025_OR_GREATER
-            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(tag) => ResolveSet.Append(new NotSupportedException("RebarBendingDetail not supported. Revit API critical Exception")),
+            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(tag) =>
+                ResolveSet.Append(new NotSupportedException("RebarBendingDetail not supported. Revit API critical Exception")),
 #endif
             nameof(IndependentTag.CanLeaderEndConditionBeAssigned) => ResolveLeaderEndCondition(),
 #if REVIT2022_OR_GREATER
@@ -53,7 +54,8 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             
             foreach (LeaderEndCondition condition in conditions)
             {
-                resolveSummary.AppendVariant(tag.CanLeaderEndConditionBeAssigned(condition), condition.ToString());
+                var result = tag.CanLeaderEndConditionBeAssigned(condition);
+                resolveSummary.AppendVariant(result, $"{condition}: {result}");
             }
             
             return resolveSummary;
@@ -66,8 +68,10 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             
             foreach (var reference in references)
             {
-                if (tag.IsLeaderVisible(reference) && tag.HasLeaderElbow(reference))
-                    resolveSummary.AppendVariant(tag.GetLeaderElbow(reference));
+                if (!tag.IsLeaderVisible(reference)) continue;
+                if (!tag.HasLeaderElbow(reference)) continue;
+                
+                resolveSummary.AppendVariant(tag.GetLeaderElbow(reference));
             }
             
             return resolveSummary;
@@ -76,14 +80,18 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
         ResolveSet ResolveLeaderEnd()
         {
             if (tag.LeaderEndCondition == LeaderEndCondition.Attached)
-                return ResolveSet.Append("The tag has attached leader end condition, it has no LeaderEnd");
+            {
+                return new ResolveSet();
+            }
+            
             var references = tag.GetTaggedReferences();
             var resolveSummary = new ResolveSet(references.Count);
             
             foreach (var reference in references)
             {
-                if (tag.IsLeaderVisible(reference))
-                    resolveSummary.AppendVariant(tag.GetLeaderEnd(reference));
+                if (!tag.IsLeaderVisible(reference)) continue;
+                
+                resolveSummary.AppendVariant(tag.GetLeaderEnd(reference));
             }
             
             return resolveSummary;
@@ -95,8 +103,9 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             var resolveSummary = new ResolveSet(references.Count);
             foreach (var reference in references)
             {
-                if (tag.IsLeaderVisible(reference))
-                    resolveSummary.AppendVariant(tag.HasLeaderElbow(reference));
+                if (!tag.IsLeaderVisible(reference)) continue;
+                
+                resolveSummary.AppendVariant(tag.HasLeaderElbow(reference));
             }
             
             return resolveSummary;
