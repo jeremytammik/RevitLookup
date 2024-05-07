@@ -34,9 +34,95 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
         return target switch
         {
 #if REVIT2025_OR_GREATER
-            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(tag) => ResolveSet.Append(new NotSupportedException("RebarBendingDetail not supported. Revit API critical Exception")),
+            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(tag) =>
+                ResolveSet.Append(new NotSupportedException("RebarBendingDetail not supported. Revit API critical Exception")),
+#endif
+            nameof(IndependentTag.CanLeaderEndConditionBeAssigned) => ResolveLeaderEndCondition(),
+#if REVIT2022_OR_GREATER
+            nameof(IndependentTag.GetLeaderElbow) => ResolveLeaderElbow(),
+            nameof(IndependentTag.GetLeaderEnd) => ResolveLeaderEnd(),
+            nameof(IndependentTag.HasLeaderElbow) => ResolveHasLeaderElbow(),
+            nameof(IndependentTag.IsLeaderVisible) => ResolveIsLeaderVisible(),
 #endif
             _ => null
         };
+        
+        ResolveSet ResolveLeaderEndCondition()
+        {
+            var conditions = Enum.GetValues(typeof(LeaderEndCondition));
+            var resolveSummary = new ResolveSet(conditions.Length);
+            
+            foreach (LeaderEndCondition condition in conditions)
+            {
+                var result = tag.CanLeaderEndConditionBeAssigned(condition);
+                resolveSummary.AppendVariant(result, $"{condition}: {result}");
+            }
+            
+            return resolveSummary;
+        }
+#if REVIT2022_OR_GREATER
+        ResolveSet ResolveLeaderElbow()
+        {
+            var references = tag.GetTaggedReferences();
+            var resolveSummary = new ResolveSet(references.Count);
+            
+            foreach (var reference in references)
+            {
+                if (!tag.IsLeaderVisible(reference)) continue;
+                if (!tag.HasLeaderElbow(reference)) continue;
+                
+                resolveSummary.AppendVariant(tag.GetLeaderElbow(reference));
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveLeaderEnd()
+        {
+            if (tag.LeaderEndCondition == LeaderEndCondition.Attached)
+            {
+                return new ResolveSet();
+            }
+            
+            var references = tag.GetTaggedReferences();
+            var resolveSummary = new ResolveSet(references.Count);
+            
+            foreach (var reference in references)
+            {
+                if (!tag.IsLeaderVisible(reference)) continue;
+                
+                resolveSummary.AppendVariant(tag.GetLeaderEnd(reference));
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveHasLeaderElbow()
+        {
+            var references = tag.GetTaggedReferences();
+            var resolveSummary = new ResolveSet(references.Count);
+            foreach (var reference in references)
+            {
+                if (!tag.IsLeaderVisible(reference)) continue;
+                
+                resolveSummary.AppendVariant(tag.HasLeaderElbow(reference));
+            }
+            
+            return resolveSummary;
+        }
+        
+        ResolveSet ResolveIsLeaderVisible()
+        {
+            var references = tag.GetTaggedReferences();
+            var resolveSummary = new ResolveSet(references.Count);
+            
+            foreach (var reference in references)
+            {
+                resolveSummary.AppendVariant(tag.IsLeaderVisible(reference));
+            }
+            
+            return resolveSummary;
+        }
+#endif
     }
 }
