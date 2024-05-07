@@ -31,7 +31,7 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
     {
         return target switch
         {
-            nameof(TableView.GetAvailableParameterCategories) => ResolveAvailableParameterCategories(),
+            // nameof(TableView.GetAvailableParameterCategories) => ResolveAvailableParameterCategories(), disabled, long computation time
             nameof(TableView.GetAvailableParameters) => ResolveAvailableParameters(),
             nameof(TableView.GetCalculatedValueName) => ResolveCalculatedValueName(),
             nameof(TableView.GetCalculatedValueText) => ResolveCalculatedValueText(),
@@ -39,33 +39,6 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
             nameof(TableView.GetCellText) => ResolveCellText(),
             _ => null
         };
-        
-        ResolveSet ResolveAvailableParameterCategories()
-        {
-            if (tableView is not ViewSchedule && tableView is not PanelScheduleView)
-                return ResolveSet.Append("This view is not a schedule view");
-            
-            TableData tableData = null;
-            if (tableView is ViewSchedule viewSchedule)
-                tableData = viewSchedule.GetTableData();
-            else if (tableView is PanelScheduleView panelScheduleView)
-                tableData = panelScheduleView.GetTableData();
-            
-            var sectionTypes = Enum.GetValues(typeof(SectionType));
-            var resolveSummary = new ResolveSet();
-            foreach (SectionType sectionType in sectionTypes)
-            {
-                var tableSectionData = tableData!.GetSectionData(sectionType);
-                if (tableSectionData is null) continue;
-                for (var i = tableSectionData.FirstRowNumber; i < tableSectionData.LastRowNumber; i++)
-                {
-                    resolveSummary.AppendVariant(tableView.GetAvailableParameterCategories(sectionType, i),
-                        $"{sectionType}: Row {i}");
-                }
-            }
-            
-            return resolveSummary;
-        }
         
         ResolveSet ResolveAvailableParameters()
         {
@@ -82,14 +55,12 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
         
         ResolveSet ResolveCalculatedValueName()
         {
-            if (tableView is not ViewSchedule && tableView is not PanelScheduleView)
-                return ResolveSet.Append("This view is not a schedule view");
-            
-            TableData tableData = null;
-            if (tableView is ViewSchedule viewSchedule)
-                tableData = viewSchedule.GetTableData();
-            else if (tableView is PanelScheduleView panelScheduleView)
-                tableData = panelScheduleView.GetTableData();
+            var tableData = tableView switch
+            {
+                ViewSchedule viewSchedule => viewSchedule.GetTableData(),
+                PanelScheduleView panelScheduleView => panelScheduleView.GetTableData(),
+                _ => throw new NotSupportedException($"{tableView.GetType().FullName} is not supported in the current API version")
+            };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
             var resolveSummary = new ResolveSet();
@@ -97,11 +68,12 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
             {
                 var tableSectionData = tableData!.GetSectionData(sectionType);
                 if (tableSectionData is null) continue;
+                
                 for (var i = tableSectionData.FirstRowNumber; i < tableSectionData.LastRowNumber; i++)
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
                     var result = tableView.GetCalculatedValueName(sectionType, i, j);
-                    resolveSummary.AppendVariant(result, $"{sectionType}, Row {i}, Column {j}: {result}");
+                    resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
             
@@ -110,14 +82,12 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
         
         ResolveSet ResolveCalculatedValueText()
         {
-            if (tableView is not ViewSchedule && tableView is not PanelScheduleView)
-                return ResolveSet.Append("This view is not a schedule view");
-            
-            TableData tableData = null;
-            if (tableView is ViewSchedule viewSchedule)
-                tableData = viewSchedule.GetTableData();
-            else if (tableView is PanelScheduleView panelScheduleView)
-                tableData = panelScheduleView.GetTableData();
+            var tableData = tableView switch
+            {
+                ViewSchedule viewSchedule => viewSchedule.GetTableData(),
+                PanelScheduleView panelScheduleView => panelScheduleView.GetTableData(),
+                _ => throw new NotSupportedException($"{tableView.GetType().FullName} is not supported in the current API version")
+            };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
             var resolveSummary = new ResolveSet();
@@ -125,11 +95,12 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
             {
                 var tableSectionData = tableData!.GetSectionData(sectionType);
                 if (tableSectionData is null) continue;
+                
                 for (var i = tableSectionData.FirstRowNumber; i < tableSectionData.LastRowNumber; i++)
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
                     var result = tableView.GetCalculatedValueText(sectionType, i, j);
-                    resolveSummary.AppendVariant(result, $"{sectionType}, Row {i}, Column {j}: {result}");
+                    resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
             
@@ -138,14 +109,12 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
         
         ResolveSet ResolveCellText()
         {
-            if (tableView is not ViewSchedule && tableView is not PanelScheduleView)
-                return ResolveSet.Append("This view is not a schedule view");
-            
-            TableData tableData = null;
-            if (tableView is ViewSchedule viewSchedule)
-                tableData = viewSchedule.GetTableData();
-            else if (tableView is PanelScheduleView panelScheduleView)
-                tableData = panelScheduleView.GetTableData();
+            var tableData = tableView switch
+            {
+                ViewSchedule viewSchedule => viewSchedule.GetTableData(),
+                PanelScheduleView panelScheduleView => panelScheduleView.GetTableData(),
+                _ => throw new NotSupportedException($"{tableView.GetType().FullName} is not supported in the current API version")
+            };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
             var resolveSummary = new ResolveSet();
@@ -157,7 +126,7 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
                     var result = tableView.GetCellText(sectionType, i, j);
-                    resolveSummary.AppendVariant(result, $"{sectionType}, Row {i}, Column {j}: {result}");
+                    resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
             
