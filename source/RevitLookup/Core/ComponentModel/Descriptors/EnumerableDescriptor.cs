@@ -30,6 +30,8 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
 {
     public EnumerableDescriptor(IEnumerable value)
     {
+        // SnoopUtils.ParseEnumerable dispose this Enumerator;
+        // ReSharper disable once GenericEnumeratorNotDisposed
         Enumerator = value.GetEnumerator();
 
         //Checking types to reduce memory allocation when creating an iterator and increase performance

@@ -36,6 +36,11 @@ public static class SnoopUtils
             Redirect(item);
             items.Add(item);
         }
+        
+        if (descriptor.Enumerator is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
 
         return items;
     }

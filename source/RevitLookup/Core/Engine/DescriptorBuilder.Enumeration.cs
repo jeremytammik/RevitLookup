@@ -27,12 +27,18 @@ public sealed partial class DescriptorBuilder
     private void AddEnumerableItems()
     {
         if (_obj is not IEnumerable enumerable) return;
-
+        
         _type = typeof(IEnumerable);
         var enumerator = enumerable.GetEnumerator();
+        
         while (enumerator.MoveNext())
         {
             WriteDescriptor(enumerator.Current);
+        }
+        
+        if (enumerator is IDisposable disposable)
+        {
+            disposable.Dispose();
         }
     }
 }
