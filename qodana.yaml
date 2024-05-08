@@ -15,3 +15,7 @@ exclude:
       - source/Benchmarks
       - source/RevitLookup.UI
       - source/RevitLookup.UI.Demo
+  - name: HeapView.ObjectAllocation
+  - name: HeapView.ObjectAllocation.Evident
+  - name: HeapView.DelegateAllocation
+  - name: HeapView.ObjectAllocation.Possible
