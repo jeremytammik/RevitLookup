@@ -73,7 +73,7 @@ public sealed partial class DescriptorBuilder
             ComputationTime = _clockDiagnoser.GetElapsed().TotalMilliseconds,
             AllocatedBytes = _memoryDiagnoser.GetAllocatedBytes()
         };
-
+        
         _descriptors.Add(descriptor);
     }
     
@@ -143,9 +143,10 @@ public sealed partial class DescriptorBuilder
         if (set.Variants.Count == 1) return;
         
         var type = set.Variants.Peek().Result.GetType();
-        var name = DescriptorUtils.MakeGenericTypeName(type);
-        snoopableObject.Descriptor.Name = name;
-        snoopableObject.Descriptor.Type = name;
+        var typeName = DescriptorUtils.MakeGenericTypeName(type);
+
+        snoopableObject.Descriptor.Name = set.Variants.Count > 0 ? $"IEnumerable<{typeName}>" : typeName;
+        snoopableObject.Descriptor.Type = typeName;
     }
     
     private static void RestoreSetDescription(MemberInfo member, object value, SnoopableObject snoopableObject)
@@ -153,14 +154,14 @@ public sealed partial class DescriptorBuilder
         if (value is not ResolveSet set) return;
         if (set.Variants.Count == 1) return;
         
-        var name = member switch
+        var typeName = member switch
         {
             PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod!.ReturnType),
             MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
             _ => snoopableObject.Descriptor.Name
         };
         
-        snoopableObject.Descriptor.Name = name;
-        snoopableObject.Descriptor.Type = name;
+        snoopableObject.Descriptor.Name = set.Variants.Count > 0 ? $"IEnumerable<{typeName}>" : typeName;
+        snoopableObject.Descriptor.Type = typeName;
     }
 }
