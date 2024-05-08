@@ -75,6 +75,12 @@ public partial class SnoopViewBase
                 .Append("Time: ")
                 .Append(descriptor.ComputationTime)
                 .Append(" ms");
+        
+        if (descriptor.AllocatedBytes > 0)
+            builder.AppendLine()
+                .Append("Allocated: ")
+                .Append(descriptor.AllocatedBytes)
+                .Append(" bytes");
 
         row.ToolTip = new ToolTip
         {

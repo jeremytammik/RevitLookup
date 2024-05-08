@@ -19,21 +19,23 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Runtime;
 using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Core.Engine;
 
 public sealed partial class DescriptorBuilder
 {
     private IList<Descriptor> BuildInstanceObject(Type type)
     {
         var types = GetTypeHierarchy(type);
+        
         for (var i = types.Count - 1; i >= 0; i--)
         {
             _type = types[i];
             _currentDescriptor = DescriptorUtils.FindSuitableDescriptor(_obj, _type);
-
+            
             var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
             if (_settings.IncludeStatic) flags |= BindingFlags.Static;
             if (_settings.IncludePrivate) flags |= BindingFlags.NonPublic;
@@ -43,15 +45,15 @@ public sealed partial class DescriptorBuilder
             AddFields(flags);
             AddEvents(flags);
             AddExtensions();
-
+            
             _depth--;
         }
-
+        
         AddEnumerableItems();
-
+        
         return _descriptors;
     }
-
+    
     private List<Type> GetTypeHierarchy(Type type)
     {
         var types = new List<Type>();
@@ -60,23 +62,23 @@ public sealed partial class DescriptorBuilder
             types.Add(type);
             type = type.BaseType;
         }
-
+        
         if (_settings.IncludeRootHierarchy) types.Add(type);
-
+        
         return types;
     }
-
+    
     private IList<Descriptor> BuildStaticObject(Type type)
     {
         _type = type;
-
+        
         var flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
         if (_settings.IncludePrivate) flags |= BindingFlags.NonPublic;
-
+        
         AddProperties(flags);
         AddMethods(flags);
         AddFields(flags);
-
+        
         return _descriptors;
     }
 }

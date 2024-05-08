@@ -42,7 +42,7 @@ public partial class SnoopViewBase
             PlacementTarget = row,
             DataContext = ViewModel
         };
-
+        
         row.ContextMenu = contextMenu;
         
         contextMenu.AddMenuItem("CopyMenuItem")
@@ -83,6 +83,15 @@ public partial class SnoopViewBase
             {
                 _settingsService.ShowTimeColumn = parameter.Visibility != Visibility.Visible;
                 parameter.Visibility = _settingsService.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
+            });
+        
+        contextMenu.AddMenuItem()
+            .SetHeader("Memory")
+            .SetChecked(dataGrid.Columns[3].Visibility == Visibility.Visible)
+            .SetCommand(dataGrid.Columns[3], parameter =>
+            {
+                _settingsService.ShowMemoryColumn = parameter.Visibility != Visibility.Visible;
+                parameter.Visibility = _settingsService.ShowMemoryColumn ? Visibility.Visible : Visibility.Collapsed;
             });
         
         contextMenu.AddSeparator();
@@ -174,7 +183,7 @@ public partial class SnoopViewBase
         contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName, parameter.Name))
             .SetShortcut(Key.F1);
-
+        
         if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu);
     }
 }

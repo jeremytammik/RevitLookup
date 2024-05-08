@@ -31,6 +31,7 @@ public interface ISettingsService
     int TransitionDuration { get; }
     bool UseHardwareRendering { get; set; }
     bool ShowTimeColumn { get; set; }
+    bool ShowMemoryColumn { get; set; }
     
     //Window
     bool UseSizeRestoring { get; set; }
@@ -48,7 +49,7 @@ public interface ISettingsService
 
     // Ribbon
     bool UseModifyTab { get; set; }
-
+    
     int ApplyTransition(bool value);
     void Save();
 }

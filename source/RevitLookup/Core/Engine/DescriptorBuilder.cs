@@ -18,42 +18,29 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Diagnosers;
 using RevitLookup.Core.Objects;
+using RevitLookup.Services.Contracts;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Core.Engine;
 
-public sealed partial class DescriptorBuilder : IExtensionManager
+public sealed partial class DescriptorBuilder
 {
-    private void AddExtensions()
-    {
-        if (!_settings.IncludeExtensions) return;
-        if (_currentDescriptor is not IDescriptorExtension extension) return;
+    private readonly List<Descriptor> _descriptors;
+    private readonly ISettingsService _settings;
+    private Descriptor _currentDescriptor;
+    private object _obj;
+    private Type _type;
+    private int _depth;
+    
+    private readonly ClockDiagnoser _clockDiagnoser = new();
+    private readonly MemoryDiagnoser _memoryDiagnoser = new();
 
-        extension.RegisterExtensions(this);
+    private DescriptorBuilder()
+    {
+        _descriptors = new List<Descriptor>(16);
+        _settings = Host.GetService<ISettingsService>();
     }
 
-    public void Register<T>(T value, Action<DescriptorExtension<T>> extension)
-    {
-        var descriptorExtension = new DescriptorExtension<T>
-        {
-            Value = value,
-            Context = Context
-        };
-
-        _tracker.Start();
-        try
-        {
-            extension.Invoke(descriptorExtension);
-            WriteDescriptor(descriptorExtension.Name, descriptorExtension.Result);
-        }
-        catch (Exception exception)
-        {
-            WriteDescriptor(descriptorExtension.Name, exception);
-        }
-        finally
-        {
-            _tracker.Stop();
-        }
-    }
+    public Document Context { get; private set; }
 }

@@ -21,7 +21,7 @@
 using System.Reflection;
 using RevitLookup.Core.Contracts;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Core.Engine;
 
 public sealed partial class DescriptorBuilder
 {
@@ -31,16 +31,20 @@ public sealed partial class DescriptorBuilder
         foreach (var member in members)
         {
             if (member.IsSpecialName) continue;
-
+            
             object value;
-            ParameterInfo[] parameters = null;
-            _tracker.Start();
+            var parameters = member.GetMethod!.GetParameters();
+            
             try
             {
-                if (!TryEvaluate(member, out value, out parameters))
+                if (!TryResolve(member, parameters, out value))
                 {
-                    _tracker.Reset();
-                    continue;
+                    if (!IsPropertySupported(member, parameters, out value)) continue;
+                    
+                    if (value is null)
+                    {
+                        Evaluate(member, out value);
+                    }
                 }
             }
             catch (TargetInvocationException exception)
@@ -51,42 +55,64 @@ public sealed partial class DescriptorBuilder
             {
                 value = exception;
             }
-            finally
-            {
-                _tracker.Stop();
-            }
-
+            
             WriteDescriptor(member, value, parameters);
         }
     }
-
-    private bool TryEvaluate(PropertyInfo member, out object value, out ParameterInfo[] parameters)
+    
+    private bool TryResolve(PropertyInfo member, ParameterInfo[] parameters, out object value)
     {
         value = null;
-        parameters = null;
-
+        if (_currentDescriptor is not IDescriptorResolver resolver) return false;
+        
+        try
+        {
+            _clockDiagnoser.Start();
+            _memoryDiagnoser.Start();
+            value = resolver.Resolve(Context, member.Name, parameters);
+        }
+        finally
+        {
+            _memoryDiagnoser.Stop();
+            _clockDiagnoser.Stop();
+        }
+        
+        return value is not null;
+    }
+    
+    private void Evaluate(PropertyInfo member, out object value)
+    {
+        try
+        {
+            _clockDiagnoser.Start();
+            _memoryDiagnoser.Start();
+            value = member.GetValue(_obj);
+        }
+        finally
+        {
+            _memoryDiagnoser.Stop();
+            _clockDiagnoser.Stop();
+        }
+    }
+    
+    private bool IsPropertySupported(PropertyInfo member, ParameterInfo[] parameters, out object value)
+    {
+        value = null;
+        
         if (!member.CanRead)
         {
             value = new NotSupportedException("Property does not have a get accessor, it cannot be read");
             return true;
         }
 
-        parameters = member.GetMethod!.GetParameters();
-        if (_currentDescriptor is IDescriptorResolver resolver)
-        {
-            value = resolver.Resolve(Context, member.Name, parameters);
-            if (value is not null) return true;
-        }
-
         if (parameters.Length > 0)
         {
             if (!_settings.IncludeUnsupported) return false;
-
+            
             value = new NotSupportedException("Unsupported property overload");
             return true;
         }
-
-        value = member.GetValue(_obj);
+        
         return true;
     }
 }

@@ -18,24 +18,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Views.Converters;
 
-public sealed partial class DescriptorBuilder
+public sealed class BytesToStringConverter : MarkupExtension, IValueConverter
 {
-    private void AddFields(BindingFlags bindingFlags)
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (!_settings.IncludeFields) return;
-
-        var members = _type.GetFields(bindingFlags);
-        foreach (var member in members)
+        var bytes = (long) value!;
+        return bytes switch
         {
-            if (member.IsSpecialName) continue;
-            _tracker.Start();
-            var value = member.GetValue(_obj);
-            _tracker.Stop();
-            WriteDescriptor(member, value, null);
-        }
+            0 => string.Empty,
+            < 1_000 => $"{value} B",
+            < 1_000_000 => $"{(bytes / 1000d):F3} KB",
+            _ => $"{(bytes / 1_000_000d):F3} MB"
+        };
+    }
+    
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+    
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
     }
 }

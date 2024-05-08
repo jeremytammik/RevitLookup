@@ -40,13 +40,13 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private readonly TreeView _treeViewControl;
     private readonly DataGrid _dataGridControl;
     private readonly ISettingsService _settingsService;
-
+    
     protected SnoopViewBase(ISettingsService settingsService)
     {
         _settingsService = settingsService;
         AddShortcuts();
     }
-
+    
     protected TreeView TreeViewControl
     {
         get => _treeViewControl;
@@ -56,7 +56,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
             OnTreeChanged(value);
         }
     }
-
+    
     protected DataGrid DataGridControl
     {
         get => _dataGridControl;
@@ -66,10 +66,10 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
             OnGridChanged(value);
         }
     }
-
+    
     protected UIElement SearchBoxControl { get; init; }
     public ISnoopViewModel ViewModel { get; protected init; }
-
+    
     /// <summary>
     ///     Handle data grid reference changed event
     /// </summary>
@@ -80,7 +80,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     {
         control.ItemContainerGenerator.StatusChanged += OnTreeViewItemGenerated;
     }
-
+    
     /// <summary>
     ///     Handle tree view source changed
     /// </summary>
@@ -94,17 +94,17 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
             SetupTreeView();
             return;
         }
-
+        
         Loaded += OnLoaded;
         return;
-
+        
         void OnLoaded(object o, RoutedEventArgs args)
         {
             Loaded -= OnLoaded;
             SetupTreeView();
         }
     }
-
+    
     /// <summary>
     ///     Handle tree view item loaded
     /// </summary>
@@ -120,13 +120,13 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
             {
                 var treeItem = (ItemsControl) generator.ContainerFromItem(item);
                 if (treeItem is null) continue;
-
+                
                 treeItem.Loaded -= OnTreeItemLoaded;
                 treeItem.PreviewMouseLeftButtonUp -= OnTreeItemClicked;
-
+                
                 treeItem.Loaded += OnTreeItemLoaded;
                 treeItem.PreviewMouseLeftButtonUp += OnTreeItemClicked;
-
+                
                 if (treeItem.Items.Count > 0)
                 {
                     treeItem.ItemContainerGenerator.StatusChanged -= OnTreeViewItemGenerated;
@@ -135,7 +135,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
             }
         }
     }
-
+    
     /// <summary>
     ///     Handle tree view loaded event
     /// </summary>
@@ -153,7 +153,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
                 break;
         }
     }
-
+    
     /// <summary>
     ///     Handle tree view reference changed event
     /// </summary>
@@ -164,10 +164,10 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     {
         // Await Frame transition. GetMembers freezes the thread and breaks the animation
         await Task.Delay(_settingsService.TransitionDuration);
-
+        
         ExpandFirstTreeGroup();
     }
-
+    
     /// <summary>
     ///     Handle data grid reference changed event
     /// </summary>
@@ -180,11 +180,12 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         {
             var dataGrid = (DataGrid) sender;
             ValidateTimeColumn(dataGrid);
+            ValidateAllocatedColumn(dataGrid);
             CreateGridContextMenu(dataGrid);
         };
         control.ItemsSourceChanged += OnGridItemsSourceChanged;
     }
-
+    
     /// <summary>
     ///     Handle data grid source changed
     /// </summary>
@@ -194,7 +195,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private void OnGridItemsSourceChanged(object sender, EventArgs _)
     {
         var dataGrid = (DataGrid) sender;
-
+        
         //Clear shapingStorage for remove duplications. WpfBug?
         dataGrid.Items.GroupDescriptions!.Clear();
         dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Depth), ListSortDirection.Descending));
@@ -202,7 +203,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         dataGrid.Items.SortDescriptions.Add(new SortDescription(nameof(Descriptor.Name), ListSortDirection.Ascending));
         dataGrid.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(Descriptor.Type)));
     }
-
+    
     /// <summary>
     ///     Handle data grid row loading event
     /// </summary>
@@ -216,7 +217,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         row.PreviewMouseLeftButtonUp += OnGridRowClicked;
         SelectDataGridRowStyle(row);
     }
-
+    
     /// <summary>
     ///     Handle data grid row loaded event
     /// </summary>
@@ -230,28 +231,36 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
         CreateGridRowTooltip(context, element);
         CreateGridRowContextMenu(context, element);
     }
-
+    
     /// <summary>
     ///     Expand first tree view group after navigation
     /// </summary>
     private void ExpandFirstTreeGroup()
     {
         if (TreeViewControl.Items.Count > 3) return;
-
+        
         var rootItem = VisualUtils.GetTreeViewItem(TreeViewControl, 0);
         if (rootItem is null) return;
-
+        
         var nestedItem = VisualUtils.GetTreeViewItem(rootItem, 0);
         if (nestedItem is null) return;
-
+        
         nestedItem.IsSelected = true;
     }
-
+    
     /// <summary>
     ///     Show/hide time column
     /// </summary>
     private void ValidateTimeColumn(System.Windows.Controls.DataGrid control)
     {
         control.Columns[2].Visibility = _settingsService.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
+    }
+    
+    /// <summary>
+    ///     Show/hide allocated column
+    /// </summary>
+    private void ValidateAllocatedColumn(System.Windows.Controls.DataGrid control)
+    {
+        control.Columns[3].Visibility = _settingsService.ShowMemoryColumn ? Visibility.Visible : Visibility.Collapsed;
     }
 }

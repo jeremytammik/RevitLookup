@@ -126,8 +126,15 @@
                         Binding="{Binding ComputationTime,
                             Converter={converters:TimeToStringConverter},
                             Mode=OneTime}"
-                        Header="Time">
-                    </DataGridTextColumn>
+                        Header="Time" />
+                    <DataGridTextColumn
+                        Width="73"
+                        MinWidth="0"
+                        CanUserResize="False"
+                        Binding="{Binding AllocatedBytes,
+                            Converter={converters:BytesToStringConverter},
+                            Mode=OneTime}"
+                        Header="Memory" />
                 </rl:DataGrid.Columns>
                 <rl:DataGrid.ItemsPanel>
                     <ItemsPanelTemplate>

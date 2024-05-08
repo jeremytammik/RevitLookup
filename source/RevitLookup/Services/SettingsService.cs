@@ -41,6 +41,7 @@ internal sealed class Settings
     [JsonPropertyName("TransitionDuration")] public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
     [JsonPropertyName("IsHardwareRenderingAllowed")] public bool UseHardwareRendering { get; set; } = true;
     [JsonPropertyName("IsTimeColumnAllowed")] public bool ShowTimeColumn { get; set; }
+    [JsonPropertyName("ShowMemoryColumn")] public bool ShowMemoryColumn { get; set; }
     [JsonPropertyName("UseSizeRestoring")] public bool UseSizeRestoring { get; set; }
     [JsonPropertyName("WindowWidth")] public double WindowWidth { get; set; }
     [JsonPropertyName("WindowHeight")] public double WindowHeight { get; set; }
@@ -57,7 +58,7 @@ internal sealed class Settings
 public sealed class SettingsService : ISettingsService
 {
     private const int DefaultTransitionDuration = 200;
-
+    
     private readonly FolderLocations _folderLocations;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
     private readonly ILogger<SettingsService> _logger;
@@ -99,6 +100,12 @@ public sealed class SettingsService : ISettingsService
     {
         get => _settings.ShowTimeColumn;
         set => _settings.ShowTimeColumn = value;
+    }
+    
+    public bool ShowMemoryColumn
+    {
+        get => _settings.ShowMemoryColumn;
+        set => _settings.ShowMemoryColumn = value;
     }
     
     public bool UseModifyTab

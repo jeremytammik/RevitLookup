@@ -24,7 +24,7 @@ using RevitLookup.Core.Enums;
 using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Core.Engine;
 
 public sealed partial class DescriptorBuilder
 {
@@ -53,11 +53,11 @@ public sealed partial class DescriptorBuilder
             TypeFullName = DescriptorUtils.MakeGenericFullTypeName(_type),
             MemberAttributes = MemberAttributes.Extension,
             Type = DescriptorUtils.MakeGenericTypeName(_type),
-            ComputationTime = _tracker.Elapsed.TotalMilliseconds
+            ComputationTime = _clockDiagnoser.GetElapsed().TotalMilliseconds,
+            AllocatedBytes = _memoryDiagnoser.GetAllocatedBytes()
         };
         
         _descriptors.Add(descriptor);
-        _tracker.Reset();
     }
     
     private void WriteDescriptor(MemberInfo member, object value, ParameterInfo[] parameters)
@@ -70,11 +70,11 @@ public sealed partial class DescriptorBuilder
             Name = EvaluateName(member, parameters),
             MemberAttributes = EvaluateAttributes(member),
             Type = DescriptorUtils.MakeGenericTypeName(_type),
-            ComputationTime = _tracker.Elapsed.TotalMilliseconds
+            ComputationTime = _clockDiagnoser.GetElapsed().TotalMilliseconds,
+            AllocatedBytes = _memoryDiagnoser.GetAllocatedBytes()
         };
-        
+
         _descriptors.Add(descriptor);
-        _tracker.Reset();
     }
     
     private SnoopableObject EvaluateValue(MemberInfo member, object value)
@@ -116,9 +116,9 @@ public sealed partial class DescriptorBuilder
         return member switch
         {
             MethodInfo info => GetModifiers(MemberAttributes.Method, info.Attributes),
-            PropertyInfo info => GetModifiers(MemberAttributes.Property, info.CanRead ? info.GetMethod.Attributes : info.SetMethod.Attributes),
+            PropertyInfo info => GetModifiers(MemberAttributes.Property, info.CanRead ? info.GetMethod!.Attributes : info.SetMethod!.Attributes),
             FieldInfo info => GetModifiers(MemberAttributes.Field, info.Attributes),
-            EventInfo info => GetModifiers(MemberAttributes.Event, info.AddMethod.Attributes),
+            EventInfo info => GetModifiers(MemberAttributes.Event, info.AddMethod!.Attributes),
             _ => throw new ArgumentOutOfRangeException(nameof(member))
         };
     }
@@ -155,7 +155,7 @@ public sealed partial class DescriptorBuilder
         
         var name = member switch
         {
-            PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod.ReturnType),
+            PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod!.ReturnType),
             MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
             _ => snoopableObject.Descriptor.Name
         };

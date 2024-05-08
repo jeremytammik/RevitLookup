@@ -18,27 +18,39 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics;
 using RevitLookup.Core.Objects;
-using RevitLookup.Services.Contracts;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Core.Engine;
 
 public sealed partial class DescriptorBuilder
 {
-    private readonly List<Descriptor> _descriptors;
-    private readonly Stopwatch _tracker = new();
-    private readonly ISettingsService _settings;
-    private Descriptor _currentDescriptor;
-    private object _obj;
-    private Type _type;
-    private int _depth;
-
-    private DescriptorBuilder()
+    public static IList<Descriptor> Build(Type type)
     {
-        _descriptors = new List<Descriptor>(16);
-        _settings = Host.GetService<ISettingsService>();
+        var builder = new DescriptorBuilder
+        {
+            _obj = null,
+            Context = Nice3point.Revit.Toolkit.Context.Document
+        };
+
+        return builder.BuildStaticObject(type);
     }
 
-    public Document Context { get; private set; }
+    public static IList<Descriptor> Build(object obj, Document context)
+    {
+        if (obj is null) return Array.Empty<Descriptor>();
+
+        var builder = new DescriptorBuilder();
+
+        switch (obj)
+        {
+            case Type staticObjectType:
+                builder._obj = null;
+                builder.Context = context;
+                return builder.BuildStaticObject(staticObjectType);
+            default:
+                builder._obj = obj;
+                builder.Context = context;
+                return builder.BuildInstanceObject(obj.GetType());
+        }
+    }
 }

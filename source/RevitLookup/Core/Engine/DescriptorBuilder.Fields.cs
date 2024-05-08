@@ -18,21 +18,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
+using System.Reflection;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Core.Engine;
 
 public sealed partial class DescriptorBuilder
 {
-    private void AddEnumerableItems()
+    private void AddFields(BindingFlags bindingFlags)
     {
-        if (_obj is not IEnumerable enumerable) return;
-
-        _type = typeof(IEnumerable);
-        var enumerator = enumerable.GetEnumerator();
-        while (enumerator.MoveNext())
+        if (!_settings.IncludeFields) return;
+        
+        var members = _type.GetFields(bindingFlags);
+        foreach (var member in members)
         {
-            WriteDescriptor(enumerator.Current);
+            if (member.IsSpecialName) continue;
+            
+            var value = Evaluate(member);
+            WriteDescriptor(member, value, null);
         }
+    }
+    
+    private object Evaluate(FieldInfo member)
+    {
+        _clockDiagnoser.Start();
+        _memoryDiagnoser.Start();
+        var value = member.GetValue(_obj);
+        _memoryDiagnoser.Stop();
+        _clockDiagnoser.Stop();
+        return value;
     }
 }

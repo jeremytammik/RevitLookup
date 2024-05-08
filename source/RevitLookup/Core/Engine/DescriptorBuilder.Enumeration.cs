@@ -18,19 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Enums;
+using System.Collections;
 
-namespace RevitLookup.Core.Objects;
+namespace RevitLookup.Core.Engine;
 
-public abstract class Descriptor
+public sealed partial class DescriptorBuilder
 {
-    public int Depth { get; set; }
-    public string TypeFullName { get; set; }
-    public string Type { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public double ComputationTime { get; set; }
-    public long AllocatedBytes { get; set; }
-    public MemberAttributes MemberAttributes { get; set; }
-    public SnoopableObject Value { get; set; }
+    private void AddEnumerableItems()
+    {
+        if (_obj is not IEnumerable enumerable) return;
+
+        _type = typeof(IEnumerable);
+        var enumerator = enumerable.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            WriteDescriptor(enumerator.Current);
+        }
+    }
 }

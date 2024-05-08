@@ -18,39 +18,29 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Objects;
+using System.Diagnostics;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Core.Diagnosers;
 
-public sealed partial class DescriptorBuilder
+public class ClockDiagnoser
 {
-    public static IList<Descriptor> Build(Type type)
+    private readonly Stopwatch _clock = new();
+    
+    public void Start()
     {
-        var builder = new DescriptorBuilder
-        {
-            _obj = null,
-            Context = Nice3point.Revit.Toolkit.Context.Document
-        };
-
-        return builder.BuildStaticObject(type);
+        _clock.Start();
     }
-
-    public static IList<Descriptor> Build(object obj, Document context)
+    
+    public void Stop()
     {
-        if (obj is null) return Array.Empty<Descriptor>();
-
-        var builder = new DescriptorBuilder();
-
-        switch (obj)
-        {
-            case Type staticObjectType:
-                builder._obj = null;
-                builder.Context = context;
-                return builder.BuildStaticObject(staticObjectType);
-            default:
-                builder._obj = obj;
-                builder.Context = context;
-                return builder.BuildInstanceObject(obj.GetType());
-        }
+        _clock.Stop();
+    }
+    
+    public TimeSpan GetElapsed()
+    {
+        var elapsed = _clock.Elapsed;
+        _clock.Reset();
+        
+        return elapsed;
     }
 }

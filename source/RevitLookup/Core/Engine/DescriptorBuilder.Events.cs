@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using RevitLookup.Core.Utils;
 
-namespace RevitLookup.Core.Metadata;
+namespace RevitLookup.Core.Engine;
 
 public sealed partial class DescriptorBuilder
 {
