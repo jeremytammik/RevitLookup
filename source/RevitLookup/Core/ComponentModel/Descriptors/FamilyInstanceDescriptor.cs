@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
