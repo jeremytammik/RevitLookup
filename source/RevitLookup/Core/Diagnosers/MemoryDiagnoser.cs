@@ -47,10 +47,11 @@ public class MemoryDiagnoser
     
     private static long GetTotalAllocatedBytes()
     {
-        // We don't need to run GC.Collect();
-        // GC.GetTotalAllocatedBytes() is not valid for this case.
-        // AppDomain.MonitoringIsEnabled is not valid for this case.
         // Ref: https://github.com/dotnet/BenchmarkDotNet/blob/master/src/BenchmarkDotNet/Engines/GcStats.cs
+        // GC.Collect() slows down the execution a lot, accuracy does not degrade;
+        // GC.GetTotalAllocatedBytes() depends heavily on the garbage collection and gives inaccurate results;
+        // AppDomain.MonitoringIsEnabled almost does not see memory changes when methods are called.
+        // GetAllocatedBytesForCurrentThread is the perfect choice for reflexion calls
         
         return GC.GetAllocatedBytesForCurrentThread();
     }
