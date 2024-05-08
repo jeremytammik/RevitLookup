@@ -58,17 +58,10 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : Descriptor, IDescript
         {
             var resolveSummary = new ResolveSet(2);
             
-            if (datumPlane.CanBeVisibleInView(context.ActiveView))
-            {
-                var resultEnd0 = datumPlane.GetDatumExtentTypeInView(DatumEnds.End0, context.ActiveView);
-                var resultEnd1 = datumPlane.GetDatumExtentTypeInView(DatumEnds.End1, context.ActiveView);
-                resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
-                resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
-            }
-            else
-            {
-                resolveSummary.AppendVariant("Datum plane can not be visible on active view");
-            }
+            var resultEnd0 = datumPlane.GetDatumExtentTypeInView(DatumEnds.End0, context.ActiveView);
+            var resultEnd1 = datumPlane.GetDatumExtentTypeInView(DatumEnds.End1, context.ActiveView);
+            resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
+            resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
             return resolveSummary;
         }
@@ -77,35 +70,18 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : Descriptor, IDescript
         {
             var resolveSummary = new ResolveSet(2);
             
-            if (datumPlane.CanBeVisibleInView(context.ActiveView))
-            {
-                resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), $"Model, Active view");
-                resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), $"ViewSpecific, Active view");
-            }
-            else
-            {
-                resolveSummary.AppendVariant("Datum plane can not be visible on active view");
-            }
+            resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), $"Model, Active view");
+            resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), $"ViewSpecific, Active view");
             
             return resolveSummary;
         }
         
         ResolveSet ResolveLeader()
         {
-            if (datumPlane is ReferencePlane)
-                return new ResolveSet().AppendVariant("This datum plane has no leaders.");
-            
             var resolveSummary = new ResolveSet(2);
             
-            if (datumPlane.CanBeVisibleInView(context.ActiveView))
-            {
-                resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), $"End 0, Active view");
-                resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), $"End 1, Active view");
-            }
-            else
-            {
-                resolveSummary.AppendVariant("Datum plane can not be visible on active view");
-            }
+            resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), $"End 0, Active view");
+            resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), $"End 1, Active view");
             
             return resolveSummary;
         }
@@ -117,11 +93,10 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : Descriptor, IDescript
             
             foreach (var view in views)
             {
-                if (datumPlane.CanBeVisibleInView(view))
-                {
-                    var result = datumPlane.GetPropagationViews(view);
-                    resolveSummary.AppendVariant(result, $"{view.Name}");
-                }
+                if (!datumPlane.CanBeVisibleInView(view)) continue;
+                
+                var result = datumPlane.GetPropagationViews(view);
+                resolveSummary.AppendVariant(result, view.Name);
             }
             
             return resolveSummary;
@@ -129,44 +104,24 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : Descriptor, IDescript
         
         ResolveSet ResolveHasBubbleInView()
         {
-            if (datumPlane is ReferencePlane)
-                return new ResolveSet().AppendVariant("This datum plane doesn't support bubble operations.");
-            
             var resolveSummary = new ResolveSet(2);
             
-            if (datumPlane.CanBeVisibleInView(context.ActiveView))
-            {
-                var resultEnd0 = datumPlane.HasBubbleInView(DatumEnds.End0, context.ActiveView);
-                var resultEnd1 = datumPlane.HasBubbleInView(DatumEnds.End1, context.ActiveView);
-                resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
-                resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
-            }
-            else
-            {
-                resolveSummary.AppendVariant("Datum plane can not be visible on active view");
-            }
+            var resultEnd0 = datumPlane.HasBubbleInView(DatumEnds.End0, context.ActiveView);
+            var resultEnd1 = datumPlane.HasBubbleInView(DatumEnds.End1, context.ActiveView);
+            resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
+            resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
             return resolveSummary;
         }
         
         ResolveSet ResolveBubbleVisibleInView()
         {
-            if (datumPlane is ReferencePlane)
-                return new ResolveSet().AppendVariant("This datum plane doesn't support bubble operations.");
-            
             var resolveSummary = new ResolveSet(2);
             
-            if (datumPlane.CanBeVisibleInView(context.ActiveView))
-            {
-                var resultEnd0 = datumPlane.IsBubbleVisibleInView(DatumEnds.End0, context.ActiveView);
-                var resultEnd1 = datumPlane.IsBubbleVisibleInView(DatumEnds.End1, context.ActiveView);
-                resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
-                resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
-            }
-            else
-            {
-                resolveSummary.AppendVariant("Datum plane can not be visible on active view");
-            }
+            var resultEnd0 = datumPlane.IsBubbleVisibleInView(DatumEnds.End0, context.ActiveView);
+            var resultEnd1 = datumPlane.IsBubbleVisibleInView(DatumEnds.End1, context.ActiveView);
+            resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
+            resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
             return resolveSummary;
         }
