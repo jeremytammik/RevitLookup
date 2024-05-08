@@ -24,9 +24,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DatumPlaneDescriptor(DatumPlane datumPlane) : Descriptor, IDescriptorResolver
+public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(datumPlane), IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -70,8 +70,8 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : Descriptor, IDescript
         {
             var resolveSummary = new ResolveSet(2);
             
-            resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), $"Model, Active view");
-            resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), $"ViewSpecific, Active view");
+            resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), "Model, Active view");
+            resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), "ViewSpecific, Active view");
             
             return resolveSummary;
         }
@@ -80,8 +80,8 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : Descriptor, IDescript
         {
             var resolveSummary = new ResolveSet(2);
             
-            resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), $"End 0, Active view");
-            resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), $"End 1, Active view");
+            resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), "End 0, Active view");
+            resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), "End 1, Active view");
             
             return resolveSummary;
         }

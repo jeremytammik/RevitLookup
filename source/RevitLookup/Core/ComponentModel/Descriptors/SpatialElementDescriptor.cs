@@ -35,7 +35,7 @@ public sealed class SpatialElementDescriptor(SpatialElement spatialElement) : El
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center,
                     StoreFreeBoundaryFaces = true
-                }), $"Center, store free boundary faces")
+                }), "Center, store free boundary faces")
                 .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreBoundary,
