@@ -29,11 +29,11 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
+public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescriptorConnector
 {
 #if REVIT2023_OR_GREATER
     private readonly Solid _solid;
-
+    
 #endif
     public SolidDescriptor(Solid solid)
     {
@@ -42,7 +42,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
 #endif
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
     }
-
+    
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
@@ -58,9 +58,9 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
                         .Select(face => face.Reference)
                         .Where(reference => reference is not null)
                         .ToList();
-
+                    
                     if (references.Count == 0) return;
-
+                    
                     var element = references[0].ElementId.ToElement(Context.Document);
                     if (element is not null) Context.UiDocument.ShowElements(element);
                     Context.UiDocument.Selection.SetReferences(references);
@@ -68,5 +68,11 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorCollector, IDescrip
             })
             .SetShortcut(ModifierKeys.Alt, Key.F7);
 #endif
+    }
+    
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(SolidUtils.SplitVolumes), _ => SolidUtils.SplitVolumes(_solid));
+        manager.Register(nameof(SolidUtils.IsValidForTessellation), _ => SolidUtils.IsValidForTessellation(_solid));
     }
 }
