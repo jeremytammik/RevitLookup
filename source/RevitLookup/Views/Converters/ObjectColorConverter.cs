@@ -24,7 +24,7 @@ using System.Windows.Markup;
 
 namespace RevitLookup.Views.Converters;
 
-public class ObjectColorConverter : MarkupExtension, IValueConverter
+public sealed class ObjectColorConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

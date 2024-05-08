@@ -22,7 +22,7 @@ using System.Diagnostics;
 
 namespace RevitLookup.Core.Diagnosers;
 
-public class ClockDiagnoser
+public sealed class ClockDiagnoser
 {
     private readonly Stopwatch _clock = new();
     

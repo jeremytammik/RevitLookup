@@ -23,7 +23,7 @@ using System.Windows;
 // ReSharper disable once CheckNamespace
 namespace RevitLookup.Views.Controls;
 
-public partial class ContentPlaceholder
+public sealed partial class ContentPlaceholder
 {
     public static readonly DependencyProperty TextProperty =
         DependencyProperty.Register(nameof(Text), typeof(string), typeof(ContentPlaceholder), new PropertyMetadata(default(string)));

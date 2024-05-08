@@ -20,7 +20,7 @@
 
 namespace RevitLookup.Models.Options;
 
-public class AssemblyInfo
+public sealed class AssemblyInfo
 {
     public string Framework { get; set; }
     public Version AddinVersion { get; set; }

@@ -23,7 +23,7 @@ using Wpf.Ui;
 
 namespace RevitLookup.Views.Dialogs;
 
-public partial class ModulesDialog
+public sealed partial class ModulesDialog
 {
     private readonly IServiceProvider _serviceProvider;
 

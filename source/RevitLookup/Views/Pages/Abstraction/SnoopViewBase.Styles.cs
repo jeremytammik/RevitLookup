@@ -48,7 +48,7 @@ public partial class SnoopViewBase
     }
 }
 
-public class DataGridCellStyleSelector : DataTemplateSelector
+public sealed class DataGridCellStyleSelector : DataTemplateSelector
 {
     /// <summary>
     ///     Data grid cell style selector
@@ -70,7 +70,7 @@ public class DataGridCellStyleSelector : DataTemplateSelector
     }
 }
 
-public class TreeViewItemTemplateSelector : DataTemplateSelector
+public sealed class TreeViewItemTemplateSelector : DataTemplateSelector
 {
     /// <summary>
     ///     Tree view row style selector

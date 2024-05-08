@@ -20,7 +20,7 @@
 
 namespace RevitLookup.Models.Options;
 
-public class FolderLocations
+public sealed class FolderLocations
 {
     public string RootFolder { get; set; }
     public string ConfigFolder { get; set; }

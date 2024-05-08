@@ -26,7 +26,7 @@ namespace RevitLookup.Views.Markup;
 [Localizability(LocalizationCategory.Ignore)]
 [Ambient]
 [UsableDuringInitialization(true)]
-public class StylesDictionary : ResourceDictionary
+public sealed class StylesDictionary : ResourceDictionary
 {
     private const string DictionaryUri = "pack://application:,,,/RevitLookup;component/Views/Resources/RevitLookup.Ui.xaml";
 

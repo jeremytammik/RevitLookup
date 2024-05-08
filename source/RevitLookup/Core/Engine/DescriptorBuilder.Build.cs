@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using System.Runtime;
 using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
 

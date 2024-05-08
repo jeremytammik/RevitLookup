@@ -20,7 +20,7 @@
 
 namespace RevitLookup.Models;
 
-public class ModuleInfo
+public sealed class ModuleInfo
 {
     public required string Name { get; set; }
     public required string Path { get; set; }

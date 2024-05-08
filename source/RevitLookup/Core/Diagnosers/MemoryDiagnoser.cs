@@ -20,7 +20,7 @@
 
 namespace RevitLookup.Core.Diagnosers;
 
-public class MemoryDiagnoser
+public sealed class MemoryDiagnoser
 {
     private long _initialAllocatedBytes;
     private long _finalAllocatedBytes;

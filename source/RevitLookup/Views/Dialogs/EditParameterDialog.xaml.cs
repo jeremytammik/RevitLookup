@@ -26,7 +26,7 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;
 
-public partial class EditParameterDialog
+public sealed partial class EditParameterDialog
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly EditParameterViewModel _viewModel;

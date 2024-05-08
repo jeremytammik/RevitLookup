@@ -20,7 +20,7 @@
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public partial class EditParameterViewModel : ObservableObject
+public sealed partial class EditParameterViewModel : ObservableObject
 {
     private readonly Parameter _parameter;
     

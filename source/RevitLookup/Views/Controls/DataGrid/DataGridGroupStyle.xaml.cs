@@ -21,7 +21,7 @@
 // ReSharper disable once CheckNamespace
 namespace RevitLookup.Views.Controls;
 
-public partial class DataGridGroupStyle
+public sealed partial class DataGridGroupStyle
 {
     public DataGridGroupStyle()
     {

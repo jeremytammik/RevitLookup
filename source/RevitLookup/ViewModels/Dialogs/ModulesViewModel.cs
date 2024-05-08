@@ -22,7 +22,7 @@ using RevitLookup.Models;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public partial class ModulesViewModel : ObservableObject
+public sealed partial class ModulesViewModel : ObservableObject
 {
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private List<ModuleInfo> _filteredModules;

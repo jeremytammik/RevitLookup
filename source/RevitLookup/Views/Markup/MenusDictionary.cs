@@ -26,7 +26,7 @@ namespace RevitLookup.Views.Markup;
 [Localizability(LocalizationCategory.Ignore)]
 [Ambient]
 [UsableDuringInitialization(true)]
-public class MenusDictionary : ResourceDictionary
+public sealed class MenusDictionary : ResourceDictionary
 {
     private const string DictionaryUri = "pack://application:,,,/RevitLookup;component/Views/Resources/Menus.xaml";
 
