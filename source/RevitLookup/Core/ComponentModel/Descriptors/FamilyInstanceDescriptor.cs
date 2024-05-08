@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver
+public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
 {
     private readonly FamilyInstance _familyInstance;
     
@@ -58,7 +58,7 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver
             nameof(FamilyInstance.GetOriginalGeometry) => ResolveOriginalGeometry(),
             _ => null
         };
-
+        
         ResolveSet ResolveGetRoom()
         {
             var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
@@ -66,10 +66,10 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver
             {
                 resolveSummary.AppendVariant(_familyInstance.get_Room(phase), phase.Name);
             }
-
+            
             return resolveSummary;
         }
-
+        
         ResolveSet ResolveFromRoom()
         {
             var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
@@ -77,10 +77,10 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver
             {
                 resolveSummary.AppendVariant(_familyInstance.get_FromRoom(phase), phase.Name);
             }
-
+            
             return resolveSummary;
         }
-
+        
         ResolveSet ResolveToRoom()
         {
             var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
@@ -88,10 +88,10 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver
             {
                 resolveSummary.AppendVariant(_familyInstance.get_ToRoom(phase), phase.Name);
             }
-
+            
             return resolveSummary;
         }
-
+        
         ResolveSet ResolveOriginalGeometry()
         {
             return new ResolveSet(10)
@@ -141,5 +141,13 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver
                     IncludeNonVisibleObjects = true,
                 }), "Model, undefined detail level, including non-visible objects");
         }
+    }
+    
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds),
+            _ => AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds(_familyInstance));
+        manager.Register(nameof(AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance),
+            _ => AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance(_familyInstance));
     }
 }
