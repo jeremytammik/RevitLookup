@@ -33,7 +33,7 @@ public sealed partial class DescriptorBuilder
             if (member.IsSpecialName) continue;
             
             object value;
-            var parameters = member.GetMethod!.GetParameters();
+            var parameters = member.CanRead ? member.GetMethod!.GetParameters() : null;
             
             try
             {
@@ -104,7 +104,7 @@ public sealed partial class DescriptorBuilder
             value = new NotSupportedException("Property does not have a get accessor, it cannot be read");
             return true;
         }
-
+        
         if (parameters.Length > 0)
         {
             if (!_settings.IncludeUnsupported) return false;
