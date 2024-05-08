@@ -42,6 +42,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
             nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
 #if REVIT2024_OR_GREATER
             nameof(Document.GetUnusedElements) => ResolveSet.Append(context.GetUnusedElements(new HashSet<ElementId>())),
+            nameof(Document.GetAllUnusedElements) => ResolveSet.Append(context.GetAllUnusedElements(new HashSet<ElementId>())),
 #endif
             _ => null
         };
