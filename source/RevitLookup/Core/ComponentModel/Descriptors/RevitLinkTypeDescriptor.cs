@@ -24,11 +24,17 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class RevitLinkTypeDescriptor(Element element) : ElementDescriptor(element), IDescriptorResolver
+public sealed class RevitLinkTypeDescriptor : Descriptor, IDescriptorResolver
 {
-    private readonly Element _element = element;
-
-    public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    private readonly RevitLinkType _element;
+    
+    public RevitLinkTypeDescriptor(RevitLinkType element)
+    {
+        _element = element;
+        Name = ElementDescriptor.CreateName(element);
+    }
+    
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {

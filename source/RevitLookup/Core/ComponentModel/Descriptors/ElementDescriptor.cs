@@ -31,30 +31,85 @@ using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector, IDescriptorExtension
+public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector, IDescriptorExtension
 {
     private readonly Element _element;
-
+    
     public ElementDescriptor(Element element)
     {
         _element = element;
-        Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
+        Name = CreateName(element);
     }
-
+    
+    public void RegisterMenu(ContextMenu contextMenu)
+    {
+        if (_element is ElementType) return;
+        
+        contextMenu.AddMenuItem()
+            .SetHeader("Show element")
+            .SetCommand(_element, element =>
+            {
+                Application.ActionEventHandler.Raise(_ =>
+                {
+                    if (Context.UiDocument is null) return;
+                    if (!element.IsValidObject) return;
+                    Context.UiDocument.ShowElements(element);
+                    Context.UiDocument.Selection.SetElementIds([element.Id]);
+                });
+            })
+            .SetShortcut(ModifierKeys.Alt, Key.F7);
+        
+        contextMenu.AddMenuItem()
+            .SetHeader("Delete")
+            .SetCommand(_element, async element =>
+            {
+                if (Context.UiDocument is null) return;
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                
+                try
+                {
+                    await Application.AsyncEventHandler.RaiseAsync(_ =>
+                    {
+                        var transaction = new Transaction(element.Document);
+                        transaction.Start($"Delete {element.Name}");
+                        
+                        try
+                        {
+                            element.Document.Delete(element.Id);
+                            transaction.Commit();
+                            
+                            if (transaction.GetStatus() == TransactionStatus.RolledBack) throw new OperationCanceledException("Element deletion cancelled by user");
+                        }
+                        catch
+                        {
+                            if (!transaction.HasEnded()) transaction.RollBack();
+                            throw;
+                        }
+                    });
+                    
+                    var placementTarget = (FrameworkElement) contextMenu.PlacementTarget;
+                    context.RemoveObject(placementTarget.DataContext);
+                }
+                catch (OperationCanceledException exception)
+                {
+                    var notificationService = context.ServiceProvider.GetService<NotificationService>();
+                    notificationService.ShowWarning("Element deletion error", exception.Message);
+                }
+                catch (Exception exception)
+                {
+                    var notificationService = context.ServiceProvider.GetService<NotificationService>();
+                    notificationService.ShowError("Element deletion error", exception.Message);
+                }
+            })
+            .SetShortcut(Key.Delete);
+    }
+    
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(_element, extension =>
-        {
-            extension.Name = nameof(ElementExtensions.CanBeMirrored);
-            extension.Result = extension.Value.CanBeMirrored();
-        });
-        manager.Register(_element, extension =>
-        {
-            extension.Name = nameof(GeometryExtensions.GetJoinedElements);
-            extension.Result = extension.Value.GetJoinedElements();
-        });
+        manager.Register(nameof(ElementExtensions.CanBeMirrored), _ => _element.CanBeMirrored());
+        manager.Register(nameof(GeometryExtensions.GetJoinedElements), _ => _element.GetJoinedElements());
     }
-
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -129,47 +184,47 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             nameof(Element.GetEntity) => ResolveGetEntity(),
             _ => null
         };
-
+        
         ResolveSet ResolveGetMaterialArea()
         {
             var geometryMaterials = _element.GetMaterialIds(false);
             var paintMaterials = _element.GetMaterialIds(true);
-
+            
             var capacity = geometryMaterials.Count + paintMaterials.Count;
             var resolveSummary = new ResolveSet(capacity);
             if (capacity == 0) return resolveSummary;
-
+            
             foreach (var materialId in geometryMaterials)
             {
                 var area = _element.GetMaterialArea(materialId, false);
                 resolveSummary.AppendVariant(new KeyValuePair<ElementId, double>(materialId, area));
             }
-
+            
             foreach (var materialId in paintMaterials)
             {
                 var area = _element.GetMaterialArea(materialId, true);
                 resolveSummary.AppendVariant(new KeyValuePair<ElementId, double>(materialId, area));
             }
-
+            
             return resolveSummary;
         }
-
+        
         ResolveSet ResolveGetMaterialVolume()
         {
             var geometryMaterials = _element.GetMaterialIds(false);
-
+            
             var resolveSummary = new ResolveSet(geometryMaterials.Count);
             if (geometryMaterials.Count == 0) return resolveSummary;
-
+            
             foreach (var materialId in geometryMaterials)
             {
                 var area = _element.GetMaterialVolume(materialId);
                 resolveSummary.AppendVariant(new KeyValuePair<ElementId, double>(materialId, area));
             }
-
+            
             return resolveSummary;
         }
-
+        
         ResolveSet ResolveGetEntity()
         {
             var resolveSummary = new ResolveSet();
@@ -179,74 +234,16 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 if (!schema.ReadAccessGranted()) continue;
                 var entity = _element.GetEntity(schema);
                 if (!entity.IsValid()) continue;
-
+                
                 resolveSummary.AppendVariant(entity, schema.SchemaName);
             }
-
+            
             return resolveSummary;
         }
     }
     
-    public void RegisterMenu(ContextMenu contextMenu)
+    public static string CreateName(Element element)
     {
-        if (_element is ElementType) return;
-        
-        contextMenu.AddMenuItem()
-            .SetHeader("Show element")
-            .SetCommand(_element, element =>
-            {
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    if (Context.UiDocument is null) return;
-                    if (!element.IsValidObject) return;
-                    Context.UiDocument.ShowElements(element);
-                    Context.UiDocument.Selection.SetElementIds([element.Id]);
-                });
-            })
-            .SetShortcut(ModifierKeys.Alt, Key.F7);
-        
-        contextMenu.AddMenuItem()
-            .SetHeader("Delete")
-            .SetCommand(_element, async element =>
-            {
-                if (Context.UiDocument is null) return;
-                var context = (ISnoopViewModel) contextMenu.DataContext;
-                
-                try
-                {
-                    await Application.AsyncEventHandler.RaiseAsync(_ =>
-                    {
-                        var transaction = new Transaction(element.Document);
-                        transaction.Start($"Delete {element.Name}");
-                        
-                        try
-                        {
-                            element.Document.Delete(element.Id);
-                            transaction.Commit();
-                            
-                            if (transaction.GetStatus() == TransactionStatus.RolledBack) throw new OperationCanceledException("Element deletion cancelled by user");
-                        }
-                        catch
-                        {
-                            if (!transaction.HasEnded()) transaction.RollBack();
-                            throw;
-                        }
-                    });
-                    
-                    var placementTarget = (FrameworkElement) contextMenu.PlacementTarget;
-                    context.RemoveObject(placementTarget.DataContext);
-                }
-                catch (OperationCanceledException exception)
-                {
-                    var notificationService = context.ServiceProvider.GetService<NotificationService>();
-                    notificationService.ShowWarning("Element deletion error", exception.Message);
-                }
-                catch (Exception exception)
-                {
-                    var notificationService = context.ServiceProvider.GetService<NotificationService>();
-                    notificationService.ShowError("Element deletion error", exception.Message);
-                }
-            })
-            .SetShortcut(Key.Delete);
+        return element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
 }

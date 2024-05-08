@@ -30,9 +30,21 @@ public sealed class WorksetTableDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
-            nameof(WorksetTable.GetWorkset) when parameters.Length == 1 && parameters[0].ParameterType == typeof(WorksetId) =>
-                ResolveSet.Append(new FilteredWorksetCollector(Context.Document).ToWorksets()),
+            nameof(WorksetTable.GetWorkset) when parameters.Length == 1 && parameters[0].ParameterType == typeof(WorksetId) => ResolveGetWorkset(),
             _ => null
         };
+        
+        ResolveSet ResolveGetWorkset()
+        {
+            var worksets = new FilteredWorksetCollector(Context.Document).ToWorksets();
+            var resolveSet = new ResolveSet(worksets.Count);
+            
+            foreach (var workset in worksets)
+            {
+                resolveSet.AppendVariant(workset);
+            }
+
+            return resolveSet;
+        }
     }
 }

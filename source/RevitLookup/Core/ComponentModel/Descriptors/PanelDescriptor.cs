@@ -24,8 +24,16 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class PanelDescriptor(Panel panel) : Descriptor, IDescriptorResolver
+public sealed class PanelDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly Panel _panel;
+    
+    public PanelDescriptor(Panel panel)
+    {
+        _panel = panel;
+        Name = ElementDescriptor.CreateName(panel);
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -38,7 +46,7 @@ public class PanelDescriptor(Panel panel) : Descriptor, IDescriptorResolver
         {
             ElementId uId = null;
             ElementId vId = null;
-            panel.GetRefGridLines(ref uId, ref vId);
+            _panel.GetRefGridLines(ref uId, ref vId);
             
             var resolveSummary = new ResolveSet(2);
             resolveSummary.AppendVariant(uId);

@@ -28,89 +28,29 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class ColorDescriptor : Descriptor, IDescriptorExtension
 {
     private readonly Color _color;
-
+    
     public ColorDescriptor(Color color)
     {
         _color = color;
         Name = color.IsValid ? $"RGB: {color.Red} {color.Green} {color.Blue}" : "The color represents uninitialized/invalid value";
     }
-
+    
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "HEX";
-            extension.Result = ColorRepresentationUtils.ColorToHex(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "HEX int";
-            extension.Result = ColorRepresentationUtils.ColorToHexInteger(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "RGB";
-            extension.Result = ColorRepresentationUtils.ColorToRgb(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "HSL";
-            extension.Result = ColorRepresentationUtils.ColorToHsl(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "HSV";
-            extension.Result = ColorRepresentationUtils.ColorToHsv(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "CMYK";
-            extension.Result = ColorRepresentationUtils.ColorToCmyk(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "HSB";
-            extension.Result = ColorRepresentationUtils.ColorToHsb(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "HSI";
-            extension.Result = ColorRepresentationUtils.ColorToHsi(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "HWB";
-            extension.Result = ColorRepresentationUtils.ColorToHwb(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "NCol";
-            extension.Result = ColorRepresentationUtils.ColorToNCol(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "CIELAB";
-            extension.Result = ColorRepresentationUtils.ColorToCielab(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "CIEXYZ";
-            extension.Result = ColorRepresentationUtils.ColorToCieXyz(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "VEC4";
-            extension.Result = ColorRepresentationUtils.ColorToFloat(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "Decimal";
-            extension.Result = ColorRepresentationUtils.ColorToDecimal(extension.Value.GetDrawingColor());
-        });
-        manager.Register(_color, extension =>
-        {
-            extension.Name = "Name";
-            extension.Result = ColorRepresentationUtils.GetColorName(extension.Value.GetDrawingColor());
-        });
+        manager.Register("HEX", _ => ColorRepresentationUtils.ColorToHex(_color.GetDrawingColor()));
+        manager.Register("HEX int", _ => ColorRepresentationUtils.ColorToHexInteger(_color.GetDrawingColor()));
+        manager.Register("RGB", _ => ColorRepresentationUtils.ColorToRgb(_color.GetDrawingColor()));
+        manager.Register("HSL", _ => ColorRepresentationUtils.ColorToHsl(_color.GetDrawingColor()));
+        manager.Register("HSV", _ => ColorRepresentationUtils.ColorToHsv(_color.GetDrawingColor()));
+        manager.Register("CMYK", _ => ColorRepresentationUtils.ColorToCmyk(_color.GetDrawingColor()));
+        manager.Register("HSB", _ => ColorRepresentationUtils.ColorToHsb(_color.GetDrawingColor()));
+        manager.Register("HSI", _ => ColorRepresentationUtils.ColorToHsi(_color.GetDrawingColor()));
+        manager.Register("HWB", _ => ColorRepresentationUtils.ColorToHwb(_color.GetDrawingColor()));
+        manager.Register("NCol", _ => ColorRepresentationUtils.ColorToNCol(_color.GetDrawingColor()));
+        manager.Register("CIELAB", _ => ColorRepresentationUtils.ColorToCielab(_color.GetDrawingColor()));
+        manager.Register("CIEXYZ", _ => ColorRepresentationUtils.ColorToCieXyz(_color.GetDrawingColor()));
+        manager.Register("VEC4", _ => ColorRepresentationUtils.ColorToFloat(_color.GetDrawingColor()));
+        manager.Register("Decimal", _ => ColorRepresentationUtils.ColorToDecimal(_color.GetDrawingColor()));
+        manager.Register("Name", _ => ColorRepresentationUtils.GetColorName(_color.GetDrawingColor()));
     }
 }

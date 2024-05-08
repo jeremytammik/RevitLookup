@@ -19,20 +19,27 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Nice3point.Revit.Toolkit;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class BasePointDescriptor(BasePoint basePoint) : Descriptor, IDescriptorResolver
+public sealed class BasePointDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly BasePoint _basePoint;
+    
+    public BasePointDescriptor(BasePoint basePoint)
+    {
+        _basePoint = basePoint;
+        Name = ElementDescriptor.CreateName(basePoint);
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(BasePoint.GetSurveyPoint) => ResolveSet.Append(BasePoint.GetSurveyPoint(basePoint.Document)),
-            nameof(BasePoint.GetProjectBasePoint) => ResolveSet.Append(BasePoint.GetProjectBasePoint(basePoint.Document)),
+            nameof(BasePoint.GetSurveyPoint) => ResolveSet.Append(BasePoint.GetSurveyPoint(_basePoint.Document)),
+            nameof(BasePoint.GetProjectBasePoint) => ResolveSet.Append(BasePoint.GetProjectBasePoint(_basePoint.Document)),
             _ => null
         };
     }

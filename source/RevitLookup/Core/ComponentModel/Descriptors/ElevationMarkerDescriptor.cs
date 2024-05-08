@@ -24,8 +24,16 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ElevationMarkerDescriptor(ElevationMarker elevationMarker) : Descriptor, IDescriptorResolver
+public sealed class ElevationMarkerDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly ElevationMarker _elevationMarker;
+    
+    public ElevationMarkerDescriptor(ElevationMarker elevationMarker)
+    {
+        _elevationMarker = elevationMarker;
+        Name = ElementDescriptor.CreateName(elevationMarker);
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -37,10 +45,10 @@ public class ElevationMarkerDescriptor(ElevationMarker elevationMarker) : Descri
 
         ResolveSet ResolveIndex()
         {
-            var resolveSummary = new ResolveSet(elevationMarker.MaximumViewCount);
-            for (var i = 0; i < elevationMarker.MaximumViewCount; i++)
+            var resolveSummary = new ResolveSet(_elevationMarker.MaximumViewCount);
+            for (var i = 0; i < _elevationMarker.MaximumViewCount; i++)
             {
-                var result = elevationMarker.IsAvailableIndex(i);
+                var result = _elevationMarker.IsAvailableIndex(i);
                 resolveSummary.AppendVariant(result, $"Index {i}: {result}");
             }
             return resolveSummary;
@@ -49,11 +57,11 @@ public class ElevationMarkerDescriptor(ElevationMarker elevationMarker) : Descri
         ResolveSet ResolveViewId()
         {
             var resolveSummary = new ResolveSet();
-            for (var i = 0; i < elevationMarker.MaximumViewCount; i++)
+            for (var i = 0; i < _elevationMarker.MaximumViewCount; i++)
             {
-                if (!elevationMarker.IsAvailableIndex(i))
+                if (!_elevationMarker.IsAvailableIndex(i))
                 {
-                    var result = elevationMarker.GetViewId(i);
+                    var result = _elevationMarker.GetViewId(i);
                     var element = result.ToElement(context);
                     var name = element!.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
                     resolveSummary.AppendVariant(result, $"Index {i}: {name}");

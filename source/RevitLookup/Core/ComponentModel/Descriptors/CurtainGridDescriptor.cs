@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescriptorResolver
+public sealed class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescriptorResolver
 {
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {

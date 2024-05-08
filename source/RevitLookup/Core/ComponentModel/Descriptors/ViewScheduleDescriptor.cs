@@ -24,8 +24,16 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDescriptorResolver
+public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly ViewSchedule _viewSchedule;
+    
+    public ViewScheduleDescriptor(ViewSchedule viewSchedule)
+    {
+        _viewSchedule = viewSchedule;
+        Name = ElementDescriptor.CreateName(viewSchedule);
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -60,7 +68,7 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
             
             foreach (StripedRowPattern pattern in patterns)
             {
-                resolveSummary.AppendVariant(viewSchedule.GetStripedRowsColor(pattern), pattern.ToString());
+                resolveSummary.AppendVariant(_viewSchedule.GetStripedRowsColor(pattern), pattern.ToString());
             }
             
             return resolveSummary;
@@ -73,7 +81,7 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
             
             foreach (var type in types)
             {
-                var result = viewSchedule.IsValidTextTypeId(type.Id);
+                var result = _viewSchedule.IsValidTextTypeId(type.Id);
                 resolveSummary.AppendVariant(result, $"{type.Name}: {result}");
             }
             
@@ -184,12 +192,12 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
 #if REVIT2022_OR_GREATER
         ResolveSet ResolveScheduleInstances()
         {
-            var count = viewSchedule.GetSegmentCount();
+            var count = _viewSchedule.GetSegmentCount();
             var resolveSummary = new ResolveSet(count);
             
             for (var i = -1; i < count; i++)
             {
-                resolveSummary.AppendVariant(viewSchedule.GetScheduleInstances(i));
+                resolveSummary.AppendVariant(_viewSchedule.GetScheduleInstances(i));
             }
             
             return resolveSummary;
@@ -197,12 +205,12 @@ public class ViewScheduleDescriptor(ViewSchedule viewSchedule) : Descriptor, IDe
         
         ResolveSet ResolveSegmentHeight()
         {
-            var count = viewSchedule.GetSegmentCount();
+            var count = _viewSchedule.GetSegmentCount();
             var resolveSummary = new ResolveSet(count);
             
             for (var i = 0; i < count; i++)
             {
-                resolveSummary.AppendVariant(viewSchedule.GetSegmentHeight(i));
+                resolveSummary.AppendVariant(_viewSchedule.GetSegmentHeight(i));
             }
             
             return resolveSummary;

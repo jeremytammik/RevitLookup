@@ -24,34 +24,30 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class HostObjectDescriptor(HostObject hostObject) : ElementDescriptor(hostObject), IDescriptorExtension, IDescriptorResolver
+public sealed class HostObjectDescriptor : Descriptor, IDescriptorExtension, IDescriptorResolver
 {
-    public new void RegisterExtensions(IExtensionManager manager)
+    private readonly HostObject _hostObject;
+    
+    public HostObjectDescriptor(HostObject hostObject)
     {
-        manager.Register(hostObject, extension =>
-        {
-            extension.Name = nameof(HostExtensions.GetBottomFaces);
-            extension.Result = extension.Value.GetBottomFaces();
-        });
-        manager.Register(hostObject, extension =>
-        {
-            extension.Name = nameof(HostExtensions.GetTopFaces);
-            extension.Result = extension.Value.GetTopFaces();
-        });
-        manager.Register(hostObject, extension =>
-        {
-            extension.Name = nameof(HostExtensions.GetSideFaces);
-            extension.Result = new ResolveSet(2)
-                .AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Interior), "Interior")
-                .AppendVariant(extension.Value.GetSideFaces(ShellLayerType.Exterior), "Exterior");
-        });
+        _hostObject = hostObject;
+        Name = ElementDescriptor.CreateName(hostObject);
     }
-
-    public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(HostExtensions.GetBottomFaces), _ => _hostObject.GetBottomFaces());
+        manager.Register(nameof(HostExtensions.GetTopFaces), _ => _hostObject.GetTopFaces());
+        manager.Register(nameof(HostExtensions.GetSideFaces), _ => new ResolveSet(2)
+            .AppendVariant(_hostObject.GetSideFaces(ShellLayerType.Interior), "Interior")
+            .AppendVariant(_hostObject.GetSideFaces(ShellLayerType.Exterior), "Exterior"));
+    }
+    
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(HostObject.FindInserts) => ResolveSet.Append(hostObject.FindInserts(true, true, true, true)),
+            nameof(HostObject.FindInserts) => ResolveSet.Append(_hostObject.FindInserts(true, true, true, true)),
             _ => null
         };
     }

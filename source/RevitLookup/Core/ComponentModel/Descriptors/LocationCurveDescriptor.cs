@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class LocationCurveDescriptor(LocationCurve locationCurve) : Descriptor, IDescriptorResolver
+public sealed class LocationCurveDescriptor(LocationCurve locationCurve) : Descriptor, IDescriptorResolver
 {
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {

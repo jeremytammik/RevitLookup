@@ -24,9 +24,17 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(datumPlane), IDescriptorResolver
+public sealed class DatumPlaneDescriptor : Descriptor, IDescriptorResolver
 {
-    public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    private readonly DatumPlane _datumPlane;
+    
+    public DatumPlaneDescriptor(DatumPlane datumPlane)
+    {
+        _datumPlane = datumPlane;
+        Name = ElementDescriptor.CreateName(datumPlane);
+    }
+    
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -47,7 +55,7 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(dat
             
             foreach (var view in views)
             {
-                var result = datumPlane.CanBeVisibleInView(view);
+                var result = _datumPlane.CanBeVisibleInView(view);
                 resolveSummary.AppendVariant(result, $"{view.Name}: {result}");
             }
             
@@ -58,8 +66,8 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(dat
         {
             var resolveSummary = new ResolveSet(2);
             
-            var resultEnd0 = datumPlane.GetDatumExtentTypeInView(DatumEnds.End0, context.ActiveView);
-            var resultEnd1 = datumPlane.GetDatumExtentTypeInView(DatumEnds.End1, context.ActiveView);
+            var resultEnd0 = _datumPlane.GetDatumExtentTypeInView(DatumEnds.End0, context.ActiveView);
+            var resultEnd1 = _datumPlane.GetDatumExtentTypeInView(DatumEnds.End1, context.ActiveView);
             resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
             resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
@@ -70,8 +78,8 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(dat
         {
             var resolveSummary = new ResolveSet(2);
             
-            resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), "Model, Active view");
-            resolveSummary.AppendVariant(datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), "ViewSpecific, Active view");
+            resolveSummary.AppendVariant(_datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), "Model, Active view");
+            resolveSummary.AppendVariant(_datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), "ViewSpecific, Active view");
             
             return resolveSummary;
         }
@@ -80,8 +88,8 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(dat
         {
             var resolveSummary = new ResolveSet(2);
             
-            resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), "End 0, Active view");
-            resolveSummary.AppendVariant(datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), "End 1, Active view");
+            resolveSummary.AppendVariant(_datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), "End 0, Active view");
+            resolveSummary.AppendVariant(_datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), "End 1, Active view");
             
             return resolveSummary;
         }
@@ -93,9 +101,9 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(dat
             
             foreach (var view in views)
             {
-                if (!datumPlane.CanBeVisibleInView(view)) continue;
+                if (!_datumPlane.CanBeVisibleInView(view)) continue;
                 
-                var result = datumPlane.GetPropagationViews(view);
+                var result = _datumPlane.GetPropagationViews(view);
                 resolveSummary.AppendVariant(result, view.Name);
             }
             
@@ -106,8 +114,8 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(dat
         {
             var resolveSummary = new ResolveSet(2);
             
-            var resultEnd0 = datumPlane.HasBubbleInView(DatumEnds.End0, context.ActiveView);
-            var resultEnd1 = datumPlane.HasBubbleInView(DatumEnds.End1, context.ActiveView);
+            var resultEnd0 = _datumPlane.HasBubbleInView(DatumEnds.End0, context.ActiveView);
+            var resultEnd1 = _datumPlane.HasBubbleInView(DatumEnds.End1, context.ActiveView);
             resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
             resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
@@ -118,8 +126,8 @@ public class DatumPlaneDescriptor(DatumPlane datumPlane) : ElementDescriptor(dat
         {
             var resolveSummary = new ResolveSet(2);
             
-            var resultEnd0 = datumPlane.IsBubbleVisibleInView(DatumEnds.End0, context.ActiveView);
-            var resultEnd1 = datumPlane.IsBubbleVisibleInView(DatumEnds.End1, context.ActiveView);
+            var resultEnd0 = _datumPlane.IsBubbleVisibleInView(DatumEnds.End0, context.ActiveView);
+            var resultEnd1 = _datumPlane.IsBubbleVisibleInView(DatumEnds.End1, context.ActiveView);
             resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
             resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
             

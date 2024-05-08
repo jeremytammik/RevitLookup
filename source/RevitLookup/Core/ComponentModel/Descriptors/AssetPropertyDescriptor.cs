@@ -25,7 +25,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class AssetPropertyDescriptor(AssetProperty assetProperty) : Descriptor, IDescriptorResolver
+public sealed class AssetPropertyDescriptor(AssetProperty assetProperty) : Descriptor, IDescriptorResolver
 {
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {

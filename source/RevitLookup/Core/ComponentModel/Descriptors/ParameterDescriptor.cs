@@ -41,25 +41,15 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
     
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(_parameter, extension =>
+        if (_parameter.StorageType == StorageType.Integer)
         {
-            extension.Name = nameof(ParameterExtensions.AsBool);
-            extension.Result = extension.Value.AsBool();
-        });
-        
-        manager.Register(_parameter, extension =>
-        {
-            extension.Name = nameof(ParameterExtensions.AsColor);
-            extension.Result = extension.Value.AsColor();
-        });
+            manager.Register(nameof(ParameterExtensions.AsBool), _ => _parameter.AsBool());
+            manager.Register(nameof(ParameterExtensions.AsColor), _ => _parameter.AsColor());
+        }
         
         if (manager.Context.IsFamilyDocument)
         {
-            manager.Register(_parameter, extension =>
-            {
-                extension.Name = nameof(FamilyManager.GetAssociatedFamilyParameter);
-                extension.Result = extension.Context.FamilyManager.GetAssociatedFamilyParameter(extension.Value);
-            });
+            manager.Register(nameof(FamilyManager.GetAssociatedFamilyParameter), context => context.FamilyManager.GetAssociatedFamilyParameter(_parameter));
         }
     }
     

@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Engine;
 
@@ -33,32 +32,26 @@ public sealed partial class DescriptorBuilder : IExtensionManager
         extension.RegisterExtensions(this);
     }
     
-    public void Register<T>(T value, Action<DescriptorExtension<T>> extension)
+    public void Register(string methodName, Func<Document, object> handler)
     {
-        var descriptorExtension = new DescriptorExtension<T>
-        {
-            Value = value,
-            Context = Context
-        };
-        
         try
         {
-            Evaluate(descriptorExtension, extension);
-            WriteDescriptor(descriptorExtension.Name, descriptorExtension.Result);
+            var result = Evaluate(handler);
+            WriteDescriptor(methodName, result);
         }
         catch (Exception exception)
         {
-            WriteDescriptor(descriptorExtension.Name, exception);
+            WriteDescriptor(methodName, exception);
         }
     }
     
-    private void Evaluate<T>(DescriptorExtension<T> descriptorExtension, Action<DescriptorExtension<T>> extension)
+    private object Evaluate(Func<Document, object> handler)
     {
         try
         {
             _clockDiagnoser.Start();
             _memoryDiagnoser.Start();
-            extension.Invoke(descriptorExtension);
+            return handler.Invoke(Context);
         }
         finally
         {

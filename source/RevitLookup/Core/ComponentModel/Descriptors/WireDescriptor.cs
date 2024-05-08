@@ -25,8 +25,16 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class WireDescriptor(Wire wire) : Descriptor, IDescriptorResolver
+public sealed class WireDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly Wire _wire;
+    
+    public WireDescriptor(Wire wire)
+    {
+        _wire = wire;
+        Name = ElementDescriptor.CreateName(wire);
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -37,12 +45,12 @@ public class WireDescriptor(Wire wire) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveVertex()
         {
-            var capacity = wire.NumberOfVertices;
+            var capacity = _wire.NumberOfVertices;
             var resolveSummary = new ResolveSet(capacity);
             
             for (var i = 0; i < capacity; i++)
             {
-                resolveSummary.AppendVariant(wire.GetVertex(i));
+                resolveSummary.AppendVariant(_wire.GetVertex(i));
             }
             
             return resolveSummary;

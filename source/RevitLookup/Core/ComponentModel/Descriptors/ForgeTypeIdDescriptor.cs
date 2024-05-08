@@ -45,69 +45,21 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
     
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "ToUnitLabel";
-            extension.Result = extension.Value.ToUnitLabel();
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "ToSpecLabel";
-            extension.Result = extension.Value.ToSpecLabel();
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "ToSymbolLabel";
-            extension.Result = extension.Value.ToSymbolLabel();
-        });
+        manager.Register("ToUnitLabel", _ => _typeId.ToUnitLabel());
+        manager.Register("ToSpecLabel", _ => _typeId.ToSpecLabel());
+        manager.Register("ToSymbolLabel", _ => _typeId.ToSymbolLabel());
 #if REVIT2022_OR_GREATER
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "ToGroupLabel";
-            extension.Result = extension.Value.ToGroupLabel();
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "ToDisciplineLabel";
-            extension.Result = extension.Value.ToDisciplineLabel();
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "ToParameterLabel";
-            extension.Result = extension.Value.ToParameterLabel();
-        });
+        manager.Register("ToGroupLabel", _ => _typeId.ToGroupLabel());
+        manager.Register("ToDisciplineLabel", _ => _typeId.ToDisciplineLabel());
+        manager.Register("ToParameterLabel", _ => _typeId.ToParameterLabel());
 #endif
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "IsUnit";
-            extension.Result = UnitUtils.IsUnit(extension.Value);
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "IsSymbol";
-            extension.Result = UnitUtils.IsSymbol(extension.Value);
-        });
+        manager.Register("IsUnit", _ => UnitUtils.IsUnit(_typeId));
+        manager.Register("IsSymbol", _ => UnitUtils.IsSymbol(_typeId));
 #if REVIT2022_OR_GREATER
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "IsSpec";
-            extension.Result = SpecUtils.IsSpec(extension.Value);
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "IsMeasurableSpec";
-            extension.Result = UnitUtils.IsMeasurableSpec(extension.Value);
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "IsBuiltInParameter";
-            extension.Result = ParameterUtils.IsBuiltInParameter(extension.Value);
-        });
-        manager.Register(_typeId, extension =>
-        {
-            extension.Name = "IsBuiltInGroup";
-            extension.Result = ParameterUtils.IsBuiltInGroup(extension.Value);
-        });
+        manager.Register("IsSpec", _ => SpecUtils.IsSpec(_typeId));
+        manager.Register("IsMeasurableSpec", _ => UnitUtils.IsMeasurableSpec(_typeId));
+        manager.Register("IsBuiltInParameter", _ => ParameterUtils.IsBuiltInParameter(_typeId));
+        manager.Register("IsBuiltInGroup", _ => ParameterUtils.IsBuiltInGroup(_typeId));
 #endif
     }
 }

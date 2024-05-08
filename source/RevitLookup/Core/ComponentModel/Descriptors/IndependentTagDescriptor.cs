@@ -27,9 +27,17 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescriptor(tag), IDescriptorResolver
+public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
 {
-    public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    private readonly IndependentTag _tag;
+    
+    public IndependentTagDescriptor(IndependentTag tag)
+    {
+        _tag = tag;
+        Name = ElementDescriptor.CreateName(tag);
+    }
+    
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -56,7 +64,7 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
             
             foreach (LeaderEndCondition condition in conditions)
             {
-                var result = tag.CanLeaderEndConditionBeAssigned(condition);
+                var result = _tag.CanLeaderEndConditionBeAssigned(condition);
                 resolveSummary.AppendVariant(result, $"{condition}: {result}");
             }
             
@@ -65,17 +73,17 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
 #if REVIT2022_OR_GREATER
         ResolveSet ResolveLeaderElbow()
         {
-            var references = tag.GetTaggedReferences();
+            var references = _tag.GetTaggedReferences();
             var resolveSummary = new ResolveSet(references.Count);
             
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!tag.IsLeaderVisible(reference)) continue;
+                if (!_tag.IsLeaderVisible(reference)) continue;
 #endif
-                if (!tag.HasLeaderElbow(reference)) continue;
+                if (!_tag.HasLeaderElbow(reference)) continue;
                 
-                resolveSummary.AppendVariant(tag.GetLeaderElbow(reference));
+                resolveSummary.AppendVariant(_tag.GetLeaderElbow(reference));
             }
             
             return resolveSummary;
@@ -83,21 +91,21 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
         
         ResolveSet ResolveLeaderEnd()
         {
-            if (tag.LeaderEndCondition == LeaderEndCondition.Attached)
+            if (_tag.LeaderEndCondition == LeaderEndCondition.Attached)
             {
                 return new ResolveSet();
             }
             
-            var references = tag.GetTaggedReferences();
+            var references = _tag.GetTaggedReferences();
             var resolveSummary = new ResolveSet(references.Count);
             
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!tag.IsLeaderVisible(reference)) continue;
+                if (!_tag.IsLeaderVisible(reference)) continue;
 #endif
                 
-                resolveSummary.AppendVariant(tag.GetLeaderEnd(reference));
+                resolveSummary.AppendVariant(_tag.GetLeaderEnd(reference));
             }
             
             return resolveSummary;
@@ -105,15 +113,15 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
         
         ResolveSet ResolveHasLeaderElbow()
         {
-            var references = tag.GetTaggedReferences();
+            var references = _tag.GetTaggedReferences();
             var resolveSummary = new ResolveSet(references.Count);
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!tag.IsLeaderVisible(reference)) continue;
+                if (!_tag.IsLeaderVisible(reference)) continue;
 #endif
                 
-                resolveSummary.AppendVariant(tag.HasLeaderElbow(reference));
+                resolveSummary.AppendVariant(_tag.HasLeaderElbow(reference));
             }
             
             return resolveSummary;
@@ -123,12 +131,12 @@ public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescri
         
         ResolveSet ResolveIsLeaderVisible()
         {
-            var references = tag.GetTaggedReferences();
+            var references = _tag.GetTaggedReferences();
             var resolveSummary = new ResolveSet(references.Count);
             
             foreach (var reference in references)
             {
-                resolveSummary.AppendVariant(tag.IsLeaderVisible(reference));
+                resolveSummary.AppendVariant(_tag.IsLeaderVisible(reference));
             }
             
             return resolveSummary;

@@ -25,8 +25,16 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorResolver
+public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly TableView _tableView;
+    
+    public TableViewDescriptor(TableView tableView)
+    {
+        _tableView = tableView;
+        Name = ElementDescriptor.CreateName(tableView);
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -55,11 +63,11 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
         
         ResolveSet ResolveCalculatedValueName()
         {
-            var tableData = tableView switch
+            var tableData = _tableView switch
             {
                 ViewSchedule viewSchedule => viewSchedule.GetTableData(),
                 PanelScheduleView panelScheduleView => panelScheduleView.GetTableData(),
-                _ => throw new NotSupportedException($"{tableView.GetType().FullName} is not supported in the current API version")
+                _ => throw new NotSupportedException($"{_tableView.GetType().FullName} is not supported in the current API version")
             };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
@@ -72,7 +80,7 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
                 for (var i = tableSectionData.FirstRowNumber; i < tableSectionData.LastRowNumber; i++)
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
-                    var result = tableView.GetCalculatedValueName(sectionType, i, j);
+                    var result = _tableView.GetCalculatedValueName(sectionType, i, j);
                     resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
@@ -82,11 +90,11 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
         
         ResolveSet ResolveCalculatedValueText()
         {
-            var tableData = tableView switch
+            var tableData = _tableView switch
             {
                 ViewSchedule viewSchedule => viewSchedule.GetTableData(),
                 PanelScheduleView panelScheduleView => panelScheduleView.GetTableData(),
-                _ => throw new NotSupportedException($"{tableView.GetType().FullName} is not supported in the current API version")
+                _ => throw new NotSupportedException($"{_tableView.GetType().FullName} is not supported in the current API version")
             };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
@@ -99,7 +107,7 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
                 for (var i = tableSectionData.FirstRowNumber; i < tableSectionData.LastRowNumber; i++)
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
-                    var result = tableView.GetCalculatedValueText(sectionType, i, j);
+                    var result = _tableView.GetCalculatedValueText(sectionType, i, j);
                     resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
@@ -109,11 +117,11 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
         
         ResolveSet ResolveCellText()
         {
-            var tableData = tableView switch
+            var tableData = _tableView switch
             {
                 ViewSchedule viewSchedule => viewSchedule.GetTableData(),
                 PanelScheduleView panelScheduleView => panelScheduleView.GetTableData(),
-                _ => throw new NotSupportedException($"{tableView.GetType().FullName} is not supported in the current API version")
+                _ => throw new NotSupportedException($"{_tableView.GetType().FullName} is not supported in the current API version")
             };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
@@ -125,7 +133,7 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
                 for (var i = tableSectionData.FirstRowNumber; i < tableSectionData.LastRowNumber; i++)
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
-                    var result = tableView.GetCellText(sectionType, i, j);
+                    var result = _tableView.GetCellText(sectionType, i, j);
                     resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
@@ -139,7 +147,7 @@ public class TableViewDescriptor(TableView tableView) : Descriptor, IDescriptorR
             var resolveSummary = new ResolveSet();
             foreach (SectionType sectionType in sectionTypes)
             {
-                var result = tableView.IsValidSectionType(sectionType);
+                var result = _tableView.IsValidSectionType(sectionType);
                 resolveSummary.AppendVariant(result, $"{sectionType}: {result}");
             }
             

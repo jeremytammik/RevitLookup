@@ -36,10 +36,9 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
 
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(_category, extension =>
+        manager.Register("GetElements", context =>
         {
-            extension.Name = "GetElements";
-            extension.Result = extension.Context
+            return context
 #if REVIT2023_OR_GREATER
                 .GetInstances(_category.BuiltInCategory);
 #else
@@ -47,10 +46,9 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
 #endif
         });
 #if !REVIT2023_OR_GREATER
-        manager.Register(_category, extension =>
+        manager.Register("BuiltInCategory", context =>
         {
-            extension.Name = "BuiltInCategory";
-            extension.Result = (BuiltInCategory) extension.Value.Id.IntegerValue;
+            return (BuiltInCategory) extension.Value.Id.IntegerValue;
         });
 #endif
     }

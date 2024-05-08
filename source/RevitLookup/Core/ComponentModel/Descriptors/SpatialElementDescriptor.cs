@@ -24,49 +24,57 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class SpatialElementDescriptor(SpatialElement spatialElement) : ElementDescriptor(spatialElement), IDescriptorResolver
+public sealed class SpatialElementDescriptor : Descriptor, IDescriptorResolver
 {
-    public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    private readonly SpatialElement _spatialElement;
+    
+    public SpatialElementDescriptor(SpatialElement spatialElement)
+    {
+        _spatialElement = spatialElement;
+        Name = ElementDescriptor.CreateName(spatialElement);
+    }
+    
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
             nameof(SpatialElement.GetBoundarySegments) => new ResolveSet(8)
-                .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center,
                     StoreFreeBoundaryFaces = true
                 }), "Center, store free boundary faces")
-                .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreBoundary,
                     StoreFreeBoundaryFaces = true
                 }), "Core boundary, store free boundary faces")
-                .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish,
                     StoreFreeBoundaryFaces = true
                 }), "Finish, store free boundary faces")
-                .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreCenter,
                     StoreFreeBoundaryFaces = true
                 }), "Core center, store free boundary faces")
-                .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center,
                     StoreFreeBoundaryFaces = true
                 }), "Center")
-                .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreBoundary,
                     StoreFreeBoundaryFaces = true
                 }), "Core boundary")
-                .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish,
                     StoreFreeBoundaryFaces = true
                 }), "Finish")
-                .AppendVariant(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreCenter,
                     StoreFreeBoundaryFaces = true

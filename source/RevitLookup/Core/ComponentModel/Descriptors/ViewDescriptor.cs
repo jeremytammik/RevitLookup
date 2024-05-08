@@ -24,8 +24,16 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
+public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly View _view;
+    
+    public ViewDescriptor(View view)
+    {
+        _view = view;
+        Name = ElementDescriptor.CreateName(view);
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -57,7 +65,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                var result = view.CanCategoryBeHidden(category.Id);
+                var result = _view.CanCategoryBeHidden(category.Id);
                 resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
             }
 
@@ -70,7 +78,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                var result = view.CanCategoryBeHiddenTemporary(category.Id);
+                var result = _view.CanCategoryBeHiddenTemporary(category.Id);
                 resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
             }
             
@@ -84,7 +92,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             
             foreach (ViewDuplicateOption option in values)
             {
-                resolveSummary.AppendVariant(view.CanViewBeDuplicated(option), option.ToString());
+                resolveSummary.AppendVariant(_view.CanViewBeDuplicated(option), option.ToString());
             }
             
             return resolveSummary;
@@ -96,7 +104,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                var result = view.GetCategoryHidden(category.Id);
+                var result = _view.GetCategoryHidden(category.Id);
                 resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
             }
 
@@ -109,7 +117,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                var result = view.GetCategoryOverrides(category.Id);
+                var result = _view.GetCategoryOverrides(category.Id);
                 resolveSummary.AppendVariant(result, category.Name);
             }
             
@@ -122,7 +130,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                var result = view.IsCategoryOverridable(category.Id);
+                var result = _view.IsCategoryOverridable(category.Id);
                 resolveSummary.AppendVariant(result, category.Name);
             }
             
@@ -131,12 +139,12 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveFilterOverrides()
         {
-            var filters = view.GetFilters();
+            var filters = _view.GetFilters();
             var resolveSummary = new ResolveSet(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
-                var result = view.GetFilterOverrides(filterId);
+                var result = _view.GetFilterOverrides(filterId);
                 resolveSummary.AppendVariant(result, filter.Name);
             }
             
@@ -145,12 +153,12 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveFilterVisibility()
         {
-            var filters = view.GetFilters();
+            var filters = _view.GetFilters();
             var resolveSummary = new ResolveSet(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
-                var result = view.GetFilterVisibility(filterId);
+                var result = _view.GetFilterVisibility(filterId);
                 resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
             }
             
@@ -159,12 +167,12 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveFilterEnabled()
         {
-            var filters = view.GetFilters();
+            var filters = _view.GetFilters();
             var resolveSummary = new ResolveSet(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
-                var result = view.GetIsFilterEnabled(filterId);
+                var result = _view.GetIsFilterEnabled(filterId);
                 resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
             }
             
@@ -173,12 +181,12 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
         
         ResolveSet ResolveIsFilterApplied()
         {
-            var filters = view.GetFilters();
+            var filters = _view.GetFilters();
             var resolveSummary = new ResolveSet(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
-                var result = view.IsFilterApplied(filterId);
+                var result = _view.IsFilterApplied(filterId);
                 resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
             }
             
@@ -192,7 +200,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             
             foreach (TemporaryViewMode mode in values)
             {
-                resolveSummary.AppendVariant(view.IsInTemporaryViewMode(mode), mode.ToString());
+                resolveSummary.AppendVariant(_view.IsInTemporaryViewMode(mode), mode.ToString());
             }
             
             return resolveSummary;
@@ -204,7 +212,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(templates.Length);
             foreach (var template in templates)
             {
-                var result = view.IsValidViewTemplate(template.Id);
+                var result = _view.IsValidViewTemplate(template.Id);
                 resolveSummary.AppendVariant(result, $"{template.Name}: {result}");
             }
             
@@ -217,7 +225,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(workSets.Count);
             foreach (var workSet in workSets)
             {
-                var result = view.IsWorksetVisible(workSet.Id);
+                var result = _view.IsWorksetVisible(workSet.Id);
                 resolveSummary.AppendVariant(result, $"{workSet.Name}: {result}");
             }
             
@@ -230,7 +238,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(workSets.Count);
             foreach (var workSet in workSets)
             {
-                var result = view.GetWorksetVisibility(workSet.Id);
+                var result = _view.GetWorksetVisibility(workSet.Id);
                 resolveSummary.AppendVariant(result, $"{workSet.Name}: {result}");
             }
             
@@ -244,7 +252,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             
             foreach (WorksharingDisplayMode mode in values)
             {
-                resolveSummary.AppendVariant(view.SupportsWorksharingDisplayMode(mode), mode.ToString());
+                resolveSummary.AppendVariant(_view.SupportsWorksharingDisplayMode(mode), mode.ToString());
             }
             
             return resolveSummary;
@@ -257,7 +265,7 @@ public class ViewDescriptor(View view) : Descriptor, IDescriptorResolver
             var resolveSummary = new ResolveSet(categories.Size);
             foreach (Category category in categories)
             {
-                var result = view.GetColorFillSchemeId(category.Id);
+                var result = _view.GetColorFillSchemeId(category.Id);
                 resolveSummary.AppendVariant(result, category.Name);
             }
             

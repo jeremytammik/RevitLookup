@@ -25,13 +25,21 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class InternalOriginDescriptor(InternalOrigin internalOrigin) : Descriptor, IDescriptorResolver
+public sealed class InternalOriginDescriptor : Descriptor, IDescriptorResolver
 {
+    private readonly InternalOrigin _internalOrigin;
+    
+    public InternalOriginDescriptor(InternalOrigin internalOrigin)
+    {
+        _internalOrigin = internalOrigin;
+        Name = ElementDescriptor.CreateName(internalOrigin);
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(InternalOrigin.Get) => ResolveSet.Append(InternalOrigin.Get(internalOrigin.Document)),
+            nameof(InternalOrigin.Get) => ResolveSet.Append(InternalOrigin.Get(_internalOrigin.Document)),
             _ => null
         };
     }

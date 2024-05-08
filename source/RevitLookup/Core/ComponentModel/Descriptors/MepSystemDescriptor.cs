@@ -24,9 +24,17 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class MepSystemDescriptor(MEPSystem mepSystem) : ElementDescriptor(mepSystem), IDescriptorResolver
+public sealed class MepSystemDescriptor : Descriptor, IDescriptorResolver
 {
-    public new ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    private readonly MEPSystem _mepSystem;
+    
+    public MepSystemDescriptor(MEPSystem mepSystem)
+    {
+        _mepSystem = mepSystem;
+        Name = ElementDescriptor.CreateName(mepSystem);
+    }
+    
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -37,11 +45,11 @@ public sealed class MepSystemDescriptor(MEPSystem mepSystem) : ElementDescriptor
 
         ResolveSet ResolveSectionByNumber()
         {
-            var capacity = mepSystem.SectionsCount;
+            var capacity = _mepSystem.SectionsCount;
             var resolveSummary = new ResolveSet(capacity);
             for (var i = 0; i < capacity; i++)
             {
-                var section = mepSystem.GetSectionByIndex(i);
+                var section = _mepSystem.GetSectionByIndex(i);
                 resolveSummary.AppendVariant(section, $"Number {section.Number}");
             }
 
@@ -50,11 +58,11 @@ public sealed class MepSystemDescriptor(MEPSystem mepSystem) : ElementDescriptor
 
         ResolveSet ResolveSectionByIndex()
         {
-            var capacity = mepSystem.SectionsCount;
+            var capacity = _mepSystem.SectionsCount;
             var resolveSummary = new ResolveSet(capacity);
             for (var i = 0; i < capacity; i++)
             {
-                var section = mepSystem.GetSectionByIndex(i);
+                var section = _mepSystem.GetSectionByIndex(i);
                 resolveSummary.AppendVariant(section, $"Index {i}");
             }
 
