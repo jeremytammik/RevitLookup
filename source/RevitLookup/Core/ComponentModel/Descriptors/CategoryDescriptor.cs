@@ -46,10 +46,7 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
 #endif
         });
 #if !REVIT2023_OR_GREATER
-        manager.Register("BuiltInCategory", context =>
-        {
-            return (BuiltInCategory) extension.Value.Id.IntegerValue;
-        });
+        manager.Register("BuiltInCategory", _ => (BuiltInCategory) _category.Id.IntegerValue);
 #endif
     }
 

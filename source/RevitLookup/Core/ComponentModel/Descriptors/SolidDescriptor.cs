@@ -31,15 +31,11 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescriptorConnector
 {
-#if REVIT2023_OR_GREATER
     private readonly Solid _solid;
     
-#endif
     public SolidDescriptor(Solid solid)
     {
-#if REVIT2023_OR_GREATER
         _solid = solid;
-#endif
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
     }
     
