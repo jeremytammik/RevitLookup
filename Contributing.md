@@ -66,7 +66,7 @@ public class UiElementDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
-            nameof(UIElement.Focus) => ResolveSet.Append(false, "Overridden"),
+            nameof(UIElement.Focus) => ResolveSet.Append(false, "Method execution disabled"),
             _ => null
         };
     }
@@ -98,19 +98,16 @@ public sealed class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
 
 Indicates that additional members can be added to the descriptor.
 
-Adding a new ```AsBool()``` method for the Parameter:
+Adding a new `HEX()` method for the `Color` class:
 
 ```c#
-public sealed class ParameterDescriptor : Descriptor, IDescriptorExtension
+public void RegisterExtensions(IExtensionManager manager)
 {
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        manager.Register(_parameter, extension =>
-        {
-            extension.Name = nameof(ParameterExtensions.AsBool);
-            extension.Result = extension.Value.AsBool();
-        });
-    }
+    manager.Register("HEX", context => ColorRepresentationUtils.ColorToHex(_color.GetDrawingColor()));
+    manager.Register("RGB", context => ColorRepresentationUtils.ColorToRgb(_color.GetDrawingColor()));
+    manager.Register("HSL", context => ColorRepresentationUtils.ColorToHsl(_color.GetDrawingColor()));
+    manager.Register("HSV", context => ColorRepresentationUtils.ColorToHsv(_color.GetDrawingColor()));
+    manager.Register("CMYK", context => ColorRepresentationUtils.ColorToCmyk(_color.GetDrawingColor()));
 }
 ```
 
@@ -118,7 +115,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorExtension
 
 Indicates that the object can be redirected to another.
 
-Redirect from ElementId to Element if Element itself exists:
+Redirect from `ElementId` to `Element` if Element itself exists:
 
 ```c#
 public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirection
@@ -149,12 +146,8 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorConnector
             .SetAvailability(_element is not ElementType)
             .SetCommand(_element, element =>
             {
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    if (RevitApi.UiDocument is null) return;
-                    RevitApi.UiDocument.ShowElements(element);
-                    RevitApi.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
-                });
+                Context.UiDocument.ShowElements(element);
+                Context.UiDocument.Selection.SetElementIds(new List<ElementId>(1) {element.Id});
             })
             .AddShortcut(ModifierKeys.Alt, Key.F7);
     }
