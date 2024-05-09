@@ -145,7 +145,7 @@ public sealed partial class DescriptorBuilder
         var type = set.Variants.Peek().Result.GetType();
         var typeName = DescriptorUtils.MakeGenericTypeName(type);
 
-        snoopableObject.Descriptor.Name = set.Variants.Count > 0 ? $"IEnumerable<{typeName}>" : typeName;
+        snoopableObject.Descriptor.Name = $"Variants<{typeName}>";
         snoopableObject.Descriptor.Type = typeName;
     }
     
@@ -161,7 +161,7 @@ public sealed partial class DescriptorBuilder
             _ => snoopableObject.Descriptor.Name
         };
         
-        snoopableObject.Descriptor.Name = set.Variants.Count > 0 ? $"IEnumerable<{typeName}>" : typeName;
+        snoopableObject.Descriptor.Name = $"Variants<{typeName}>";
         snoopableObject.Descriptor.Type = typeName;
     }
 }
