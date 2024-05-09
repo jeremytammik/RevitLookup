@@ -124,6 +124,9 @@ public static class DescriptorMap
             TableView value when type == typeof(TableView) => new TableViewDescriptor(value),
             TableData value when type == typeof(TableData) => new TableDataDescriptor(value),
             TableSectionData value when type == typeof(TableSectionData) => new TableSectionDataDescriptor(value),
+            FamilySizeTableManager value when type == typeof(FamilySizeTableManager) => new FamilySizeTableManagerDescriptor(value),
+            FamilySizeTable value when type == typeof(FamilySizeTable) => new FamilySizeTableDescriptor(value),
+            FamilySizeTableColumn value when type == typeof(FamilySizeTableColumn) => new FamilySizeTableColumnDescriptor(value),
 #if REVIT2024_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
