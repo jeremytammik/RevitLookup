@@ -38,11 +38,15 @@ public sealed class DatumPlaneDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
+#if !REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
             nameof(DatumPlane.CanBeVisibleInView) => ResolveCanBeVisibleInView(),
+#endif
             nameof(DatumPlane.GetCurvesInView) => ResolveCurvesInView(),
             nameof(DatumPlane.GetDatumExtentTypeInView) => ResolveDatumExtentTypeInView(),
             nameof(DatumPlane.GetLeader) => ResolveLeader(),
+#if !REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
             nameof(DatumPlane.GetPropagationViews) => ResolvePropagationViews(),
+#endif
             nameof(DatumPlane.HasBubbleInView) => ResolveHasBubbleInView(),
             nameof(DatumPlane.IsBubbleVisibleInView) => ResolveBubbleVisibleInView(),
             _ => null

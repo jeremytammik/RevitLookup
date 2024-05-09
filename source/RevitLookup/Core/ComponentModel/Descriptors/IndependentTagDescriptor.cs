@@ -41,7 +41,7 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
-#if REVIT2025_OR_GREATER
+#if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
             nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(_tag) =>
                 ResolveSet.Append(new NotSupportedException("RebarBendingDetail not supported. Revit API critical Exception")),
 #endif
