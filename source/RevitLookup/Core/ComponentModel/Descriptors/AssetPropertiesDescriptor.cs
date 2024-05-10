@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Runtime.InteropServices.JavaScript;
 using Autodesk.Revit.DB.Visual;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -27,7 +28,7 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class AssetPropertiesDescriptor(AssetProperties assetProperties) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -36,17 +37,17 @@ public sealed class AssetPropertiesDescriptor(AssetProperties assetProperties) :
             _ => null
         };
 
-        ResolveSet ResolveAssetProperties()
+        IVariants ResolveAssetProperties()
         {
             var capacity = assetProperties.Size;
-            var resolveSummary = new ResolveSet(capacity);
+            var variants = new Variants<AssetProperty>(capacity);
             for (var i = 0; i < capacity; i++)
             {
                 var property = assetProperties.Get(i);
-                resolveSummary.AppendVariant(property, property.Name);
+                variants.Add(property, property.Name);
             }
 
-            return resolveSummary; 
+            return variants; 
         }
     }
 }

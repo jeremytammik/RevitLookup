@@ -34,12 +34,12 @@ public sealed class BasePointDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(basePoint);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(BasePoint.GetSurveyPoint) => ResolveSet.Append(BasePoint.GetSurveyPoint(_basePoint.Document)),
-            nameof(BasePoint.GetProjectBasePoint) => ResolveSet.Append(BasePoint.GetProjectBasePoint(_basePoint.Document)),
+            nameof(BasePoint.GetSurveyPoint) => Variants.Single(BasePoint.GetSurveyPoint(_basePoint.Document)),
+            nameof(BasePoint.GetProjectBasePoint) => Variants.Single(BasePoint.GetProjectBasePoint(_basePoint.Document)),
             _ => null
         };
     }

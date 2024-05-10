@@ -23,19 +23,19 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ResolveSummaryDescriptor : Descriptor, IDescriptorRedirection
+public sealed class VariantDescriptor : Descriptor, IDescriptorRedirection
 {
-    private readonly ResolveSummary _summary;
+    private readonly Variant _variant;
 
-    public ResolveSummaryDescriptor(ResolveSummary summary)
+    public VariantDescriptor(Variant variant)
     {
-        _summary = summary;
-        Description = summary.Description;
+        _variant = variant;
+        Description = variant.Description;
     }
 
     public bool TryRedirect(Document context, string target, out object output)
     {
-        output = _summary.Result;
+        output = _variant.Object;
         return true;
     }
 }

@@ -31,11 +31,11 @@ public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
         Name = field.GetName(Context.Document);
     }
 
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(SchedulableField.GetName) => ResolveSet.Append(Name),
+            nameof(SchedulableField.GetName) => Variants.Single(Name),
             _ => null
         };
     }

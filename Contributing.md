@@ -38,7 +38,7 @@ To add descriptors for new classes, you must add a new file and update the Descr
 
 Interfaces are responsible for extending functionality:
 
-#### IDescriptorCollector
+### IDescriptorCollector
 
 Indicates that the descriptor can retrieve object members by reflection.
 If you add this interface, the user can click on the object and analyze its members.
@@ -53,11 +53,13 @@ public sealed class ApplicationDescriptor : Descriptor, IDescriptorCollector
 }
 ```
 
-#### IDescriptorResolver
+### IDescriptorResolver
 
 Indicates that the descriptor can decide to call methods/properties with parameters or override their values.
 
-Override result:
+#### Resolution with only one variant
+
+To resolve member with only one variant, or you want to disable some method, use the `Variants.Single()`:
 
 ```c#
 public class UiElementDescriptor : Descriptor, IDescriptorResolver
@@ -66,14 +68,16 @@ public class UiElementDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
-            nameof(UIElement.Focus) => ResolveSet.Append(false, "Method execution disabled"),
+            nameof(UIElement.Focus) => Variants.Single(false, "Method execution disabled"),
             _ => null
         };
     }
 }
 ```
 
-Adding variants for different input parameters:
+#### Resolution with multiple values
+
+To resolve member with different input parameters, create a new Variants collection and specify variant count `new Variants<double>(count)`:
 
 ```c#
 public sealed class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
@@ -82,19 +86,62 @@ public sealed class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
-            nameof(PlanViewRange.GetOffset) => ResolveSet
-                .Append(_viewRange.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
-                .AppendVariant(_viewRange.GetOffset(PlanViewPlane.CutPlane), "Cut plane")
-            nameof(PlanViewRange.GetLevelId) => ResolveSet
-                .Append(_viewRange.GetLevelId(PlanViewPlane.TopClipPlane), "Top clip plane")
-                .AppendVariant(_viewRange.GetLevelId(PlanViewPlane.CutPlane), "Cut plane")
+            nameof(PlanViewRange.GetOffset) => new Variants<double>(2)
+                .Add(viewRange.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
+                .Add(viewRange.GetOffset(PlanViewPlane.UnderlayBottom), "Underlay bottom"),
+            nameof(PlanViewRange.GetLevelId) => new Variants<ElementId>(2)
+                .Add(viewRange.GetLevelId(PlanViewPlane.TopClipPlane), "Top clip plane")
+                .Add(viewRange.GetLevelId(PlanViewPlane.CutPlane), "Cut plane")
             _ => null
         };
     }
 }
 ```
 
-#### IDescriptorExtension
+#### Resolution without variants
+
+If your member is not resolved, use the `Variants.Empty()` method. For example, you want to disable Enumerator call but want to display this member:
+
+```c#
+public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
+{
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    {
+        return target switch
+        {
+            nameof(UIElement.GetLocalValueEnumerator) => Variants.Empty<LocalValueEnumerator>(),
+            _ => null
+        };
+    }
+}
+```
+
+In another situation you have nothing to return by the condition, use the `Variants.Empty()` as well:
+
+```c#
+public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
+{
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    {
+        return target switch
+        {
+            nameof(IndependentTag.GetLeaderEnd) => ResolveLeaderEnd(),
+            _ => null
+        };
+        
+        IVariants ResolveLeaderEnd()
+        {
+            if (_tag.LeaderEndCondition == LeaderEndCondition.Attached)
+            {
+                return Variants.Empty<XYZ>();
+            }
+
+            // User code
+        }
+}
+```
+
+### IDescriptorExtension
 
 Indicates that additional members can be added to the descriptor.
 
@@ -111,7 +158,7 @@ public void RegisterExtensions(IExtensionManager manager)
 }
 ```
 
-#### IDescriptorRedirection
+### IDescriptorRedirection
 
 Indicates that the object can be redirected to another.
 
@@ -130,7 +177,7 @@ public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirection
 }
 ```
 
-#### IDescriptorConnector
+### IDescriptorConnector
 
 Indicates that the descriptor can interact with the UI and execute commands.
 
@@ -156,8 +203,9 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorConnector
 
 ## Styles
 
-The application UI is divided into templates, where each template can be customized for different types of data. 
-There are several different rules for customizing TreeView, DataGrid row, DataGrid cell and they are all located in the file `RevitLookup/Views/Pages/Abstraction/SnoopViewBase.Styles.cs`.
+The application UI is divided into templates, where each template can be customized for different types of data.
+There are several different rules for customizing TreeView, DataGrid row, DataGrid cell and they are all located in the
+file `RevitLookup/Views/Pages/Abstraction/SnoopViewBase.Styles.cs`.
 
 Suggested methods search for a style/template by `x:Key`:
 
@@ -179,7 +227,7 @@ public override DataTemplate SelectTemplate(object item, DependencyObject contai
 }
 ```
 
-The templates themselves are located in the `RevitLookup/Views/Controls` folder. 
+The templates themselves are located in the `RevitLookup/Views/Controls` folder.
 For example, in the `RevitLookup/Views/Controls/DataGrid/DataGridCellTemplate.xaml` file there is a cell template that displays the text:
 
 ```xaml

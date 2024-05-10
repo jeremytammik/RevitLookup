@@ -34,108 +34,96 @@ public sealed class DatumPlaneDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(datumPlane);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-#if !REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
             nameof(DatumPlane.CanBeVisibleInView) => ResolveCanBeVisibleInView(),
-#endif
-            nameof(DatumPlane.GetCurvesInView) => ResolveCurvesInView(),
             nameof(DatumPlane.GetDatumExtentTypeInView) => ResolveDatumExtentTypeInView(),
-            nameof(DatumPlane.GetLeader) => ResolveLeader(),
-#if !REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
             nameof(DatumPlane.GetPropagationViews) => ResolvePropagationViews(),
-#endif
             nameof(DatumPlane.HasBubbleInView) => ResolveHasBubbleInView(),
             nameof(DatumPlane.IsBubbleVisibleInView) => ResolveBubbleVisibleInView(),
+            nameof(DatumPlane.GetCurvesInView) => new Variants<IList<Curve>>(2)
+                .Add(_datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), "Model, Active view")
+                .Add(_datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), "ViewSpecific, Active view"),
+            nameof(DatumPlane.GetLeader) => new Variants<Leader>(2)
+                .Add(_datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), "End 0, Active view")
+                .Add(_datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), "End 1, Active view"),
             _ => null
         };
         
-        ResolveSet ResolveCanBeVisibleInView()
+        IVariants ResolveCanBeVisibleInView()
         {
+#if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
+            return Variants.Single(new NotSupportedException("Temporary disabled. Revit API critical Exception"));
+#else
             var views = context.EnumerateInstances<View>().ToArray();
-            var resolveSummary = new ResolveSet(views.Length);
+            var variants = new Variants<bool>(views.Length);
             
             foreach (var view in views)
             {
                 var result = _datumPlane.CanBeVisibleInView(view);
-                resolveSummary.AppendVariant(result, $"{view.Name}: {result}");
+                variants.Add(result, $"{view.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
+#endif
         }
         
-        ResolveSet ResolveDatumExtentTypeInView()
+        IVariants ResolveDatumExtentTypeInView()
         {
-            var resolveSummary = new ResolveSet(2);
+            var variants = new Variants<DatumExtentType>(2);
             
             var resultEnd0 = _datumPlane.GetDatumExtentTypeInView(DatumEnds.End0, context.ActiveView);
             var resultEnd1 = _datumPlane.GetDatumExtentTypeInView(DatumEnds.End1, context.ActiveView);
-            resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
-            resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
+            variants.Add(resultEnd0, $"End 0, Active view: {resultEnd0}");
+            variants.Add(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveCurvesInView()
+        IVariants ResolvePropagationViews()
         {
-            var resolveSummary = new ResolveSet(2);
-            
-            resolveSummary.AppendVariant(_datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), "Model, Active view");
-            resolveSummary.AppendVariant(_datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), "ViewSpecific, Active view");
-            
-            return resolveSummary;
-        }
-        
-        ResolveSet ResolveLeader()
-        {
-            var resolveSummary = new ResolveSet(2);
-            
-            resolveSummary.AppendVariant(_datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), "End 0, Active view");
-            resolveSummary.AppendVariant(_datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), "End 1, Active view");
-            
-            return resolveSummary;
-        }
-        
-        ResolveSet ResolvePropagationViews()
-        {
+#if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
+            return Variants.Single(new NotSupportedException("Temporary disabled. Revit API critical Exception"));
+#else
             var views = context.EnumerateInstances<View>().ToArray();
-            var resolveSummary = new ResolveSet(views.Length);
+            var variants = new Variants<ISet<ElementId>>(views.Length);
             
             foreach (var view in views)
             {
                 if (!_datumPlane.CanBeVisibleInView(view)) continue;
                 
                 var result = _datumPlane.GetPropagationViews(view);
-                resolveSummary.AppendVariant(result, view.Name);
+                variants.Add(result, view.Name);
             }
             
-            return resolveSummary;
+            return variants;
+#endif
         }
         
-        ResolveSet ResolveHasBubbleInView()
+        IVariants ResolveHasBubbleInView()
         {
-            var resolveSummary = new ResolveSet(2);
+            var variants = new Variants<bool>(2);
             
             var resultEnd0 = _datumPlane.HasBubbleInView(DatumEnds.End0, context.ActiveView);
             var resultEnd1 = _datumPlane.HasBubbleInView(DatumEnds.End1, context.ActiveView);
-            resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
-            resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
+            variants.Add(resultEnd0, $"End 0, Active view: {resultEnd0}");
+            variants.Add(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveBubbleVisibleInView()
+        IVariants ResolveBubbleVisibleInView()
         {
-            var resolveSummary = new ResolveSet(2);
+            var variants = new Variants<bool>(2);
             
             var resultEnd0 = _datumPlane.IsBubbleVisibleInView(DatumEnds.End0, context.ActiveView);
             var resultEnd1 = _datumPlane.IsBubbleVisibleInView(DatumEnds.End1, context.ActiveView);
-            resolveSummary.AppendVariant(resultEnd0, $"End 0, Active view: {resultEnd0}");
-            resolveSummary.AppendVariant(resultEnd1, $"End 1, Active view: {resultEnd1}");
+            variants.Add(resultEnd0, $"End 0, Active view: {resultEnd0}");
+            variants.Add(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
-            return resolveSummary;
+            return variants;
         }
     }
 }

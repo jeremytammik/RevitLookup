@@ -81,7 +81,6 @@ public sealed partial class DescriptorBuilder
     {
         var snoopableObject = new SnoopableObject(value, Context);
         SnoopUtils.Redirect(member.Name, snoopableObject);
-        RestoreSetDescription(member, value, snoopableObject);
         return snoopableObject;
     }
     
@@ -89,7 +88,6 @@ public sealed partial class DescriptorBuilder
     {
         var snoopableObject = new SnoopableObject(value, Context);
         SnoopUtils.Redirect(snoopableObject);
-        RestoreSetDescription(value, snoopableObject);
         return snoopableObject;
     }
     
@@ -135,33 +133,5 @@ public sealed partial class DescriptorBuilder
         if ((fieldAttributes & FieldAttributes.Static) != 0) attributes |= MemberAttributes.Static;
         if ((fieldAttributes & FieldAttributes.Private) != 0) attributes |= MemberAttributes.Private;
         return attributes;
-    }
-    
-    private static void RestoreSetDescription(object value, SnoopableObject snoopableObject)
-    {
-        if (value is not ResolveSet set) return;
-        if (set.Variants.Count == 1) return;
-        
-        var type = set.Variants.Peek().Result.GetType();
-        var typeName = DescriptorUtils.MakeGenericTypeName(type);
-
-        snoopableObject.Descriptor.Name = $"Variants<{typeName}>";
-        snoopableObject.Descriptor.Type = typeName;
-    }
-    
-    private static void RestoreSetDescription(MemberInfo member, object value, SnoopableObject snoopableObject)
-    {
-        if (value is not ResolveSet set) return;
-        if (set.Variants.Count == 1) return;
-        
-        var typeName = member switch
-        {
-            PropertyInfo property => DescriptorUtils.MakeGenericTypeName(property.GetMethod!.ReturnType),
-            MethodInfo method => DescriptorUtils.MakeGenericTypeName(method.ReturnType),
-            _ => snoopableObject.Descriptor.Name
-        };
-        
-        snoopableObject.Descriptor.Name = $"Variants<{typeName}>";
-        snoopableObject.Descriptor.Type = typeName;
     }
 }

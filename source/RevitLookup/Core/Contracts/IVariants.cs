@@ -18,21 +18,17 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
-using System.Windows;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
+namespace RevitLookup.Core.Contracts;
 
-public sealed class DependencyObjectDescriptor : Descriptor, IDescriptorResolver
+public interface IVariants : IReadOnlyCollection<Variant>
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
-    {
-        return target switch
-        {
-            nameof(DependencyObject.GetLocalValueEnumerator) => Variants.Empty<LocalValueEnumerator?>(),
-            _ => null
-        };
-    }
+    Variant Single();
+}
+
+public interface IVariants<T> : IVariants
+{
+    Variants<T> Add(T result);
+    Variants<T> Add(T result, string description);
 }

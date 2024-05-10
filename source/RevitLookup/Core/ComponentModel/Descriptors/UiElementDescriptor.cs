@@ -27,14 +27,14 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(UIElement.GetLocalValueEnumerator) => ResolveSet.Append(null),
-            nameof(UIElement.CaptureMouse) => ResolveSet.Append(false, "Method execution disabled"),
-            nameof(UIElement.CaptureStylus) => ResolveSet.Append(false, "Method execution disabled"),
-            nameof(UIElement.Focus) => ResolveSet.Append(false, "Method execution disabled"),
+            nameof(UIElement.GetLocalValueEnumerator) => Variants.Empty<LocalValueEnumerator>(),
+            nameof(UIElement.CaptureMouse) => Variants.Single(false, "Method execution disabled"),
+            nameof(UIElement.CaptureStylus) => Variants.Single(false, "Method execution disabled"),
+            nameof(UIElement.Focus) => Variants.Single(false, "Method execution disabled"),
             _ => null
         };
     }

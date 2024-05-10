@@ -34,7 +34,7 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(view);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -59,217 +59,217 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
         
-        ResolveSet ResolveCanCategoryBeHidden()
+        IVariants ResolveCanCategoryBeHidden()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = _view.CanCategoryBeHidden(category.Id);
-                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
+                variants.Add(result, $"{category.Name}: {result}");
             }
 
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveCanCategoryBeHiddenTemporary()
+        IVariants ResolveCanCategoryBeHiddenTemporary()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = _view.CanCategoryBeHiddenTemporary(category.Id);
-                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
+                variants.Add(result, $"{category.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveCanViewBeDuplicated()
+        IVariants ResolveCanViewBeDuplicated()
         {
             var values = Enum.GetValues(typeof(ViewDuplicateOption));
-            var resolveSummary = new ResolveSet(values.Length);
+            var variants = new Variants<bool>(values.Length);
             
             foreach (ViewDuplicateOption option in values)
             {
-                resolveSummary.AppendVariant(_view.CanViewBeDuplicated(option), option.ToString());
+                variants.Add(_view.CanViewBeDuplicated(option), option.ToString());
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveCategoryHidden()
+        IVariants ResolveCategoryHidden()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = _view.GetCategoryHidden(category.Id);
-                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
+                variants.Add(result, $"{category.Name}: {result}");
             }
 
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveCategoryOverrides()
+        IVariants ResolveCategoryOverrides()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<OverrideGraphicSettings>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = _view.GetCategoryOverrides(category.Id);
-                resolveSummary.AppendVariant(result, category.Name);
+                variants.Add(result, category.Name);
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsCategoryOverridable()
+        IVariants ResolveIsCategoryOverridable()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = _view.IsCategoryOverridable(category.Id);
-                resolveSummary.AppendVariant(result, category.Name);
+                variants.Add(result, category.Name);
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveFilterOverrides()
+        IVariants ResolveFilterOverrides()
         {
             var filters = _view.GetFilters();
-            var resolveSummary = new ResolveSet(filters.Count);
+            var variants = new Variants<OverrideGraphicSettings>(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
                 var result = _view.GetFilterOverrides(filterId);
-                resolveSummary.AppendVariant(result, filter.Name);
+                variants.Add(result, filter.Name);
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveFilterVisibility()
+        IVariants ResolveFilterVisibility()
         {
             var filters = _view.GetFilters();
-            var resolveSummary = new ResolveSet(filters.Count);
+            var variants = new Variants<bool>(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
                 var result = _view.GetFilterVisibility(filterId);
-                resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
+                variants.Add(result, $"{filter.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveFilterEnabled()
+        IVariants ResolveFilterEnabled()
         {
             var filters = _view.GetFilters();
-            var resolveSummary = new ResolveSet(filters.Count);
+            var variants = new Variants<bool>(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
                 var result = _view.GetIsFilterEnabled(filterId);
-                resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
+                variants.Add(result, $"{filter.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsFilterApplied()
+        IVariants ResolveIsFilterApplied()
         {
             var filters = _view.GetFilters();
-            var resolveSummary = new ResolveSet(filters.Count);
+            var variants = new Variants<bool>(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
                 var result = _view.IsFilterApplied(filterId);
-                resolveSummary.AppendVariant(result, $"{filter.Name}: {result}");
+                variants.Add(result, $"{filter.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsInTemporaryViewMode()
+        IVariants ResolveIsInTemporaryViewMode()
         {
             var values = Enum.GetValues(typeof(TemporaryViewMode));
-            var resolveSummary = new ResolveSet(values.Length);
+            var variants = new Variants<bool>(values.Length);
             
             foreach (TemporaryViewMode mode in values)
             {
-                resolveSummary.AppendVariant(_view.IsInTemporaryViewMode(mode), mode.ToString());
+                variants.Add(_view.IsInTemporaryViewMode(mode), mode.ToString());
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsValidViewTemplate()
+        IVariants ResolveIsValidViewTemplate()
         {
             var templates = context.EnumerateInstances<View>().Where(x => x.IsTemplate).ToArray();
-            var resolveSummary = new ResolveSet(templates.Length);
+            var variants = new Variants<bool>(templates.Length);
             foreach (var template in templates)
             {
                 var result = _view.IsValidViewTemplate(template.Id);
-                resolveSummary.AppendVariant(result, $"{template.Name}: {result}");
+                variants.Add(result, $"{template.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsWorksetVisible()
+        IVariants ResolveIsWorksetVisible()
         {
             var workSets = new FilteredWorksetCollector(context).OfKind(WorksetKind.UserWorkset).ToWorksets();
-            var resolveSummary = new ResolveSet(workSets.Count);
+            var variants = new Variants<bool>(workSets.Count);
             foreach (var workSet in workSets)
             {
                 var result = _view.IsWorksetVisible(workSet.Id);
-                resolveSummary.AppendVariant(result, $"{workSet.Name}: {result}");
+                variants.Add(result, $"{workSet.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveWorksetVisibility()
+        IVariants ResolveWorksetVisibility()
         {
             var workSets = new FilteredWorksetCollector(context).OfKind(WorksetKind.UserWorkset).ToWorksets();
-            var resolveSummary = new ResolveSet(workSets.Count);
+            var variants = new Variants<WorksetVisibility>(workSets.Count);
             foreach (var workSet in workSets)
             {
                 var result = _view.GetWorksetVisibility(workSet.Id);
-                resolveSummary.AppendVariant(result, $"{workSet.Name}: {result}");
+                variants.Add(result, $"{workSet.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveSupportsWorksharingDisplayMode()
+        IVariants ResolveSupportsWorksharingDisplayMode()
         {
             var values = Enum.GetValues(typeof(WorksharingDisplayMode));
-            var resolveSummary = new ResolveSet(values.Length);
+            var variants = new Variants<bool>(values.Length);
             
             foreach (WorksharingDisplayMode mode in values)
             {
-                resolveSummary.AppendVariant(_view.SupportsWorksharingDisplayMode(mode), mode.ToString());
+                variants.Add(_view.SupportsWorksharingDisplayMode(mode), mode.ToString());
             }
             
-            return resolveSummary;
+            return variants;
         }
 #if REVIT2022_OR_GREATER      
 
-        ResolveSet ResolveColorFillSchemeId()
+        IVariants ResolveColorFillSchemeId()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<ElementId>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = _view.GetColorFillSchemeId(category.Id);
-                resolveSummary.AppendVariant(result, category.Name);
+                variants.Add(result, category.Name);
             }
             
-            return resolveSummary;
+            return variants;
         }
 #endif
     }

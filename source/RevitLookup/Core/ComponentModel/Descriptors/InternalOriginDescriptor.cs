@@ -34,11 +34,11 @@ public sealed class InternalOriginDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(internalOrigin);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(InternalOrigin.Get) => ResolveSet.Append(InternalOrigin.Get(_internalOrigin.Document)),
+            nameof(InternalOrigin.Get) => Variants.Single(InternalOrigin.Get(_internalOrigin.Document)),
             _ => null
         };
     }

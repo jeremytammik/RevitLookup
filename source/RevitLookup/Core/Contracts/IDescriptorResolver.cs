@@ -28,5 +28,5 @@ namespace RevitLookup.Core.Contracts;
 /// </summary>
 public interface IDescriptorResolver : IDescriptorCollector
 {
-    ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters);
+    IVariants Resolve(Document context, string target, ParameterInfo[] parameters);
 }

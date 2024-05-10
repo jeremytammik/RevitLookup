@@ -34,7 +34,7 @@ public sealed class PanelDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(panel);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -42,16 +42,17 @@ public sealed class PanelDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
         
-        ResolveSet ResolveGridLines()
+        IVariants ResolveGridLines()
         {
             ElementId uId = null;
             ElementId vId = null;
             _panel.GetRefGridLines(ref uId, ref vId);
             
-            var resolveSummary = new ResolveSet(2);
-            resolveSummary.AppendVariant(uId);
-            resolveSummary.AppendVariant(vId);
-            return resolveSummary;
+            return new Variants<ElementId>(2)
+            {
+                uId,
+                vId
+            };
         }
     }
 }

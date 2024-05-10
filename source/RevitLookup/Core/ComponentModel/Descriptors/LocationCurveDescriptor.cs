@@ -26,7 +26,7 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class LocationCurveDescriptor(LocationCurve locationCurve) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -35,28 +35,28 @@ public sealed class LocationCurveDescriptor(LocationCurve locationCurve) : Descr
             _ => null
         };
 
-        ResolveSet ResolveElementsAtJoin()
+        IVariants ResolveElementsAtJoin()
         {
-            var resolveSummary = new ResolveSet(2);
+            var variants = new Variants<ElementArray>(2);
             for (var i = 0; i < 2; i++)
             {
                 var elements = locationCurve.get_ElementsAtJoin(i);
-                resolveSummary.AppendVariant(elements, $"Point {i}");
+                variants.Add(elements, $"Point {i}");
             }
 
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveJoinType()
+        IVariants ResolveJoinType()
         {
-            var resolveSummary = new ResolveSet(2);
+            var variants = new Variants<JoinType>(2);
             for (var i = 0; i < 2; i++)
             {
                 var joinType = locationCurve.get_JoinType(i);
-                resolveSummary.AppendVariant(joinType, $"Point {i}");
+                variants.Add(joinType, $"Point {i}");
             }
         
-            return resolveSummary;
+            return variants;
         }
     }
 }
