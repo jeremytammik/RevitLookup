@@ -64,13 +64,13 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
     {
         if (!_document.IsFamilyDocument)
         {
-            manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), _ =>
+            manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
             {
-                var families = _document.EnumerateInstances<Family>().ToArray();
+                var families = context.EnumerateInstances<Family>().ToArray();
                 var variants = new Variants<FamilySizeTableManager>(families.Length);
                 foreach (var family in families)
                 {
-                    var result = FamilySizeTableManager.GetFamilySizeTableManager(_document, family.Id);
+                    var result = FamilySizeTableManager.GetFamilySizeTableManager(context, family.Id);
                     if (result is not null && result.NumberOfSizeTables > 0)
                     {
                         variants.Add(result, $"{ElementDescriptor.CreateName(family)}");
