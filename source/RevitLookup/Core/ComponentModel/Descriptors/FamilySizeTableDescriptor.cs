@@ -24,43 +24,42 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver
+public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
             nameof(FamilySizeTable.GetColumnHeader) => ResolveColumnHeader(),
             nameof(FamilySizeTable.IsValidColumnIndex) => ResolveIsValidColumnIndex(),
             _ => null
-            
         };
         
-        ResolveSet ResolveColumnHeader()
+        IVariants ResolveColumnHeader()
         {
             var count = table.NumberOfColumns;
-            var resolveSummary = new ResolveSet(count);
+            var variants = new Variants<FamilySizeTableColumn>(count);
             
             for (var i = 0; i < count; i++)
             {
-                resolveSummary.AppendVariant(table.GetColumnHeader(i));
+                variants.Add(table.GetColumnHeader(i));
             }
             
-            return resolveSummary;
+            return variants;
         }
-        ResolveSet ResolveIsValidColumnIndex()
+        
+        IVariants ResolveIsValidColumnIndex()
         {
             var count = table.NumberOfColumns;
-            var resolveSummary = new ResolveSet(count);
+            var variants = new Variants<bool>(count);
             
             for (var i = 0; i <= count; i++)
             {
                 var result = table.IsValidColumnIndex(i);
-                resolveSummary.AppendVariant(result, $"{i}: {result}");
+                variants.Add(result, $"{i}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
-        
     }
 }

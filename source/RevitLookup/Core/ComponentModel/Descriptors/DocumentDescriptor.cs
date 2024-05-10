@@ -33,7 +33,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
         _document = document;
         Name = document.Title;
     }
-
+    
     public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -46,7 +46,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
 #endif
             _ => null
         };
-
+        
         IVariants ResolvePlanTopologies()
         {
             if (_document.IsReadOnly) return Variants.Empty<PlanTopologySet>();
@@ -55,7 +55,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
             transaction.Start("Calculating plan topologies");
             var topologies = _document.PlanTopologies;
             transaction.Commit();
-
+            
             return Variants.Single(topologies);
         }
     }
@@ -63,18 +63,22 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
     public void RegisterExtensions(IExtensionManager manager)
     {
         if (!_document.IsFamilyDocument)
+        {
             manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), _ =>
             {
                 var families = _document.EnumerateInstances<Family>().ToArray();
-                var resolveSummary = new ResolveSet(families.Length);
+                var variants = new Variants<FamilySizeTableManager>(families.Length);
                 foreach (var family in families)
                 {
                     var result = FamilySizeTableManager.GetFamilySizeTableManager(_document, family.Id);
                     if (result is not null && result.NumberOfSizeTables > 0)
-                        resolveSummary.AppendVariant(result, $"{ElementDescriptor.CreateName(family)}");
+                    {
+                        variants.Add(result, $"{ElementDescriptor.CreateName(family)}");
+                    }
                 }
                 
-                return resolveSummary;
+                return variants;
             });
+        }
     }
 }
