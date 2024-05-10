@@ -34,7 +34,7 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(viewSchedule);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -47,13 +47,13 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
             nameof(ViewSchedule.IsValidCategoryForKeySchedule) => ResolveIsValidCategoryForKeySchedule(),
             nameof(ViewSchedule.IsValidCategoryForMaterialTakeoff) => ResolveIsValidCategoryForMaterialTakeoff(),
             nameof(ViewSchedule.IsValidCategoryForSchedule) => ResolveIsValidCategoryForSchedule(),
-            nameof(ViewSchedule.GetDefaultNameForKeynoteLegend) => ResolveSet.Append(ViewSchedule.GetDefaultNameForKeynoteLegend(context)),
-            nameof(ViewSchedule.GetDefaultNameForNoteBlock) => ResolveSet.Append(ViewSchedule.GetDefaultNameForNoteBlock(context)),
-            nameof(ViewSchedule.GetDefaultNameForRevisionSchedule) => ResolveSet.Append(ViewSchedule.GetDefaultNameForRevisionSchedule(context)),
-            nameof(ViewSchedule.GetDefaultNameForSheetList) => ResolveSet.Append(ViewSchedule.GetDefaultNameForSheetList(context)),
-            nameof(ViewSchedule.GetDefaultNameForViewList) => ResolveSet.Append(ViewSchedule.GetDefaultNameForViewList(context)),
-            nameof(ViewSchedule.GetValidFamiliesForNoteBlock) => ResolveSet.Append(ViewSchedule.GetValidFamiliesForNoteBlock(context)),
-            nameof(ViewSchedule.RefreshData) => ResolveSet.Append(false, "Method execution disabled"),
+            nameof(ViewSchedule.GetDefaultNameForKeynoteLegend) => Variants.Single(ViewSchedule.GetDefaultNameForKeynoteLegend(context)),
+            nameof(ViewSchedule.GetDefaultNameForNoteBlock) => Variants.Single(ViewSchedule.GetDefaultNameForNoteBlock(context)),
+            nameof(ViewSchedule.GetDefaultNameForRevisionSchedule) => Variants.Single(ViewSchedule.GetDefaultNameForRevisionSchedule(context)),
+            nameof(ViewSchedule.GetDefaultNameForSheetList) => Variants.Single(ViewSchedule.GetDefaultNameForSheetList(context)),
+            nameof(ViewSchedule.GetDefaultNameForViewList) => Variants.Single(ViewSchedule.GetDefaultNameForViewList(context)),
+            nameof(ViewSchedule.GetValidFamiliesForNoteBlock) => Variants.Single(ViewSchedule.GetValidFamiliesForNoteBlock(context)),
+            nameof(ViewSchedule.RefreshData) => Variants.Single(false, "Method execution disabled"),
 #if REVIT2022_OR_GREATER
             nameof(ViewSchedule.GetScheduleInstances) => ResolveScheduleInstances(),
             nameof(ViewSchedule.GetSegmentHeight) => ResolveSegmentHeight(),
@@ -61,62 +61,62 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
         
-        ResolveSet ResolveStripedRowsColor()
+        IVariants ResolveStripedRowsColor()
         {
             var patterns = Enum.GetValues(typeof(StripedRowPattern));
-            var resolveSummary = new ResolveSet(patterns.Length);
+            var variants = new Variants<Color>(patterns.Length);
             
             foreach (StripedRowPattern pattern in patterns)
             {
-                resolveSummary.AppendVariant(_viewSchedule.GetStripedRowsColor(pattern), pattern.ToString());
+                variants.Add(_viewSchedule.GetStripedRowsColor(pattern), pattern.ToString());
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveValidTextTypeId()
+        IVariants ResolveValidTextTypeId()
         {
             var types = context.EnumerateTypes<TextNoteType>().ToArray();
-            var resolveSummary = new ResolveSet(types.Length);
+            var variants = new Variants<bool>(types.Length);
             
             foreach (var type in types)
             {
                 var result = _viewSchedule.IsValidTextTypeId(type.Id);
-                resolveSummary.AppendVariant(result, $"{type.Name}: {result}");
+                variants.Add(result, $"{type.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveDefaultNameForKeySchedule()
+        IVariants ResolveDefaultNameForKeySchedule()
         {
             var categories = ViewSchedule.GetValidCategoriesForKeySchedule();
-            var resolveSummary = new ResolveSet(categories.Count);
+            var variants = new Variants<string>(categories.Count);
             foreach (var categoryId in categories)
             {
-                resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForKeySchedule(context, categoryId));
+                variants.Add(ViewSchedule.GetDefaultNameForKeySchedule(context, categoryId));
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveDefaultNameForMaterialTakeoff()
+        IVariants ResolveDefaultNameForMaterialTakeoff()
         {
             var categories = ViewSchedule.GetValidCategoriesForMaterialTakeoff();
-            var resolveSummary = new ResolveSet(categories.Count);
+            var variants = new Variants<string>(categories.Count);
             foreach (var categoryId in categories)
             {
-                resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForMaterialTakeoff(context, categoryId));
+                variants.Add(ViewSchedule.GetDefaultNameForMaterialTakeoff(context, categoryId));
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveDefaultNameForSchedule()
+        IVariants ResolveDefaultNameForSchedule()
         {
             var categories = ViewSchedule.GetValidCategoriesForSchedule();
             var areas = context.EnumerateInstances<AreaScheme>().ToArray();
-            var resolveSummary = new ResolveSet(categories.Count + areas.Length);
+            var variants = new Variants<string>(categories.Count + areas.Length);
             var areaId = new ElementId(BuiltInCategory.OST_Areas);
             foreach (var categoryId in categories)
             {
@@ -124,96 +124,96 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
                 {
                     foreach (var area in areas)
                     {
-                        resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, categoryId, area.Id));
+                        variants.Add(ViewSchedule.GetDefaultNameForSchedule(context, categoryId, area.Id));
                     }
                 }
                 else
                 {
-                    resolveSummary.AppendVariant(ViewSchedule.GetDefaultNameForSchedule(context, categoryId));
+                    variants.Add(ViewSchedule.GetDefaultNameForSchedule(context, categoryId));
                 }
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveDefaultParameterNameForKeySchedule()
+        IVariants ResolveDefaultParameterNameForKeySchedule()
         {
             var categories = ViewSchedule.GetValidCategoriesForKeySchedule();
-            var resolveSummary = new ResolveSet(categories.Count);
+            var variants = new Variants<string>(categories.Count);
             var areaId = new ElementId(BuiltInCategory.OST_Areas);
             foreach (var categoryId in categories)
             {
                 if (categoryId == areaId) continue;
-                resolveSummary.AppendVariant(ViewSchedule.GetDefaultParameterNameForKeySchedule(context, categoryId));
+                variants.Add(ViewSchedule.GetDefaultParameterNameForKeySchedule(context, categoryId));
             }
-
-            return resolveSummary;
+            
+            return variants;
         }
         
-        ResolveSet ResolveIsValidCategoryForKeySchedule()
+        IVariants ResolveIsValidCategoryForKeySchedule()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = ViewSchedule.IsValidCategoryForKeySchedule(category.Id);
-                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
+                variants.Add(result, $"{category.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsValidCategoryForMaterialTakeoff()
+        IVariants ResolveIsValidCategoryForMaterialTakeoff()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = ViewSchedule.IsValidCategoryForMaterialTakeoff(category.Id);
-                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
+                variants.Add(result, $"{category.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsValidCategoryForSchedule()
+        IVariants ResolveIsValidCategoryForSchedule()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = ViewSchedule.IsValidCategoryForSchedule(category.Id);
-                resolveSummary.AppendVariant(result, $"{category.Name}: {result}");
+                variants.Add(result, $"{category.Name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
 #if REVIT2022_OR_GREATER
-        ResolveSet ResolveScheduleInstances()
+        IVariants ResolveScheduleInstances()
         {
             var count = _viewSchedule.GetSegmentCount();
-            var resolveSummary = new ResolveSet(count);
+            var variants = new Variants<IList<ElementId>>(count);
             
             for (var i = -1; i < count; i++)
             {
-                resolveSummary.AppendVariant(_viewSchedule.GetScheduleInstances(i));
+                variants.Add(_viewSchedule.GetScheduleInstances(i));
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveSegmentHeight()
+        IVariants ResolveSegmentHeight()
         {
             var count = _viewSchedule.GetSegmentCount();
-            var resolveSummary = new ResolveSet(count);
+            var variants = new Variants<double>(count);
             
             for (var i = 0; i < count; i++)
             {
-                resolveSummary.AppendVariant(_viewSchedule.GetSegmentHeight(i));
+                variants.Add(_viewSchedule.GetSegmentHeight(i));
             }
             
-            return resolveSummary;
+            return variants;
         }
 #endif
     }

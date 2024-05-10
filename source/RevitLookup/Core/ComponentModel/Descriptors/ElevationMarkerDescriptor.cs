@@ -34,7 +34,7 @@ public sealed class ElevationMarkerDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(elevationMarker);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -43,20 +43,20 @@ public sealed class ElevationMarkerDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
 
-        ResolveSet ResolveIndex()
+        IVariants ResolveIndex()
         {
-            var resolveSummary = new ResolveSet(_elevationMarker.MaximumViewCount);
+            var variants = new Variants<bool>(_elevationMarker.MaximumViewCount);
             for (var i = 0; i < _elevationMarker.MaximumViewCount; i++)
             {
                 var result = _elevationMarker.IsAvailableIndex(i);
-                resolveSummary.AppendVariant(result, $"Index {i}: {result}");
+                variants.Add(result, $"Index {i}: {result}");
             }
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveViewId()
+        IVariants ResolveViewId()
         {
-            var resolveSummary = new ResolveSet();
+            var variants = new Variants<ElementId>(_elevationMarker.MaximumViewCount);
             for (var i = 0; i < _elevationMarker.MaximumViewCount; i++)
             {
                 if (!_elevationMarker.IsAvailableIndex(i))
@@ -64,10 +64,10 @@ public sealed class ElevationMarkerDescriptor : Descriptor, IDescriptorResolver
                     var result = _elevationMarker.GetViewId(i);
                     var element = result.ToElement(context);
                     var name = element!.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
-                    resolveSummary.AppendVariant(result, $"Index {i}: {name}");
+                    variants.Add(result, $"Index {i}: {name}");
                 }
             }
-            return resolveSummary;; 
+            return variants;; 
         }
     }
 }

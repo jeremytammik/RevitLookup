@@ -35,12 +35,12 @@ public sealed class EvaluatedParameterDescriptor : Descriptor, IDescriptorResolv
         Name = parameter.Definition.Name;
     }
 
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 1 => ResolveSet.Append(_parameter.AsValueString(context)),
-            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => ResolveSet.Append(_parameter.AsValueString(context, new FormatOptions())),
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 1 => Variants.Single(_parameter.AsValueString(context)),
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => Variants.Single(_parameter.AsValueString(context, new FormatOptions())),
             _ => null
         };
     }

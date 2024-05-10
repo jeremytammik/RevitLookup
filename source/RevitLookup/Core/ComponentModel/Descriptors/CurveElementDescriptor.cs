@@ -34,7 +34,7 @@ public sealed class CurveElementDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(curveElement);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -46,40 +46,38 @@ public sealed class CurveElementDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
         
-        ResolveSet ResolveAdjoinedCurveElements()
+        IVariants ResolveAdjoinedCurveElements()
         {
-            var resolveSet = new ResolveSet(2);
             var startCurveElements = _curveElement.GetAdjoinedCurveElements(0);
             var endCurveElements = _curveElement.GetAdjoinedCurveElements(1);
             
-            return resolveSet
-                .AppendVariant(startCurveElements, "Point 0")
-                .AppendVariant(endCurveElements, "Point 1");
+            return new Variants<ISet<ElementId>>(2)
+                .Add(startCurveElements, "Point 0")
+                .Add(endCurveElements, "Point 1");
         }
         
-        ResolveSet ResolveHasTangentLocks()
+        IVariants ResolveHasTangentLocks()
         {
-            var resolveSet = new ResolveSet(2);
             var startHasTangentLocks = _curveElement.HasTangentLocks(0);
             var endHasTangentLocks = _curveElement.HasTangentLocks(1);
             
-            return resolveSet
-                .AppendVariant(startHasTangentLocks, $"Point 0: {startHasTangentLocks}")
-                .AppendVariant(endHasTangentLocks, $"Point 1: {endHasTangentLocks}");
+            return new Variants<bool>(2)
+                .Add(startHasTangentLocks, $"Point 0: {startHasTangentLocks}")
+                .Add(endHasTangentLocks, $"Point 1: {endHasTangentLocks}");
         }
         
-        ResolveSet ResolveTangentLock()
+        IVariants ResolveTangentLock()
         {
             var startCurveElements = _curveElement.GetAdjoinedCurveElements(0);
             var endCurveElements = _curveElement.GetAdjoinedCurveElements(1);
-            var resolveSummary = new ResolveSet(startCurveElements.Count + endCurveElements.Count);
+            var variants = new Variants<bool>(startCurveElements.Count + endCurveElements.Count);
             
             foreach (var id in startCurveElements)
             {
                 if (!_curveElement.HasTangentJoin(0, id)) continue;
                 
                 var result = _curveElement.GetTangentLock(0, id);
-                resolveSummary.AppendVariant(result, $"Point 0, {id}: {result}");
+                variants.Add(result, $"Point 0, {id}: {result}");
             }
             
             foreach (var id in endCurveElements)
@@ -87,52 +85,52 @@ public sealed class CurveElementDescriptor : Descriptor, IDescriptorResolver
                 if (!_curveElement.HasTangentJoin(1, id)) continue;
                 
                 var result = _curveElement.GetTangentLock(1, id);
-                resolveSummary.AppendVariant(result, $"Point 1, {id}: {result}");
+                variants.Add(result, $"Point 1, {id}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveTangentJoin()
+        IVariants ResolveTangentJoin()
         {
             var startCurveElements = _curveElement.GetAdjoinedCurveElements(0);
             var endCurveElements = _curveElement.GetAdjoinedCurveElements(1);
-            var resolveSummary = new ResolveSet(startCurveElements.Count + endCurveElements.Count);
+            var variants = new Variants<bool>(startCurveElements.Count + endCurveElements.Count);
             
             foreach (var id in startCurveElements)
             {
                 var result = _curveElement.HasTangentJoin(0, id);
-                resolveSummary.AppendVariant(result, $"Point 0, {id}: {result}");
+                variants.Add(result, $"Point 0, {id}: {result}");
             }
             
             foreach (var id in endCurveElements)
             {
                 var result = _curveElement.HasTangentJoin(1, id);
-                resolveSummary.AppendVariant(result, $"Point 1, {id}: {result}");
+                variants.Add(result, $"Point 1, {id}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsAdjoinedCurveElement()
+        IVariants ResolveIsAdjoinedCurveElement()
         {
             var startCurveElements = _curveElement.GetAdjoinedCurveElements(0);
             var endCurveElements = _curveElement.GetAdjoinedCurveElements(1);
-            var resolveSummary = new ResolveSet(startCurveElements.Count + endCurveElements.Count);
+            var variants = new Variants<bool>(startCurveElements.Count + endCurveElements.Count);
             
             foreach (var id in startCurveElements)
             {
                 var result = _curveElement.IsAdjoinedCurveElement(0, id);
-                resolveSummary.AppendVariant(result, $"Point 0, {id}: {result}");
+                variants.Add(result, $"Point 0, {id}: {result}");
             }
             
             foreach (var id in endCurveElements)
             {
                 var result = _curveElement.IsAdjoinedCurveElement(1, id);
-                resolveSummary.AppendVariant(result, $"Point 1, {id}: {result}");
+                variants.Add(result, $"Point 1, {id}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
     }
 }

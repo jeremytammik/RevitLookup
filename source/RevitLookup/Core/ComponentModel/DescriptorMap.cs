@@ -29,6 +29,7 @@ using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Visual;
 using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
 using RibbonItem = Autodesk.Revit.UI.RibbonItem;
@@ -49,6 +50,10 @@ public static class DescriptorMap
     {
         return obj switch
         {
+            //Internal
+            IVariants value => new VariantsDescriptor(value),
+            Variant value => new VariantDescriptor(value),
+
             //System
             string value when type is null || type == typeof(string) => new StringDescriptor(value),
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
@@ -128,10 +133,6 @@ public static class DescriptorMap
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
-
-            //Internal
-            ResolveSet value => new ResolveSetDescriptor(value),
-            ResolveSummary value => new ResolveSummaryDescriptor(value),
 
             //Media
             System.Windows.Media.Color value when type is null || type == typeof(System.Windows.Media.Color) => new ColorMediaDescriptor(value),

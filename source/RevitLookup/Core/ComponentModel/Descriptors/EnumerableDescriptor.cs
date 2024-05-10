@@ -38,6 +38,7 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
         IsEmpty = value switch
         {
             string => true,
+            IVariants enumerable => enumerable.Count == 0,
             ICollection enumerable => enumerable.Count == 0,
             ParameterSet enumerable => enumerable.IsEmpty,
             ParameterMap enumerable => enumerable.IsEmpty,
@@ -65,11 +66,11 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
     public IEnumerator Enumerator { get; }
     public bool IsEmpty { get; }
 
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(IEnumerable.GetEnumerator) => ResolveSet.Append(null),
+            nameof(IEnumerable.GetEnumerator) => Variants.Single<IEnumerator>(null),
             _ => null
         };
     }

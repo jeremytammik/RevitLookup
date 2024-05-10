@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows.Media.Animation;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -27,7 +28,7 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -39,32 +40,34 @@ public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorRes
             _ => null
         };
 
-        ResolveSet ResolveGetByField()
+        IVariants ResolveGetByField()
         {
-            var resolveSummary = new ResolveSet();
-            foreach (var field in entity.Schema.ListFields())
+            var fields = entity.Schema.ListFields();
+            var variants = new Variants<object>(fields.Count);
+            foreach (var field in fields)
             {
                 var method = entity.GetType().GetMethod(nameof(Entity.Get), [typeof(Field)])!;
                 var genericMethod = MakeGenericInvoker(field, method);
-                resolveSummary.AppendVariant(genericMethod.Invoke(entity, [field]), field.FieldName);
+                variants.Add(genericMethod.Invoke(entity, [field]), field.FieldName);
             }
 
-            return resolveSummary;
+            return variants;
         }
 
-        ResolveSet ResolveGetByFieldForge()
+        IVariants ResolveGetByFieldForge()
         {
-            var resolveSummary = new ResolveSet();
-            foreach (var field in entity.Schema.ListFields())
+            var fields = entity.Schema.ListFields();
+            var variants = new Variants<object>(fields.Count);
+            foreach (var field in fields)
             {
                 var forgeTypeId = field.GetSpecTypeId();
                 var unit = GetValidUnit(forgeTypeId);
                 var method = entity.GetType().GetMethod(nameof(Entity.Get), [typeof(Field), typeof(ForgeTypeId)])!;
                 var genericMethod = MakeGenericInvoker(field, method);
-                resolveSummary.AppendVariant(genericMethod.Invoke(entity, [field, unit]), field.FieldName);
+                variants.Add(genericMethod.Invoke(entity, [field, unit]), field.FieldName);
             }
 
-            return resolveSummary;
+            return variants;
         }
     }
 

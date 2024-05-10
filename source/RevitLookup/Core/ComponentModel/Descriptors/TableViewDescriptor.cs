@@ -35,7 +35,7 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(tableView);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -48,20 +48,20 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
         
-        ResolveSet ResolveAvailableParameters()
+        IVariants ResolveAvailableParameters()
         {
             var categories = context.Settings.Categories;
-            var resolveSummary = new ResolveSet(categories.Size);
+            var variants = new Variants<IList<ElementId>>(categories.Size);
             foreach (Category category in categories)
             {
                 var result = TableView.GetAvailableParameters(context, category.Id);
-                resolveSummary.AppendVariant(result, $"{category.Name}");
+                variants.Add(result, $"{category.Name}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveCalculatedValueName()
+        IVariants ResolveCalculatedValueName()
         {
             var tableData = _tableView switch
             {
@@ -71,7 +71,7 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
             };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
-            var resolveSummary = new ResolveSet();
+            var variants = new Variants<string>(sectionTypes.Length);
             foreach (SectionType sectionType in sectionTypes)
             {
                 var tableSectionData = tableData!.GetSectionData(sectionType);
@@ -81,14 +81,14 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
                     var result = _tableView.GetCalculatedValueName(sectionType, i, j);
-                    resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
+                    variants.Add(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveCalculatedValueText()
+        IVariants ResolveCalculatedValueText()
         {
             var tableData = _tableView switch
             {
@@ -98,7 +98,7 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
             };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
-            var resolveSummary = new ResolveSet();
+            var variants = new Variants<string>(sectionTypes.Length);
             foreach (SectionType sectionType in sectionTypes)
             {
                 var tableSectionData = tableData!.GetSectionData(sectionType);
@@ -108,14 +108,14 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
                     var result = _tableView.GetCalculatedValueText(sectionType, i, j);
-                    resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
+                    variants.Add(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveCellText()
+        IVariants ResolveCellText()
         {
             var tableData = _tableView switch
             {
@@ -125,7 +125,7 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
             };
             
             var sectionTypes = Enum.GetValues(typeof(SectionType));
-            var resolveSummary = new ResolveSet();
+            var variants = new Variants<string>(sectionTypes.Length);
             foreach (SectionType sectionType in sectionTypes)
             {
                 var tableSectionData = tableData!.GetSectionData(sectionType);
@@ -134,24 +134,24 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
                 for (var j = tableSectionData.FirstColumnNumber; j < tableSectionData.LastColumnNumber; j++)
                 {
                     var result = _tableView.GetCellText(sectionType, i, j);
-                    resolveSummary.AppendVariant(result, $"{sectionType}, row {i}, column {j}: {result}");
+                    variants.Add(result, $"{sectionType}, row {i}, column {j}: {result}");
                 }
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsValidSectionType()
+        IVariants ResolveIsValidSectionType()
         {
             var sectionTypes = Enum.GetValues(typeof(SectionType));
-            var resolveSummary = new ResolveSet();
+            var variants = new Variants<bool>(sectionTypes.Length);
             foreach (SectionType sectionType in sectionTypes)
             {
                 var result = _tableView.IsValidSectionType(sectionType);
-                resolveSummary.AppendVariant(result, $"{sectionType}: {result}");
+                variants.Add(result, $"{sectionType}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
     }
 }

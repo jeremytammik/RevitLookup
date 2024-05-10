@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using Autodesk.Revit.DB.Mechanical;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -34,7 +35,7 @@ public sealed class MepSystemDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(mepSystem);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -43,30 +44,30 @@ public sealed class MepSystemDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
 
-        ResolveSet ResolveSectionByNumber()
+        IVariants ResolveSectionByNumber()
         {
             var capacity = _mepSystem.SectionsCount;
-            var resolveSummary = new ResolveSet(capacity);
+            var variants = new Variants<MEPSection>(capacity);
             for (var i = 0; i < capacity; i++)
             {
                 var section = _mepSystem.GetSectionByIndex(i);
-                resolveSummary.AppendVariant(section, $"Number {section.Number}");
+                variants.Add(section, $"Number {section.Number}");
             }
 
-            return resolveSummary;
+            return variants;
         }
 
-        ResolveSet ResolveSectionByIndex()
+        IVariants ResolveSectionByIndex()
         {
             var capacity = _mepSystem.SectionsCount;
-            var resolveSummary = new ResolveSet(capacity);
+            var variants = new Variants<MEPSection>(capacity);
             for (var i = 0; i < capacity; i++)
             {
                 var section = _mepSystem.GetSectionByIndex(i);
-                resolveSummary.AppendVariant(section, $"Index {i}");
+                variants.Add(section, $"Index {i}");
             }
 
-            return resolveSummary;
+            return variants;
         }
     }
 }

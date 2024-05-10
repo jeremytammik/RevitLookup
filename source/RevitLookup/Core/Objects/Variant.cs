@@ -18,16 +18,10 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
+namespace RevitLookup.Core.Objects;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
-
-public sealed class ResolveSetDescriptor(ResolveSet set) : Descriptor, IDescriptorRedirection
+public sealed class Variant
 {
-    public bool TryRedirect(Document context, string target, out object output)
-    {
-        output = set.Variants.Count == 1 ? set.Variants.Peek() : set.Variants;
-        return true;
-    }
+    public string Description { get; init; }
+    public object Object { get; init; }
 }

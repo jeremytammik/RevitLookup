@@ -26,7 +26,7 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class WorksetTableDescriptor : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -34,14 +34,14 @@ public sealed class WorksetTableDescriptor : Descriptor, IDescriptorResolver
             _ => null
         };
         
-        ResolveSet ResolveGetWorkset()
+        IVariants ResolveGetWorkset()
         {
             var worksets = new FilteredWorksetCollector(Context.Document).ToWorksets();
-            var resolveSet = new ResolveSet(worksets.Count);
+            var resolveSet = new Variants<Workset>(worksets.Count);
             
             foreach (var workset in worksets)
             {
-                resolveSet.AppendVariant(workset);
+                resolveSet.Add(workset);
             }
 
             return resolveSet;

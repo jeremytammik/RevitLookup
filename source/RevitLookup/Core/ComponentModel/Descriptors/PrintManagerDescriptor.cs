@@ -31,11 +31,11 @@ public sealed class PrintManagerDescriptor : Descriptor, IDescriptorResolver
         Name = printManager.PrinterName;
     }
 
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(PrintManager.SubmitPrint) when parameters.Length == 0 => ResolveSet.Append(false, "Method execution disabled"),
+            nameof(PrintManager.SubmitPrint) when parameters.Length == 0 => Variants.Single(false, "Method execution disabled"),
             _ => null
         };
     }
