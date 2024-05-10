@@ -19,13 +19,27 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows.Controls;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Models;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Dialogs;
+using RevitLookup.Views.Dialogs;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver
+public class FamilySizeTableDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
+    private readonly FamilySizeTable _table;
+    
+    public FamilySizeTableDescriptor(FamilySizeTable table)
+    {
+        _table = table;
+    }
+    
     public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -33,34 +47,54 @@ public class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDes
             nameof(FamilySizeTable.GetColumnHeader) => ResolveColumnHeader(),
             nameof(FamilySizeTable.IsValidColumnIndex) => ResolveIsValidColumnIndex(),
             _ => null
-            
         };
         
         ResolveSet ResolveColumnHeader()
         {
-            var count = table.NumberOfColumns;
+            var count = _table.NumberOfColumns;
             var resolveSummary = new ResolveSet(count);
             
             for (var i = 0; i < count; i++)
             {
-                resolveSummary.AppendVariant(table.GetColumnHeader(i));
+                resolveSummary.AppendVariant(_table.GetColumnHeader(i));
             }
             
             return resolveSummary;
         }
+        
         ResolveSet ResolveIsValidColumnIndex()
         {
-            var count = table.NumberOfColumns;
+            var count = _table.NumberOfColumns;
             var resolveSummary = new ResolveSet(count);
             
             for (var i = 0; i <= count; i++)
             {
-                var result = table.IsValidColumnIndex(i);
+                var result = _table.IsValidColumnIndex(i);
                 resolveSummary.AppendVariant(result, $"{i}: {result}");
             }
             
             return resolveSummary;
         }
-        
+    }
+    
+    public void RegisterMenu(ContextMenu contextMenu)
+    {
+        contextMenu.AddMenuItem()
+            .SetHeader("Show table")
+            .SetAvailability(_table.IsValidObject)
+            .SetCommand(_table, async _ =>
+            {
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                try
+                {
+                    var dialog = new FamilySizeTableDialog(context.ServiceProvider, _table, Name);
+                    await dialog.ShowAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<ParameterDescriptor>>();
+                    logger.LogError(exception, "Initialize EditParameterDialog error");
+                }
+            });
     }
 }

@@ -18,20 +18,38 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Data;
-using RevitLookup.ViewModels.Pages;
+using System.Windows;
+using RevitLookup.Models;
+using RevitLookup.Services;
+using RevitLookup.ViewModels.Dialogs;
+using Wpf.Ui;
 using Wpf.Ui.Controls;
 
-namespace RevitLookup.Views.Pages;
+namespace RevitLookup.Views.Dialogs;
 
-public sealed partial class SettingsView : INavigableView<SettingsViewModel>
+public sealed partial class FamilySizeTableDialog
 {
-    public SettingsView(SettingsViewModel viewModel)
-    {
-        ViewModel = viewModel;
-        InitializeComponent();
-        DataContext = this;
-    }
+    private readonly IServiceProvider _serviceProvider;
+    private readonly string _name;
 
-    public SettingsViewModel ViewModel { get; }
+    public FamilySizeTableDialog(IServiceProvider serviceProvider, FamilySizeTable table, string name)
+    {
+        DataContext = new FamilySizeTableDialogViewModel(table, name);
+        _serviceProvider = serviceProvider;
+        _name = name;
+        InitializeComponent();
+    }
+    
+    public async Task ShowAsync()
+    {
+        var dialogOptions = new SimpleContentDialogCreateOptions
+        {
+            Title = _name,
+            Content = this,
+            CloseButtonText = "Close",
+            DialogMaxWidth = 1500
+        };
+        
+        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+    }
 }
