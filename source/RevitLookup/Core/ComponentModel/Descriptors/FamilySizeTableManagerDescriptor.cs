@@ -19,34 +19,48 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB.Visual;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class AssetPropertiesDescriptor(AssetProperties assetProperties) : Descriptor, IDescriptorResolver
+public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager manager) : Descriptor, IDescriptorResolver
 {
     public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(AssetProperties.Get) => ResolveAssetProperties(),
-            nameof(AssetProperties.FindByName) => ResolveAssetProperties(),
+            nameof(FamilySizeTableManager.GetSizeTable) => ResolveSizeTable(),
+            nameof(FamilySizeTableManager.HasSizeTable) => ResolveHasSizeTable(),
+            nameof(FamilySizeTableManager.GetFamilySizeTableManager) => Variants.Single(manager),
             _ => null
         };
-
-        IVariants ResolveAssetProperties()
+        
+        IVariants ResolveSizeTable()
         {
-            var capacity = assetProperties.Size;
-            var variants = new Variants<AssetProperty>(capacity);
-            for (var i = 0; i < capacity; i++)
+            var names = manager.GetAllSizeTableNames();
+            var variants = new Variants<FamilySizeTable>(names.Count);
+            
+            foreach (var name in names)
             {
-                var property = assetProperties.Get(i);
-                variants.Add(property, property.Name);
+                variants.Add(manager.GetSizeTable(name), name);
             }
-
-            return variants; 
+            
+            return variants;
+        }
+        
+        IVariants ResolveHasSizeTable()
+        {
+            var names = manager.GetAllSizeTableNames();
+            var variants = new Variants<bool>(names.Count);
+            
+            foreach (var name in names)
+            {
+                var result = manager.HasSizeTable(name);
+                variants.Add(result, $"{name}: {result}");
+            }
+            
+            return variants;
         }
     }
 }

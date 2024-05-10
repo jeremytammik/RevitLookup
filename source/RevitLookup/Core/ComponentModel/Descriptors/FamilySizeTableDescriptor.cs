@@ -19,34 +19,47 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB.Visual;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class AssetPropertiesDescriptor(AssetProperties assetProperties) : Descriptor, IDescriptorResolver
+public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver
 {
     public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(AssetProperties.Get) => ResolveAssetProperties(),
-            nameof(AssetProperties.FindByName) => ResolveAssetProperties(),
+            nameof(FamilySizeTable.GetColumnHeader) => ResolveColumnHeader(),
+            nameof(FamilySizeTable.IsValidColumnIndex) => ResolveIsValidColumnIndex(),
             _ => null
         };
-
-        IVariants ResolveAssetProperties()
+        
+        IVariants ResolveColumnHeader()
         {
-            var capacity = assetProperties.Size;
-            var variants = new Variants<AssetProperty>(capacity);
-            for (var i = 0; i < capacity; i++)
+            var count = table.NumberOfColumns;
+            var variants = new Variants<FamilySizeTableColumn>(count);
+            
+            for (var i = 0; i < count; i++)
             {
-                var property = assetProperties.Get(i);
-                variants.Add(property, property.Name);
+                variants.Add(table.GetColumnHeader(i));
             }
-
-            return variants; 
+            
+            return variants;
+        }
+        
+        IVariants ResolveIsValidColumnIndex()
+        {
+            var count = table.NumberOfColumns;
+            var variants = new Variants<bool>(count);
+            
+            for (var i = 0; i <= count; i++)
+            {
+                var result = table.IsValidColumnIndex(i);
+                variants.Add(result, $"{i}: {result}");
+            }
+            
+            return variants;
         }
     }
 }

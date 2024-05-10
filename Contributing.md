@@ -119,25 +119,23 @@ public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
 In another situation you have nothing to return by the condition, use the `Variants.Empty()` as well:
 
 ```c#
-public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
+public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 {
     public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(IndependentTag.GetLeaderEnd) => ResolveLeaderEnd(),
+            nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
             _ => null
         };
         
-        IVariants ResolveLeaderEnd()
+        IVariants ResolvePlanTopologies()
         {
-            if (_tag.LeaderEndCondition == LeaderEndCondition.Attached)
-            {
-                return Variants.Empty<XYZ>();
-            }
-
-            // User code
+            if (_document.IsReadOnly) return Variants.Empty<PlanTopologySet>();
+            
+            return Variants.Single(_document.PlanTopologies);
         }
+    }
 }
 ```
 
