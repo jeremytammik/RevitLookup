@@ -26,11 +26,11 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class WorksetTableDescriptor : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(WorksetTable.GetWorkset) when parameters.Length == 1 && parameters[0].ParameterType == typeof(WorksetId) => ResolveGetWorkset(),
+            nameof(WorksetTable.GetWorkset) when parameters.Length == 1 && parameters[0].ParameterType == typeof(WorksetId) => ResolveGetWorkset,
             _ => null
         };
         

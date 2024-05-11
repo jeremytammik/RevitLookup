@@ -42,9 +42,9 @@ public static class Variants
     ///     Creates a variant collection with a single value and description
     /// </summary>
     /// <returns>A variant collection containing the specified value</returns>
-    public static IVariants Single<T>(T result, string description)
+    public static IVariants Single<T>(T value, string description)
     {
-        return new Variants<T>(1).Add(result, description);
+        return new Variants<T>(1).Add(value, description);
     }
     
     /// <summary>
@@ -56,6 +56,11 @@ public static class Variants
     {
         return new Variants<T>(0);
     }
+    
+    /// <summary>
+    ///     A variant that disables the member calculation
+    /// </summary>
+    public static Func<IVariants> Disabled { get; } = () => new Variants<NotSupportedException>(1).Add(new NotSupportedException("Method execution disabled"));
 }
 
 /// <summary>

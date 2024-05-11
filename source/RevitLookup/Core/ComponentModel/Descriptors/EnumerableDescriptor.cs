@@ -33,7 +33,7 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
         // SnoopUtils.ParseEnumerable dispose this Enumerator;
         // ReSharper disable once GenericEnumeratorNotDisposed
         Enumerator = value.GetEnumerator();
-
+        
         //Checking types to reduce memory allocation when creating an iterator and increase performance
         IsEmpty = value switch
         {
@@ -62,16 +62,21 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
             _ => !Enumerator.MoveNext()
         };
     }
-
+    
     public IEnumerator Enumerator { get; }
     public bool IsEmpty { get; }
-
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(IEnumerable.GetEnumerator) => Variants.Single<IEnumerator>(null),
+            nameof(IEnumerable.GetEnumerator) => ResolveGetEnumerator,
             _ => null
         };
+        
+        IVariants ResolveGetEnumerator()
+        {
+            return Variants.Empty<IEnumerator>();
+        }
     }
 }

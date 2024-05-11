@@ -30,12 +30,12 @@ public sealed class PrintManagerDescriptor : Descriptor, IDescriptorResolver
     {
         Name = printManager.PrinterName;
     }
-
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(PrintManager.SubmitPrint) when parameters.Length == 0 => Variants.Single(false, "Method execution disabled"),
+            nameof(PrintManager.SubmitPrint) when parameters.Length == 0 => Variants.Disabled,
             _ => null
         };
     }

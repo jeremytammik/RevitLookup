@@ -27,12 +27,12 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class AssetPropertyDescriptor(AssetProperty assetProperty) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(AssetProperty.GetTypeName) => Variants.Single(AssetProperty.GetTypeName(assetProperty.Type)),
-            nameof(AssetProperty.GetConnectedProperty) => ResolveConnectedProperty(),
+            nameof(AssetProperty.GetTypeName) => ResolveGetTypeName,
+            nameof(AssetProperty.GetConnectedProperty) => ResolveConnectedProperty,
             _ => null
         };
 
@@ -47,6 +47,11 @@ public sealed class AssetPropertyDescriptor(AssetProperty assetProperty) : Descr
             }
 
             return variants; 
+        }
+        
+        IVariants ResolveGetTypeName()
+        {
+            return Variants.Single(AssetProperty.GetTypeName(assetProperty.Type));
         }
     }
 }

@@ -34,14 +34,19 @@ public sealed class RevitLinkTypeDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(element);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(RevitLinkType.Load) => Variants.Single(new LinkLoadResult(), "Method execution disabled"),
-            nameof(RevitLinkType.Reload) => Variants.Single(new LinkLoadResult(), "Method execution disabled"),
-            nameof(RevitLinkType.IsLoaded) => Variants.Single(RevitLinkType.IsLoaded(_element.Document, _element.Id)),
+            nameof(RevitLinkType.Load) => Variants.Disabled,
+            nameof(RevitLinkType.Reload) => Variants.Disabled,
+            nameof(RevitLinkType.IsLoaded) => ResolveIsLoaded,
             _ => null
         };
+        
+        IVariants ResolveIsLoaded()
+        {
+            return Variants.Single(RevitLinkType.IsLoaded(_element.Document, _element.Id));
+        }
     }
 }

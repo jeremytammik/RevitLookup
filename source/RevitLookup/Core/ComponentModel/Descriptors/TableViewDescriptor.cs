@@ -35,16 +35,16 @@ public sealed class TableViewDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(tableView);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            // nameof(TableView.GetAvailableParameterCategories) => ResolveAvailableParameterCategories(), disabled, long computation time
-            nameof(TableView.GetAvailableParameters) => ResolveAvailableParameters(),
-            nameof(TableView.GetCalculatedValueName) => ResolveCalculatedValueName(),
-            nameof(TableView.GetCalculatedValueText) => ResolveCalculatedValueText(),
-            nameof(TableView.IsValidSectionType) => ResolveIsValidSectionType(),
-            nameof(TableView.GetCellText) => ResolveCellText(),
+            // nameof(TableView.GetAvailableParameterCategories) => ResolveAvailableParameterCategories, disabled, long computation time
+            nameof(TableView.GetAvailableParameters) => ResolveAvailableParameters,
+            nameof(TableView.GetCalculatedValueName) => ResolveCalculatedValueName,
+            nameof(TableView.GetCalculatedValueText) => ResolveCalculatedValueText,
+            nameof(TableView.IsValidSectionType) => ResolveIsValidSectionType,
+            nameof(TableView.GetCellText) => ResolveCellText,
             _ => null
         };
         

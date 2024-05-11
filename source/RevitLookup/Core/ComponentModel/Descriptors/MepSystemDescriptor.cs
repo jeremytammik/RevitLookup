@@ -35,12 +35,12 @@ public sealed class MepSystemDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(mepSystem);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(MEPSystem.GetSectionByIndex) => ResolveSectionByIndex(),
-            nameof(MEPSystem.GetSectionByNumber) => ResolveSectionByNumber(),
+            nameof(MEPSystem.GetSectionByIndex) => ResolveSectionByIndex,
+            nameof(MEPSystem.GetSectionByNumber) => ResolveSectionByNumber,
             _ => null
         };
 

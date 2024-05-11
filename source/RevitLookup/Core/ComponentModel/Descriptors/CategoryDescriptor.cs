@@ -50,22 +50,47 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
 #endif
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            "AllowsVisibilityControl" => Variants.Single(_category.get_AllowsVisibilityControl(Context.ActiveView), "Active view"),
-            "Visible" => Variants.Single(_category.get_Visible(Context.ActiveView), "Active view"),
-            nameof(Category.GetGraphicsStyle) => new Variants<GraphicsStyle>(2)
-                .Add(_category.GetGraphicsStyle(GraphicsStyleType.Cut), "Cut")
-                .Add(_category.GetGraphicsStyle(GraphicsStyleType.Projection), "Projection"),
-            nameof(Category.GetLinePatternId) => new Variants<ElementId>(2)
-                .Add(_category.GetLinePatternId(GraphicsStyleType.Cut), "Cut")
-                .Add(_category.GetLinePatternId(GraphicsStyleType.Projection), "Projection"),
-            nameof(Category.GetLineWeight) => new Variants<int?>(2)
-                .Add(_category.GetLineWeight(GraphicsStyleType.Cut), "Cut")
-                .Add(_category.GetLineWeight(GraphicsStyleType.Projection), "Projection"),
+            "AllowsVisibilityControl" => ResolveAllowsVisibilityControl,
+            "Visible" => ResolveVisible,
+            nameof(Category.GetGraphicsStyle) => ResolveGetGraphicsStyle,
+            nameof(Category.GetLinePatternId) => ResolveGetLinePatternId,
+            nameof(Category.GetLineWeight) => ResolveGetLineWeight,
             _ => null
         };
+        
+        IVariants ResolveGetLineWeight()
+        {
+            return new Variants<int?>(2)
+                .Add(_category.GetLineWeight(GraphicsStyleType.Cut), "Cut")
+                .Add(_category.GetLineWeight(GraphicsStyleType.Projection), "Projection");
+        }
+        
+        IVariants ResolveGetLinePatternId()
+        {
+            return new Variants<ElementId>(2)
+                .Add(_category.GetLinePatternId(GraphicsStyleType.Cut), "Cut")
+                .Add(_category.GetLinePatternId(GraphicsStyleType.Projection), "Projection");
+        }
+        
+        IVariants ResolveGetGraphicsStyle()
+        {
+            return new Variants<GraphicsStyle>(2)
+                .Add(_category.GetGraphicsStyle(GraphicsStyleType.Cut), "Cut")
+                .Add(_category.GetGraphicsStyle(GraphicsStyleType.Projection), "Projection");
+        }
+        
+        IVariants ResolveAllowsVisibilityControl()
+        {
+            return Variants.Single(_category.get_AllowsVisibilityControl(Context.ActiveView), "Active view");
+        }
+        
+        IVariants ResolveVisible()
+        {
+            return Variants.Single(_category.get_Visible(Context.ActiveView), "Active view");
+        }
     }
 }

@@ -26,11 +26,11 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class ConnectorManagerDescriptor(ConnectorManager connectorManager) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(ConnectorManager.Lookup) => ResolveLookup(),
+            nameof(ConnectorManager.Lookup) => ResolveLookup,
             _ => null
         };
         

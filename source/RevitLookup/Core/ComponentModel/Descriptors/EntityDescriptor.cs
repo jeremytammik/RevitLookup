@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using System.Windows.Media.Animation;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -28,15 +27,15 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class EntityDescriptor(Entity entity) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
             nameof(Entity.Get) when parameters.Length == 1 &&
-                                    parameters[0].ParameterType == typeof(string) => ResolveGetByField(),
+                                    parameters[0].ParameterType == typeof(string) => ResolveGetByField,
             nameof(Entity.Get) when parameters.Length == 2 &&
                                     parameters[0].ParameterType == typeof(string) &&
-                                    parameters[1].ParameterType == typeof(ForgeTypeId) => ResolveGetByFieldForge(),
+                                    parameters[1].ParameterType == typeof(ForgeTypeId) => ResolveGetByFieldForge,
             _ => null
         };
 

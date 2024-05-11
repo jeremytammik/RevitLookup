@@ -26,15 +26,15 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class TableDataDescriptor(TableData tableData) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
             nameof(TableData.GetSectionData) when parameters.Length == 1 && 
-                                                  parameters[0].ParameterType == typeof(SectionType) => ResolveSectionDataBySectionType(),
+                                                  parameters[0].ParameterType == typeof(SectionType) => ResolveSectionDataBySectionType,
             nameof(TableData.GetSectionData) when parameters.Length == 1 && 
-                                                  parameters[0].ParameterType == typeof(int) => ResolveSectionDataByIndex(),
-            nameof(TableData.IsValidZoomLevel) => ResolveZoomLevel(),
+                                                  parameters[0].ParameterType == typeof(int) => ResolveSectionDataByIndex,
+            nameof(TableData.IsValidZoomLevel) => ResolveZoomLevel,
             _ => null
         };
         

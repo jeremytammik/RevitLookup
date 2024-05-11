@@ -34,27 +34,27 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(view);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(View.CanCategoryBeHidden) => ResolveCanCategoryBeHidden(),
-            nameof(View.CanCategoryBeHiddenTemporary) => ResolveCanCategoryBeHiddenTemporary(),
-            nameof(View.CanViewBeDuplicated) => ResolveCanViewBeDuplicated(),
-            nameof(View.GetCategoryHidden) => ResolveCategoryHidden(),
-            nameof(View.GetCategoryOverrides) => ResolveCategoryOverrides(),
-            nameof(View.GetIsFilterEnabled) => ResolveFilterEnabled(),
-            nameof(View.GetFilterOverrides) => ResolveFilterOverrides(),
-            nameof(View.GetFilterVisibility) => ResolveFilterVisibility(),
-            nameof(View.GetWorksetVisibility) => ResolveWorksetVisibility(),
-            nameof(View.IsCategoryOverridable) => ResolveIsCategoryOverridable(),
-            nameof(View.IsFilterApplied) => ResolveIsFilterApplied(),
-            nameof(View.IsInTemporaryViewMode) => ResolveIsInTemporaryViewMode(),
-            nameof(View.IsValidViewTemplate) => ResolveIsValidViewTemplate(),
-            nameof(View.IsWorksetVisible) => ResolveIsWorksetVisible(),
-            nameof(View.SupportsWorksharingDisplayMode) => ResolveSupportsWorksharingDisplayMode(),
+            nameof(View.CanCategoryBeHidden) => ResolveCanCategoryBeHidden,
+            nameof(View.CanCategoryBeHiddenTemporary) => ResolveCanCategoryBeHiddenTemporary,
+            nameof(View.CanViewBeDuplicated) => ResolveCanViewBeDuplicated,
+            nameof(View.GetCategoryHidden) => ResolveCategoryHidden,
+            nameof(View.GetCategoryOverrides) => ResolveCategoryOverrides,
+            nameof(View.GetIsFilterEnabled) => ResolveFilterEnabled,
+            nameof(View.GetFilterOverrides) => ResolveFilterOverrides,
+            nameof(View.GetFilterVisibility) => ResolveFilterVisibility,
+            nameof(View.GetWorksetVisibility) => ResolveWorksetVisibility,
+            nameof(View.IsCategoryOverridable) => ResolveIsCategoryOverridable,
+            nameof(View.IsFilterApplied) => ResolveIsFilterApplied,
+            nameof(View.IsInTemporaryViewMode) => ResolveIsInTemporaryViewMode,
+            nameof(View.IsValidViewTemplate) => ResolveIsValidViewTemplate,
+            nameof(View.IsWorksetVisible) => ResolveIsWorksetVisible,
+            nameof(View.SupportsWorksharingDisplayMode) => ResolveSupportsWorksharingDisplayMode,
 #if REVIT2022_OR_GREATER
-            nameof(View.GetColorFillSchemeId) => ResolveColorFillSchemeId(),
+            nameof(View.GetColorFillSchemeId) => ResolveColorFillSchemeId,
 #endif
             _ => null
         };

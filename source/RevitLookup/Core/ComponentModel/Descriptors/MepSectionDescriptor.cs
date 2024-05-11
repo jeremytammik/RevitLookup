@@ -28,15 +28,15 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class MepSectionDescriptor(MEPSection mepSection) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(MEPSection.GetElementIds) => ResolveSectionIds(),
-            nameof(MEPSection.GetCoefficient) => ResolveCoefficient(),
-            nameof(MEPSection.GetPressureDrop) => ResolvePressureDrop(),
-            nameof(MEPSection.GetSegmentLength) => ResolveSegmentLength(),
-            nameof(MEPSection.IsMain) => ResolveIsMain(),
+            nameof(MEPSection.GetElementIds) => ResolveSectionIds,
+            nameof(MEPSection.GetCoefficient) => ResolveCoefficient,
+            nameof(MEPSection.GetPressureDrop) => ResolvePressureDrop,
+            nameof(MEPSection.GetSegmentLength) => ResolveSegmentLength,
+            nameof(MEPSection.IsMain) => ResolveIsMain,
             _ => null
         };
 

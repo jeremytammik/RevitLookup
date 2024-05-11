@@ -43,12 +43,17 @@ public sealed class HostObjectDescriptor : Descriptor, IDescriptorExtension, IDe
             .Add(_hostObject.GetSideFaces(ShellLayerType.Exterior), "Exterior"));
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(HostObject.FindInserts) => Variants.Single(_hostObject.FindInserts(true, true, true, true)),
+            nameof(HostObject.FindInserts) => ResolveFindInserts,
             _ => null
         };
+        
+        IVariants ResolveFindInserts()
+        {
+            return Variants.Single(_hostObject.FindInserts(true, true, true, true));
+        }
     }
 }

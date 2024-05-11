@@ -34,11 +34,17 @@ public sealed class SpatialElementDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(spatialElement);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(SpatialElement.GetBoundarySegments) => new Variants<IList<IList<BoundarySegment>>>(8)
+            nameof(SpatialElement.GetBoundarySegments) => ResolveGetBoundarySegments,
+            _ => null
+        };
+        
+        IVariants ResolveGetBoundarySegments()
+        {
+            return new Variants<IList<IList<BoundarySegment>>>(8)
                 .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center,
@@ -78,8 +84,7 @@ public sealed class SpatialElementDescriptor : Descriptor, IDescriptorResolver
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreCenter,
                     StoreFreeBoundaryFaces = true
-                }), "Core center"),
-            _ => null
-        };
+                }), "Core center");
+        }
     }
 }

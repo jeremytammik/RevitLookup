@@ -26,24 +26,24 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
             nameof(PerformanceAdviser.ExecuteAllRules) when parameters.Length == 1 &&
-                                                            parameters[0].ParameterType == typeof(Document) => Variants.Single(adviser.ExecuteAllRules(Context.Document)),
+                                                            parameters[0].ParameterType == typeof(Document) => ResolveExecuteAllRules,
             nameof(PerformanceAdviser.GetRuleDescription) when parameters.Length == 1 &&
-                                                               parameters[0].ParameterType == typeof(int) => ResolveGetRuleDescription(),
+                                                               parameters[0].ParameterType == typeof(int) => ResolveGetRuleDescription,
             nameof(PerformanceAdviser.GetRuleId) when parameters.Length == 1 &&
-                                                      parameters[0].ParameterType == typeof(int) => ResolveGetRuleId(),
+                                                      parameters[0].ParameterType == typeof(int) => ResolveGetRuleId,
             nameof(PerformanceAdviser.GetRuleName) when parameters.Length == 1 &&
-                                                        parameters[0].ParameterType == typeof(int) => ResolveGetRuleName(),
+                                                        parameters[0].ParameterType == typeof(int) => ResolveGetRuleName,
             nameof(PerformanceAdviser.IsRuleEnabled) when parameters.Length == 1 &&
-                                                          parameters[0].ParameterType == typeof(int) => ResolveIsRuleEnabled(),
+                                                          parameters[0].ParameterType == typeof(int) => ResolveIsRuleEnabled,
             nameof(PerformanceAdviser.WillRuleCheckElements) when parameters.Length == 1 &&
-                                                                  parameters[0].ParameterType == typeof(int) => ResolveWillRuleCheckElements(),
+                                                                  parameters[0].ParameterType == typeof(int) => ResolveWillRuleCheckElements,
             nameof(PerformanceAdviser.GetElementFilterFromRule) when parameters.Length == 2 &&
-                                                                     parameters[0].ParameterType == typeof(int) => ResolveGetElementFilterFromRule(),
+                                                                     parameters[0].ParameterType == typeof(int) => ResolveGetElementFilterFromRule,
             _ => null
         };
         
@@ -93,6 +93,11 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
             var variants = new Variants<KeyValuePair<int, string>>(rules);
             for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, string>(i, adviser.GetRuleDescription(i)));
             return variants;
+        }
+        
+        IVariants ResolveExecuteAllRules()
+        {
+            return Variants.Single(adviser.ExecuteAllRules(Context.Document));
         }
     }
 }

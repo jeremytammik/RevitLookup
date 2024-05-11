@@ -34,12 +34,12 @@ public sealed class ElevationMarkerDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(elevationMarker);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(ElevationMarker.IsAvailableIndex) => ResolveIndex(),
-            nameof(ElevationMarker.GetViewId) => ResolveViewId(),
+            nameof(ElevationMarker.IsAvailableIndex) => ResolveIndex,
+            nameof(ElevationMarker.GetViewId) => ResolveViewId,
             _ => null
         };
 

@@ -26,22 +26,22 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class ScheduleDefinitionDescriptor(ScheduleDefinition scheduleDefinition) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(ScheduleDefinition.CanFilterByGlobalParameters) => ResolveFilterByGlobalParameters(),
-            nameof(ScheduleDefinition.CanFilterByParameterExistence) => ResolveFilterByParameterExistence(),
-            nameof(ScheduleDefinition.CanFilterBySubstring) => ResolveFilterBySubstring(),
-            nameof(ScheduleDefinition.CanFilterByValue) => ResolveFilterByValue(),
-            nameof(ScheduleDefinition.CanFilterByValuePresence) => ResolveFilterByValuePresence(),
-            nameof(ScheduleDefinition.CanSortByField) => ResolveSortByField(),
-            nameof(ScheduleDefinition.GetField) => ResolveGetField(),
-            nameof(ScheduleDefinition.GetFieldId) => ResolveGetFieldId(),
-            nameof(ScheduleDefinition.GetFieldIndex) => ResolveGetFieldIndex(),
-            nameof(ScheduleDefinition.GetFilter) => ResolveGetFilter(),
-            nameof(ScheduleDefinition.GetSortGroupField) => ResolveGetSortGroupField(),
-            nameof(ScheduleDefinition.IsValidCategoryForEmbeddedSchedule) => ResolveValidCategoryForEmbeddedSchedule(),
+            nameof(ScheduleDefinition.CanFilterByGlobalParameters) => ResolveFilterByGlobalParameters,
+            nameof(ScheduleDefinition.CanFilterByParameterExistence) => ResolveFilterByParameterExistence,
+            nameof(ScheduleDefinition.CanFilterBySubstring) => ResolveFilterBySubstring,
+            nameof(ScheduleDefinition.CanFilterByValue) => ResolveFilterByValue,
+            nameof(ScheduleDefinition.CanFilterByValuePresence) => ResolveFilterByValuePresence,
+            nameof(ScheduleDefinition.CanSortByField) => ResolveSortByField,
+            nameof(ScheduleDefinition.GetField) => ResolveGetField,
+            nameof(ScheduleDefinition.GetFieldId) => ResolveGetFieldId,
+            nameof(ScheduleDefinition.GetFieldIndex) => ResolveGetFieldIndex,
+            nameof(ScheduleDefinition.GetFilter) => ResolveGetFilter,
+            nameof(ScheduleDefinition.GetSortGroupField) => ResolveGetSortGroupField,
+            nameof(ScheduleDefinition.IsValidCategoryForEmbeddedSchedule) => ResolveValidCategoryForEmbeddedSchedule,
             _ => null
         };
         

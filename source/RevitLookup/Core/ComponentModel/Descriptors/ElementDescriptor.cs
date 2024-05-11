@@ -110,78 +110,19 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
         manager.Register(nameof(GeometryExtensions.GetJoinedElements), _ => _element.GetJoinedElements());
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Element.CanBeHidden) => Variants.Single(_element.CanBeHidden(Context.ActiveView), "Active view"),
-            nameof(Element.IsHidden) => Variants.Single(_element.IsHidden(Context.ActiveView), "Active view"),
-            nameof(Element.GetDependentElements) => Variants.Single(_element.GetDependentElements(null)),
-            nameof(Element.GetMaterialIds) => new Variants<ICollection<ElementId>>(2)
-                .Add(_element.GetMaterialIds(true), "Paint materials")
-                .Add(_element.GetMaterialIds(false), "Geometry and compound structure materials"),
-            "BoundingBox" => new Variants<BoundingBoxXYZ>(2)
-                .Add(_element.get_BoundingBox(null), "Model")
-                .Add(_element.get_BoundingBox(Context.ActiveView), "Active view"),
-            "Geometry" => new Variants<GeometryElement>(10)
-                .Add(_element.get_Geometry(new Options
-                {
-                    View = Context.ActiveView,
-                    ComputeReferences = true
-                }), "Active view")
-                .Add(_element.get_Geometry(new Options
-                {
-                    View = Context.ActiveView,
-                    IncludeNonVisibleObjects = true,
-                    ComputeReferences = true
-                }), "Active view, including non-visible objects")
-                .Add(_element.get_Geometry(new Options
-                {
-                    DetailLevel = ViewDetailLevel.Coarse,
-                    ComputeReferences = true
-                }), "Model, coarse detail level")
-                .Add(_element.get_Geometry(new Options
-                {
-                    DetailLevel = ViewDetailLevel.Fine,
-                    ComputeReferences = true
-                }), "Model, fine detail level")
-                .Add(_element.get_Geometry(new Options
-                {
-                    DetailLevel = ViewDetailLevel.Medium,
-                    ComputeReferences = true
-                }), "Model, medium detail level")
-                .Add(_element.get_Geometry(new Options
-                {
-                    DetailLevel = ViewDetailLevel.Undefined,
-                    ComputeReferences = true
-                }), "Model, undefined detail level")
-                .Add(_element.get_Geometry(new Options
-                {
-                    DetailLevel = ViewDetailLevel.Coarse,
-                    IncludeNonVisibleObjects = true,
-                    ComputeReferences = true
-                }), "Model, coarse detail level, including non-visible objects")
-                .Add(_element.get_Geometry(new Options
-                {
-                    DetailLevel = ViewDetailLevel.Fine,
-                    IncludeNonVisibleObjects = true,
-                    ComputeReferences = true
-                }), "Model, fine detail level, including non-visible objects")
-                .Add(_element.get_Geometry(new Options
-                {
-                    DetailLevel = ViewDetailLevel.Medium,
-                    IncludeNonVisibleObjects = true,
-                    ComputeReferences = true
-                }), "Model, medium detail level, including non-visible objects")
-                .Add(_element.get_Geometry(new Options
-                {
-                    DetailLevel = ViewDetailLevel.Undefined,
-                    IncludeNonVisibleObjects = true,
-                    ComputeReferences = true
-                }), "Model, undefined detail level, including non-visible objects"),
-            nameof(Element.GetMaterialArea) => ResolveGetMaterialArea(),
-            nameof(Element.GetMaterialVolume) => ResolveGetMaterialVolume(),
-            nameof(Element.GetEntity) => ResolveGetEntity(),
+            nameof(Element.CanBeHidden) => ResolveCanBeHidden,
+            nameof(Element.IsHidden) => ResolveIsHidden,
+            nameof(Element.GetDependentElements) => ResolveGetDependentElements,
+            nameof(Element.GetMaterialIds) => ResolveGetMaterialIds,
+            nameof(Element.GetMaterialArea) => ResolveGetMaterialArea,
+            nameof(Element.GetMaterialVolume) => ResolveGetMaterialVolume,
+            nameof(Element.GetEntity) => ResolveGetEntity,
+            "BoundingBox" => ResolveBoundingBox,
+            "Geometry" => ResolveGeometry,
             _ => null
         };
         
@@ -239,6 +180,95 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
             }
             
             return variants;
+        }
+        
+        IVariants ResolveGeometry()
+        {
+            return new Variants<GeometryElement>(10)
+                .Add(_element.get_Geometry(new Options
+                {
+                    View = Context.ActiveView,
+                    ComputeReferences = true
+                }), "Active view")
+                .Add(_element.get_Geometry(new Options
+                {
+                    View = Context.ActiveView,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Active view, including non-visible objects")
+                .Add(_element.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Coarse,
+                    ComputeReferences = true
+                }), "Model, coarse detail level")
+                .Add(_element.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Fine,
+                    ComputeReferences = true
+                }), "Model, fine detail level")
+                .Add(_element.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Medium,
+                    ComputeReferences = true
+                }), "Model, medium detail level")
+                .Add(_element.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Undefined,
+                    ComputeReferences = true
+                }), "Model, undefined detail level")
+                .Add(_element.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Coarse,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Model, coarse detail level, including non-visible objects")
+                .Add(_element.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Fine,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Model, fine detail level, including non-visible objects")
+                .Add(_element.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Medium,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Model, medium detail level, including non-visible objects")
+                .Add(_element.get_Geometry(new Options
+                {
+                    DetailLevel = ViewDetailLevel.Undefined,
+                    IncludeNonVisibleObjects = true,
+                    ComputeReferences = true
+                }), "Model, undefined detail level, including non-visible objects");
+        }
+        
+        IVariants ResolveGetMaterialIds()
+        {
+            return new Variants<ICollection<ElementId>>(2)
+                .Add(_element.GetMaterialIds(true), "Paint materials")
+                .Add(_element.GetMaterialIds(false), "Geometry and compound structure materials");
+        }
+        
+        IVariants ResolveBoundingBox()
+        {
+            return new Variants<BoundingBoxXYZ>(2)
+                .Add(_element.get_BoundingBox(null), "Model")
+                .Add(_element.get_BoundingBox(Context.ActiveView), "Active view");
+        }
+        
+        IVariants ResolveCanBeHidden()
+        {
+            return Variants.Single(_element.CanBeHidden(Context.ActiveView), "Active view");
+        }
+        
+        IVariants ResolveIsHidden()
+        {
+            return Variants.Single(_element.IsHidden(Context.ActiveView), "Active view");
+        }
+        
+        IVariants ResolveGetDependentElements()
+        {
+            return Variants.Single(_element.GetDependentElements(null));
         }
     }
     

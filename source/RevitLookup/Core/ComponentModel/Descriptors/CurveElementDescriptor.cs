@@ -34,15 +34,15 @@ public sealed class CurveElementDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(curveElement);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(CurveElement.GetAdjoinedCurveElements) => ResolveAdjoinedCurveElements(),
-            nameof(CurveElement.HasTangentLocks) => ResolveHasTangentLocks(),
-            nameof(CurveElement.GetTangentLock) => ResolveTangentLock(),
-            nameof(CurveElement.HasTangentJoin) => ResolveTangentJoin(),
-            nameof(CurveElement.IsAdjoinedCurveElement) => ResolveIsAdjoinedCurveElement(),
+            nameof(CurveElement.GetAdjoinedCurveElements) => ResolveAdjoinedCurveElements,
+            nameof(CurveElement.HasTangentLocks) => ResolveHasTangentLocks,
+            nameof(CurveElement.GetTangentLock) => ResolveTangentLock,
+            nameof(CurveElement.HasTangentJoin) => ResolveTangentJoin,
+            nameof(CurveElement.IsAdjoinedCurveElement) => ResolveIsAdjoinedCurveElement,
             _ => null
         };
         

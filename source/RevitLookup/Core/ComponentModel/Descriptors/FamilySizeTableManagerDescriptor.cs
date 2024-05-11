@@ -26,13 +26,13 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager manager) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(FamilySizeTableManager.GetSizeTable) => ResolveSizeTable(),
-            nameof(FamilySizeTableManager.HasSizeTable) => ResolveHasSizeTable(),
-            nameof(FamilySizeTableManager.GetFamilySizeTableManager) => Variants.Single(manager),
+            nameof(FamilySizeTableManager.GetSizeTable) => ResolveSizeTable,
+            nameof(FamilySizeTableManager.HasSizeTable) => ResolveHasSizeTable,
+            nameof(FamilySizeTableManager.GetFamilySizeTableManager) => ResolveGetFamilySizeTableManager,
             _ => null
         };
         
@@ -61,6 +61,11 @@ public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager mana
             }
             
             return variants;
+        }
+        
+        IVariants ResolveGetFamilySizeTableManager()
+        {
+            return Variants.Single(manager);
         }
     }
 }

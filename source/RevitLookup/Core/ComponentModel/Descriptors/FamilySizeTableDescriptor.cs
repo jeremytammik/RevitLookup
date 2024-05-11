@@ -26,12 +26,12 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(FamilySizeTable.GetColumnHeader) => ResolveColumnHeader(),
-            nameof(FamilySizeTable.IsValidColumnIndex) => ResolveIsValidColumnIndex(),
+            nameof(FamilySizeTable.GetColumnHeader) => ResolveColumnHeader,
+            nameof(FamilySizeTable.IsValidColumnIndex) => ResolveIsValidColumnIndex,
             _ => null
         };
         

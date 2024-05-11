@@ -34,11 +34,11 @@ public sealed class ForgeTypeIdDescriptor : Descriptor, IDescriptorResolver, IDe
         Name = typeId.TypeId;
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(ForgeTypeId.Clear) when parameters.Length == 0 => Variants.Single(false, "Method execution disabled"),
+            nameof(ForgeTypeId.Clear) when parameters.Length == 0 => Variants.Disabled,
             _ => null
         };
     }

@@ -26,12 +26,12 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class LocationCurveDescriptor(LocationCurve locationCurve) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            "ElementsAtJoin" => ResolveElementsAtJoin(),
-            "JoinType" => ResolveJoinType(),
+            "ElementsAtJoin" => ResolveElementsAtJoin,
+            "JoinType" => ResolveJoinType,
             _ => null
         };
 

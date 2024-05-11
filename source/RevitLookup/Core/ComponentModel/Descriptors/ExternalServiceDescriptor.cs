@@ -35,11 +35,11 @@ public sealed class ExternalServiceDescriptor : Descriptor, IDescriptorResolver
         Name = service.Name;
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(ExternalService.GetServer) => ResolveGetServer(),
+            nameof(ExternalService.GetServer) => ResolveGetServer,
             _ => null
         };
         

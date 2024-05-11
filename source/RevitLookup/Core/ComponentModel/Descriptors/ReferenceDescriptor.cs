@@ -34,12 +34,17 @@ public sealed class ReferenceDescriptor : Descriptor, IDescriptorResolver
         Name = reference.ElementReferenceType.ToString();
     }
 
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Reference.ConvertToStableRepresentation) => Variants.Single(_reference.ConvertToStableRepresentation(context)),
+            nameof(Reference.ConvertToStableRepresentation) => ResolveConvertToStableRepresentation,
             _ => null
         };
+        
+        IVariants ResolveConvertToStableRepresentation()
+        {
+            return Variants.Single(_reference.ConvertToStableRepresentation(context));
+        }
     }
 }

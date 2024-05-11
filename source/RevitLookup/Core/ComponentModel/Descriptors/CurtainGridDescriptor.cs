@@ -26,12 +26,12 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class CurtainGridDescriptor(CurtainGrid curtainGrid) : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(CurtainGrid.GetCell) => ResolveCells(),
-            nameof(CurtainGrid.GetPanel) => ResolvePanels(),
+            nameof(CurtainGrid.GetCell) => ResolveCells,
+            nameof(CurtainGrid.GetPanel) => ResolvePanels,
             _ => null
         };
 

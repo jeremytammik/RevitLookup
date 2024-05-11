@@ -34,29 +34,28 @@ public sealed class DatumPlaneDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(datumPlane);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(DatumPlane.CanBeVisibleInView) => ResolveCanBeVisibleInView(),
-            nameof(DatumPlane.GetDatumExtentTypeInView) => ResolveDatumExtentTypeInView(),
-            nameof(DatumPlane.GetPropagationViews) => ResolvePropagationViews(),
-            nameof(DatumPlane.HasBubbleInView) => ResolveHasBubbleInView(),
-            nameof(DatumPlane.IsBubbleVisibleInView) => ResolveBubbleVisibleInView(),
-            nameof(DatumPlane.GetCurvesInView) => new Variants<IList<Curve>>(2)
-                .Add(_datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), "Model, Active view")
-                .Add(_datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), "ViewSpecific, Active view"),
-            nameof(DatumPlane.GetLeader) => new Variants<Leader>(2)
-                .Add(_datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), "End 0, Active view")
-                .Add(_datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), "End 1, Active view"),
+#if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
+            nameof(DatumPlane.CanBeVisibleInView) => Variants.Disabled,
+            nameof(DatumPlane.GetPropagationViews) => Variants.Disabled,
+#else
+            nameof(DatumPlane.CanBeVisibleInView) => ResolveCanBeVisibleInView,
+            nameof(DatumPlane.GetPropagationViews) => ResolvePropagationViews,
+#endif
+            nameof(DatumPlane.GetDatumExtentTypeInView) => ResolveDatumExtentTypeInView,
+            nameof(DatumPlane.HasBubbleInView) => ResolveHasBubbleInView,
+            nameof(DatumPlane.IsBubbleVisibleInView) => ResolveBubbleVisibleInView,
+            nameof(DatumPlane.GetCurvesInView) => ResolveGetCurvesInView,
+            nameof(DatumPlane.GetLeader) => ResolveGetLeader,
             _ => null
         };
+#if !REVIT2025_OR_GREATER
         
         IVariants ResolveCanBeVisibleInView()
         {
-#if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
-            return Variants.Single(new NotSupportedException("Temporary disabled. Revit API critical Exception"));
-#else
             var views = context.EnumerateInstances<View>().ToArray();
             var variants = new Variants<bool>(views.Length);
             
@@ -67,26 +66,10 @@ public sealed class DatumPlaneDescriptor : Descriptor, IDescriptorResolver
             }
             
             return variants;
-#endif
-        }
-        
-        IVariants ResolveDatumExtentTypeInView()
-        {
-            var variants = new Variants<DatumExtentType>(2);
-            
-            var resultEnd0 = _datumPlane.GetDatumExtentTypeInView(DatumEnds.End0, context.ActiveView);
-            var resultEnd1 = _datumPlane.GetDatumExtentTypeInView(DatumEnds.End1, context.ActiveView);
-            variants.Add(resultEnd0, $"End 0, Active view: {resultEnd0}");
-            variants.Add(resultEnd1, $"End 1, Active view: {resultEnd1}");
-            
-            return variants;
         }
         
         IVariants ResolvePropagationViews()
         {
-#if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
-            return Variants.Single(new NotSupportedException("Temporary disabled. Revit API critical Exception"));
-#else
             var views = context.EnumerateInstances<View>().ToArray();
             var variants = new Variants<ISet<ElementId>>(views.Length);
             
@@ -99,7 +82,19 @@ public sealed class DatumPlaneDescriptor : Descriptor, IDescriptorResolver
             }
             
             return variants;
+        }
 #endif
+        
+        IVariants ResolveDatumExtentTypeInView()
+        {
+            var variants = new Variants<DatumExtentType>(2);
+            
+            var resultEnd0 = _datumPlane.GetDatumExtentTypeInView(DatumEnds.End0, context.ActiveView);
+            var resultEnd1 = _datumPlane.GetDatumExtentTypeInView(DatumEnds.End1, context.ActiveView);
+            variants.Add(resultEnd0, $"End 0, Active view: {resultEnd0}");
+            variants.Add(resultEnd1, $"End 1, Active view: {resultEnd1}");
+            
+            return variants;
         }
         
         IVariants ResolveHasBubbleInView()
@@ -124,6 +119,20 @@ public sealed class DatumPlaneDescriptor : Descriptor, IDescriptorResolver
             variants.Add(resultEnd1, $"End 1, Active view: {resultEnd1}");
             
             return variants;
+        }
+        
+        IVariants ResolveGetCurvesInView()
+        {
+            return new Variants<IList<Curve>>(2)
+                .Add(_datumPlane.GetCurvesInView(DatumExtentType.Model, context.ActiveView), "Model, Active view")
+                .Add(_datumPlane.GetCurvesInView(DatumExtentType.ViewSpecific, context.ActiveView), "ViewSpecific, Active view");
+        }
+        
+        IVariants ResolveGetLeader()
+        {
+            return new Variants<Leader>(2)
+                .Add(_datumPlane.GetLeader(DatumEnds.End0, context.ActiveView), "End 0, Active view")
+                .Add(_datumPlane.GetLeader(DatumEnds.End1, context.ActiveView), "End 1, Active view");
         }
     }
 }

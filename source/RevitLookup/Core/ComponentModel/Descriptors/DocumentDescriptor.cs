@@ -34,15 +34,15 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
         Name = document.Title;
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Document.Close) when parameters.Length == 0 => Variants.Single(false, "Method execution disabled"),
-            nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
+            nameof(Document.Close) when parameters.Length == 0 => Variants.Disabled,
+            nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies,
 #if REVIT2024_OR_GREATER
-            nameof(Document.GetUnusedElements) => Variants.Single(context.GetUnusedElements(new HashSet<ElementId>())),
-            nameof(Document.GetAllUnusedElements) => Variants.Single(context.GetAllUnusedElements(new HashSet<ElementId>())),
+            nameof(Document.GetUnusedElements) => ResolveGetUnusedElements,
+            nameof(Document.GetAllUnusedElements) => ResolveGetAllUnusedElements,
 #endif
             _ => null
         };
@@ -58,6 +58,18 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
             
             return Variants.Single(topologies);
         }
+#if REVIT2024_OR_GREATER
+        
+        IVariants ResolveGetUnusedElements()
+        {
+            return Variants.Single(context.GetUnusedElements(new HashSet<ElementId>()));
+        }
+        
+        IVariants ResolveGetAllUnusedElements()
+        {
+            return Variants.Single(context.GetAllUnusedElements(new HashSet<ElementId>()));
+        }
+#endif
     }
     
     public void RegisterExtensions(IExtensionManager manager)

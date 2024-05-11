@@ -34,11 +34,11 @@ public sealed class PanelDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(panel);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Panel.GetRefGridLines) => ResolveGridLines(),
+            nameof(Panel.GetRefGridLines) => ResolveGridLines,
             _ => null
         };
         

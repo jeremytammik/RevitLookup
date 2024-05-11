@@ -35,27 +35,15 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
         Name = ElementDescriptor.CreateName(familyInstance);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            "Room" when parameters.Length == 1 => ResolveGetRoom(),
-            "FromRoom" when parameters.Length == 1 => ResolveFromRoom(),
-            "ToRoom" when parameters.Length == 1 => ResolveToRoom(),
-            nameof(FamilyInstance.GetOriginalGeometry) => ResolveOriginalGeometry(),
-            nameof(FamilyInstance.GetReferences) => new Variants<IList<Reference>>(11)
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Front), "Front")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Left), "Left")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Right), "Right")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Top), "Top")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterElevation), "Center elevation")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference"),
+            "Room" when parameters.Length == 1 => ResolveGetRoom,
+            "FromRoom" when parameters.Length == 1 => ResolveFromRoom,
+            "ToRoom" when parameters.Length == 1 => ResolveToRoom,
+            nameof(FamilyInstance.GetOriginalGeometry) => ResolveOriginalGeometry,
+            nameof(FamilyInstance.GetReferences) => ResolveGetReferences,
             _ => null
         };
         
@@ -140,6 +128,23 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
                     DetailLevel = ViewDetailLevel.Undefined,
                     IncludeNonVisibleObjects = true,
                 }), "Model, undefined detail level, including non-visible objects");
+        }
+        
+        IVariants ResolveGetReferences()
+        {
+            return new Variants<IList<Reference>>(11)
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Front), "Front")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Left), "Left")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Right), "Right")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Top), "Top")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterElevation), "Center elevation")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference");
         }
     }
     

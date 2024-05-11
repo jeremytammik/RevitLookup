@@ -37,22 +37,21 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(tag);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
 #if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
-            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(_tag) =>
-                Variants.Single(new NotSupportedException("RebarBendingDetail not supported. Revit API critical Exception")),
+            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(_tag) => Variants.Disabled,
 #endif
-            nameof(IndependentTag.CanLeaderEndConditionBeAssigned) => ResolveLeaderEndCondition(),
+            nameof(IndependentTag.CanLeaderEndConditionBeAssigned) => ResolveLeaderEndCondition,
 #if REVIT2022_OR_GREATER
-            nameof(IndependentTag.GetLeaderElbow) => ResolveLeaderElbow(),
-            nameof(IndependentTag.GetLeaderEnd) => ResolveLeaderEnd(),
-            nameof(IndependentTag.HasLeaderElbow) => ResolveHasLeaderElbow(),
+            nameof(IndependentTag.GetLeaderElbow) => ResolveLeaderElbow,
+            nameof(IndependentTag.GetLeaderEnd) => ResolveLeaderEnd,
+            nameof(IndependentTag.HasLeaderElbow) => ResolveHasLeaderElbow,
 #endif
 #if REVIT2023_OR_GREATER
-            nameof(IndependentTag.IsLeaderVisible) => ResolveIsLeaderVisible(),
+            nameof(IndependentTag.IsLeaderVisible) => ResolveIsLeaderVisible,
 #endif
             _ => null
         };

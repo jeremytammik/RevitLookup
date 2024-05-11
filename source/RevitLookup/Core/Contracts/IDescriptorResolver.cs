@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.Contracts;
 
@@ -28,5 +27,5 @@ namespace RevitLookup.Core.Contracts;
 /// </summary>
 public interface IDescriptorResolver : IDescriptorCollector
 {
-    IVariants Resolve(Document context, string target, ParameterInfo[] parameters);
+    Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters);
 }

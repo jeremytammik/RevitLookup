@@ -35,11 +35,11 @@ public sealed class WireDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(wire);
     }
     
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Wire.GetVertex) => ResolveVertex(),
+            nameof(Wire.GetVertex) => ResolveVertex,
             _ => null
         };
         
