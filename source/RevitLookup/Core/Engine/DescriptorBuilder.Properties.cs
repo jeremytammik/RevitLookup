@@ -104,7 +104,7 @@ public sealed partial class DescriptorBuilder
         
         if (!member.CanRead)
         {
-            value = new NotSupportedException("Property does not have a get accessor, it cannot be read");
+            value = new InvalidOperationException("Property does not have a get accessor, it cannot be read");
             return true;
         }
         

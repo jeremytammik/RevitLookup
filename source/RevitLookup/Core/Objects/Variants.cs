@@ -60,7 +60,7 @@ public static class Variants
     /// <summary>
     ///     A variant that disables the member calculation
     /// </summary>
-    public static Func<IVariants> Disabled { get; } = () => new Variants<NotSupportedException>(1).Add(new NotSupportedException("Method execution disabled"));
+    public static Func<IVariants> Disabled { get; } = () => new Variants<InvalidOperationException>(1).Add(new InvalidOperationException("Method execution disabled"));
 }
 
 /// <summary>

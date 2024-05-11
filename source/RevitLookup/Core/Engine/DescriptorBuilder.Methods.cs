@@ -105,7 +105,7 @@ public sealed partial class DescriptorBuilder
         {
             if (!_settings.IncludeUnsupported) return false;
             
-            value = new NotSupportedException("Method doesn't return a value");
+            value = new InvalidOperationException("Method doesn't return a value");
             return true;
         }
         
