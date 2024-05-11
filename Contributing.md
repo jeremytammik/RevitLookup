@@ -62,15 +62,20 @@ Indicates that the descriptor can decide to call methods/properties with paramet
 To resolve member with only one variant, or you want to disable some method, use the `Variants.Single()`:
 
 ```c#
-public class UiElementDescriptor : Descriptor, IDescriptorResolver
+public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(UIElement.Focus) => Variants.Single(false, "Method execution disabled"),
+            nameof(Document.PlanTopologies) => ResolvePlanTopologies,
             _ => null
         };
+        
+        IVariants ResolvePlanTopologies()
+        {
+            return Variants.Single(_document.PlanTopologies);
+        }
     }
 }
 ```
@@ -86,14 +91,24 @@ public sealed class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
     {
         return target switch
         {
-            nameof(PlanViewRange.GetOffset) => new Variants<double>(2)
-                .Add(viewRange.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
-                .Add(viewRange.GetOffset(PlanViewPlane.UnderlayBottom), "Underlay bottom"),
-            nameof(PlanViewRange.GetLevelId) => new Variants<ElementId>(2)
-                .Add(viewRange.GetLevelId(PlanViewPlane.TopClipPlane), "Top clip plane")
-                .Add(viewRange.GetLevelId(PlanViewPlane.CutPlane), "Cut plane")
+            nameof(PlanViewRange.GetOffset) => ResolveGetOffset,
+            nameof(PlanViewRange.GetLevelId) => ResolveGetLevelId,
             _ => null
         };
+        
+        IVariants ResolveGetOffset()
+        {
+            return new Variants<double>(2)
+                .Add(viewRange.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
+                .Add(viewRange.GetOffset(PlanViewPlane.CutPlane), "Cut plane")
+        }
+        
+        IVariants ResolveGetLevelId()
+        {
+            return new Variants<ElementId>(2)
+                .Add(viewRange.GetLevelId(PlanViewPlane.TopClipPlane), "Top clip plane")
+                .Add(viewRange.GetLevelId(PlanViewPlane.CutPlane), "Cut plane")
+        }
     }
 }
 ```
@@ -105,13 +120,18 @@ If your member is not resolved, use the `Variants.Empty()` method. For example, 
 ```c#
 public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(UIElement.GetLocalValueEnumerator) => Variants.Empty<LocalValueEnumerator>(),
+            nameof(UIElement.GetLocalValueEnumerator) => ResolveGetLocalValueEnumerator,
             _ => null
         };
+        
+        IVariants ResolveGetLocalValueEnumerator()
+        {
+            return Variants.Empty<LocalValueEnumerator>();
+        }
     }
 }
 ```
@@ -121,11 +141,11 @@ In another situation you have nothing to return by the condition, use the `Varia
 ```c#
 public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 {
-    public IVariants Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
+            nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies,
             _ => null
         };
         
@@ -135,6 +155,24 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
             
             return Variants.Single(_document.PlanTopologies);
         }
+    }
+}
+```
+
+#### Disabling methods
+
+If you want to disable some method, use `Variants.Disabled` property:
+
+```c#
+public class UiElementDescriptor : Descriptor, IDescriptorResolver
+{
+    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    {
+        return target switch
+        {
+            nameof(UIElement.Focus) => Variants.Disabled,
+            _ => null
+        };
     }
 }
 ```
