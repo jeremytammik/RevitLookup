@@ -50,11 +50,12 @@
     - Added `DatumPlane.IsBubbleVisibleInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
     - Added `DatumPlane.GetCurvesInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
     - Added `DatumPlane.GetLeader` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
-- Added Family class extension `FamilySizeTableManager.GetFamilySizeTableManager` by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/233
-- Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds`
-- Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance`
-- Added Solid class extension `SolidUtils.SplitVolumes`
-- Added Solid class extension `SolidUtils.IsValidForTessellation`
+- Extensions:
+  - Added Family class extension `FamilySizeTableManager.GetFamilySizeTableManager` by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/233
+  - Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds`
+  - Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance`
+  - Added Solid class extension `SolidUtils.SplitVolumes`
+  - Added Solid class extension `SolidUtils.IsValidForTessellation`
 
 # 2025-05-01 **2025.0.2**
 
