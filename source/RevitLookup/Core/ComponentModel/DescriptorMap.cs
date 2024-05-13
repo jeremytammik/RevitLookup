@@ -98,6 +98,7 @@ public static class DescriptorMap
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
             IndependentTag value when type is null || type == typeof(IndependentTag) => new IndependentTagDescriptor(value),
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
+            Family value when type is null || type == typeof(Family) => new FamilyDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),

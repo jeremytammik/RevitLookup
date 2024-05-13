@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
+public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly Document _document;
     
@@ -70,27 +70,5 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
             return Variants.Single(context.GetAllUnusedElements(new HashSet<ElementId>()));
         }
 #endif
-    }
-    
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        if (!_document.IsFamilyDocument)
-        {
-            manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
-            {
-                var families = context.EnumerateInstances<Family>().ToArray();
-                var variants = new Variants<FamilySizeTableManager>(families.Length);
-                foreach (var family in families)
-                {
-                    var result = FamilySizeTableManager.GetFamilySizeTableManager(context, family.Id);
-                    if (result is not null && result.NumberOfSizeTables > 0)
-                    {
-                        variants.Add(result, $"{ElementDescriptor.CreateName(family)}");
-                    }
-                }
-                
-                return variants;
-            });
-        }
     }
 }
