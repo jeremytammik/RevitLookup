@@ -35,12 +35,6 @@ public sealed class FamilyDescriptor : Descriptor, IDescriptorExtension
     
     public void RegisterExtensions(IExtensionManager manager)
     {
-        // if (manager.Context.IsFamilyDocument) return;
-        
-        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
-        {
-            var result = FamilySizeTableManager.GetFamilySizeTableManager(context, _family.Id);
-            return Variants.Single(result);
-        });
+        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context => FamilySizeTableManager.GetFamilySizeTableManager(context, _family.Id));
     }
 }
