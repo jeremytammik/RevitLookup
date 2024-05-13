@@ -20,7 +20,7 @@
 
 using System.Diagnostics;
 
-namespace RevitLookup.Core.Diagnosers;
+namespace RevitLookup.Core.Diagnostic;
 
 public sealed class ClockDiagnoser
 {

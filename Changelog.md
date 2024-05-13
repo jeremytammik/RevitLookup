@@ -1,5 +1,61 @@
 # Changelog
 
+# 2025-05-01 **2025.0.3**
+
+## General
+
+- **Memory diagnoser**
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/dfa0fc23-5a63-452d-8a73-25009424c99c)
+
+  Memory column contains the size of allocated **managed memory**. 
+  Native ETW and allocations in C++ code are not included to avoid severe performance degradation.
+
+## Improvements
+
+- The different method overloading variations, are now displayed in the `Variants` collection
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/22d8c84b-097c-4da3-9dfa-f091a6de9b7f)
+  Previous: **GeometryElement**
+
+  Now: **Variants\<GeometryElement\>**
+
+- ConnectorManager class support
+    - Added `ConnectorManager.Lookup` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/227
+- Wire class support
+    - Added `Wire.GetVertex` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/228
+- IndependentTag class support
+    - Added `IndependentTag.CanLeaderEndConditionBeAssigned` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/229
+    - Added `IndependentTag.GetLeaderElbow` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/229
+    - Added `IndependentTag.GetLeaderEnd` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/229
+    - Added `IndependentTag.HasLeaderElbow` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/229
+    - Added `IndependentTag.IsLeaderVisible` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/229
+- CurveElement class support
+    - Added `CurveElement.GetAdjoinedCurveElements` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/230
+    - Added `CurveElement.HasTangentLocks` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/230
+    - Added `CurveElement.GetTangentLock` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/230
+    - Added `CurveElement.HasTangentJoin` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/230
+    - Added `CurveElement.IsAdjoinedCurveElement` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/230
+- TableView class support
+    - Added `TableView.GetAvailableParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/231
+    - Added `TableView.GetCalculatedValueName` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/231
+    - Added `TableView.GetCalculatedValueText` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/231
+    - Added `TableView.IsValidSectionType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/231
+    - Added `TableView.GetCellText` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/231
+- DatumPlane class support
+    - Added `DatumPlane.CanBeVisibleInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+    - Added `DatumPlane.GetPropagationViews` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+    - Added `DatumPlane.CanBeVisibleInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+    - Added `DatumPlane.GetPropagationViews` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+    - Added `DatumPlane.GetDatumExtentTypeInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+    - Added `DatumPlane.HasBubbleInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+    - Added `DatumPlane.IsBubbleVisibleInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+    - Added `DatumPlane.GetCurvesInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+    - Added `DatumPlane.GetLeader` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
+- Added Family class extension `FamilySizeTableManager.GetFamilySizeTableManager` by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/233
+- Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds`
+- Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance`
+- Added Solid class extension `SolidUtils.SplitVolumes`
+- Added Solid class extension `SolidUtils.IsValidForTessellation`
+
 # 2025-05-01 **2025.0.2**
 
 ## General
@@ -154,7 +210,6 @@ Many thanks to @SergeyNefyodov for contributing to RevitLookup
 - Add `RevitLinkType.IsLoaded` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/208
 - Add .LocationCurve.ElementsAtJoin` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/205
 - Add .LocationCurve.JoinType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/205
-
 
 # 2024-02-10 **2024.0.13**
 
