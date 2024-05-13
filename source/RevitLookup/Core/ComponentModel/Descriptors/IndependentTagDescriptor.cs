@@ -37,44 +37,43 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(tag);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
 #if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
-            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(_tag) =>
-                ResolveSet.Append(new NotSupportedException("RebarBendingDetail not supported. Revit API critical Exception")),
+            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(_tag) => Variants.Disabled,
 #endif
-            nameof(IndependentTag.CanLeaderEndConditionBeAssigned) => ResolveLeaderEndCondition(),
+            nameof(IndependentTag.CanLeaderEndConditionBeAssigned) => ResolveLeaderEndCondition,
 #if REVIT2022_OR_GREATER
-            nameof(IndependentTag.GetLeaderElbow) => ResolveLeaderElbow(),
-            nameof(IndependentTag.GetLeaderEnd) => ResolveLeaderEnd(),
-            nameof(IndependentTag.HasLeaderElbow) => ResolveHasLeaderElbow(),
+            nameof(IndependentTag.GetLeaderElbow) => ResolveLeaderElbow,
+            nameof(IndependentTag.GetLeaderEnd) => ResolveLeaderEnd,
+            nameof(IndependentTag.HasLeaderElbow) => ResolveHasLeaderElbow,
 #endif
 #if REVIT2023_OR_GREATER
-            nameof(IndependentTag.IsLeaderVisible) => ResolveIsLeaderVisible(),
+            nameof(IndependentTag.IsLeaderVisible) => ResolveIsLeaderVisible,
 #endif
             _ => null
         };
         
-        ResolveSet ResolveLeaderEndCondition()
+        IVariants ResolveLeaderEndCondition()
         {
             var conditions = Enum.GetValues(typeof(LeaderEndCondition));
-            var resolveSummary = new ResolveSet(conditions.Length);
+            var variants = new Variants<bool>(conditions.Length);
             
             foreach (LeaderEndCondition condition in conditions)
             {
                 var result = _tag.CanLeaderEndConditionBeAssigned(condition);
-                resolveSummary.AppendVariant(result, $"{condition}: {result}");
+                variants.Add(result, $"{condition}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
 #if REVIT2022_OR_GREATER
-        ResolveSet ResolveLeaderElbow()
+        IVariants ResolveLeaderElbow()
         {
             var references = _tag.GetTaggedReferences();
-            var resolveSummary = new ResolveSet(references.Count);
+            var variants = new Variants<XYZ>(references.Count);
             
             foreach (var reference in references)
             {
@@ -83,21 +82,16 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
 #endif
                 if (!_tag.HasLeaderElbow(reference)) continue;
                 
-                resolveSummary.AppendVariant(_tag.GetLeaderElbow(reference));
+                variants.Add(_tag.GetLeaderElbow(reference));
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveLeaderEnd()
+        IVariants ResolveLeaderEnd()
         {
-            if (_tag.LeaderEndCondition == LeaderEndCondition.Attached)
-            {
-                return new ResolveSet();
-            }
-            
             var references = _tag.GetTaggedReferences();
-            var resolveSummary = new ResolveSet(references.Count);
+            var variants = new Variants<XYZ>(references.Count);
             
             foreach (var reference in references)
             {
@@ -105,41 +99,41 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
                 if (!_tag.IsLeaderVisible(reference)) continue;
 #endif
                 
-                resolveSummary.AppendVariant(_tag.GetLeaderEnd(reference));
+                variants.Add(_tag.GetLeaderEnd(reference));
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveHasLeaderElbow()
+        IVariants ResolveHasLeaderElbow()
         {
             var references = _tag.GetTaggedReferences();
-            var resolveSummary = new ResolveSet(references.Count);
+            var variants = new Variants<bool>(references.Count);
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
                 if (!_tag.IsLeaderVisible(reference)) continue;
 #endif
                 
-                resolveSummary.AppendVariant(_tag.HasLeaderElbow(reference));
+                variants.Add(_tag.HasLeaderElbow(reference));
             }
             
-            return resolveSummary;
+            return variants;
         }
 #endif
 #if REVIT2023_OR_GREATER
         
-        ResolveSet ResolveIsLeaderVisible()
+        IVariants ResolveIsLeaderVisible()
         {
             var references = _tag.GetTaggedReferences();
-            var resolveSummary = new ResolveSet(references.Count);
+            var variants = new Variants<bool>(references.Count);
             
             foreach (var reference in references)
             {
-                resolveSummary.AppendVariant(_tag.IsLeaderVisible(reference));
+                variants.Add(_tag.IsLeaderVisible(reference));
             }
             
-            return resolveSummary;
+            return variants;
         }
 #endif
     }

@@ -26,21 +26,31 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class PlanViewRangeDescriptor(PlanViewRange viewRange) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(PlanViewRange.GetOffset) => ResolveSet
-                .Append(viewRange.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
-                .AppendVariant(viewRange.GetOffset(PlanViewPlane.CutPlane), "Cut plane")
-                .AppendVariant(viewRange.GetOffset(PlanViewPlane.BottomClipPlane), "Bottom clip plane")
-                .AppendVariant(viewRange.GetOffset(PlanViewPlane.UnderlayBottom), "Underlay bottom"),
-            nameof(PlanViewRange.GetLevelId) => ResolveSet
-                .Append(viewRange.GetLevelId(PlanViewPlane.TopClipPlane), "Top clip plane")
-                .AppendVariant(viewRange.GetLevelId(PlanViewPlane.CutPlane), "Cut plane")
-                .AppendVariant(viewRange.GetLevelId(PlanViewPlane.BottomClipPlane), "Bottom clip plane")
-                .AppendVariant(viewRange.GetLevelId(PlanViewPlane.UnderlayBottom), "Underlay bottom"),
+            nameof(PlanViewRange.GetOffset) => ResolveGetOffset,
+            nameof(PlanViewRange.GetLevelId) => ResolveGetLevelId,
             _ => null
         };
+        
+        IVariants ResolveGetOffset()
+        {
+            return new Variants<double>(4)
+                .Add(viewRange.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
+                .Add(viewRange.GetOffset(PlanViewPlane.CutPlane), "Cut plane")
+                .Add(viewRange.GetOffset(PlanViewPlane.BottomClipPlane), "Bottom clip plane")
+                .Add(viewRange.GetOffset(PlanViewPlane.UnderlayBottom), "Underlay bottom");
+        }
+        
+        IVariants ResolveGetLevelId()
+        {
+            return new Variants<ElementId>(4)
+                .Add(viewRange.GetLevelId(PlanViewPlane.TopClipPlane), "Top clip plane")
+                .Add(viewRange.GetLevelId(PlanViewPlane.CutPlane), "Cut plane")
+                .Add(viewRange.GetLevelId(PlanViewPlane.BottomClipPlane), "Bottom clip plane")
+                .Add(viewRange.GetLevelId(PlanViewPlane.UnderlayBottom), "Underlay bottom");
+        }
     }
 }

@@ -26,15 +26,15 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(FamilyManager.GetAssociatedFamilyParameter) => ResolveGetAssociatedFamilyParameter(),
+            nameof(FamilyManager.GetAssociatedFamilyParameter) => ResolveGetAssociatedFamilyParameter,
             _ => null
         };
 
-        ResolveSet ResolveGetAssociatedFamilyParameter()
+        IVariants ResolveGetAssociatedFamilyParameter()
         {
             var elementTypes = Context.Document.GetElements().WhereElementIsElementType();
             var elementInstances = Context.Document.GetElements().WhereElementIsNotElementType();
@@ -42,7 +42,7 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
                 .UnionWith(elementInstances)
                 .ToElements();
 
-            var resolveSet = new ResolveSet();
+            var resolveSet = new Variants<KeyValuePair<Parameter, FamilyParameter>>(elements.Count);
             foreach (var element in elements)
             {
                 foreach (Parameter parameter in element.Parameters)
@@ -50,7 +50,7 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
                     var familyParameter = familyManager.GetAssociatedFamilyParameter(parameter);
                     if (familyParameter is not null)
                     {
-                        resolveSet.AppendVariant(new KeyValuePair<Parameter, FamilyParameter>(parameter, familyParameter));
+                        resolveSet.Add(new KeyValuePair<Parameter, FamilyParameter>(parameter, familyParameter));
                     }
                 }
             }

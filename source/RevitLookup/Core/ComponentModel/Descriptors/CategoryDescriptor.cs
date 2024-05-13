@@ -27,13 +27,13 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDescriptorResolver
 {
     private readonly Category _category;
-
+    
     public CategoryDescriptor(Category category)
     {
         _category = category;
         Name = category.Name;
     }
-
+    
     public void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register("GetElements", context =>
@@ -49,23 +49,48 @@ public sealed class CategoryDescriptor : Descriptor, IDescriptorExtension, IDesc
         manager.Register("BuiltInCategory", _ => (BuiltInCategory) _category.Id.IntegerValue);
 #endif
     }
-
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            "AllowsVisibilityControl" => ResolveSet.Append(_category.get_AllowsVisibilityControl(Context.ActiveView), "Active view"),
-            "Visible" => ResolveSet.Append(_category.get_Visible(Context.ActiveView), "Active view"),
-            nameof(Category.GetGraphicsStyle) => ResolveSet
-                .Append(_category.GetGraphicsStyle(GraphicsStyleType.Cut), "Cut")
-                .AppendVariant(_category.GetGraphicsStyle(GraphicsStyleType.Projection), "Projection"),
-            nameof(Category.GetLinePatternId) => ResolveSet
-                .Append(_category.GetLinePatternId(GraphicsStyleType.Cut), "Cut")
-                .AppendVariant(_category.GetLinePatternId(GraphicsStyleType.Projection), "Projection"),
-            nameof(Category.GetLineWeight) => ResolveSet
-                .Append(_category.GetLineWeight(GraphicsStyleType.Cut), "Cut")
-                .AppendVariant(_category.GetLineWeight(GraphicsStyleType.Projection), "Projection"),
+            "AllowsVisibilityControl" => ResolveAllowsVisibilityControl,
+            "Visible" => ResolveVisible,
+            nameof(Category.GetGraphicsStyle) => ResolveGetGraphicsStyle,
+            nameof(Category.GetLinePatternId) => ResolveGetLinePatternId,
+            nameof(Category.GetLineWeight) => ResolveGetLineWeight,
             _ => null
         };
+        
+        IVariants ResolveGetLineWeight()
+        {
+            return new Variants<int?>(2)
+                .Add(_category.GetLineWeight(GraphicsStyleType.Cut), "Cut")
+                .Add(_category.GetLineWeight(GraphicsStyleType.Projection), "Projection");
+        }
+        
+        IVariants ResolveGetLinePatternId()
+        {
+            return new Variants<ElementId>(2)
+                .Add(_category.GetLinePatternId(GraphicsStyleType.Cut), "Cut")
+                .Add(_category.GetLinePatternId(GraphicsStyleType.Projection), "Projection");
+        }
+        
+        IVariants ResolveGetGraphicsStyle()
+        {
+            return new Variants<GraphicsStyle>(2)
+                .Add(_category.GetGraphicsStyle(GraphicsStyleType.Cut), "Cut")
+                .Add(_category.GetGraphicsStyle(GraphicsStyleType.Projection), "Projection");
+        }
+        
+        IVariants ResolveAllowsVisibilityControl()
+        {
+            return Variants.Single(_category.get_AllowsVisibilityControl(Context.ActiveView), "Active view");
+        }
+        
+        IVariants ResolveVisible()
+        {
+            return Variants.Single(_category.get_Visible(Context.ActiveView), "Active view");
+        }
     }
 }

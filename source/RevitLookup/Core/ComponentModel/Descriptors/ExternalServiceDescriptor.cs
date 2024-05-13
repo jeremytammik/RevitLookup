@@ -28,26 +28,30 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class ExternalServiceDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly ExternalService _service;
-
+    
     public ExternalServiceDescriptor(ExternalService service)
     {
         _service = service;
         Name = service.Name;
     }
-
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(ExternalService.GetServer) => ResolveGetServer(),
+            nameof(ExternalService.GetServer) => ResolveGetServer,
             _ => null
         };
-
-        ResolveSet ResolveGetServer()
+        
+        IVariants ResolveGetServer()
         {
             var serverIds = _service.GetRegisteredServerIds();
-            var resolveSet = new ResolveSet(_service.NumberOfServers);
-            foreach (var serverId in serverIds) resolveSet.AppendVariant(_service.GetServer(serverId));
+            var resolveSet = new Variants<IExternalServer>(_service.NumberOfServers);
+            foreach (var serverId in serverIds)
+            {
+                resolveSet.Add(_service.GetServer(serverId));
+            }
+            
             return resolveSet;
         }
     }

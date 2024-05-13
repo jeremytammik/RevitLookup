@@ -38,17 +38,22 @@ public sealed class HostObjectDescriptor : Descriptor, IDescriptorExtension, IDe
     {
         manager.Register(nameof(HostExtensions.GetBottomFaces), _ => _hostObject.GetBottomFaces());
         manager.Register(nameof(HostExtensions.GetTopFaces), _ => _hostObject.GetTopFaces());
-        manager.Register(nameof(HostExtensions.GetSideFaces), _ => new ResolveSet(2)
-            .AppendVariant(_hostObject.GetSideFaces(ShellLayerType.Interior), "Interior")
-            .AppendVariant(_hostObject.GetSideFaces(ShellLayerType.Exterior), "Exterior"));
+        manager.Register(nameof(HostExtensions.GetSideFaces), _ => new Variants<IList<Reference>>(2)
+            .Add(_hostObject.GetSideFaces(ShellLayerType.Interior), "Interior")
+            .Add(_hostObject.GetSideFaces(ShellLayerType.Exterior), "Exterior"));
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(HostObject.FindInserts) => ResolveSet.Append(_hostObject.FindInserts(true, true, true, true)),
+            nameof(HostObject.FindInserts) => ResolveFindInserts,
             _ => null
         };
+        
+        IVariants ResolveFindInserts()
+        {
+            return Variants.Single(_hostObject.FindInserts(true, true, true, true));
+        }
     }
 }

@@ -24,11 +24,13 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.Views;
 
-public sealed partial class RevitLookupView : IWindow
+// ReSharper disable once RedundantExtendsListEntry
+public sealed partial class RevitLookupView : FluentWindow, IWindow
 {
     private readonly ISettingsService _settingsService;
 

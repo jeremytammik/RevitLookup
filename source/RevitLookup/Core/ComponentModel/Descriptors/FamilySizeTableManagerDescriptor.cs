@@ -24,45 +24,48 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class FamilySizeTableManagerDescriptor(FamilySizeTableManager manager) : Descriptor, IDescriptorResolver
+public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager manager) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(FamilySizeTableManager.GetSizeTable) => ResolveSizeTable(),
-            nameof(FamilySizeTableManager.HasSizeTable) => ResolveHasSizeTable(),
-            nameof(FamilySizeTableManager.GetFamilySizeTableManager) => ResolveSet.Append(manager),
+            nameof(FamilySizeTableManager.GetSizeTable) => ResolveSizeTable,
+            nameof(FamilySizeTableManager.HasSizeTable) => ResolveHasSizeTable,
+            nameof(FamilySizeTableManager.GetFamilySizeTableManager) => ResolveGetFamilySizeTableManager,
             _ => null
-            
         };
         
-        ResolveSet ResolveSizeTable()
+        IVariants ResolveSizeTable()
         {
             var names = manager.GetAllSizeTableNames();
-            var resolveSummary = new ResolveSet(names.Count);
+            var variants = new Variants<FamilySizeTable>(names.Count);
             
             foreach (var name in names)
             {
-                resolveSummary.AppendVariant(manager.GetSizeTable(name), name);
+                variants.Add(manager.GetSizeTable(name), name);
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveHasSizeTable()
+        IVariants ResolveHasSizeTable()
         {
             var names = manager.GetAllSizeTableNames();
-            var resolveSummary = new ResolveSet(names.Count);
+            var variants = new Variants<bool>(names.Count);
             
             foreach (var name in names)
             {
                 var result = manager.HasSizeTable(name);
-                resolveSummary.AppendVariant(result, $"{name}: {result}");
+                variants.Add(result, $"{name}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
         
+        IVariants ResolveGetFamilySizeTableManager()
+        {
+            return Variants.Single(manager);
+        }
     }
 }

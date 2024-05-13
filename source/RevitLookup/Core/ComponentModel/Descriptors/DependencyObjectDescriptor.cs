@@ -27,12 +27,17 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class DependencyObjectDescriptor : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(DependencyObject.GetLocalValueEnumerator) => ResolveSet.Append(null),
+            nameof(DependencyObject.GetLocalValueEnumerator) => ResolveGetLocalValueEnumerator,
             _ => null
         };
+        
+        IVariants ResolveGetLocalValueEnumerator()
+        {
+            return Variants.Empty<LocalValueEnumerator?>();
+        }
     }
 }

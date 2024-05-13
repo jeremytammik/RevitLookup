@@ -18,25 +18,17 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
-using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
+namespace RevitLookup.Core.Contracts;
 
-public sealed class PrintManagerDescriptor : Descriptor, IDescriptorResolver
+public interface IVariants : IReadOnlyCollection<Variant>
 {
-    public PrintManagerDescriptor(PrintManager printManager)
-    {
-        Name = printManager.PrinterName;
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
-    {
-        return target switch
-        {
-            nameof(PrintManager.SubmitPrint) when parameters.Length == 0 => Variants.Disabled,
-            _ => null
-        };
-    }
+    Variant Single();
+}
+
+public interface IVariants<T> : IVariants
+{
+    Variants<T> Add(T result);
+    Variants<T> Add(T result, string description);
 }

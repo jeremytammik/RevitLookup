@@ -53,11 +53,11 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
         }
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Parameter.ClearValue) when parameters.Length == 0 => ResolveSet.Append(false, "Method execution disabled"),
+            nameof(Parameter.ClearValue) when parameters.Length == 0 => Variants.Disabled,
             _ => null
         };
     }

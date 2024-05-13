@@ -1,4 +1,4 @@
-// Copyright 2003-2024 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,41 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class PanelDescriptor : Descriptor, IDescriptorResolver
+public sealed class VariantDescriptor : Descriptor, IDescriptorRedirection
 {
-    private readonly Panel _panel;
-    
-    public PanelDescriptor(Panel panel)
+    private readonly Variant _variant;
+
+    public VariantDescriptor(Variant variant)
     {
-        _panel = panel;
-        Name = ElementDescriptor.CreateName(panel);
+        _variant = variant;
+        Description = variant.Description;
     }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+
+    public bool TryRedirect(Document context, string target, out object output)
     {
-        return target switch
-        {
-            nameof(Panel.GetRefGridLines) => ResolveGridLines,
-            _ => null
-        };
-        
-        IVariants ResolveGridLines()
-        {
-            ElementId uId = null;
-            ElementId vId = null;
-            _panel.GetRefGridLines(ref uId, ref vId);
-            
-            return new Variants<ElementId>(2)
-            {
-                uId,
-                vId
-            };
-        }
+        output = _variant.Object;
+        return true;
     }
 }

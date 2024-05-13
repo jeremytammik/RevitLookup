@@ -30,13 +30,18 @@ public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
     {
         Name = field.GetName(Context.Document);
     }
-
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(SchedulableField.GetName) => ResolveSet.Append(Name),
+            nameof(SchedulableField.GetName) => ResolveGetName,
             _ => null
         };
+        
+        IVariants ResolveGetName()
+        {
+            return Variants.Single(Name);
+        }
     }
 }

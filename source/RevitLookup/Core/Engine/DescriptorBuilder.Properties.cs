@@ -65,11 +65,14 @@ public sealed partial class DescriptorBuilder
         value = null;
         if (_currentDescriptor is not IDescriptorResolver resolver) return false;
         
+        var handler = resolver.Resolve(Context, member.Name, parameters);
+        if (handler is null) return false;
+        
         try
         {
             _clockDiagnoser.Start();
             _memoryDiagnoser.Start();
-            value = resolver.Resolve(Context, member.Name, parameters);
+            value = handler.Invoke();
         }
         finally
         {
@@ -77,7 +80,7 @@ public sealed partial class DescriptorBuilder
             _clockDiagnoser.Stop();
         }
         
-        return value is not null;
+        return true;
     }
     
     private void Evaluate(PropertyInfo member, out object value)
@@ -101,7 +104,7 @@ public sealed partial class DescriptorBuilder
         
         if (!member.CanRead)
         {
-            value = new NotSupportedException("Property does not have a get accessor, it cannot be read");
+            value = new InvalidOperationException("Property does not have a get accessor, it cannot be read");
             return true;
         }
         

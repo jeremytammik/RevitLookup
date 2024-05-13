@@ -26,78 +26,78 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
-        if (parameters.Length == 0) return null;
-        var rules = adviser.GetNumberOfRules();
-        var resolveSet = new ResolveSet(rules);
-
-        switch (parameters.Length)
+        return target switch
         {
-            case 1 when parameters[0].ParameterType == typeof(Document):
-                switch (target)
-                {
-                    case nameof(PerformanceAdviser.ExecuteAllRules):
-                    {
-                        resolveSet.AppendVariant(adviser.ExecuteAllRules(Context.Document));
-                        break;
-                    }
-                    default:
-                        return null;
-                }
-
-                break;
-            case 1 when parameters[0].ParameterType == typeof(int):
-                switch (target)
-                {
-                    case nameof(PerformanceAdviser.GetRuleDescription):
-                    {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, string>(i, adviser.GetRuleDescription(i)));
-                        break;
-                    }
-                    case nameof(PerformanceAdviser.GetRuleId):
-                    {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, PerformanceAdviserRuleId>(i, adviser.GetRuleId(i)));
-                        break;
-                    }
-                    case nameof(PerformanceAdviser.GetRuleName):
-                    {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, string>(i, adviser.GetRuleName(i)));
-                        break;
-                    }
-                    case nameof(PerformanceAdviser.IsRuleEnabled):
-                    {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, bool>(i, adviser.IsRuleEnabled(i)));
-                        break;
-                    }
-                    case nameof(PerformanceAdviser.WillRuleCheckElements):
-                    {
-                        for (var i = 0; i < rules; i++) resolveSet.AppendVariant(new KeyValuePair<int, bool>(i, adviser.WillRuleCheckElements(i)));
-                        break;
-                    }
-                    default:
-                        return null;
-                }
-
-                break;
-            case 2 when parameters[0].ParameterType == typeof(int):
-                switch (target)
-                {
-                    case nameof(PerformanceAdviser.GetElementFilterFromRule):
-                    {
-                        for (var i = 0; i < rules; i++)
-                            resolveSet.AppendVariant(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, Context.Document)));
-                        break;
-                    }
-                    default:
-                        return null;
-                }
-
-                break;
-            default:
-                return null;
+            nameof(PerformanceAdviser.ExecuteAllRules) when parameters.Length == 1 &&
+                                                            parameters[0].ParameterType == typeof(Document) => ResolveExecuteAllRules,
+            nameof(PerformanceAdviser.GetRuleDescription) when parameters.Length == 1 &&
+                                                               parameters[0].ParameterType == typeof(int) => ResolveGetRuleDescription,
+            nameof(PerformanceAdviser.GetRuleId) when parameters.Length == 1 &&
+                                                      parameters[0].ParameterType == typeof(int) => ResolveGetRuleId,
+            nameof(PerformanceAdviser.GetRuleName) when parameters.Length == 1 &&
+                                                        parameters[0].ParameterType == typeof(int) => ResolveGetRuleName,
+            nameof(PerformanceAdviser.IsRuleEnabled) when parameters.Length == 1 &&
+                                                          parameters[0].ParameterType == typeof(int) => ResolveIsRuleEnabled,
+            nameof(PerformanceAdviser.WillRuleCheckElements) when parameters.Length == 1 &&
+                                                                  parameters[0].ParameterType == typeof(int) => ResolveWillRuleCheckElements,
+            nameof(PerformanceAdviser.GetElementFilterFromRule) when parameters.Length == 2 &&
+                                                                     parameters[0].ParameterType == typeof(int) => ResolveGetElementFilterFromRule,
+            _ => null
+        };
+        
+        IVariants ResolveGetElementFilterFromRule()
+        {
+            var rules = adviser.GetNumberOfRules();
+            var variants = new Variants<KeyValuePair<int, ElementFilter>>(rules);
+            for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, Context.Document)));
+            return variants;
         }
-
-        return resolveSet;
+        
+        IVariants ResolveWillRuleCheckElements()
+        {
+            var rules = adviser.GetNumberOfRules();
+            var variants = new Variants<KeyValuePair<int, bool>>(rules);
+            for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, bool>(i, adviser.WillRuleCheckElements(i)));
+            return variants;
+        }
+        
+        IVariants ResolveIsRuleEnabled()
+        {
+            var rules = adviser.GetNumberOfRules();
+            var variants = new Variants<KeyValuePair<int, bool>>(rules);
+            for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, bool>(i, adviser.IsRuleEnabled(i)));
+            return variants;
+        }
+        
+        IVariants ResolveGetRuleName()
+        {
+            var rules = adviser.GetNumberOfRules();
+            var variants = new Variants<KeyValuePair<int, string>>(rules);
+            for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, string>(i, adviser.GetRuleName(i)));
+            return variants;
+        }
+        
+        IVariants ResolveGetRuleId()
+        {
+            var rules = adviser.GetNumberOfRules();
+            var variants = new Variants<KeyValuePair<int, PerformanceAdviserRuleId>>(rules);
+            for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, PerformanceAdviserRuleId>(i, adviser.GetRuleId(i)));
+            return variants;
+        }
+        
+        IVariants ResolveGetRuleDescription()
+        {
+            var rules = adviser.GetNumberOfRules();
+            var variants = new Variants<KeyValuePair<int, string>>(rules);
+            for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, string>(i, adviser.GetRuleDescription(i)));
+            return variants;
+        }
+        
+        IVariants ResolveExecuteAllRules()
+        {
+            return Variants.Single(adviser.ExecuteAllRules(Context.Document));
+        }
     }
 }

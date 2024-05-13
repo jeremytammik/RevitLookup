@@ -26,44 +26,44 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class TableDataDescriptor(TableData tableData) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
             nameof(TableData.GetSectionData) when parameters.Length == 1 && 
-                                                  parameters[0].ParameterType == typeof(SectionType) => ResolveSectionDataBySectionType(),
+                                                  parameters[0].ParameterType == typeof(SectionType) => ResolveSectionDataBySectionType,
             nameof(TableData.GetSectionData) when parameters.Length == 1 && 
-                                                  parameters[0].ParameterType == typeof(int) => ResolveSectionDataByIndex(),
-            nameof(TableData.IsValidZoomLevel) => ResolveZoomLevel(),
+                                                  parameters[0].ParameterType == typeof(int) => ResolveSectionDataByIndex,
+            nameof(TableData.IsValidZoomLevel) => ResolveZoomLevel,
             _ => null
         };
         
-        ResolveSet ResolveSectionDataBySectionType()
+        IVariants ResolveSectionDataBySectionType()
         {
             var sectionTypes = Enum.GetValues(typeof(SectionType));
-            var resolveSummary = new ResolveSet(sectionTypes.Length);
+            var variants = new Variants<TableSectionData>(sectionTypes.Length);
             foreach (SectionType sectionType in sectionTypes)
             {
-                resolveSummary.AppendVariant(tableData.GetSectionData(sectionType), sectionType.ToString());
+                variants.Add(tableData.GetSectionData(sectionType), sectionType.ToString());
             }
             
-            return resolveSummary;
+            return variants;
         }    
         
-        ResolveSet ResolveSectionDataByIndex()
+        IVariants ResolveSectionDataByIndex()
         {
-            var resolveSummary = new ResolveSet(tableData.NumberOfSections);
+            var variants = new Variants<TableSectionData>(tableData.NumberOfSections);
             for (var i = 0; i < tableData.NumberOfSections; i++)
             {
-                resolveSummary.AppendVariant(tableData.GetSectionData(i), i.ToString());
+                variants.Add(tableData.GetSectionData(i), i.ToString());
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveZoomLevel()
+        IVariants ResolveZoomLevel()
         {
-            var resolveSummary = new ResolveSet(512);
+            var variants = new Variants<bool>(512);
             
             var zoom = 0;
             var emptyIterations = 0;
@@ -72,7 +72,7 @@ public sealed class TableDataDescriptor(TableData tableData) : Descriptor, IDesc
                 var isValid = tableData.IsValidZoomLevel(zoom);
                 if (isValid)
                 {
-                    resolveSummary.AppendVariant(true, $"{zoom}: valid");
+                    variants.Add(true, $"{zoom}: valid");
                     emptyIterations = 0;
                 }
                 else
@@ -83,7 +83,7 @@ public sealed class TableDataDescriptor(TableData tableData) : Descriptor, IDesc
                 zoom++;
             }
             
-            return resolveSummary;
+            return variants;
         }
     }
 }

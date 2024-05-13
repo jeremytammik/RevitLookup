@@ -29,6 +29,7 @@ using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Visual;
 using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
+using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
 using RibbonItem = Autodesk.Revit.UI.RibbonItem;
@@ -49,6 +50,10 @@ public static class DescriptorMap
     {
         return obj switch
         {
+            //Internal
+            IVariants value => new VariantsDescriptor(value),
+            Variant value => new VariantDescriptor(value),
+
             //System
             string value when type is null || type == typeof(string) => new StringDescriptor(value),
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
@@ -93,6 +98,7 @@ public static class DescriptorMap
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
             IndependentTag value when type is null || type == typeof(IndependentTag) => new IndependentTagDescriptor(value),
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
+            Family value when type is null || type == typeof(Family) => new FamilyDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
@@ -131,10 +137,6 @@ public static class DescriptorMap
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
             IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
-
-            //Internal
-            ResolveSet value => new ResolveSetDescriptor(value),
-            ResolveSummary value => new ResolveSummaryDescriptor(value),
 
             //Media
             System.Windows.Media.Color value when type is null || type == typeof(System.Windows.Media.Color) => new ColorMediaDescriptor(value),

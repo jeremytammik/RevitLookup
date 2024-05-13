@@ -28,21 +28,31 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class EvaluatedParameterDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly EvaluatedParameter _parameter;
-
+    
     public EvaluatedParameterDescriptor(EvaluatedParameter parameter)
     {
         _parameter = parameter;
         Name = parameter.Definition.Name;
     }
-
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 1 => ResolveSet.Append(_parameter.AsValueString(context)),
-            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => ResolveSet.Append(_parameter.AsValueString(context, new FormatOptions())),
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 1 => ResolveAsValueString,
+            nameof(EvaluatedParameter.AsValueString) when parameters.Length == 2 => ResolveAsValueStringFormat,
             _ => null
         };
+        
+        IVariants ResolveAsValueString()
+        {
+            return Variants.Single(_parameter.AsValueString(context));
+        }
+        
+        IVariants ResolveAsValueStringFormat()
+        {
+            return Variants.Single(_parameter.AsValueString(context, new FormatOptions()));
+        }
     }
 }
 #endif

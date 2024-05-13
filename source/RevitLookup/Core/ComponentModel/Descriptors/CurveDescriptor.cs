@@ -33,13 +33,13 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
     private readonly Curve _curve;
-
+    
     public CurveDescriptor(Curve curve)
     {
         _curve = curve;
         if (curve.IsBound || curve.IsCyclic) Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
     }
-
+    
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
@@ -59,36 +59,51 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
             .SetShortcut(ModifierKeys.Alt, Key.F7);
 #endif
     }
-
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Curve.GetEndPoint) => ResolveSet
-                .Append(_curve.GetEndPoint(0), "Point 0")
-                .AppendVariant(_curve.GetEndPoint(1), "Point 1"),
-            nameof(Curve.GetEndParameter) => ResolveSet
-                .Append(_curve.GetEndParameter(0), "Parameter 0")
-                .AppendVariant(_curve.GetEndParameter(1), "Parameter 1"),
-            nameof(Curve.GetEndPointReference) => ResolveSet
-                .Append(_curve.GetEndPointReference(0), "Reference 0")
-                .AppendVariant(_curve.GetEndPointReference(1), "Reference 1"),
-            nameof(Curve.Evaluate) => ResolveEvaluate(),
+            nameof(Curve.GetEndPoint) => ResolveGetEndPoint,
+            nameof(Curve.GetEndParameter) => ResolveGetEndParameter,
+            nameof(Curve.GetEndPointReference) => ResolveGetEndPointReference,
+            nameof(Curve.Evaluate) => ResolveEvaluate,
             _ => null
         };
-
-        ResolveSet ResolveEvaluate()
+        
+        IVariants ResolveEvaluate()
         {
-            var resolveSummary = new ResolveSet(3);
+            var variants = new Variants<XYZ>(3);
             var endParameter0 = _curve.GetEndParameter(0);
             var endParameter1 = _curve.GetEndParameter(1);
             var endParameterMid = (endParameter0 + endParameter1) / 2;
-
-            resolveSummary.AppendVariant(_curve.Evaluate(endParameter0, false), $"Parameter {endParameter0.Round(3)}");
-            resolveSummary.AppendVariant(_curve.Evaluate(endParameterMid, false), $"Parameter {endParameterMid.Round(3)}");
-            resolveSummary.AppendVariant(_curve.Evaluate(endParameter1, false), $"Parameter {endParameter1.Round(3)}");
-
-            return resolveSummary;
+            
+            variants.Add(_curve.Evaluate(endParameter0, false), $"Parameter {endParameter0.Round(3)}");
+            variants.Add(_curve.Evaluate(endParameterMid, false), $"Parameter {endParameterMid.Round(3)}");
+            variants.Add(_curve.Evaluate(endParameter1, false), $"Parameter {endParameter1.Round(3)}");
+            
+            return variants;
+        }
+        
+        IVariants ResolveGetEndPoint()
+        {
+            return new Variants<XYZ>(2)
+                .Add(_curve.GetEndPoint(0), "Point 0")
+                .Add(_curve.GetEndPoint(1), "Point 1");
+        }
+        
+        IVariants ResolveGetEndParameter()
+        {
+            return new Variants<double>(2)
+                .Add(_curve.GetEndParameter(0), "Parameter 0")
+                .Add(_curve.GetEndParameter(1), "Parameter 1");
+        }
+        
+        IVariants ResolveGetEndPointReference()
+        {
+            return new Variants<Reference>(2)
+                .Add(_curve.GetEndPointReference(0), "Reference 0")
+                .Add(_curve.GetEndPointReference(1), "Reference 1");
         }
     }
 }

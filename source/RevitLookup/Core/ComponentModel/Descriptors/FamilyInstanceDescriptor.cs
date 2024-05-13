@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using Autodesk.Revit.DB.Architecture;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -34,111 +35,116 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
         Name = ElementDescriptor.CreateName(familyInstance);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(FamilyInstance.GetReferences) => new ResolveSet(11)
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Front), "Front")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Left), "Left")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Right), "Right")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.Top), "Top")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterElevation), "Center elevation")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
-                .AppendVariant(_familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference"),
-            "Room" when parameters.Length == 1 => ResolveGetRoom(),
-            "FromRoom" when parameters.Length == 1 => ResolveFromRoom(),
-            "ToRoom" when parameters.Length == 1 => ResolveToRoom(),
-            nameof(FamilyInstance.GetOriginalGeometry) => ResolveOriginalGeometry(),
+            "Room" when parameters.Length == 1 => ResolveGetRoom,
+            "FromRoom" when parameters.Length == 1 => ResolveFromRoom,
+            "ToRoom" when parameters.Length == 1 => ResolveToRoom,
+            nameof(FamilyInstance.GetOriginalGeometry) => ResolveOriginalGeometry,
+            nameof(FamilyInstance.GetReferences) => ResolveGetReferences,
             _ => null
         };
         
-        ResolveSet ResolveGetRoom()
+        IVariants ResolveGetRoom()
         {
-            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
+            var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
             foreach (Phase phase in _familyInstance.Document.Phases)
             {
-                resolveSummary.AppendVariant(_familyInstance.get_Room(phase), phase.Name);
+                variants.Add(_familyInstance.get_Room(phase), phase.Name);
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveFromRoom()
+        IVariants ResolveFromRoom()
         {
-            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
+            var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
             foreach (Phase phase in _familyInstance.Document.Phases)
             {
-                resolveSummary.AppendVariant(_familyInstance.get_FromRoom(phase), phase.Name);
+                variants.Add(_familyInstance.get_FromRoom(phase), phase.Name);
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveToRoom()
+        IVariants ResolveToRoom()
         {
-            var resolveSummary = new ResolveSet(_familyInstance.Document.Phases.Size);
+            var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
             foreach (Phase phase in _familyInstance.Document.Phases)
             {
-                resolveSummary.AppendVariant(_familyInstance.get_ToRoom(phase), phase.Name);
+                variants.Add(_familyInstance.get_ToRoom(phase), phase.Name);
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveOriginalGeometry()
+        IVariants ResolveOriginalGeometry()
         {
-            return new ResolveSet(10)
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+            return new Variants<GeometryElement>(10)
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     View = Context.ActiveView,
                 }), "Active view")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     View = Context.ActiveView,
                     IncludeNonVisibleObjects = true,
                 }), "Active view, including non-visible objects")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
                 }), "Model, coarse detail level")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
                 }), "Model, fine detail level")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
                 }), "Model, medium detail level")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
                 }), "Model, undefined detail level")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
                     IncludeNonVisibleObjects = true,
                 }), "Model, coarse detail level, including non-visible objects")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
                     IncludeNonVisibleObjects = true,
                 }), "Model, fine detail level, including non-visible objects")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
                     IncludeNonVisibleObjects = true,
                 }), "Model, medium detail level, including non-visible objects")
-                .AppendVariant(_familyInstance.GetOriginalGeometry(new Options
+                .Add(_familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
                     IncludeNonVisibleObjects = true,
                 }), "Model, undefined detail level, including non-visible objects");
+        }
+        
+        IVariants ResolveGetReferences()
+        {
+            return new Variants<IList<Reference>>(11)
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Front), "Front")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Left), "Left")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Right), "Right")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Top), "Top")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterElevation), "Center elevation")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
+                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference");
         }
     }
     

@@ -19,61 +19,48 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using System.Windows.Controls;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Models;
-using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Dialogs;
-using RevitLookup.Views.Dialogs;
-using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class FamilySizeTableDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
+public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver
 {
-    private readonly FamilySizeTable _table;
-    
-    public FamilySizeTableDescriptor(FamilySizeTable table)
-    {
-        _table = table;
-    }
-    
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(FamilySizeTable.GetColumnHeader) => ResolveColumnHeader(),
-            nameof(FamilySizeTable.IsValidColumnIndex) => ResolveIsValidColumnIndex(),
+            nameof(FamilySizeTable.GetColumnHeader) => ResolveColumnHeader,
+            nameof(FamilySizeTable.IsValidColumnIndex) => ResolveIsValidColumnIndex,
             _ => null
+            
         };
         
-        ResolveSet ResolveColumnHeader()
+        IVariants ResolveColumnHeader()
         {
-            var count = _table.NumberOfColumns;
-            var resolveSummary = new ResolveSet(count);
+            var count = table.NumberOfColumns;
+            var variants = new Variants<FamilySizeTableColumn>(count);
             
             for (var i = 0; i < count; i++)
             {
-                resolveSummary.AppendVariant(_table.GetColumnHeader(i));
+                variants.Add(table.GetColumnHeader(i));
             }
             
-            return resolveSummary;
+            return variants;
         }
         
-        ResolveSet ResolveIsValidColumnIndex()
+        IVariants ResolveIsValidColumnIndex()
         {
-            var count = _table.NumberOfColumns;
-            var resolveSummary = new ResolveSet(count);
+            var count = table.NumberOfColumns;
+            var variants = new Variants<bool>(count);
             
             for (var i = 0; i <= count; i++)
             {
-                var result = _table.IsValidColumnIndex(i);
-                resolveSummary.AppendVariant(result, $"{i}: {result}");
+                var result = table.IsValidColumnIndex(i);
+                variants.Add(result, $"{i}: {result}");
             }
             
-            return resolveSummary;
+            return variants;
         }
     }
     

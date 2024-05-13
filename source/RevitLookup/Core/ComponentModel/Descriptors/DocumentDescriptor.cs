@@ -24,7 +24,7 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
+public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
 {
     private readonly Document _document;
     
@@ -34,46 +34,41 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
         Name = document.Title;
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Document.Close) when parameters.Length == 0 => ResolveSet.Append(false, "Method execution disabled"),
-            nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies(),
+            nameof(Document.Close) when parameters.Length == 0 => Variants.Disabled,
+            nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies,
 #if REVIT2024_OR_GREATER
-            nameof(Document.GetUnusedElements) => ResolveSet.Append(context.GetUnusedElements(new HashSet<ElementId>())),
-            nameof(Document.GetAllUnusedElements) => ResolveSet.Append(context.GetAllUnusedElements(new HashSet<ElementId>())),
+            nameof(Document.GetUnusedElements) => ResolveGetUnusedElements,
+            nameof(Document.GetAllUnusedElements) => ResolveGetAllUnusedElements,
 #endif
             _ => null
         };
         
-        ResolveSet ResolvePlanTopologies()
+        IVariants ResolvePlanTopologies()
         {
-            if (_document.IsReadOnly) return ResolveSet.Append(null);
+            if (_document.IsReadOnly) return Variants.Empty<PlanTopologySet>();
             
             var transaction = new Transaction(_document);
             transaction.Start("Calculating plan topologies");
             var topologies = _document.PlanTopologies;
             transaction.Commit();
-            return ResolveSet.Append(topologies);
+            
+            return Variants.Single(topologies);
         }
-    }
-    
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        if (!_document.IsFamilyDocument)
-            manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), _ =>
-            {
-                var families = _document.EnumerateInstances<Family>().ToArray();
-                var resolveSummary = new ResolveSet(families.Length);
-                foreach (var family in families)
-                {
-                    var result = FamilySizeTableManager.GetFamilySizeTableManager(_document, family.Id);
-                    if (result is not null && result.NumberOfSizeTables > 0)
-                        resolveSummary.AppendVariant(result, $"{ElementDescriptor.CreateName(family)}");
-                }
-                
-                return resolveSummary;
-            });
+#if REVIT2024_OR_GREATER
+        
+        IVariants ResolveGetUnusedElements()
+        {
+            return Variants.Single(context.GetUnusedElements(new HashSet<ElementId>()));
+        }
+        
+        IVariants ResolveGetAllUnusedElements()
+        {
+            return Variants.Single(context.GetAllUnusedElements(new HashSet<ElementId>()));
+        }
+#endif
     }
 }

@@ -27,26 +27,26 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class AssetPropertiesDescriptor(AssetProperties assetProperties) : Descriptor, IDescriptorResolver
 {
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(AssetProperties.Get) => ResolveAssetProperties(),
-            nameof(AssetProperties.FindByName) => ResolveAssetProperties(),
+            nameof(AssetProperties.Get) => ResolveAssetProperties,
+            nameof(AssetProperties.FindByName) => ResolveAssetProperties,
             _ => null
         };
 
-        ResolveSet ResolveAssetProperties()
+        IVariants ResolveAssetProperties()
         {
             var capacity = assetProperties.Size;
-            var resolveSummary = new ResolveSet(capacity);
+            var variants = new Variants<AssetProperty>(capacity);
             for (var i = 0; i < capacity; i++)
             {
                 var property = assetProperties.Get(i);
-                resolveSummary.AppendVariant(property, property.Name);
+                variants.Add(property, property.Name);
             }
 
-            return resolveSummary; 
+            return variants; 
         }
     }
 }

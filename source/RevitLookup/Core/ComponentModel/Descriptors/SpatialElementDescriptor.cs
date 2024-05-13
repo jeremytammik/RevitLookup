@@ -34,52 +34,57 @@ public sealed class SpatialElementDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(spatialElement);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(SpatialElement.GetBoundarySegments) => new ResolveSet(8)
-                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+            nameof(SpatialElement.GetBoundarySegments) => ResolveGetBoundarySegments,
+            _ => null
+        };
+        
+        IVariants ResolveGetBoundarySegments()
+        {
+            return new Variants<IList<IList<BoundarySegment>>>(8)
+                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center,
                     StoreFreeBoundaryFaces = true
                 }), "Center, store free boundary faces")
-                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreBoundary,
                     StoreFreeBoundaryFaces = true
                 }), "Core boundary, store free boundary faces")
-                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish,
                     StoreFreeBoundaryFaces = true
                 }), "Finish, store free boundary faces")
-                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreCenter,
                     StoreFreeBoundaryFaces = true
                 }), "Core center, store free boundary faces")
-                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center,
                     StoreFreeBoundaryFaces = true
                 }), "Center")
-                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreBoundary,
                     StoreFreeBoundaryFaces = true
                 }), "Core boundary")
-                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish,
                     StoreFreeBoundaryFaces = true
                 }), "Finish")
-                .AppendVariant(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreCenter,
                     StoreFreeBoundaryFaces = true
-                }), "Core center"),
-            _ => null
-        };
+                }), "Core center");
+        }
     }
 }

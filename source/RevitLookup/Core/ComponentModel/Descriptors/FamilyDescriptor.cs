@@ -23,19 +23,24 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ResolveSummaryDescriptor : Descriptor, IDescriptorRedirection
+public sealed class FamilyDescriptor : Descriptor, IDescriptorExtension
 {
-    private readonly ResolveSummary _summary;
-
-    public ResolveSummaryDescriptor(ResolveSummary summary)
+    private readonly Family _family;
+    
+    public FamilyDescriptor(Family family)
     {
-        _summary = summary;
-        Description = summary.Description;
+        _family = family;
+        Name = ElementDescriptor.CreateName(family);
     }
-
-    public bool TryRedirect(Document context, string target, out object output)
+    
+    public void RegisterExtensions(IExtensionManager manager)
     {
-        output = _summary.Result;
-        return true;
+        // if (manager.Context.IsFamilyDocument) return;
+        
+        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
+        {
+            var result = FamilySizeTableManager.GetFamilySizeTableManager(context, _family.Id);
+            return Variants.Single(result);
+        });
     }
 }

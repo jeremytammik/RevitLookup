@@ -35,25 +35,25 @@ public sealed class WireDescriptor : Descriptor, IDescriptorResolver
         Name = ElementDescriptor.CreateName(wire);
     }
     
-    public ResolveSet Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Wire.GetVertex) => ResolveVertex(),
+            nameof(Wire.GetVertex) => ResolveVertex,
             _ => null
         };
         
-        ResolveSet ResolveVertex()
+        IVariants ResolveVertex()
         {
             var capacity = _wire.NumberOfVertices;
-            var resolveSummary = new ResolveSet(capacity);
+            var variants = new Variants<XYZ>(capacity);
             
             for (var i = 0; i < capacity; i++)
             {
-                resolveSummary.AppendVariant(_wire.GetVertex(i));
+                variants.Add(_wire.GetVertex(i));
             }
             
-            return resolveSummary;
+            return variants;
         }
     }
 }
