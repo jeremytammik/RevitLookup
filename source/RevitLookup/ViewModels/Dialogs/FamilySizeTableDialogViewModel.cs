@@ -25,33 +25,26 @@ namespace RevitLookup.ViewModels.Dialogs;
 public class FamilySizeTableDialogViewModel : DataTable
 {
     private readonly FamilySizeTable _table;
-    public FamilySizeTableDialogViewModel(FamilySizeTable table, string name)
+    public FamilySizeTableDialogViewModel(FamilySizeTable table)
     {
         _table = table;
-        Name = name;
         Initialize();
     }
-    
-    public string Name { get; set; } 
     
     private void Initialize()
     {
         var columnsCount = _table.NumberOfColumns;
         var rowsCount = _table.NumberOfRows;
         
-        for (var i = 0; i < columnsCount; i++)
-        {
-            Columns.Add(new DataColumn(_table.GetColumnHeader(i).Name));
-        }
+        CreateColumns(columnsCount);
         
-        var unitsArray = new object[columnsCount];
-        for (var i = 0; i < columnsCount; i++)
-        {
-            unitsArray[i] = _table.GetColumnHeader(i).GetUnitTypeId().ToUnitLabel();
-        }
+        WriteUnits(columnsCount);
         
-        Rows.Add(unitsArray);
-        
+        WriteRows(rowsCount, columnsCount);
+    }
+    
+    private void WriteRows(int rowsCount, int columnsCount)
+    {
         for (var i = 0; i < rowsCount; i++)
         {
             var rowArray = new object[columnsCount];
@@ -61,6 +54,27 @@ public class FamilySizeTableDialogViewModel : DataTable
             }
             
             Rows.Add(rowArray);
+        }
+    }
+    
+    private void WriteUnits(int columnsCount)
+    {
+        var unitsArray = new object[columnsCount];
+        unitsArray[0] = "Units:";
+        for (var i = 1; i < columnsCount; i++)
+        {
+            var typeId = _table.GetColumnHeader(i).GetUnitTypeId();
+            unitsArray[i] = UnitUtils.IsUnit(typeId) ? typeId.ToUnitLabel() : typeId.ToGroupLabel();
+        }
+        
+        Rows.Add(unitsArray);
+    }
+    
+    private void CreateColumns(int columnsCount)
+    {
+        for (var i = 0; i < columnsCount; i++)
+        {
+            Columns.Add(new DataColumn(_table.GetColumnHeader(i).Name));
         }
     }
 }

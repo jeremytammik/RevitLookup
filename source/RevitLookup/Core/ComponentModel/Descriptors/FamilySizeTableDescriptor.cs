@@ -19,12 +19,17 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows.Controls;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver
+public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
@@ -68,13 +73,13 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
     {
         contextMenu.AddMenuItem()
             .SetHeader("Show table")
-            .SetAvailability(_table.IsValidObject)
-            .SetCommand(_table, async _ =>
+            .SetAvailability(table.IsValidObject)
+            .SetCommand(table, async _ =>
             {
                 var context = (ISnoopViewModel) contextMenu.DataContext;
                 try
                 {
-                    var dialog = new FamilySizeTableDialog(context.ServiceProvider, _table, Name);
+                    var dialog = new FamilySizeTableDialog(context.ServiceProvider, table);
                     await dialog.ShowAsync();
                 }
                 catch (Exception exception)
