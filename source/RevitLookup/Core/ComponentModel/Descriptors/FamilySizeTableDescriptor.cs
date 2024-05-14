@@ -19,12 +19,17 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows.Controls;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver
+public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
@@ -61,5 +66,26 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
             
             return variants;
         }
+    }
+    
+    public void RegisterMenu(ContextMenu contextMenu)
+    {
+        contextMenu.AddMenuItem()
+            .SetHeader("Show table")
+            .SetAvailability(table.IsValidObject)
+            .SetCommand(table, async sizeTable =>
+            {
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                try
+                {
+                    var dialog = new FamilySizeTableDialog(context.ServiceProvider, sizeTable);
+                    await dialog.ShowAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<ParameterDescriptor>>();
+                    logger.LogError(exception, "Initialize EditParameterDialog error");
+                }
+            });
     }
 }
