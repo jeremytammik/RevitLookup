@@ -38,7 +38,6 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
             nameof(FamilySizeTable.GetColumnHeader) => ResolveColumnHeader,
             nameof(FamilySizeTable.IsValidColumnIndex) => ResolveIsValidColumnIndex,
             _ => null
-            
         };
         
         IVariants ResolveColumnHeader()
@@ -74,12 +73,12 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
         contextMenu.AddMenuItem()
             .SetHeader("Show table")
             .SetAvailability(table.IsValidObject)
-            .SetCommand(table, async _ =>
+            .SetCommand(table, async sizeTable =>
             {
                 var context = (ISnoopViewModel) contextMenu.DataContext;
                 try
                 {
-                    var dialog = new FamilySizeTableDialog(context.ServiceProvider, table);
+                    var dialog = new FamilySizeTableDialog(context.ServiceProvider, sizeTable);
                     await dialog.ShowAsync();
                 }
                 catch (Exception exception)

@@ -1,4 +1,4 @@
-﻿<ScrollViewer
+﻿<Grid
     x:Class="RevitLookup.Views.Dialogs.FamilySizeTableDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,13 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     mc:Ignorable="d"
-    HorizontalScrollBarVisibility="Auto"
-    Height="Auto"
-    MinWidth="416"
-    CanContentScroll="True"
     d:DataContext="{d:DesignInstance dialogs:FamilySizeTableDialogViewModel}">
-    <DataGrid 
-        HorizontalScrollBarVisibility="Visible"
-        ItemsSource="{Binding}"
-        AutoGenerateColumns="True"/>
-</ScrollViewer>
+    <DataGrid
+        IsReadOnly="True"
+        HeadersVisibility="Column"
+        CanUserReorderColumns="False"
+        ItemsSource="{Binding}" />
+</Grid>

@@ -40,8 +40,7 @@ public sealed partial class FamilySizeTableDialog
         {
             Title = "Family size table",
             Content = this,
-            CloseButtonText = "Close",
-            DialogMaxWidth = 1500
+            CloseButtonText = "Close"
         };
         
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);

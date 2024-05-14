@@ -22,64 +22,37 @@ using System.Data;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public class FamilySizeTableDialogViewModel : DataTable
+public sealed class FamilySizeTableDialogViewModel : DataTable
 {
-    private readonly FamilySizeTable _table;
-    
     public FamilySizeTableDialogViewModel(FamilySizeTable table)
     {
-        _table = table;
-        Initialize();
+        CreateColumns(table);
+        WriteRows(table);
     }
     
-    private void Initialize()
+    private void WriteRows(FamilySizeTable table)
     {
-        var columnsCount = _table.NumberOfColumns;
-        var rowsCount = _table.NumberOfRows;
-        
-        CreateColumns(columnsCount);
-        
-        WriteUnits(columnsCount);
-        
-        WriteRows(rowsCount, columnsCount);
-    }
-    
-    private void WriteRows(int rowsCount, int columnsCount)
-    {
-        for (var i = 0; i < rowsCount; i++)
+        for (var i = 0; i < table.NumberOfRows; i++)
         {
-            var rowArray = new object[columnsCount];
-            for (var j = 0; j < columnsCount; j++)
+            var rowArray = new object[table.NumberOfColumns];
+            for (var j = 0; j < table.NumberOfColumns; j++)
             {
-                rowArray[j] = _table.AsValueString(i, j);
+                rowArray[j] = table.AsValueString(i, j);
             }
             
             Rows.Add(rowArray);
         }
     }
     
-    private void WriteUnits(int columnsCount)
+    private void CreateColumns(FamilySizeTable table)
     {
-        var unitsArray = new object[columnsCount];
-        unitsArray[0] = "Units:";
-        for (var i = 1; i < columnsCount; i++)
+        for (var i = 0; i < table.NumberOfColumns; i++)
         {
-            var typeId = _table.GetColumnHeader(i).GetUnitTypeId();
-#if REVIT2022_OR_GREATER
-            unitsArray[i] = UnitUtils.IsUnit(typeId) ? typeId.ToUnitLabel() : typeId.ToGroupLabel();
-#else
-            unitsArray[i] = UnitUtils.IsUnit(typeId) ? typeId.ToUnitLabel() : "Other";
-#endif
-        }
-        
-        Rows.Add(unitsArray);
-    }
-    
-    private void CreateColumns(int columnsCount)
-    {
-        for (var i = 0; i < columnsCount; i++)
-        {
-            Columns.Add(new DataColumn(_table.GetColumnHeader(i).Name));
+            var typeId = table.GetColumnHeader(i).GetUnitTypeId();
+            var headerName = table.GetColumnHeader(i).Name;
+            
+            var columnName = typeId.Empty() ? headerName : $"{headerName}##{typeId.ToUnitLabel()}";
+            Columns.Add(new DataColumn(columnName, typeof(string)));
         }
     }
 }
