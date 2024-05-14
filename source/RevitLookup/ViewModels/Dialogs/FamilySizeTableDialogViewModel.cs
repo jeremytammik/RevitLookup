@@ -25,6 +25,7 @@ namespace RevitLookup.ViewModels.Dialogs;
 public class FamilySizeTableDialogViewModel : DataTable
 {
     private readonly FamilySizeTable _table;
+    
     public FamilySizeTableDialogViewModel(FamilySizeTable table)
     {
         _table = table;
@@ -64,7 +65,11 @@ public class FamilySizeTableDialogViewModel : DataTable
         for (var i = 1; i < columnsCount; i++)
         {
             var typeId = _table.GetColumnHeader(i).GetUnitTypeId();
+#if REVIT2022_OR_GREATER
             unitsArray[i] = UnitUtils.IsUnit(typeId) ? typeId.ToUnitLabel() : typeId.ToGroupLabel();
+#else
+            unitsArray[i] = UnitUtils.IsUnit(typeId) ? typeId.ToUnitLabel() : "Other";
+#endif
         }
         
         Rows.Add(unitsArray);
