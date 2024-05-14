@@ -22,12 +22,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using RevitLookup.Core.ComponentModel.Descriptors;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
-using RevitLookup.Models;
-using RevitLookup.ViewModels.Contracts;
-using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Utils;
 
 namespace RevitLookup.Views.Pages.Abstraction;
