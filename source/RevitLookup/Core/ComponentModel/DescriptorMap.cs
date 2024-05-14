@@ -53,22 +53,22 @@ public static class DescriptorMap
             //Internal
             IVariants value => new VariantsDescriptor(value),
             Variant value => new VariantDescriptor(value),
-
+            
             //System
             string value when type is null || type == typeof(string) => new StringDescriptor(value),
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
             IEnumerable value => new EnumerableDescriptor(value),
             Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
-
+            
             //Root
             ElementId value when type is null || type == typeof(ElementId) => new ElementIdDescriptor(value),
             GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
             Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
-
+            
             //Enumerator
             DefinitionBindingMapIterator value => new DefinitionBindingMapIteratorDescriptor(value),
             IEnumerator value => new EnumeratorDescriptor(value),
-
+            
             //APIObjects
             Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
             Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
@@ -88,26 +88,28 @@ public static class DescriptorMap
             LocationCurve value when type is null || type == typeof(LocationCurve) => new LocationCurveDescriptor(value),
             CurtainGrid value when type is null || type == typeof(CurtainGrid) => new CurtainGridDescriptor(value),
             APIObject when type is null || type == typeof(APIObject) => new ApiObjectDescriptor(),
-
-            //IDisposables
-            ViewSchedule value when type is null || type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
-            TableView value when type is null || type == typeof(TableView) => new TableViewDescriptor(value),
-            View value when type is null ||  type  == typeof(View) => new ViewDescriptor(value),
-            Wire value when type is null || type == typeof(Wire) => new WireDescriptor(value),
-            HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
-            RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
+            
+            //Elements
             Panel value when type is null || type == typeof(Panel) => new PanelDescriptor(value),
             FamilyInstance value when type is null || type == typeof(FamilyInstance) => new FamilyInstanceDescriptor(value),
+            Family value when type is null || type == typeof(Family) => new FamilyDescriptor(value),
+            ViewSchedule value when type is null || type == typeof(ViewSchedule) => new ViewScheduleDescriptor(value),
+            TableView value when type is null || type == typeof(TableView) => new TableViewDescriptor(value),
+            View value when type is null || type == typeof(View) => new ViewDescriptor(value),
+            Wire value when type is null || type == typeof(Wire) => new WireDescriptor(value),
+            HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
+            ElevationMarker value when type is null || type == typeof(ElevationMarker) => new ElevationMarkerDescriptor(value),
+            RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
             IndependentTag value when type is null || type == typeof(IndependentTag) => new IndependentTagDescriptor(value),
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
-            Family value when type is null || type == typeof(Family) => new FamilyDescriptor(value),
             BasePoint value when type is null || type == typeof(BasePoint) => new BasePointDescriptor(value),
             InternalOrigin value when type is null || type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
             CurveElement value when type is null || type == typeof(CurveElement) => new CurveElementDescriptor(value),
-            ElevationMarker value when type is null || type == typeof(ElevationMarker) => new ElevationMarkerDescriptor(value),
             DatumPlane value when type is null || type == typeof(DatumPlane) => new DatumPlaneDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
+            
+            //IDisposables
             Document value when type is null || type == typeof(Document) => new DocumentDescriptor(value),
             PlanViewRange value when type is null || type == typeof(PlanViewRange) => new PlanViewRangeDescriptor(value),
             ForgeTypeId value when type is null || type == typeof(ForgeTypeId) => new ForgeTypeIdDescriptor(value),
@@ -136,11 +138,11 @@ public static class DescriptorMap
 #if REVIT2024_OR_GREATER
             EvaluatedParameter value when type is null || type == typeof(EvaluatedParameter) => new EvaluatedParameterDescriptor(value),
 #endif
-            IDisposable when type is null || type == typeof(IDisposable) => new ApiObjectDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
-
+            IDisposable when type is null || type == typeof(IDisposable) => new DisposableDescriptor(), //Faster then obj.GetType().Namespace == "Autodesk.Revit.DB"
+            
             //Media
             System.Windows.Media.Color value when type is null || type == typeof(System.Windows.Media.Color) => new ColorMediaDescriptor(value),
-
+            
             //ComponentManager
             UIElement => new UiElementDescriptor(),
             DispatcherObject => new DependencyObjectDescriptor(),
@@ -150,7 +152,7 @@ public static class DescriptorMap
             Autodesk.Windows.RibbonPanel value => new RibbonPanelDescriptor(value),
             RibbonTab value => new RibbonTabDescriptor(value),
             INotifyPropertyChanged => new UiObjectDescriptor(),
-
+            
             //Unknown
             null when type is null => new ObjectDescriptor(),
             _ when type is null => new ObjectDescriptor(obj),
