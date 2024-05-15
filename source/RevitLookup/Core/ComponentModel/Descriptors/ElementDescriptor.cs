@@ -123,9 +123,11 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
             nameof(Element.GetEntity) => ResolveGetEntity,
             nameof(Element.GetPhaseStatus) => ResolvePhaseStatus,
             nameof(Element.IsPhaseCreatedValid) => ResolveIsPhaseCreatedValid,
-            nameof(Element.IsCreatedPhaseOrderValid) => ResolveIsCreatedPhaseOrderValid,
             nameof(Element.IsPhaseDemolishedValid) => ResolveIsPhaseDemolishedValid,
+#if REVIT2022_OR_GREATER
             nameof(Element.IsDemolishedPhaseOrderValid) => ResolveIsDemolishedPhaseOrderValid,
+            nameof(Element.IsCreatedPhaseOrderValid) => ResolveIsCreatedPhaseOrderValid,
+#endif
             "BoundingBox" => ResolveBoundingBox,
             "Geometry" => ResolveGeometry,
             _ => null
@@ -302,19 +304,6 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
             return variants;
         }
         
-        IVariants ResolveIsCreatedPhaseOrderValid()
-        {
-            var phases = context.Phases;
-            var variants = new Variants<bool>(phases.Size);
-            foreach (Phase phase in phases)
-            {
-                var result = _element.IsCreatedPhaseOrderValid(phase.Id);
-                variants.Add(result, $"{phase.Name}: {result}");
-            }
-            
-            return variants;
-        }
-        
         IVariants ResolveIsPhaseDemolishedValid()
         {
             var phases = context.Phases;
@@ -322,6 +311,20 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
             foreach (Phase phase in phases)
             {
                 var result = _element.IsPhaseDemolishedValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+    
+#if REVIT2022_OR_GREATER
+        IVariants ResolveIsCreatedPhaseOrderValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsCreatedPhaseOrderValid(phase.Id);
                 variants.Add(result, $"{phase.Name}: {result}");
             }
             
@@ -340,6 +343,8 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
             
             return variants;
         }
+        
+#endif 
     }
     
     public static string CreateName(Element element)
