@@ -121,6 +121,11 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
             nameof(Element.GetMaterialArea) => ResolveGetMaterialArea,
             nameof(Element.GetMaterialVolume) => ResolveGetMaterialVolume,
             nameof(Element.GetEntity) => ResolveGetEntity,
+            nameof(Element.GetPhaseStatus) => ResolvePhaseStatus,
+            nameof(Element.IsPhaseCreatedValid) => ResolveIsPhaseCreatedValid,
+            nameof(Element.IsCreatedPhaseOrderValid) => ResolveIsCreatedPhaseOrderValid,
+            nameof(Element.IsPhaseDemolishedValid) => ResolveIsPhaseDemolishedValid,
+            nameof(Element.IsDemolishedPhaseOrderValid) => ResolveIsDemolishedPhaseOrderValid,
             "BoundingBox" => ResolveBoundingBox,
             "Geometry" => ResolveGeometry,
             _ => null
@@ -269,6 +274,71 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorResolver, IDescri
         IVariants ResolveGetDependentElements()
         {
             return Variants.Single(_element.GetDependentElements(null));
+        }
+        
+        IVariants ResolvePhaseStatus()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<ElementOnPhaseStatus>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.GetPhaseStatus(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+        
+        IVariants ResolveIsPhaseCreatedValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsPhaseCreatedValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+        
+        IVariants ResolveIsCreatedPhaseOrderValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsCreatedPhaseOrderValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+        
+        IVariants ResolveIsPhaseDemolishedValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsPhaseDemolishedValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+        
+        IVariants ResolveIsDemolishedPhaseOrderValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsDemolishedPhaseOrderValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
         }
     }
     

@@ -52,7 +52,8 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
             var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
             foreach (Phase phase in _familyInstance.Document.Phases)
             {
-                variants.Add(_familyInstance.get_Room(phase), phase.Name);
+                if (_familyInstance.GetPhaseStatus(phase.Id) != ElementOnPhaseStatus.Future)
+                    variants.Add(_familyInstance.get_Room(phase), phase.Name);
             }
             
             return variants;
@@ -63,7 +64,8 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
             var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
             foreach (Phase phase in _familyInstance.Document.Phases)
             {
-                variants.Add(_familyInstance.get_FromRoom(phase), phase.Name);
+                if (_familyInstance.GetPhaseStatus(phase.Id) != ElementOnPhaseStatus.Future)
+                    variants.Add(_familyInstance.get_FromRoom(phase), phase.Name);
             }
             
             return variants;
@@ -74,7 +76,8 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
             var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
             foreach (Phase phase in _familyInstance.Document.Phases)
             {
-                variants.Add(_familyInstance.get_ToRoom(phase), phase.Name);
+                if (_familyInstance.GetPhaseStatus(phase.Id) != ElementOnPhaseStatus.Future)
+                    variants.Add(_familyInstance.get_ToRoom(phase), phase.Name);
             }
             
             return variants;
