@@ -52,6 +52,13 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             nameof(Element.GetMaterialArea) => ResolveGetMaterialArea,
             nameof(Element.GetMaterialVolume) => ResolveGetMaterialVolume,
             nameof(Element.GetEntity) => ResolveGetEntity,
+            nameof(Element.GetPhaseStatus) => ResolvePhaseStatus,
+            nameof(Element.IsPhaseCreatedValid) => ResolveIsPhaseCreatedValid,
+            nameof(Element.IsPhaseDemolishedValid) => ResolveIsPhaseDemolishedValid,
+#if REVIT2022_OR_GREATER
+            nameof(Element.IsDemolishedPhaseOrderValid) => ResolveIsDemolishedPhaseOrderValid,
+            nameof(Element.IsCreatedPhaseOrderValid) => ResolveIsCreatedPhaseOrderValid,
+#endif
             "BoundingBox" => ResolveBoundingBox,
             "Geometry" => ResolveGeometry,
             _ => null
@@ -201,6 +208,74 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
         {
             return Variants.Single(_element.GetDependentElements(null));
         }
+        
+        IVariants ResolvePhaseStatus()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<ElementOnPhaseStatus>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.GetPhaseStatus(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+        
+        IVariants ResolveIsPhaseCreatedValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsPhaseCreatedValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+        
+        IVariants ResolveIsPhaseDemolishedValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsPhaseDemolishedValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+    
+#if REVIT2022_OR_GREATER
+        IVariants ResolveIsCreatedPhaseOrderValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsCreatedPhaseOrderValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+        
+        IVariants ResolveIsDemolishedPhaseOrderValid()
+        {
+            var phases = context.Phases;
+            var variants = new Variants<bool>(phases.Size);
+            foreach (Phase phase in phases)
+            {
+                var result = _element.IsDemolishedPhaseOrderValid(phase.Id);
+                variants.Add(result, $"{phase.Name}: {result}");
+            }
+            
+            return variants;
+        }
+        
+#endif 
     }
     
     public virtual void RegisterExtensions(IExtensionManager manager)
