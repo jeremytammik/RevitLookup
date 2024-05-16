@@ -27,22 +27,14 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
+public sealed class IndependentTagDescriptor(IndependentTag tag) : ElementDescriptor(tag)
 {
-    private readonly IndependentTag _tag;
-    
-    public IndependentTagDescriptor(IndependentTag tag)
-    {
-        _tag = tag;
-        Name = ElementDescriptor.CreateName(tag);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
 #if REVIT2025_OR_GREATER //TODO Fatal https://github.com/jeremytammik/RevitLookup/issues/225
-            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(_tag) => Variants.Disabled,
+            nameof(IndependentTag.TagText) when RebarBendingDetail.IsBendingDetail(tag) => Variants.Disabled,
 #endif
             nameof(IndependentTag.CanLeaderEndConditionBeAssigned) => ResolveLeaderEndCondition,
 #if REVIT2022_OR_GREATER
@@ -63,7 +55,7 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
             
             foreach (LeaderEndCondition condition in conditions)
             {
-                var result = _tag.CanLeaderEndConditionBeAssigned(condition);
+                var result = tag.CanLeaderEndConditionBeAssigned(condition);
                 variants.Add(result, $"{condition}: {result}");
             }
             
@@ -72,17 +64,17 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
 #if REVIT2022_OR_GREATER
         IVariants ResolveLeaderElbow()
         {
-            var references = _tag.GetTaggedReferences();
+            var references = tag.GetTaggedReferences();
             var variants = new Variants<XYZ>(references.Count);
             
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!_tag.IsLeaderVisible(reference)) continue;
+                if (!tag.IsLeaderVisible(reference)) continue;
 #endif
-                if (!_tag.HasLeaderElbow(reference)) continue;
+                if (!tag.HasLeaderElbow(reference)) continue;
                 
-                variants.Add(_tag.GetLeaderElbow(reference));
+                variants.Add(tag.GetLeaderElbow(reference));
             }
             
             return variants;
@@ -90,16 +82,15 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveLeaderEnd()
         {
-            var references = _tag.GetTaggedReferences();
+            var references = tag.GetTaggedReferences();
             var variants = new Variants<XYZ>(references.Count);
             
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!_tag.IsLeaderVisible(reference)) continue;
+                if (!tag.IsLeaderVisible(reference)) continue;
 #endif
-                
-                variants.Add(_tag.GetLeaderEnd(reference));
+                variants.Add(tag.GetLeaderEnd(reference));
             }
             
             return variants;
@@ -107,15 +98,14 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveHasLeaderElbow()
         {
-            var references = _tag.GetTaggedReferences();
+            var references = tag.GetTaggedReferences();
             var variants = new Variants<bool>(references.Count);
             foreach (var reference in references)
             {
 #if REVIT2023_OR_GREATER
-                if (!_tag.IsLeaderVisible(reference)) continue;
+                if (!tag.IsLeaderVisible(reference)) continue;
 #endif
-                
-                variants.Add(_tag.HasLeaderElbow(reference));
+                variants.Add(tag.HasLeaderElbow(reference));
             }
             
             return variants;
@@ -125,16 +115,20 @@ public sealed class IndependentTagDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveIsLeaderVisible()
         {
-            var references = _tag.GetTaggedReferences();
+            var references = tag.GetTaggedReferences();
             var variants = new Variants<bool>(references.Count);
             
             foreach (var reference in references)
             {
-                variants.Add(_tag.IsLeaderVisible(reference));
+                variants.Add(tag.IsLeaderVisible(reference));
             }
             
             return variants;
         }
 #endif
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
     }
 }

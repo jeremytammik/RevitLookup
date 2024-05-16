@@ -25,17 +25,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
+public sealed class FamilyInstanceDescriptor(FamilyInstance familyInstance) : ElementDescriptor(familyInstance)
 {
-    private readonly FamilyInstance _familyInstance;
-    
-    public FamilyInstanceDescriptor(FamilyInstance familyInstance)
-    {
-        _familyInstance = familyInstance;
-        Name = ElementDescriptor.CreateName(familyInstance);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -49,10 +41,10 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
         
         IVariants ResolveGetRoom()
         {
-            var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
-            foreach (Phase phase in _familyInstance.Document.Phases)
+            var variants = new Variants<Room>(familyInstance.Document.Phases.Size);
+            foreach (Phase phase in familyInstance.Document.Phases)
             {
-                variants.Add(_familyInstance.get_Room(phase), phase.Name);
+                variants.Add(familyInstance.get_Room(phase), phase.Name);
             }
             
             return variants;
@@ -60,10 +52,10 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
         
         IVariants ResolveFromRoom()
         {
-            var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
-            foreach (Phase phase in _familyInstance.Document.Phases)
+            var variants = new Variants<Room>(familyInstance.Document.Phases.Size);
+            foreach (Phase phase in familyInstance.Document.Phases)
             {
-                variants.Add(_familyInstance.get_FromRoom(phase), phase.Name);
+                variants.Add(familyInstance.get_FromRoom(phase), phase.Name);
             }
             
             return variants;
@@ -71,10 +63,10 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
         
         IVariants ResolveToRoom()
         {
-            var variants = new Variants<Room>(_familyInstance.Document.Phases.Size);
-            foreach (Phase phase in _familyInstance.Document.Phases)
+            var variants = new Variants<Room>(familyInstance.Document.Phases.Size);
+            foreach (Phase phase in familyInstance.Document.Phases)
             {
-                variants.Add(_familyInstance.get_ToRoom(phase), phase.Name);
+                variants.Add(familyInstance.get_ToRoom(phase), phase.Name);
             }
             
             return variants;
@@ -83,47 +75,47 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
         IVariants ResolveOriginalGeometry()
         {
             return new Variants<GeometryElement>(10)
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     View = Context.ActiveView,
                 }), "Active view")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     View = Context.ActiveView,
                     IncludeNonVisibleObjects = true,
                 }), "Active view, including non-visible objects")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
                 }), "Model, coarse detail level")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
                 }), "Model, fine detail level")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
                 }), "Model, medium detail level")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
                 }), "Model, undefined detail level")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Coarse,
                     IncludeNonVisibleObjects = true,
                 }), "Model, coarse detail level, including non-visible objects")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Fine,
                     IncludeNonVisibleObjects = true,
                 }), "Model, fine detail level, including non-visible objects")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Medium,
                     IncludeNonVisibleObjects = true,
                 }), "Model, medium detail level, including non-visible objects")
-                .Add(_familyInstance.GetOriginalGeometry(new Options
+                .Add(familyInstance.GetOriginalGeometry(new Options
                 {
                     DetailLevel = ViewDetailLevel.Undefined,
                     IncludeNonVisibleObjects = true,
@@ -133,26 +125,26 @@ public sealed class FamilyInstanceDescriptor : Descriptor, IDescriptorResolver, 
         IVariants ResolveGetReferences()
         {
             return new Variants<IList<Reference>>(11)
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Front), "Front")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Left), "Left")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Right), "Right")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.Top), "Top")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterElevation), "Center elevation")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
-                .Add(_familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference");
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.Back), "Back")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.Bottom), "Bottom")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.StrongReference), "Strong reference")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.WeakReference), "Weak reference")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.Front), "Front")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.Left), "Left")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.Right), "Right")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.Top), "Top")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.CenterElevation), "Center elevation")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.CenterFrontBack), "Center front back")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.CenterLeftRight), "Center left right")
+                .Add(familyInstance.GetReferences(FamilyInstanceReferenceType.NotAReference), "Not a reference");
         }
     }
     
-    public void RegisterExtensions(IExtensionManager manager)
+    public override void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(nameof(AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds),
-            _ => AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds(_familyInstance));
+            _ => AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds(familyInstance));
         manager.Register(nameof(AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance),
-            _ => AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance(_familyInstance));
+            _ => AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance(familyInstance));
     }
 }

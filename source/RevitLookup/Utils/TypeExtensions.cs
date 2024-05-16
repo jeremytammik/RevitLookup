@@ -18,31 +18,19 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Reflection;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
+namespace RevitLookup.Utils;
 
-namespace RevitLookup.Core.ComponentModel.Descriptors;
-
-public sealed class RevitLinkTypeDescriptor(RevitLinkType element) : ElementDescriptor(element)
+public static class TypeExtensions
 {
-    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public static bool IsImplementInterfaceDirectly<TInterface>(this Type type)
     {
-        return target switch
+        var interfaceType = typeof(TInterface);
+        var mapping = type.GetInterfaceMap(interfaceType);
+        foreach (var method in mapping.TargetMethods)
         {
-            nameof(RevitLinkType.Load) => Variants.Disabled,
-            nameof(RevitLinkType.Reload) => Variants.Disabled,
-            nameof(RevitLinkType.IsLoaded) => ResolveIsLoaded,
-            _ => null
-        };
-        
-        IVariants ResolveIsLoaded()
-        {
-            return Variants.Single(RevitLinkType.IsLoaded(element.Document, element.Id));
+            if (method.DeclaringType == type) return true;
         }
-    }
-    
-    public override void RegisterExtensions(IExtensionManager manager)
-    {
+        
+        return false;
     }
 }

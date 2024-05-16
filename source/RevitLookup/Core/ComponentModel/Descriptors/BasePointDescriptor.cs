@@ -24,17 +24,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class BasePointDescriptor : Descriptor, IDescriptorResolver
+public sealed class BasePointDescriptor(BasePoint basePoint) : ElementDescriptor(basePoint)
 {
-    private readonly BasePoint _basePoint;
-    
-    public BasePointDescriptor(BasePoint basePoint)
-    {
-        _basePoint = basePoint;
-        Name = ElementDescriptor.CreateName(basePoint);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -45,12 +37,16 @@ public sealed class BasePointDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveGetSurveyPoint()
         {
-            return Variants.Single(BasePoint.GetSurveyPoint(_basePoint.Document));
+            return Variants.Single(BasePoint.GetSurveyPoint(basePoint.Document));
         }
         
         IVariants ResolveGetProjectBasePoint()
         {
-            return Variants.Single(BasePoint.GetProjectBasePoint(_basePoint.Document));
+            return Variants.Single(BasePoint.GetProjectBasePoint(basePoint.Document));
         }
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
     }
 }
