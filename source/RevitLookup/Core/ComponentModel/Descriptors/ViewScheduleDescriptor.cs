@@ -24,17 +24,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
+public sealed class ViewScheduleDescriptor(ViewSchedule viewSchedule) : ElementDescriptor(viewSchedule)
 {
-    private readonly ViewSchedule _viewSchedule;
-    
-    public ViewScheduleDescriptor(ViewSchedule viewSchedule)
-    {
-        _viewSchedule = viewSchedule;
-        Name = ElementDescriptor.CreateName(viewSchedule);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -68,7 +60,7 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
             
             foreach (StripedRowPattern pattern in patterns)
             {
-                variants.Add(_viewSchedule.GetStripedRowsColor(pattern), pattern.ToString());
+                variants.Add(viewSchedule.GetStripedRowsColor(pattern), pattern.ToString());
             }
             
             return variants;
@@ -81,7 +73,7 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
             
             foreach (var type in types)
             {
-                var result = _viewSchedule.IsValidTextTypeId(type.Id);
+                var result = viewSchedule.IsValidTextTypeId(type.Id);
                 variants.Add(result, $"{type.Name}: {result}");
             }
             
@@ -192,12 +184,12 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
 #if REVIT2022_OR_GREATER
         IVariants ResolveScheduleInstances()
         {
-            var count = _viewSchedule.GetSegmentCount();
+            var count = viewSchedule.GetSegmentCount();
             var variants = new Variants<IList<ElementId>>(count);
             
             for (var i = -1; i < count; i++)
             {
-                variants.Add(_viewSchedule.GetScheduleInstances(i));
+                variants.Add(viewSchedule.GetScheduleInstances(i));
             }
             
             return variants;
@@ -205,12 +197,12 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveSegmentHeight()
         {
-            var count = _viewSchedule.GetSegmentCount();
+            var count = viewSchedule.GetSegmentCount();
             var variants = new Variants<double>(count);
             
             for (var i = 0; i < count; i++)
             {
-                variants.Add(_viewSchedule.GetSegmentHeight(i));
+                variants.Add(viewSchedule.GetSegmentHeight(i));
             }
             
             return variants;
@@ -245,5 +237,9 @@ public sealed class ViewScheduleDescriptor : Descriptor, IDescriptorResolver
         {
             return Variants.Single(ViewSchedule.GetValidFamiliesForNoteBlock(context));
         }
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
     }
 }

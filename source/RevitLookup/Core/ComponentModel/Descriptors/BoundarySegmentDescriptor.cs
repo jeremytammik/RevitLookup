@@ -31,8 +31,8 @@ public sealed class BoundarySegmentDescriptor : Descriptor, IDescriptorCollector
         var curve = boundarySegment.GetCurve();
         Name = curve switch
         {
-            null => $"ID: {boundarySegment.ElementId}",
-            _ => $"ID: {boundarySegment.ElementId}, {curve.Length.ToString(CultureInfo.InvariantCulture)} ft",
+            null => $"ID{boundarySegment.ElementId}",
+            _ => $"ID{boundarySegment.ElementId}, {curve.Length.ToString(CultureInfo.InvariantCulture)} ft",
         };
     }
 }

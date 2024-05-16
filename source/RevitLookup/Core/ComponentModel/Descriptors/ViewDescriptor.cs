@@ -24,17 +24,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
+public sealed class ViewDescriptor(View view) : ElementDescriptor(view)
 {
-    private readonly View _view;
-    
-    public ViewDescriptor(View view)
-    {
-        _view = view;
-        Name = ElementDescriptor.CreateName(view);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -65,10 +57,10 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
-                var result = _view.CanCategoryBeHidden(category.Id);
+                var result = view.CanCategoryBeHidden(category.Id);
                 variants.Add(result, $"{category.Name}: {result}");
             }
-
+            
             return variants;
         }
         
@@ -78,7 +70,7 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
-                var result = _view.CanCategoryBeHiddenTemporary(category.Id);
+                var result = view.CanCategoryBeHiddenTemporary(category.Id);
                 variants.Add(result, $"{category.Name}: {result}");
             }
             
@@ -92,7 +84,8 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             
             foreach (ViewDuplicateOption option in values)
             {
-                variants.Add(_view.CanViewBeDuplicated(option), option.ToString());
+                var result = view.CanViewBeDuplicated(option);
+                variants.Add(result, $"{option.ToString()}: {result}");
             }
             
             return variants;
@@ -104,10 +97,10 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
-                var result = _view.GetCategoryHidden(category.Id);
+                var result = view.GetCategoryHidden(category.Id);
                 variants.Add(result, $"{category.Name}: {result}");
             }
-
+            
             return variants;
         }
         
@@ -117,7 +110,7 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             var variants = new Variants<OverrideGraphicSettings>(categories.Size);
             foreach (Category category in categories)
             {
-                var result = _view.GetCategoryOverrides(category.Id);
+                var result = view.GetCategoryOverrides(category.Id);
                 variants.Add(result, category.Name);
             }
             
@@ -130,8 +123,8 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             var variants = new Variants<bool>(categories.Size);
             foreach (Category category in categories)
             {
-                var result = _view.IsCategoryOverridable(category.Id);
-                variants.Add(result, category.Name);
+                var result = view.IsCategoryOverridable(category.Id);
+                variants.Add(result, $"{category.Name}: {result}");
             }
             
             return variants;
@@ -139,12 +132,12 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveFilterOverrides()
         {
-            var filters = _view.GetFilters();
+            var filters = view.GetFilters();
             var variants = new Variants<OverrideGraphicSettings>(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
-                var result = _view.GetFilterOverrides(filterId);
+                var result = view.GetFilterOverrides(filterId);
                 variants.Add(result, filter.Name);
             }
             
@@ -153,12 +146,12 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveFilterVisibility()
         {
-            var filters = _view.GetFilters();
+            var filters = view.GetFilters();
             var variants = new Variants<bool>(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
-                var result = _view.GetFilterVisibility(filterId);
+                var result = view.GetFilterVisibility(filterId);
                 variants.Add(result, $"{filter.Name}: {result}");
             }
             
@@ -167,12 +160,12 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveFilterEnabled()
         {
-            var filters = _view.GetFilters();
+            var filters = view.GetFilters();
             var variants = new Variants<bool>(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
-                var result = _view.GetIsFilterEnabled(filterId);
+                var result = view.GetIsFilterEnabled(filterId);
                 variants.Add(result, $"{filter.Name}: {result}");
             }
             
@@ -181,12 +174,12 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveIsFilterApplied()
         {
-            var filters = _view.GetFilters();
+            var filters = view.GetFilters();
             var variants = new Variants<bool>(filters.Count);
             foreach (var filterId in filters)
             {
                 var filter = filterId.ToElement(context)!;
-                var result = _view.IsFilterApplied(filterId);
+                var result = view.IsFilterApplied(filterId);
                 variants.Add(result, $"{filter.Name}: {result}");
             }
             
@@ -200,7 +193,8 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             
             foreach (TemporaryViewMode mode in values)
             {
-                variants.Add(_view.IsInTemporaryViewMode(mode), mode.ToString());
+                var result = view.IsInTemporaryViewMode(mode);
+                variants.Add(result, $"{mode.ToString()}: {result}");
             }
             
             return variants;
@@ -212,7 +206,7 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             var variants = new Variants<bool>(templates.Length);
             foreach (var template in templates)
             {
-                var result = _view.IsValidViewTemplate(template.Id);
+                var result = view.IsValidViewTemplate(template.Id);
                 variants.Add(result, $"{template.Name}: {result}");
             }
             
@@ -225,7 +219,7 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             var variants = new Variants<bool>(workSets.Count);
             foreach (var workSet in workSets)
             {
-                var result = _view.IsWorksetVisible(workSet.Id);
+                var result = view.IsWorksetVisible(workSet.Id);
                 variants.Add(result, $"{workSet.Name}: {result}");
             }
             
@@ -238,7 +232,7 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             var variants = new Variants<WorksetVisibility>(workSets.Count);
             foreach (var workSet in workSets)
             {
-                var result = _view.GetWorksetVisibility(workSet.Id);
+                var result = view.GetWorksetVisibility(workSet.Id);
                 variants.Add(result, $"{workSet.Name}: {result}");
             }
             
@@ -252,25 +246,30 @@ public sealed class ViewDescriptor : Descriptor, IDescriptorResolver
             
             foreach (WorksharingDisplayMode mode in values)
             {
-                variants.Add(_view.SupportsWorksharingDisplayMode(mode), mode.ToString());
+                var result = view.SupportsWorksharingDisplayMode(mode);
+                variants.Add(result, $"{mode.ToString()}: {result}");
             }
             
             return variants;
         }
-#if REVIT2022_OR_GREATER      
-
+#if REVIT2022_OR_GREATER
+        
         IVariants ResolveColorFillSchemeId()
         {
             var categories = context.Settings.Categories;
             var variants = new Variants<ElementId>(categories.Size);
             foreach (Category category in categories)
             {
-                var result = _view.GetColorFillSchemeId(category.Id);
+                var result = view.GetColorFillSchemeId(category.Id);
                 variants.Add(result, category.Name);
             }
             
             return variants;
         }
 #endif
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
     }
 }
