@@ -46,20 +46,35 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
-        contextMenu.AddMenuItem()
+        contextMenu.AddMenuItem("ShowMenuItem")
             .SetHeader("Show edge")
             .SetCommand(_edge, edge =>
             {
+                if (Context.UiDocument is null) return;
+                if (edge.Reference is null) return;
+                
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (Context.UiDocument is null) return;
-                    if (edge.Reference is null) return;
                     var element = edge.Reference.ElementId.ToElement(Context.Document);
                     if (element is not null) Context.UiDocument.ShowElements(element);
                     Context.UiDocument.Selection.SetReferences([edge.Reference]);
                 });
             })
             .SetShortcut(ModifierKeys.Alt, Key.F7);
+        
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetHeader("Select edge")
+            .SetCommand(_edge, edge =>
+            {
+                if (Context.UiDocument is null) return;
+                if (edge.Reference is null) return;
+                
+                Application.ActionEventHandler.Raise(_ =>
+                {
+                    Context.UiDocument.Selection.SetReferences([edge.Reference]);
+                });
+            })
+            .SetShortcut(ModifierKeys.Alt, Key.F8);
 #endif
     }
 }

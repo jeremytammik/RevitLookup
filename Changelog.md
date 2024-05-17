@@ -1,5 +1,34 @@
 # Changelog
 
+# 2025-05-17 **2025.0.4**
+
+A new Release focused on improving core functionalities and robustness of the product.
+
+## Improvements
+
+- Introducing a preview feature for **Family Size Table**, making it easier to manage and visualize family sizes by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/236
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/57001fab-cc5b-4973-a42a-70ffe3420b69)
+  To access it:
+  - Enable **Show Extensions** in the view menu
+  - Select any **FamilyInstance**
+  - Navigate to the **Symbol**
+  - Navigate to the **Family** (or just search for Family class objects in the **Snoop database** command)
+  - Navigate to the **GetFamilySizeTableManager** method
+  - Navigate to the **GetSizeTable** method
+  - Right-click on one of the tables and select the **Show table** command
+
+  _Note: Family size table is currently in read-only mode_
+
+- Added new context menu item for selecting Element classes without showing
+- Added new fresh, intuitive icons to the context menu for a more user-friendly interface.
+- Refined labels, class names, and exception messages
+
+## Bugs 
+
+- Resolved an issue where the delete action was not displayed in the context menu for ElementType classes
+- Fixed the context menu display issue for Element classes, broken in previous release
+- Fixed the order of descriptors to prevent missing extensions and context menu items in some classes, broken in previous release by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/235
+
 # 2025-05-13 **2025.0.3**
 
 ## General

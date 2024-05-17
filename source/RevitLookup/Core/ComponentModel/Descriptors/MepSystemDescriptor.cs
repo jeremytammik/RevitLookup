@@ -25,17 +25,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class MepSystemDescriptor : Descriptor, IDescriptorResolver
+public sealed class MepSystemDescriptor(MEPSystem mepSystem) : ElementDescriptor(mepSystem)
 {
-    private readonly MEPSystem _mepSystem;
-    
-    public MepSystemDescriptor(MEPSystem mepSystem)
-    {
-        _mepSystem = mepSystem;
-        Name = ElementDescriptor.CreateName(mepSystem);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -43,31 +35,35 @@ public sealed class MepSystemDescriptor : Descriptor, IDescriptorResolver
             nameof(MEPSystem.GetSectionByNumber) => ResolveSectionByNumber,
             _ => null
         };
-
+        
         IVariants ResolveSectionByNumber()
         {
-            var capacity = _mepSystem.SectionsCount;
+            var capacity = mepSystem.SectionsCount;
             var variants = new Variants<MEPSection>(capacity);
             for (var i = 0; i < capacity; i++)
             {
-                var section = _mepSystem.GetSectionByIndex(i);
+                var section = mepSystem.GetSectionByIndex(i);
                 variants.Add(section, $"Number {section.Number}");
             }
-
+            
             return variants;
         }
-
+        
         IVariants ResolveSectionByIndex()
         {
-            var capacity = _mepSystem.SectionsCount;
+            var capacity = mepSystem.SectionsCount;
             var variants = new Variants<MEPSection>(capacity);
             for (var i = 0; i < capacity; i++)
             {
-                var section = _mepSystem.GetSectionByIndex(i);
+                var section = mepSystem.GetSectionByIndex(i);
                 variants.Add(section, $"Index {i}");
             }
-
+            
             return variants;
         }
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
     }
 }

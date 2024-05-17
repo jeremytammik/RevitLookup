@@ -25,8 +25,18 @@
         Header="Refresh"
         Icon="{rl:SymbolIcon ArrowCounterclockwise12}" />
     <rl:MenuItem
-        x:Key="ShowTimeMenuItem"
+        x:Key="DeleteMenuItem"
         x:Shared="False"
-        Header="Show/hide time"
-        Icon="{rl:SymbolIcon Timer12}" />
+        Header="Delete"
+        Icon="{rl:SymbolIcon Delete16}" />
+    <rl:MenuItem
+        x:Key="ShowMenuItem"
+        x:Shared="False"
+        Header="Delete"
+        Icon="{rl:SymbolIcon Eye16}" />
+    <rl:MenuItem
+        x:Key="SelectMenuItem"
+        x:Shared="False"
+        Header="Delete"
+        Icon="{rl:SymbolIcon SquareHint16}" />
 </ResourceDictionary>

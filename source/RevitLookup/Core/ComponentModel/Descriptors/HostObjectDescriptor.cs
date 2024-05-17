@@ -24,26 +24,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class HostObjectDescriptor : Descriptor, IDescriptorExtension, IDescriptorResolver
+public sealed class HostObjectDescriptor(HostObject hostObject) : ElementDescriptor(hostObject)
 {
-    private readonly HostObject _hostObject;
-    
-    public HostObjectDescriptor(HostObject hostObject)
-    {
-        _hostObject = hostObject;
-        Name = ElementDescriptor.CreateName(hostObject);
-    }
-    
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        manager.Register(nameof(HostExtensions.GetBottomFaces), _ => _hostObject.GetBottomFaces());
-        manager.Register(nameof(HostExtensions.GetTopFaces), _ => _hostObject.GetTopFaces());
-        manager.Register(nameof(HostExtensions.GetSideFaces), _ => new Variants<IList<Reference>>(2)
-            .Add(_hostObject.GetSideFaces(ShellLayerType.Interior), "Interior")
-            .Add(_hostObject.GetSideFaces(ShellLayerType.Exterior), "Exterior"));
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -53,7 +36,16 @@ public sealed class HostObjectDescriptor : Descriptor, IDescriptorExtension, IDe
         
         IVariants ResolveFindInserts()
         {
-            return Variants.Single(_hostObject.FindInserts(true, true, true, true));
+            return Variants.Single(hostObject.FindInserts(true, true, true, true));
         }
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(HostExtensions.GetBottomFaces), _ => hostObject.GetBottomFaces());
+        manager.Register(nameof(HostExtensions.GetTopFaces), _ => hostObject.GetTopFaces());
+        manager.Register(nameof(HostExtensions.GetSideFaces), _ => new Variants<IList<Reference>>(2)
+            .Add(hostObject.GetSideFaces(ShellLayerType.Interior), "Interior")
+            .Add(hostObject.GetSideFaces(ShellLayerType.Exterior), "Exterior"));
     }
 }

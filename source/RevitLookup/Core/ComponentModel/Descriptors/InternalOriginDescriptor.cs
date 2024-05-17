@@ -24,17 +24,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class InternalOriginDescriptor : Descriptor, IDescriptorResolver
+public sealed class InternalOriginDescriptor(InternalOrigin internalOrigin) : ElementDescriptor(internalOrigin)
 {
-    private readonly InternalOrigin _internalOrigin;
-    
-    public InternalOriginDescriptor(InternalOrigin internalOrigin)
-    {
-        _internalOrigin = internalOrigin;
-        Name = ElementDescriptor.CreateName(internalOrigin);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -44,7 +36,11 @@ public sealed class InternalOriginDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveGet()
         {
-            return Variants.Single(InternalOrigin.Get(_internalOrigin.Document));
+            return Variants.Single(InternalOrigin.Get(internalOrigin.Document));
         }
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
     }
 }

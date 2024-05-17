@@ -24,17 +24,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class SpatialElementDescriptor : Descriptor, IDescriptorResolver
+public sealed class SpatialElementDescriptor(SpatialElement spatialElement) : ElementDescriptor(spatialElement)
 {
-    private readonly SpatialElement _spatialElement;
-    
-    public SpatialElementDescriptor(SpatialElement spatialElement)
-    {
-        _spatialElement = spatialElement;
-        Name = ElementDescriptor.CreateName(spatialElement);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -45,46 +37,50 @@ public sealed class SpatialElementDescriptor : Descriptor, IDescriptorResolver
         IVariants ResolveGetBoundarySegments()
         {
             return new Variants<IList<IList<BoundarySegment>>>(8)
-                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center,
                     StoreFreeBoundaryFaces = true
                 }), "Center, store free boundary faces")
-                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreBoundary,
                     StoreFreeBoundaryFaces = true
                 }), "Core boundary, store free boundary faces")
-                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish,
                     StoreFreeBoundaryFaces = true
                 }), "Finish, store free boundary faces")
-                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreCenter,
                     StoreFreeBoundaryFaces = true
                 }), "Core center, store free boundary faces")
-                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Center,
                     StoreFreeBoundaryFaces = true
                 }), "Center")
-                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreBoundary,
                     StoreFreeBoundaryFaces = true
                 }), "Core boundary")
-                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish,
                     StoreFreeBoundaryFaces = true
                 }), "Finish")
-                .Add(_spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
+                .Add(spatialElement.GetBoundarySegments(new SpatialElementBoundaryOptions
                 {
                     SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.CoreCenter,
                     StoreFreeBoundaryFaces = true
                 }), "Core center");
         }
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
     }
 }

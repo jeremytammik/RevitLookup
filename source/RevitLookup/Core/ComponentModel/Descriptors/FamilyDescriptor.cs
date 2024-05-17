@@ -18,23 +18,28 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilyDescriptor : Descriptor, IDescriptorExtension
+public sealed class FamilyDescriptor(Family family) : ElementDescriptor(family)
 {
-    private readonly Family _family;
-    
-    public FamilyDescriptor(Family family)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
-        _family = family;
-        Name = ElementDescriptor.CreateName(family);
+        return target switch
+        {
+            _ => null
+        };
     }
     
-    public void RegisterExtensions(IExtensionManager manager)
+    public override void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context => FamilySizeTableManager.GetFamilySizeTableManager(context, _family.Id));
+        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
+        {
+            var result = FamilySizeTableManager.GetFamilySizeTableManager(context, family.Id);
+            return Variants.Single(result);
+        });
     }
 }

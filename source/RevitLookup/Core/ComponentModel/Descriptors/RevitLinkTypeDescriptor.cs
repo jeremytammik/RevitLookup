@@ -24,17 +24,9 @@ using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class RevitLinkTypeDescriptor : Descriptor, IDescriptorResolver
+public sealed class RevitLinkTypeDescriptor(RevitLinkType element) : ElementDescriptor(element)
 {
-    private readonly RevitLinkType _element;
-    
-    public RevitLinkTypeDescriptor(RevitLinkType element)
-    {
-        _element = element;
-        Name = ElementDescriptor.CreateName(element);
-    }
-    
-    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
@@ -46,7 +38,11 @@ public sealed class RevitLinkTypeDescriptor : Descriptor, IDescriptorResolver
         
         IVariants ResolveIsLoaded()
         {
-            return Variants.Single(RevitLinkType.IsLoaded(_element.Document, _element.Id));
+            return Variants.Single(RevitLinkType.IsLoaded(element.Document, element.Id));
         }
+    }
+    
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
     }
 }
