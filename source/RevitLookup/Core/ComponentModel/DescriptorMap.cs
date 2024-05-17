@@ -70,6 +70,7 @@ public static class DescriptorMap
             IEnumerator value => new EnumeratorDescriptor(value),
             
             //APIObjects
+            BoundingBoxXYZ value when type is null || type == typeof(BoundingBoxXYZ) => new BoundingBoxXyzDescriptor(value),
             Category value when type is null || type == typeof(Category) => new CategoryDescriptor(value),
             Parameter value when type is null || type == typeof(Parameter) => new ParameterDescriptor(value),
             FamilyParameter value when type is null || type == typeof(FamilyParameter) => new FamilyParameterDescriptor(value),
