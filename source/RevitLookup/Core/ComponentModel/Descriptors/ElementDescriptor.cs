@@ -247,7 +247,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             
             return variants;
         }
-    
+        
 #if REVIT2022_OR_GREATER
         IVariants ResolveIsCreatedPhaseOrderValid()
         {
@@ -275,7 +275,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             return variants;
         }
         
-#endif 
+#endif
     }
     
     public virtual void RegisterExtensions(IExtensionManager manager)
@@ -286,9 +286,9 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
     
     public virtual void RegisterMenu(ContextMenu contextMenu)
     {
-        if (_element is not ElementType)
+        if (_element is not ElementType && _element is not Family)
         {
-            contextMenu.AddMenuItem()
+            contextMenu.AddMenuItem("ShowMenuItem")
                 .SetHeader("Show element")
                 .SetCommand(_element, element =>
                 {
@@ -304,20 +304,21 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 .SetShortcut(ModifierKeys.Alt, Key.F7);
         }
         
-        contextMenu.AddMenuItem()
+        contextMenu.AddMenuItem("SelectMenuItem")
             .SetHeader("Select element")
             .SetCommand(_element, element =>
             {
+                if (Context.UiDocument is null) return;
+                if (!element.IsValidObject) return;
+                
                 Application.ActionEventHandler.Raise(_ =>
                 {
-                    if (Context.UiDocument is null) return;
-                    if (!element.IsValidObject) return;
                     Context.UiDocument.Selection.SetElementIds([element.Id]);
                 });
             })
-            .SetShortcut(ModifierKeys.Alt, Key.F7);
+            .SetShortcut(ModifierKeys.Alt, Key.F8);
         
-        contextMenu.AddMenuItem()
+        contextMenu.AddMenuItem("DeleteMenuItem")
             .SetHeader("Delete")
             .SetCommand(_element, async element =>
             {

@@ -70,7 +70,7 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
     
     public void RegisterMenu(ContextMenu contextMenu)
     {
-        contextMenu.AddMenuItem()
+        contextMenu.AddMenuItem("ShowMenuItem")
             .SetHeader("Show table")
             .SetAvailability(table.IsValidObject)
             .SetCommand(table, async sizeTable =>
