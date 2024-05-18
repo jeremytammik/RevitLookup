@@ -17,12 +17,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2023.3
         with:
-          args: --baseline,qodana.sarif.json,--ide,QDNET
+          args: --baseline,qodana.sarif.json,--ide,QDNET,--diff-start,${{ github.event.pull_request.base.sha }}",--diff-end,${{ github.event.pull_request.head.sha }}"
           pr-mode: ${{ github.event_name == 'pull_request_target' }}
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
