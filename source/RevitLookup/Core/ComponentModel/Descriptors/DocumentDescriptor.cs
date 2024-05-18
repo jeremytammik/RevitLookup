@@ -77,7 +77,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
         if (!_document.IsFamilyDocument) return;
         manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
         {
-            var result = FamilySizeTableManager.GetFamilySizeTableManager(_document, new ElementId(BuiltInParameter.RBS_LOOKUP_TABLE_NAME));
+            var result = FamilySizeTableManager.GetFamilySizeTableManager(context, new ElementId(BuiltInParameter.RBS_LOOKUP_TABLE_NAME));
             return Variants.Single(result);
         });
     }
