@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using Autodesk.Revit.DB.Analysis;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -271,5 +272,6 @@ public sealed class ViewDescriptor(View view) : ElementDescriptor(view)
     
     public override void RegisterExtensions(IExtensionManager manager)
     {
+        manager.Register(nameof(SpatialFieldManager.GetSpatialFieldManager), _ => SpatialFieldManager.GetSpatialFieldManager(view));
     }
 }

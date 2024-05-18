@@ -19,6 +19,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using Autodesk.Revit.DB.Lighting;
+#if REVIT2023_OR_GREATER
+using Autodesk.Revit.DB.Structure;
+#endif
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -74,11 +78,22 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
     
     public void RegisterExtensions(IExtensionManager manager)
     {
-        if (!_document.IsFamilyDocument) return;
-        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
+        manager.Register(nameof(GlobalParametersManager.GetAllGlobalParameters), GlobalParametersManager.GetAllGlobalParameters);
+        manager.Register(nameof(LightGroupManager.GetLightGroupManager), LightGroupManager.GetLightGroupManager);
+#if REVIT2022_OR_GREATER
+        manager.Register(nameof(TemporaryGraphicsManager.GetTemporaryGraphicsManager), TemporaryGraphicsManager.GetTemporaryGraphicsManager);
+#endif
+#if REVIT2023_OR_GREATER
+        manager.Register(nameof(AnalyticalToPhysicalAssociationManager.GetAnalyticalToPhysicalAssociationManager),
+            AnalyticalToPhysicalAssociationManager.GetAnalyticalToPhysicalAssociationManager);
+#endif
+        if (_document.IsFamilyDocument)
         {
-            var result = FamilySizeTableManager.GetFamilySizeTableManager(context, new ElementId(BuiltInParameter.RBS_LOOKUP_TABLE_NAME));
-            return Variants.Single(result);
-        });
+            manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
+            {
+                var familyTableId = new ElementId(BuiltInParameter.RBS_LOOKUP_TABLE_NAME);
+                return FamilySizeTableManager.GetFamilySizeTableManager(context, familyTableId);
+            });
+        }
     }
 }
