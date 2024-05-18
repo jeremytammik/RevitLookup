@@ -18,21 +18,20 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Autodesk.Revit.UI;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ApplicationDescriptor : Descriptor, IDescriptorExtension
+public sealed class UiApplicationDescriptor : Descriptor, IDescriptorExtension
 {
-    public ApplicationDescriptor(Autodesk.Revit.ApplicationServices.Application application)
-    {
-        Name = application.VersionName;
-    }
-    
     public void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register("GetFormulaFunctions", _ => FormulaManager.GetFunctions());
-        manager.Register("GetFormulaOperators", _ => FormulaManager.GetOperators());
+        manager.Register(nameof(UIThemeManager.CurrentTheme), _ => UIThemeManager.CurrentTheme);
+#if REVIT2024_OR_GREATER
+        manager.Register(nameof(UIThemeManager.CurrentCanvasTheme), _ => UIThemeManager.CurrentCanvasTheme);
+        manager.Register(nameof(UIThemeManager.FollowSystemColorTheme), _ => UIThemeManager.FollowSystemColorTheme);
+#endif
     }
 }

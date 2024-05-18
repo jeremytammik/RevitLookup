@@ -19,12 +19,16 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using Autodesk.Revit.DB.Analysis;
+using Autodesk.Revit.DB.Lighting;
+using Autodesk.Revit.DB.Structure;
+using Autodesk.Revit.UI;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
+public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension
 {
     private readonly Document _document;
     
@@ -69,6 +73,19 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
         {
             return Variants.Single(context.GetAllUnusedElements(new HashSet<ElementId>()));
         }
+#endif
+    }
+    
+    public void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(GlobalParametersManager.GetAllGlobalParameters), GlobalParametersManager.GetAllGlobalParameters);
+        manager.Register(nameof(LightGroupManager.GetLightGroupManager), LightGroupManager.GetLightGroupManager);
+#if REVIT2022_OR_GREATER
+        manager.Register(nameof(TemporaryGraphicsManager.GetTemporaryGraphicsManager), TemporaryGraphicsManager.GetTemporaryGraphicsManager);
+#endif
+#if REVIT2023_OR_GREATER
+        manager.Register(nameof(AnalyticalToPhysicalAssociationManager.GetAnalyticalToPhysicalAssociationManager),
+            AnalyticalToPhysicalAssociationManager.GetAnalyticalToPhysicalAssociationManager);
 #endif
     }
 }
