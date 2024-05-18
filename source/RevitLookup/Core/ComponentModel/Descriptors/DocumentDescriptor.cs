@@ -87,5 +87,13 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
         manager.Register(nameof(AnalyticalToPhysicalAssociationManager.GetAnalyticalToPhysicalAssociationManager),
             AnalyticalToPhysicalAssociationManager.GetAnalyticalToPhysicalAssociationManager);
 #endif
+        if (_document.IsFamilyDocument)
+        {
+            manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
+            {
+                var familyTableId = new ElementId(BuiltInParameter.RBS_LOOKUP_TABLE_NAME);
+                return FamilySizeTableManager.GetFamilySizeTableManager(context, familyTableId);
+            });
+        }
     }
 }
