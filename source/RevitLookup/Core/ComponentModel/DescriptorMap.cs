@@ -122,7 +122,7 @@ public static class DescriptorMap
             UpdaterInfo value when type is null || type == typeof(UpdaterInfo) => new UpdaterInfoDescriptor(value),
             ExternalService value when type is null || type == typeof(ExternalService) => new ExternalServiceDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
-            UIApplication value when type is null || type == typeof(UIApplication) => new UiApplicationDescriptor(),
+            UIApplication when type is null || type == typeof(UIApplication) => new UiApplicationDescriptor(),
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
             SchedulableField value when type is null || type == typeof(SchedulableField) => new SchedulableFieldDescriptor(value),
             CompoundStructureLayer value when type is null || type == typeof(CompoundStructureLayer) => new CompoundStructureLayerDescriptor(value),

@@ -19,10 +19,10 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB.Analysis;
 using Autodesk.Revit.DB.Lighting;
+#if REVIT2023_OR_GREATER
 using Autodesk.Revit.DB.Structure;
-using Autodesk.Revit.UI;
+#endif
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
