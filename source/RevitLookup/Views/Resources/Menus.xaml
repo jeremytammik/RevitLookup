@@ -32,11 +32,14 @@
     <rl:MenuItem
         x:Key="ShowMenuItem"
         x:Shared="False"
-        Header="Delete"
         Icon="{rl:SymbolIcon Eye16}" />
     <rl:MenuItem
         x:Key="SelectMenuItem"
         x:Shared="False"
-        Header="Delete"
         Icon="{rl:SymbolIcon SquareHint16}" />
+    <rl:MenuItem
+        x:Key="VisualizeMenuItem"
+        x:Shared="False"
+        Header="Visualize"
+        Icon="{rl:SymbolIcon Sparkle16}" />
 </ResourceDictionary>

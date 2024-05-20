@@ -83,8 +83,8 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<ParameterDescriptor>>();
-                    logger.LogError(exception, "Initialize EditParameterDialog error");
+                    var logger = context.ServiceProvider.GetService<ILogger<FamilySizeTableDescriptor>>();
+                    logger.LogError(exception, "FamilySizeTableDialog error");
                 }
             });
     }

@@ -20,29 +20,26 @@
 
 using System.Globalization;
 using System.Windows.Controls;
-#if REVIT2023_OR_GREATER
+using Microsoft.Extensions.Logging;
 using System.Windows.Input;
 using RevitLookup.Views.Extensions;
-#endif
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
-#if REVIT2023_OR_GREATER
     private readonly Face _face;
-
-#endif
+    
     public FaceDescriptor(Face face)
     {
-#if REVIT2023_OR_GREATER
         _face = face;
-#endif
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
-
+    
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
@@ -69,12 +66,30 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
                 if (Context.UiDocument is null) return;
                 if (face.Reference is null) return;
                 
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    Context.UiDocument.Selection.SetReferences([face.Reference]);
-                });
+                Application.ActionEventHandler.Raise(_ => Context.UiDocument.Selection.SetReferences([face.Reference]));
             })
             .SetShortcut(ModifierKeys.Alt, Key.F8);
 #endif
+        
+        contextMenu.AddMenuItem("VisualizeMenuItem")
+            .SetAvailability(_face.Area > 1e-6)
+            .SetCommand(_face, async face =>
+            {
+                if (Context.UiDocument is null) return;
+                
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                
+                try
+                {
+                    var dialog = new VisualizationDialog(context.ServiceProvider, face);
+                    await dialog.ShowAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<FaceDescriptor>>();
+                    logger.LogError(exception, "VisualizationDialog error");
+                }
+            })
+            .SetShortcut(ModifierKeys.Alt, Key.F9);
     }
 }

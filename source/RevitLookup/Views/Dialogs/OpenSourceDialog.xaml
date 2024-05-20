@@ -50,9 +50,11 @@
             <rl:ControlsDictionary />
         </DataGrid.Resources>
         <DataGrid.CellStyle>
+            <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
             <Style
                 TargetType="DataGridCell"
                 BasedOn="{StaticResource DefaultDataGridCellStyle}">
+                <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
                 <Setter
                     Property="Height"
                     Value="35" />

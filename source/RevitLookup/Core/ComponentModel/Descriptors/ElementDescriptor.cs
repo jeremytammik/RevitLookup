@@ -319,7 +319,6 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             .SetShortcut(ModifierKeys.Alt, Key.F8);
         
         contextMenu.AddMenuItem("DeleteMenuItem")
-            .SetHeader("Delete")
             .SetCommand(_element, async element =>
             {
                 if (Context.UiDocument is null) return;
