@@ -31,6 +31,8 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
         return target switch
         {
             nameof(FamilyManager.GetAssociatedFamilyParameter) => ResolveGetAssociatedFamilyParameter,
+            nameof(FamilyManager.IsParameterLockable) => ResolveIsParameterLockable,
+            nameof(FamilyManager.IsParameterLocked) => ResolveIsParameterLocked,
             _ => null
         };
 
@@ -41,7 +43,7 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
             var elements = elementTypes
                 .UnionWith(elementInstances)
                 .ToElements();
-
+            
             var resolveSet = new Variants<KeyValuePair<Parameter, FamilyParameter>>(elements.Count);
             foreach (var element in elements)
             {
@@ -54,7 +56,33 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
                     }
                 }
             }
-
+            
+            return resolveSet;
+        }
+        
+        IVariants ResolveIsParameterLockable()
+        {
+            var familyParameters = familyManager.Parameters;
+            var resolveSet = new Variants<bool>(familyParameters.Size);
+            foreach (FamilyParameter parameter in familyParameters)
+            {
+                var result = familyManager.IsParameterLockable(parameter);
+                resolveSet.Add(result, $"{parameter.Definition.Name}: {result}");
+            }
+            
+            return resolveSet;
+        }
+        
+        IVariants ResolveIsParameterLocked()
+        {
+            var familyParameters = familyManager.Parameters;
+            var resolveSet = new Variants<bool>(familyParameters.Size);
+            foreach (FamilyParameter parameter in familyParameters)
+            {
+                var result = familyManager.IsParameterLocked(parameter);
+                resolveSet.Add(result, $"{parameter.Definition.Name}: {result}");
+            }
+            
             return resolveSet;
         }
     }
