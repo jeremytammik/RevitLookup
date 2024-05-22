@@ -33,110 +33,110 @@ public sealed class LookupService : ILookupService
 {
     private static Dispatcher _dispatcher;
     private LookupServiceImpl _lookupService;
-
+    
     static LookupService()
     {
         var uiThread = new Thread(Dispatcher.Run);
         uiThread.SetApartmentState(ApartmentState.STA);
         uiThread.Start();
-
+        
         EnsureThreadStart(uiThread);
     }
-
+    
     public LookupService(IServiceScopeFactory scopeFactory)
     {
-        if (Thread.CurrentThread == _dispatcher.Thread)
+        if (_dispatcher.CheckAccess())
         {
             _lookupService = new LookupServiceImpl(scopeFactory);
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService = new LookupServiceImpl(scopeFactory));
+            _dispatcher.InvokeAsync(() => _lookupService = new LookupServiceImpl(scopeFactory)).Wait();
         }
     }
-
+    
     public ILookupServiceDependsStage Snoop(SnoopableType snoopableType)
     {
-        if (Thread.CurrentThread == _dispatcher.Thread)
+        if (_dispatcher.CheckAccess())
         {
             _lookupService.Snoop(snoopableType);
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableType));
+            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableType)).Wait();
         }
-
+        
         return this;
     }
-
+    
     public ILookupServiceDependsStage Snoop(SnoopableObject snoopableObject)
     {
-        if (Thread.CurrentThread == _dispatcher.Thread)
+        if (_dispatcher.CheckAccess())
         {
             _lookupService.Snoop(snoopableObject);
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableObject));
+            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableObject)).Wait();
         }
-
+        
         return this;
     }
-
+    
     public ILookupServiceDependsStage Snoop(IList<SnoopableObject> snoopableObjects)
     {
-        if (Thread.CurrentThread == _dispatcher.Thread)
+        if (_dispatcher.CheckAccess())
         {
             _lookupService.Snoop(snoopableObjects);
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableObjects));
+            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableObjects)).Wait();
         }
-
+        
         return this;
     }
-
+    
     public ILookupServiceShowStage DependsOn(IServiceProvider provider)
     {
-        if (Thread.CurrentThread == _dispatcher.Thread)
+        if (_dispatcher.CheckAccess())
         {
             _lookupService.DependsOn(provider);
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.DependsOn(provider));
+            _dispatcher.InvokeAsync(() => _lookupService.DependsOn(provider)).Wait();
         }
-
+        
         return this;
     }
-
+    
     public ILookupServiceExecuteStage Show<T>() where T : Page
     {
-        if (Thread.CurrentThread == _dispatcher.Thread)
+        if (_dispatcher.CheckAccess())
         {
             _lookupService.Show<T>();
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Show<T>());
+            _dispatcher.InvokeAsync(() => _lookupService.Show<T>()).Wait();
         }
-
+        
         return this;
     }
-
+    
     public void Execute<T>(Action<T> handler) where T : class
     {
-        if (Thread.CurrentThread == _dispatcher.Thread)
+        if (_dispatcher.CheckAccess())
         {
             _lookupService.Execute(handler);
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Execute(handler));
+            _dispatcher.InvokeAsync(() => _lookupService.Execute(handler)).Wait();
         }
     }
-
+    
     private static void EnsureThreadStart(Thread thread)
     {
         Dispatcher dispatcher = null;
@@ -146,11 +146,11 @@ public sealed class LookupService : ILookupService
             spinWait.SpinOnce();
             dispatcher = Dispatcher.FromThread(thread);
         }
-
+        
         _dispatcher = dispatcher;
     }
-
-    private class LookupServiceImpl
+    
+    private sealed class LookupServiceImpl
     {
         private Window _owner;
         private Task _activeTask;
@@ -158,38 +158,38 @@ public sealed class LookupService : ILookupService
         private readonly ISnoopVisualService _visualService;
         private readonly INavigationService _navigationService;
         private readonly Window _window;
-
+        
         public LookupServiceImpl(IServiceScopeFactory scopeFactory)
         {
             _scope = scopeFactory.CreateScope();
-
+            
             _window = (Window) _scope.ServiceProvider.GetService<IWindow>();
             _visualService = _scope.ServiceProvider.GetService<ISnoopVisualService>();
             _navigationService = _scope.ServiceProvider.GetService<INavigationService>();
-
+            
             _window.Closed += (_, _) => _scope.Dispose();
         }
-
+        
         public void Snoop(SnoopableType snoopableType)
         {
             _activeTask = _visualService!.SnoopAsync(snoopableType);
         }
-
+        
         public void Snoop(SnoopableObject snoopableObject)
         {
             _visualService.Snoop(snoopableObject);
         }
-
+        
         public void Snoop(IList<SnoopableObject> snoopableObjects)
         {
             _visualService.Snoop(snoopableObjects);
         }
-
+        
         public void DependsOn(IServiceProvider provider)
         {
             _owner = (Window) provider.GetService<IWindow>();
         }
-
+        
         public void Show<T>() where T : Page
         {
             if (_activeTask is null)
@@ -201,7 +201,7 @@ public sealed class LookupService : ILookupService
                 _activeTask = _activeTask.ContinueWith(_ => ShowPage<T>(), TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
-
+        
         public void Execute<T>(Action<T> handler) where T : class
         {
             if (_activeTask is null)
@@ -213,13 +213,13 @@ public sealed class LookupService : ILookupService
                 _activeTask = _activeTask.ContinueWith(_ => InvokeHandler(handler), TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
-
+        
         private void InvokeHandler<T>(Action<T> handler) where T : class
         {
             var service = _scope.ServiceProvider.GetService<T>();
             handler.Invoke(service);
         }
-
+        
         private void ShowPage<T>() where T : Page
         {
             if (_owner is null)
@@ -231,7 +231,7 @@ public sealed class LookupService : ILookupService
                 _window.Left = _owner.Left + 47;
                 _window.Top = _owner.Top + 49;
             }
-
+            
             _window.Show(Context.UiApplication.MainWindowHandle);
             _navigationService.Navigate(typeof(T));
         }
