@@ -27,7 +27,8 @@ namespace RevitLookup.Core.Servers;
 
 public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualizationServer> logger) : IDirectContext3DServer
 {
-    private bool _hasUpdates = true;
+    private bool _hasGeometryUpdates = true;
+    private bool _hasEffectsUpdates = true;
     private readonly Guid _guid = Guid.NewGuid();
     private readonly RenderingBufferStorage _faceBuffer = new();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
@@ -62,24 +63,33 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
     {
         try
         {
-            if (_hasUpdates)
+            if (_hasGeometryUpdates)
             {
                 UpdateGeometryBuffer();
+                _hasGeometryUpdates = false;
+            }
+            
+            if (_hasEffectsUpdates)
+            {
                 UpdateEffects();
-                _hasUpdates = false;
+                _hasEffectsUpdates = false;
             }
             
             if (_faceBuffer!.PrimitiveCount == 0) return;
             
             if (_drawSurface)
             {
-                DrawContext.FlushBuffer(_faceBuffer.VertexBuffer,
-                    _faceBuffer.VertexBufferCount,
-                    _faceBuffer.IndexBuffer,
-                    _faceBuffer.IndexBufferCount,
-                    _faceBuffer.VertexFormat,
-                    _faceBuffer.EffectInstance, PrimitiveType.TriangleList, 0,
-                    _faceBuffer.PrimitiveCount);
+                var isTransparentPass = DrawContext.IsTransparentPass();
+                if (isTransparentPass && _transparency > 0 || !isTransparentPass && _transparency == 0)
+                {
+                    DrawContext.FlushBuffer(_faceBuffer.VertexBuffer,
+                        _faceBuffer.VertexBufferCount,
+                        _faceBuffer.IndexBuffer,
+                        _faceBuffer.IndexBufferCount,
+                        _faceBuffer.VertexFormat,
+                        _faceBuffer.EffectInstance, PrimitiveType.TriangleList, 0,
+                        _faceBuffer.PrimitiveCount);
+                }
             }
             
             if (_drawMeshGrid)
@@ -258,7 +268,6 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         _faceBuffer.EffectInstance.SetColor(_surfaceColor);
         _faceBuffer.EffectInstance.SetTransparency(_transparency);
         _meshGridBuffer.EffectInstance.SetColor(_meshColor);
-        _meshGridBuffer.EffectInstance.SetTransparency(_transparency);
     }
     
     public void UpdateSurfaceColor(Color value)
@@ -267,7 +276,7 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         if (uiDocument is null) return;
         
         _surfaceColor = value;
-        _hasUpdates = true;
+        _hasGeometryUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
@@ -278,7 +287,7 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         if (uiDocument is null) return;
         
         _meshColor = value;
-        _hasUpdates = true;
+        _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
@@ -289,7 +298,7 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         if (uiDocument is null) return;
         
         _thickness = value;
-        _hasUpdates = true;
+        _hasGeometryUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
@@ -299,8 +308,8 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _transparency = value;
-        _hasUpdates = true;
+        _transparency = value / 255;
+        _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
@@ -312,7 +321,6 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         if (uiDocument is null) return;
         
         _drawSurface = visible;
-        _hasUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
@@ -323,7 +331,6 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         if (uiDocument is null) return;
         
         _drawMeshGrid = visible;
-        _hasUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
