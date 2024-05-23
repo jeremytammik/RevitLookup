@@ -29,16 +29,20 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
 {
     private bool _hasGeometryUpdates = true;
     private bool _hasEffectsUpdates = true;
+    
     private readonly Guid _guid = Guid.NewGuid();
     private readonly RenderingBufferStorage _faceBuffer = new();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
+    private readonly RenderingBufferStorage _normalBuffer = new();
     
     private double _thickness;
     private double _transparency;
     private bool _drawMeshGrid;
     private bool _drawSurface;
+    private bool _drawNormalVector;
     private Color _surfaceColor;
     private Color _meshColor;
+    private Color _normalColor;
     
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
@@ -63,7 +67,7 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
     {
         try
         {
-            if (_hasGeometryUpdates)
+            if (_hasGeometryUpdates || !_faceBuffer.IsValid() || !_meshGridBuffer.IsValid() || !_normalBuffer.IsValid())
             {
                 UpdateGeometryBuffer();
                 _hasGeometryUpdates = false;
@@ -102,6 +106,17 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
                     _meshGridBuffer.EffectInstance, PrimitiveType.LineList, 0,
                     _meshGridBuffer.PrimitiveCount);
             }
+            
+            if (_drawNormalVector)
+            {
+                DrawContext.FlushBuffer(_normalBuffer.VertexBuffer,
+                    _normalBuffer.VertexBufferCount,
+                    _normalBuffer.IndexBuffer,
+                    _normalBuffer.IndexBufferCount,
+                    _normalBuffer.VertexFormat,
+                    _normalBuffer.EffectInstance, PrimitiveType.LineList, 0,
+                    _normalBuffer.PrimitiveCount);
+            }
         }
         catch (Exception exception)
         {
@@ -116,15 +131,9 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         var center = (faceBox.Min + faceBox.Max) / 2;
         var normal = face.ComputeNormal(center);
         
-        if (_drawSurface)
-        {
-            UpdateFaceBuffer(mesh, normal);
-        }
-        
-        if (_drawMeshGrid)
-        {
-            UpdateMeshGridBuffer(mesh, normal);
-        }
+        UpdateFaceBuffer(mesh, normal);
+        UpdateMeshGridBuffer(mesh, normal);
+        UpdateNormalVectorBuffer(face.Evaluate(center), normal);
     }
     
     private void UpdateFaceBuffer(Mesh mesh, XYZ normal)
@@ -189,7 +198,6 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         
         _faceBuffer.IndexBuffer.Unmap();
         _faceBuffer.VertexFormat = new VertexFormat(_faceBuffer.FormatBits);
-        _faceBuffer.EffectInstance = new EffectInstance(_faceBuffer.FormatBits);
     }
     
     private void UpdateMeshGridBuffer(Mesh mesh, XYZ normal)
@@ -214,13 +222,13 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         
         foreach (var vertex in mesh.Vertices)
         {
-            var offsetVertex = vertex + normal.Multiply(_thickness);
+            var offsetVertex = vertex + normal * _thickness;
             var vertexPosition = new VertexPosition(offsetVertex);
             vertexStream.AddVertex(vertexPosition);
         }
         
         _meshGridBuffer.VertexBuffer.Unmap();
-        _meshGridBuffer.IndexBufferCount = 12 * (triangleCount + vertexCount);
+        _meshGridBuffer.IndexBufferCount = (6 * triangleCount + 3 * vertexCount) * IndexLine.GetSizeInShortInts();
         _meshGridBuffer.IndexBuffer = new IndexBuffer(_meshGridBuffer.IndexBufferCount);
         _meshGridBuffer.IndexBuffer.Map(_meshGridBuffer.IndexBufferCount);
         
@@ -260,14 +268,57 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         
         _meshGridBuffer.IndexBuffer.Unmap();
         _meshGridBuffer.VertexFormat = new VertexFormat(_meshGridBuffer.FormatBits);
-        _meshGridBuffer.EffectInstance = new EffectInstance(_meshGridBuffer.FormatBits);
+    }
+    
+    public void UpdateNormalVectorBuffer(XYZ origin, XYZ normal)
+    {
+        const double arrowLength = 1d;
+        const double arrowHeadSize = 0.2;
+        
+        var arrowStart = origin + 0.2 * normal + normal * _thickness;
+        var arrowEnd = arrowStart + normal * arrowLength;
+        var arrowHeadBase = arrowEnd - normal.Multiply(arrowHeadSize);
+        var basisVector = Math.Abs(normal.Z).IsAlmostEqual(1) ? XYZ.BasisX : XYZ.BasisZ;
+        var perpendicular1 = normal.CrossProduct(basisVector).Normalize().Multiply(arrowHeadSize * 0.5);
+        
+        _normalBuffer.VertexBufferCount = 4;
+        _normalBuffer.PrimitiveCount = 3;
+        _normalBuffer.FormatBits = VertexFormatBits.Position;
+        _normalBuffer.VertexBuffer = new VertexBuffer(4 * VertexPosition.GetSizeInFloats());
+        _normalBuffer.VertexBuffer.Map(4 * VertexPosition.GetSizeInFloats());
+        
+        var vertexStream = _normalBuffer.VertexBuffer.GetVertexStreamPosition();
+        vertexStream.AddVertex(new VertexPosition(arrowStart));
+        vertexStream.AddVertex(new VertexPosition(arrowEnd));
+        vertexStream.AddVertex(new VertexPosition(arrowHeadBase + perpendicular1));
+        vertexStream.AddVertex(new VertexPosition(arrowHeadBase - perpendicular1));
+        
+        _normalBuffer.VertexBuffer.Unmap();
+        
+        _normalBuffer.IndexBufferCount = 3 * IndexLine.GetSizeInShortInts();
+        _normalBuffer.IndexBuffer = new IndexBuffer(_normalBuffer.IndexBufferCount);
+        _normalBuffer.IndexBuffer.Map(_normalBuffer.IndexBufferCount);
+        
+        var indexStream = _normalBuffer.IndexBuffer.GetIndexStreamLine();
+        indexStream.AddLine(new IndexLine(0, 1));
+        indexStream.AddLine(new IndexLine(1, 2));
+        indexStream.AddLine(new IndexLine(1, 3));
+        
+        _normalBuffer.IndexBuffer.Unmap();
+        
+        _normalBuffer.VertexFormat = new VertexFormat(_normalBuffer.FormatBits);
     }
     
     private void UpdateEffects()
     {
+        _faceBuffer.EffectInstance ??= new EffectInstance(_faceBuffer.FormatBits);
+        _meshGridBuffer.EffectInstance ??= new EffectInstance(_faceBuffer.FormatBits);
+        _normalBuffer.EffectInstance ??= new EffectInstance(_faceBuffer.FormatBits);
+        
         _faceBuffer.EffectInstance.SetColor(_surfaceColor);
-        _faceBuffer.EffectInstance.SetTransparency(_transparency);
         _meshGridBuffer.EffectInstance.SetColor(_meshColor);
+        _normalBuffer.EffectInstance.SetColor(_normalColor);
+        _faceBuffer.EffectInstance.SetTransparency(_transparency);
     }
     
     public void UpdateSurfaceColor(Color value)
@@ -276,17 +327,28 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         if (uiDocument is null) return;
         
         _surfaceColor = value;
-        _hasGeometryUpdates = true;
+        _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateMeshColor(Color value)
+    public void UpdateMeshGridColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
         _meshColor = value;
+        _hasEffectsUpdates = true;
+        
+        uiDocument.UpdateAllOpenViews();
+    }
+    
+    public void UpdateNormalVectorColor(Color value)
+    {
+        var uiDocument = Context.UiDocument;
+        if (uiDocument is null) return;
+        
+        _normalColor = value;
         _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
@@ -308,7 +370,7 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _transparency = value / 255;
+        _transparency = value;
         _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
@@ -331,6 +393,16 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         if (uiDocument is null) return;
         
         _drawMeshGrid = visible;
+        
+        uiDocument.UpdateAllOpenViews();
+    }
+    
+    public void UpdateNormalVectorVisibility(bool visible)
+    {
+        var uiDocument = Context.UiDocument;
+        if (uiDocument is null) return;
+        
+        _drawNormalVector = visible;
         
         uiDocument.UpdateAllOpenViews();
     }

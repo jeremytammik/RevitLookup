@@ -30,22 +30,31 @@ public sealed partial class VisualizationViewModel(Face face, ILogger<FaceVisual
     private readonly FaceVisualizationServer _server = new(face, logger);
     
     [ObservableProperty] private double _thickness = Context.Application.VertexTolerance * 12;
-    [ObservableProperty] private double _transparency;
+    [ObservableProperty] private double _transparency = 20;
+    
+    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
+    [ObservableProperty] private System.Windows.Media.Color _meshColor = System.Windows.Media.Color.FromArgb(0, 30, 81, 255);
+    [ObservableProperty] private System.Windows.Media.Color _normalVectorColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
+    
     [ObservableProperty] private bool _showSurface = true;
     [ObservableProperty] private bool _showMeshGrid = true;
-    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _meshColor = Colors.Black;
+    [ObservableProperty] private bool _showNormalVector = true;
     
     public double MinThickness { get; } = Context.Application.VertexTolerance * 12;
     
     public void RegisterServer()
     {
-        _server.UpdateSurfaceColor(new Color(SurfaceColor.R, SurfaceColor.G, SurfaceColor.B));
-        _server.UpdateMeshColor(new Color(MeshColor.R, MeshColor.G, MeshColor.B));
-        _server.UpdateThickness(Thickness / 12);
-        _server.UpdateTransparency(Transparency / 100 * 255);
-        _server.UpdateMeshGridVisibility(ShowMeshGrid);
-        _server.UpdateSurfaceVisibility(ShowSurface);
+        OnShowSurfaceChanged(ShowSurface);
+        OnShowMeshGridChanged(ShowMeshGrid);
+        OnShowNormalVectorChanged(ShowNormalVector);
+        
+        OnSurfaceColorChanged(SurfaceColor);
+        OnMeshColorChanged(MeshColor);
+        OnNormalVectorColorChanged(NormalVectorColor);
+        
+        OnTransparencyChanged(Transparency);
+        OnThicknessChanged(Thickness);
+        
         _server.Register();
     }
     
@@ -57,11 +66,16 @@ public sealed partial class VisualizationViewModel(Face face, ILogger<FaceVisual
     partial void OnSurfaceColorChanged(System.Windows.Media.Color value)
     {
         _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
-    }    
+    }
     
     partial void OnMeshColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateMeshColor(new Color(value.R, value.G, value.B));
+        _server.UpdateMeshGridColor(new Color(value.R, value.G, value.B));
+    }
+    
+    partial void OnNormalVectorColorChanged(System.Windows.Media.Color value)
+    {
+        _server.UpdateNormalVectorColor(new Color(value.R, value.G, value.B));
     }
     
     partial void OnThicknessChanged(double value)
@@ -71,7 +85,7 @@ public sealed partial class VisualizationViewModel(Face face, ILogger<FaceVisual
     
     partial void OnTransparencyChanged(double value)
     {
-        _server.UpdateTransparency(value / 100 * 255);
+        _server.UpdateTransparency(value / 100);
     }
     
     partial void OnShowSurfaceChanged(bool value)
@@ -82,5 +96,10 @@ public sealed partial class VisualizationViewModel(Face face, ILogger<FaceVisual
     partial void OnShowMeshGridChanged(bool value)
     {
         _server.UpdateMeshGridVisibility(value);
+    }
+    
+    partial void OnShowNormalVectorChanged(bool value)
+    {
+        _server.UpdateNormalVectorVisibility(value);
     }
 }

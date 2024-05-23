@@ -4,8 +4,6 @@ namespace RevitLookup.Models.Geometry;
 
 public sealed class RenderingBufferStorage
 {
-    public List<MeshInfo> Meshes { get; } = [];
-    public List<IList<XYZ>> EdgePoints { get; } = [];
     public VertexFormatBits FormatBits { get; set; }
     public int PrimitiveCount { get; set; }
     public int VertexBufferCount { get; set; }
@@ -14,4 +12,14 @@ public sealed class RenderingBufferStorage
     public IndexBuffer IndexBuffer { get; set; }
     public VertexFormat VertexFormat { get; set; }
     public EffectInstance EffectInstance { get; set; }
+    
+    public bool IsValid()
+    {
+        if (!VertexBuffer.IsValid()) return false;
+        if (!IndexBuffer.IsValid()) return false;
+        if (!VertexFormat.IsValid()) return false;
+        if (!EffectInstance.IsValid()) return false;
+        
+        return true;
+    }
 }

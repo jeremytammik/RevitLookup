@@ -9,7 +9,7 @@
     xmlns:colorPicker="clr-namespace:RevitLookup.Views.Controls.ColorPicker"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance dialogs:VisualizationViewModel}"
-    d:DesignWidth="400"
+    d:DesignWidth="450"
     d:DesignHeight="400">
     <rl:Card
         VerticalAlignment="Stretch"
@@ -25,7 +25,7 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding SurfaceColor}"/>
+                        SelectedColor="{Binding SurfaceColor}" />
                     <CheckBox
                         IsChecked="{Binding ShowSurface}"
                         Content="Surface" />
@@ -75,10 +75,24 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding MeshColor}"/>
+                        SelectedColor="{Binding MeshColor}" />
                     <CheckBox
                         IsChecked="{Binding ShowMeshGrid}"
                         Content="Mesh grid" />
+                </DockPanel>
+                <DockPanel
+                    Margin="0 8 0 0">
+                    <rl:SymbolIcon
+                        DockPanel.Dock="Right"
+                        Margin="8 0 0 0"
+                        FontSize="20"
+                        Symbol="Eyedropper20" />
+                    <colorPicker:ColorPickerControl
+                        DockPanel.Dock="Right"
+                        SelectedColor="{Binding NormalVectorColor}" />
+                    <CheckBox
+                        IsChecked="{Binding ShowNormalVector}"
+                        Content="Normal vector" />
                 </DockPanel>
             </StackPanel>
         </rl:PassiveScrollViewer>
