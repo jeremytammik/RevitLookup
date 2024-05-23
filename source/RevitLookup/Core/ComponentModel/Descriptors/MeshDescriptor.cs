@@ -29,7 +29,7 @@ using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class MeshDescriptor(Mesh mesh) : Descriptor, IDescriptorConnector
+public class MeshDescriptor(Mesh mesh) : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
     public void RegisterMenu(ContextMenu contextMenu)
     {
