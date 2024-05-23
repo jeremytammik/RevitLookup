@@ -118,17 +118,17 @@ public sealed partial class UnitsDialog
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy label")
             .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Label))
-            .SetShortcut(ModifierKeys.Control | ModifierKeys.Shift, Key.C);
+            .SetShortcut(ModifierKeys.Control | ModifierKeys.Alt, Key.C);
         
         if (info.Class is not null)
         {
             contextMenu.AddMenuItem("CopyMenuItem")
                 .SetHeader("Copy class")
                 .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Class))
-                .SetShortcut(ModifierKeys.Control | ModifierKeys.Alt | ModifierKeys.Shift, Key.C);
+                .SetShortcut(ModifierKeys.Control | ModifierKeys.Shift, Key.C);
         }
         
-        contextMenu.AddMenuItem()
+        contextMenu.AddMenuItem("SnoopMenuItem")
             .SetHeader("Snoop")
             .SetCommand(info, unitInfo =>
             {

@@ -42,8 +42,27 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_solid, solid =>
+            {
+                if (Context.UiDocument is null) return;
+                
+                Application.ActionEventHandler.Raise(_ =>
+                {
+                    var references = solid.Faces
+                        .Cast<Face>()
+                        .Select(face => face.Reference)
+                        .Where(reference => reference is not null)
+                        .ToList();
+                    
+                    if (references.Count == 0) return;
+                    
+                    Context.UiDocument.Selection.SetReferences(references);
+                });
+            })
+            .SetShortcut(Key.F6);
+        
         contextMenu.AddMenuItem("ShowMenuItem")
-            .SetHeader("Show solid")
             .SetCommand(_solid, solid =>
             {
                 if (Context.UiDocument is null) return;
@@ -63,28 +82,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
                     Context.UiDocument.Selection.SetReferences(references);
                 });
             })
-            .SetShortcut(ModifierKeys.Alt, Key.F7);
-        
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetHeader("Select solid")
-            .SetCommand(_solid, solid =>
-            {
-                if (Context.UiDocument is null) return;
-                
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    var references = solid.Faces
-                        .Cast<Face>()
-                        .Select(face => face.Reference)
-                        .Where(reference => reference is not null)
-                        .ToList();
-                    
-                    if (references.Count == 0) return;
-                    
-                    Context.UiDocument.Selection.SetReferences(references);
-                });
-            })
-            .SetShortcut(ModifierKeys.Alt, Key.F8);
+            .SetShortcut(Key.F7);
 #endif
     }
     

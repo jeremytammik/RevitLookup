@@ -43,8 +43,20 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_curve, curve =>
+            {
+                if (Context.UiDocument is null) return;
+                if (curve.Reference is null) return;
+                
+                Application.ActionEventHandler.Raise(_ =>
+                {
+                    Context.UiDocument.Selection.SetReferences([curve.Reference]);
+                });
+            })
+            .SetShortcut(Key.F6);
+        
         contextMenu.AddMenuItem("ShowMenuItem")
-            .SetHeader("Show curve")
             .SetCommand(_curve, curve =>
             {
                 if (Context.UiDocument is null) return;
@@ -57,21 +69,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                     Context.UiDocument.Selection.SetReferences([curve.Reference]);
                 });
             })
-            .SetShortcut(ModifierKeys.Alt, Key.F7);
-        
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetHeader("Select curve")
-            .SetCommand(_curve, curve =>
-            {
-                if (Context.UiDocument is null) return;
-                if (curve.Reference is null) return;
-                
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    Context.UiDocument.Selection.SetReferences([curve.Reference]);
-                });
-            })
-            .SetShortcut(ModifierKeys.Alt, Key.F8);
+            .SetShortcut(Key.F7);
 #endif
     }
     

@@ -32,14 +32,21 @@
     <rl:MenuItem
         x:Key="ShowMenuItem"
         x:Shared="False"
+        Header="Show in model"
         Icon="{rl:SymbolIcon Eye16}" />
     <rl:MenuItem
         x:Key="SelectMenuItem"
         x:Shared="False"
+        Header="Select"
         Icon="{rl:SymbolIcon SquareHint16}" />
     <rl:MenuItem
         x:Key="VisualizeMenuItem"
         x:Shared="False"
         Header="Visualize"
         Icon="{rl:SymbolIcon Sparkle16}" />
+    <rl:MenuItem
+        x:Key="SnoopMenuItem"
+        x:Shared="False"
+        Header="Snoop"
+        Icon="{rl:SymbolIcon SlideText16}" />
 </ResourceDictionary>

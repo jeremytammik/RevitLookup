@@ -1,0 +1,572 @@
+﻿<ContentControl
+    x:Class="RevitLookup.Views.Controls.ColorPicker.ColorPickerControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:rl="http://revitlookup.com/xaml"
+    mc:Ignorable="d">
+    
+    <ContentControl.Resources>
+        <Style
+            TargetType="{x:Type Slider}">
+            <Setter
+                Property="MinWidth"
+                Value="104" />
+            <Setter
+                Property="MinHeight"
+                Value="21" />
+            <Setter
+                Property="FocusVisualStyle"
+                Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+            <Setter
+                Property="SnapsToDevicePixels"
+                Value="True" />
+            <Setter
+                Property="OverridesDefaultStyle"
+                Value="True" />
+            <Setter
+                Property="Template">
+                <Setter.Value>
+                    <ControlTemplate
+                        TargetType="{x:Type Slider}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto"
+                                    MinHeight="{TemplateBinding MinHeight}" />
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TickBar
+                                x:Name="TopTick"
+                                Grid.Row="0"
+                                Height="6"
+                                Fill="Transparent"
+                                Placement="Top"
+                                SnapsToDevicePixels="True"
+                                Visibility="Collapsed" />
+                            <Border
+                                x:Name="TrackBackground"
+                                Grid.Row="1"
+                                Height="8"
+                                Margin="0"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="0"
+                                CornerRadius="4" />
+                            <Track
+                                x:Name="PART_Track"
+                                Grid.Row="1">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton
+                                        Command="Slider.DecreaseLarge">
+                                        <RepeatButton.Style>
+                                            <Style
+                                                TargetType="{x:Type RepeatButton}">
+                                                <Setter
+                                                    Property="IsTabStop"
+                                                    Value="False" />
+                                                <Setter
+                                                    Property="Focusable"
+                                                    Value="False" />
+                                                <Setter
+                                                    Property="SnapsToDevicePixels"
+                                                    Value="True" />
+                                                <Setter
+                                                    Property="OverridesDefaultStyle"
+                                                    Value="True" />
+                                                <Setter
+                                                    Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate
+                                                            TargetType="{x:Type RepeatButton}">
+                                                            <Border
+                                                                Background="Transparent" />
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </RepeatButton.Style>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb
+                                        x:Name="Thumb">
+                                        <Thumb.Style>
+                                            <Style
+                                                TargetType="{x:Type Thumb}">
+                                                <Setter
+                                                    Property="Height"
+                                                    Value="20" />
+                                                <Setter
+                                                    Property="Width"
+                                                    Value="20" />
+                                                <Setter
+                                                    Property="SnapsToDevicePixels"
+                                                    Value="True" />
+                                                <Setter
+                                                    Property="OverridesDefaultStyle"
+                                                    Value="True" />
+                                                <Setter
+                                                    Property="BorderBrush"
+                                                    Value="{DynamicResource ControlElevationBorderBrush}" />
+                                                <Setter
+                                                    Property="Foreground"
+                                                    Value="Black" />
+                                                <Setter
+                                                    Property="BorderThickness"
+                                                    Value="1" />
+                                                <Setter
+                                                    Property="Background"
+                                                    Value="{DynamicResource SliderOuterThumbBackground}" />
+                                                <Setter
+                                                    Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate
+                                                            TargetType="{x:Type Thumb}">
+                                                            <Border
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                CornerRadius="16">
+                                                                <Ellipse
+                                                                    x:Name="Ellipse"
+                                                                    Width="12"
+                                                                    Height="12"
+                                                                    Fill="{TemplateBinding Foreground}"
+                                                                    Stroke="Transparent"
+                                                                    StrokeThickness="0" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Thumb.Style>
+                                    </Thumb>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton
+                                        Command="Slider.IncreaseLarge">
+                                        <RepeatButton.Style>
+                                            <Style
+                                                TargetType="{x:Type RepeatButton}">
+                                                <Setter
+                                                    Property="IsTabStop"
+                                                    Value="False" />
+                                                <Setter
+                                                    Property="Focusable"
+                                                    Value="False" />
+                                                <Setter
+                                                    Property="SnapsToDevicePixels"
+                                                    Value="True" />
+                                                <Setter
+                                                    Property="OverridesDefaultStyle"
+                                                    Value="True" />
+                                                <Setter
+                                                    Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate
+                                                            TargetType="{x:Type RepeatButton}">
+                                                            <Border
+                                                                Background="Transparent" />
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </RepeatButton.Style>
+                                    </RepeatButton>
+
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                            <TickBar
+                                x:Name="BottomTick"
+                                Grid.Row="2"
+                                Height="6"
+                                Fill="Transparent"
+                                Placement="Bottom"
+                                SnapsToDevicePixels="True"
+                                Visibility="Collapsed" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger
+                                Property="TickPlacement"
+                                Value="TopLeft">
+                                <Setter
+                                    TargetName="TopTick"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            </Trigger>
+                            <Trigger
+                                Property="TickPlacement"
+                                Value="BottomRight">
+                                <Setter
+                                    TargetName="BottomTick"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            </Trigger>
+                            <Trigger
+                                Property="TickPlacement"
+                                Value="Both">
+                                <Setter
+                                    TargetName="TopTick"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                                <Setter
+                                    TargetName="BottomTick"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            </Trigger>
+                            <Trigger
+                                Property="IsMouseOver"
+                                Value="True" />
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="ColorShadeButtonStyle"
+            TargetType="Button">
+            <Setter
+                Property="OverridesDefaultStyle"
+                Value="True" />
+            <Setter
+                Property="Background"
+                Value="{DynamicResource ButtonBackground}" />
+            <Setter
+                Property="Foreground"
+                Value="{DynamicResource ButtonForeground}" />
+            <Setter
+                Property="BorderBrush"
+                Value="{DynamicResource ButtonBorderBrush}" />
+            <Setter
+                Property="BorderThickness"
+                Value="{DynamicResource ButtonBorderThemeThickness}" />
+            <Setter
+                Property="Padding"
+                Value="0" />
+            <Setter
+                Property="HorizontalAlignment"
+                Value="Stretch" />
+            <Setter
+                Property="VerticalAlignment"
+                Value="Stretch" />
+            <Setter
+                Property="HorizontalContentAlignment"
+                Value="Center" />
+            <Setter
+                Property="VerticalContentAlignment"
+                Value="Center" />
+            <Setter
+                Property="FontFamily"
+                Value="{DynamicResource ContentControlThemeFontFamily}" />
+            <Setter
+                Property="FontWeight"
+                Value="Normal" />
+            <Setter
+                Property="MinHeight"
+                Value="20" />
+            <Setter
+                Property="FontSize"
+                Value="{DynamicResource ControlContentThemeFontSize}" />
+            <Setter
+                Property="FocusVisualStyle"
+                Value="{DynamicResource {x:Static SystemParameters.FocusVisualStyleKey}}" />
+            <Setter
+                Property="Stylus.IsPressAndHoldEnabled"
+                Value="False" />
+            <Setter
+                Property="Template">
+                <Setter.Value>
+                    <ControlTemplate
+                        TargetType="Button">
+                        <Border
+                            x:Name="Background"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{TemplateBinding Border.CornerRadius}"
+                            SnapsToDevicePixels="True">
+                            <Border
+                                x:Name="Border"
+                                Padding="{TemplateBinding Padding}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter
+                                    x:Name="ContentPresenter"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Focusable="False"
+                                    RecognizesAccessKey="True"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    Visibility="Collapsed" />
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger
+                                Property="IsMouseOver"
+                                Value="True">
+                                <Setter
+                                    TargetName="Background"
+                                    Property="Opacity"
+                                    Value="0.8" />
+                                <Setter
+                                    TargetName="ContentPresenter"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            </Trigger>
+                            <Trigger
+                                Property="IsPressed"
+                                Value="True">
+                                <Setter
+                                    TargetName="Background"
+                                    Property="Opacity"
+                                    Value="0.9" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentControl.Resources>
+    
+    <Border
+        BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        CornerRadius="{DynamicResource ControlCornerRadius}">
+        <Grid
+            x:Name="PickerPanel"
+            Width="248"
+            VerticalAlignment="Stretch"
+            ClipToBounds="True"
+            Opacity="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="36" />
+                <ColumnDefinition
+                    Width="36" />
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="36" />
+                <ColumnDefinition
+                    Width="36" />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="ColorVariation1Button"
+                Grid.Column="0"
+                Border.CornerRadius="4,0,0,4"
+                Background="LightPink"
+                Click="OnColorVariationButtonClicked"
+                Style="{DynamicResource ColorShadeButtonStyle}"
+                ToolTipService.ToolTip="Select color" />
+            <Button
+                x:Name="ColorVariation2Button"
+                Grid.Column="1"
+                Background="LightPink"
+                Click="OnColorVariationButtonClicked"
+                Style="{DynamicResource ColorShadeButtonStyle}"
+                ToolTipService.ToolTip="Select color" />
+            <Button
+                x:Name="ColorVariation3Button"
+                Grid.Column="3"
+                Background="LightPink"
+                Click="OnColorVariationButtonClicked"
+                Style="{DynamicResource ColorShadeButtonStyle}"
+                ToolTipService.ToolTip="Select color" />
+            <Button
+                x:Name="ColorVariation4Button"
+                Grid.Column="4"
+                Border.CornerRadius="0,4,4,0"
+                Background="LightPink"
+                Click="OnColorVariationButtonClicked"
+                Style="{DynamicResource ColorShadeButtonStyle}"
+                ToolTipService.ToolTip="Select color" />
+            <Button
+                x:Name="CurrentColorButton"
+                Grid.Column="0"
+                Grid.ColumnSpan="5"
+                Width="104"
+                Margin="72 0"
+                Click="CurrentColorButton_Click"
+                Style="{DynamicResource ColorShadeButtonStyle}"
+                ToolTipService.ToolTip="Adjust color">
+                <rl:Flyout
+                    x:Name="DetailsFlyout"
+                    Margin="160, 0,0,0"
+                    Closed="OnDetailsFlyoutClosed"
+                    Placement="Right">
+                    <Grid
+                        x:Name="DetailsGrid"
+                        KeyboardNavigation.TabNavigation="Contained">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width="44" />
+                            <ColumnDefinition
+                                Width="86" />
+                            <ColumnDefinition
+                                Width="86" />
+                            <ColumnDefinition
+                                Width="86" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="8" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="8" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="12" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="12" />
+                            <RowDefinition
+                                Height="Auto" />
+                            <RowDefinition
+                                Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Text="H"
+                            TextAlignment="Center" />
+                        <Slider
+                            x:Name="HueGradientSlider"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            VerticalAlignment="Center"
+                            IsMoveToPointEnabled="True"
+                            Maximum="289"
+                            Minimum="0"
+                            ValueChanged="OnHueGradientSliderValueChanged" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="S"
+                            TextAlignment="Center" />
+                        <Slider
+                            x:Name="SaturationGradientSlider"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            IsMoveToPointEnabled="True"
+                            Maximum="289"
+                            Minimum="0"
+                            ValueChanged="OnSaturationGradientSliderValueChanged">
+                            <Slider.Background>
+                                <LinearGradientBrush
+                                    StartPoint="0, 0.5"
+                                    EndPoint="1,0.5">
+                                    <GradientStop
+                                        x:Name="SaturationStartColor"
+                                        Color="Black" />
+                                    <GradientStop
+                                        x:Name="SaturationStopColor"
+                                        Offset="1"
+                                        Color="Red" />
+                                </LinearGradientBrush>
+                            </Slider.Background>
+                        </Slider>
+                        <TextBlock
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="V"
+                            TextAlignment="Center" />
+                        <Slider
+                            x:Name="ValueGradientSlider"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            IsMoveToPointEnabled="True"
+                            Maximum="289"
+                            Minimum="0"
+                            ValueChanged="OnValueGradientSliderValueChanged">
+                            <Slider.Background>
+                                <LinearGradientBrush
+                                    StartPoint="0, 0.5"
+                                    EndPoint="1,0.5">
+                                    <GradientStop
+                                        x:Name="ValueStartColor"
+                                        Color="Black" />
+                                    <GradientStop
+                                        x:Name="ValueStopColor"
+                                        Offset="1"
+                                        Color="Red" />
+                                </LinearGradientBrush>
+                            </Slider.Background>
+                        </Slider>
+                        <TextBlock
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="RGB"
+                            TextAlignment="Center" />
+                        <rl:NumberBox
+                            x:Name="RNumberBox"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Maximum="255"
+                            Minimum="0"
+                            SpinButtonPlacementMode="Compact"
+                            TextChanged="OnRgbNumberBoxTextChanged" />
+                        <rl:NumberBox
+                            x:Name="GNumberBox"
+                            Grid.Row="6"
+                            Grid.Column="2"
+                            Margin="4,0,0,0"
+                            Maximum="255"
+                            Minimum="0"
+                            SpinButtonPlacementMode="Compact"
+                            TextChanged="OnRgbNumberBoxTextChanged" />
+                        <rl:NumberBox
+                            x:Name="BNumberBox"
+                            Grid.Row="6"
+                            Grid.Column="3"
+                            Margin="4,0,0,0"
+                            Maximum="255"
+                            Minimum="0"
+                            SpinButtonPlacementMode="Compact"
+                            TextChanged="OnRgbNumberBoxTextChanged" />
+                        <TextBlock
+                            Grid.Row="8"
+                            Grid.Column="0"
+                            Width="38"
+                            VerticalAlignment="Center"
+                            Text="HEX"
+                            TextAlignment="Center" />
+                        <TextBox
+                            x:Name="HexCode"
+                            Grid.Row="8"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            HorizontalAlignment="Stretch"
+                            CharacterCasing="Lower"
+                            GotKeyboardFocus="OnHexCodeGotKeyboardFocus"
+                            MaxLength="7"
+                            TextChanged="OnHexCodeTextChanged"
+                            TextWrapping="Wrap" />
+                        <rl:Button
+                            x:Name="OkButton"
+                            Grid.Row="9"
+                            Grid.ColumnSpan="4"
+                            Grid.Column="0"
+                            Margin="0,32,0,0"
+                            HorizontalAlignment="Stretch"
+                            Appearance="Primary"
+                            Click="OnOkButtonClicked"
+                            Content="Select" />
+                    </Grid>
+                </rl:Flyout>
+            </Button>
+        </Grid>
+    </Border>
+</ContentControl>

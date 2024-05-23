@@ -64,7 +64,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
     
     public void RegisterMenu(ContextMenu contextMenu)
     {
-        contextMenu.AddMenuItem()
+        contextMenu.AddMenuItem("EditMenuItem")
             .SetHeader("Edit value")
             .SetAvailability(!_parameter.IsReadOnly && _parameter.StorageType != StorageType.None)
             .SetCommand(_parameter, async parameter =>

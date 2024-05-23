@@ -33,7 +33,7 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
 {
 #if REVIT2023_OR_GREATER
     private readonly Edge _edge;
-
+    
 #endif
     public EdgeDescriptor(Edge edge)
     {
@@ -42,12 +42,21 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
 #endif
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
-
+    
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_edge, edge =>
+            {
+                if (Context.UiDocument is null) return;
+                if (edge.Reference is null) return;
+                
+                Application.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetReferences([edge.Reference]); });
+            })
+            .SetShortcut(Key.F6);
+        
         contextMenu.AddMenuItem("ShowMenuItem")
-            .SetHeader("Show edge")
             .SetCommand(_edge, edge =>
             {
                 if (Context.UiDocument is null) return;
@@ -60,21 +69,7 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
                     Context.UiDocument.Selection.SetReferences([edge.Reference]);
                 });
             })
-            .SetShortcut(ModifierKeys.Alt, Key.F7);
-        
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetHeader("Select edge")
-            .SetCommand(_edge, edge =>
-            {
-                if (Context.UiDocument is null) return;
-                if (edge.Reference is null) return;
-                
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    Context.UiDocument.Selection.SetReferences([edge.Reference]);
-                });
-            })
-            .SetShortcut(ModifierKeys.Alt, Key.F8);
+            .SetShortcut(Key.F7);
 #endif
     }
 }

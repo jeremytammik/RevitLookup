@@ -18,6 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Microsoft.Extensions.Logging;
+using RevitLookup.Core.Servers;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
 
@@ -30,8 +32,11 @@ public sealed partial class VisualizationDialog
     
     public VisualizationDialog(IServiceProvider serviceProvider, Face face)
     {
+        var logger = serviceProvider.GetService<ILogger<FaceVisualizationServer>>();
+        
         _serviceProvider = serviceProvider;
-        _viewModel = new VisualizationViewModel(face);
+        _viewModel = new VisualizationViewModel(face, logger);
+        
         DataContext = _viewModel;
         InitializeComponent();
         MonitorServerConnection();
@@ -41,11 +46,11 @@ public sealed partial class VisualizationDialog
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
-            Title = "Visualization",
+            Title = "Visualization settings",
             Content = this,
             CloseButtonText = "Close",
-            DialogMaxWidth = 800,
-            DialogMaxHeight = 600
+            DialogMaxWidth = 500,
+            DialogMaxHeight = 410
         };
         
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);

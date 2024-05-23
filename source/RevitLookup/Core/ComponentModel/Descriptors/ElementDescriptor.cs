@@ -286,10 +286,22 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
     
     public virtual void RegisterMenu(ContextMenu contextMenu)
     {
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_element, element =>
+            {
+                if (Context.UiDocument is null) return;
+                if (!element.IsValidObject) return;
+                
+                Application.ActionEventHandler.Raise(_ =>
+                {
+                    Context.UiDocument.Selection.SetElementIds([element.Id]);
+                });
+            })
+            .SetShortcut(Key.F6);
+        
         if (_element is not ElementType && _element is not Family)
         {
             contextMenu.AddMenuItem("ShowMenuItem")
-                .SetHeader("Show element")
                 .SetCommand(_element, element =>
                 {
                     if (Context.UiDocument is null) return;
@@ -301,22 +313,8 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                         Context.UiDocument.Selection.SetElementIds([element.Id]);
                     });
                 })
-                .SetShortcut(ModifierKeys.Alt, Key.F7);
+                .SetShortcut(Key.F7);
         }
-        
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetHeader("Select element")
-            .SetCommand(_element, element =>
-            {
-                if (Context.UiDocument is null) return;
-                if (!element.IsValidObject) return;
-                
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    Context.UiDocument.Selection.SetElementIds([element.Id]);
-                });
-            })
-            .SetShortcut(ModifierKeys.Alt, Key.F8);
         
         contextMenu.AddMenuItem("DeleteMenuItem")
             .SetCommand(_element, async element =>
