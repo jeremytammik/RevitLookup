@@ -1,6 +1,6 @@
 ﻿using Autodesk.Revit.DB.DirectContext3D;
 
-namespace RevitLookup.Models.Geometry;
+namespace RevitLookup.Models.Render;
 
 public sealed class RenderingBufferStorage
 {

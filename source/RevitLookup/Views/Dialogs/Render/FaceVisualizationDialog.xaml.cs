@@ -19,23 +19,23 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Servers;
-using RevitLookup.ViewModels.Dialogs;
+using RevitLookup.Core.Render;
 using Wpf.Ui;
+using FaceVisualizationViewModel = RevitLookup.ViewModels.Dialogs.Render.FaceVisualizationViewModel;
 
-namespace RevitLookup.Views.Dialogs;
+namespace RevitLookup.Views.Dialogs.Render;
 
-public sealed partial class VisualizationDialog
+public sealed partial class FaceVisualizationDialog
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly VisualizationViewModel _viewModel;
+    private readonly FaceVisualizationViewModel _viewModel;
     
-    public VisualizationDialog(IServiceProvider serviceProvider, Face face)
+    public FaceVisualizationDialog(IServiceProvider serviceProvider, Face face)
     {
         var logger = serviceProvider.GetService<ILogger<FaceVisualizationServer>>();
         
         _serviceProvider = serviceProvider;
-        _viewModel = new VisualizationViewModel(face, logger);
+        _viewModel = new FaceVisualizationViewModel(face, logger);
         
         DataContext = _viewModel;
         InitializeComponent();

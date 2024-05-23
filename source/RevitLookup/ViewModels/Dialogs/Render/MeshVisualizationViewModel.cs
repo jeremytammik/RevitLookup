@@ -20,14 +20,14 @@
 
 using System.Windows.Media;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Servers;
+using RevitLookup.Core.Render;
 using Color = Autodesk.Revit.DB.Color;
 
-namespace RevitLookup.ViewModels.Dialogs;
+namespace RevitLookup.ViewModels.Dialogs.Render;
 
-public sealed partial class VisualizationViewModel(Face face, ILogger<FaceVisualizationServer> logger) : ObservableObject
+public sealed partial class MeshVisualizationViewModel(Mesh face, ILogger<MeshVisualizationServer> logger) : ObservableObject
 {
-    private readonly FaceVisualizationServer _server = new(face, logger);
+    private readonly MeshVisualizationServer _server = new(face, logger);
     
     [ObservableProperty] private double _thickness = Context.Application.VertexTolerance * 12;
     [ObservableProperty] private double _transparency = 20;

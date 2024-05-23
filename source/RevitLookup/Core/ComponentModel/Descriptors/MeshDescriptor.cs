@@ -18,60 +18,24 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Globalization;
 using System.Windows.Controls;
-using Microsoft.Extensions.Logging;
 using System.Windows.Input;
-using RevitLookup.Views.Extensions;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs.Render;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
+public class MeshDescriptor(Mesh mesh) : Descriptor, IDescriptorConnector
 {
-    private readonly Face _face;
-    
-    public FaceDescriptor(Face face)
-    {
-        _face = face;
-        Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
-    }
-    
     public void RegisterMenu(ContextMenu contextMenu)
     {
-#if REVIT2023_OR_GREATER
-        contextMenu.AddMenuItem("SelectMenuItem")
-            .SetCommand(_face, face =>
-            {
-                if (Context.UiDocument is null) return;
-                if (face.Reference is null) return;
-                
-                Application.ActionEventHandler.Raise(_ => Context.UiDocument.Selection.SetReferences([face.Reference]));
-            })
-            .SetShortcut(Key.F6);
-        
-        contextMenu.AddMenuItem("ShowMenuItem")
-            .SetCommand(_face, face =>
-            {
-                if (Context.UiDocument is null) return;
-                if (face.Reference is null) return;
-                
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    var element = face.Reference.ElementId.ToElement(Context.Document);
-                    if (element is not null) Context.UiDocument.ShowElements(element);
-                    Context.UiDocument.Selection.SetReferences([face.Reference]);
-                });
-            })
-            .SetShortcut(Key.F7);
-#endif
-        
         contextMenu.AddMenuItem("VisualizeMenuItem")
-            .SetAvailability(_face.Area > 1e-6)
-            .SetCommand(_face, async face =>
+            .SetAvailability(mesh.Vertices.Count > 0)
+            .SetCommand(mesh, async meshArg =>
             {
                 if (Context.UiDocument is null) return;
                 
@@ -79,7 +43,7 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
                 
                 try
                 {
-                    var dialog = new FaceVisualizationDialog(context.ServiceProvider, face);
+                    var dialog = new MeshVisualizationDialog(context.ServiceProvider, meshArg);
                     await dialog.ShowAsync();
                 }
                 catch (Exception exception)
