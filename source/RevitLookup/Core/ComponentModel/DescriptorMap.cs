@@ -65,6 +65,7 @@ public static class DescriptorMap
             ElementId value when type is null || type == typeof(ElementId) => new ElementIdDescriptor(value),
             GuidEnum value when type is null || type == typeof(GuidEnum) => new GuidEnumDescriptor(value),
             Definition value when type is null || type == typeof(Definition) => new DefinitionDescriptor(value),
+            XYZ value when type is null || type == typeof(XYZ) => new XyzDescriptor(value),
             
             //Enumerator
             DefinitionBindingMapIterator value => new DefinitionBindingMapIteratorDescriptor(value),

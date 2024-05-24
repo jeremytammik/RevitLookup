@@ -21,7 +21,7 @@
 using Autodesk.Revit.DB.DirectContext3D;
 using RevitLookup.Models.Render;
 
-namespace RevitLookup.Core.Render;
+namespace RevitLookup.Core.Visualization;
 
 public static class Render3dUtils
 {
@@ -178,16 +178,74 @@ public static class Render3dUtils
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
     
-    public static void MapNormalVectorBuffer(RenderingBufferStorage buffer, XYZ origin, XYZ normal, double thickness)
+    public static void MapSideBuffer(RenderingBufferStorage buffer, XYZ min, XYZ max)
     {
-        const double arrowLength = 1d;
-        const double arrowHeadSize = 0.2;
+        var vertexCount = 4;
+        var normal = (max - min).Normalize();
+        var length = (max - min).GetLength() / 2;
         
-        var arrowStart = origin + 0.2 * normal + normal * thickness;
-        var arrowEnd = arrowStart + normal * arrowLength;
-        var arrowHeadBase = arrowEnd - normal.Multiply(arrowHeadSize);
-        var basisVector = Math.Abs(normal.Z).IsAlmostEqual(1) ? XYZ.BasisX : XYZ.BasisZ;
-        var perpendicular1 = normal.CrossProduct(basisVector).Normalize().Multiply(arrowHeadSize * 0.5);
+        XYZ point1;
+        XYZ point2;
+        XYZ point3;
+        XYZ point4;
+        if (normal.IsAlmostEqualTo(XYZ.BasisX))
+        {
+            point1 = new XYZ(min.X, min.Y - length, min.Z);
+            point2 = new XYZ(min.X, min.Y + length, min.Z);
+            point3 = new XYZ(max.X, max.Y - length, max.Z);
+            point4 = new XYZ(max.X, max.Y + length, max.Z);
+        }
+        else if (normal.IsAlmostEqualTo(XYZ.BasisY))
+        {
+            point1 = new XYZ(min.X, min.Y, min.Z - length);
+            point2 = new XYZ(min.X, min.Y, min.Z + length);
+            point3 = new XYZ(max.X, max.Y, max.Z - length);
+            point4 = new XYZ(max.X, max.Y, max.Z + length);
+        }
+        else
+        {
+            point1 = new XYZ(min.X - length, min.Y, min.Z);
+            point2 = new XYZ(min.X + length, min.Y, min.Z);
+            point3 = new XYZ(max.X - length, max.Y, max.Z);
+            point4 = new XYZ(max.X + length, max.Y, max.Z);
+        }
+        
+        buffer.VertexBufferCount = vertexCount;
+        buffer.PrimitiveCount = 2;
+        
+        var vertexBufferSizeInFloats = VertexPosition.GetSizeInFloats() * buffer.VertexBufferCount;
+        buffer.FormatBits = VertexFormatBits.Position;
+        buffer.VertexBuffer = new VertexBuffer(vertexBufferSizeInFloats);
+        buffer.VertexBuffer.Map(vertexBufferSizeInFloats);
+        
+        var vertexStream = buffer.VertexBuffer.GetVertexStreamPosition();
+        vertexStream.AddVertex(new VertexPosition(point1));
+        vertexStream.AddVertex(new VertexPosition(point2));
+        vertexStream.AddVertex(new VertexPosition(point3));
+        vertexStream.AddVertex(new VertexPosition(point4));
+        
+        buffer.VertexBuffer.Unmap();
+        buffer.IndexBufferCount = 2 * IndexTriangle.GetSizeInShortInts();
+        buffer.IndexBuffer = new IndexBuffer(buffer.IndexBufferCount);
+        buffer.IndexBuffer.Map(buffer.IndexBufferCount);
+        
+        var indexStream = buffer.IndexBuffer.GetIndexStreamTriangle();
+        indexStream.AddTriangle(new IndexTriangle(0, 1, 2));
+        indexStream.AddTriangle(new IndexTriangle(1, 2, 3));
+        
+        buffer.IndexBuffer.Unmap();
+        buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
+    }
+    
+    public static void MapNormalVectorBuffer(RenderingBufferStorage buffer, XYZ origin, XYZ vector, double offset, double length)
+    {
+        const double headSize = 0.2;
+        
+        var arrowStart = origin + vector * offset;
+        var arrowEnd = arrowStart + vector * length;
+        var arrowHeadBase = arrowEnd - vector * headSize;
+        var basisVector = Math.Abs(vector.Z).IsAlmostEqual(1) ? XYZ.BasisX : XYZ.BasisZ;
+        var perpendicular1 = vector.CrossProduct(basisVector).Normalize().Multiply(headSize * 0.5);
         
         buffer.VertexBufferCount = 4;
         buffer.PrimitiveCount = 3;

@@ -20,10 +20,10 @@
 
 using System.Windows.Media;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Render;
+using RevitLookup.Core.Visualization;
 using Color = Autodesk.Revit.DB.Color;
 
-namespace RevitLookup.ViewModels.Dialogs.Render;
+namespace RevitLookup.ViewModels.Dialogs.Visualization;
 
 public sealed partial class FaceVisualizationViewModel(Face face, ILogger<FaceVisualizationServer> logger) : ObservableObject
 {

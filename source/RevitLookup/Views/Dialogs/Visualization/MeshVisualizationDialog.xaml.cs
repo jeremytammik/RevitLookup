@@ -19,11 +19,11 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Render;
-using RevitLookup.ViewModels.Dialogs.Render;
+using RevitLookup.Core.Visualization;
 using Wpf.Ui;
+using MeshVisualizationViewModel = RevitLookup.ViewModels.Dialogs.Visualization.MeshVisualizationViewModel;
 
-namespace RevitLookup.Views.Dialogs.Render;
+namespace RevitLookup.Views.Dialogs.Visualization;
 
 public sealed partial class MeshVisualizationDialog
 {

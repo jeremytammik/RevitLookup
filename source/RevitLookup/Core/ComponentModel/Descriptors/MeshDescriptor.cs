@@ -24,7 +24,7 @@ using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.Views.Dialogs.Render;
+using RevitLookup.Views.Dialogs.Visualization;
 using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
@@ -48,7 +48,7 @@ public class MeshDescriptor(Mesh mesh) : Descriptor, IDescriptorCollector, IDesc
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<FaceDescriptor>>();
+                    var logger = context.ServiceProvider.GetService<ILogger<MeshDescriptor>>();
                     logger.LogError(exception, "VisualizationDialog error");
                 }
             })

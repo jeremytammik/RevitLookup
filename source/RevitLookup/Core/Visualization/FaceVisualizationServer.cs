@@ -23,17 +23,19 @@ using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Models.Render;
 
-namespace RevitLookup.Core.Render;
+namespace RevitLookup.Core.Visualization;
 
-public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualizationServer> logger) : IDirectContext3DServer
+public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualizationServer> logger) : IDirectContext3DServer
 {
+    private const double NormalLength = 1d;
+    
     private bool _hasGeometryUpdates = true;
     private bool _hasEffectsUpdates = true;
     
     private readonly Guid _guid = Guid.NewGuid();
     private readonly RenderingBufferStorage _surfaceBuffer = new();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
-    private readonly List<RenderingBufferStorage> _normalBuffers = new(mesh.Vertices.Count);
+    private readonly RenderingBufferStorage _normalBuffer = new();
     
     private double _thickness;
     private double _transparency;
@@ -46,8 +48,8 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
     
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
-    public string GetName() => "Mesh visualization server";
-    public string GetDescription() => "Mesh geometry visualization";
+    public string GetName() => "Face visualization server";
+    public string GetDescription() => "Face geometry visualization";
     public ExternalServiceId GetServiceId() => ExternalServices.BuiltInExternalServices.DirectContext3DService;
     public string GetApplicationId() => string.Empty;
     public string GetSourceId() => string.Empty;
@@ -57,17 +59,19 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
     
     public Outline GetBoundingBox(View view)
     {
-        //TODO evaluate BB
-        return null;
+        var element = face.Reference.ElementId.ToElement(view.Document)!;
+        var boundingBox = element.get_BoundingBox(view) ?? element.get_BoundingBox(null);
+        
+        return new Outline(boundingBox.Min, boundingBox.Max);
     }
     
     public void RenderScene(View view, DisplayStyle displayStyle)
     {
         try
         {
-            if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_meshGridBuffer.IsValid())
+            if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_meshGridBuffer.IsValid() || !_normalBuffer.IsValid())
             {
-                UpdateGeometryBuffer();
+                MapGeometryBuffer();
                 _hasGeometryUpdates = false;
             }
             
@@ -107,16 +111,13 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
             
             if (_drawNormalVector)
             {
-                foreach (var normalBuffer in _normalBuffers)
-                {
-                    DrawContext.FlushBuffer(normalBuffer.VertexBuffer,
-                        normalBuffer.VertexBufferCount,
-                        normalBuffer.IndexBuffer,
-                        normalBuffer.IndexBufferCount,
-                        normalBuffer.VertexFormat,
-                        normalBuffer.EffectInstance, PrimitiveType.LineList, 0,
-                        normalBuffer.PrimitiveCount);
-                }
+                DrawContext.FlushBuffer(_normalBuffer.VertexBuffer,
+                    _normalBuffer.VertexBufferCount,
+                    _normalBuffer.IndexBuffer,
+                    _normalBuffer.IndexBufferCount,
+                    _normalBuffer.VertexFormat,
+                    _normalBuffer.EffectInstance, PrimitiveType.LineList, 0,
+                    _normalBuffer.PrimitiveCount);
             }
         }
         catch (Exception exception)
@@ -125,49 +126,28 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         }
     }
     
-    private void UpdateGeometryBuffer()
+    private void MapGeometryBuffer()
     {
+        var mesh = face.Triangulate();
+        var faceBox = face.GetBoundingBox();
+        var center = (faceBox.Min + faceBox.Max) / 2;
+        var normal = face.ComputeNormal(center);
+        
         Render3dUtils.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
         Render3dUtils.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
-        MapNormalsBuffer();
-    }
-    
-    private void MapNormalsBuffer()
-    {
-        for (var i = 0; i < mesh.Vertices.Count; i++)
-        {
-            var vertex = mesh.Vertices[i];
-            
-            RenderingBufferStorage buffer;
-            if (_normalBuffers.Count > i)
-            {
-                buffer = _normalBuffers[i];
-            }
-            else
-            {
-                buffer = new RenderingBufferStorage();
-                _normalBuffers.Add(buffer);
-            }
-            
-            var normal = Render3dUtils.GetNormal(mesh, i, mesh.DistributionOfNormals);
-            Render3dUtils.MapNormalVectorBuffer(buffer, vertex, normal, _thickness);
-        }
+        Render3dUtils.MapNormalVectorBuffer(_normalBuffer, face.Evaluate(center), normal, _thickness + 0.2, NormalLength);
     }
     
     private void UpdateEffects()
     {
         _surfaceBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
         _meshGridBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
+        _normalBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
         
         _surfaceBuffer.EffectInstance.SetColor(_surfaceColor);
         _meshGridBuffer.EffectInstance.SetColor(_meshColor);
+        _normalBuffer.EffectInstance.SetColor(_normalColor);
         _surfaceBuffer.EffectInstance.SetTransparency(_transparency);
-        
-        foreach (var normalBuffer in _normalBuffers)
-        {
-            normalBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
-            normalBuffer.EffectInstance.SetColor(_normalColor);
-        }
     }
     
     public void UpdateSurfaceColor(Color value)
@@ -224,7 +204,6 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         
         uiDocument.UpdateAllOpenViews();
     }
-    
     
     public void UpdateSurfaceVisibility(bool visible)
     {
