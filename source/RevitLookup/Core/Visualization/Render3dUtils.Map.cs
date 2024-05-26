@@ -20,6 +20,7 @@
 
 using Autodesk.Revit.DB.DirectContext3D;
 using RevitLookup.Models.Render;
+using RevitLookup.Utils;
 
 namespace RevitLookup.Core.Visualization;
 
@@ -43,7 +44,7 @@ public static class Render3dUtils
         
         for (var i = 0; i < mesh.Vertices.Count; i++)
         {
-            var normal = GetNormal(mesh, i, mesh.DistributionOfNormals);
+            var normal = GeometryUtils.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
             normals.Add(normal);
         }
         
@@ -98,6 +99,116 @@ public static class Render3dUtils
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
     
+    public static void MapCurveBuffer(RenderingBufferStorage buffer, IList<XYZ> vertices, double diameter)
+    {
+        var tubeSegments = GetSegmentationTube(vertices, diameter);
+        var segmentVerticesCount = tubeSegments[0].Count;
+        var newVertexCount = vertices.Count * segmentVerticesCount;
+        
+        buffer.VertexBufferCount = newVertexCount;
+        buffer.PrimitiveCount = (vertices.Count - 1) * segmentVerticesCount * 4;
+        
+        var vertexBufferSizeInFloats = VertexPosition.GetSizeInFloats() * buffer.VertexBufferCount;
+        buffer.FormatBits = VertexFormatBits.Position;
+        buffer.VertexBuffer = new VertexBuffer(vertexBufferSizeInFloats);
+        buffer.VertexBuffer.Map(vertexBufferSizeInFloats);
+        
+        var vertexStream = buffer.VertexBuffer.GetVertexStreamPosition();
+        
+        foreach (var segment in tubeSegments)
+        {
+            foreach (var point in segment)
+            {
+                var vertexPosition = new VertexPosition(point);
+                vertexStream.AddVertex(vertexPosition);
+            }
+        }
+        
+        buffer.VertexBuffer.Unmap();
+        
+        buffer.IndexBufferCount = (vertices.Count - 1) * segmentVerticesCount * 4 * IndexLine.GetSizeInShortInts();
+        buffer.IndexBuffer = new IndexBuffer(buffer.IndexBufferCount);
+        buffer.IndexBuffer.Map(buffer.IndexBufferCount);
+        
+        var indexStream = buffer.IndexBuffer.GetIndexStreamLine();
+        
+        for (var i = 0; i < vertices.Count - 1; i++)
+        {
+            for (var j = 0; j < segmentVerticesCount; j++)
+            {
+                var currentStart = i * segmentVerticesCount + j;
+                var nextStart = (i + 1) * segmentVerticesCount + j;
+                var currentEnd = i * segmentVerticesCount + (j + 1) % segmentVerticesCount;
+                var nextEnd = (i + 1) * segmentVerticesCount + (j + 1) % segmentVerticesCount;
+                
+                // First triangle
+                indexStream.AddLine(new IndexLine(currentStart, nextStart));
+                indexStream.AddLine(new IndexLine(nextStart, nextEnd));
+                
+                // Second triangle
+                indexStream.AddLine(new IndexLine(nextEnd, currentEnd));
+                indexStream.AddLine(new IndexLine(currentEnd, currentStart));
+            }
+        }
+        
+        buffer.IndexBuffer.Unmap();
+        buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
+    }
+    
+    public static void MapCurveSurfaceBuffer(RenderingBufferStorage buffer, IList<XYZ> vertices, double diameter)
+    {
+        var tubeSegments = GetSegmentationTube(vertices, diameter);
+        var segmentVerticesCount = tubeSegments[0].Count;
+        var newVertexCount = vertices.Count * segmentVerticesCount;
+        
+        buffer.VertexBufferCount = newVertexCount;
+        buffer.PrimitiveCount = (vertices.Count - 1) * segmentVerticesCount * 2;
+        
+        var vertexBufferSizeInFloats = VertexPosition.GetSizeInFloats() * buffer.VertexBufferCount;
+        buffer.FormatBits = VertexFormatBits.Position;
+        buffer.VertexBuffer = new VertexBuffer(vertexBufferSizeInFloats);
+        buffer.VertexBuffer.Map(vertexBufferSizeInFloats);
+        
+        var vertexStream = buffer.VertexBuffer.GetVertexStreamPosition();
+        
+        foreach (var segment in tubeSegments)
+        {
+            foreach (var point in segment)
+            {
+                var vertexPosition = new VertexPosition(point);
+                vertexStream.AddVertex(vertexPosition);
+            }
+        }
+        
+        buffer.VertexBuffer.Unmap();
+        
+        buffer.IndexBufferCount = (vertices.Count - 1) * segmentVerticesCount * 6 * IndexTriangle.GetSizeInShortInts();
+        buffer.IndexBuffer = new IndexBuffer(buffer.IndexBufferCount);
+        buffer.IndexBuffer.Map(buffer.IndexBufferCount);
+        
+        var indexStream = buffer.IndexBuffer.GetIndexStreamTriangle();
+        
+        for (var i = 0; i < vertices.Count - 1; i++)
+        {
+            for (var j = 0; j < segmentVerticesCount; j++)
+            {
+                var currentStart = i * segmentVerticesCount + j;
+                var nextStart = (i + 1) * segmentVerticesCount + j;
+                var currentEnd = i * segmentVerticesCount + (j + 1) % segmentVerticesCount;
+                var nextEnd = (i + 1) * segmentVerticesCount + (j + 1) % segmentVerticesCount;
+                
+                // First triangle
+                indexStream.AddTriangle(new IndexTriangle(currentStart, nextStart, nextEnd));
+                
+                // Second triangle
+                indexStream.AddTriangle(new IndexTriangle(nextEnd, currentEnd, currentStart));
+            }
+        }
+        
+        buffer.IndexBuffer.Unmap();
+        buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
+    }
+    
     public static void MapMeshGridBuffer(RenderingBufferStorage buffer, Mesh mesh, double thickness)
     {
         var vertexCount = mesh.Vertices.Count;
@@ -116,7 +227,7 @@ public static class Render3dUtils
         
         for (var i = 0; i < mesh.Vertices.Count; i++)
         {
-            var normal = GetNormal(mesh, i, mesh.DistributionOfNormals);
+            var normal = GeometryUtils.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
             normals.Add(normal);
         }
         
@@ -239,7 +350,7 @@ public static class Render3dUtils
     
     public static void MapNormalVectorBuffer(RenderingBufferStorage buffer, XYZ origin, XYZ vector, double offset, double length)
     {
-        const double headSize = 0.2;
+        var headSize = length > 1 ? 0.2 : length * 0.2;
         
         var arrowStart = origin + vector * offset;
         var arrowEnd = arrowStart + vector * length;
@@ -275,30 +386,30 @@ public static class Render3dUtils
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
     
-    public static XYZ GetNormal(Mesh mesh, int index, DistributionOfNormals normalDistribution)
+    private static List<List<XYZ>> GetSegmentationTube(IList<XYZ> vertices, double diameter)
     {
-        switch (normalDistribution)
+        var points = new List<List<XYZ>>();
+        
+        for (var i = 0; i < vertices.Count; i++)
         {
-            case DistributionOfNormals.AtEachPoint:
-                return mesh.GetNormal(index);
-            case DistributionOfNormals.OnEachFacet:
-                var vertex = mesh.Vertices[index];
-                for (var i = 0; i < mesh.NumTriangles; i++)
-                {
-                    var triangle = mesh.get_Triangle(i);
-                    var triangleVertex = triangle.get_Vertex(0);
-                    if (triangleVertex.IsAlmostEqualTo(vertex)) return mesh.GetNormal(i);
-                    triangleVertex = triangle.get_Vertex(1);
-                    if (triangleVertex.IsAlmostEqualTo(vertex)) return mesh.GetNormal(i);
-                    triangleVertex = triangle.get_Vertex(2);
-                    if (triangleVertex.IsAlmostEqualTo(vertex)) return mesh.GetNormal(i);
-                }
-                
-                return XYZ.Zero;
-            case DistributionOfNormals.OnePerFace:
-                return mesh.GetNormal(0);
-            default:
-                throw new ArgumentOutOfRangeException(nameof(normalDistribution), normalDistribution, null);
+            var center = vertices[i];
+            XYZ normal;
+            if (i == 0)
+            {
+                normal = (vertices[i + 1] - center).Normalize();
+            }
+            else if (i == vertices.Count - 1)
+            {
+                normal = (center - vertices[i - 1]).Normalize();
+            }
+            else
+            {
+                normal = ((vertices[i + 1] - vertices[i - 1]) / 2.0).Normalize();
+            }
+            
+            points.Add(GeometryUtils.TessellateCircle(center, normal, diameter / 2));
         }
+        
+        return points;
     }
 }

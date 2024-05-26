@@ -28,22 +28,22 @@ namespace RevitLookup.ViewModels.Dialogs.Visualization;
 public sealed partial class XyzVisualizationViewModel(XYZ point, ILogger<XyzVisualizationServer> logger) : ObservableObject
 {
     private readonly XyzVisualizationServer _server = new(point, logger);
-    
-    [ObservableProperty] private double _axisLength = 12;
-    [ObservableProperty] private double _transparency = 40;
-    
-    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
     [ObservableProperty] private System.Windows.Media.Color _axisColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
     
-    [ObservableProperty] private bool _showSurface = true;
+    [ObservableProperty] private double _axisLength = 6;
     
-    public double MinAxisLength { get; } = 4;
+    [ObservableProperty] private System.Windows.Media.Color _planeColor = Colors.DodgerBlue;
+    
+    [ObservableProperty] private bool _showPlane = true;
+    [ObservableProperty] private double _transparency = 40;
+    
+    public double MinAxisLength => 0.1;
     
     public void RegisterServer()
     {
-        OnShowSurfaceChanged(ShowSurface);
+        OnShowPlaneChanged(ShowPlane);
         
-        OnSurfaceColorChanged(SurfaceColor);
+        OnPlaneColorChanged(PlaneColor);
         OnAxisColorChanged(AxisColor);
         
         OnAxisLengthChanged(AxisLength);
@@ -57,9 +57,9 @@ public sealed partial class XyzVisualizationViewModel(XYZ point, ILogger<XyzVisu
         _server.Unregister();
     }
     
-    partial void OnSurfaceColorChanged(System.Windows.Media.Color value)
+    partial void OnPlaneColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
+        _server.UpdatePlaneColor(new Color(value.R, value.G, value.B));
     }
     
     partial void OnAxisColorChanged(System.Windows.Media.Color value)
@@ -77,8 +77,8 @@ public sealed partial class XyzVisualizationViewModel(XYZ point, ILogger<XyzVisu
         _server.UpdateTransparency(value / 100);
     }
     
-    partial void OnShowSurfaceChanged(bool value)
+    partial void OnShowPlaneChanged(bool value)
     {
-        _server.UpdateSurfaceVisibility(value);
+        _server.UpdatePlaneVisibility(value);
     }
 }

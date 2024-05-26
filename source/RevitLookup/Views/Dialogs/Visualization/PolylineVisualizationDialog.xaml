@@ -1,5 +1,5 @@
 ﻿<Grid
-    x:Class="RevitLookup.Views.Dialogs.Visualization.FaceVisualizationDialog"
+    x:Class="RevitLookup.Views.Dialogs.Visualization.PolylineVisualizationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,7 +8,7 @@
     xmlns:colorPicker="clr-namespace:RevitLookup.Views.Controls.ColorPicker"
     xmlns:visualization="clr-namespace:RevitLookup.ViewModels.Dialogs.Visualization"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance visualization:FaceVisualizationViewModel}"
+    d:DataContext="{d:DesignInstance visualization:PolylineVisualizationViewModel}"
     d:DesignWidth="450"
     d:DesignHeight="400">
     <rl:Card
@@ -34,20 +34,20 @@
                     Margin="0 8 0 0">
                     <DockPanel>
                         <TextBlock
-                            Text="Thickness" />
+                            Text="Diameter" />
                         <TextBlock
                             HorizontalAlignment="Right"
-                            Text="{Binding Thickness, StringFormat={}{0:F0} inch, Mode=OneWay}" />
+                            Text="{Binding Diameter, StringFormat={}{0:F1} inch, Mode=OneWay}" />
                     </DockPanel>
                     <Slider
                         Focusable="False"
                         Margin="0 4 0 0"
                         Minimum="{Binding MinThickness, Mode=OneTime}"
-                        Maximum="24"
-                        TickFrequency="2"
+                        Maximum="6"
+                        TickFrequency="0.2"
                         IsSnapToTickEnabled="True"
                         TickPlacement="BottomRight"
-                        Value="{Binding Thickness}" />
+                        Value="{Binding Diameter}" />
                 </StackPanel>
                 <StackPanel
                     Margin="0 8 0 0">
@@ -77,10 +77,10 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding MeshColor}" />
+                        SelectedColor="{Binding CurveColor}" />
                     <CheckBox
-                        IsChecked="{Binding ShowMeshGrid}"
-                        Content="Mesh grid" />
+                        IsChecked="{Binding ShowCurve}"
+                        Content="Polyline" />
                 </DockPanel>
                 <DockPanel
                     Margin="0 8 0 0">
@@ -91,9 +91,9 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding NormalVectorColor}" />
+                        SelectedColor="{Binding NormalColor}" />
                     <CheckBox
-                        IsChecked="{Binding ShowNormalVector}"
+                        IsChecked="{Binding ShowNormal}"
                         Content="Normal vector" />
                 </DockPanel>
             </StackPanel>

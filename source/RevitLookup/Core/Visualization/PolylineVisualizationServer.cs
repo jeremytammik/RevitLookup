@@ -22,39 +22,48 @@ using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Models.Render;
-using RevitLookup.Utils;
 
 namespace RevitLookup.Core.Visualization;
 
-public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualizationServer> logger) : IDirectContext3DServer
+public sealed class PolylineVisualizationServer : IDirectContext3DServer
 {
     private const double NormalLength = 1d;
+    private readonly RenderingBufferStorage _curveBuffer = new();
     
     private readonly Guid _guid = Guid.NewGuid();
-    private readonly RenderingBufferStorage _meshGridBuffer = new();
-    
-    private readonly RenderingBufferStorage[] _normalBuffers = Enumerable.Range(0, mesh.Vertices.Count)
-        .Select(_ => new RenderingBufferStorage())
-        .ToArray();
-    
+    private readonly ILogger<PolylineVisualizationServer> _logger;
+    private readonly List<RenderingBufferStorage> _normalsBuffers = new(1);
     private readonly RenderingBufferStorage _surfaceBuffer = new();
-    private bool _drawMeshGrid;
-    private bool _drawNormalVector;
+    private readonly IList<XYZ> _vertices;
+    private Color _curveColor;
+    
+    private double _diameter;
+    private bool _drawCurve;
+    private bool _drawNormal;
     private bool _drawSurface;
     private bool _hasEffectsUpdates = true;
     
     private bool _hasGeometryUpdates = true;
-    private Color _meshColor;
     private Color _normalColor;
     private Color _surfaceColor;
-    
-    private double _thickness;
     private double _transparency;
+    
+    public PolylineVisualizationServer(Edge edge, ILogger<PolylineVisualizationServer> logger)
+    {
+        _vertices = edge.Tessellate();
+        _logger = logger;
+    }
+    
+    public PolylineVisualizationServer(Curve edge, ILogger<PolylineVisualizationServer> logger)
+    {
+        _vertices = edge.Tessellate();
+        _logger = logger;
+    }
     
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
-    public string GetName() => "Mesh visualization server";
-    public string GetDescription() => "Mesh geometry visualization";
+    public string GetName() => "Polyline visualization server";
+    public string GetDescription() => "Polyline geometry visualization";
     public ExternalServiceId GetServiceId() => ExternalServices.BuiltInExternalServices.DirectContext3DService;
     public string GetApplicationId() => string.Empty;
     public string GetSourceId() => string.Empty;
@@ -72,7 +81,7 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
     {
         try
         {
-            if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_meshGridBuffer.IsValid() || _normalBuffers.Any(storage => !storage.IsValid()))
+            if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_curveBuffer.IsValid() || _normalsBuffers.Any(storage => !storage.IsValid()))
             {
                 MapGeometryBuffer();
                 _hasGeometryUpdates = false;
@@ -99,20 +108,20 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
                 }
             }
             
-            if (_drawMeshGrid)
+            if (_drawCurve)
             {
-                DrawContext.FlushBuffer(_meshGridBuffer.VertexBuffer,
-                    _meshGridBuffer.VertexBufferCount,
-                    _meshGridBuffer.IndexBuffer,
-                    _meshGridBuffer.IndexBufferCount,
-                    _meshGridBuffer.VertexFormat,
-                    _meshGridBuffer.EffectInstance, PrimitiveType.LineList, 0,
-                    _meshGridBuffer.PrimitiveCount);
+                DrawContext.FlushBuffer(_curveBuffer.VertexBuffer,
+                    _curveBuffer.VertexBufferCount,
+                    _curveBuffer.IndexBuffer,
+                    _curveBuffer.IndexBufferCount,
+                    _curveBuffer.VertexFormat,
+                    _curveBuffer.EffectInstance, PrimitiveType.LineList, 0,
+                    _curveBuffer.PrimitiveCount);
             }
             
-            if (_drawNormalVector)
+            if (_drawNormal)
             {
-                foreach (var buffer in _normalBuffers)
+                foreach (var buffer in _normalsBuffers)
                 {
                     DrawContext.FlushBuffer(buffer.VertexBuffer,
                         buffer.VertexBufferCount,
@@ -126,41 +135,75 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "Rendering error");
+            _logger.LogError(exception, "Rendering error");
         }
     }
     
     private void MapGeometryBuffer()
     {
-        Render3dUtils.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
-        Render3dUtils.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
+        Render3dUtils.MapCurveSurfaceBuffer(_surfaceBuffer, _vertices, _diameter);
+        Render3dUtils.MapCurveBuffer(_curveBuffer, _vertices, _diameter);
         MapNormalsBuffer();
     }
     
     private void MapNormalsBuffer()
     {
-        for (var i = 0; i < mesh.Vertices.Count; i++)
+        var offset = _diameter / 2.0 + 0.2;
+        
+        for (var i = 0; i < _vertices.Count - 1; i++)
         {
-            var vertex = mesh.Vertices[i];
-            var buffer = _normalBuffers[i];
-            var normal = GeometryUtils.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
-            Render3dUtils.MapNormalVectorBuffer(buffer, vertex, normal, _thickness + 0.2, NormalLength);
+            var startPoint = _vertices[i];
+            var endPoint = _vertices[i + 1];
+            var centerPoint = (startPoint + endPoint) / 2;
+            var buffer = CreateNormalBuffer(i);
+            
+            var segmentVector = endPoint - startPoint;
+            var segmentLength = segmentVector.GetLength();
+            var segmentDirection = segmentVector.Normalize();
+            
+            var arrowLength = segmentLength > 1 ? NormalLength : segmentLength * 0.6;
+            
+            var offsetVector = XYZ.BasisX.CrossProduct(segmentDirection).Normalize() * offset;
+            if (offsetVector.IsZeroLength())
+            {
+                offsetVector = XYZ.BasisY.CrossProduct(segmentDirection).Normalize() * offset;
+            }
+            
+            var arrowOrigin = centerPoint + offsetVector - segmentDirection * (arrowLength / 2);
+            
+            Render3dUtils.MapNormalVectorBuffer(buffer, arrowOrigin, segmentDirection, 0, arrowLength);
         }
+    }
+    
+    private RenderingBufferStorage CreateNormalBuffer(int vertexIndex)
+    {
+        RenderingBufferStorage buffer;
+        if (_normalsBuffers.Count > vertexIndex)
+        {
+            buffer = _normalsBuffers[vertexIndex];
+        }
+        else
+        {
+            buffer = new RenderingBufferStorage();
+            _normalsBuffers.Add(buffer);
+        }
+        
+        return buffer;
     }
     
     private void UpdateEffects()
     {
         _surfaceBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
-        _meshGridBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
-        
         _surfaceBuffer.EffectInstance.SetColor(_surfaceColor);
-        _meshGridBuffer.EffectInstance.SetColor(_meshColor);
         _surfaceBuffer.EffectInstance.SetTransparency(_transparency);
         
-        foreach (var normalBuffer in _normalBuffers)
+        _curveBuffer.EffectInstance ??= new EffectInstance(_curveBuffer.FormatBits);
+        _curveBuffer.EffectInstance.SetColor(_curveColor);
+        
+        foreach (var buffer in _normalsBuffers)
         {
-            normalBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
-            normalBuffer.EffectInstance.SetColor(_normalColor);
+            buffer.EffectInstance ??= new EffectInstance(buffer.FormatBits);
+            buffer.EffectInstance.SetColor(_normalColor);
         }
     }
     
@@ -175,18 +218,18 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateMeshGridColor(Color value)
+    public void UpdateCurveColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _meshColor = value;
+        _curveColor = value;
         _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateNormalVectorColor(Color value)
+    public void UpdateNormalColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
@@ -197,12 +240,12 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateThickness(double value)
+    public void UpdateDiameter(double value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _thickness = value;
+        _diameter = value;
         _hasGeometryUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
@@ -230,22 +273,22 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateMeshGridVisibility(bool visible)
+    public void UpdateCurveVisibility(bool visible)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _drawMeshGrid = visible;
+        _drawCurve = visible;
         
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateNormalVectorVisibility(bool visible)
+    public void UpdateNormalVisibility(bool visible)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _drawNormalVector = visible;
+        _drawNormal = visible;
         
         uiDocument.UpdateAllOpenViews();
     }

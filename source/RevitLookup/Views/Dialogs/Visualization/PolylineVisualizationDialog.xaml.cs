@@ -25,17 +25,29 @@ using Wpf.Ui;
 
 namespace RevitLookup.Views.Dialogs.Visualization;
 
-public sealed partial class XyzVisualizationDialog
+public sealed partial class PolylineVisualizationDialog
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly XyzVisualizationViewModel _viewModel;
+    private readonly PolylineVisualizationViewModel _viewModel;
     
-    public XyzVisualizationDialog(IServiceProvider serviceProvider, XYZ point)
+    public PolylineVisualizationDialog(IServiceProvider serviceProvider, Edge edge)
     {
-        var logger = serviceProvider.GetService<ILogger<XyzVisualizationServer>>();
+        var logger = serviceProvider.GetService<ILogger<PolylineVisualizationServer>>();
         
         _serviceProvider = serviceProvider;
-        _viewModel = new XyzVisualizationViewModel(point, logger);
+        _viewModel = new PolylineVisualizationViewModel(edge, logger);
+        
+        DataContext = _viewModel;
+        InitializeComponent();
+        MonitorServerConnection();
+    }
+    
+    public PolylineVisualizationDialog(IServiceProvider serviceProvider, Curve curve)
+    {
+        var logger = serviceProvider.GetService<ILogger<PolylineVisualizationServer>>();
+        
+        _serviceProvider = serviceProvider;
+        _viewModel = new PolylineVisualizationViewModel(curve, logger);
         
         DataContext = _viewModel;
         InitializeComponent();

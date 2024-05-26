@@ -21,12 +21,15 @@
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Controls;
+using Microsoft.Extensions.Logging;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs.Visualization;
 #if REVIT2023_OR_GREATER
 using System.Windows.Input;
 using RevitLookup.Views.Extensions;
 #endif
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -49,10 +52,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                 if (Context.UiDocument is null) return;
                 if (curve.Reference is null) return;
                 
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    Context.UiDocument.Selection.SetReferences([curve.Reference]);
-                });
+                Application.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetReferences([curve.Reference]); });
             })
             .SetShortcut(Key.F6);
         
@@ -71,6 +71,27 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
             })
             .SetShortcut(Key.F7);
 #endif
+        
+        contextMenu.AddMenuItem("VisualizeMenuItem")
+            .SetAvailability(_curve.ApproximateLength > 1e-6)
+            .SetCommand(_curve, async curve =>
+            {
+                if (Context.UiDocument is null) return;
+                
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                
+                try
+                {
+                    var dialog = new PolylineVisualizationDialog(context.ServiceProvider, curve);
+                    await dialog.ShowAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<EdgeDescriptor>>();
+                    logger.LogError(exception, "VisualizationDialog error");
+                }
+            })
+            .SetShortcut(Key.F8);
     }
     
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)

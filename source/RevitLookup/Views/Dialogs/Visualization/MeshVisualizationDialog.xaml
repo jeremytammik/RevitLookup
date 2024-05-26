@@ -40,8 +40,9 @@
                             Text="{Binding Thickness, StringFormat={}{0:F0} inch, Mode=OneWay}" />
                     </DockPanel>
                     <Slider
+                        Focusable="False"
                         Margin="0 4 0 0"
-                        Minimum="{Binding MinThickness}"
+                        Minimum="{Binding MinThickness, Mode=OneTime}"
                         Maximum="24"
                         TickFrequency="2"
                         IsSnapToTickEnabled="True"
@@ -58,6 +59,7 @@
                             Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
                     </DockPanel>
                     <Slider
+                        Focusable="False"
                         Margin="0 4 0 0"
                         Minimum="0"
                         Maximum="100"

@@ -29,22 +29,22 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
 {
     private const double NormalLength = 1d;
     
-    private bool _hasGeometryUpdates = true;
-    private bool _hasEffectsUpdates = true;
-    
     private readonly Guid _guid = Guid.NewGuid();
-    private readonly RenderingBufferStorage _surfaceBuffer = new();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
     private readonly RenderingBufferStorage _normalBuffer = new();
+    private readonly RenderingBufferStorage _surfaceBuffer = new();
+    private bool _drawMeshGrid;
+    private bool _drawNormalVector;
+    private bool _drawSurface;
+    private bool _hasEffectsUpdates = true;
+    
+    private bool _hasGeometryUpdates = true;
+    private Color _meshColor;
+    private Color _normalColor;
+    private Color _surfaceColor;
     
     private double _thickness;
     private double _transparency;
-    private bool _drawMeshGrid;
-    private bool _drawSurface;
-    private bool _drawNormalVector;
-    private Color _surfaceColor;
-    private Color _meshColor;
-    private Color _normalColor;
     
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
@@ -55,7 +55,7 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
     public string GetSourceId() => string.Empty;
     public bool UsesHandles() => false;
     public bool CanExecute(View view) => true;
-    public bool UseInTransparentPass(View view) => true;
+    public bool UseInTransparentPass(View view) => _transparency > 0;
     
     public Outline GetBoundingBox(View view)
     {
@@ -80,8 +80,6 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
                 UpdateEffects();
                 _hasEffectsUpdates = false;
             }
-            
-            if (_surfaceBuffer!.PrimitiveCount == 0) return;
             
             if (_drawSurface)
             {

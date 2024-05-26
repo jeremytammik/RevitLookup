@@ -25,9 +25,9 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding SurfaceColor}" />
+                        SelectedColor="{Binding PlaneColor}" />
                     <CheckBox
-                        IsChecked="{Binding ShowSurface}"
+                        IsChecked="{Binding ShowPlane}"
                         Content="Planes" />
                 </DockPanel>
                 <StackPanel
@@ -40,6 +40,7 @@
                             Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
                     </DockPanel>
                     <Slider
+                        Focusable="False"
                         Margin="0 4 0 0"
                         Minimum="0"
                         Maximum="100"
@@ -73,7 +74,8 @@
                     </DockPanel>
                     <Slider
                         Margin="0 4 0 0"
-                        Minimum="{Binding MinAxisLength}"
+                        Focusable="False"
+                        Minimum="{Binding MinAxisLength, Mode=OneTime}"
                         Maximum="24"
                         TickFrequency="2"
                         IsSnapToTickEnabled="True"

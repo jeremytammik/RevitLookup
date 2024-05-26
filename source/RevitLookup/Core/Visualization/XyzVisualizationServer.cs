@@ -27,12 +27,11 @@ namespace RevitLookup.Core.Visualization;
 
 public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationServer> logger) : IDirectContext3DServer
 {
-    private bool _hasGeometryUpdates = true;
-    private bool _hasEffectsUpdates = true;
+    private readonly RenderingBufferStorage[] _axisBuffers = Enumerable.Range(0, 3)
+        .Select(_ => new RenderingBufferStorage())
+        .ToArray();
     
     private readonly Guid _guid = Guid.NewGuid();
-    private readonly List<RenderingBufferStorage> _surfaceBuffers = new();
-    private readonly List<RenderingBufferStorage> _axisBuffers = new();
     
     private readonly XYZ[] _normals =
     [
@@ -41,10 +40,17 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         XYZ.BasisZ
     ];
     
-    private double _axisLength;
-    private bool _drawSurface;
-    private Color _surfaceColor;
+    private readonly RenderingBufferStorage[] _planeBuffers = Enumerable.Range(0, 3)
+        .Select(_ => new RenderingBufferStorage())
+        .ToArray();
+    
     private Color _axisColor;
+    
+    private double _axisLength;
+    private bool _drawPlane;
+    private bool _hasEffectsUpdates = true;
+    private bool _hasGeometryUpdates = true;
+    private Color _planeColor;
     private double _transparency;
     
     public Guid GetServerId() => _guid;
@@ -67,7 +73,7 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
     {
         try
         {
-            if (_hasGeometryUpdates || _surfaceBuffers.Any(storage => !storage.IsValid()) || _axisBuffers.Any(storage => !storage.IsValid()))
+            if (_hasGeometryUpdates || _planeBuffers.Any(storage => !storage.IsValid()) || _axisBuffers.Any(storage => !storage.IsValid()))
             {
                 UpdateGeometryBuffer();
                 _hasGeometryUpdates = false;
@@ -90,12 +96,12 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
                     buffer.PrimitiveCount);
             }
             
-            if (_drawSurface)
+            if (_drawPlane)
             {
                 var isTransparentPass = DrawContext.IsTransparentPass();
                 if (isTransparentPass && _transparency > 0 || !isTransparentPass && _transparency == 0)
                 {
-                    foreach (var buffer in _surfaceBuffers)
+                    foreach (var buffer in _planeBuffers)
                     {
                         DrawContext.FlushBuffer(buffer.VertexBuffer,
                             buffer.VertexBufferCount,
@@ -117,7 +123,7 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
     private void UpdateGeometryBuffer()
     {
         MapNormalBuffer();
-        MapSurfaceBuffer();
+        MapPlaneBuffer();
     }
     
     private void MapNormalBuffer()
@@ -125,47 +131,27 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         for (var i = 0; i < _normals.Length; i++)
         {
             var normal = _normals[i];
-            RenderingBufferStorage buffer;
-            if (_axisBuffers.Count > i)
-            {
-                buffer = _axisBuffers[i];
-            }
-            else
-            {
-                buffer = new RenderingBufferStorage();
-                _axisBuffers.Add(buffer);
-            }
-            
+            var buffer = _axisBuffers[i];
             Render3dUtils.MapNormalVectorBuffer(buffer, point - normal * _axisLength, normal, 0, _axisLength * 2);
         }
     }
     
-    private void MapSurfaceBuffer()
+    private void MapPlaneBuffer()
     {
         for (var i = 0; i < _normals.Length; i++)
         {
             var normal = _normals[i];
-            RenderingBufferStorage buffer;
-            if (_surfaceBuffers.Count > i)
-            {
-                buffer = _surfaceBuffers[i];
-            }
-            else
-            {
-                buffer = new RenderingBufferStorage();
-                _surfaceBuffers.Add(buffer);
-            }
-            
+            var buffer = _planeBuffers[i];
             Render3dUtils.MapSideBuffer(buffer, point - normal * _axisLength, point + normal * _axisLength);
         }
     }
     
     private void UpdateEffects()
     {
-        foreach (var buffer in _surfaceBuffers)
+        foreach (var buffer in _planeBuffers)
         {
             buffer.EffectInstance ??= new EffectInstance(buffer.FormatBits);
-            buffer.EffectInstance.SetColor(_surfaceColor);
+            buffer.EffectInstance.SetColor(_planeColor);
             buffer.EffectInstance.SetTransparency(_transparency);
         }
         
@@ -176,12 +162,12 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         }
     }
     
-    public void UpdateSurfaceColor(Color value)
+    public void UpdatePlaneColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _surfaceColor = value;
+        _planeColor = value;
         _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
@@ -220,12 +206,12 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateSurfaceVisibility(bool visible)
+    public void UpdatePlaneVisibility(bool visible)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _drawSurface = visible;
+        _drawPlane = visible;
         
         uiDocument.UpdateAllOpenViews();
     }

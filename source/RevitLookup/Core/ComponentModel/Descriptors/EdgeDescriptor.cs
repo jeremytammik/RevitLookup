@@ -20,12 +20,15 @@
 
 using System.Globalization;
 using System.Windows.Controls;
+using Microsoft.Extensions.Logging;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs.Visualization;
 #if REVIT2023_OR_GREATER
 using System.Windows.Input;
 using RevitLookup.Views.Extensions;
 #endif
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -71,5 +74,26 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
             })
             .SetShortcut(Key.F7);
 #endif
+        
+        contextMenu.AddMenuItem("VisualizeMenuItem")
+            .SetAvailability(_edge.ApproximateLength > 1e-6)
+            .SetCommand(_edge, async edge =>
+            {
+                if (Context.UiDocument is null) return;
+                
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                
+                try
+                {
+                    var dialog = new PolylineVisualizationDialog(context.ServiceProvider, edge);
+                    await dialog.ShowAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<EdgeDescriptor>>();
+                    logger.LogError(exception, "VisualizationDialog error");
+                }
+            })
+            .SetShortcut(Key.F8);
     }
 }
