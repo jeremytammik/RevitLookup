@@ -22,6 +22,33 @@ namespace RevitLookup.Core.Visualization.Helpers;
 
 public static class RenderGeometryHelper
 {
+    public static List<List<XYZ>> GetSegmentationTube(IList<XYZ> vertices, double diameter)
+    {
+        var points = new List<List<XYZ>>();
+        
+        for (var i = 0; i < vertices.Count; i++)
+        {
+            var center = vertices[i];
+            XYZ normal;
+            if (i == 0)
+            {
+                normal = (vertices[i + 1] - center).Normalize();
+            }
+            else if (i == vertices.Count - 1)
+            {
+                normal = (center - vertices[i - 1]).Normalize();
+            }
+            else
+            {
+                normal = ((vertices[i + 1] - vertices[i - 1]) / 2.0).Normalize();
+            }
+            
+            points.Add(TessellateCircle(center, normal, diameter / 2));
+        }
+        
+        return points;
+    }
+    
     public static XYZ GetMeshVertexNormal(Mesh mesh, int index, DistributionOfNormals normalDistribution)
     {
         switch (normalDistribution)
@@ -135,13 +162,13 @@ public static class RenderGeometryHelper
         var height = max.Y - min.Y;
         var depth = max.Z - min.Z;
         
-        var size = Math.Min(width, Math.Min(height, depth));
+        var maxSize = Math.Max(width, Math.Max(height, depth));
         
-        if (maxLength * 2 < size)
+        if (maxLength * 2 < maxSize)
         {
             return maxLength;
         }
         
-        return maxLength * 0.35;
+        return maxSize * 0.35;
     }
 }

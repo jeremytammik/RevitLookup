@@ -60,10 +60,16 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
     
     public Outline GetBoundingBox(View view)
     {
+        if (face.Reference is null) return null;
+        
         var element = face.Reference.ElementId.ToElement(view.Document)!;
         var boundingBox = element.get_BoundingBox(view) ?? element.get_BoundingBox(null);
+        if (boundingBox is null) return null;
         
-        return new Outline(boundingBox.Min, boundingBox.Max);
+        var minPoint = boundingBox.Transform.OfPoint(boundingBox.Min);
+        var maxPoint = boundingBox.Transform.OfPoint(boundingBox.Max);
+        
+        return new Outline(minPoint, maxPoint);
     }
     
     public void RenderScene(View view, DisplayStyle displayStyle)

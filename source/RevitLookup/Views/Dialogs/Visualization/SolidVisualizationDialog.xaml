@@ -1,5 +1,5 @@
 ﻿<Grid
-    x:Class="RevitLookup.Views.Dialogs.Visualization.BoundingBoxVisualizationDialog"
+    x:Class="RevitLookup.Views.Dialogs.Visualization.SolidVisualizationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,10 +8,9 @@
     xmlns:colorPicker="clr-namespace:RevitLookup.Views.Controls.ColorPicker"
     xmlns:visualization="clr-namespace:RevitLookup.ViewModels.Dialogs.Visualization"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance visualization:BoundingBoxVisualizationViewModel}"
+    d:DataContext="{d:DesignInstance visualization:SolidVisualizationViewModel}"
     d:DesignWidth="450"
-    d:DesignHeight="400"
-    Focusable="False">
+    d:DesignHeight="400">
     <rl:Card
         VerticalAlignment="Stretch"
         VerticalContentAlignment="Top">
@@ -26,16 +25,16 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding SurfaceColor}" />
+                        SelectedColor="{Binding FaceColor}" />
                     <CheckBox
-                        IsChecked="{Binding ShowSurface}"
-                        Content="Surface" />
+                        IsChecked="{Binding ShowFace}"
+                        Content="Faces" />
                 </DockPanel>
                 <StackPanel
                     Margin="0 8 0 0">
                     <DockPanel>
                         <TextBlock
-                            Text="Transparency" />
+                            Text="Face transparency" />
                         <TextBlock
                             HorizontalAlignment="Right"
                             Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
@@ -73,11 +72,49 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding AxisColor}" />
+                        SelectedColor="{Binding CageSurfaceColor}" />
                     <CheckBox
-                        IsChecked="{Binding ShowAxis}"
-                        Content="Axis" />
+                        IsChecked="{Binding ShowCageSurface}"
+                        Content="Cage surface" />
                 </DockPanel>
+                <StackPanel
+                    Margin="0 8 0 0">
+                    <DockPanel>
+                        <TextBlock
+                            Text="Cage size" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Text="{Binding CageSize, StringFormat={}{0:F0} inch,Mode=OneWay}" />
+                    </DockPanel>
+                    <Slider
+                        IsTabStop="False"
+                        Margin="0 4 0 0"
+                        Minimum="0"
+                        Maximum="24"
+                        TickFrequency="2"
+                        IsSnapToTickEnabled="True"
+                        TickPlacement="BottomRight"
+                        Value="{Binding CageSize}" />
+                </StackPanel>
+                <StackPanel
+                    Margin="0 8 0 0">
+                    <DockPanel>
+                        <TextBlock
+                            Text="Cage transparency" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Text="{Binding CageTransparency, StringFormat={}{0} %,Mode=OneWay}" />
+                    </DockPanel>
+                    <Slider
+                        IsTabStop="False"
+                        Margin="0 4 0 0"
+                        Minimum="0"
+                        Maximum="100"
+                        TickFrequency="10"
+                        IsSnapToTickEnabled="True"
+                        TickPlacement="BottomRight"
+                        Value="{Binding CageTransparency}" />
+                </StackPanel>
             </StackPanel>
         </rl:PassiveScrollViewer>
     </rl:Card>

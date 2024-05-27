@@ -98,9 +98,45 @@ public static class RenderHelper
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
     
+    public static void MapCurveBuffer(RenderingBufferStorage buffer, IList<XYZ> vertices)
+    {
+        var vertexCount = vertices.Count;
+        
+        buffer.VertexBufferCount = vertexCount;
+        buffer.PrimitiveCount = vertexCount - 1;
+        
+        var vertexBufferSizeInFloats = VertexPosition.GetSizeInFloats() * buffer.VertexBufferCount;
+        buffer.FormatBits = VertexFormatBits.Position;
+        buffer.VertexBuffer = new VertexBuffer(vertexBufferSizeInFloats);
+        buffer.VertexBuffer.Map(vertexBufferSizeInFloats);
+        
+        var vertexStream = buffer.VertexBuffer.GetVertexStreamPosition();
+        
+        foreach (var vertex in vertices)
+        {
+            var vertexPosition = new VertexPosition(vertex);
+            vertexStream.AddVertex(vertexPosition);
+        }
+        
+        buffer.VertexBuffer.Unmap();
+        buffer.IndexBufferCount = (vertexCount - 1) * IndexLine.GetSizeInShortInts();
+        buffer.IndexBuffer = new IndexBuffer(buffer.IndexBufferCount);
+        buffer.IndexBuffer.Map(buffer.IndexBufferCount);
+        
+        var indexStream = buffer.IndexBuffer.GetIndexStreamLine();
+        
+        for (var i = 0; i < vertexCount - 1; i++)
+        {
+            indexStream.AddLine(new IndexLine(i, i + 1));
+        }
+        
+        buffer.IndexBuffer.Unmap();
+        buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
+    }
+    
     public static void MapCurveBuffer(RenderingBufferStorage buffer, IList<XYZ> vertices, double diameter)
     {
-        var tubeSegments = GetSegmentationTube(vertices, diameter);
+        var tubeSegments = RenderGeometryHelper.GetSegmentationTube(vertices, diameter);
         var segmentVerticesCount = tubeSegments[0].Count;
         var newVertexCount = vertices.Count * segmentVerticesCount;
         
@@ -156,7 +192,7 @@ public static class RenderHelper
     
     public static void MapCurveSurfaceBuffer(RenderingBufferStorage buffer, IList<XYZ> vertices, double diameter)
     {
-        var tubeSegments = GetSegmentationTube(vertices, diameter);
+        var tubeSegments = RenderGeometryHelper.GetSegmentationTube(vertices, diameter);
         var segmentVerticesCount = tubeSegments[0].Count;
         var newVertexCount = vertices.Count * segmentVerticesCount;
         
@@ -349,16 +385,19 @@ public static class RenderHelper
     
     public static void MapBoundingBoxSurfaceBuffer(RenderingBufferStorage buffer, BoundingBoxXYZ box)
     {
+        var minPoint = box.Transform.OfPoint(box.Min);
+        var maxPoint = box.Transform.OfPoint(box.Max);
+        
         XYZ[] corners =
         [
-            new XYZ(box.Min.X, box.Min.Y, box.Min.Z),
-            new XYZ(box.Max.X, box.Min.Y, box.Min.Z),
-            new XYZ(box.Max.X, box.Max.Y, box.Min.Z),
-            new XYZ(box.Min.X, box.Max.Y, box.Min.Z),
-            new XYZ(box.Min.X, box.Min.Y, box.Max.Z),
-            new XYZ(box.Max.X, box.Min.Y, box.Max.Z),
-            new XYZ(box.Max.X, box.Max.Y, box.Max.Z),
-            new XYZ(box.Min.X, box.Max.Y, box.Max.Z)
+            new XYZ(minPoint.X, minPoint.Y, minPoint.Z),
+            new XYZ(maxPoint.X, minPoint.Y, minPoint.Z),
+            new XYZ(maxPoint.X, maxPoint.Y, minPoint.Z),
+            new XYZ(minPoint.X, maxPoint.Y, minPoint.Z),
+            new XYZ(minPoint.X, minPoint.Y, maxPoint.Z),
+            new XYZ(maxPoint.X, minPoint.Y, maxPoint.Z),
+            new XYZ(maxPoint.X, maxPoint.Y, maxPoint.Z),
+            new XYZ(minPoint.X, maxPoint.Y, maxPoint.Z)
         ];
         
         int[] triangles =
@@ -406,16 +445,19 @@ public static class RenderHelper
     
     public static void MapBoundingBoxEdgeBuffer(RenderingBufferStorage buffer, BoundingBoxXYZ box)
     {
+        var minPoint = box.Transform.OfPoint(box.Min);
+        var maxPoint = box.Transform.OfPoint(box.Max);
+        
         XYZ[] corners =
         [
-            new XYZ(box.Min.X, box.Min.Y, box.Min.Z),
-            new XYZ(box.Max.X, box.Min.Y, box.Min.Z),
-            new XYZ(box.Max.X, box.Max.Y, box.Min.Z),
-            new XYZ(box.Min.X, box.Max.Y, box.Min.Z),
-            new XYZ(box.Min.X, box.Min.Y, box.Max.Z),
-            new XYZ(box.Max.X, box.Min.Y, box.Max.Z),
-            new XYZ(box.Max.X, box.Max.Y, box.Max.Z),
-            new XYZ(box.Min.X, box.Max.Y, box.Max.Z)
+            new XYZ(minPoint.X, minPoint.Y, minPoint.Z),
+            new XYZ(maxPoint.X, minPoint.Y, minPoint.Z),
+            new XYZ(maxPoint.X, maxPoint.Y, minPoint.Z),
+            new XYZ(minPoint.X, maxPoint.Y, minPoint.Z),
+            new XYZ(minPoint.X, minPoint.Y, maxPoint.Z),
+            new XYZ(maxPoint.X, minPoint.Y, maxPoint.Z),
+            new XYZ(maxPoint.X, maxPoint.Y, maxPoint.Z),
+            new XYZ(minPoint.X, maxPoint.Y, maxPoint.Z)
         ];
         
         int[] edges =
@@ -493,32 +535,5 @@ public static class RenderHelper
         
         buffer.IndexBuffer.Unmap();
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
-    }
-    
-    private static List<List<XYZ>> GetSegmentationTube(IList<XYZ> vertices, double diameter)
-    {
-        var points = new List<List<XYZ>>();
-        
-        for (var i = 0; i < vertices.Count; i++)
-        {
-            var center = vertices[i];
-            XYZ normal;
-            if (i == 0)
-            {
-                normal = (vertices[i + 1] - center).Normalize();
-            }
-            else if (i == vertices.Count - 1)
-            {
-                normal = (center - vertices[i - 1]).Normalize();
-            }
-            else
-            {
-                normal = ((vertices[i + 1] - vertices[i - 1]) / 2.0).Normalize();
-            }
-            
-            points.Add(RenderGeometryHelper.TessellateCircle(center, normal, diameter / 2));
-        }
-        
-        return points;
     }
 }

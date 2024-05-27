@@ -10,8 +10,7 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance visualization:XyzVisualizationViewModel}"
     d:DesignWidth="450"
-    d:DesignHeight="400"
-    Focusable="False">
+    d:DesignHeight="400">
     <rl:Card
         VerticalAlignment="Stretch"
         VerticalContentAlignment="Top">
@@ -35,12 +34,13 @@
                     Margin="0 8 0 0">
                     <DockPanel>
                         <TextBlock
-                            Text="Plane transparency" />
+                            Text="Transparency" />
                         <TextBlock
                             HorizontalAlignment="Right"
                             Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
                     </DockPanel>
                     <Slider
+                        IsTabStop="False"
                         Margin="0 4 0 0"
                         Minimum="0"
                         Maximum="100"
@@ -67,12 +67,13 @@
                     Margin="0 8 0 0">
                     <DockPanel>
                         <TextBlock
-                            Text="Axis length" />
+                            Text="Length" />
                         <TextBlock
                             HorizontalAlignment="Right"
                             Text="{Binding AxisLength, StringFormat={}{0:F0} inch, Mode=OneWay}" />
                     </DockPanel>
                     <Slider
+                        IsTabStop="False"
                         Margin="0 4 0 0"
                         Minimum="{Binding MinAxisLength, Mode=OneTime}"
                         Maximum="24"

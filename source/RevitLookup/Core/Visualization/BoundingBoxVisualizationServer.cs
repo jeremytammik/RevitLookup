@@ -143,16 +143,19 @@ public sealed class BoundingBoxVisualizationServer(BoundingBoxXYZ box, ILogger<B
     
     private void MapAxisBuffers()
     {
-        var axisLength = RenderGeometryHelper.InterpolateAxisLengthByPoints(box.Min, box.Max);
         var unitVector = new XYZ(1, 1, 1);
+        var minPoint = box.Transform.OfPoint(box.Min);
+        var maxPoint = box.Transform.OfPoint(box.Max);
+        var axisLength = RenderGeometryHelper.InterpolateAxisLengthByPoints(minPoint, maxPoint);
+        
         for (var i = 0; i < _normals.Length; i++)
         {
             var normal = _normals[i];
             var minBuffer = _axisBuffers[i];
             var maxBuffer = _axisBuffers[i + _normals.Length];
             
-            RenderHelper.MapNormalVectorBuffer(minBuffer, box.Min - unitVector * Context.Application.ShortCurveTolerance, normal, axisLength);
-            RenderHelper.MapNormalVectorBuffer(maxBuffer, box.Max + unitVector * Context.Application.ShortCurveTolerance, -normal, axisLength);
+            RenderHelper.MapNormalVectorBuffer(minBuffer, minPoint - unitVector * Context.Application.ShortCurveTolerance, normal, axisLength);
+            RenderHelper.MapNormalVectorBuffer(maxBuffer, maxPoint + unitVector * Context.Application.ShortCurveTolerance, -normal, axisLength);
         }
     }
     
