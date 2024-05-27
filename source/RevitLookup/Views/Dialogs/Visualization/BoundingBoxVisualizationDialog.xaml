@@ -1,5 +1,5 @@
 ﻿<Grid
-    x:Class="RevitLookup.Views.Dialogs.Visualization.PolylineVisualizationDialog"
+    x:Class="RevitLookup.Views.Dialogs.Visualization.BoundingBoxVisualizationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,7 +8,7 @@
     xmlns:colorPicker="clr-namespace:RevitLookup.Views.Controls.ColorPicker"
     xmlns:visualization="clr-namespace:RevitLookup.ViewModels.Dialogs.Visualization"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance visualization:PolylineVisualizationViewModel}"
+    d:DataContext="{d:DesignInstance visualization:BoundingBoxVisualizationViewModel}"
     d:DesignWidth="450"
     d:DesignHeight="400"
     Focusable="False">
@@ -31,24 +31,6 @@
                         IsChecked="{Binding ShowSurface}"
                         Content="Surface" />
                 </DockPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Diameter" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding Diameter, StringFormat={}{0:F1} inch, Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        Margin="0 4 0 0"
-                        Minimum="{Binding MinThickness, Mode=OneTime}"
-                        Maximum="6"
-                        TickFrequency="0.2"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding Diameter}" />
-                </StackPanel>
                 <StackPanel
                     Margin="0 8 0 0">
                     <DockPanel>
@@ -76,10 +58,10 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding CurveColor}" />
+                        SelectedColor="{Binding EdgeColor}" />
                     <CheckBox
-                        IsChecked="{Binding ShowCurve}"
-                        Content="Polyline" />
+                        IsChecked="{Binding ShowEdge}"
+                        Content="Edges" />
                 </DockPanel>
                 <DockPanel
                     Margin="0 8 0 0">
@@ -90,10 +72,10 @@
                         Symbol="Eyedropper20" />
                     <colorPicker:ColorPickerControl
                         DockPanel.Dock="Right"
-                        SelectedColor="{Binding DirectionColor}" />
+                        SelectedColor="{Binding AxisColor}" />
                     <CheckBox
-                        IsChecked="{Binding ShowDirection}"
-                        Content="Direction" />
+                        IsChecked="{Binding ShowAxis}"
+                        Content="Axis" />
                 </DockPanel>
             </StackPanel>
         </rl:PassiveScrollViewer>

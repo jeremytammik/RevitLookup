@@ -21,34 +21,34 @@
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
+using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
-using RevitLookup.Utils;
 
 namespace RevitLookup.Core.Visualization;
 
 public sealed class PolylineVisualizationServer : IDirectContext3DServer
 {
-    private const double DirectionLength = 1d;
-    private const double DirectionOffset = 0.2d;
-    private readonly RenderingBufferStorage _curveBuffer = new();
+    private bool _hasEffectsUpdates = true;
+    private bool _hasGeometryUpdates = true;
     
     private readonly Guid _guid = Guid.NewGuid();
     private readonly ILogger<PolylineVisualizationServer> _logger;
-    private readonly List<RenderingBufferStorage> _normalsBuffers = new(1);
-    private readonly RenderingBufferStorage _surfaceBuffer = new();
-    private readonly IList<XYZ> _vertices;
-    private Color _curveColor;
     
+    private readonly RenderingBufferStorage _surfaceBuffer = new();
+    private readonly RenderingBufferStorage _curveBuffer = new();
+    private readonly List<RenderingBufferStorage> _normalsBuffers = new(1);
+    private readonly IList<XYZ> _vertices;
+    
+    private double _transparency;
     private double _diameter;
+    
+    private Color _surfaceColor;
+    private Color _curveColor;
     private Color _directionColor;
+    
     private bool _drawCurve;
     private bool _drawDirection;
     private bool _drawSurface;
-    private bool _hasEffectsUpdates = true;
-    
-    private bool _hasGeometryUpdates = true;
-    private Color _surfaceColor;
-    private double _transparency;
     
     public PolylineVisualizationServer(Edge edge, ILogger<PolylineVisualizationServer> logger)
     {
@@ -143,8 +143,8 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
     
     private void MapGeometryBuffer()
     {
-        Render3dUtils.MapCurveSurfaceBuffer(_surfaceBuffer, _vertices, _diameter);
-        Render3dUtils.MapCurveBuffer(_curveBuffer, _vertices, _diameter);
+        RenderHelper.MapCurveSurfaceBuffer(_surfaceBuffer, _vertices, _diameter);
+        RenderHelper.MapCurveBuffer(_curveBuffer, _vertices, _diameter);
         MapDirectionsBuffer();
     }
     
@@ -164,10 +164,10 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
             var segmentDirection = segmentVector.Normalize();
             if (verticalOffset == 0)
             {
-                verticalOffset = GeometryUtils.InterpolateOffsetByDiameter(_diameter) + _diameter / 2d;
+                verticalOffset = RenderGeometryHelper.InterpolateOffsetByDiameter(_diameter) + _diameter / 2d;
             }
             
-            var arrowLength = segmentLength > 1 ? DirectionLength : segmentLength * 0.6;
+            var arrowLength = segmentLength > 1 ? 1d : segmentLength * 0.6;
             
             var offsetVector = XYZ.BasisX.CrossProduct(segmentDirection).Normalize() * verticalOffset;
             if (offsetVector.IsZeroLength())
@@ -177,7 +177,7 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
             
             var arrowOrigin = centerPoint + offsetVector - segmentDirection * (arrowLength / 2);
             
-            Render3dUtils.MapNormalVectorBuffer(buffer, arrowOrigin, segmentDirection, arrowLength);
+            RenderHelper.MapNormalVectorBuffer(buffer, arrowOrigin, segmentDirection, arrowLength);
         }
     }
     

@@ -21,29 +21,31 @@
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
+using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
-using RevitLookup.Utils;
 
 namespace RevitLookup.Core.Visualization;
 
 public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualizationServer> logger) : IDirectContext3DServer
 {
+    private bool _hasEffectsUpdates = true;
+    private bool _hasGeometryUpdates = true;
+    
     private readonly Guid _guid = Guid.NewGuid();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
     private readonly RenderingBufferStorage _normalBuffer = new();
     private readonly RenderingBufferStorage _surfaceBuffer = new();
-    private bool _drawMeshGrid;
-    private bool _drawNormalVector;
-    private bool _drawSurface;
-    private bool _hasEffectsUpdates = true;
     
-    private bool _hasGeometryUpdates = true;
+    private double _thickness;
+    private double _transparency;
+    
     private Color _meshColor;
     private Color _normalColor;
     private Color _surfaceColor;
     
-    private double _thickness;
-    private double _transparency;
+    private bool _drawMeshGrid;
+    private bool _drawNormalVector;
+    private bool _drawSurface;
     
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
@@ -129,12 +131,12 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         var faceBox = face.GetBoundingBox();
         var center = (faceBox.Min + faceBox.Max) / 2;
         var normal = face.ComputeNormal(center);
-        var offset = GeometryUtils.InterpolateOffsetByArea(face.Area);
-        var normalLength = GeometryUtils.InterpolateAxisLengthByArea(face.Area);
+        var offset = RenderGeometryHelper.InterpolateOffsetByArea(face.Area);
+        var normalLength = RenderGeometryHelper.InterpolateAxisLengthByArea(face.Area);
         
-        Render3dUtils.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
-        Render3dUtils.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
-        Render3dUtils.MapNormalVectorBuffer(_normalBuffer, face.Evaluate(center) + normal * (offset + _thickness), normal, normalLength);
+        RenderHelper.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
+        RenderHelper.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
+        RenderHelper.MapNormalVectorBuffer(_normalBuffer, face.Evaluate(center) + normal * (offset + _thickness), normal, normalLength);
     }
     
     private void UpdateEffects()

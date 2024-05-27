@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Windows.Media;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization;
@@ -26,47 +25,31 @@ using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.ViewModels.Dialogs.Visualization;
 
-[SuppressMessage("ReSharper", "ContextualLoggerProblem")]
-public sealed partial class PolylineVisualizationViewModel : ObservableObject
+public sealed partial class BoundingBoxVisualizationViewModel(BoundingBoxXYZ box, ILogger<BoundingBoxVisualizationServer> logger) : ObservableObject
 {
-    private readonly PolylineVisualizationServer _server;
+    private readonly BoundingBoxVisualizationServer _server = new(box, logger);
     
-    [ObservableProperty] private double _diameter = 2;
-    [ObservableProperty] private double _transparency = 20;
-    
-    [ObservableProperty] private System.Windows.Media.Color _curveColor = System.Windows.Media.Color.FromArgb(0, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _directionColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
-    
-    [ObservableProperty] private bool _showSurface = true;
-    [ObservableProperty] private bool _showCurve = true;
-    [ObservableProperty] private bool _showDirection = true;
+    [ObservableProperty] private double _transparency = 60;
     
     [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
+    [ObservableProperty] private System.Windows.Media.Color _edgeColor = System.Windows.Media.Color.FromArgb(0, 30, 81, 255);
+    [ObservableProperty] private System.Windows.Media.Color _axisColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
     
-    public PolylineVisualizationViewModel(Edge edge, ILogger<PolylineVisualizationServer> logger)
-    {
-        _server = new PolylineVisualizationServer(edge, logger);
-    }
-    
-    public PolylineVisualizationViewModel(Curve curve, ILogger<PolylineVisualizationServer> logger)
-    {
-        _server = new PolylineVisualizationServer(curve, logger);
-    }
-    
-    public double MinThickness => 0.1;
+    [ObservableProperty] private bool _showSurface = true;
+    [ObservableProperty] private bool _showEdge = true;
+    [ObservableProperty] private bool _showAxis = true;
     
     public void RegisterServer()
     {
         OnShowSurfaceChanged(ShowSurface);
-        OnShowCurveChanged(ShowCurve);
-        OnShowDirectionChanged(ShowDirection);
+        OnShowEdgeChanged(ShowEdge);
+        OnShowAxisChanged(ShowAxis);
         
         OnSurfaceColorChanged(SurfaceColor);
-        OnCurveColorChanged(CurveColor);
-        OnDirectionColorChanged(DirectionColor);
+        OnEdgeColorChanged(EdgeColor);
+        OnAxisColorChanged(AxisColor);
         
         OnTransparencyChanged(Transparency);
-        OnDiameterChanged(Diameter);
         
         _server.Register();
     }
@@ -81,19 +64,14 @@ public sealed partial class PolylineVisualizationViewModel : ObservableObject
         _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
     }
     
-    partial void OnCurveColorChanged(System.Windows.Media.Color value)
+    partial void OnEdgeColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateCurveColor(new Color(value.R, value.G, value.B));
+        _server.UpdateEdgeColor(new Color(value.R, value.G, value.B));
     }
     
-    partial void OnDirectionColorChanged(System.Windows.Media.Color value)
+    partial void OnAxisColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateDirectionColor(new Color(value.R, value.G, value.B));
-    }
-    
-    partial void OnDiameterChanged(double value)
-    {
-        _server.UpdateDiameter(value / 12);
+        _server.UpdateAxisColor(new Color(value.R, value.G, value.B));
     }
     
     partial void OnTransparencyChanged(double value)
@@ -106,13 +84,13 @@ public sealed partial class PolylineVisualizationViewModel : ObservableObject
         _server.UpdateSurfaceVisibility(value);
     }
     
-    partial void OnShowCurveChanged(bool value)
+    partial void OnShowEdgeChanged(bool value)
     {
-        _server.UpdateCurveVisibility(value);
+        _server.UpdateEdgeVisibility(value);
     }
     
-    partial void OnShowDirectionChanged(bool value)
+    partial void OnShowAxisChanged(bool value)
     {
-        _server.UpdateDirectionVisibility(value);
+        _server.UpdateAxisVisibility(value);
     }
 }

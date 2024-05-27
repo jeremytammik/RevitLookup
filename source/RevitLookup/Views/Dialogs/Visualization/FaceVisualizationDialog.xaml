@@ -10,7 +10,8 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance visualization:FaceVisualizationViewModel}"
     d:DesignWidth="450"
-    d:DesignHeight="400">
+    d:DesignHeight="400"
+    Focusable="False">
     <rl:Card
         VerticalAlignment="Stretch"
         VerticalContentAlignment="Top">
@@ -40,7 +41,6 @@
                             Text="{Binding Thickness, StringFormat={}{0:F0} inch, Mode=OneWay}" />
                     </DockPanel>
                     <Slider
-                        Focusable="False"
                         Margin="0 4 0 0"
                         Minimum="{Binding MinThickness, Mode=OneTime}"
                         Maximum="24"
@@ -59,7 +59,6 @@
                             Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
                     </DockPanel>
                     <Slider
-                        Focusable="False"
                         Margin="0 4 0 0"
                         Minimum="0"
                         Maximum="100"

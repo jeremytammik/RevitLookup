@@ -28,14 +28,14 @@ namespace RevitLookup.ViewModels.Dialogs.Visualization;
 public sealed partial class XyzVisualizationViewModel(XYZ point, ILogger<XyzVisualizationServer> logger) : ObservableObject
 {
     private readonly XyzVisualizationServer _server = new(point, logger);
-    [ObservableProperty] private System.Windows.Media.Color _axisColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
     
     [ObservableProperty] private double _axisLength = 6;
+    [ObservableProperty] private double _transparency = 40;
     
     [ObservableProperty] private System.Windows.Media.Color _planeColor = Colors.DodgerBlue;
+    [ObservableProperty] private System.Windows.Media.Color _axisColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
     
     [ObservableProperty] private bool _showPlane = true;
-    [ObservableProperty] private double _transparency = 40;
     
     public double MinAxisLength => 0.1;
     

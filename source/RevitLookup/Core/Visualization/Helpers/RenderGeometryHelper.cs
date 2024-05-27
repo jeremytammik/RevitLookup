@@ -18,9 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.Utils;
+namespace RevitLookup.Core.Visualization.Helpers;
 
-public static class GeometryUtils
+public static class RenderGeometryHelper
 {
     public static XYZ GetMeshVertexNormal(Mesh mesh, int index, DistributionOfNormals normalDistribution)
     {
@@ -49,17 +49,17 @@ public static class GeometryUtils
         }
     }
     
-    public static List<XYZ> TessellateCircle(XYZ center, XYZ normal, double raduis)
+    public static List<XYZ> TessellateCircle(XYZ center, XYZ normal, double radius)
     {
         var vertices = new List<XYZ>();
-        var segmentCount = InterpolateSegmentsCount(raduis);
-        var xDirection = normal.CrossProduct(XYZ.BasisZ).Normalize() * raduis;
+        var segmentCount = InterpolateSegmentsCount(radius);
+        var xDirection = normal.CrossProduct(XYZ.BasisZ).Normalize() * radius;
         if (xDirection.IsZeroLength())
         {
-            xDirection = normal.CrossProduct(XYZ.BasisX).Normalize() * raduis;
+            xDirection = normal.CrossProduct(XYZ.BasisX).Normalize() * radius;
         }
         
-        var yDirection = normal.CrossProduct(xDirection).Normalize() * raduis;
+        var yDirection = normal.CrossProduct(xDirection).Normalize() * radius;
         
         for (var i = 0; i < segmentCount; i++)
         {
@@ -125,5 +125,23 @@ public static class GeometryUtils
         
         var normalOffset = (area - minArea) / (maxArea - minArea);
         return minLength + normalOffset * (maxLength - minLength);
+    }
+    
+    public static double InterpolateAxisLengthByPoints(XYZ min, XYZ max)
+    {
+        const double maxLength = 1d;
+        
+        var width = max.X - min.X;
+        var height = max.Y - min.Y;
+        var depth = max.Z - min.Z;
+        
+        var size = Math.Min(width, Math.Min(height, depth));
+        
+        if (maxLength * 2 < size)
+        {
+            return maxLength;
+        }
+        
+        return maxLength * 0.35;
     }
 }

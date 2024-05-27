@@ -20,11 +20,10 @@
 
 using Autodesk.Revit.DB.DirectContext3D;
 using RevitLookup.Models.Render;
-using RevitLookup.Utils;
 
-namespace RevitLookup.Core.Visualization;
+namespace RevitLookup.Core.Visualization.Helpers;
 
-public static class Render3dUtils
+public static class RenderHelper
 {
     public static void MapSurfaceBuffer(RenderingBufferStorage buffer, Mesh mesh, double thickness)
     {
@@ -44,7 +43,7 @@ public static class Render3dUtils
         
         for (var i = 0; i < mesh.Vertices.Count; i++)
         {
-            var normal = GeometryUtils.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
+            var normal = RenderGeometryHelper.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
             normals.Add(normal);
         }
         
@@ -227,7 +226,7 @@ public static class Render3dUtils
         
         for (var i = 0; i < mesh.Vertices.Count; i++)
         {
-            var normal = GeometryUtils.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
+            var normal = RenderGeometryHelper.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
             normals.Add(normal);
         }
         
@@ -348,6 +347,117 @@ public static class Render3dUtils
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
     
+    public static void MapBoundingBoxSurfaceBuffer(RenderingBufferStorage buffer, BoundingBoxXYZ box)
+    {
+        XYZ[] corners =
+        [
+            new XYZ(box.Min.X, box.Min.Y, box.Min.Z),
+            new XYZ(box.Max.X, box.Min.Y, box.Min.Z),
+            new XYZ(box.Max.X, box.Max.Y, box.Min.Z),
+            new XYZ(box.Min.X, box.Max.Y, box.Min.Z),
+            new XYZ(box.Min.X, box.Min.Y, box.Max.Z),
+            new XYZ(box.Max.X, box.Min.Y, box.Max.Z),
+            new XYZ(box.Max.X, box.Max.Y, box.Max.Z),
+            new XYZ(box.Min.X, box.Max.Y, box.Max.Z)
+        ];
+        
+        int[] triangles =
+        [
+            0, 1, 2, 2, 3, 0, // bottom face
+            4, 5, 6, 6, 7, 4, // top face
+            0, 4, 5, 5, 1, 0, // front face
+            1, 5, 6, 6, 2, 1, // right face
+            2, 6, 7, 7, 3, 2, // back face
+            3, 7, 4, 4, 0, 3 // left face
+        ];
+        
+        buffer.VertexBufferCount = corners.Length;
+        buffer.PrimitiveCount = triangles.Length / 3;
+        
+        var vertexBufferSizeInFloats = VertexPosition.GetSizeInFloats() * buffer.VertexBufferCount;
+        buffer.FormatBits = VertexFormatBits.Position;
+        buffer.VertexBuffer = new VertexBuffer(vertexBufferSizeInFloats);
+        buffer.VertexBuffer.Map(vertexBufferSizeInFloats);
+        
+        var vertexStream = buffer.VertexBuffer.GetVertexStreamPosition();
+        
+        foreach (var corner in corners)
+        {
+            var vertexPosition = new VertexPosition(corner);
+            vertexStream.AddVertex(vertexPosition);
+        }
+        
+        buffer.VertexBuffer.Unmap();
+        
+        buffer.IndexBufferCount = triangles.Length * IndexTriangle.GetSizeInShortInts();
+        buffer.IndexBuffer = new IndexBuffer(buffer.IndexBufferCount);
+        buffer.IndexBuffer.Map(buffer.IndexBufferCount);
+        
+        var indexStream = buffer.IndexBuffer.GetIndexStreamTriangle();
+        
+        for (var i = 0; i < triangles.Length; i += 3)
+        {
+            indexStream.AddTriangle(new IndexTriangle(triangles[i], triangles[i + 1], triangles[i + 2]));
+        }
+        
+        buffer.IndexBuffer.Unmap();
+        buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
+    }
+    
+    public static void MapBoundingBoxEdgeBuffer(RenderingBufferStorage buffer, BoundingBoxXYZ box)
+    {
+        XYZ[] corners =
+        [
+            new XYZ(box.Min.X, box.Min.Y, box.Min.Z),
+            new XYZ(box.Max.X, box.Min.Y, box.Min.Z),
+            new XYZ(box.Max.X, box.Max.Y, box.Min.Z),
+            new XYZ(box.Min.X, box.Max.Y, box.Min.Z),
+            new XYZ(box.Min.X, box.Min.Y, box.Max.Z),
+            new XYZ(box.Max.X, box.Min.Y, box.Max.Z),
+            new XYZ(box.Max.X, box.Max.Y, box.Max.Z),
+            new XYZ(box.Min.X, box.Max.Y, box.Max.Z)
+        ];
+        
+        int[] edges =
+        [
+            0, 1, 1, 2, 2, 3, 3, 0, // bottom face
+            4, 5, 5, 6, 6, 7, 7, 4, // top face
+            0, 4, 1, 5, 2, 6, 3, 7 // vertical edges
+        ];
+        
+        buffer.VertexBufferCount = corners.Length;
+        buffer.PrimitiveCount = edges.Length / 2;
+        
+        var vertexBufferSizeInFloats = VertexPosition.GetSizeInFloats() * buffer.VertexBufferCount;
+        buffer.FormatBits = VertexFormatBits.Position;
+        buffer.VertexBuffer = new VertexBuffer(vertexBufferSizeInFloats);
+        buffer.VertexBuffer.Map(vertexBufferSizeInFloats);
+        
+        var vertexStream = buffer.VertexBuffer.GetVertexStreamPosition();
+        
+        foreach (var corner in corners)
+        {
+            var vertexPosition = new VertexPosition(corner);
+            vertexStream.AddVertex(vertexPosition);
+        }
+        
+        buffer.VertexBuffer.Unmap();
+        
+        buffer.IndexBufferCount = edges.Length * IndexLine.GetSizeInShortInts();
+        buffer.IndexBuffer = new IndexBuffer(buffer.IndexBufferCount);
+        buffer.IndexBuffer.Map(buffer.IndexBufferCount);
+        
+        var indexStream = buffer.IndexBuffer.GetIndexStreamLine();
+        
+        for (var i = 0; i < edges.Length; i += 2)
+        {
+            indexStream.AddLine(new IndexLine(edges[i], edges[i + 1]));
+        }
+        
+        buffer.IndexBuffer.Unmap();
+        buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
+    }
+    
     public static void MapNormalVectorBuffer(RenderingBufferStorage buffer, XYZ origin, XYZ vector, double length)
     {
         var headSize = length > 1 ? 0.2 : length * 0.2;
@@ -406,7 +516,7 @@ public static class Render3dUtils
                 normal = ((vertices[i + 1] - vertices[i - 1]) / 2.0).Normalize();
             }
             
-            points.Add(GeometryUtils.TessellateCircle(center, normal, diameter / 2));
+            points.Add(RenderGeometryHelper.TessellateCircle(center, normal, diameter / 2));
         }
         
         return points;

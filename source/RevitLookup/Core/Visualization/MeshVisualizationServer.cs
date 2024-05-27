@@ -21,33 +21,35 @@
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
+using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
-using RevitLookup.Utils;
 
 namespace RevitLookup.Core.Visualization;
 
 public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualizationServer> logger) : IDirectContext3DServer
 {
+    private bool _hasEffectsUpdates = true;
+    private bool _hasGeometryUpdates = true;
+    
     private readonly Guid _guid = Guid.NewGuid();
+    
+    private readonly RenderingBufferStorage _surfaceBuffer = new();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
     
     private readonly RenderingBufferStorage[] _normalBuffers = Enumerable.Range(0, mesh.Vertices.Count)
         .Select(_ => new RenderingBufferStorage())
         .ToArray();
     
-    private readonly RenderingBufferStorage _surfaceBuffer = new();
+    private double _thickness;
+    private double _transparency;
+    
     private bool _drawMeshGrid;
     private bool _drawNormalVector;
     private bool _drawSurface;
-    private bool _hasEffectsUpdates = true;
     
-    private bool _hasGeometryUpdates = true;
     private Color _meshColor;
     private Color _normalColor;
     private Color _surfaceColor;
-    
-    private double _thickness;
-    private double _transparency;
     
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
@@ -130,24 +132,24 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
     
     private void MapGeometryBuffer()
     {
-        Render3dUtils.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
-        Render3dUtils.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
+        RenderHelper.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
+        RenderHelper.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
         MapNormalsBuffer();
     }
     
     private void MapNormalsBuffer()
     {
         var area = mesh.ComputeSurfaceArea();
-        var offset = GeometryUtils.InterpolateOffsetByArea(area);
-        var normalLength = GeometryUtils.InterpolateAxisLengthByArea(area);
+        var offset = RenderGeometryHelper.InterpolateOffsetByArea(area);
+        var normalLength = RenderGeometryHelper.InterpolateAxisLengthByArea(area);
         
         for (var i = 0; i < mesh.Vertices.Count; i++)
         {
             var vertex = mesh.Vertices[i];
             var buffer = _normalBuffers[i];
-            var normal = GeometryUtils.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
+            var normal = RenderGeometryHelper.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
             
-            Render3dUtils.MapNormalVectorBuffer(buffer, vertex + normal * (offset + _thickness), normal, normalLength);
+            RenderHelper.MapNormalVectorBuffer(buffer, vertex + normal * (offset + _thickness), normal, normalLength);
         }
     }
     

@@ -19,12 +19,18 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs.Visualization;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, IDescriptorResolver, IDescriptorExtension
+public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, IDescriptorResolver, IDescriptorExtension, IDescriptorConnector
 {
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
@@ -99,6 +105,7 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
             .Add(new XYZ(box.Max.X, box.Min.Y, box.Max.Z))
             .Add(new XYZ(box.Max.X, box.Max.Y, box.Min.Z))
             .Add(new XYZ(box.Max.X, box.Max.Y, box.Max.Z)));
+        
         manager.Register("Volume", _ =>
         {
             var length = box.Max.X - box.Min.X;
@@ -107,6 +114,7 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
             
             return length * width * height;
         });
+        
         manager.Register("SurfaceArea", _ =>
         {
             var length = box.Max.X - box.Min.X;
@@ -119,5 +127,28 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
             
             return 2 * (area1 + area2 + area3);
         });
+    }
+    
+    public void RegisterMenu(ContextMenu contextMenu)
+    {
+        contextMenu.AddMenuItem("VisualizeMenuItem")
+            .SetCommand(box, async boxArg =>
+            {
+                if (Context.UiDocument is null) return;
+                
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                
+                try
+                {
+                    var dialog = new BoundingBoxVisualizationDialog(context.ServiceProvider, boxArg);
+                    await dialog.ShowAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<EdgeDescriptor>>();
+                    logger.LogError(exception, "VisualizationDialog error");
+                }
+            })
+            .SetShortcut(Key.F8);
     }
 }
