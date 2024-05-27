@@ -44,7 +44,7 @@
 
     <ItemGroup>
         <!--Revit references-->
-        <PackageReference Include="Nice3point.Revit.Build.Tasks" Version="1.*"/>
+        <PackageReference Include="Nice3point.Revit.Build.Tasks" Version="2.0.0"/>
         <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
         <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
         <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
@@ -76,7 +76,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Resource Include="Resources\Images\RibbonIcon16.png"/>
+        <Content Include="Resources\Images\RibbonIcon16.png"/>
         <Resource Include="Resources\Images\RibbonIcon32.png"/>
         <Resource Include="Resources\Images\AboutLogo200.png"/>
         <Resource Include="Resources\Images\ShellIcon.ico"/>
