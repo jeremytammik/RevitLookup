@@ -18,18 +18,22 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using RevitLookup.Services;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;
 
-public sealed partial class FamilySizeTableDialog
+public sealed partial class FamilySizeTableExportDialog
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly FamilySizeTableExportDialogViewModel _viewModel;
 
-    public FamilySizeTableDialog(IServiceProvider serviceProvider, FamilySizeTable table)
+    public FamilySizeTableExportDialog(IServiceProvider serviceProvider, FamilySizeTableManager manager)
     {
-        DataContext = new FamilySizeTableDialogViewModel(table);
+        _viewModel = new FamilySizeTableExportDialogViewModel(manager);
+        DataContext = _viewModel;
         _serviceProvider = serviceProvider;
         InitializeComponent();
     }
@@ -38,11 +42,25 @@ public sealed partial class FamilySizeTableDialog
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
-            Title = "Family size table",
+            Title = "Select family size table",
             Content = this,
-            CloseButtonText = "Close"
+            PrimaryButtonText = "Export",
+            CloseButtonText = "Close",
+            DialogMaxHeight = 230,
+            DialogMaxWidth = 500
         };
         
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        if (dialogResult != ContentDialogResult.Primary) return;
+        
+        try
+        {
+            _viewModel.Export();
+        }
+        catch (Exception exception)
+        {
+            var notificationService = _serviceProvider.GetService<NotificationService>();
+            notificationService.ShowWarning("Export error", exception.Message);
+        }
     }
 }

@@ -19,12 +19,17 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows.Controls;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager manager) : Descriptor, IDescriptorResolver
+public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager manager) : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
@@ -67,5 +72,26 @@ public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager mana
         {
             return Variants.Single(manager);
         }
+    }
+    
+    public void RegisterMenu(ContextMenu contextMenu)
+    {
+        contextMenu.AddMenuItem("ExportMenuItem")
+            .SetHeader("Export table")
+            .SetAvailability(manager.GetAllSizeTableNames().Count > 0)
+            .SetCommand(manager, async _ =>
+            {
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                try
+                {
+                    var dialog = new FamilySizeTableExportDialog(context.ServiceProvider, manager);
+                    await dialog.ShowAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<ParameterDescriptor>>();
+                    logger.LogError(exception, "Initialize EditParameterDialog error");
+                }
+            });
     }
 }

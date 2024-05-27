@@ -39,4 +39,8 @@
         x:Shared="False"
         Header="Delete"
         Icon="{rl:SymbolIcon SquareHint16}" />
+    <rl:MenuItem
+        x:Key="ExportMenuItem"
+        x:Shared="False"
+        Icon="{rl:SymbolIcon SquareArrowForward16}" />
 </ResourceDictionary>
