@@ -22,12 +22,14 @@ using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Models.Render;
+using RevitLookup.Utils;
 
 namespace RevitLookup.Core.Visualization;
 
 public sealed class PolylineVisualizationServer : IDirectContext3DServer
 {
-    private const double NormalLength = 1d;
+    private const double DirectionLength = 1d;
+    private const double DirectionOffset = 0.2d;
     private readonly RenderingBufferStorage _curveBuffer = new();
     
     private readonly Guid _guid = Guid.NewGuid();
@@ -38,13 +40,13 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
     private Color _curveColor;
     
     private double _diameter;
+    private Color _directionColor;
     private bool _drawCurve;
-    private bool _drawNormal;
+    private bool _drawDirection;
     private bool _drawSurface;
     private bool _hasEffectsUpdates = true;
     
     private bool _hasGeometryUpdates = true;
-    private Color _normalColor;
     private Color _surfaceColor;
     private double _transparency;
     
@@ -119,7 +121,7 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
                     _curveBuffer.PrimitiveCount);
             }
             
-            if (_drawNormal)
+            if (_drawDirection)
             {
                 foreach (var buffer in _normalsBuffers)
                 {
@@ -143,12 +145,12 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
     {
         Render3dUtils.MapCurveSurfaceBuffer(_surfaceBuffer, _vertices, _diameter);
         Render3dUtils.MapCurveBuffer(_curveBuffer, _vertices, _diameter);
-        MapNormalsBuffer();
+        MapDirectionsBuffer();
     }
     
-    private void MapNormalsBuffer()
+    private void MapDirectionsBuffer()
     {
-        var offset = _diameter / 2.0 + 0.2;
+        var verticalOffset = 0d;
         
         for (var i = 0; i < _vertices.Count - 1; i++)
         {
@@ -160,20 +162,25 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
             var segmentVector = endPoint - startPoint;
             var segmentLength = segmentVector.GetLength();
             var segmentDirection = segmentVector.Normalize();
+            if (verticalOffset == 0)
+            {
+                verticalOffset = GeometryUtils.InterpolateOffsetByDiameter(_diameter) + _diameter / 2d;
+            }
             
-            var arrowLength = segmentLength > 1 ? NormalLength : segmentLength * 0.6;
+            var arrowLength = segmentLength > 1 ? DirectionLength : segmentLength * 0.6;
             
-            var offsetVector = XYZ.BasisX.CrossProduct(segmentDirection).Normalize() * offset;
+            var offsetVector = XYZ.BasisX.CrossProduct(segmentDirection).Normalize() * verticalOffset;
             if (offsetVector.IsZeroLength())
             {
-                offsetVector = XYZ.BasisY.CrossProduct(segmentDirection).Normalize() * offset;
+                offsetVector = XYZ.BasisY.CrossProduct(segmentDirection).Normalize() * verticalOffset;
             }
             
             var arrowOrigin = centerPoint + offsetVector - segmentDirection * (arrowLength / 2);
             
-            Render3dUtils.MapNormalVectorBuffer(buffer, arrowOrigin, segmentDirection, 0, arrowLength);
+            Render3dUtils.MapNormalVectorBuffer(buffer, arrowOrigin, segmentDirection, arrowLength);
         }
     }
+    
     
     private RenderingBufferStorage CreateNormalBuffer(int vertexIndex)
     {
@@ -203,7 +210,7 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
         foreach (var buffer in _normalsBuffers)
         {
             buffer.EffectInstance ??= new EffectInstance(buffer.FormatBits);
-            buffer.EffectInstance.SetColor(_normalColor);
+            buffer.EffectInstance.SetColor(_directionColor);
         }
     }
     
@@ -229,12 +236,12 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateNormalColor(Color value)
+    public void UpdateDirectionColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _normalColor = value;
+        _directionColor = value;
         _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
@@ -283,12 +290,12 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateNormalVisibility(bool visible)
+    public void UpdateDirectionVisibility(bool visible)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _drawNormal = visible;
+        _drawDirection = visible;
         
         uiDocument.UpdateAllOpenViews();
     }

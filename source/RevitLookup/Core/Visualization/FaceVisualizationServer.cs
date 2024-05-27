@@ -22,13 +22,12 @@ using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Models.Render;
+using RevitLookup.Utils;
 
 namespace RevitLookup.Core.Visualization;
 
 public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualizationServer> logger) : IDirectContext3DServer
 {
-    private const double NormalLength = 1d;
-    
     private readonly Guid _guid = Guid.NewGuid();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
     private readonly RenderingBufferStorage _normalBuffer = new();
@@ -130,10 +129,12 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         var faceBox = face.GetBoundingBox();
         var center = (faceBox.Min + faceBox.Max) / 2;
         var normal = face.ComputeNormal(center);
+        var offset = GeometryUtils.InterpolateOffsetByArea(face.Area);
+        var normalLength = GeometryUtils.InterpolateAxisLengthByArea(face.Area);
         
         Render3dUtils.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
         Render3dUtils.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
-        Render3dUtils.MapNormalVectorBuffer(_normalBuffer, face.Evaluate(center), normal, _thickness + 0.2, NormalLength);
+        Render3dUtils.MapNormalVectorBuffer(_normalBuffer, face.Evaluate(center) + normal * (offset + _thickness), normal, normalLength);
     }
     
     private void UpdateEffects()

@@ -28,8 +28,6 @@ namespace RevitLookup.Core.Visualization;
 
 public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualizationServer> logger) : IDirectContext3DServer
 {
-    private const double NormalLength = 1d;
-    
     private readonly Guid _guid = Guid.NewGuid();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
     
@@ -139,12 +137,17 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
     
     private void MapNormalsBuffer()
     {
+        var area = mesh.ComputeSurfaceArea();
+        var offset = GeometryUtils.InterpolateOffsetByArea(area);
+        var normalLength = GeometryUtils.InterpolateAxisLengthByArea(area);
+        
         for (var i = 0; i < mesh.Vertices.Count; i++)
         {
             var vertex = mesh.Vertices[i];
             var buffer = _normalBuffers[i];
             var normal = GeometryUtils.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
-            Render3dUtils.MapNormalVectorBuffer(buffer, vertex, normal, _thickness + 0.2, NormalLength);
+            
+            Render3dUtils.MapNormalVectorBuffer(buffer, vertex + normal * (offset + _thickness), normal, normalLength);
         }
     }
     

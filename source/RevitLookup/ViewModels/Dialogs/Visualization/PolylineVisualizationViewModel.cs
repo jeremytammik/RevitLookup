@@ -33,9 +33,9 @@ public sealed partial class PolylineVisualizationViewModel : ObservableObject
     [ObservableProperty] private System.Windows.Media.Color _curveColor = System.Windows.Media.Color.FromArgb(0, 30, 81, 255);
     
     [ObservableProperty] private double _diameter = 2;
-    [ObservableProperty] private System.Windows.Media.Color _normalColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
+    [ObservableProperty] private System.Windows.Media.Color _directionColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
     [ObservableProperty] private bool _showCurve = true;
-    [ObservableProperty] private bool _showNormal = true;
+    [ObservableProperty] private bool _showDirection = true;
     
     [ObservableProperty] private bool _showSurface = true;
     
@@ -58,11 +58,11 @@ public sealed partial class PolylineVisualizationViewModel : ObservableObject
     {
         OnShowSurfaceChanged(ShowSurface);
         OnShowCurveChanged(ShowCurve);
-        OnShowNormalChanged(ShowNormal);
+        OnShowDirectionChanged(ShowDirection);
         
         OnSurfaceColorChanged(SurfaceColor);
         OnCurveColorChanged(CurveColor);
-        OnNormalColorChanged(NormalColor);
+        OnDirectionColorChanged(DirectionColor);
         
         OnTransparencyChanged(Transparency);
         OnDiameterChanged(Diameter);
@@ -85,9 +85,9 @@ public sealed partial class PolylineVisualizationViewModel : ObservableObject
         _server.UpdateCurveColor(new Color(value.R, value.G, value.B));
     }
     
-    partial void OnNormalColorChanged(System.Windows.Media.Color value)
+    partial void OnDirectionColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateNormalColor(new Color(value.R, value.G, value.B));
+        _server.UpdateDirectionColor(new Color(value.R, value.G, value.B));
     }
     
     partial void OnDiameterChanged(double value)
@@ -110,8 +110,8 @@ public sealed partial class PolylineVisualizationViewModel : ObservableObject
         _server.UpdateCurveVisibility(value);
     }
     
-    partial void OnShowNormalChanged(bool value)
+    partial void OnShowDirectionChanged(bool value)
     {
-        _server.UpdateNormalVisibility(value);
+        _server.UpdateDirectionVisibility(value);
     }
 }

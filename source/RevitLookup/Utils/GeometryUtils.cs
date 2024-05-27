@@ -71,7 +71,7 @@ public static class GeometryUtils
         return vertices;
     }
     
-    private static int InterpolateSegmentsCount(double diameter)
+    public static int InterpolateSegmentsCount(double diameter)
     {
         const int minSegments = 6;
         const int maxSegments = 33;
@@ -83,5 +83,47 @@ public static class GeometryUtils
         
         var normalDiameter = (diameter - minDiameter) / (maxDiameter - minDiameter);
         return (int) (minSegments + normalDiameter * (maxSegments - minSegments));
+    }
+    
+    public static double InterpolateOffsetByDiameter(double diameter)
+    {
+        const double minOffset = 0.01d;
+        const double maxOffset = 0.1d;
+        const double minDiameter = 0.1 / 12d;
+        const double maxDiameter = 3 / 12d;
+        
+        if (diameter <= minDiameter) return minOffset;
+        if (diameter >= maxDiameter) return maxOffset;
+        
+        var normalOffset = (diameter - minDiameter) / (maxDiameter - minDiameter);
+        return minOffset + normalOffset * (maxOffset - minOffset);
+    }
+    
+    public static double InterpolateOffsetByArea(double area)
+    {
+        const double minOffset = 0.01d;
+        const double maxOffset = 0.1d;
+        const double minArea = 0.01d;
+        const double maxArea = 1d;
+        
+        if (area <= minArea) return minOffset;
+        if (area >= maxArea) return maxOffset;
+        
+        var normalOffset = (area - minArea) / (maxArea - minArea);
+        return minOffset + normalOffset * (maxOffset - minOffset);
+    }
+    
+    public static double InterpolateAxisLengthByArea(double area)
+    {
+        const double minLength = 0.1d;
+        const double maxLength = 1d;
+        const double minArea = 0.01d;
+        const double maxArea = 1d;
+        
+        if (area <= minArea) return minLength;
+        if (area >= maxArea) return maxLength;
+        
+        var normalOffset = (area - minArea) / (maxArea - minArea);
+        return minLength + normalOffset * (maxLength - minLength);
     }
 }

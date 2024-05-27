@@ -348,13 +348,12 @@ public static class Render3dUtils
         buffer.VertexFormat = new VertexFormat(buffer.FormatBits);
     }
     
-    public static void MapNormalVectorBuffer(RenderingBufferStorage buffer, XYZ origin, XYZ vector, double offset, double length)
+    public static void MapNormalVectorBuffer(RenderingBufferStorage buffer, XYZ origin, XYZ vector, double length)
     {
         var headSize = length > 1 ? 0.2 : length * 0.2;
         
-        var arrowStart = origin + vector * offset;
-        var arrowEnd = arrowStart + vector * length;
-        var arrowHeadBase = arrowEnd - vector * headSize;
+        var endPoint = origin + vector * length;
+        var arrowHeadBase = endPoint - vector * headSize;
         var basisVector = Math.Abs(vector.Z).IsAlmostEqual(1) ? XYZ.BasisX : XYZ.BasisZ;
         var perpendicular1 = vector.CrossProduct(basisVector).Normalize().Multiply(headSize * 0.5);
         
@@ -367,8 +366,8 @@ public static class Render3dUtils
         buffer.VertexBuffer.Map(vertexBufferSizeInFloats);
         
         var vertexStream = buffer.VertexBuffer.GetVertexStreamPosition();
-        vertexStream.AddVertex(new VertexPosition(arrowStart));
-        vertexStream.AddVertex(new VertexPosition(arrowEnd));
+        vertexStream.AddVertex(new VertexPosition(origin));
+        vertexStream.AddVertex(new VertexPosition(endPoint));
         vertexStream.AddVertex(new VertexPosition(arrowHeadBase + perpendicular1));
         vertexStream.AddVertex(new VertexPosition(arrowHeadBase - perpendicular1));
         

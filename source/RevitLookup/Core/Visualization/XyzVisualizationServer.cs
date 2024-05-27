@@ -132,7 +132,7 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         {
             var normal = _normals[i];
             var buffer = _axisBuffers[i];
-            Render3dUtils.MapNormalVectorBuffer(buffer, point - normal * _axisLength, normal, 0, _axisLength * 2);
+            Render3dUtils.MapNormalVectorBuffer(buffer, point - normal * _axisLength, normal, _axisLength * 2);
         }
     }
     

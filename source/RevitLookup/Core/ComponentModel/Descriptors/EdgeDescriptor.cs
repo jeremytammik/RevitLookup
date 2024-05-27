@@ -20,29 +20,23 @@
 
 using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs.Visualization;
-#if REVIT2023_OR_GREATER
-using System.Windows.Input;
 using RevitLookup.Views.Extensions;
-#endif
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
-#if REVIT2023_OR_GREATER
     private readonly Edge _edge;
     
-#endif
     public EdgeDescriptor(Edge edge)
     {
-#if REVIT2023_OR_GREATER
         _edge = edge;
-#endif
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
     
