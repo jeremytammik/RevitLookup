@@ -22,9 +22,9 @@ using System.Data;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public sealed class FamilySizeTableDialogViewModel : DataTable
+public sealed class FamilySizeTableShowDialogViewModel : DataTable
 {
-    public FamilySizeTableDialogViewModel(FamilySizeTable table)
+    public FamilySizeTableShowDialogViewModel(FamilySizeTable table)
     {
         CreateColumns(table);
         WriteRows(table);

@@ -49,4 +49,8 @@
         x:Shared="False"
         Header="Snoop"
         Icon="{rl:SymbolIcon SlideText16}" />
+    <rl:MenuItem
+        x:Key="ExportMenuItem"
+        x:Shared="False"
+        Icon="{rl:SymbolIcon Save16}" />
 </ResourceDictionary>

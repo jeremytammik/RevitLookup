@@ -78,7 +78,7 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
                 var context = (ISnoopViewModel) contextMenu.DataContext;
                 try
                 {
-                    var dialog = new FamilySizeTableDialog(context.ServiceProvider, sizeTable);
+                    var dialog = new FamilySizeTableShowDialog(context.ServiceProvider, sizeTable);
                     await dialog.ShowAsync();
                 }
                 catch (Exception exception)
