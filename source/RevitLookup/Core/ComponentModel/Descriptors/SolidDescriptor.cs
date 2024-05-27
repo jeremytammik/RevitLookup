@@ -20,15 +20,13 @@
 
 using System.Globalization;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs.Visualization;
-#if REVIT2023_OR_GREATER
-using System.Windows.Input;
 using RevitLookup.Views.Extensions;
-#endif
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 

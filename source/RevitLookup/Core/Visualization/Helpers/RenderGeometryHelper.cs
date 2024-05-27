@@ -171,4 +171,31 @@ public static class RenderGeometryHelper
         
         return maxSize * 0.35;
     }
+    
+    public static double ComputeMeshSurfaceArea(Mesh mesh)
+    {
+#if REVIT2024_OR_GREATER
+        return mesh.ComputeSurfaceArea();
+#else
+        var surfaceArea = 0.0;
+        
+        for (var i = 0; i < mesh.NumTriangles; i++)
+        {
+            var triangle = mesh.get_Triangle(i);
+            
+            var vertex0 = triangle.get_Vertex(0);
+            var vertex1 = triangle.get_Vertex(1);
+            var vertex2 = triangle.get_Vertex(2);
+            
+            var side1 = vertex1 - vertex0;
+            var side2 = vertex2 - vertex0;
+            
+            var crossProduct = side1.CrossProduct(side2);
+            
+            surfaceArea += crossProduct.GetLength() / 2.0;
+        }
+        
+        return surfaceArea;
+#endif
+    }
 }

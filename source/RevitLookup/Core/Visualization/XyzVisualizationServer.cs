@@ -65,7 +65,7 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
     public string GetSourceId() => string.Empty;
     public bool UsesHandles() => false;
     public bool CanExecute(View view) => true;
-    public bool UseInTransparentPass(View view) => true;
+    public bool UseInTransparentPass(View view) => _drawPlane && _transparency > 0;
     
     public Outline GetBoundingBox(View view)
     {

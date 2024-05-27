@@ -60,7 +60,7 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
     public string GetSourceId() => string.Empty;
     public bool UsesHandles() => false;
     public bool CanExecute(View view) => true;
-    public bool UseInTransparentPass(View view) => _transparency > 0;
+    public bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
     
     public Outline GetBoundingBox(View view)
     {
@@ -139,7 +139,7 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
     
     private void MapNormalsBuffer()
     {
-        var area = mesh.ComputeSurfaceArea();
+        var area = RenderGeometryHelper.ComputeMeshSurfaceArea(mesh);
         var offset = RenderGeometryHelper.InterpolateOffsetByArea(area);
         var normalLength = RenderGeometryHelper.InterpolateAxisLengthByArea(area);
         

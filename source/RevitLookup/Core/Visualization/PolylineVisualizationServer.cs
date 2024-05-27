@@ -71,7 +71,7 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
     public string GetSourceId() => string.Empty;
     public bool UsesHandles() => false;
     public bool CanExecute(View view) => true;
-    public bool UseInTransparentPass(View view) => _transparency > 0;
+    public bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
     
     public Outline GetBoundingBox(View view)
     {
