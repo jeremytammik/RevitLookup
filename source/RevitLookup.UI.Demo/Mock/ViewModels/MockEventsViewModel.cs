@@ -19,11 +19,12 @@ public sealed partial class MockEventsViewModel(
 {
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private readonly Stack<SnoopableObject> _events = new();
+
     [ObservableProperty] private string _searchText = string.Empty;
-    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _snoopableObjects = Array.Empty<SnoopableObject>();
-    [ObservableProperty] private IReadOnlyCollection<SnoopableObject> _filteredSnoopableObjects = Array.Empty<SnoopableObject>();
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _snoopableData;
-    [ObservableProperty] private IReadOnlyCollection<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IList<SnoopableObject> _snoopableObjects = [];
+    [ObservableProperty] private IList<SnoopableObject> _filteredSnoopableObjects = [];
+    [ObservableProperty] private IList<Descriptor> _filteredSnoopableData;
+    [ObservableProperty] private IList<Descriptor> _snoopableData;
 
     public SnoopableObject SelectedObject { get; set; }
     public IServiceProvider ServiceProvider { get; } = provider;
@@ -36,7 +37,7 @@ public sealed partial class MockEventsViewModel(
             .Show<SnoopView>();
     }
 
-    public void Navigate(IReadOnlyCollection<SnoopableObject> selectedItems)
+    public void Navigate(IList<SnoopableObject> selectedItems)
     {
         Host.GetService<ILookupService>()
             .Snoop(selectedItems)
@@ -44,18 +45,31 @@ public sealed partial class MockEventsViewModel(
             .Show<SnoopView>();
     }
 
+    public void RemoveObject(object obj)
+    {
+        var snoopableObject = obj switch
+        {
+            SnoopableObject snoopable => snoopable,
+            Descriptor descriptor => descriptor.Value.Descriptor.Value,
+            _ => throw new NotSupportedException($"Type {obj.GetType().Name} removing not supported")
+        };
+
+        SnoopableObjects.Remove(snoopableObject);
+        FilteredSnoopableObjects.Remove(snoopableObject);
+    }
+
     partial void OnSearchTextChanged(string value)
     {
         UpdateSearchResults(SearchOption.Objects);
     }
 
-    partial void OnSnoopableObjectsChanged(IReadOnlyCollection<SnoopableObject> value)
+    partial void OnSnoopableObjectsChanged(IList<SnoopableObject> value)
     {
         SelectedObject = null;
         UpdateSearchResults(SearchOption.Objects);
     }
 
-    partial void OnSnoopableDataChanged(IReadOnlyCollection<Descriptor> value)
+    partial void OnSnoopableDataChanged(IList<Descriptor> value)
     {
         UpdateSearchResults(SearchOption.Selection);
     }

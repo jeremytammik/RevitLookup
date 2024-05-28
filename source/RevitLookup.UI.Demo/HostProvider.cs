@@ -30,7 +30,7 @@ public static class HostProvider
 
         //Logging
         builder.Logging.ClearProviders();
-        builder.Logging.AddLoggerConfiguration();
+        builder.Logging.AddSerilogConfiguration();
 
         //Configuration
         builder.Services.AddOptions(builder.Configuration);

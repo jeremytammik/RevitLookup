@@ -46,7 +46,7 @@ public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILook
         return this;
     }
 
-    public ILookupServiceDependsStage Snoop(IReadOnlyCollection<SnoopableObject> snoopableObjects)
+    public ILookupServiceDependsStage Snoop(IList<SnoopableObject> snoopableObjects)
     {
         _scope.ServiceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObjects);
         return this;
@@ -54,7 +54,7 @@ public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILook
 
     public ILookupServiceShowStage DependsOn(IServiceProvider provider)
     {
-        _owner = (Window) provider.GetService<IWindow>();
+        _owner = (Window)provider.GetService<IWindow>();
         return this;
     }
 
@@ -86,7 +86,7 @@ public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILook
 
     private void ShowPage<T>() where T : Page
     {
-        var window = (Window) _scope.ServiceProvider.GetService<IWindow>();
+        var window = (Window)_scope.ServiceProvider.GetService<IWindow>();
         window.Closed += OnWindowClosed;
 
         if (_owner is null)
