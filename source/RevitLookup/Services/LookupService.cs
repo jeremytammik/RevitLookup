@@ -51,7 +51,7 @@ public sealed class LookupService : ILookupService
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService = new LookupServiceImpl(scopeFactory)).Wait();
+            _dispatcher.Invoke(() => _lookupService = new LookupServiceImpl(scopeFactory));
         }
     }
     
@@ -63,7 +63,7 @@ public sealed class LookupService : ILookupService
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableType)).Wait();
+            _dispatcher.Invoke(() => _lookupService.Snoop(snoopableType));
         }
         
         return this;
@@ -77,7 +77,7 @@ public sealed class LookupService : ILookupService
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableObject)).Wait();
+            _dispatcher.Invoke(() => _lookupService.Snoop(snoopableObject));
         }
         
         return this;
@@ -91,7 +91,7 @@ public sealed class LookupService : ILookupService
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Snoop(snoopableObjects)).Wait();
+            _dispatcher.Invoke(() => _lookupService.Snoop(snoopableObjects));
         }
         
         return this;
@@ -105,7 +105,7 @@ public sealed class LookupService : ILookupService
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.DependsOn(provider)).Wait();
+            _dispatcher.Invoke(() => _lookupService.DependsOn(provider));
         }
         
         return this;
@@ -119,7 +119,7 @@ public sealed class LookupService : ILookupService
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Show<T>()).Wait();
+            _dispatcher.Invoke(() => _lookupService.Show<T>());
         }
         
         return this;
@@ -133,7 +133,7 @@ public sealed class LookupService : ILookupService
         }
         else
         {
-            _dispatcher.InvokeAsync(() => _lookupService.Execute(handler)).Wait();
+            _dispatcher.Invoke(() => _lookupService.Execute(handler));
         }
     }
     
