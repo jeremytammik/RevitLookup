@@ -51,10 +51,14 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
     private double _transparency;
     private double _axisLength;
     
-    private Color _planeColor;
-    private Color _axisColor;
+    private Color _xColor;
+    private Color _yColor;
+    private Color _zColor;
     
     private bool _drawPlane;
+    private bool _drawXAxis;
+    private bool _drawYAxis;
+    private bool _drawZAxis;
     
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
@@ -88,39 +92,56 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
                 _hasEffectsUpdates = false;
             }
             
-            foreach (var buffer in _axisBuffers)
+            if (_drawXAxis)
             {
-                DrawContext.FlushBuffer(buffer.VertexBuffer,
-                    buffer.VertexBufferCount,
-                    buffer.IndexBuffer,
-                    buffer.IndexBufferCount,
-                    buffer.VertexFormat,
-                    buffer.EffectInstance, PrimitiveType.LineList, 0,
-                    buffer.PrimitiveCount);
+                RenderAxisBuffer(_axisBuffers[0]);
+                RenderPlaneBuffer(_planeBuffers[0]);
             }
             
-            if (_drawPlane)
+            if (_drawYAxis)
             {
-                var isTransparentPass = DrawContext.IsTransparentPass();
-                if (isTransparentPass && _transparency > 0 || !isTransparentPass && _transparency == 0)
-                {
-                    foreach (var buffer in _planeBuffers)
-                    {
-                        DrawContext.FlushBuffer(buffer.VertexBuffer,
-                            buffer.VertexBufferCount,
-                            buffer.IndexBuffer,
-                            buffer.IndexBufferCount,
-                            buffer.VertexFormat,
-                            buffer.EffectInstance, PrimitiveType.TriangleList, 0,
-                            buffer.PrimitiveCount);
-                    }
-                }
+                RenderAxisBuffer(_axisBuffers[1]);
+                RenderPlaneBuffer(_planeBuffers[1]);
+            }
+            
+            if (_drawZAxis)
+            {
+                RenderAxisBuffer(_axisBuffers[2]);
+                RenderPlaneBuffer(_planeBuffers[2]);
             }
         }
         catch (Exception exception)
         {
             logger.LogError(exception, "Rendering error");
         }
+    }
+    
+    private void RenderPlaneBuffer(RenderingBufferStorage buffer)
+    {
+        if (!_drawPlane) return;
+        
+        var isTransparentPass = DrawContext.IsTransparentPass();
+        if (isTransparentPass && _transparency > 0 || !isTransparentPass && _transparency == 0)
+        {
+            DrawContext.FlushBuffer(buffer.VertexBuffer,
+                buffer.VertexBufferCount,
+                buffer.IndexBuffer,
+                buffer.IndexBufferCount,
+                buffer.VertexFormat,
+                buffer.EffectInstance, PrimitiveType.TriangleList, 0,
+                buffer.PrimitiveCount);
+        }
+    }
+    
+    private void RenderAxisBuffer(RenderingBufferStorage buffer)
+    {
+        DrawContext.FlushBuffer(buffer.VertexBuffer,
+            buffer.VertexBufferCount,
+            buffer.IndexBuffer,
+            buffer.IndexBufferCount,
+            buffer.VertexFormat,
+            buffer.EffectInstance, PrimitiveType.LineList, 0,
+            buffer.PrimitiveCount);
     }
     
     private void UpdateGeometryBuffer()
@@ -131,11 +152,12 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
     
     private void MapNormalBuffer()
     {
+        var normalExtendLength = _axisLength > 1 ? 0.8 : _axisLength * 0.8;
         for (var i = 0; i < _normals.Length; i++)
         {
             var normal = _normals[i];
             var buffer = _axisBuffers[i];
-            RenderHelper.MapNormalVectorBuffer(buffer, point - normal * _axisLength, normal, _axisLength * 2);
+            RenderHelper.MapNormalVectorBuffer(buffer, point - normal * (_axisLength + normalExtendLength), normal, 2 * (_axisLength + normalExtendLength));
         }
     }
     
@@ -154,34 +176,51 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         foreach (var buffer in _planeBuffers)
         {
             buffer.EffectInstance ??= new EffectInstance(buffer.FormatBits);
-            buffer.EffectInstance.SetColor(_planeColor);
             buffer.EffectInstance.SetTransparency(_transparency);
         }
+        
+        _planeBuffers[0].EffectInstance.SetColor(_xColor);
+        _planeBuffers[1].EffectInstance.SetColor(_yColor);
+        _planeBuffers[2].EffectInstance.SetColor(_zColor);
         
         foreach (var buffer in _axisBuffers)
         {
             buffer.EffectInstance ??= new EffectInstance(buffer.FormatBits);
-            buffer.EffectInstance.SetColor(_axisColor);
         }
+        
+        _axisBuffers[0].EffectInstance.SetColor(_xColor);
+        _axisBuffers[1].EffectInstance.SetColor(_yColor);
+        _axisBuffers[2].EffectInstance.SetColor(_zColor);
     }
     
-    public void UpdatePlaneColor(Color value)
+    public void UpdateXColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _planeColor = value;
+        _xColor = value;
         _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateAxisColor(Color value)
+    public void UpdateYColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _axisColor = value;
+        _yColor = value;
+        _hasEffectsUpdates = true;
+        
+        uiDocument.UpdateAllOpenViews();
+    }
+    
+    public void UpdateZColor(Color value)
+    {
+        var uiDocument = Context.UiDocument;
+        if (uiDocument is null) return;
+        
+        _zColor = value;
         _hasEffectsUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
@@ -215,6 +254,36 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         if (uiDocument is null) return;
         
         _drawPlane = visible;
+        
+        uiDocument.UpdateAllOpenViews();
+    }
+    
+    public void UpdateXAxisVisibility(bool visible)
+    {
+        var uiDocument = Context.UiDocument;
+        if (uiDocument is null) return;
+        
+        _drawXAxis = visible;
+        
+        uiDocument.UpdateAllOpenViews();
+    }
+    
+    public void UpdateYAxisVisibility(bool visible)
+    {
+        var uiDocument = Context.UiDocument;
+        if (uiDocument is null) return;
+        
+        _drawYAxis = visible;
+        
+        uiDocument.UpdateAllOpenViews();
+    }
+    
+    public void UpdateZAxisVisibility(bool visible)
+    {
+        var uiDocument = Context.UiDocument;
+        if (uiDocument is null) return;
+        
+        _drawZAxis = visible;
         
         uiDocument.UpdateAllOpenViews();
     }

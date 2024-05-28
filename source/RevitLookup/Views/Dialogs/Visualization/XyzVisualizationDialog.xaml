@@ -11,78 +11,89 @@
     d:DataContext="{d:DesignInstance visualization:XyzVisualizationViewModel}"
     d:DesignWidth="450"
     d:DesignHeight="400">
-    <rl:Card
-        VerticalAlignment="Stretch"
-        VerticalContentAlignment="Top">
-        <rl:PassiveScrollViewer
-            VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <DockPanel>
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding PlaneColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowPlane}"
-                        Content="Planes" />
-                </DockPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Transparency" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        IsTabStop="False"
-                        Margin="0 4 0 0"
-                        Minimum="0"
-                        Maximum="100"
-                        TickFrequency="10"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding Transparency}" />
-                </StackPanel>
-                <DockPanel
-                    Height="32"
-                    Margin="0 8 0 0">
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding AxisColor}" />
-                    <TextBlock
-                        Text="Axis" />
-                </DockPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Length" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding AxisLength, StringFormat={}{0:F0} inch, Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        IsTabStop="False"
-                        Margin="0 4 0 0"
-                        Minimum="{Binding MinAxisLength, Mode=OneTime}"
-                        Maximum="24"
-                        TickFrequency="2"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding AxisLength}" />
-                </StackPanel>
-            </StackPanel>
-        </rl:PassiveScrollViewer>
-    </rl:Card>
+    <StackPanel>
+        <CheckBox
+            IsChecked="{Binding ShowPlane}"
+            Content="Planes" />
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Transparency" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                IsTabStop="False"
+                Margin="0 4 0 0"
+                Minimum="0"
+                Maximum="100"
+                TickFrequency="10"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding Transparency}" />
+        </StackPanel>
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Size" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding AxisLength, StringFormat={}{0:F0} inch, Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                IsTabStop="False"
+                Margin="0 4 0 0"
+                Minimum="{Binding MinAxisLength, Mode=OneTime}"
+                Maximum="24"
+                TickFrequency="2"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding AxisLength}" />
+        </StackPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding XColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowXAxis}"
+                Content="X axis" />
+        </DockPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding YColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowYAxis}"
+                Content="Y axis" />
+        </DockPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding ZColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowZAxis}"
+                Content="Z axis" />
+        </DockPanel>
+    </StackPanel>
 </Grid>

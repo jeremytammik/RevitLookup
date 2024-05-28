@@ -11,92 +11,85 @@
     d:DataContext="{d:DesignInstance visualization:PolylineVisualizationViewModel}"
     d:DesignWidth="450"
     d:DesignHeight="400">
-    <rl:Card
-        VerticalAlignment="Stretch"
-        VerticalContentAlignment="Top">
-        <rl:PassiveScrollViewer
-            VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <DockPanel>
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding SurfaceColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowSurface}"
-                        Content="Surface" />
-                </DockPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Diameter" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding Diameter, StringFormat={}{0:F1} inch, Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        IsTabStop="False"
-                        Margin="0 4 0 0"
-                        Minimum="{Binding MinThickness, Mode=OneTime}"
-                        Maximum="6"
-                        TickFrequency="0.2"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding Diameter}" />
-                </StackPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Transparency" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        IsTabStop="False"
-                        Margin="0 4 0 0"
-                        Minimum="0"
-                        Maximum="100"
-                        TickFrequency="10"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding Transparency}" />
-                </StackPanel>
-                <DockPanel
-                    Margin="0 8 0 0">
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding CurveColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowCurve}"
-                        Content="Polyline" />
-                </DockPanel>
-                <DockPanel
-                    Margin="0 8 0 0">
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding DirectionColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowDirection}"
-                        Content="Direction" />
-                </DockPanel>
-            </StackPanel>
-        </rl:PassiveScrollViewer>
-    </rl:Card>
+    <StackPanel>
+        <DockPanel>
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding SurfaceColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowSurface}"
+                Content="Surface" />
+        </DockPanel>
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Diameter" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding Diameter, StringFormat={}{0:F1} inch, Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                IsTabStop="False"
+                Margin="0 4 0 0"
+                Minimum="{Binding MinThickness, Mode=OneTime}"
+                Maximum="6"
+                TickFrequency="0.2"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding Diameter}" />
+        </StackPanel>
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Transparency" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                IsTabStop="False"
+                Margin="0 4 0 0"
+                Minimum="0"
+                Maximum="100"
+                TickFrequency="10"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding Transparency}" />
+        </StackPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding CurveColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowCurve}"
+                Content="Polyline" />
+        </DockPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding DirectionColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowDirection}"
+                Content="Direction" />
+        </DockPanel>
+    </StackPanel>
 </Grid>

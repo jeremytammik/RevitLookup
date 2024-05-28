@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:rl="http://revitlookup.com/xaml"
     mc:Ignorable="d">
-    
+
     <ContentControl.Resources>
         <Style
             TargetType="{x:Type Slider}">
@@ -330,7 +330,7 @@
             </Setter>
         </Style>
     </ContentControl.Resources>
-    
+
     <Border
         BorderBrush="{DynamicResource SurfaceStrokeColorDefaultBrush}"
         BorderThickness="1"
@@ -389,7 +389,7 @@
                 Grid.ColumnSpan="5"
                 Width="104"
                 Margin="72 0"
-                Click="CurrentColorButton_Click"
+                Click="OnCurrentColorButtonClicked"
                 Style="{DynamicResource ColorShadeButtonStyle}"
                 ToolTipService.ToolTip="Adjust color">
                 <rl:Flyout

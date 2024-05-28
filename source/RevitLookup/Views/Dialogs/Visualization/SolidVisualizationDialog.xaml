@@ -11,111 +11,104 @@
     d:DataContext="{d:DesignInstance visualization:SolidVisualizationViewModel}"
     d:DesignWidth="450"
     d:DesignHeight="400">
-    <rl:Card
-        VerticalAlignment="Stretch"
-        VerticalContentAlignment="Top">
-        <rl:PassiveScrollViewer
-            VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <DockPanel>
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding FaceColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowFace}"
-                        Content="Faces" />
-                </DockPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Face transparency" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        IsTabStop="False"
-                        Margin="0 4 0 0"
-                        Minimum="0"
-                        Maximum="100"
-                        TickFrequency="10"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding Transparency}" />
-                </StackPanel>
-                <DockPanel
-                    Margin="0 8 0 0">
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding EdgeColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowEdge}"
-                        Content="Edges" />
-                </DockPanel>
-                <DockPanel
-                    Margin="0 8 0 0">
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding CageSurfaceColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowCageSurface}"
-                        Content="Cage surface" />
-                </DockPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Cage size" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding CageSize, StringFormat={}{0:F0} inch,Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        IsTabStop="False"
-                        Margin="0 4 0 0"
-                        Minimum="0"
-                        Maximum="24"
-                        TickFrequency="2"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding CageSize}" />
-                </StackPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Cage transparency" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding CageTransparency, StringFormat={}{0} %,Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        IsTabStop="False"
-                        Margin="0 4 0 0"
-                        Minimum="0"
-                        Maximum="100"
-                        TickFrequency="10"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding CageTransparency}" />
-                </StackPanel>
-            </StackPanel>
-        </rl:PassiveScrollViewer>
-    </rl:Card>
+    <StackPanel>
+        <DockPanel>
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding FaceColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowFace}"
+                Content="Faces" />
+        </DockPanel>
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Face transparency" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                IsTabStop="False"
+                Margin="0 4 0 0"
+                Minimum="0"
+                Maximum="100"
+                TickFrequency="10"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding Transparency}" />
+        </StackPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding EdgeColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowEdge}"
+                Content="Edges" />
+        </DockPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding CageSurfaceColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowCageSurface}"
+                Content="Cage surface" />
+        </DockPanel>
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Cage size" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding CageSize, StringFormat={}{0:F0} inch,Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                IsTabStop="False"
+                Margin="0 4 0 0"
+                Minimum="0"
+                Maximum="24"
+                TickFrequency="2"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding CageSize}" />
+        </StackPanel>
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Cage transparency" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding CageTransparency, StringFormat={}{0} %,Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                IsTabStop="False"
+                Margin="0 4 0 0"
+                Minimum="0"
+                Maximum="100"
+                TickFrequency="10"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding CageTransparency}" />
+        </StackPanel>
+    </StackPanel>
 </Grid>

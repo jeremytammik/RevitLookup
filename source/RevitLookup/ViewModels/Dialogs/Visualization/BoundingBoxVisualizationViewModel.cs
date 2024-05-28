@@ -32,8 +32,8 @@ public sealed partial class BoundingBoxVisualizationViewModel(BoundingBoxXYZ box
     [ObservableProperty] private double _transparency = 60;
     
     [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _edgeColor = System.Windows.Media.Color.FromArgb(0, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _axisColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
+    [ObservableProperty] private System.Windows.Media.Color _edgeColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
+    [ObservableProperty] private System.Windows.Media.Color _axisColor = System.Windows.Media.Color.FromArgb(255, 255, 89, 30);
     
     [ObservableProperty] private bool _showSurface = true;
     [ObservableProperty] private bool _showEdge = true;

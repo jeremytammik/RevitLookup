@@ -34,14 +34,14 @@ public sealed partial class PolylineVisualizationViewModel : ObservableObject
     [ObservableProperty] private double _diameter = 2;
     [ObservableProperty] private double _transparency = 20;
     
-    [ObservableProperty] private System.Windows.Media.Color _curveColor = System.Windows.Media.Color.FromArgb(0, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _directionColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
+    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
+    [ObservableProperty] private System.Windows.Media.Color _curveColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
+    [ObservableProperty] private System.Windows.Media.Color _directionColor = System.Windows.Media.Color.FromArgb(255, 255, 89, 30);
     
     [ObservableProperty] private bool _showSurface = true;
     [ObservableProperty] private bool _showCurve = true;
     [ObservableProperty] private bool _showDirection = true;
     
-    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
     
     public PolylineVisualizationViewModel(Edge edge, ILogger<PolylineVisualizationServer> logger)
     {

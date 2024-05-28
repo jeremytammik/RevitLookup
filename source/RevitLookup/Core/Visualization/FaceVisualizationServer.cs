@@ -63,7 +63,7 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         if (face.Reference is null) return null;
         
         var element = face.Reference.ElementId.ToElement(view.Document)!;
-        var boundingBox = element.get_BoundingBox(view) ?? element.get_BoundingBox(null);
+        var boundingBox = element.get_BoundingBox(null) ?? element.get_BoundingBox(view);
         if (boundingBox is null) return null;
         
         var minPoint = boundingBox.Transform.OfPoint(boundingBox.Min);

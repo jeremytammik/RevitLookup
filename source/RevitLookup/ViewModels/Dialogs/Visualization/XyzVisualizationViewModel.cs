@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Media;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization;
 using Color = Autodesk.Revit.DB.Color;
@@ -30,21 +29,29 @@ public sealed partial class XyzVisualizationViewModel(XYZ point, ILogger<XyzVisu
     private readonly XyzVisualizationServer _server = new(point, logger);
     
     [ObservableProperty] private double _axisLength = 6;
-    [ObservableProperty] private double _transparency = 40;
+    [ObservableProperty] private double _transparency;
     
-    [ObservableProperty] private System.Windows.Media.Color _planeColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _axisColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
+    [ObservableProperty] private System.Windows.Media.Color _xColor = System.Windows.Media.Color.FromArgb(255, 30, 227, 255);
+    [ObservableProperty] private System.Windows.Media.Color _yColor = System.Windows.Media.Color.FromArgb(255, 30, 144, 255);
+    [ObservableProperty] private System.Windows.Media.Color _zColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
     
     [ObservableProperty] private bool _showPlane = true;
+    [ObservableProperty] private bool _showXAxis = true;
+    [ObservableProperty] private bool _showYAxis = true;
+    [ObservableProperty] private bool _showZAxis = true;
     
     public double MinAxisLength => 0.1;
     
     public void RegisterServer()
     {
         OnShowPlaneChanged(ShowPlane);
+        OnShowXAxisChanged(ShowPlane);
+        OnShowYAxisChanged(ShowPlane);
+        OnShowZAxisChanged(ShowPlane);
         
-        OnPlaneColorChanged(PlaneColor);
-        OnAxisColorChanged(AxisColor);
+        OnXColorChanged(XColor);
+        OnYColorChanged(YColor);
+        OnZColorChanged(ZColor);
         
         OnAxisLengthChanged(AxisLength);
         OnTransparencyChanged(Transparency);
@@ -57,14 +64,19 @@ public sealed partial class XyzVisualizationViewModel(XYZ point, ILogger<XyzVisu
         _server.Unregister();
     }
     
-    partial void OnPlaneColorChanged(System.Windows.Media.Color value)
+    partial void OnXColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdatePlaneColor(new Color(value.R, value.G, value.B));
+        _server.UpdateXColor(new Color(value.R, value.G, value.B));
     }
     
-    partial void OnAxisColorChanged(System.Windows.Media.Color value)
+    partial void OnYColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateAxisColor(new Color(value.R, value.G, value.B));
+        _server.UpdateYColor(new Color(value.R, value.G, value.B));
+    }
+    
+    partial void OnZColorChanged(System.Windows.Media.Color value)
+    {
+        _server.UpdateZColor(new Color(value.R, value.G, value.B));
     }
     
     partial void OnAxisLengthChanged(double value)
@@ -80,5 +92,20 @@ public sealed partial class XyzVisualizationViewModel(XYZ point, ILogger<XyzVisu
     partial void OnShowPlaneChanged(bool value)
     {
         _server.UpdatePlaneVisibility(value);
+    }
+    
+    partial void OnShowXAxisChanged(bool value)
+    {
+        _server.UpdateXAxisVisibility(value);
+    }
+    
+    partial void OnShowYAxisChanged(bool value)
+    {
+        _server.UpdateYAxisVisibility(value);
+    }
+    
+    partial void OnShowZAxisChanged(bool value)
+    {
+        _server.UpdateZAxisVisibility(value);
     }
 }

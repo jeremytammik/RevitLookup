@@ -33,8 +33,8 @@ public sealed partial class MeshVisualizationViewModel(Mesh face, ILogger<MeshVi
     [ObservableProperty] private double _transparency = 20;
     
     [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _meshColor = System.Windows.Media.Color.FromArgb(0, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _normalVectorColor = System.Windows.Media.Color.FromArgb(0, 255, 89, 30);
+    [ObservableProperty] private System.Windows.Media.Color _meshColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
+    [ObservableProperty] private System.Windows.Media.Color _normalVectorColor = System.Windows.Media.Color.FromArgb(255, 255, 89, 30);
     
     [ObservableProperty] private bool _showSurface = true;
     [ObservableProperty] private bool _showMeshGrid = true;

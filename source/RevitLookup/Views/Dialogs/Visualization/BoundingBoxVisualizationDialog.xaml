@@ -12,73 +12,66 @@
     d:DesignWidth="450"
     d:DesignHeight="400"
     Focusable="False">
-    <rl:Card
-        VerticalAlignment="Stretch"
-        VerticalContentAlignment="Top">
-        <rl:PassiveScrollViewer
-            VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <DockPanel>
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding SurfaceColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowSurface}"
-                        Content="Surface" />
-                </DockPanel>
-                <StackPanel
-                    Margin="0 8 0 0">
-                    <DockPanel>
-                        <TextBlock
-                            Text="Transparency" />
-                        <TextBlock
-                            HorizontalAlignment="Right"
-                            Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
-                    </DockPanel>
-                    <Slider
-                        IsTabStop="False"
-                        Margin="0 4 0 0"
-                        Minimum="0"
-                        Maximum="100"
-                        TickFrequency="10"
-                        IsSnapToTickEnabled="True"
-                        TickPlacement="BottomRight"
-                        Value="{Binding Transparency}" />
-                </StackPanel>
-                <DockPanel
-                    Margin="0 8 0 0">
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding EdgeColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowEdge}"
-                        Content="Edges" />
-                </DockPanel>
-                <DockPanel
-                    Margin="0 8 0 0">
-                    <rl:SymbolIcon
-                        DockPanel.Dock="Right"
-                        Margin="8 0 0 0"
-                        FontSize="20"
-                        Symbol="Eyedropper20" />
-                    <colorPicker:ColorPickerControl
-                        DockPanel.Dock="Right"
-                        SelectedColor="{Binding AxisColor}" />
-                    <CheckBox
-                        IsChecked="{Binding ShowAxis}"
-                        Content="Axis" />
-                </DockPanel>
-            </StackPanel>
-        </rl:PassiveScrollViewer>
-    </rl:Card>
+    <StackPanel>
+        <DockPanel>
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding SurfaceColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowSurface}"
+                Content="Surface" />
+        </DockPanel>
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Transparency" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                IsTabStop="False"
+                Margin="0 4 0 0"
+                Minimum="0"
+                Maximum="100"
+                TickFrequency="10"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding Transparency}" />
+        </StackPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding EdgeColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowEdge}"
+                Content="Edges" />
+        </DockPanel>
+        <DockPanel
+            Margin="0 8 0 0">
+            <rl:SymbolIcon
+                DockPanel.Dock="Right"
+                Margin="8 0 0 0"
+                FontSize="20"
+                Symbol="Eyedropper20" />
+            <colorPicker:ColorPickerControl
+                DockPanel.Dock="Right"
+                SelectedColor="{Binding AxisColor}" />
+            <CheckBox
+                IsChecked="{Binding ShowAxis}"
+                Content="Axis" />
+        </DockPanel>
+    </StackPanel>
 </Grid>

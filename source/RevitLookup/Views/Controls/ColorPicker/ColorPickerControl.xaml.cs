@@ -168,7 +168,7 @@ public partial class ColorPickerControl
         CurrentColorButton.Background = new SolidColorBrush(currentColor);
     }
     
-    private void CurrentColorButton_Click(object sender, RoutedEventArgs e)
+    private void OnCurrentColorButtonClicked(object sender, RoutedEventArgs e)
     {
         ShowDetails();
     }

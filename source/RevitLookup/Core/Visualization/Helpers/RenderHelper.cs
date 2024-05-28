@@ -30,8 +30,8 @@ public static class RenderHelper
         var vertexCount = mesh.Vertices.Count;
         var triangleCount = mesh.NumTriangles;
         
-        buffer.VertexBufferCount = 2 * vertexCount;
-        buffer.PrimitiveCount = 2 * triangleCount + 2 * vertexCount;
+        buffer.VertexBufferCount = vertexCount;
+        buffer.PrimitiveCount = triangleCount;
         
         var vertexBufferSizeInFloats = VertexPosition.GetSizeInFloats() * buffer.VertexBufferCount;
         buffer.FormatBits = VertexFormatBits.Position;
@@ -47,12 +47,6 @@ public static class RenderHelper
             normals.Add(normal);
         }
         
-        foreach (var vertex in mesh.Vertices)
-        {
-            var vertexPosition = new VertexPosition(vertex);
-            vertexStream.AddVertex(vertexPosition);
-        }
-        
         for (var i = 0; i < mesh.Vertices.Count; i++)
         {
             var vertex = mesh.Vertices[i];
@@ -63,7 +57,7 @@ public static class RenderHelper
         }
         
         buffer.VertexBuffer.Unmap();
-        buffer.IndexBufferCount = 6 * triangleCount + 12 * vertexCount;
+        buffer.IndexBufferCount = triangleCount * IndexTriangle.GetSizeInShortInts();
         buffer.IndexBuffer = new IndexBuffer(buffer.IndexBufferCount);
         buffer.IndexBuffer.Map(buffer.IndexBufferCount);
         
@@ -76,22 +70,6 @@ public static class RenderHelper
             var index1 = (int) meshTriangle.get_Index(1);
             var index2 = (int) meshTriangle.get_Index(2);
             indexStream.AddTriangle(new IndexTriangle(index0, index1, index2));
-        }
-        
-        for (var i = 0; i < triangleCount; i++)
-        {
-            var meshTriangle = mesh.get_Triangle(i);
-            var index0 = (int) meshTriangle.get_Index(0) + vertexCount;
-            var index1 = (int) meshTriangle.get_Index(1) + vertexCount;
-            var index2 = (int) meshTriangle.get_Index(2) + vertexCount;
-            indexStream.AddTriangle(new IndexTriangle(index0, index1, index2));
-        }
-        
-        for (var i = 0; i < vertexCount; i++)
-        {
-            var next = (i + 1) % vertexCount;
-            indexStream.AddTriangle(new IndexTriangle(i, next, i + vertexCount));
-            indexStream.AddTriangle(new IndexTriangle(next, next + vertexCount, i + vertexCount));
         }
         
         buffer.IndexBuffer.Unmap();
@@ -249,8 +227,8 @@ public static class RenderHelper
         var vertexCount = mesh.Vertices.Count;
         var triangleCount = mesh.NumTriangles;
         
-        buffer.VertexBufferCount = 2 * vertexCount;
-        buffer.PrimitiveCount = 3 * (2 * triangleCount + vertexCount);
+        buffer.VertexBufferCount = vertexCount * 2;
+        buffer.PrimitiveCount = 3 * triangleCount * 2 + mesh.Vertices.Count;
         
         var vertexBufferSizeInFloats = VertexPosition.GetSizeInFloats() * buffer.VertexBufferCount;
         buffer.FormatBits = VertexFormatBits.Position;
@@ -282,7 +260,7 @@ public static class RenderHelper
         }
         
         buffer.VertexBuffer.Unmap();
-        buffer.IndexBufferCount = (6 * triangleCount + 3 * vertexCount) * IndexLine.GetSizeInShortInts();
+        buffer.IndexBufferCount = (3 * triangleCount * 2 + mesh.Vertices.Count) * IndexLine.GetSizeInShortInts();
         buffer.IndexBuffer = new IndexBuffer(buffer.IndexBufferCount);
         buffer.IndexBuffer.Map(buffer.IndexBufferCount);
         
@@ -312,12 +290,9 @@ public static class RenderHelper
             indexStream.AddLine(new IndexLine(index2, index0));
         }
         
-        for (var i = 0; i < vertexCount; i++)
+        for (var i = 0; i < mesh.Vertices.Count; i++)
         {
-            var next = (i + 1) % vertexCount;
-            indexStream.AddLine(new IndexLine(i, next));
-            indexStream.AddLine(new IndexLine(i, i + vertexCount));
-            indexStream.AddLine(new IndexLine(next, next + vertexCount));
+            indexStream.AddLine(new IndexLine(i, i + mesh.Vertices.Count));
         }
         
         buffer.IndexBuffer.Unmap();

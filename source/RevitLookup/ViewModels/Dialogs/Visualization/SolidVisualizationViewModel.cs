@@ -34,8 +34,8 @@ public sealed partial class SolidVisualizationViewModel(Solid solid, ILogger<Sol
     [ObservableProperty] private double _cageSize = 1;
     
     [ObservableProperty] private System.Windows.Media.Color _faceColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _edgeColor = System.Windows.Media.Color.FromArgb(0, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _cageSurfaceColor = System.Windows.Media.Color.FromArgb(0, 175, 175, 175);
+    [ObservableProperty] private System.Windows.Media.Color _edgeColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
+    [ObservableProperty] private System.Windows.Media.Color _cageSurfaceColor = System.Windows.Media.Color.FromArgb(255, 175, 175, 175);
     [ObservableProperty] private System.Windows.Media.Color _cageFrameColor = Colors.Black;
     
     [ObservableProperty] private bool _showFace = true;

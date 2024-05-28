@@ -50,7 +50,7 @@ public sealed partial class XyzVisualizationDialog
             Content = this,
             CloseButtonText = "Close",
             DialogMaxWidth = 500,
-            DialogMaxHeight = 450
+            DialogMaxHeight = 510
         };
         
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
