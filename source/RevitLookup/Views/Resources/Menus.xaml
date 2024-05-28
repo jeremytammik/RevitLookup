@@ -50,6 +50,11 @@
         Header="Snoop"
         Icon="{rl:SymbolIcon SlideText16}" />
     <rl:MenuItem
+        x:Key="EditMenuItem"
+        x:Shared="False"
+        Header="Edit"
+        Icon="{rl:SymbolIcon NotepadEdit16}" />
+    <rl:MenuItem
         x:Key="ExportMenuItem"
         x:Shared="False"
         Icon="{rl:SymbolIcon Save16}" />
