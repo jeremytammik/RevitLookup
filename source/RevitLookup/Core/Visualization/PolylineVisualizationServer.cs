@@ -151,14 +151,18 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
                 verticalOffset = RenderGeometryHelper.InterpolateOffsetByDiameter(_diameter) + _diameter / 2d;
             }
             
-            var arrowLength = segmentLength > 1 ? 1d : segmentLength * 0.6;
-            
             var offsetVector = XYZ.BasisX.CrossProduct(segmentDirection).Normalize() * verticalOffset;
             if (offsetVector.IsZeroLength())
             {
                 offsetVector = XYZ.BasisY.CrossProduct(segmentDirection).Normalize() * verticalOffset;
             }
             
+            if (offsetVector.Z < 0)
+            {
+                offsetVector = -offsetVector;
+            }
+            
+            var arrowLength = segmentLength > 1 ? 1d : segmentLength * 0.6;
             var arrowOrigin = centerPoint + offsetVector - segmentDirection * (arrowLength / 2);
             
             RenderHelper.MapNormalVectorBuffer(buffer, arrowOrigin, segmentDirection, arrowLength);
