@@ -34,35 +34,22 @@ public sealed class GeneralConfiguration
     
     [JsonPropertyName("Theme")] public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;
     [JsonPropertyName("Background")] public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
-    
-    [JsonPropertyName("TransitionDuration")]
-    public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
-    
-    [JsonPropertyName("IsHardwareRenderingAllowed")]
-    public bool UseHardwareRendering { get; set; } = true;
-    
-    [JsonPropertyName("IsTimeColumnAllowed")]
-    public bool ShowTimeColumn { get; set; }
-    
-    [JsonPropertyName("ShowMemoryColumn")] public bool ShowMemoryColumn { get; set; }
-    [JsonPropertyName("UseSizeRestoring")] public bool UseSizeRestoring { get; set; }
+    [JsonPropertyName("TransitionDuration")] public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
+
     [JsonPropertyName("WindowWidth")] public double WindowWidth { get; set; }
     [JsonPropertyName("WindowHeight")] public double WindowHeight { get; set; }
     
-    [JsonPropertyName("IsUnsupportedAllowed")]
-    public bool IncludeUnsupported { get; set; }
-    
+    [JsonPropertyName("IsUnsupportedAllowed")] public bool IncludeUnsupported { get; set; }
     [JsonPropertyName("IsPrivateAllowed")] public bool IncludePrivate { get; set; }
     [JsonPropertyName("IsStaticAllowed")] public bool IncludeStatic { get; set; }
     [JsonPropertyName("IsFieldsAllowed")] public bool IncludeFields { get; set; }
     [JsonPropertyName("IsEventsAllowed")] public bool IncludeEvents { get; set; }
+    [JsonPropertyName("IsExtensionsAllowed")] public bool IncludeExtensions { get; set; }
+    [JsonPropertyName("IsRootHierarchyAllowed")] public bool IncludeRootHierarchy { get; set; }
     
-    [JsonPropertyName("IsExtensionsAllowed")]
-    public bool IncludeExtensions { get; set; }
-    
-    [JsonPropertyName("IsRootHierarchyAllowed")]
-    public bool IncludeRootHierarchy { get; set; }
-    
-    [JsonPropertyName("IsModifyTabAllowed")]
-    public bool UseModifyTab { get; set; }
+    [JsonPropertyName("IsHardwareRenderingAllowed")] public bool UseHardwareRendering { get; set; } = true;
+    [JsonPropertyName("IsTimeColumnAllowed")] public bool ShowTimeColumn { get; set; }
+    [JsonPropertyName("ShowMemoryColumn")] public bool ShowMemoryColumn { get; set; }
+    [JsonPropertyName("UseSizeRestoring")] public bool UseSizeRestoring { get; set; }
+    [JsonPropertyName("IsModifyTabAllowed")] public bool UseModifyTab { get; set; }
 }
