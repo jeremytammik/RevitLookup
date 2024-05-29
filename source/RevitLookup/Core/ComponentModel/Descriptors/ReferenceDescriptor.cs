@@ -19,21 +19,24 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
+using System.Windows.Controls;
+using System.Windows.Input;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ReferenceDescriptor : Descriptor, IDescriptorResolver
+public sealed class ReferenceDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
     private readonly Reference _reference;
-
+    
     public ReferenceDescriptor(Reference reference)
     {
         _reference = reference;
         Name = reference.ElementReferenceType.ToString();
     }
-
+    
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -46,5 +49,19 @@ public sealed class ReferenceDescriptor : Descriptor, IDescriptorResolver
         {
             return Variants.Single(_reference.ConvertToStableRepresentation(context));
         }
+    }
+    
+    public void RegisterMenu(ContextMenu contextMenu)
+    {
+#if REVIT2023_OR_GREATER
+        contextMenu.AddMenuItem("SelectMenuItem")
+            .SetCommand(_reference, reference =>
+            {
+                if (Context.UiDocument is null) return;
+                
+                Application.ActionEventHandler.Raise(_ => Context.UiDocument.Selection.SetReferences([reference]));
+            })
+            .SetShortcut(Key.F6);
+#endif
     }
 }
