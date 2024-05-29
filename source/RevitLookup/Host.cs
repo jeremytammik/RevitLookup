@@ -60,18 +60,18 @@ public static class Host
         builder.Services.AddScoped<IWindow, RevitLookupView>();
         
         //Dialogs
-        builder.Services.AddScoped<BoundingBoxVisualizationDialog>();
-        builder.Services.AddScoped<BoundingBoxVisualizationViewModel>();
-        builder.Services.AddScoped<FaceVisualizationDialog>();
-        builder.Services.AddScoped<FaceVisualizationViewModel>();
-        builder.Services.AddScoped<MeshVisualizationDialog>();
-        builder.Services.AddScoped<MeshVisualizationViewModel>();
-        builder.Services.AddScoped<PolylineVisualizationDialog>();
-        builder.Services.AddScoped<PolylineVisualizationViewModel>();
-        builder.Services.AddScoped<SolidVisualizationDialog>();
-        builder.Services.AddScoped<SolidVisualizationViewModel>();
-        builder.Services.AddScoped<XyzVisualizationDialog>();
-        builder.Services.AddScoped<XyzVisualizationViewModel>();
+        builder.Services.AddTransient<BoundingBoxVisualizationDialog>();
+        builder.Services.AddTransient<BoundingBoxVisualizationViewModel>();
+        builder.Services.AddTransient<FaceVisualizationDialog>();
+        builder.Services.AddTransient<FaceVisualizationViewModel>();
+        builder.Services.AddTransient<MeshVisualizationDialog>();
+        builder.Services.AddTransient<MeshVisualizationViewModel>();
+        builder.Services.AddTransient<PolylineVisualizationDialog>();
+        builder.Services.AddTransient<PolylineVisualizationViewModel>();
+        builder.Services.AddTransient<SolidVisualizationDialog>();
+        builder.Services.AddTransient<SolidVisualizationViewModel>();
+        builder.Services.AddTransient<XyzVisualizationDialog>();
+        builder.Services.AddTransient<XyzVisualizationViewModel>();
         
         //Startup view
         builder.Services.AddTransient<ILookupService, LookupService>();
