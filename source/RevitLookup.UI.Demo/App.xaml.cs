@@ -42,7 +42,7 @@ public sealed partial class App
     private void OnExit(object sender, ExitEventArgs e)
     {
         var settingsService = Host.GetService<ISettingsService>();
-        settingsService.Save();
+        settingsService.SaveSettings();
 
         Host.Stop();
     }

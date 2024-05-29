@@ -11,7 +11,7 @@
     d:DesignHeight="1100"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:SettingsView}">
-    
+
     <rl:DynamicScrollViewer>
         <StackPanel
             Margin="12">
@@ -91,6 +91,20 @@
                     <rl:ToggleSwitch
                         IsChecked="{Binding ViewModel.UseModifyTab}" />
                 </rl:CardControl>
+            </StackPanel>
+            <TextBlock
+                FontSize="16"
+                FontWeight="Medium"
+                Text="Other"
+                Margin="0,17,0,0" />
+            <StackPanel
+                Margin="0,8,0,0">
+                <rl:CardAction
+                    Content="Reset setting"
+                    Icon="{rl:SymbolIcon ArrowReset24}"
+                    Margin="0,8,0,0"
+                    Command="{Binding ViewModel.ResetSettingsCommand}">
+                </rl:CardAction>
             </StackPanel>
         </StackPanel>
     </rl:DynamicScrollViewer>

@@ -10,9 +10,11 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance visualization:XyzVisualizationViewModel}"
     d:DesignWidth="450"
-    d:DesignHeight="400">
+    d:DesignHeight="400"
+    Background="White">
     <StackPanel>
         <CheckBox
+            TabIndex="0"
             IsChecked="{Binding ShowPlane}"
             Content="Planes" />
         <StackPanel
@@ -25,7 +27,6 @@
                     Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="0"
                 Maximum="100"
@@ -44,7 +45,6 @@
                     Text="{Binding AxisLength, StringFormat={}{0:F0} inch, Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="{Binding MinAxisLength, Mode=OneTime}"
                 Maximum="24"
@@ -64,6 +64,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding XColor}" />
             <CheckBox
+                TabIndex="1"
                 IsChecked="{Binding ShowXAxis}"
                 Content="X axis" />
         </DockPanel>
@@ -78,6 +79,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding YColor}" />
             <CheckBox
+                TabIndex="2"
                 IsChecked="{Binding ShowYAxis}"
                 Content="Y axis" />
         </DockPanel>
@@ -92,6 +94,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding ZColor}" />
             <CheckBox
+                TabIndex="3"
                 IsChecked="{Binding ShowZAxis}"
                 Content="Z axis" />
         </DockPanel>

@@ -18,99 +18,173 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Media;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization;
+using RevitLookup.Models.Render;
+using RevitLookup.Services;
+using RevitLookup.Services.Contracts;
 using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.ViewModels.Dialogs.Visualization;
 
-public sealed partial class SolidVisualizationViewModel(Solid solid, ILogger<SolidVisualizationServer> logger) : ObservableObject
+public sealed partial class SolidVisualizationViewModel(
+    NotificationService notificationService,
+    ISettingsService settingsService,
+    ILogger<SolidVisualizationViewModel> logger)
+    : ObservableObject
 {
-    private readonly SolidVisualizationServer _server = new(solid, logger);
+    private readonly SolidVisualizationServer _server = new();
     
-    [ObservableProperty] private double _transparency = 20;
-    [ObservableProperty] private double _cageTransparency = 90;
-    [ObservableProperty] private double _cageSize = 1;
+    [ObservableProperty] private double _transparency = settingsService.RenderSettings.SolidSettings.Transparency;
+    [ObservableProperty] private double _cageTransparency = settingsService.RenderSettings.SolidSettings.CageTransparency;
+    [ObservableProperty] private double _cageSize = settingsService.RenderSettings.SolidSettings.CageSize;
     
-    [ObservableProperty] private System.Windows.Media.Color _faceColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _edgeColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _cageSurfaceColor = System.Windows.Media.Color.FromArgb(255, 175, 175, 175);
-    [ObservableProperty] private System.Windows.Media.Color _cageFrameColor = Colors.Black;
+    [ObservableProperty] private System.Windows.Media.Color _faceColor = settingsService.RenderSettings.SolidSettings.FaceColor;
+    [ObservableProperty] private System.Windows.Media.Color _edgeColor = settingsService.RenderSettings.SolidSettings.EdgeColor;
+    [ObservableProperty] private System.Windows.Media.Color _cageSurfaceColor = settingsService.RenderSettings.SolidSettings.CageSurfaceColor;
+    [ObservableProperty] private System.Windows.Media.Color _cageFrameColor = settingsService.RenderSettings.SolidSettings.CageFrameColor;
     
-    [ObservableProperty] private bool _showFace = true;
-    [ObservableProperty] private bool _showEdge = true;
-    [ObservableProperty] private bool _showCageSurface = true;
+    [ObservableProperty] private bool _showFace = settingsService.RenderSettings.SolidSettings.ShowFace;
+    [ObservableProperty] private bool _showEdge = settingsService.RenderSettings.SolidSettings.ShowEdge;
+    [ObservableProperty] private bool _showCageSurface = settingsService.RenderSettings.SolidSettings.ShowCageSurface;
     
-    public void RegisterServer()
+    public void RegisterServer(Solid solid)
     {
-        OnShowFaceChanged(ShowFace);
-        OnShowEdgeChanged(ShowEdge);
-        OnShowCageSurfaceChanged(ShowCageSurface);
+        UpdateShowFace(ShowFace);
+        UpdateShowEdge(ShowEdge);
+        UpdateShowCageSurface(ShowCageSurface);
         
-        OnFaceColorChanged(FaceColor);
-        OnEdgeColorChanged(EdgeColor);
-        OnCageSurfaceColorChanged(CageSurfaceColor);
-        OnCageFrameColorChanged(CageFrameColor);
+        UpdateFaceColor(FaceColor);
+        UpdateEdgeColor(EdgeColor);
+        UpdateCageSurfaceColor(CageSurfaceColor);
+        UpdateCageFrameColor(CageFrameColor);
         
-        OnTransparencyChanged(Transparency);
-        OnCageTransparencyChanged(CageTransparency);
-        OnCageSizeChanged(CageSize);
+        UpdateTransparency(Transparency);
+        UpdateCageTransparency(CageTransparency);
+        UpdateCageSize(CageSize);
         
-        _server.Register();
+        _server.RenderFailed += HandleRenderFailure;
+        _server.Register(solid);
     }
     
     public void UnregisterServer()
     {
+        _server.RenderFailed -= HandleRenderFailure;
         _server.Unregister();
+    }
+    
+    private void HandleRenderFailure(object sender, RenderFailedEventArgs args)
+    {
+        logger.LogError(args.Exception, "Render error");
+        notificationService.ShowError("Render error", args.Exception);
     }
     
     partial void OnFaceColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateFaceColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.SolidSettings.FaceColor = value;
+        UpdateFaceColor(value);
     }
     
     partial void OnEdgeColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateEdgeColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.SolidSettings.EdgeColor = value;
+        UpdateEdgeColor(value);
     }
     
     partial void OnCageSurfaceColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateCageSurfaceColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.SolidSettings.CageSurfaceColor = value;
+        UpdateCageSurfaceColor(value);
     }
     
     partial void OnCageFrameColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateCageFrameColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.SolidSettings.CageFrameColor = value;
+        UpdateCageFrameColor(value);
     }
     
     partial void OnTransparencyChanged(double value)
     {
-        _server.UpdateTransparency(value / 100);
+        settingsService.RenderSettings.SolidSettings.Transparency = value;
+        UpdateTransparency(value);
     }
     
     partial void OnCageTransparencyChanged(double value)
     {
-        _server.UpdateCageTransparency(value / 100);
+        settingsService.RenderSettings.SolidSettings.CageTransparency = value;
+        UpdateCageTransparency(value);
     }
     
     partial void OnCageSizeChanged(double value)
     {
-        _server.UpdateCageSize(value / 12);
+        settingsService.RenderSettings.SolidSettings.CageSize = value;
+        UpdateCageSize(value);
     }
     
     partial void OnShowFaceChanged(bool value)
     {
-        _server.UpdateFaceVisibility(value);
+        settingsService.RenderSettings.SolidSettings.ShowFace = value;
+        UpdateShowFace(value);
     }
     
     partial void OnShowEdgeChanged(bool value)
     {
-        _server.UpdateEdgeVisibility(value);
+        settingsService.RenderSettings.SolidSettings.ShowEdge = value;
+        UpdateShowEdge(value);
     }
     
     partial void OnShowCageSurfaceChanged(bool value)
+    {
+        settingsService.RenderSettings.SolidSettings.ShowCageSurface = value;
+        UpdateShowCageSurface(value);
+    }
+    
+    private void UpdateFaceColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateFaceColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateEdgeColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateEdgeColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateCageSurfaceColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateCageSurfaceColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateCageFrameColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateCageFrameColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateTransparency(double value)
+    {
+        _server.UpdateTransparency(value / 100);
+    }
+    
+    private void UpdateCageTransparency(double value)
+    {
+        _server.UpdateCageTransparency(value / 100);
+    }
+    
+    private void UpdateCageSize(double value)
+    {
+        _server.UpdateCageSize(value / 12);
+    }
+    
+    private void UpdateShowFace(bool value)
+    {
+        _server.UpdateFaceVisibility(value);
+    }
+    
+    private void UpdateShowEdge(bool value)
+    {
+        _server.UpdateEdgeVisibility(value);
+    }
+    
+    private void UpdateShowCageSurface(bool value)
     {
         _server.UpdateCageSurfaceVisibility(value);
     }

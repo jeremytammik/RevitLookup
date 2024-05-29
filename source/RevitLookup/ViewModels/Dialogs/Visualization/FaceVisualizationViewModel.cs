@@ -18,87 +18,149 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Media;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization;
+using RevitLookup.Models.Render;
+using RevitLookup.Services;
+using RevitLookup.Services.Contracts;
 using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.ViewModels.Dialogs.Visualization;
 
-public sealed partial class FaceVisualizationViewModel(Face face, ILogger<FaceVisualizationServer> logger) : ObservableObject
+public sealed partial class FaceVisualizationViewModel(
+    NotificationService notificationService,
+    ISettingsService settingsService,
+    ILogger<FaceVisualizationViewModel> logger)
+    : ObservableObject
 {
-    private readonly FaceVisualizationServer _server = new(face, logger);
+    private readonly FaceVisualizationServer _server = new();
     
-    [ObservableProperty] private double _thickness = Context.Application.VertexTolerance * 12;
-    [ObservableProperty] private double _transparency = 20;
+    [ObservableProperty] private double _extrusion = settingsService.RenderSettings.FaceSettings.Extrusion;
+    [ObservableProperty] private double _transparency = settingsService.RenderSettings.FaceSettings.Transparency;
     
-    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _meshColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _normalVectorColor = System.Windows.Media.Color.FromArgb(255, 255, 89, 30);
+    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = settingsService.RenderSettings.FaceSettings.SurfaceColor;
+    [ObservableProperty] private System.Windows.Media.Color _meshColor = settingsService.RenderSettings.FaceSettings.MeshColor;
+    [ObservableProperty] private System.Windows.Media.Color _normalVectorColor = settingsService.RenderSettings.FaceSettings.NormalVectorColor;
     
-    [ObservableProperty] private bool _showSurface = true;
-    [ObservableProperty] private bool _showMeshGrid = true;
-    [ObservableProperty] private bool _showNormalVector = true;
+    [ObservableProperty] private bool _showSurface = settingsService.RenderSettings.FaceSettings.ShowSurface;
+    [ObservableProperty] private bool _showMeshGrid = settingsService.RenderSettings.FaceSettings.ShowMeshGrid;
+    [ObservableProperty] private bool _showNormalVector = settingsService.RenderSettings.FaceSettings.ShowNormalVector;
     
-    public double MinThickness { get; } = Context.Application.VertexTolerance * 12;
+    public double MinExtrusion => settingsService.RenderSettings.FaceSettings.MinExtrusion;
     
-    public void RegisterServer()
+    public void RegisterServer(Face face)
     {
-        OnShowSurfaceChanged(ShowSurface);
-        OnShowMeshGridChanged(ShowMeshGrid);
-        OnShowNormalVectorChanged(ShowNormalVector);
+        UpdateShowSurface(ShowSurface);
+        UpdateShowMeshGrid(ShowMeshGrid);
+        UpdateShowNormalVector(ShowNormalVector);
         
-        OnSurfaceColorChanged(SurfaceColor);
-        OnMeshColorChanged(MeshColor);
-        OnNormalVectorColorChanged(NormalVectorColor);
+        UpdateSurfaceColor(SurfaceColor);
+        UpdateMeshColor(MeshColor);
+        UpdateNormalVectorColor(NormalVectorColor);
         
-        OnTransparencyChanged(Transparency);
-        OnThicknessChanged(Thickness);
+        UpdateTransparency(Transparency);
+        UpdateExtrusion(Extrusion);
         
-        _server.Register();
+        _server.RenderFailed += HandleRenderFailure;
+        _server.Register(face);
     }
     
     public void UnregisterServer()
     {
+        _server.RenderFailed -= HandleRenderFailure;
         _server.Unregister();
+    }
+    
+    private void HandleRenderFailure(object sender, RenderFailedEventArgs args)
+    {
+        logger.LogError(args.Exception, "Render error");
+        notificationService.ShowError("Render error", args.Exception);
     }
     
     partial void OnSurfaceColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.FaceSettings.SurfaceColor = value;
+        UpdateSurfaceColor(value);
     }
     
     partial void OnMeshColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateMeshGridColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.FaceSettings.MeshColor = value;
+        UpdateMeshColor(value);
     }
     
     partial void OnNormalVectorColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateNormalVectorColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.FaceSettings.NormalVectorColor = value;
+        UpdateNormalVectorColor(value);
     }
     
-    partial void OnThicknessChanged(double value)
+    partial void OnExtrusionChanged(double value)
     {
-        _server.UpdateThickness(value / 12);
+        settingsService.RenderSettings.FaceSettings.Extrusion = value;
+        UpdateExtrusion(value);
     }
     
     partial void OnTransparencyChanged(double value)
     {
-        _server.UpdateTransparency(value / 100);
+        settingsService.RenderSettings.FaceSettings.Transparency = value;
+        UpdateTransparency(value);
     }
     
     partial void OnShowSurfaceChanged(bool value)
     {
-        _server.UpdateSurfaceVisibility(value);
+        settingsService.RenderSettings.FaceSettings.ShowSurface = value;
+        UpdateShowSurface(value);
     }
     
     partial void OnShowMeshGridChanged(bool value)
     {
-        _server.UpdateMeshGridVisibility(value);
+        settingsService.RenderSettings.FaceSettings.ShowMeshGrid = value;
+        UpdateShowMeshGrid(value);
     }
     
     partial void OnShowNormalVectorChanged(bool value)
+    {
+        settingsService.RenderSettings.FaceSettings.ShowNormalVector = value;
+        UpdateShowNormalVector(value);
+    }
+    
+    private void UpdateSurfaceColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateMeshColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateMeshGridColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateNormalVectorColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateNormalVectorColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateExtrusion(double value)
+    {
+        _server.UpdateExtrusion(value / 12);
+    }
+    
+    private void UpdateTransparency(double value)
+    {
+        _server.UpdateTransparency(value / 100);
+    }
+    
+    private void UpdateShowSurface(bool value)
+    {
+        _server.UpdateSurfaceVisibility(value);
+    }
+    
+    private void UpdateShowMeshGrid(bool value)
+    {
+        _server.UpdateMeshGridVisibility(value);
+    }
+    
+    private void UpdateShowNormalVector(bool value)
     {
         _server.UpdateNormalVectorVisibility(value);
     }

@@ -20,6 +20,7 @@
 
 using System.Windows;
 using System.Windows.Input;
+using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using Wpf.Ui;
@@ -32,8 +33,8 @@ namespace RevitLookup.Views;
 // ReSharper disable once RedundantExtendsListEntry
 public sealed partial class RevitLookupView : FluentWindow, IWindow
 {
-    private readonly ISettingsService _settingsService;
-
+    private readonly GeneralSettings _settings;
+    
     private RevitLookupView()
     {
         Wpf.Ui.Application.MainWindow = this;
@@ -41,7 +42,7 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
         InitializeComponent();
         AddShortcuts();
     }
-
+    
     public RevitLookupView(
         INavigationService navigationService,
         IContentDialogService dialogService,
@@ -50,21 +51,21 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
         ISoftwareUpdateService updateService)
         : this()
     {
-        _settingsService = settingsService;
-        RootNavigation.TransitionDuration = settingsService.TransitionDuration;
-        WindowBackdropType = settingsService.Background;
-
+        _settings = settingsService.GeneralSettings;
+        RootNavigation.TransitionDuration = _settings.TransitionDuration;
+        WindowBackdropType = _settings.Background;
+        
         navigationService.SetNavigationControl(RootNavigation);
         dialogService.SetContentPresenter(RootContentDialog);
-
+        
         snackbarService.SetSnackbarPresenter(RootSnackbar);
         snackbarService.DefaultTimeOut = TimeSpan.FromSeconds(3);
-
-        RestoreSize(settingsService);
+        
+        RestoreSize();
         SetupBadges(updateService);
-        ApplicationThemeManager.Apply(_settingsService.Theme, _settingsService.Background);
+        ApplicationThemeManager.Apply(_settings.Theme, _settings.Background);
     }
-
+    
     private void AddShortcuts()
     {
         var closeCurrentCommand = new RelayCommand(Close);
@@ -76,49 +77,49 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
                 window.Close();
             }
         });
-
+        
         InputBindings.Add(new KeyBinding(closeAllCommand, new KeyGesture(Key.Escape, ModifierKeys.Shift)));
         InputBindings.Add(new KeyBinding(closeCurrentCommand, new KeyGesture(Key.Escape)));
     }
-
-    private void RestoreSize(ISettingsService settingsService)
+    
+    private void RestoreSize()
     {
-        if (!settingsService.UseSizeRestoring) return;
-
-        if (settingsService.WindowWidth >= MinWidth) Width = settingsService.WindowWidth;
-        if (settingsService.WindowHeight >= MinHeight) Height = settingsService.WindowHeight;
-
+        if (!_settings.UseSizeRestoring) return;
+        
+        if (_settings.WindowWidth >= MinWidth) Width = _settings.WindowWidth;
+        if (_settings.WindowHeight >= MinHeight) Height = _settings.WindowHeight;
+        
         EnableSizeTracking();
     }
-
+    
     private void SetupBadges(ISoftwareUpdateService updateService)
     {
         if (updateService.State != SoftwareUpdateState.ReadyToDownload) return;
         AboutItemBadge.Visibility = Visibility.Visible;
     }
-
+    
     public void EnableSizeTracking()
     {
         SizeChanged += OnSizeChanged;
     }
-
+    
     public void DisableSizeTracking()
     {
         SizeChanged -= OnSizeChanged;
     }
-
+    
     private void OnSizeChanged(object sender, SizeChangedEventArgs args)
     {
-        _settingsService.WindowWidth = args.NewSize.Width;
-        _settingsService.WindowHeight = args.NewSize.Height;
+        _settings.WindowWidth = args.NewSize.Width;
+        _settings.WindowHeight = args.NewSize.Height;
     }
-
+    
     protected override void OnActivated(EventArgs args)
     {
         base.OnActivated(args);
         Wpf.Ui.Application.MainWindow = this;
     }
-
+    
     protected override void OnClosed(EventArgs args)
     {
         base.OnClosed(args);

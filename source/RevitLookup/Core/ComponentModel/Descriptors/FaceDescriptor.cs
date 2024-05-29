@@ -20,13 +20,13 @@
 
 using System.Globalization;
 using System.Windows.Controls;
-using Microsoft.Extensions.Logging;
 using System.Windows.Input;
-using RevitLookup.Views.Extensions;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs.Visualization;
+using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -79,8 +79,8 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
                 
                 try
                 {
-                    var dialog = new FaceVisualizationDialog(context.ServiceProvider, face);
-                    await dialog.ShowAsync();
+                    var dialog = context.ServiceProvider.GetService<FaceVisualizationDialog>();
+                    await dialog.ShowAsync(face);
                 }
                 catch (Exception exception)
                 {

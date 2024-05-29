@@ -37,7 +37,8 @@ public static class OptionsConfiguration
             options.RootFolder = rootPath;
             options.ConfigFolder = Path.Combine(rootPath, "Config");
             options.DownloadFolder = Path.Combine(rootPath, "Downloads");
-            options.SettingsPath = Path.Combine(rootPath, "Config", "Settings.cfg");
+            options.GeneralSettingsPath = Path.Combine(rootPath, "Config", "Settings.cfg");
+            options.RenderSettingsPath = Path.Combine(rootPath, "Config", "RenderSettings.cfg");
         });
         
         services.Configure<JsonSerializerOptions>(options =>

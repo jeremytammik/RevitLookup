@@ -25,6 +25,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using RevitLookup.Core.Objects;
+using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Utils;
@@ -39,11 +40,11 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
 {
     private readonly TreeView _treeViewControl;
     private readonly DataGrid _dataGridControl;
-    private readonly ISettingsService _settingsService;
+    private readonly GeneralSettings _settings;
     
     protected SnoopViewBase(ISettingsService settingsService)
     {
-        _settingsService = settingsService;
+        _settings = settingsService.GeneralSettings;
         AddShortcuts();
     }
     
@@ -163,7 +164,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     private async void SetupTreeView()
     {
         // Await Frame transition. GetMembers freezes the thread and breaks the animation
-        await Task.Delay(_settingsService.TransitionDuration);
+        await Task.Delay(_settings.TransitionDuration);
         
         ExpandFirstTreeGroup();
     }
@@ -253,7 +254,7 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     /// </summary>
     private void ValidateTimeColumn(System.Windows.Controls.DataGrid control)
     {
-        control.Columns[2].Visibility = _settingsService.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
+        control.Columns[2].Visibility = _settings.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
     }
     
     /// <summary>
@@ -261,6 +262,6 @@ public partial class SnoopViewBase : Page, INavigableView<ISnoopViewModel>
     /// </summary>
     private void ValidateAllocatedColumn(System.Windows.Controls.DataGrid control)
     {
-        control.Columns[3].Visibility = _settingsService.ShowMemoryColumn ? Visibility.Visible : Visibility.Collapsed;
+        control.Columns[3].Visibility = _settings.ShowMemoryColumn ? Visibility.Visible : Visibility.Collapsed;
     }
 }

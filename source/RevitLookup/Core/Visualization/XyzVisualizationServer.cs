@@ -20,14 +20,14 @@
 
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
 
 namespace RevitLookup.Core.Visualization;
 
-public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationServer> logger) : IDirectContext3DServer
+public sealed class XyzVisualizationServer : IDirectContext3DServer
 {
+    private XYZ _point;
     private bool _hasEffectsUpdates = true;
     private bool _hasGeometryUpdates = true;
     
@@ -73,7 +73,10 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
     
     public Outline GetBoundingBox(View view)
     {
-        return null;
+        var minPoint = new XYZ(_point.X - _axisLength, _point.Y - _axisLength, _point.Z - _axisLength);
+        var maxPoint = new XYZ(_point.X + _axisLength, _point.Y + _axisLength, _point.Z + _axisLength);
+        
+        return new Outline(minPoint, maxPoint);
     }
     
     public void RenderScene(View view, DisplayStyle displayStyle)
@@ -112,7 +115,10 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "Rendering error");
+            RenderFailed?.Invoke(this, new RenderFailedEventArgs
+            {
+                Exception = exception
+            });
         }
     }
     
@@ -157,7 +163,7 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         {
             var normal = _normals[i];
             var buffer = _axisBuffers[i];
-            RenderHelper.MapNormalVectorBuffer(buffer, point - normal * (_axisLength + normalExtendLength), normal, 2 * (_axisLength + normalExtendLength));
+            RenderHelper.MapNormalVectorBuffer(buffer, _point - normal * (_axisLength + normalExtendLength), normal, 2 * (_axisLength + normalExtendLength));
         }
     }
     
@@ -167,7 +173,7 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         {
             var normal = _normals[i];
             var buffer = _planeBuffers[i];
-            RenderHelper.MapSideBuffer(buffer, point - normal * _axisLength, point + normal * _axisLength);
+            RenderHelper.MapSideBuffer(buffer, _point - normal * _axisLength, _point + normal * _axisLength);
         }
     }
     
@@ -288,8 +294,10 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void Register()
+    public void Register(XYZ point)
     {
+        _point = point;
+        
         Application.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
@@ -315,4 +323,6 @@ public sealed class XyzVisualizationServer(XYZ point, ILogger<XyzVisualizationSe
             application.ActiveUIDocument?.UpdateAllOpenViews();
         });
     }
+    
+    public event EventHandler<RenderFailedEventArgs> RenderFailed;
 }

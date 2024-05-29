@@ -18,7 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
+using RevitLookup.Views.Dialogs;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -28,24 +30,26 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed partial class SettingsViewModel(
     ISettingsService settingsService,
     INavigationService navigationService,
+    IContentDialogService dialogService,
+    NotificationService notificationService,
     IWindow window)
     : ObservableObject
 {
-    [ObservableProperty] private ApplicationTheme _theme = settingsService.Theme;
-    [ObservableProperty] private WindowBackdropType _background = settingsService.Background;
-
-    [ObservableProperty] private bool _useTransition = settingsService.TransitionDuration > 0;
-    [ObservableProperty] private bool _useHardwareRendering = settingsService.UseHardwareRendering;
-    [ObservableProperty] private bool _useSizeRestoring = settingsService.UseSizeRestoring;
-    [ObservableProperty] private bool _useModifyTab = settingsService.UseModifyTab;
-
+    [ObservableProperty] private ApplicationTheme _theme = settingsService.GeneralSettings.Theme;
+    [ObservableProperty] private WindowBackdropType _background = settingsService.GeneralSettings.Background;
+    
+    [ObservableProperty] private bool _useTransition = settingsService.GeneralSettings.TransitionDuration > 0;
+    [ObservableProperty] private bool _useHardwareRendering = settingsService.GeneralSettings.UseHardwareRendering;
+    [ObservableProperty] private bool _useSizeRestoring = settingsService.GeneralSettings.UseSizeRestoring;
+    [ObservableProperty] private bool _useModifyTab = settingsService.GeneralSettings.UseModifyTab;
+    
     public List<ApplicationTheme> Themes { get; } =
     [
         ApplicationTheme.Light,
         ApplicationTheme.Dark
         // ApplicationTheme.HighContrast
     ];
-
+    
     public List<WindowBackdropType> BackgroundEffects { get; } =
     [
         WindowBackdropType.None,
@@ -53,47 +57,69 @@ public sealed partial class SettingsViewModel(
         WindowBackdropType.Tabbed,
         WindowBackdropType.Mica
     ];
-
+    
+    [RelayCommand]
+    private async Task ResetSettings()
+    {
+        var dialog = new ResetSettingsDialog(dialogService, settingsService);
+        var result = await dialog.ShowAsync();
+        if (!result) return;
+        
+        foreach (var settings in dialog.SelectedSettings)
+        {
+            try
+            {
+                settings.SetDefault();
+            }
+            catch (Exception exception)
+            {
+                notificationService.ShowWarning("Reset settings error", exception.Message);
+            }
+        }
+        
+        notificationService.ShowSuccess("Reset was successful", "Some changes will be applied after closing the window");
+    }
+    
     partial void OnThemeChanged(ApplicationTheme value)
     {
-        settingsService.Theme = value;
-
+        settingsService.GeneralSettings.Theme = value;
+        
         foreach (var target in Wpf.Ui.Application.Windows)
         {
             Wpf.Ui.Application.MainWindow = target;
-            ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
+            ApplicationThemeManager.Apply(settingsService.GeneralSettings.Theme, settingsService.GeneralSettings.Background);
         }
     }
-
+    
     partial void OnBackgroundChanged(WindowBackdropType value)
     {
-        settingsService.Background = value;
-        ApplicationThemeManager.Apply(settingsService.Theme, settingsService.Background);
+        settingsService.GeneralSettings.Background = value;
+        ApplicationThemeManager.Apply(settingsService.GeneralSettings.Theme, settingsService.GeneralSettings.Background);
     }
-
+    
     partial void OnUseTransitionChanged(bool value)
     {
-        var transitionDuration = settingsService.ApplyTransition(value);
+        var transitionDuration = settingsService.GeneralSettings.ApplyTransition(value);
         navigationService.GetNavigationControl().TransitionDuration = transitionDuration;
     }
-
+    
     partial void OnUseHardwareRenderingChanged(bool value)
     {
-        settingsService.UseHardwareRendering = value;
-        if (value) Application.EnableHardwareRendering(settingsService);
-        else Application.DisableHardwareRendering(settingsService);
+        settingsService.GeneralSettings.UseHardwareRendering = value;
+        if (value) Application.EnableHardwareRendering(settingsService.GeneralSettings);
+        else Application.DisableHardwareRendering(settingsService.GeneralSettings);
     }
-
+    
     partial void OnUseSizeRestoringChanged(bool value)
     {
-        settingsService.UseSizeRestoring = value;
+        settingsService.GeneralSettings.UseSizeRestoring = value;
         if (value) window.EnableSizeTracking();
         else window.DisableSizeTracking();
     }
-
+    
     partial void OnUseModifyTabChanged(bool value)
     {
-        settingsService.UseModifyTab = value;
-        RibbonController.ReloadPanels(settingsService);
+        settingsService.GeneralSettings.UseModifyTab = value;
+        RibbonController.ReloadPanels(settingsService.GeneralSettings);
     }
 }

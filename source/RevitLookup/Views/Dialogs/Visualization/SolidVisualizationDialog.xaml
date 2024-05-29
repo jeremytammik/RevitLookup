@@ -10,7 +10,8 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance visualization:SolidVisualizationViewModel}"
     d:DesignWidth="450"
-    d:DesignHeight="400">
+    d:DesignHeight="400"
+    Background="White">
     <StackPanel>
         <DockPanel>
             <rl:SymbolIcon
@@ -22,6 +23,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding FaceColor}" />
             <CheckBox
+                TabIndex="0"
                 IsChecked="{Binding ShowFace}"
                 Content="Faces" />
         </DockPanel>
@@ -35,7 +37,6 @@
                     Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="0"
                 Maximum="100"
@@ -55,6 +56,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding EdgeColor}" />
             <CheckBox
+                TabIndex="1"
                 IsChecked="{Binding ShowEdge}"
                 Content="Edges" />
         </DockPanel>
@@ -69,6 +71,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding CageSurfaceColor}" />
             <CheckBox
+                TabIndex="2"
                 IsChecked="{Binding ShowCageSurface}"
                 Content="Cage surface" />
         </DockPanel>
@@ -82,7 +85,6 @@
                     Text="{Binding CageSize, StringFormat={}{0:F0} inch,Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="0"
                 Maximum="24"
@@ -101,7 +103,6 @@
                     Text="{Binding CageTransparency, StringFormat={}{0} %,Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="0"
                 Maximum="100"

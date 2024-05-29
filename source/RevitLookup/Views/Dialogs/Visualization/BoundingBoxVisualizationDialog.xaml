@@ -11,7 +11,7 @@
     d:DataContext="{d:DesignInstance visualization:BoundingBoxVisualizationViewModel}"
     d:DesignWidth="450"
     d:DesignHeight="400"
-    Focusable="False">
+    Background="White">
     <StackPanel>
         <DockPanel>
             <rl:SymbolIcon
@@ -23,6 +23,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding SurfaceColor}" />
             <CheckBox
+                TabIndex="0"
                 IsChecked="{Binding ShowSurface}"
                 Content="Surface" />
         </DockPanel>
@@ -36,7 +37,6 @@
                     Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="0"
                 Maximum="100"
@@ -56,6 +56,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding EdgeColor}" />
             <CheckBox
+                TabIndex="1"
                 IsChecked="{Binding ShowEdge}"
                 Content="Edges" />
         </DockPanel>
@@ -70,6 +71,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding AxisColor}" />
             <CheckBox
+                TabIndex="2"
                 IsChecked="{Binding ShowAxis}"
                 Content="Axis" />
         </DockPanel>

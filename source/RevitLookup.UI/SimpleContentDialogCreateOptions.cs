@@ -50,10 +50,12 @@ public class SimpleContentDialogCreateOptions
     /// <summary>
     /// Gets or sets a dialog Horizontal Alignment.
     /// </summary>
+    /// <returns>HorizontalAlignment.Stretch by default</returns>
     public HorizontalAlignment DialogHorizontalAlignment { get; set; } = HorizontalAlignment.Stretch;
-    
+
     /// <summary>
     /// Gets or sets a dialog Vertical Alignment.
     /// </summary>
+    /// <returns>VerticalAlignment.Stretch by default</returns>
     public VerticalAlignment DialogVerticalAlignment { get; set; } = VerticalAlignment.Stretch;
 }

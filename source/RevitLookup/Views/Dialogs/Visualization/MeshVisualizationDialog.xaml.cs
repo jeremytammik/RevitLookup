@@ -18,8 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Visualization;
+using System.Windows;
 using Wpf.Ui;
 using MeshVisualizationViewModel = RevitLookup.ViewModels.Dialogs.Visualization.MeshVisualizationViewModel;
 
@@ -27,38 +26,37 @@ namespace RevitLookup.Views.Dialogs.Visualization;
 
 public sealed partial class MeshVisualizationDialog
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IContentDialogService _dialogService;
     private readonly MeshVisualizationViewModel _viewModel;
     
-    public MeshVisualizationDialog(IServiceProvider serviceProvider, Mesh mesh)
+    public MeshVisualizationDialog(MeshVisualizationViewModel viewModel, IContentDialogService dialogService)
     {
-        var logger = serviceProvider.GetService<ILogger<MeshVisualizationServer>>();
-        
-        _serviceProvider = serviceProvider;
-        _viewModel = new MeshVisualizationViewModel(mesh, logger);
+        _viewModel = viewModel;
+        _dialogService = dialogService;
         
         DataContext = _viewModel;
         InitializeComponent();
-        MonitorServerConnection();
     }
     
-    public async Task ShowAsync()
+    public async Task ShowAsync(Mesh mesh)
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "Visualization settings",
             Content = this,
             CloseButtonText = "Close",
-            DialogMaxWidth = 500,
-            DialogMaxHeight = 450
+            DialogHorizontalAlignment = HorizontalAlignment.Center,
+            DialogVerticalAlignment = VerticalAlignment.Center
         };
         
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        _viewModel.RegisterServer(mesh);
+        MonitorServerConnection();
+        
+        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
     }
     
     private void MonitorServerConnection()
     {
-        _viewModel.RegisterServer();
         Unloaded += (_, _) => _viewModel.UnregisterServer();
     }
 }

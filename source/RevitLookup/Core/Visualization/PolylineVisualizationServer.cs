@@ -20,7 +20,6 @@
 
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
 
@@ -28,16 +27,15 @@ namespace RevitLookup.Core.Visualization;
 
 public sealed class PolylineVisualizationServer : IDirectContext3DServer
 {
+    private IList<XYZ> _vertices;
     private bool _hasEffectsUpdates = true;
     private bool _hasGeometryUpdates = true;
     
     private readonly Guid _guid = Guid.NewGuid();
-    private readonly ILogger<PolylineVisualizationServer> _logger;
     
     private readonly RenderingBufferStorage _surfaceBuffer = new();
     private readonly RenderingBufferStorage _curveBuffer = new();
     private readonly List<RenderingBufferStorage> _normalsBuffers = new(1);
-    private readonly IList<XYZ> _vertices;
     
     private double _transparency;
     private double _diameter;
@@ -50,18 +48,6 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
     private bool _drawDirection;
     private bool _drawSurface;
     
-    public PolylineVisualizationServer(Edge edge, ILogger<PolylineVisualizationServer> logger)
-    {
-        _vertices = edge.Tessellate();
-        _logger = logger;
-    }
-    
-    public PolylineVisualizationServer(Curve edge, ILogger<PolylineVisualizationServer> logger)
-    {
-        _vertices = edge.Tessellate();
-        _logger = logger;
-    }
-    
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
     public string GetName() => "Polyline visualization server";
@@ -72,12 +58,7 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
     public bool UsesHandles() => false;
     public bool CanExecute(View view) => true;
     public bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
-    
-    public Outline GetBoundingBox(View view)
-    {
-        //TODO evaluate BB
-        return null;
-    }
+    public Outline GetBoundingBox(View view) => null;
     
     public void RenderScene(View view, DisplayStyle displayStyle)
     {
@@ -137,7 +118,10 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Rendering error");
+            RenderFailed?.Invoke(this, new RenderFailedEventArgs
+            {
+                Exception = exception
+            });
         }
     }
     
@@ -300,8 +284,10 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void Register()
+    public void Register(IList<XYZ> vertices)
     {
+        _vertices = vertices;
+        
         Application.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
@@ -327,4 +313,6 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
             application.ActiveUIDocument?.UpdateAllOpenViews();
         });
     }
+    
+    public event EventHandler<RenderFailedEventArgs> RenderFailed;
 }

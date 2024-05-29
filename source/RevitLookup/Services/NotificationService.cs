@@ -28,8 +28,56 @@ namespace RevitLookup.Services;
 public sealed class NotificationService(ISnackbarService snackbarService, IWindow window)
 {
     private Action _pendingNotifications;
-
+    
     public void ShowSuccess(string title, string message)
+    {
+        if (window.Dispatcher.CheckAccess())
+        {
+            PushSuccessMessage(title, message);
+        }
+        else
+        {
+            window.Dispatcher.Invoke(() => PushSuccessMessage(title, message));
+        }
+    }
+    
+    public void ShowWarning(string title, string message)
+    {
+        if (window.Dispatcher.CheckAccess())
+        {
+            PushWarningMessage(title, message);
+        }
+        else
+        {
+            window.Dispatcher.Invoke(() => PushWarningMessage(title, message));
+        }
+    }
+    
+    public void ShowError(string title, string message)
+    {
+        if (window.Dispatcher.CheckAccess())
+        {
+            PushErrorMessage(title, message);
+        }
+        else
+        {
+            window.Dispatcher.Invoke(() => PushErrorMessage(title, message));
+        }
+    }
+    
+    public void ShowError(string title, Exception exception)
+    {
+        if (window.Dispatcher.CheckAccess())
+        {
+            PushErrorMessage(title, exception.Message);
+        }
+        else
+        {
+            window.Dispatcher.Invoke(() => PushErrorMessage(title, exception.Message));
+        }
+    }
+    
+    private void PushSuccessMessage(string title, string message)
     {
         if (!window.IsLoaded)
         {
@@ -41,8 +89,8 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
             ShowSuccessBar(title, message);
         }
     }
-
-    public void ShowWarning(string title, string message)
+    
+    private void PushWarningMessage(string title, string message)
     {
         if (!window.IsLoaded)
         {
@@ -54,13 +102,8 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
             ShowWarningBar(title, message);
         }
     }
-
-    public void ShowError(string title, Exception exception)
-    {
-        ShowError(title, exception.Message);
-    }
-
-    public void ShowError(string title, string message)
+    
+    private void PushErrorMessage(string title, string message)
     {
         if (!window.IsLoaded)
         {
@@ -72,7 +115,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
             ShowErrorBar(title, message);
         }
     }
-
+    
     private void ShowSuccessBar(string title, string message)
     {
         snackbarService.Show(
@@ -82,7 +125,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
             new SymbolIcon(SymbolRegular.ChatWarning24, 24),
             snackbarService.DefaultTimeOut);
     }
-
+    
     private void ShowWarningBar(string title, string message)
     {
         snackbarService.Show(
@@ -92,7 +135,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
             new SymbolIcon(SymbolRegular.Warning24, 24),
             snackbarService.DefaultTimeOut);
     }
-
+    
     private void ShowErrorBar(string title, string message)
     {
         snackbarService.Show(
@@ -102,7 +145,7 @@ public sealed class NotificationService(ISnackbarService snackbarService, IWindo
             new SymbolIcon(SymbolRegular.ErrorCircle24, 24),
             snackbarService.DefaultTimeOut);
     }
-
+    
     private void ShowPendingNotifications(object sender, RoutedEventArgs args)
     {
         window.Loaded -= ShowPendingNotifications;

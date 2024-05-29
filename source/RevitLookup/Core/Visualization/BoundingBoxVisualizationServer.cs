@@ -20,14 +20,14 @@
 
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
 
 namespace RevitLookup.Core.Visualization;
 
-public sealed class BoundingBoxVisualizationServer(BoundingBoxXYZ box, ILogger<BoundingBoxVisualizationServer> logger) : IDirectContext3DServer
+public sealed class BoundingBoxVisualizationServer : IDirectContext3DServer
 {
+    private BoundingBoxXYZ _box;
     private bool _hasGeometryUpdates = true;
     private bool _hasEffectsUpdates = true;
     
@@ -69,7 +69,7 @@ public sealed class BoundingBoxVisualizationServer(BoundingBoxXYZ box, ILogger<B
     
     public Outline GetBoundingBox(View view)
     {
-        return new Outline(box.Min, box.Max);
+        return new Outline(_box.Min, _box.Max);
     }
     
     public void RenderScene(View view, DisplayStyle displayStyle)
@@ -130,22 +130,25 @@ public sealed class BoundingBoxVisualizationServer(BoundingBoxXYZ box, ILogger<B
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "Rendering error");
+            RenderFailed?.Invoke(this, new RenderFailedEventArgs
+            {
+                Exception = exception
+            });
         }
     }
     
     private void MapGeometryBuffer()
     {
-        RenderHelper.MapBoundingBoxSurfaceBuffer(_surfaceBuffer, box);
-        RenderHelper.MapBoundingBoxEdgeBuffer(_edgeBuffer, box);
+        RenderHelper.MapBoundingBoxSurfaceBuffer(_surfaceBuffer, _box);
+        RenderHelper.MapBoundingBoxEdgeBuffer(_edgeBuffer, _box);
         MapAxisBuffers();
     }
     
     private void MapAxisBuffers()
     {
         var unitVector = new XYZ(1, 1, 1);
-        var minPoint = box.Transform.OfPoint(box.Min);
-        var maxPoint = box.Transform.OfPoint(box.Max);
+        var minPoint = _box.Transform.OfPoint(_box.Min);
+        var maxPoint = _box.Transform.OfPoint(_box.Max);
         var axisLength = RenderGeometryHelper.InterpolateAxisLengthByPoints(minPoint, maxPoint);
         
         for (var i = 0; i < _normals.Length; i++)
@@ -250,8 +253,10 @@ public sealed class BoundingBoxVisualizationServer(BoundingBoxXYZ box, ILogger<B
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void Register()
+    public void Register(BoundingBoxXYZ box)
     {
+        _box = box;
+        
         Application.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
@@ -277,4 +282,6 @@ public sealed class BoundingBoxVisualizationServer(BoundingBoxXYZ box, ILogger<B
             application.ActiveUIDocument?.UpdateAllOpenViews();
         });
     }
+    
+    public event EventHandler<RenderFailedEventArgs> RenderFailed;
 }

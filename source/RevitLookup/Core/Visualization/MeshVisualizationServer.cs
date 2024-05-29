@@ -20,27 +20,24 @@
 
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
 
 namespace RevitLookup.Core.Visualization;
 
-public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualizationServer> logger) : IDirectContext3DServer
+public sealed class MeshVisualizationServer : IDirectContext3DServer
 {
+    private Mesh _mesh;
     private bool _hasEffectsUpdates = true;
     private bool _hasGeometryUpdates = true;
     
     private readonly Guid _guid = Guid.NewGuid();
     
+    private RenderingBufferStorage[] _normalBuffers;
     private readonly RenderingBufferStorage _surfaceBuffer = new();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
     
-    private readonly RenderingBufferStorage[] _normalBuffers = Enumerable.Range(0, mesh.Vertices.Count)
-        .Select(_ => new RenderingBufferStorage())
-        .ToArray();
-    
-    private double _thickness;
+    private double _extrusion;
     private double _transparency;
     
     private bool _drawMeshGrid;
@@ -61,12 +58,7 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
     public bool UsesHandles() => false;
     public bool CanExecute(View view) => true;
     public bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
-    
-    public Outline GetBoundingBox(View view)
-    {
-        //TODO evaluate BB
-        return null;
-    }
+    public Outline GetBoundingBox(View view) => null;
     
     public void RenderScene(View view, DisplayStyle displayStyle)
     {
@@ -126,30 +118,33 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "Rendering error");
+            RenderFailed?.Invoke(this, new RenderFailedEventArgs
+            {
+                Exception = exception
+            });
         }
     }
     
     private void MapGeometryBuffer()
     {
-        RenderHelper.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
-        RenderHelper.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
+        RenderHelper.MapSurfaceBuffer(_surfaceBuffer, _mesh, _extrusion);
+        RenderHelper.MapMeshGridBuffer(_meshGridBuffer, _mesh, _extrusion);
         MapNormalsBuffer();
     }
     
     private void MapNormalsBuffer()
     {
-        var area = RenderGeometryHelper.ComputeMeshSurfaceArea(mesh);
+        var area = RenderGeometryHelper.ComputeMeshSurfaceArea(_mesh);
         var offset = RenderGeometryHelper.InterpolateOffsetByArea(area);
         var normalLength = RenderGeometryHelper.InterpolateAxisLengthByArea(area);
         
-        for (var i = 0; i < mesh.Vertices.Count; i++)
+        for (var i = 0; i < _mesh.Vertices.Count; i++)
         {
-            var vertex = mesh.Vertices[i];
+            var vertex = _mesh.Vertices[i];
             var buffer = _normalBuffers[i];
-            var normal = RenderGeometryHelper.GetMeshVertexNormal(mesh, i, mesh.DistributionOfNormals);
+            var normal = RenderGeometryHelper.GetMeshVertexNormal(_mesh, i, _mesh.DistributionOfNormals);
             
-            RenderHelper.MapNormalVectorBuffer(buffer, vertex + normal * (offset + _thickness), normal, normalLength);
+            RenderHelper.MapNormalVectorBuffer(buffer, vertex + normal * (offset + _extrusion), normal, normalLength);
         }
     }
     
@@ -202,12 +197,12 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateThickness(double value)
+    public void UpdateExtrusion(double value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _thickness = value;
+        _extrusion = value;
         _hasGeometryUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
@@ -255,8 +250,13 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void Register()
+    public void Register(Mesh mesh)
     {
+        _mesh = mesh;
+        _normalBuffers = Enumerable.Range(0, _mesh.Vertices.Count)
+            .Select(_ => new RenderingBufferStorage())
+            .ToArray();
+        
         Application.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
@@ -282,4 +282,6 @@ public sealed class MeshVisualizationServer(Mesh mesh, ILogger<MeshVisualization
             application.ActiveUIDocument?.UpdateAllOpenViews();
         });
     }
+    
+    public event EventHandler<RenderFailedEventArgs> RenderFailed;
 }

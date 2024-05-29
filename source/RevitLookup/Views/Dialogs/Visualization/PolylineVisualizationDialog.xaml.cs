@@ -18,8 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Visualization;
+using System.Windows;
 using RevitLookup.ViewModels.Dialogs.Visualization;
 using Wpf.Ui;
 
@@ -27,50 +26,50 @@ namespace RevitLookup.Views.Dialogs.Visualization;
 
 public sealed partial class PolylineVisualizationDialog
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IContentDialogService _dialogService;
     private readonly PolylineVisualizationViewModel _viewModel;
     
-    public PolylineVisualizationDialog(IServiceProvider serviceProvider, Edge edge)
+    public PolylineVisualizationDialog(PolylineVisualizationViewModel viewModel, IContentDialogService dialogService)
     {
-        var logger = serviceProvider.GetService<ILogger<PolylineVisualizationServer>>();
-        
-        _serviceProvider = serviceProvider;
-        _viewModel = new PolylineVisualizationViewModel(edge, logger);
+        _viewModel = viewModel;
+        _dialogService = dialogService;
         
         DataContext = _viewModel;
         InitializeComponent();
-        MonitorServerConnection();
     }
     
-    public PolylineVisualizationDialog(IServiceProvider serviceProvider, Curve curve)
+    public async Task ShowAsync(Curve curve)
     {
-        var logger = serviceProvider.GetService<ILogger<PolylineVisualizationServer>>();
-        
-        _serviceProvider = serviceProvider;
-        _viewModel = new PolylineVisualizationViewModel(curve, logger);
-        
-        DataContext = _viewModel;
-        InitializeComponent();
+        _viewModel.RegisterServer(curve);
         MonitorServerConnection();
+        
+        await ShowDialogAsync();
     }
     
-    public async Task ShowAsync()
+    public async Task ShowAsync(Edge edge)
+    {
+        _viewModel.RegisterServer(edge);
+        MonitorServerConnection();
+        
+        await ShowDialogAsync();
+    }
+    
+    private async Task ShowDialogAsync()
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "Visualization settings",
             Content = this,
             CloseButtonText = "Close",
-            DialogMaxWidth = 500,
-            DialogMaxHeight = 450
+            DialogHorizontalAlignment = HorizontalAlignment.Center,
+            DialogVerticalAlignment = VerticalAlignment.Center
         };
         
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
     }
     
     private void MonitorServerConnection()
     {
-        _viewModel.RegisterServer();
         Unloaded += (_, _) => _viewModel.UnregisterServer();
     }
 }

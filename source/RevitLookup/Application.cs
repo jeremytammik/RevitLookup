@@ -24,6 +24,7 @@ using System.Windows.Media;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Core.Objects;
+using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;
 
@@ -45,8 +46,8 @@ public class Application : ExternalApplication
         var settingsService = Host.GetService<ISettingsService>();
         var updateService = Host.GetService<ISoftwareUpdateService>();
         
-        EnableHardwareRendering(settingsService);
-        RibbonController.CreatePanel(Application, settingsService);
+        EnableHardwareRendering(settingsService.GeneralSettings);
+        RibbonController.CreatePanel(Application, settingsService.GeneralSettings);
         
         updateService.CheckUpdates();
     }
@@ -67,21 +68,21 @@ public class Application : ExternalApplication
     private static void SaveSettings()
     {
         var settingsService = Host.GetService<ISettingsService>();
-        settingsService.Save();
+        settingsService.SaveSettings();
     }
     
-    public static void EnableHardwareRendering(ISettingsService settingsService)
+    public static void EnableHardwareRendering(GeneralSettings settings)
     {
-        if (!settingsService.UseHardwareRendering) return;
+        if (!settings.UseHardwareRendering) return;
         
         //Revit overrides render mode during initialization
         //EventHandler is called after initialization
         ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
     }
     
-    public static void DisableHardwareRendering(ISettingsService settingsService)
+    public static void DisableHardwareRendering(GeneralSettings settings)
     {
-        if (settingsService.UseHardwareRendering) return;
+        if (settings.UseHardwareRendering) return;
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
     }
     

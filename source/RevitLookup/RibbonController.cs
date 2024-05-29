@@ -22,7 +22,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using RevitLookup.Commands;
 using RevitLookup.Core;
-using RevitLookup.Services.Contracts;
+using RevitLookup.Models.Settings;
 using RevitLookup.Utils;
 
 namespace RevitLookup;
@@ -30,14 +30,14 @@ namespace RevitLookup;
 public static class RibbonController
 {
     private const string PanelName = "Revit Lookup";
-
-    public static void CreatePanel(UIControlledApplication application, ISettingsService settingsService)
+    
+    public static void CreatePanel(UIControlledApplication application, GeneralSettings settingsService)
     {
         var addinPanel = application.CreatePanel("Revit Lookup");
         var pullButton = addinPanel.AddPullDownButton("RevitLookupButton", "RevitLookup");
         pullButton.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         pullButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
-
+        
         pullButton.AddPushButton<DashboardCommand>("Dashboard");
         ResolveSelectionButton(settingsService, pullButton);
         pullButton.AddPushButton<SnoopViewCommand>("Snoop Active view");
@@ -50,33 +50,33 @@ public static class RibbonController
         pullButton.AddPushButton<SearchElementsCommand>("Search Elements");
         pullButton.AddPushButton<EventMonitorCommand>("Event monitor");
     }
-
-    private static void ResolveSelectionButton(ISettingsService settingsService, PulldownButton parentButton)
+    
+    private static void ResolveSelectionButton(GeneralSettings settings, PulldownButton parentButton)
     {
-        if (!settingsService.UseModifyTab)
+        if (!settings.UseModifyTab)
         {
             parentButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection");
             return;
         }
-
+        
         var modifyTab = ComponentManager.Ribbon.FindTab("Modify");
         var modifyPanel = modifyTab.CreatePanel(PanelName);
-
+        
         var button = modifyPanel.AddPushButton<SnoopSelectionCommand>("Snoop\nSelection");
         button.SetImage("/RevitLookup;component/Resources/Images/RibbonIcon16.png");
         button.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
     }
-
-    public static void ReloadPanels(ISettingsService settingsService)
+    
+    public static void ReloadPanels(GeneralSettings settings)
     {
         Application.ActionEventHandler.Raise(_ =>
         {
             RibbonUtils.RemovePanel("CustomCtrl_%CustomCtrl_%Add-Ins%Revit Lookup%RevitLookupButton", PanelName);
             RibbonUtils.RemovePanel("CustomCtrl_%Revit Lookup%RevitLookup.Commands.SnoopSelectionCommand", PanelName);
-
+            
             var controlledApplication = RevitShell.CreateUiControlledApplication();
-            CreatePanel(controlledApplication, settingsService);
-
+            CreatePanel(controlledApplication, settings);
+            
             RibbonUtils.ReloadShortcuts();
         });
     }

@@ -51,8 +51,8 @@ public class XyzDescriptor : Descriptor, IDescriptorConnector
                 
                 try
                 {
-                    var dialog = new XyzVisualizationDialog(context.ServiceProvider, point);
-                    await dialog.ShowAsync();
+                    var dialog = context.ServiceProvider.GetService<XyzVisualizationDialog>();
+                    await dialog.ShowAsync(point);
                 }
                 catch (Exception exception)
                 {

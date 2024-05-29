@@ -43,8 +43,8 @@ public class MeshDescriptor(Mesh mesh) : Descriptor, IDescriptorCollector, IDesc
                 
                 try
                 {
-                    var dialog = new MeshVisualizationDialog(context.ServiceProvider, meshArg);
-                    await dialog.ShowAsync();
+                    var dialog = context.ServiceProvider.GetService<MeshVisualizationDialog>();
+                    await dialog.ShowAsync(meshArg);
                 }
                 catch (Exception exception)
                 {

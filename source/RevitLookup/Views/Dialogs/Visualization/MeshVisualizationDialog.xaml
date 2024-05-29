@@ -10,7 +10,8 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance visualization:MeshVisualizationViewModel}"
     d:DesignWidth="450"
-    d:DesignHeight="400">
+    d:DesignHeight="400"
+    Background="White">
     <StackPanel>
         <DockPanel>
             <rl:SymbolIcon
@@ -22,6 +23,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding SurfaceColor}" />
             <CheckBox
+                TabIndex="0"
                 IsChecked="{Binding ShowSurface}"
                 Content="Surface" />
         </DockPanel>
@@ -32,17 +34,16 @@
                     Text="Extrusion" />
                 <TextBlock
                     HorizontalAlignment="Right"
-                    Text="{Binding Thickness, StringFormat={}{0:F0} inch, Mode=OneWay}" />
+                    Text="{Binding Extrusion, StringFormat={}{0:F0} inch, Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
-                Minimum="{Binding MinThickness, Mode=OneTime}"
+                Minimum="{Binding MinExtrusion, Mode=OneTime}"
                 Maximum="24"
                 TickFrequency="2"
                 IsSnapToTickEnabled="True"
                 TickPlacement="BottomRight"
-                Value="{Binding Thickness}" />
+                Value="{Binding Extrusion}" />
         </StackPanel>
         <StackPanel
             Margin="0 8 0 0">
@@ -54,7 +55,6 @@
                     Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="0"
                 Maximum="100"
@@ -74,6 +74,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding MeshColor}" />
             <CheckBox
+                TabIndex="1"
                 IsChecked="{Binding ShowMeshGrid}"
                 Content="Mesh grid" />
         </DockPanel>
@@ -88,6 +89,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding NormalVectorColor}" />
             <CheckBox
+                TabIndex="2"
                 IsChecked="{Binding ShowNormalVector}"
                 Content="Normal vector" />
         </DockPanel>

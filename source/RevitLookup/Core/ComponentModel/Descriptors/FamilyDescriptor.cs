@@ -28,10 +28,7 @@ public sealed class FamilyDescriptor(Family family) : ElementDescriptor(family)
 {
     public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
-        return target switch
-        {
-            _ => null
-        };
+        return null;
     }
     
     public override void RegisterExtensions(IExtensionManager manager)

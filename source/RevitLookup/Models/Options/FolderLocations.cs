@@ -25,5 +25,6 @@ public sealed class FolderLocations
     public string RootFolder { get; set; }
     public string ConfigFolder { get; set; }
     public string DownloadFolder { get; set; }
-    public string SettingsPath { get; set; }
+    public string GeneralSettingsPath { get; set; }
+    public string RenderSettingsPath { get; set; }
 }

@@ -10,7 +10,8 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance visualization:PolylineVisualizationViewModel}"
     d:DesignWidth="450"
-    d:DesignHeight="400">
+    d:DesignHeight="400"
+    Background="White">
     <StackPanel>
         <DockPanel>
             <rl:SymbolIcon
@@ -22,6 +23,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding SurfaceColor}" />
             <CheckBox
+                TabIndex="0"
                 IsChecked="{Binding ShowSurface}"
                 Content="Surface" />
         </DockPanel>
@@ -35,7 +37,6 @@
                     Text="{Binding Diameter, StringFormat={}{0:F1} inch, Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="{Binding MinThickness, Mode=OneTime}"
                 Maximum="6"
@@ -54,7 +55,6 @@
                     Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
             </DockPanel>
             <Slider
-                IsTabStop="False"
                 Margin="0 4 0 0"
                 Minimum="0"
                 Maximum="100"
@@ -74,6 +74,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding CurveColor}" />
             <CheckBox
+                TabIndex="1"
                 IsChecked="{Binding ShowCurve}"
                 Content="Polyline" />
         </DockPanel>
@@ -88,6 +89,7 @@
                 DockPanel.Dock="Right"
                 SelectedColor="{Binding DirectionColor}" />
             <CheckBox
+                TabIndex="2"
                 IsChecked="{Binding ShowDirection}"
                 Content="Direction" />
         </DockPanel>

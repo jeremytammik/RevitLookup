@@ -20,14 +20,14 @@
 
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
 
 namespace RevitLookup.Core.Visualization;
 
-public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualizationServer> logger) : IDirectContext3DServer
+public sealed class FaceVisualizationServer : IDirectContext3DServer
 {
+    private Face _face;
     private bool _hasEffectsUpdates = true;
     private bool _hasGeometryUpdates = true;
     
@@ -36,7 +36,7 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
     private readonly RenderingBufferStorage _normalBuffer = new();
     private readonly RenderingBufferStorage _surfaceBuffer = new();
     
-    private double _thickness;
+    private double _extrusion;
     private double _transparency;
     
     private Color _meshColor;
@@ -60,9 +60,9 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
     
     public Outline GetBoundingBox(View view)
     {
-        if (face.Reference is null) return null;
+        if (_face.Reference is null) return null;
         
-        var element = face.Reference.ElementId.ToElement(view.Document)!;
+        var element = _face.Reference.ElementId.ToElement(view.Document)!;
         var boundingBox = element.get_BoundingBox(null) ?? element.get_BoundingBox(view);
         if (boundingBox is null) return null;
         
@@ -127,22 +127,25 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "Rendering error");
+            RenderFailed?.Invoke(this, new RenderFailedEventArgs
+            {
+                Exception = exception
+            });
         }
     }
     
     private void MapGeometryBuffer()
     {
-        var mesh = face.Triangulate();
-        var faceBox = face.GetBoundingBox();
+        var mesh = _face.Triangulate();
+        var faceBox = _face.GetBoundingBox();
         var center = (faceBox.Min + faceBox.Max) / 2;
-        var normal = face.ComputeNormal(center);
-        var offset = RenderGeometryHelper.InterpolateOffsetByArea(face.Area);
-        var normalLength = RenderGeometryHelper.InterpolateAxisLengthByArea(face.Area);
+        var normal = _face.ComputeNormal(center);
+        var offset = RenderGeometryHelper.InterpolateOffsetByArea(_face.Area);
+        var normalLength = RenderGeometryHelper.InterpolateAxisLengthByArea(_face.Area);
         
-        RenderHelper.MapSurfaceBuffer(_surfaceBuffer, mesh, _thickness);
-        RenderHelper.MapMeshGridBuffer(_meshGridBuffer, mesh, _thickness);
-        RenderHelper.MapNormalVectorBuffer(_normalBuffer, face.Evaluate(center) + normal * (offset + _thickness), normal, normalLength);
+        RenderHelper.MapSurfaceBuffer(_surfaceBuffer, mesh, _extrusion);
+        RenderHelper.MapMeshGridBuffer(_meshGridBuffer, mesh, _extrusion);
+        RenderHelper.MapNormalVectorBuffer(_normalBuffer, _face.Evaluate(center) + normal * (offset + _extrusion), normal, normalLength);
     }
     
     private void UpdateEffects()
@@ -190,12 +193,12 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void UpdateThickness(double value)
+    public void UpdateExtrusion(double value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
         
-        _thickness = value;
+        _extrusion = value;
         _hasGeometryUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
@@ -242,8 +245,10 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void Register()
+    public void Register(Face face)
     {
+        _face = face;
+        
         Application.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
@@ -269,4 +274,6 @@ public sealed class FaceVisualizationServer(Face face, ILogger<FaceVisualization
             application.ActiveUIDocument?.UpdateAllOpenViews();
         });
     }
+    
+    public event EventHandler<RenderFailedEventArgs> RenderFailed;
 }

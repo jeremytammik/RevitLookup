@@ -18,38 +18,13 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
+using RevitLookup.Models.Settings;
 
 namespace RevitLookup.Services.Contracts;
 
 public interface ISettingsService
 {
-    //User interface
-    ApplicationTheme Theme { get; set; }
-    WindowBackdropType Background { get; set; }
-    int TransitionDuration { get; }
-    bool UseHardwareRendering { get; set; }
-    bool ShowTimeColumn { get; set; }
-    bool ShowMemoryColumn { get; set; }
-    
-    //Window
-    bool UseSizeRestoring { get; set; }
-    double WindowWidth { get; set; }
-    double WindowHeight { get; set; }
-
-    // Descriptor builder
-    bool IncludeUnsupported { get; set; }
-    bool IncludePrivate { get; set; }
-    bool IncludeStatic { get; set; }
-    bool IncludeFields { get; set; }
-    bool IncludeEvents { get; set; }
-    bool IncludeExtensions { get; set; }
-    bool IncludeRootHierarchy { get; set; }
-
-    // Ribbon
-    bool UseModifyTab { get; set; }
-    
-    int ApplyTransition(bool value);
-    void Save();
+    public GeneralSettings GeneralSettings { get; }
+    public RenderSettings RenderSettings { get; }
+    void SaveSettings();
 }

@@ -18,78 +18,134 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Media;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization;
+using RevitLookup.Models.Render;
+using RevitLookup.Services;
+using RevitLookup.Services.Contracts;
 using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.ViewModels.Dialogs.Visualization;
 
-public sealed partial class BoundingBoxVisualizationViewModel(BoundingBoxXYZ box, ILogger<BoundingBoxVisualizationServer> logger) : ObservableObject
+public sealed partial class BoundingBoxVisualizationViewModel(
+    NotificationService notificationService,
+    ISettingsService settingsService,
+    ILogger<BoundingBoxVisualizationViewModel> logger)
+    : ObservableObject
 {
-    private readonly BoundingBoxVisualizationServer _server = new(box, logger);
+    private readonly BoundingBoxVisualizationServer _server = new();
     
-    [ObservableProperty] private double _transparency = 60;
+    [ObservableProperty] private double _transparency = settingsService.RenderSettings.BoundingBoxSettings.Transparency;
     
-    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _edgeColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _axisColor = System.Windows.Media.Color.FromArgb(255, 255, 89, 30);
+    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = settingsService.RenderSettings.BoundingBoxSettings.SurfaceColor;
+    [ObservableProperty] private System.Windows.Media.Color _edgeColor = settingsService.RenderSettings.BoundingBoxSettings.EdgeColor;
+    [ObservableProperty] private System.Windows.Media.Color _axisColor = settingsService.RenderSettings.BoundingBoxSettings.AxisColor;
     
-    [ObservableProperty] private bool _showSurface = true;
-    [ObservableProperty] private bool _showEdge = true;
-    [ObservableProperty] private bool _showAxis = true;
+    [ObservableProperty] private bool _showSurface = settingsService.RenderSettings.BoundingBoxSettings.ShowSurface;
+    [ObservableProperty] private bool _showEdge = settingsService.RenderSettings.BoundingBoxSettings.ShowEdge;
+    [ObservableProperty] private bool _showAxis = settingsService.RenderSettings.BoundingBoxSettings.ShowAxis;
     
-    public void RegisterServer()
+    public void RegisterServer(BoundingBoxXYZ box)
     {
-        OnShowSurfaceChanged(ShowSurface);
-        OnShowEdgeChanged(ShowEdge);
-        OnShowAxisChanged(ShowAxis);
+        UpdateShowSurface(ShowSurface);
+        UpdateShowEdge(ShowEdge);
+        UpdateShowAxis(ShowAxis);
         
-        OnSurfaceColorChanged(SurfaceColor);
-        OnEdgeColorChanged(EdgeColor);
-        OnAxisColorChanged(AxisColor);
+        UpdateSurfaceColor(SurfaceColor);
+        UpdateEdgeColor(EdgeColor);
+        UpdateAxisColor(AxisColor);
         
-        OnTransparencyChanged(Transparency);
+        UpdateTransparency(Transparency);
         
-        _server.Register();
+        _server.RenderFailed += HandleRenderFailure;
+        _server.Register(box);
     }
     
     public void UnregisterServer()
     {
+        _server.RenderFailed -= HandleRenderFailure;
         _server.Unregister();
     }
     
-    partial void OnSurfaceColorChanged(System.Windows.Media.Color value)
+    private void HandleRenderFailure(object sender, RenderFailedEventArgs args)
     {
-        _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
-    }
-    
-    partial void OnEdgeColorChanged(System.Windows.Media.Color value)
-    {
-        _server.UpdateEdgeColor(new Color(value.R, value.G, value.B));
-    }
-    
-    partial void OnAxisColorChanged(System.Windows.Media.Color value)
-    {
-        _server.UpdateAxisColor(new Color(value.R, value.G, value.B));
+        logger.LogError(args.Exception, "Render error");
+        notificationService.ShowError("Render error", args.Exception);
     }
     
     partial void OnTransparencyChanged(double value)
     {
-        _server.UpdateTransparency(value / 100);
+        settingsService.RenderSettings.BoundingBoxSettings.Transparency = value;
+        UpdateTransparency(value);
+    }
+    
+    partial void OnSurfaceColorChanged(System.Windows.Media.Color value)
+    {
+        settingsService.RenderSettings.BoundingBoxSettings.SurfaceColor = value;
+        UpdateSurfaceColor(value);
+    }
+    
+    partial void OnEdgeColorChanged(System.Windows.Media.Color value)
+    {
+        settingsService.RenderSettings.BoundingBoxSettings.EdgeColor = value;
+        UpdateEdgeColor(value);
+    }
+    
+    partial void OnAxisColorChanged(System.Windows.Media.Color value)
+    {
+        settingsService.RenderSettings.BoundingBoxSettings.AxisColor = value;
+        UpdateAxisColor(value);
     }
     
     partial void OnShowSurfaceChanged(bool value)
     {
-        _server.UpdateSurfaceVisibility(value);
+        settingsService.RenderSettings.BoundingBoxSettings.ShowSurface = value;
+        UpdateShowSurface(value);
     }
     
     partial void OnShowEdgeChanged(bool value)
     {
-        _server.UpdateEdgeVisibility(value);
+        settingsService.RenderSettings.BoundingBoxSettings.ShowEdge = value;
+        UpdateShowEdge(value);
     }
     
     partial void OnShowAxisChanged(bool value)
+    {
+        settingsService.RenderSettings.BoundingBoxSettings.ShowEdge = value;
+        UpdateShowAxis(value);
+    }
+    
+    private void UpdateSurfaceColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateEdgeColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateEdgeColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateAxisColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateAxisColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateTransparency(double value)
+    {
+        _server.UpdateTransparency(value / 100);
+    }
+    
+    private void UpdateShowSurface(bool value)
+    {
+        _server.UpdateSurfaceVisibility(value);
+    }
+    
+    private void UpdateShowEdge(bool value)
+    {
+        _server.UpdateEdgeVisibility(value);
+    }
+    
+    private void UpdateShowAxis(bool value)
     {
         _server.UpdateAxisVisibility(value);
     }

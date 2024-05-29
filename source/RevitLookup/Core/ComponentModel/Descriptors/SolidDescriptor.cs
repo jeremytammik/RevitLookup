@@ -96,8 +96,8 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
                 
                 try
                 {
-                    var dialog = new SolidVisualizationDialog(context.ServiceProvider, solid);
-                    await dialog.ShowAsync();
+                    var dialog = context.ServiceProvider.GetService<SolidVisualizationDialog>();
+                    await dialog.ShowAsync(solid);
                 }
                 catch (Exception exception)
                 {

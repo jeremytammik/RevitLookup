@@ -18,8 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Visualization;
+using System.Windows;
 using RevitLookup.ViewModels.Dialogs.Visualization;
 using Wpf.Ui;
 
@@ -27,38 +26,37 @@ namespace RevitLookup.Views.Dialogs.Visualization;
 
 public sealed partial class XyzVisualizationDialog
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IContentDialogService _dialogService;
     private readonly XyzVisualizationViewModel _viewModel;
     
-    public XyzVisualizationDialog(IServiceProvider serviceProvider, XYZ point)
+    public XyzVisualizationDialog(XyzVisualizationViewModel viewModel, IContentDialogService dialogService)
     {
-        var logger = serviceProvider.GetService<ILogger<XyzVisualizationServer>>();
-        
-        _serviceProvider = serviceProvider;
-        _viewModel = new XyzVisualizationViewModel(point, logger);
+        _viewModel = viewModel;
+        _dialogService = dialogService;
         
         DataContext = _viewModel;
         InitializeComponent();
-        MonitorServerConnection();
     }
     
-    public async Task ShowAsync()
+    public async Task ShowAsync(XYZ point)
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
             Title = "Visualization settings",
             Content = this,
             CloseButtonText = "Close",
-            DialogMaxWidth = 500,
-            DialogMaxHeight = 510
+            DialogHorizontalAlignment = HorizontalAlignment.Center,
+            DialogVerticalAlignment = VerticalAlignment.Center
         };
         
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        _viewModel.RegisterServer(point);
+        MonitorServerConnection();
+        
+        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
     }
     
     private void MonitorServerConnection()
     {
-        _viewModel.RegisterServer();
         Unloaded += (_, _) => _viewModel.UnregisterServer();
     }
 }

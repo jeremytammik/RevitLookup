@@ -81,8 +81,8 @@ public partial class SnoopViewBase
             .SetChecked(dataGrid.Columns[2].Visibility == Visibility.Visible)
             .SetCommand(dataGrid.Columns[2], parameter =>
             {
-                _settingsService.ShowTimeColumn = parameter.Visibility != Visibility.Visible;
-                parameter.Visibility = _settingsService.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
+                _settings.ShowTimeColumn = parameter.Visibility != Visibility.Visible;
+                parameter.Visibility = _settings.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
             });
         
         contextMenu.AddMenuItem()
@@ -90,8 +90,8 @@ public partial class SnoopViewBase
             .SetChecked(dataGrid.Columns[3].Visibility == Visibility.Visible)
             .SetCommand(dataGrid.Columns[3], parameter =>
             {
-                _settingsService.ShowMemoryColumn = parameter.Visibility != Visibility.Visible;
-                parameter.Visibility = _settingsService.ShowMemoryColumn ? Visibility.Visible : Visibility.Collapsed;
+                _settings.ShowMemoryColumn = parameter.Visibility != Visibility.Visible;
+                parameter.Visibility = _settings.ShowMemoryColumn ? Visibility.Visible : Visibility.Collapsed;
             });
         
         contextMenu.AddSeparator();
@@ -99,56 +99,56 @@ public partial class SnoopViewBase
         
         contextMenu.AddMenuItem()
             .SetHeader("Events")
-            .SetChecked(_settingsService.IncludeEvents)
-            .SetCommand(_settingsService, parameter =>
+            .SetChecked(_settings.IncludeEvents)
+            .SetCommand(_settings, parameter =>
             {
                 parameter.IncludeEvents = !parameter.IncludeEvents;
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem()
             .SetHeader("Extensions")
-            .SetChecked(_settingsService.IncludeExtensions)
-            .SetCommand(_settingsService, parameter =>
+            .SetChecked(_settings.IncludeExtensions)
+            .SetCommand(_settings, parameter =>
             {
                 parameter.IncludeExtensions = !parameter.IncludeExtensions;
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem()
             .SetHeader("Fields")
-            .SetChecked(_settingsService.IncludeFields)
-            .SetCommand(_settingsService, parameter =>
+            .SetChecked(_settings.IncludeFields)
+            .SetCommand(_settings, parameter =>
             {
                 parameter.IncludeFields = !parameter.IncludeFields;
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem()
             .SetHeader("Non-public")
-            .SetChecked(_settingsService.IncludePrivate)
-            .SetCommand(_settingsService, parameter =>
+            .SetChecked(_settings.IncludePrivate)
+            .SetCommand(_settings, parameter =>
             {
                 parameter.IncludePrivate = !parameter.IncludePrivate;
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem()
             .SetHeader("Root hierarchy")
-            .SetChecked(_settingsService.IncludeRootHierarchy)
-            .SetCommand(_settingsService, parameter =>
+            .SetChecked(_settings.IncludeRootHierarchy)
+            .SetCommand(_settings, parameter =>
             {
                 parameter.IncludeRootHierarchy = !parameter.IncludeRootHierarchy;
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem()
             .SetHeader("Static")
-            .SetChecked(_settingsService.IncludeStatic)
-            .SetCommand(_settingsService, parameter =>
+            .SetChecked(_settings.IncludeStatic)
+            .SetCommand(_settings, parameter =>
             {
                 parameter.IncludeStatic = !parameter.IncludeStatic;
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem()
             .SetHeader("Unsupported")
-            .SetChecked(_settingsService.IncludeUnsupported)
-            .SetCommand(_settingsService, parameter =>
+            .SetChecked(_settings.IncludeUnsupported)
+            .SetCommand(_settings, parameter =>
             {
                 parameter.IncludeUnsupported = !parameter.IncludeUnsupported;
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);

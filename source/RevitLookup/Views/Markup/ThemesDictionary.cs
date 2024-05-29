@@ -24,7 +24,7 @@ public sealed class ThemesDictionary : ResourceDictionary
         ApplicationTheme theme;
         try
         {
-            theme = Host.GetService<ISettingsService>().Theme;
+            theme = Host.GetService<ISettingsService>().GeneralSettings.Theme;
         }
         catch
         {
@@ -40,7 +40,7 @@ public sealed class ThemesDictionary : ResourceDictionary
             ApplicationTheme.HighContrast => "HighContrast",
             _ => "Light"
         };
-
+        
         Source = new Uri($"{ApplicationThemeManager.ThemesDictionaryPath}{themeName}.xaml", UriKind.Absolute);
     }
 }

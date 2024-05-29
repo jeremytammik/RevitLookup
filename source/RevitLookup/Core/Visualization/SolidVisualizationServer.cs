@@ -20,16 +20,17 @@
 
 using Autodesk.Revit.DB.DirectContext3D;
 using Autodesk.Revit.DB.ExternalService;
-using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization.Helpers;
 using RevitLookup.Models.Render;
 
 namespace RevitLookup.Core.Visualization;
 
-public sealed class SolidVisualizationServer(Solid solid, ILogger<SolidVisualizationServer> logger) : IDirectContext3DServer
+public sealed class SolidVisualizationServer : IDirectContext3DServer
 {
+    private Solid _solid;
     private bool _hasEffectsUpdates = true;
     private bool _hasGeometryUpdates = true;
+    private bool _hasCageUpdates = true;
     
     private readonly Guid _guid = Guid.NewGuid();
     private readonly List<RenderingBufferStorage> _faceBuffers = new(4);
@@ -63,7 +64,7 @@ public sealed class SolidVisualizationServer(Solid solid, ILogger<SolidVisualiza
     
     public Outline GetBoundingBox(View view)
     {
-        var boundingBox = solid.GetBoundingBox();
+        var boundingBox = _solid.GetBoundingBox();
         var minPoint = boundingBox.Transform.OfPoint(boundingBox.Min);
         var maxPoint = boundingBox.Transform.OfPoint(boundingBox.Max);
         
@@ -74,12 +75,16 @@ public sealed class SolidVisualizationServer(Solid solid, ILogger<SolidVisualiza
     {
         try
         {
-            if (_hasGeometryUpdates ||
-                _faceBuffers.Any(storage => !storage.IsValid()) || _edgeBuffers.Any(storage => !storage.IsValid()) ||
-                !_cageSurfaceBuffer.IsValid() || !_cageFrameBuffer.IsValid())
+            if (_hasGeometryUpdates || _faceBuffers.Any(storage => !storage.IsValid()) || _edgeBuffers.Any(storage => !storage.IsValid()))
             {
                 MapGeometryBuffer();
                 _hasGeometryUpdates = false;
+            }
+            
+            if (_hasCageUpdates || !_cageSurfaceBuffer.IsValid() || !_cageFrameBuffer.IsValid())
+            {
+                MapCageBuffers();
+                _hasCageUpdates = false;
             }
             
             if (_hasEffectsUpdates)
@@ -145,27 +150,28 @@ public sealed class SolidVisualizationServer(Solid solid, ILogger<SolidVisualiza
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "Rendering error");
+            RenderFailed?.Invoke(this, new RenderFailedEventArgs
+            {
+                Exception = exception
+            });
         }
     }
     
     private void MapGeometryBuffer()
     {
         var faceIndex = 0;
-        foreach (Face face in solid.Faces)
+        foreach (Face face in _solid.Faces)
         {
             var buffer = CreateOrUpdateBuffer(_faceBuffers, faceIndex++);
             MapFaceBuffers(buffer, face);
         }
         
         var edgeIndex = 0;
-        foreach (Edge edge in solid.Edges)
+        foreach (Edge edge in _solid.Edges)
         {
             var buffer = CreateOrUpdateBuffer(_edgeBuffers, edgeIndex++);
             MapEdgeBuffers(buffer, edge);
         }
-        
-        MapCageBuffers();
     }
     
     private void MapCageBuffers()
@@ -173,7 +179,7 @@ public sealed class SolidVisualizationServer(Solid solid, ILogger<SolidVisualiza
         var maxScaleVector = new XYZ(1, 1, 1);
         var minScaleVector = -maxScaleVector;
         
-        var box = solid.GetBoundingBox();
+        var box = _solid.GetBoundingBox();
         var scaledBox = new BoundingBoxXYZ
         {
             Min = box.Transform.OfPoint(box.Min) + minScaleVector * _cageSize,
@@ -308,7 +314,7 @@ public sealed class SolidVisualizationServer(Solid solid, ILogger<SolidVisualiza
         if (uiDocument is null) return;
         
         _cageSize = value;
-        _hasGeometryUpdates = true;
+        _hasCageUpdates = true;
         
         uiDocument.UpdateAllOpenViews();
     }
@@ -343,8 +349,10 @@ public sealed class SolidVisualizationServer(Solid solid, ILogger<SolidVisualiza
         uiDocument.UpdateAllOpenViews();
     }
     
-    public void Register()
+    public void Register(Solid solid)
     {
+        _solid = solid;
+        
         Application.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
@@ -370,4 +378,6 @@ public sealed class SolidVisualizationServer(Solid solid, ILogger<SolidVisualiza
             application.ActiveUIDocument?.UpdateAllOpenViews();
         });
     }
+    
+    public event EventHandler<RenderFailedEventArgs> RenderFailed;
 }

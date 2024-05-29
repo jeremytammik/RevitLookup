@@ -18,45 +18,51 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
+using RevitLookup.Services.Contracts;
 using Wpf.Ui;
-using FaceVisualizationViewModel = RevitLookup.ViewModels.Dialogs.Visualization.FaceVisualizationViewModel;
+using Wpf.Ui.Controls;
 
-namespace RevitLookup.Views.Dialogs.Visualization;
+namespace RevitLookup.Views.Dialogs;
 
-public sealed partial class FaceVisualizationDialog
+public sealed partial class ResetSettingsDialog
 {
     private readonly IContentDialogService _dialogService;
-    private readonly FaceVisualizationViewModel _viewModel;
+    private readonly ISettingsService _settingsService;
     
-    public FaceVisualizationDialog(FaceVisualizationViewModel viewModel, IContentDialogService dialogService)
+    public ResetSettingsDialog(IContentDialogService dialogService, ISettingsService settingsService)
     {
-        _viewModel = viewModel;
         _dialogService = dialogService;
-        
-        DataContext = _viewModel;
+        _settingsService = settingsService;
         InitializeComponent();
     }
     
-    public async Task ShowAsync(Face face)
+    public List<ISettings> SelectedSettings
+    {
+        get
+        {
+            var checkedSettings = new List<ISettings>();
+            if (GeneralBox.IsChecked == true) checkedSettings.Add(_settingsService.GeneralSettings);
+            if (RenderBox.IsChecked == true) checkedSettings.Add(_settingsService.RenderSettings);
+            
+            return checkedSettings;
+        }
+    }
+    
+    public async Task<bool> ShowAsync()
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
-            Title = "Visualization settings",
+            Title = "Reset user settings",
             Content = this,
+            PrimaryButtonText = "Reset",
             CloseButtonText = "Close",
-            DialogHorizontalAlignment = HorizontalAlignment.Center,
-            DialogVerticalAlignment = VerticalAlignment.Center
+            DialogMaxHeight = 300,
+            DialogMaxWidth = 400
         };
         
-        _viewModel.RegisterServer(face);
-        MonitorServerConnection();
+        var dialogResult = await _dialogService.ShowSimpleDialogAsync(dialogOptions);
+        if (dialogResult != ContentDialogResult.Primary) return false;
         
-        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
-    }
-    
-    private void MonitorServerConnection()
-    {
-        Unloaded += (_, _) => _viewModel.UnregisterServer();
+        return true;
     }
 }

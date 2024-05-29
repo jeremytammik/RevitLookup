@@ -18,100 +18,160 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Diagnostics.CodeAnalysis;
-using System.Windows.Media;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Visualization;
+using RevitLookup.Models.Render;
+using RevitLookup.Services;
+using RevitLookup.Services.Contracts;
 using Color = Autodesk.Revit.DB.Color;
 
 namespace RevitLookup.ViewModels.Dialogs.Visualization;
 
-[SuppressMessage("ReSharper", "ContextualLoggerProblem")]
-public sealed partial class PolylineVisualizationViewModel : ObservableObject
+public sealed partial class PolylineVisualizationViewModel(
+    NotificationService notificationService,
+    ISettingsService settingsService,
+    ILogger<PolylineVisualizationViewModel> logger)
+    : ObservableObject
 {
-    private readonly PolylineVisualizationServer _server;
+    private readonly PolylineVisualizationServer _server = new();
     
-    [ObservableProperty] private double _diameter = 2;
-    [ObservableProperty] private double _transparency = 20;
+    [ObservableProperty] private double _diameter = settingsService.RenderSettings.PolylineSettings.Diameter;
+    [ObservableProperty] private double _transparency = settingsService.RenderSettings.PolylineSettings.Transparency;
     
-    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = Colors.DodgerBlue;
-    [ObservableProperty] private System.Windows.Media.Color _curveColor = System.Windows.Media.Color.FromArgb(255, 30, 81, 255);
-    [ObservableProperty] private System.Windows.Media.Color _directionColor = System.Windows.Media.Color.FromArgb(255, 255, 89, 30);
+    [ObservableProperty] private System.Windows.Media.Color _surfaceColor = settingsService.RenderSettings.PolylineSettings.SurfaceColor;
+    [ObservableProperty] private System.Windows.Media.Color _curveColor = settingsService.RenderSettings.PolylineSettings.CurveColor;
+    [ObservableProperty] private System.Windows.Media.Color _directionColor = settingsService.RenderSettings.PolylineSettings.DirectionColor;
     
-    [ObservableProperty] private bool _showSurface = true;
-    [ObservableProperty] private bool _showCurve = true;
-    [ObservableProperty] private bool _showDirection = true;
+    [ObservableProperty] private bool _showSurface = settingsService.RenderSettings.PolylineSettings.ShowSurface;
+    [ObservableProperty] private bool _showCurve = settingsService.RenderSettings.PolylineSettings.ShowCurve;
+    [ObservableProperty] private bool _showDirection = settingsService.RenderSettings.PolylineSettings.ShowDirection;
     
+    public double MinThickness => settingsService.RenderSettings.PolylineSettings.MinThickness;
     
-    public PolylineVisualizationViewModel(Edge edge, ILogger<PolylineVisualizationServer> logger)
+    public void RegisterServer(Curve curve)
     {
-        _server = new PolylineVisualizationServer(edge, logger);
+        Initialize();
+        _server.RenderFailed += HandleRenderFailure;
+        _server.Register(curve.Tessellate());
     }
     
-    public PolylineVisualizationViewModel(Curve curve, ILogger<PolylineVisualizationServer> logger)
+    public void RegisterServer(Edge edge)
     {
-        _server = new PolylineVisualizationServer(curve, logger);
+        Initialize();
+        _server.RenderFailed += HandleRenderFailure;
+        _server.Register(edge.Tessellate());
     }
     
-    public double MinThickness => 0.1;
-    
-    public void RegisterServer()
+    private void Initialize()
     {
-        OnShowSurfaceChanged(ShowSurface);
-        OnShowCurveChanged(ShowCurve);
-        OnShowDirectionChanged(ShowDirection);
+        UpdateShowSurface(ShowSurface);
+        UpdateShowCurve(ShowCurve);
+        UpdateShowDirection(ShowDirection);
         
-        OnSurfaceColorChanged(SurfaceColor);
-        OnCurveColorChanged(CurveColor);
-        OnDirectionColorChanged(DirectionColor);
+        UpdateSurfaceColor(SurfaceColor);
+        UpdateCurveColor(CurveColor);
+        UpdateDirectionColor(DirectionColor);
         
-        OnTransparencyChanged(Transparency);
-        OnDiameterChanged(Diameter);
-        
-        _server.Register();
+        UpdateTransparency(Transparency);
+        UpdateDiameter(Diameter);
     }
     
     public void UnregisterServer()
     {
+        _server.RenderFailed -= HandleRenderFailure;
         _server.Unregister();
+    }
+    
+    private void HandleRenderFailure(object sender, RenderFailedEventArgs args)
+    {
+        logger.LogError(args.Exception, "Render error");
+        notificationService.ShowError("Render error", args.Exception);
     }
     
     partial void OnSurfaceColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.PolylineSettings.SurfaceColor = value;
+        UpdateSurfaceColor(value);
     }
     
     partial void OnCurveColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateCurveColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.PolylineSettings.CurveColor = value;
+        UpdateCurveColor(value);
     }
     
     partial void OnDirectionColorChanged(System.Windows.Media.Color value)
     {
-        _server.UpdateDirectionColor(new Color(value.R, value.G, value.B));
+        settingsService.RenderSettings.PolylineSettings.DirectionColor = value;
+        UpdateDirectionColor(value);
     }
     
     partial void OnDiameterChanged(double value)
     {
-        _server.UpdateDiameter(value / 12);
+        settingsService.RenderSettings.PolylineSettings.Diameter = value;
+        UpdateDiameter(value);
     }
     
     partial void OnTransparencyChanged(double value)
     {
-        _server.UpdateTransparency(value / 100);
+        settingsService.RenderSettings.PolylineSettings.Transparency = value;
+        UpdateTransparency(value);
     }
     
     partial void OnShowSurfaceChanged(bool value)
     {
-        _server.UpdateSurfaceVisibility(value);
+        settingsService.RenderSettings.PolylineSettings.ShowSurface = value;
+        UpdateShowSurface(value);
     }
     
     partial void OnShowCurveChanged(bool value)
     {
-        _server.UpdateCurveVisibility(value);
+        settingsService.RenderSettings.PolylineSettings.ShowCurve = value;
+        UpdateShowCurve(value);
     }
     
     partial void OnShowDirectionChanged(bool value)
+    {
+        settingsService.RenderSettings.PolylineSettings.ShowDirection = value;
+        UpdateShowDirection(value);
+    }
+    
+    private void UpdateSurfaceColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateSurfaceColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateCurveColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateCurveColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateDirectionColor(System.Windows.Media.Color value)
+    {
+        _server.UpdateDirectionColor(new Color(value.R, value.G, value.B));
+    }
+    
+    private void UpdateDiameter(double value)
+    {
+        _server.UpdateDiameter(value / 12);
+    }
+    
+    private void UpdateTransparency(double value)
+    {
+        _server.UpdateTransparency(value / 100);
+    }
+    
+    private void UpdateShowSurface(bool value)
+    {
+        _server.UpdateSurfaceVisibility(value);
+    }
+    
+    private void UpdateShowCurve(bool value)
+    {
+        _server.UpdateCurveVisibility(value);
+    }
+    
+    private void UpdateShowDirection(bool value)
     {
         _server.UpdateDirectionVisibility(value);
     }
