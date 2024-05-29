@@ -32,7 +32,7 @@ public sealed class ThemesDictionary : ResourceDictionary
             theme = ApplicationTheme.Light;
         }
 #else
-        var theme = Host.GetService<ISettingsService>().Theme;
+        var theme = Host.GetService<ISettingsService>().GeneralSettings.Theme;
 #endif
         var themeName = theme switch
         {
