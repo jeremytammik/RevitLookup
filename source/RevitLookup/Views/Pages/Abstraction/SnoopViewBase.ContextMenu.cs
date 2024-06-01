@@ -21,8 +21,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
+using RevitLookup.Services;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
 using Visibility = System.Windows.Visibility;
@@ -52,7 +54,20 @@ public partial class SnoopViewBase
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
             .SetShortcut(Key.F1);
         
-        if (descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu);
+        if (descriptor is not IDescriptorConnector connector) return;
+        
+        try
+        {
+            connector.RegisterMenu(contextMenu);
+        }
+        catch (Exception exception)
+        {
+            var logger = ViewModel.ServiceProvider.GetService<ILogger<SnoopViewBase>>();
+            var notificationService = ViewModel.ServiceProvider.GetService<NotificationService>();
+            
+            logger.LogError(exception, "RegisterMenu error");
+            notificationService.ShowError("RegisterMenu error", exception);
+        }
     }
     
     /// <summary>
@@ -184,6 +199,19 @@ public partial class SnoopViewBase
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName, parameter.Name))
             .SetShortcut(Key.F1);
         
-        if (descriptor.Value.Descriptor is IDescriptorConnector connector) connector.RegisterMenu(contextMenu);
+        if (descriptor.Value.Descriptor is not IDescriptorConnector connector) return;
+        
+        try
+        {
+            connector.RegisterMenu(contextMenu);
+        }
+        catch (Exception exception)
+        {
+            var logger = ViewModel.ServiceProvider.GetService<ILogger<SnoopViewBase>>();
+            var notificationService = ViewModel.ServiceProvider.GetService<NotificationService>();
+            
+            logger.LogError(exception, "RegisterMenu error");
+            notificationService.ShowError("RegisterMenu error", exception);
+        }
     }
 }
