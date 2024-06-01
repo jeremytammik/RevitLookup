@@ -57,6 +57,8 @@ public sealed partial class UnitsDialog
             Content = this,
             CloseButtonText = "Close",
             DialogMaxWidth = 1000,
+            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
@@ -72,6 +74,8 @@ public sealed partial class UnitsDialog
             Content = this,
             CloseButtonText = "Close",
             DialogMaxWidth = 600,
+            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
@@ -87,6 +91,8 @@ public sealed partial class UnitsDialog
             Content = this,
             CloseButtonText = "Close",
             DialogMaxWidth = 1100,
+            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
         ClassColumn.Visibility = Visibility.Visible;

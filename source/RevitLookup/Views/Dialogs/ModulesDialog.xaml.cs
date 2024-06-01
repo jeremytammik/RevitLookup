@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows.Controls;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
 
@@ -26,14 +27,14 @@ namespace RevitLookup.Views.Dialogs;
 public sealed partial class ModulesDialog
 {
     private readonly IServiceProvider _serviceProvider;
-
+    
     public ModulesDialog(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
         DataContext = new ModulesViewModel();
         InitializeComponent();
     }
-
+    
     public async Task ShowAsync()
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
@@ -41,9 +42,11 @@ public sealed partial class ModulesDialog
             Title = "Modules",
             Content = this,
             CloseButtonText = "Close",
-            DialogMaxWidth = 1500
+            DialogMaxWidth = 1500,
+            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
-
+        
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
     }
 }

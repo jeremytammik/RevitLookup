@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
+using System.Windows.Controls;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
@@ -33,7 +34,7 @@ public sealed partial class SearchElementsDialog
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly SearchElementsViewModel _viewModel;
-
+    
     public SearchElementsDialog(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
@@ -41,7 +42,7 @@ public sealed partial class SearchElementsDialog
         DataContext = _viewModel;
         InitializeComponent();
     }
-
+    
     public async Task ShowAsync()
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
@@ -51,12 +52,14 @@ public sealed partial class SearchElementsDialog
             CloseButtonText = "Close",
             PrimaryButtonText = "Search",
             DialogVerticalAlignment = VerticalAlignment.Center,
-            DialogHorizontalAlignment = HorizontalAlignment.Center
+            DialogHorizontalAlignment = HorizontalAlignment.Center,
+            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
-
+        
         var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
         if (dialogResult != ContentDialogResult.Primary) return;
-
+        
         var elements = _viewModel.SearchElements();
         if (elements.Count == 0)
         {
@@ -64,7 +67,7 @@ public sealed partial class SearchElementsDialog
             notificationService.ShowWarning("Search elements", "There are no elements found for your request");
             return;
         }
-
+        
         _serviceProvider.GetService<ISnoopVisualService>().Snoop(new SnoopableObject(elements));
         _serviceProvider.GetService<INavigationService>().Navigate(typeof(SnoopView));
     }

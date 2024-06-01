@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Windows.Controls;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
 
@@ -26,7 +27,7 @@ namespace RevitLookup.Views.Dialogs;
 public sealed partial class FamilySizeTableShowDialog
 {
     private readonly IServiceProvider _serviceProvider;
-
+    
     public FamilySizeTableShowDialog(IServiceProvider serviceProvider, FamilySizeTable table)
     {
         DataContext = new FamilySizeTableShowDialogViewModel(table);
@@ -40,7 +41,9 @@ public sealed partial class FamilySizeTableShowDialog
         {
             Title = "Family size table",
             Content = this,
-            CloseButtonText = "Close"
+            CloseButtonText = "Close",
+            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);

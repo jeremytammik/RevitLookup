@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using RevitLookup.Utils;
 using RevitLookup.ViewModels.Dialogs;
@@ -44,7 +45,9 @@ public sealed partial class OpenSourceDialog
             Title = "Third-Party Software",
             Content = this,
             CloseButtonText = "Close",
-            DialogMaxWidth = 600
+            DialogMaxWidth = 600,
+            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
         await _dialogService.ShowSimpleDialogAsync(dialogOptions);

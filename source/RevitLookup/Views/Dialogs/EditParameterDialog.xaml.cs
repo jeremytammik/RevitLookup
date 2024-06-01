@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
+using System.Windows.Controls;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
@@ -30,7 +31,7 @@ public sealed partial class EditParameterDialog
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly EditParameterViewModel _viewModel;
-
+    
     public EditParameterDialog(IServiceProvider serviceProvider, Parameter parameter)
     {
         _serviceProvider = serviceProvider;
@@ -49,7 +50,9 @@ public sealed partial class EditParameterDialog
             PrimaryButtonText = "Save",
             CloseButtonText = "Close",
             DialogVerticalAlignment = VerticalAlignment.Center,
-            DialogHorizontalAlignment = HorizontalAlignment.Center
+            DialogHorizontalAlignment = HorizontalAlignment.Center,
+            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
+            VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
         var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);

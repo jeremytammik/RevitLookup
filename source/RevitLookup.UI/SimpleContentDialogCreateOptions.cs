@@ -3,6 +3,8 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
+using System.Windows.Controls;
+
 namespace Wpf.Ui;
 
 /// <summary>
@@ -58,4 +60,16 @@ public class SimpleContentDialogCreateOptions
     /// </summary>
     /// <returns>VerticalAlignment.Stretch by default</returns>
     public VerticalAlignment DialogVerticalAlignment { get; set; } = VerticalAlignment.Stretch;
+
+    /// <summary>
+    /// Gets or sets a dialog Horizontal Scroll Visibility.
+    /// </summary>
+    /// <returns>ScrollBarVisibility.Hidden by default</returns>
+    public ScrollBarVisibility HorizontalScrollVisibility { get; set; } = ScrollBarVisibility.Hidden;
+
+    /// <summary>
+    /// Gets or sets a dialog Vertical Scroll Visibility.
+    /// </summary>
+    /// <returns>ScrollBarVisibility.Hidden by default</returns>
+    public ScrollBarVisibility VerticalScrollVisibility { get; set; } = ScrollBarVisibility.Hidden;
 }

@@ -100,6 +100,9 @@ public class ContentDialogService : IContentDialogService
             VerticalContentAlignment = options.DialogVerticalAlignment
         };
 
+        ScrollViewer.SetHorizontalScrollBarVisibility(dialog, options.HorizontalScrollVisibility);
+        ScrollViewer.SetVerticalScrollBarVisibility(dialog, options.VerticalScrollVisibility);
+
         return dialog.ShowAsync(cancellationToken);
     }
 }

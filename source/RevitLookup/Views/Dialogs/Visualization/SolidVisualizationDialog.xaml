@@ -31,7 +31,7 @@
             Margin="0 8 0 0">
             <DockPanel>
                 <TextBlock
-                    Text="Face transparency" />
+                    Text="Transparency" />
                 <TextBlock
                     HorizontalAlignment="Right"
                     Text="{Binding Transparency, StringFormat={}{0} %,Mode=OneWay}" />
