@@ -71,7 +71,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
 #endif
         
         contextMenu.AddMenuItem("VisualizeMenuItem")
-            .SetAvailability(_curve.IsBound && !_curve.IsCyclic && _curve.ApproximateLength > 1e-6)
+            .SetAvailability((_curve.IsBound || _curve.IsCyclic) && _curve.ApproximateLength > 1e-6)
             .SetCommand(_curve, async curve =>
             {
                 if (Context.UiDocument is null) return;
