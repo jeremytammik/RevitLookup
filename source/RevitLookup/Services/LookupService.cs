@@ -147,6 +147,10 @@ public sealed class LookupService : ILookupService
             dispatcher = Dispatcher.FromThread(thread);
         }
         
+        // We must yield
+        // Sometimes the Dispatcher is unavailable for current thread
+        Thread.Sleep(1);
+        
         _dispatcher = dispatcher;
     }
     
@@ -172,7 +176,14 @@ public sealed class LookupService : ILookupService
         
         public void Snoop(SnoopableType snoopableType)
         {
-            _activeTask = _visualService!.SnoopAsync(snoopableType);
+            if (_activeTask is null || _activeTask.IsCompleted)
+            {
+                _activeTask = _visualService!.SnoopAsync(snoopableType);
+            }
+            else
+            {
+                _activeTask = _activeTask.ContinueWith(_ => _visualService!.SnoopAsync(snoopableType), TaskScheduler.FromCurrentSynchronizationContext());
+            }
         }
         
         public void Snoop(SnoopableObject snoopableObject)
@@ -192,7 +203,7 @@ public sealed class LookupService : ILookupService
         
         public void Show<T>() where T : Page
         {
-            if (_activeTask is null)
+            if (_activeTask is null || _activeTask.IsCompleted)
             {
                 ShowPage<T>();
             }
@@ -204,7 +215,7 @@ public sealed class LookupService : ILookupService
         
         public void Execute<T>(Action<T> handler) where T : class
         {
-            if (_activeTask is null)
+            if (_activeTask is null || _activeTask.IsCompleted)
             {
                 InvokeHandler(handler);
             }
