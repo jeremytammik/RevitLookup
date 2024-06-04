@@ -1,21 +1,100 @@
 # Changelog
 
+# 2025-06-06 **2025.0.5**
+
+## RevitLookup ✨1000 Stars on GitHub
+
+We're proud to share that RevitLookup has achieved 1000 stars on GitHub!
+This milestone is a testament to its value and the dedication of our community.
+Thank you for helping us reach this landmark!
+
+<a href="https://star-history.com/#jeremytammik/RevitLookup&Date">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=jeremytammik/RevitLookup&type=Date&theme=dark" />
+        <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=jeremytammik/RevitLookup&type=Date" />
+        <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=jeremytammik/RevitLookup&type=Date" />
+    </picture>
+</a>
+
+To celebrate it, we are excited to introduce a major new feature in this release that will transform your interaction with models, offering a deeper understanding of the geometric
+objects that constitute your models.
+
+## Introducing Geometry Visualization
+
+This release includes comprehensive Geometry Visualization capabilities, enabling users to visualize various geometry objects directly within the RevitLookup interface.
+
+In Revit, geometry is at the core of every model.
+Whether you are dealing with simple shapes or intricate structures, having the ability to visualize geometric elements can significantly improve your workflow, analysis and
+understanding of the BIM.
+
+To illustrate the power of these visualization capabilities, here's a glimpse of the geometric objects you can now explore directly within RevitLookup:
+
+| Geometry    | Illustration                                                                                                     |
+|-------------|------------------------------------------------------------------------------------------------------------------|
+| Mesh        | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/84cd42fe-5248-4c13-8f30-0869396ad3b8) |
+| Face        | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/15ba15da-325e-499f-935e-fa5cc9b71390) |
+| Solid       | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/feacdb95-e5ea-43d0-9aef-b6a1f5116b37) |
+| Curve       | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/d08b0bf3-0622-4f49-b999-4365a0955129) |
+| Edge        | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/30291e03-8eb8-4de2-a54f-0c288ee4dcb2) |
+| BoundingBox | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/f800a552-86df-4554-8d5b-c53561720f0d) |
+| XYZ         | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/72b3f7cb-279c-4465-9cff-7918e0aaf37c) |
+
+For detailed documentation, visit: https://github.com/jeremytammik/RevitLookup/wiki/Visualization
+
+Feel free to leave comments and suggestions regarding visualization here: https://github.com/jeremytammik/RevitLookup/pull/245.
+Your input helps us improve this tool for everyone in the Revit community.
+
+## Improvements
+
+- **BoundingBoxXYZ** class support
+    - Added `Bounds` method support
+    - Added `MinEnabled` method support
+    - Added `MaxEnabled` method support
+    - Added `BoundEnabled` method support
+- Added **Edit parameter** icon
+- Added **Select** context menu action for Reference type
+- Added **Export family size table** for FamilySizeTableManager type by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/244
+- Added new extensions:
+
+| Type           | Extension                                 | Description                                                        |
+|:---------------|-------------------------------------------|--------------------------------------------------------------------|
+| Application    | GetFormulaFunctions                       | Gets list of function names supported by formula engine            |
+| Application    | GetFormulaOperators                       | Gets list of operator names supported by formula engine            |
+| BoundingBoxXYZ | Centroid                                  | Gets the bounding box center point                                 |
+| BoundingBoxXYZ | Vertices                                  | Gets list of bounding box vertices                                 |
+| BoundingBoxXYZ | Volume                                    | Evaluate bounding box volume                                       |
+| BoundingBoxXYZ | SurfaceArea                               | Evaluate bounding box surface area                                 |
+| Document       | GetAllGlobalParameters                    | Returns all global parameters available in the given document      |
+| Document       | GetLightGroupManager                      | Gets a light group manager object from the given document          |
+| Document       | GetTemporaryGraphicsManager               | Gets a TemporaryGraphicsManager reference of the document          |
+| Document       | GetAnalyticalToPhysicalAssociationManager | Gets a AnalyticalToPhysicalAssociationManager for this document    |
+| Document       | GetFamilySizeTableManager                 | Gets a FamilySizeTableManager from a Family                        |
+| UIApplication  | CurrentTheme                              | Gets a current theme                                               |
+| UIApplication  | CurrentCanvasTheme                        | Gets a current canvas theme                                        |
+| UIApplication  | FollowSystemColorTheme                    | Indicate if the overall theme follows operating system color theme |
+| View           | GetSpatialFieldManager                    | Retrieves manager object for the given view                        |
+
+Hope everyone enjoys the new release. Thanks!
+
+Made with love by @Nice3point 🕊️
+
 # 2025-05-17 **2025.0.4**
 
 A new Release focused on improving core functionalities and robustness of the product.
 
 ## Improvements
 
-- Introducing a preview feature for **Family Size Table**, making it easier to manage and visualize family sizes by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/236
+- Introducing a preview feature for **Family Size Table**, making it easier to manage and visualize family sizes by @SergeyNefyodov
+  in https://github.com/jeremytammik/RevitLookup/pull/236
   ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/57001fab-cc5b-4973-a42a-70ffe3420b69)
   To access it:
-  - Enable **Show Extensions** in the view menu
-  - Select any **FamilyInstance**
-  - Navigate to the **Symbol**
-  - Navigate to the **Family** (or just search for Family class objects in the **Snoop database** command)
-  - Navigate to the **GetFamilySizeTableManager** method
-  - Navigate to the **GetSizeTable** method
-  - Right-click on one of the tables and select the **Show table** command
+    - Enable **Show Extensions** in the view menu
+    - Select any **FamilyInstance**
+    - Navigate to the **Symbol**
+    - Navigate to the **Family** (or just search for Family class objects in the **Snoop database** command)
+    - Navigate to the **GetFamilySizeTableManager** method
+    - Navigate to the **GetSizeTable** method
+    - Right-click on one of the tables and select the **Show table** command
 
   _Note: Family size table is currently in read-only mode_
 
@@ -23,11 +102,12 @@ A new Release focused on improving core functionalities and robustness of the pr
 - Added new fresh, intuitive icons to the context menu for a more user-friendly interface.
 - Refined labels, class names, and exception messages
 
-## Bugs 
+## Bugs
 
 - Resolved an issue where the delete action was not displayed in the context menu for ElementType classes
 - Fixed the context menu display issue for Element classes, broken in previous release
-- Fixed the order of descriptors to prevent missing extensions and context menu items in some classes, broken in previous release by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/235
+- Fixed the order of descriptors to prevent missing extensions and context menu items in some classes, broken in previous release by @SergeyNefyodov
+  in https://github.com/jeremytammik/RevitLookup/pull/235
 
 # 2025-05-13 **2025.0.3**
 
@@ -36,7 +116,7 @@ A new Release focused on improving core functionalities and robustness of the pr
 - **Memory diagnoser**
   ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/dfa0fc23-5a63-452d-8a73-25009424c99c)
 
-  Memory column contains the size of allocated **managed memory**. 
+  Memory column contains the size of allocated **managed memory**.
   Native ETW and allocations in C++ code are not included to avoid severe performance degradation.
 
 ## Improvements
@@ -80,11 +160,11 @@ A new Release focused on improving core functionalities and robustness of the pr
     - Added `DatumPlane.GetCurvesInView` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
     - Added `DatumPlane.GetLeader` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/232
 - Extensions:
-  - Added Family class extension `FamilySizeTableManager.GetFamilySizeTableManager` by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/233
-  - Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds`
-  - Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance`
-  - Added Solid class extension `SolidUtils.SplitVolumes`
-  - Added Solid class extension `SolidUtils.IsValidForTessellation`
+    - Added Family class extension `FamilySizeTableManager.GetFamilySizeTableManager` by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/233
+    - Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.GetInstancePlacementPointElementRefIds`
+    - Added FamilyInstance class extension `AdaptiveComponentInstanceUtils.IsAdaptiveComponentInstance`
+    - Added Solid class extension `SolidUtils.SplitVolumes`
+    - Added Solid class extension `SolidUtils.IsValidForTessellation`
 
 # 2025-05-01 **2025.0.2**
 
@@ -96,7 +176,7 @@ A new Release focused on improving core functionalities and robustness of the pr
 
   Messages include detailed crash information, including StackTrace.
   It works for Revit in general and outputs all Domain fatal errors, including failures caused by third-party plugins.
-  
+
   Journals path: `%LocalAppData%\Autodesk\Revit`
 
 - Displaying the original exception type in tooltips, instead of TargetInvocationException.
@@ -106,89 +186,89 @@ A new Release focused on improving core functionalities and robustness of the pr
 ## Improvements
 
 - View class support
-  - Added `View.GetCategoryHidden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
-  - Added `View.GetCategoryOverrides` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
-  - Added `View.GetIsFilterEnabled` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
-  - Added `View.GetFilterOverrides` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
-  - Added `View.GetFilterVisibility` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
-  - Added `View.GetWorksetVisibility` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
-  - Added `View.GetColorFillSchemeId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
-  - Added `View.IsCategoryOverridable` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
-  - Added `View.IsFilterApplied` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
-  - Added `View.IsInTemporaryViewMode` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
-  - Added `View.IsValidViewTemplate` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
-  - Added `View.IsWorksetVisible` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
-  - Added `View.CanCategoryBeHidden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
-  - Added `View.CanCategoryBeHiddenTemporary` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
-  - Added `View.CanViewBeDuplicated` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
-  - Added `View.SupportsWorksharingDisplayMode` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
+    - Added `View.GetCategoryHidden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+    - Added `View.GetCategoryOverrides` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+    - Added `View.GetIsFilterEnabled` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+    - Added `View.GetFilterOverrides` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+    - Added `View.GetFilterVisibility` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+    - Added `View.GetWorksetVisibility` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+    - Added `View.GetColorFillSchemeId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/217
+    - Added `View.IsCategoryOverridable` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+    - Added `View.IsFilterApplied` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+    - Added `View.IsInTemporaryViewMode` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+    - Added `View.IsValidViewTemplate` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+    - Added `View.IsWorksetVisible` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/218
+    - Added `View.CanCategoryBeHidden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
+    - Added `View.CanCategoryBeHiddenTemporary` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
+    - Added `View.CanViewBeDuplicated` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
+    - Added `View.SupportsWorksharingDisplayMode` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/219
 - ScheduleDefinition class support
-  - Added `ScheduleDefinition.CanFilterByGlobalParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.CanFilterByParameterExistence` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.CanFilterBySubstring` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.CanFilterByValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.CanFilterByValuePresence` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.CanSortByField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.GetField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.GetFieldId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.GetFieldIndex` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.GetFilter` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.GetSortGroupField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-  - Added `ScheduleDefinition.IsValidCategoryForEmbeddedSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
-- ViewSchedule class support 
-  - Added `ViewSchedule.GetStripedRowsColor` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.IsValidTextTypeId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultNameForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultNameForMaterialTakeoff` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultNameForSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultParameterNameForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.IsValidCategoryForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.IsValidCategoryForMaterialTakeoff` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.IsValidCategoryForSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultNameForKeynoteLegend` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultNameForNoteBlock` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultNameForRevisionSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultNameForSheetList` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetDefaultNameForViewList` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetValidFamiliesForNoteBlock` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetScheduleInstances` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Added `ViewSchedule.GetSegmentHeight` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
-  - Disabled `ViewSchedule.RefreshData`
+    - Added `ScheduleDefinition.CanFilterByGlobalParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.CanFilterByParameterExistence` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.CanFilterBySubstring` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.CanFilterByValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.CanFilterByValuePresence` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.CanSortByField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.GetField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.GetFieldId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.GetFieldIndex` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.GetFilter` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.GetSortGroupField` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+    - Added `ScheduleDefinition.IsValidCategoryForEmbeddedSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/220
+- ViewSchedule class support
+    - Added `ViewSchedule.GetStripedRowsColor` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.IsValidTextTypeId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultNameForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultNameForMaterialTakeoff` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultNameForSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultParameterNameForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.IsValidCategoryForKeySchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.IsValidCategoryForMaterialTakeoff` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.IsValidCategoryForSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultNameForKeynoteLegend` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultNameForNoteBlock` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultNameForRevisionSchedule` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultNameForSheetList` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetDefaultNameForViewList` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetValidFamiliesForNoteBlock` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetScheduleInstances` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Added `ViewSchedule.GetSegmentHeight` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/221
+    - Disabled `ViewSchedule.RefreshData`
 - TableData class support
-  - Added `TableData.GetSectionData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
-  - Added `TableData.IsValidZoomLevel` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
+    - Added `TableData.GetSectionData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
+    - Added `TableData.IsValidZoomLevel` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/223
 - TableSectionData class support
-  - Added `TableSectionData.AllowOverrideCellStyle` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.CanInsertColumn` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.CanInsertRow` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.CanRemoveColumn` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.CanRemoveRow` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellCalculatedValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellCalculatedValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellCategoryId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellCategoryId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellCombinedParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellCombinedParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellFormatOptions` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellFormatOptions` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellParamId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellParamId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellSpec` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellText` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetCellType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetColumnWidth` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetColumnWidthInPixels` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetMergedCell` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetRowHeight` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetRowHeightInPixels` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.GetTableCellStyle` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.IsCellFormattable` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.IsCellOverridden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.IsCellOverridden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.IsValidColumnNumber` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.IsValidRowNumber` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
-  - Added `TableSectionData.RefreshData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.AllowOverrideCellStyle` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.CanInsertColumn` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.CanInsertRow` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.CanRemoveColumn` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.CanRemoveRow` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellCalculatedValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellCalculatedValue` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellCategoryId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellCategoryId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellCombinedParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellCombinedParameters` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellFormatOptions` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellFormatOptions` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellParamId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellParamId` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellSpec` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellText` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetCellType` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetColumnWidth` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetColumnWidthInPixels` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetMergedCell` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetRowHeight` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetRowHeightInPixels` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.GetTableCellStyle` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.IsCellFormattable` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.IsCellOverridden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.IsCellOverridden` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.IsValidColumnNumber` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.IsValidRowNumber` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
+    - Added `TableSectionData.RefreshData` support by @SergeyNefyodov in https://github.com/jeremytammik/RevitLookup/pull/224
 
 ## Bugs
 
@@ -247,8 +327,9 @@ Many thanks to @SergeyNefyodov for contributing to RevitLookup
 
 - **Modules view**
 
-    The new Modules view lets you inspect the dynamic link libraries (DLLs) and executables that your app uses. In this view, you’ll find information such as module names, versions, application domains, paths to the module.
-    ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/b9f23a6c-24c8-4ff5-a4d1-59a3a685ac4d)
+  The new Modules view lets you inspect the dynamic link libraries (DLLs) and executables that your app uses. In this view, you’ll find information such as module names, versions,
+  application domains, paths to the module.
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/b9f23a6c-24c8-4ff5-a4d1-59a3a685ac4d)
 
 ## Bugs
 
@@ -271,36 +352,36 @@ In this release RevitLookup welcomes you with improved visuals, support for temp
 
 ## General
 
-- **Navigation**. Updated navigation allows `Ctrl + Click` in the tree or grid to open any selected item or group of items in a new tab. 
-    This also allows you to analyze items that RevitLookup doesn't support, how about looking at StackTrace for exceptions 
-    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/0c13c6da-772f-453b-9d34-bff609c04d95)
+- **Navigation**. Updated navigation allows `Ctrl + Click` in the tree or grid to open any selected item or group of items in a new tab.
+  This also allows you to analyze items that RevitLookup doesn't support, how about looking at StackTrace for exceptions
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/0c13c6da-772f-453b-9d34-bff609c04d95)
 
-- **Color Preview**. Changes to the user interface give us the ability to customize the display of any type of data. 
-    And now you will be able to visually see how materials or ribbon looks like. 
-    `Autodesk.Revit.DB.Color` and `System.Windows.Media.Color` are supported
-    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/3b736961-26fa-4a24-b916-bb7c4fddfda9)
+- **Color Preview**. Changes to the user interface give us the ability to customize the display of any type of data.
+  And now you will be able to visually see how materials or ribbon looks like.
+  `Autodesk.Revit.DB.Color` and `System.Windows.Media.Color` are supported
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/3b736961-26fa-4a24-b916-bb7c4fddfda9)
 
 ## Improvements
 
 - **Update available notification**. Updates are now checked automatically and an icon is now displayed in the navigation area if a new version is available
 
-    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/b7ab5fd0-b927-4b9a-805c-91e45fbd9f14)
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/b7ab5fd0-b927-4b9a-805c-91e45fbd9f14)
 
 - **Background effects** Available on windows 11 only.
 
-    Acrylic:
+  Acrylic:
 
-    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/259012f7-f19d-4779-8b17-4be96a404023)
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/259012f7-f19d-4779-8b17-4be96a404023)
 
-    Blur:
+  Blur:
 
-    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/e8046bf0-ae48-446e-94e3-e3fdc59898e4)
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/e8046bf0-ae48-446e-94e3-e3fdc59898e4)
 
-    The visual representation of the background depends on your desktop image and current theme
+  The visual representation of the background depends on your desktop image and current theme
 
-- **Color extensions** Convert color to other formats HEX, CMYK, etc. Color name identification, `en` and `ru` localizations available. 
-    `Autodesk.Revit.DB.Color` and `System.Windows.Media.Color` are supported
-    ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/668a9c5c-3239-4100-8829-63fc71c880fb)
+- **Color extensions** Convert color to other formats HEX, CMYK, etc. Color name identification, `en` and `ru` localizations available.
+  `Autodesk.Revit.DB.Color` and `System.Windows.Media.Color` are supported
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/668a9c5c-3239-4100-8829-63fc71c880fb)
 
 ## Bugs
 
@@ -340,8 +421,8 @@ Here, I'm wrapping things up. Wishing everyone a splendid New Year and a joyous 
 
 ## User interface
 
-* **Settings Accessibility:** Most settings have been relocated to the grid context menu for a more intuitive and accessible user experience. Now, users can conveniently access and modify
-  settings directly from the grid context menu
+* **Settings Accessibility:** Most settings have been relocated to the grid context menu for a more intuitive and accessible user experience. Now, users can conveniently access and
+  modify settings directly from the grid context menu
 
   ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/77fc172a-48d3-4439-a5d6-9d8d80ee0efc)
 
@@ -448,7 +529,8 @@ Corrective update to the last major release [RevitLookup 2024.0.6](https://githu
 
 * Enhanced Performance with Separate UI Thread
 
-  The RevitLookup user interface now operates in a dedicated thread, independent of Revit's workload. This architectural improvement significantly enhances smoothness and responsiveness
+  The RevitLookup user interface now operates in a dedicated thread, independent of Revit's workload. This architectural improvement significantly enhances smoothness and
+  responsiveness
 
 * New Additional Setting Options
 
@@ -478,7 +560,8 @@ Corrective update to the last major release [RevitLookup 2024.0.6](https://githu
   Implemented a helpful feature that automatically redirects ElementId to Category, whenever applicable. This simplifies navigation and enhances the user experience
 * Content Virtualization
 
-  Applied content virtualization to the dashboard and settings page, optimizing performance by efficiently managing large amounts of data and dynamically loading content as needed. This
+  Applied content virtualization to the dashboard and settings page, optimizing performance by efficiently managing large amounts of data and dynamically loading content as needed.
+  This
   results in a smoother and more efficient user interaction
 
 # 2023-05-17 **2024.0.5**
@@ -641,7 +724,7 @@ In this release, the entire code base has been completely rewritten from scratch
 * Generic names support
 
   | Before                                                                                                          | Now                                                                                                             |
-                    |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+                            |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
   | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
 
 * Multiple results for methods with overloads
