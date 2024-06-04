@@ -299,23 +299,24 @@
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                     Focusable="False"
                                     RecognizesAccessKey="True"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                    Visibility="Collapsed" />
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </Border>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger
-                                Property="IsMouseOver"
-                                Value="True">
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition
+                                        Property="IsMouseOver"
+                                        Value="True" />
+                                    <Condition
+                                        Property="IsMouseCaptureWithin"
+                                        Value="False" />
+                                </MultiTrigger.Conditions>
                                 <Setter
                                     TargetName="Background"
                                     Property="Opacity"
                                     Value="0.8" />
-                                <Setter
-                                    TargetName="ContentPresenter"
-                                    Property="Visibility"
-                                    Value="Visible" />
-                            </Trigger>
+                            </MultiTrigger>
                             <Trigger
                                 Property="IsPressed"
                                 Value="True">
