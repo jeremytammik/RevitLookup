@@ -1,5 +1,9 @@
 # Changelog
 
+# 2025-06-06 **2025.0.6**
+
+- Visualization dark theme support https://github.com/jeremytammik/RevitLookup/issues/250
+
 # 2025-06-06 **2025.0.5**
 
 ## RevitLookup ✨1000 Stars on GitHub
