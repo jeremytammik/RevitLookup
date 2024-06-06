@@ -10,8 +10,7 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance visualization:MeshVisualizationViewModel}"
     d:DesignWidth="450"
-    d:DesignHeight="400"
-    Background="White">
+    d:DesignHeight="400">
     <StackPanel>
         <DockPanel>
             <rl:SymbolIcon
