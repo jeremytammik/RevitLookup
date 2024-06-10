@@ -34,13 +34,13 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector, IDescriptorExtension
 {
     private readonly Element _element;
-    
+
     public ElementDescriptor(Element element)
     {
         _element = element;
         Name = element.Name == string.Empty ? $"ID{element.Id}" : $"{element.Name}, ID{element.Id}";
     }
-    
+
     public virtual Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -63,47 +63,47 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             "Geometry" => ResolveGeometry,
             _ => null
         };
-        
+
         IVariants ResolveGetMaterialArea()
         {
             var geometryMaterials = _element.GetMaterialIds(false);
             var paintMaterials = _element.GetMaterialIds(true);
-            
+
             var capacity = geometryMaterials.Count + paintMaterials.Count;
             var variants = new Variants<KeyValuePair<ElementId, double>>(capacity);
             if (capacity == 0) return variants;
-            
+
             foreach (var materialId in geometryMaterials)
             {
                 var area = _element.GetMaterialArea(materialId, false);
                 variants.Add(new KeyValuePair<ElementId, double>(materialId, area));
             }
-            
+
             foreach (var materialId in paintMaterials)
             {
                 var area = _element.GetMaterialArea(materialId, true);
                 variants.Add(new KeyValuePair<ElementId, double>(materialId, area));
             }
-            
+
             return variants;
         }
-        
+
         IVariants ResolveGetMaterialVolume()
         {
             var geometryMaterials = _element.GetMaterialIds(false);
-            
+
             var variants = new Variants<KeyValuePair<ElementId, double>>(geometryMaterials.Count);
             if (geometryMaterials.Count == 0) return variants;
-            
+
             foreach (var materialId in geometryMaterials)
             {
                 var area = _element.GetMaterialVolume(materialId);
                 variants.Add(new KeyValuePair<ElementId, double>(materialId, area));
             }
-            
+
             return variants;
         }
-        
+
         IVariants ResolveGetEntity()
         {
             var schemas = Schema.ListSchemas();
@@ -113,13 +113,13 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 if (!schema.ReadAccessGranted()) continue;
                 var entity = _element.GetEntity(schema);
                 if (!entity.IsValid()) continue;
-                
+
                 variants.Add(entity, schema.SchemaName);
             }
-            
+
             return variants;
         }
-        
+
         IVariants ResolveGeometry()
         {
             return new Variants<GeometryElement>(10)
@@ -179,36 +179,36 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                     ComputeReferences = true
                 }), "Model, undefined detail level, including non-visible objects");
         }
-        
+
         IVariants ResolveGetMaterialIds()
         {
             return new Variants<ICollection<ElementId>>(2)
                 .Add(_element.GetMaterialIds(true), "Paint materials")
                 .Add(_element.GetMaterialIds(false), "Geometry and compound structure materials");
         }
-        
+
         IVariants ResolveBoundingBox()
         {
             return new Variants<BoundingBoxXYZ>(2)
                 .Add(_element.get_BoundingBox(null), "Model")
                 .Add(_element.get_BoundingBox(Context.ActiveView), "Active view");
         }
-        
+
         IVariants ResolveCanBeHidden()
         {
             return Variants.Single(_element.CanBeHidden(Context.ActiveView), "Active view");
         }
-        
+
         IVariants ResolveIsHidden()
         {
             return Variants.Single(_element.IsHidden(Context.ActiveView), "Active view");
         }
-        
+
         IVariants ResolveGetDependentElements()
         {
             return Variants.Single(_element.GetDependentElements(null));
         }
-        
+
         IVariants ResolvePhaseStatus()
         {
             var phases = context.Phases;
@@ -218,10 +218,10 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 var result = _element.GetPhaseStatus(phase.Id);
                 variants.Add(result, $"{phase.Name}: {result}");
             }
-            
+
             return variants;
         }
-        
+
         IVariants ResolveIsPhaseCreatedValid()
         {
             var phases = context.Phases;
@@ -231,10 +231,10 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 var result = _element.IsPhaseCreatedValid(phase.Id);
                 variants.Add(result, $"{phase.Name}: {result}");
             }
-            
+
             return variants;
         }
-        
+
         IVariants ResolveIsPhaseDemolishedValid()
         {
             var phases = context.Phases;
@@ -244,10 +244,10 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 var result = _element.IsPhaseDemolishedValid(phase.Id);
                 variants.Add(result, $"{phase.Name}: {result}");
             }
-            
+
             return variants;
         }
-        
+
 #if REVIT2022_OR_GREATER
         IVariants ResolveIsCreatedPhaseOrderValid()
         {
@@ -258,10 +258,10 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 var result = _element.IsCreatedPhaseOrderValid(phase.Id);
                 variants.Add(result, $"{phase.Name}: {result}");
             }
-            
+
             return variants;
         }
-        
+
         IVariants ResolveIsDemolishedPhaseOrderValid()
         {
             var phases = context.Phases;
@@ -271,19 +271,23 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 var result = _element.IsDemolishedPhaseOrderValid(phase.Id);
                 variants.Add(result, $"{phase.Name}: {result}");
             }
-            
+
             return variants;
         }
-        
+
 #endif
     }
-    
+
     public virtual void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(nameof(ElementExtensions.CanBeMirrored), _ => _element.CanBeMirrored());
         manager.Register(nameof(GeometryExtensions.GetJoinedElements), _ => _element.GetJoinedElements());
+        manager.Register(nameof(SolidSolidCutUtils.GetCuttingSolids), _ => SolidSolidCutUtils.GetCuttingSolids(_element));
+        manager.Register(nameof(SolidSolidCutUtils.GetSolidsBeingCut), _ => SolidSolidCutUtils.GetSolidsBeingCut(_element));
+        manager.Register(nameof(SolidSolidCutUtils.IsAllowedForSolidCut), _ => SolidSolidCutUtils.IsAllowedForSolidCut(_element));
+        manager.Register(nameof(SolidSolidCutUtils.IsElementFromAppropriateContext), _ => SolidSolidCutUtils.IsElementFromAppropriateContext(_element));
     }
-    
+
     public virtual void RegisterMenu(ContextMenu contextMenu)
     {
         contextMenu.AddMenuItem("SelectMenuItem")
@@ -291,14 +295,11 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             {
                 if (Context.UiDocument is null) return;
                 if (!element.IsValidObject) return;
-                
-                Application.ActionEventHandler.Raise(_ =>
-                {
-                    Context.UiDocument.Selection.SetElementIds([element.Id]);
-                });
+
+                Application.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetElementIds([element.Id]); });
             })
             .SetShortcut(Key.F6);
-        
+
         if (_element is not ElementType && _element is not Family)
         {
             contextMenu.AddMenuItem("ShowMenuItem")
@@ -306,7 +307,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 {
                     if (Context.UiDocument is null) return;
                     if (!element.IsValidObject) return;
-                    
+
                     Application.ActionEventHandler.Raise(_ =>
                     {
                         Context.UiDocument.ShowElements(element);
@@ -315,25 +316,25 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 })
                 .SetShortcut(Key.F7);
         }
-        
+
         contextMenu.AddMenuItem("DeleteMenuItem")
             .SetCommand(_element, async element =>
             {
                 if (Context.UiDocument is null) return;
                 var context = (ISnoopViewModel) contextMenu.DataContext;
-                
+
                 try
                 {
                     await Application.AsyncEventHandler.RaiseAsync(_ =>
                     {
                         var transaction = new Transaction(element.Document);
                         transaction.Start($"Delete {element.Name}");
-                        
+
                         try
                         {
                             element.Document.Delete(element.Id);
                             transaction.Commit();
-                            
+
                             if (transaction.GetStatus() == TransactionStatus.RolledBack) throw new OperationCanceledException("Element deletion cancelled by user");
                         }
                         catch
@@ -342,7 +343,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                             throw;
                         }
                     });
-                    
+
                     var placementTarget = (FrameworkElement) contextMenu.PlacementTarget;
                     context.RemoveObject(placementTarget.DataContext);
                 }
