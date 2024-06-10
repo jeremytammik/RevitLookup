@@ -36,7 +36,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
     private readonly List<RenderingBufferStorage> _edgeBuffers = new(8);
 
     private double _transparency;
-    private double _extrusion;
+    private double _expansion;
 
     private Color _faceColor;
     private Color _edgeColor;
@@ -123,7 +123,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     private void MapGeometryBuffer()
     {
-        var scale = RenderGeometryHelper.EvaluateScale(_solid, _extrusion);
+        var scale = RenderGeometryHelper.EvaluateScale(_solid, _expansion);
         var scaledSolid = RenderGeometryHelper.ScaleSolid(_solid, scale);
 
         var faceIndex = 0;
@@ -218,12 +218,12 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
         uiDocument.UpdateAllOpenViews();
     }
 
-    public void UpdateExtrusion(double value)
+    public void UpdateExpansion(double value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
 
-        _extrusion = value;
+        _expansion = value;
 
         _hasGeometryUpdates = true;
         uiDocument.UpdateAllOpenViews();

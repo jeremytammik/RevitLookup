@@ -48,19 +48,19 @@
             Margin="0 8 0 0">
             <DockPanel>
                 <TextBlock
-                    Text="Extrusion" />
+                    Text="Expansion" />
                 <TextBlock
                     HorizontalAlignment="Right"
-                    Text="{Binding Extrusion, StringFormat={}{0:F0} inch, Mode=OneWay}" />
+                    Text="{Binding Expansion, StringFormat={}{0:F0} inch, Mode=OneWay}" />
             </DockPanel>
             <Slider
                 Margin="0 4 0 0"
-                Minimum="{Binding MinExtrusion, Mode=OneTime}"
+                Minimum="{Binding MinExpansion, Mode=OneTime}"
                 Maximum="24"
                 TickFrequency="2"
                 IsSnapToTickEnabled="True"
                 TickPlacement="BottomRight"
-                Value="{Binding Extrusion}" />
+                Value="{Binding Expansion}" />
         </StackPanel>
         <DockPanel
             Margin="0 8 0 0">

@@ -103,8 +103,8 @@ public class PolylineVisualizationSettings
 public class SolidVisualizationSettings
 {
     [JsonPropertyName("Transparency")] public double Transparency { get; set; } = 20;
-    [JsonPropertyName("Extrusion")] public double Extrusion { get; set; } = Context.Application.VertexTolerance * 12;
-    [JsonPropertyName("MinExtrusion")] public double MinExtrusion { get; set; } = Context.Application.VertexTolerance * 12;
+    [JsonPropertyName("Extrusion")] public double Expansion { get; set; } = Context.Application.VertexTolerance * 12 * 2;
+    [JsonPropertyName("MinExtrusion")] public double MinExpansion { get; set; } = Context.Application.VertexTolerance * 12 * 2;
 
     [JsonPropertyName("FaceColor")] public Color FaceColor { get; set; } = Colors.DodgerBlue;
     [JsonPropertyName("EdgeColor")] public Color EdgeColor { get; set; } = Color.FromArgb(255, 30, 81, 255);

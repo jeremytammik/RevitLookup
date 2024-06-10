@@ -35,7 +35,7 @@ public sealed partial class SolidVisualizationViewModel(
 {
     private readonly SolidVisualizationServer _server = new();
 
-    [ObservableProperty] private double _extrusion = settingsService.RenderSettings.SolidSettings.Extrusion;
+    [ObservableProperty] private double _expansion = settingsService.RenderSettings.SolidSettings.Expansion;
     [ObservableProperty] private double _transparency = settingsService.RenderSettings.SolidSettings.Transparency;
 
     [ObservableProperty] private System.Windows.Media.Color _faceColor = settingsService.RenderSettings.SolidSettings.FaceColor;
@@ -44,7 +44,7 @@ public sealed partial class SolidVisualizationViewModel(
     [ObservableProperty] private bool _showFace = settingsService.RenderSettings.SolidSettings.ShowFace;
     [ObservableProperty] private bool _showEdge = settingsService.RenderSettings.SolidSettings.ShowEdge;
 
-    public double MinExtrusion => settingsService.RenderSettings.SolidSettings.MinExtrusion;
+    public double MinExpansion => settingsService.RenderSettings.SolidSettings.MinExpansion;
 
     public void RegisterServer(Solid solid)
     {
@@ -55,7 +55,7 @@ public sealed partial class SolidVisualizationViewModel(
         UpdateEdgeColor(EdgeColor);
 
         UpdateTransparency(Transparency);
-        UpdateExtrusion(Extrusion);
+        UpdateExpansion(Expansion);
 
         _server.RenderFailed += HandleRenderFailure;
         _server.Register(solid);
@@ -91,10 +91,10 @@ public sealed partial class SolidVisualizationViewModel(
         UpdateTransparency(value);
     }
 
-    partial void OnExtrusionChanged(double value)
+    partial void OnExpansionChanged(double value)
     {
-        settingsService.RenderSettings.SolidSettings.Extrusion = value;
-        UpdateExtrusion(value);
+        settingsService.RenderSettings.SolidSettings.Expansion = value;
+        UpdateExpansion(value);
     }
 
     partial void OnShowFaceChanged(bool value)
@@ -124,9 +124,9 @@ public sealed partial class SolidVisualizationViewModel(
         _server.UpdateTransparency(value / 100);
     }
 
-    private void UpdateExtrusion(double value)
+    private void UpdateExpansion(double value)
     {
-        _server.UpdateExtrusion(value / 12);
+        _server.UpdateExpansion(value / 12);
     }
 
     private void UpdateShowFace(bool value)
