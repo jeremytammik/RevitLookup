@@ -481,7 +481,7 @@ public static class RenderHelper
 
         var endPoint = origin + vector * length;
         var arrowHeadBase = endPoint - vector * headSize;
-        var basisVector = Math.Abs(vector.Z).IsAlmostEqual(1) ? XYZ.BasisX : XYZ.BasisZ;
+        var basisVector = Math.Abs(vector.Z).IsAlmostEqual(1) ? XYZ.BasisY : XYZ.BasisZ;
         var perpendicular1 = vector.CrossProduct(basisVector).Normalize().Multiply(headSize * 0.5);
 
         buffer.VertexBufferCount = 4;
