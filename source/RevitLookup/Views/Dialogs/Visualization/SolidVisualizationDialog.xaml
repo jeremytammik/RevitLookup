@@ -44,6 +44,24 @@
                 TickPlacement="BottomRight"
                 Value="{Binding Transparency}" />
         </StackPanel>
+        <StackPanel
+            Margin="0 8 0 0">
+            <DockPanel>
+                <TextBlock
+                    Text="Extrusion" />
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{Binding Extrusion, StringFormat={}{0:F0} inch, Mode=OneWay}" />
+            </DockPanel>
+            <Slider
+                Margin="0 4 0 0"
+                Minimum="{Binding MinExtrusion, Mode=OneTime}"
+                Maximum="24"
+                TickFrequency="2"
+                IsSnapToTickEnabled="True"
+                TickPlacement="BottomRight"
+                Value="{Binding Extrusion}" />
+        </StackPanel>
         <DockPanel
             Margin="0 8 0 0">
             <rl:SymbolIcon
@@ -59,56 +77,5 @@
                 IsChecked="{Binding ShowEdge}"
                 Content="Edges" />
         </DockPanel>
-        <DockPanel
-            Margin="0 8 0 0">
-            <rl:SymbolIcon
-                DockPanel.Dock="Right"
-                Margin="8 0 0 0"
-                FontSize="20"
-                Symbol="Eyedropper20" />
-            <colorPicker:ColorPickerControl
-                DockPanel.Dock="Right"
-                SelectedColor="{Binding CageSurfaceColor}" />
-            <CheckBox
-                TabIndex="2"
-                IsChecked="{Binding ShowCageSurface}"
-                Content="Cage surface" />
-        </DockPanel>
-        <StackPanel
-            Margin="0 8 0 0">
-            <DockPanel>
-                <TextBlock
-                    Text="Cage size" />
-                <TextBlock
-                    HorizontalAlignment="Right"
-                    Text="{Binding CageSize, StringFormat={}{0:F0} inch,Mode=OneWay}" />
-            </DockPanel>
-            <Slider
-                Margin="0 4 0 0"
-                Minimum="0"
-                Maximum="24"
-                TickFrequency="2"
-                IsSnapToTickEnabled="True"
-                TickPlacement="BottomRight"
-                Value="{Binding CageSize}" />
-        </StackPanel>
-        <StackPanel
-            Margin="0 8 0 0">
-            <DockPanel>
-                <TextBlock
-                    Text="Cage transparency" />
-                <TextBlock
-                    HorizontalAlignment="Right"
-                    Text="{Binding CageTransparency, StringFormat={}{0} %,Mode=OneWay}" />
-            </DockPanel>
-            <Slider
-                Margin="0 4 0 0"
-                Minimum="0"
-                Maximum="100"
-                TickFrequency="10"
-                IsSnapToTickEnabled="True"
-                TickPlacement="BottomRight"
-                Value="{Binding CageTransparency}" />
-        </StackPanel>
     </StackPanel>
 </Grid>

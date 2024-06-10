@@ -30,27 +30,20 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
     private Solid _solid;
     private bool _hasEffectsUpdates = true;
     private bool _hasGeometryUpdates = true;
-    private bool _hasCageUpdates = true;
-    
+
     private readonly Guid _guid = Guid.NewGuid();
     private readonly List<RenderingBufferStorage> _faceBuffers = new(4);
     private readonly List<RenderingBufferStorage> _edgeBuffers = new(8);
-    private readonly RenderingBufferStorage _cageSurfaceBuffer = new();
-    private readonly RenderingBufferStorage _cageFrameBuffer = new();
-    
+
     private double _transparency;
-    private double _cageTransparency;
-    private double _cageSize;
-    
+    private double _extrusion;
+
     private Color _faceColor;
     private Color _edgeColor;
-    private Color _cageSurfaceColor;
-    private Color _cageFrameColor;
-    
+
     private bool _drawFace;
     private bool _drawEdge;
-    private bool _drawCageSurface;
-    
+
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
     public string GetName() => "Solid visualization server";
@@ -60,17 +53,17 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
     public string GetSourceId() => string.Empty;
     public bool UsesHandles() => false;
     public bool CanExecute(View view) => true;
-    public bool UseInTransparentPass(View view) => _drawFace && _transparency > 0 || _drawCageSurface && _cageTransparency > 0;
-    
+    public bool UseInTransparentPass(View view) => _drawFace && _transparency > 0;
+
     public Outline GetBoundingBox(View view)
     {
         var boundingBox = _solid.GetBoundingBox();
         var minPoint = boundingBox.Transform.OfPoint(boundingBox.Min);
         var maxPoint = boundingBox.Transform.OfPoint(boundingBox.Max);
-        
+
         return new Outline(minPoint, maxPoint);
     }
-    
+
     public void RenderScene(View view, DisplayStyle displayStyle)
     {
         try
@@ -80,19 +73,13 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
                 MapGeometryBuffer();
                 _hasGeometryUpdates = false;
             }
-            
-            if (_hasCageUpdates || !_cageSurfaceBuffer.IsValid() || !_cageFrameBuffer.IsValid())
-            {
-                MapCageBuffers();
-                _hasCageUpdates = false;
-            }
-            
+
             if (_hasEffectsUpdates)
             {
                 UpdateEffects();
                 _hasEffectsUpdates = false;
             }
-            
+
             if (_drawFace)
             {
                 var isTransparentPass = DrawContext.IsTransparentPass();
@@ -110,7 +97,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
                     }
                 }
             }
-            
+
             if (_drawEdge)
             {
                 foreach (var buffer in _edgeBuffers)
@@ -124,29 +111,6 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
                         buffer.PrimitiveCount);
                 }
             }
-            
-            if (_drawCageSurface)
-            {
-                var isTransparentPass = DrawContext.IsTransparentPass();
-                if (isTransparentPass && _cageTransparency > 0 || !isTransparentPass && _cageTransparency == 0)
-                {
-                    DrawContext.FlushBuffer(_cageSurfaceBuffer.VertexBuffer,
-                        _cageSurfaceBuffer.VertexBufferCount,
-                        _cageSurfaceBuffer.IndexBuffer,
-                        _cageSurfaceBuffer.IndexBufferCount,
-                        _cageSurfaceBuffer.VertexFormat,
-                        _cageSurfaceBuffer.EffectInstance, PrimitiveType.TriangleList, 0,
-                        _cageSurfaceBuffer.PrimitiveCount);
-                }
-                
-                DrawContext.FlushBuffer(_cageFrameBuffer.VertexBuffer,
-                    _cageFrameBuffer.VertexBufferCount,
-                    _cageFrameBuffer.IndexBuffer,
-                    _cageFrameBuffer.IndexBufferCount,
-                    _cageFrameBuffer.VertexFormat,
-                    _cageFrameBuffer.EffectInstance, PrimitiveType.LineList, 0,
-                    _cageFrameBuffer.PrimitiveCount);
-            }
         }
         catch (Exception exception)
         {
@@ -156,52 +120,39 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
             });
         }
     }
-    
+
     private void MapGeometryBuffer()
     {
+        var scale = RenderGeometryHelper.EvaluateScale(_solid, _extrusion);
+        var scaledSolid = RenderGeometryHelper.ScaleSolid(_solid, scale);
+
         var faceIndex = 0;
-        foreach (Face face in _solid.Faces)
+        foreach (Face face in scaledSolid.Faces)
         {
             var buffer = CreateOrUpdateBuffer(_faceBuffers, faceIndex++);
             MapFaceBuffers(buffer, face);
         }
-        
+
         var edgeIndex = 0;
-        foreach (Edge edge in _solid.Edges)
+        foreach (Edge edge in scaledSolid.Edges)
         {
             var buffer = CreateOrUpdateBuffer(_edgeBuffers, edgeIndex++);
             MapEdgeBuffers(buffer, edge);
         }
     }
-    
-    private void MapCageBuffers()
-    {
-        var maxScaleVector = new XYZ(1, 1, 1);
-        var minScaleVector = -maxScaleVector;
-        
-        var box = _solid.GetBoundingBox();
-        var scaledBox = new BoundingBoxXYZ
-        {
-            Min = box.Transform.OfPoint(box.Min) + minScaleVector * _cageSize,
-            Max = box.Transform.OfPoint(box.Max) + maxScaleVector * _cageSize
-        };
-        
-        RenderHelper.MapBoundingBoxSurfaceBuffer(_cageSurfaceBuffer, scaledBox);
-        RenderHelper.MapBoundingBoxEdgeBuffer(_cageFrameBuffer, scaledBox);
-    }
-    
+
     private void MapFaceBuffers(RenderingBufferStorage buffer, Face face)
     {
         var mesh = face.Triangulate();
         RenderHelper.MapSurfaceBuffer(buffer, mesh, 0);
     }
-    
+
     private void MapEdgeBuffers(RenderingBufferStorage buffer, Edge edge)
     {
         var mesh = edge.Tessellate();
         RenderHelper.MapCurveBuffer(buffer, mesh);
     }
-    
+
     private RenderingBufferStorage CreateOrUpdateBuffer(List<RenderingBufferStorage> buffers, int index)
     {
         RenderingBufferStorage buffer;
@@ -214,10 +165,10 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
             buffer = new RenderingBufferStorage();
             buffers.Add(buffer);
         }
-        
+
         return buffer;
     }
-    
+
     private void UpdateEffects()
     {
         foreach (var buffer in _faceBuffers)
@@ -226,158 +177,107 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
             buffer.EffectInstance.SetColor(_faceColor);
             buffer.EffectInstance.SetTransparency(_transparency);
         }
-        
+
         foreach (var buffer in _edgeBuffers)
         {
             buffer.EffectInstance ??= new EffectInstance(buffer.FormatBits);
             buffer.EffectInstance.SetColor(_edgeColor);
         }
-        
-        _cageSurfaceBuffer.EffectInstance ??= new EffectInstance(_cageSurfaceBuffer.FormatBits);
-        _cageSurfaceBuffer.EffectInstance.SetColor(_cageSurfaceColor);
-        _cageSurfaceBuffer.EffectInstance.SetTransparency(_cageTransparency);
-        
-        _cageFrameBuffer.EffectInstance ??= new EffectInstance(_cageFrameBuffer.FormatBits);
-        _cageFrameBuffer.EffectInstance.SetColor(_cageFrameColor);
     }
-    
+
     public void UpdateFaceColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
+
         _faceColor = value;
         _hasEffectsUpdates = true;
-        
+
         uiDocument.UpdateAllOpenViews();
     }
-    
+
     public void UpdateEdgeColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
+
         _edgeColor = value;
         _hasEffectsUpdates = true;
-        
+
         uiDocument.UpdateAllOpenViews();
     }
-    
-    
-    public void UpdateCageSurfaceColor(Color value)
-    {
-        var uiDocument = Context.UiDocument;
-        if (uiDocument is null) return;
-        
-        _cageSurfaceColor = value;
-        _hasEffectsUpdates = true;
-        
-        uiDocument.UpdateAllOpenViews();
-    }
-    
-    public void UpdateCageFrameColor(Color value)
-    {
-        var uiDocument = Context.UiDocument;
-        if (uiDocument is null) return;
-        
-        _cageFrameColor = value;
-        _hasEffectsUpdates = true;
-        
-        uiDocument.UpdateAllOpenViews();
-    }
-    
+
     public void UpdateTransparency(double value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
+
         _transparency = value;
         _hasEffectsUpdates = true;
-        
+
         uiDocument.UpdateAllOpenViews();
     }
-    
-    public void UpdateCageTransparency(double value)
+
+    public void UpdateExtrusion(double value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _cageTransparency = value;
-        _hasEffectsUpdates = true;
-        
+
+        _extrusion = value;
+
+        _hasGeometryUpdates = true;
         uiDocument.UpdateAllOpenViews();
     }
-    
-    public void UpdateCageSize(double value)
-    {
-        var uiDocument = Context.UiDocument;
-        if (uiDocument is null) return;
-        
-        _cageSize = value;
-        _hasCageUpdates = true;
-        
-        uiDocument.UpdateAllOpenViews();
-    }
-    
+
     public void UpdateFaceVisibility(bool value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
+
         _drawFace = value;
-        
+
         uiDocument.UpdateAllOpenViews();
     }
-    
+
     public void UpdateEdgeVisibility(bool value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
+
         _drawEdge = value;
-        
+
         uiDocument.UpdateAllOpenViews();
     }
-    
-    public void UpdateCageSurfaceVisibility(bool value)
-    {
-        var uiDocument = Context.UiDocument;
-        if (uiDocument is null) return;
-        
-        _drawCageSurface = value;
-        
-        uiDocument.UpdateAllOpenViews();
-    }
-    
+
     public void Register(Solid solid)
     {
         _solid = solid;
-        
+
         Application.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
-            
+
             var directContextService = (MultiServerService) ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
             var serverIds = directContextService.GetActiveServerIds();
-            
+
             directContextService.AddServer(this);
             serverIds.Add(GetServerId());
             directContextService.SetActiveServers(serverIds);
-            
+
             application.ActiveUIDocument.UpdateAllOpenViews();
         });
     }
-    
+
     public void Unregister()
     {
         Application.ActionEventHandler.Raise(application =>
         {
             var directContextService = (MultiServerService) ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
             directContextService.RemoveServer(GetServerId());
-            
+
             application.ActiveUIDocument?.UpdateAllOpenViews();
         });
     }
-    
+
     public event EventHandler<RenderFailedEventArgs> RenderFailed;
 }

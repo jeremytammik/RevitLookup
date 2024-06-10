@@ -30,7 +30,9 @@ namespace RevitLookup.Config;
 [Serializable]
 public sealed class RenderConfiguration
 {
-    [JsonPropertyName("BoundingBoxSettings")] public BoundingBoxVisualizationSettings BoundingBoxSettings { get; set; } = new();
+    [JsonPropertyName("BoundingBoxSettings")]
+    public BoundingBoxVisualizationSettings BoundingBoxSettings { get; set; } = new();
+
     [JsonPropertyName("FaceSettings")] public FaceVisualizationSettings FaceSettings { get; set; } = new();
     [JsonPropertyName("MeshSettings")] public MeshVisualizationSettings MeshSettings { get; set; } = new();
     [JsonPropertyName("PolylineSettings")] public PolylineVisualizationSettings PolylineSettings { get; set; } = new();
@@ -42,11 +44,11 @@ public sealed class RenderConfiguration
 public class BoundingBoxVisualizationSettings
 {
     [JsonPropertyName("Transparency")] public double Transparency { get; set; } = 60;
-    
+
     [JsonPropertyName("SurfaceColor")] public Color SurfaceColor { get; set; } = Colors.DodgerBlue;
     [JsonPropertyName("EdgeColor")] public Color EdgeColor { get; set; } = Color.FromArgb(255, 30, 81, 255);
     [JsonPropertyName("AxisColor")] public Color AxisColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
-    
+
     [JsonPropertyName("ShowSurface")] public bool ShowSurface { get; set; } = true;
     [JsonPropertyName("ShowEdge")] public bool ShowEdge { get; set; } = true;
     [JsonPropertyName("ShowAxis")] public bool ShowAxis { get; set; } = true;
@@ -58,11 +60,13 @@ public class FaceVisualizationSettings
     [JsonPropertyName("Transparency")] public double Transparency { get; set; } = 20;
     [JsonPropertyName("Extrusion")] public double Extrusion { get; set; } = Context.Application.VertexTolerance * 12;
     [JsonPropertyName("MinExtrusion")] public double MinExtrusion { get; set; } = Context.Application.VertexTolerance * 12;
-    
+
     [JsonPropertyName("SurfaceColor")] public Color SurfaceColor { get; set; } = Colors.DodgerBlue;
     [JsonPropertyName("MeshColor")] public Color MeshColor { get; set; } = Color.FromArgb(255, 30, 81, 255);
-    [JsonPropertyName("NormalVectorColor")] public Color NormalVectorColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
-    
+
+    [JsonPropertyName("NormalVectorColor")]
+    public Color NormalVectorColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
+
     [JsonPropertyName("ShowSurface")] public bool ShowSurface { get; set; } = true;
     [JsonPropertyName("ShowMeshGrid")] public bool ShowMeshGrid { get; set; } = true;
     [JsonPropertyName("ShowNormalVector")] public bool ShowNormalVector { get; set; } = true;
@@ -74,11 +78,13 @@ public class MeshVisualizationSettings
     [JsonPropertyName("Transparency")] public double Transparency { get; set; } = 20;
     [JsonPropertyName("Extrusion")] public double Extrusion { get; set; } = Context.Application.VertexTolerance * 12;
     [JsonPropertyName("MinExtrusion")] public double MinExtrusion { get; set; } = Context.Application.VertexTolerance * 12;
-    
+
     [JsonPropertyName("SurfaceColor")] public Color SurfaceColor { get; set; } = Colors.DodgerBlue;
     [JsonPropertyName("MeshColor")] public Color MeshColor { get; set; } = Color.FromArgb(255, 30, 81, 255);
-    [JsonPropertyName("NormalVectorColor")] public Color NormalVectorColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
-    
+
+    [JsonPropertyName("NormalVectorColor")]
+    public Color NormalVectorColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
+
     [JsonPropertyName("ShowSurface")] public bool ShowSurface { get; set; } = true;
     [JsonPropertyName("ShowMeshGrid")] public bool ShowMeshGrid { get; set; } = true;
     [JsonPropertyName("ShowNormalVector")] public bool ShowNormalVector { get; set; } = true;
@@ -90,11 +96,11 @@ public class PolylineVisualizationSettings
     [JsonPropertyName("Transparency")] public double Transparency { get; set; } = 20;
     [JsonPropertyName("Diameter")] public double Diameter { get; set; } = 2;
     [JsonPropertyName("MinThickness")] public double MinThickness { get; set; } = 0.1;
-    
+
     [JsonPropertyName("SurfaceColor")] public Color SurfaceColor { get; set; } = Colors.DodgerBlue;
     [JsonPropertyName("CurveColor")] public Color CurveColor { get; set; } = Color.FromArgb(255, 30, 81, 255);
     [JsonPropertyName("DirectionColor")] public Color DirectionColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
-    
+
     [JsonPropertyName("ShowSurface")] public bool ShowSurface { get; set; } = true;
     [JsonPropertyName("ShowCurve")] public bool ShowCurve { get; set; } = true;
     [JsonPropertyName("ShowDirection")] public bool ShowDirection { get; set; } = true;
@@ -103,17 +109,14 @@ public class PolylineVisualizationSettings
 public class SolidVisualizationSettings
 {
     [JsonPropertyName("Transparency")] public double Transparency { get; set; } = 20;
-    [JsonPropertyName("CageTransparency")] public double CageTransparency { get; set; } = 90;
-    [JsonPropertyName("CageSize")] public double CageSize { get; set; } = 1;
-    
+    [JsonPropertyName("Extrusion")] public double Extrusion { get; set; } = Context.Application.VertexTolerance * 12;
+    [JsonPropertyName("MinExtrusion")] public double MinExtrusion { get; set; } = Context.Application.VertexTolerance * 12;
+
     [JsonPropertyName("FaceColor")] public Color FaceColor { get; set; } = Colors.DodgerBlue;
     [JsonPropertyName("EdgeColor")] public Color EdgeColor { get; set; } = Color.FromArgb(255, 30, 81, 255);
-    [JsonPropertyName("CageSurfaceColor")] public Color CageSurfaceColor { get; set; } = Color.FromArgb(255, 175, 175, 175);
-    [JsonPropertyName("CageFrameColor")] public Color CageFrameColor { get; set; } = Colors.Black;
-    
+
     [JsonPropertyName("ShowFace")] public bool ShowFace { get; set; } = true;
     [JsonPropertyName("ShowEdge")] public bool ShowEdge { get; set; } = true;
-    [JsonPropertyName("ShowCageSurface")] public bool ShowCageSurface { get; set; } = true;
 }
 
 [Serializable]
@@ -122,11 +125,11 @@ public class XyzVisualizationSettings
     [JsonPropertyName("Transparency")] public double Transparency { get; set; } = 0;
     [JsonPropertyName("AxisLength")] public double AxisLength { get; set; } = 6;
     [JsonPropertyName("MinAxisLength")] public double MinAxisLength { get; set; } = 0.1;
-    
+
     [JsonPropertyName("XColor")] public Color XColor { get; set; } = Color.FromArgb(255, 30, 227, 255);
     [JsonPropertyName("YColor")] public Color YColor { get; set; } = Color.FromArgb(255, 30, 144, 255);
     [JsonPropertyName("ZColor")] public Color ZColor { get; set; } = Color.FromArgb(255, 30, 81, 255);
-    
+
     [JsonPropertyName("ShowPlane")] public bool ShowPlane { get; set; } = true;
     [JsonPropertyName("ShowXAxis")] public bool ShowXAxis { get; set; } = true;
     [JsonPropertyName("ShowYAxis")] public bool ShowYAxis { get; set; } = true;
