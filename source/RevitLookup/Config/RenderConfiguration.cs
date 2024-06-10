@@ -30,9 +30,7 @@ namespace RevitLookup.Config;
 [Serializable]
 public sealed class RenderConfiguration
 {
-    [JsonPropertyName("BoundingBoxSettings")]
-    public BoundingBoxVisualizationSettings BoundingBoxSettings { get; set; } = new();
-
+    [JsonPropertyName("BoundingBoxSettings")] public BoundingBoxVisualizationSettings BoundingBoxSettings { get; set; } = new();
     [JsonPropertyName("FaceSettings")] public FaceVisualizationSettings FaceSettings { get; set; } = new();
     [JsonPropertyName("MeshSettings")] public MeshVisualizationSettings MeshSettings { get; set; } = new();
     [JsonPropertyName("PolylineSettings")] public PolylineVisualizationSettings PolylineSettings { get; set; } = new();
@@ -63,9 +61,7 @@ public class FaceVisualizationSettings
 
     [JsonPropertyName("SurfaceColor")] public Color SurfaceColor { get; set; } = Colors.DodgerBlue;
     [JsonPropertyName("MeshColor")] public Color MeshColor { get; set; } = Color.FromArgb(255, 30, 81, 255);
-
-    [JsonPropertyName("NormalVectorColor")]
-    public Color NormalVectorColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
+    [JsonPropertyName("NormalVectorColor")] public Color NormalVectorColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
 
     [JsonPropertyName("ShowSurface")] public bool ShowSurface { get; set; } = true;
     [JsonPropertyName("ShowMeshGrid")] public bool ShowMeshGrid { get; set; } = true;
@@ -81,9 +77,7 @@ public class MeshVisualizationSettings
 
     [JsonPropertyName("SurfaceColor")] public Color SurfaceColor { get; set; } = Colors.DodgerBlue;
     [JsonPropertyName("MeshColor")] public Color MeshColor { get; set; } = Color.FromArgb(255, 30, 81, 255);
-
-    [JsonPropertyName("NormalVectorColor")]
-    public Color NormalVectorColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
+    [JsonPropertyName("NormalVectorColor")] public Color NormalVectorColor { get; set; } = Color.FromArgb(255, 255, 89, 30);
 
     [JsonPropertyName("ShowSurface")] public bool ShowSurface { get; set; } = true;
     [JsonPropertyName("ShowMeshGrid")] public bool ShowMeshGrid { get; set; } = true;
