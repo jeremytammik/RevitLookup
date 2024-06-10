@@ -48,19 +48,19 @@
             Margin="0 8 0 0">
             <DockPanel>
                 <TextBlock
-                    Text="Expansion" />
+                    Text="Scale" />
                 <TextBlock
                     HorizontalAlignment="Right"
-                    Text="{Binding Expansion, StringFormat={}{0:F0} inch, Mode=OneWay}" />
+                    Text="{Binding Scale, StringFormat={}{0} %, Mode=OneWay}" />
             </DockPanel>
             <Slider
                 Margin="0 4 0 0"
-                Minimum="{Binding MinExpansion, Mode=OneTime}"
-                Maximum="24"
-                TickFrequency="2"
+                Minimum="100"
+                Maximum="400"
+                TickFrequency="25"
                 IsSnapToTickEnabled="True"
                 TickPlacement="BottomRight"
-                Value="{Binding Expansion}" />
+                Value="{Binding Scale}" />
         </StackPanel>
         <DockPanel
             Margin="0 8 0 0">

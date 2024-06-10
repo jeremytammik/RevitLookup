@@ -100,27 +100,11 @@ public static class RenderGeometryHelper
         return vertices;
     }
 
-    [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
-    public static double EvaluateScale(Solid solid, double offset)
-    {
-        var boundingBox = solid.GetBoundingBox();
-
-        var currentLength = boundingBox.Max.X - boundingBox.Min.X;
-        var currentWidth = boundingBox.Max.Y - boundingBox.Min.Y;
-        var currentHeight = boundingBox.Max.Z - boundingBox.Min.Z;
-
-        var maxDimension = Math.Max(Math.Max(currentLength, currentWidth), currentHeight);
-
-        if (maxDimension == currentLength) return (currentLength + offset) / currentLength;
-        if (maxDimension == currentWidth) return (currentWidth + offset) / currentWidth;
-        return (currentHeight + offset) / currentHeight;
-    }
-
     public static Solid ScaleSolid(Solid solid, double scale)
     {
-        if (scale is 0 or 1) return solid;
+        if (scale is 1) scale = EvaluateScale(solid, Context.Application.VertexTolerance * 3);
 
-        var centroid = solid.ComputeCentroid();
+        var centroid = solid.GetBoundingBox().Transform.Origin;
         var moveToCentroid = Transform.CreateTranslation(-centroid);
         var scaleTransform = Transform.Identity.ScaleBasis(scale);
         var moveBack = Transform.CreateTranslation(centroid);
@@ -227,5 +211,21 @@ public static class RenderGeometryHelper
 
         return surfaceArea;
 #endif
+    }
+
+    [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
+    private static double EvaluateScale(Solid solid, double offset)
+    {
+        var boundingBox = solid.GetBoundingBox();
+
+        var currentLength = boundingBox.Max.X - boundingBox.Min.X;
+        var currentWidth = boundingBox.Max.Y - boundingBox.Min.Y;
+        var currentHeight = boundingBox.Max.Z - boundingBox.Min.Z;
+
+        var maxDimension = Math.Max(Math.Max(currentLength, currentWidth), currentHeight);
+
+        if (maxDimension == currentLength) return (currentLength + offset) / currentLength;
+        if (maxDimension == currentWidth) return (currentWidth + offset) / currentWidth;
+        return (currentHeight + offset) / currentHeight;
     }
 }
