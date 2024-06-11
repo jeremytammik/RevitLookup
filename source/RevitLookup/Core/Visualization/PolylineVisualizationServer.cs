@@ -67,7 +67,7 @@ public sealed class PolylineVisualizationServer : IDirectContext3DServer
         {
             try
             {
-                if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_curveBuffer.IsValid() || _normalsBuffers.Any(storage => !storage.IsValid()))
+                if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_curveBuffer.IsValid())
                 {
                     MapGeometryBuffer();
                     _hasGeometryUpdates = false;

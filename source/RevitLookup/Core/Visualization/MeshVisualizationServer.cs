@@ -67,7 +67,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
         {
             try
             {
-                if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_meshGridBuffer.IsValid() || _normalBuffers.Any(storage => !storage.IsValid()))
+                if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_meshGridBuffer.IsValid())
                 {
                     MapGeometryBuffer();
                     _hasGeometryUpdates = false;

@@ -86,7 +86,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
         {
             try
             {
-                if (_hasGeometryUpdates || _planeBuffers.Any(storage => !storage.IsValid()) || _axisBuffers.Any(storage => !storage.IsValid()))
+                if (_hasGeometryUpdates)
                 {
                     UpdateGeometryBuffer();
                     _hasGeometryUpdates = false;
