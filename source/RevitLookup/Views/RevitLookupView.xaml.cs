@@ -18,12 +18,14 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+#if REVIT2024_OR_GREATER
+using RevitLookup.Views.Appearance;
+#endif
 using System.Windows;
 using System.Windows.Input;
 using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
-using RevitLookup.Views.Appearance;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -71,7 +73,11 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
     {
         if (_settings.Theme == ApplicationTheme.Auto)
         {
+#if REVIT2024_OR_GREATER
             RevitThemeWatcher.Watch(this);
+#else
+            throw new NotSupportedException("Auto theme is not supported for current Revit version");
+#endif
         }
         else
         {

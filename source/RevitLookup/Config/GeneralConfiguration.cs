@@ -32,7 +32,11 @@ public sealed class GeneralConfiguration
 {
     public int DefaultTransitionDuration => 200;
 
+#if REVIT2024_OR_GREATER
     [JsonPropertyName("Theme")] public ApplicationTheme Theme { get; set; } = ApplicationTheme.Auto;
+#else
+    [JsonPropertyName("Theme")] public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;
+#endif
     [JsonPropertyName("Background")] public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
     [JsonPropertyName("TransitionDuration")] public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
 

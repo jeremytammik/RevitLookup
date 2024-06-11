@@ -20,11 +20,13 @@
 
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
-using RevitLookup.Views.Appearance;
 using RevitLookup.Views.Dialogs;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+#if REVIT2024_OR_GREATER
+using RevitLookup.Views.Appearance;
+#endif
 
 namespace RevitLookup.ViewModels.Pages;
 
@@ -46,7 +48,9 @@ public sealed partial class SettingsViewModel(
 
     public List<ApplicationTheme> Themes { get; } =
     [
+#if REVIT2024_OR_GREATER
         ApplicationTheme.Auto,
+#endif
         ApplicationTheme.Light,
         ApplicationTheme.Dark
         // ApplicationTheme.HighContrast
@@ -92,7 +96,11 @@ public sealed partial class SettingsViewModel(
 
             if (value == ApplicationTheme.Auto)
             {
+#if REVIT2024_OR_GREATER
                 RevitThemeWatcher.Watch(target);
+#else
+                throw new NotSupportedException("Auto theme is not supported for current Revit version");
+#endif
             }
             else
             {
@@ -105,7 +113,11 @@ public sealed partial class SettingsViewModel(
     {
         if (oldValue == ApplicationTheme.Auto)
         {
+#if REVIT2024_OR_GREATER
             RevitThemeWatcher.Unwatch();
+#else
+            throw new NotSupportedException("Auto theme is not supported for current Revit version");
+#endif
         }
     }
 

@@ -1,4 +1,5 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+﻿#if REVIT2024_OR_GREATER
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -74,3 +75,4 @@ public static class RevitThemeWatcher
         };
     }
 }
+#endif
