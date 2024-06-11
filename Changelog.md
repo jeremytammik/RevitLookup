@@ -1,5 +1,34 @@
 # Changelog
 
+# 2025-06-11 **2025.0.7**
+
+## General
+
+- **Solid scaling**
+
+  Visualisation now supports scaling a solid, relative to its centre. Exploring small objects is now even easier https://github.com/jeremytammik/RevitLookup/issues/251
+
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/dbe36b89-3065-469a-8768-fbd151bbe442)
+
+- **Theme synchronisation with Revit**
+
+  Starting with Revit version 2024, you can choose to automatically change the RevitLookup theme. Fans of darker colours will no longer have to dig through the settings every time
+
+  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/40844c42-ff8b-4bc6-949b-5a1b3660adf2)
+
+## Improvements
+
+- Improved arrow position for vertical edges on visualization
+- Multithreading visualization support. Changing settings now does not affect rendering. Previously there were artifacts due to fast settings changes
+- Added new extensions:
+
+  | Type           | Extension                                 | Description                                                                          |
+  |:---------------|-------------------------------------------|--------------------------------------------------------------------------------------|
+  | Element        | GetCuttingSolids                          | Gets all the solids which cut the input element                                      |
+  | Element        | GetSolidsBeingCut                         | Get all the solids which are cut by the input element                                |
+  | Element        | IsAllowedForSolidCut                      | Validates that the element is eligible for a solid-solid cut                         |
+  | Element        | IsElementFromAppropriateContext           | Validates that the element is from an appropriate document                           |
+
 # 2025-06-06 **2025.0.6**
 
 - Visualization dark theme support https://github.com/jeremytammik/RevitLookup/issues/250
