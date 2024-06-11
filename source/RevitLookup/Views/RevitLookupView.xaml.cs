@@ -23,6 +23,7 @@ using System.Windows.Input;
 using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
+using RevitLookup.Views.Appearance;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -34,7 +35,7 @@ namespace RevitLookup.Views;
 public sealed partial class RevitLookupView : FluentWindow, IWindow
 {
     private readonly GeneralSettings _settings;
-    
+
     private RevitLookupView()
     {
         Wpf.Ui.Application.MainWindow = this;
@@ -42,7 +43,7 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
         InitializeComponent();
         AddShortcuts();
     }
-    
+
     public RevitLookupView(
         INavigationService navigationService,
         IContentDialogService dialogService,
@@ -54,18 +55,30 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
         _settings = settingsService.GeneralSettings;
         RootNavigation.TransitionDuration = _settings.TransitionDuration;
         WindowBackdropType = _settings.Background;
-        
+
         navigationService.SetNavigationControl(RootNavigation);
         dialogService.SetContentPresenter(RootContentDialog);
-        
+
         snackbarService.SetSnackbarPresenter(RootSnackbar);
         snackbarService.DefaultTimeOut = TimeSpan.FromSeconds(3);
-        
+
+        ApplyTheme();
         RestoreSize();
         SetupBadges(updateService);
-        ApplicationThemeManager.Apply(_settings.Theme, _settings.Background);
     }
-    
+
+    private void ApplyTheme()
+    {
+        if (_settings.Theme == ApplicationTheme.Auto)
+        {
+            RevitThemeWatcher.Watch(this);
+        }
+        else
+        {
+            ApplicationThemeManager.Apply(_settings.Theme, _settings.Background);
+        }
+    }
+
     private void AddShortcuts()
     {
         var closeCurrentCommand = new RelayCommand(Close);
@@ -77,49 +90,49 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
                 window.Close();
             }
         });
-        
+
         InputBindings.Add(new KeyBinding(closeAllCommand, new KeyGesture(Key.Escape, ModifierKeys.Shift)));
         InputBindings.Add(new KeyBinding(closeCurrentCommand, new KeyGesture(Key.Escape)));
     }
-    
+
     private void RestoreSize()
     {
         if (!_settings.UseSizeRestoring) return;
-        
+
         if (_settings.WindowWidth >= MinWidth) Width = _settings.WindowWidth;
         if (_settings.WindowHeight >= MinHeight) Height = _settings.WindowHeight;
-        
+
         EnableSizeTracking();
     }
-    
+
     private void SetupBadges(ISoftwareUpdateService updateService)
     {
         if (updateService.State != SoftwareUpdateState.ReadyToDownload) return;
         AboutItemBadge.Visibility = Visibility.Visible;
     }
-    
+
     public void EnableSizeTracking()
     {
         SizeChanged += OnSizeChanged;
     }
-    
+
     public void DisableSizeTracking()
     {
         SizeChanged -= OnSizeChanged;
     }
-    
+
     private void OnSizeChanged(object sender, SizeChangedEventArgs args)
     {
         _settings.WindowWidth = args.NewSize.Width;
         _settings.WindowHeight = args.NewSize.Height;
     }
-    
+
     protected override void OnActivated(EventArgs args)
     {
         base.OnActivated(args);
         Wpf.Ui.Application.MainWindow = this;
     }
-    
+
     protected override void OnClosed(EventArgs args)
     {
         base.OnClosed(args);

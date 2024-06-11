@@ -11,6 +11,11 @@ namespace Wpf.Ui.Appearance;
 public enum ApplicationTheme
 {
     /// <summary>
+    /// Sync application theme.
+    /// </summary>
+    Auto,
+
+    /// <summary>
     /// Unknown application theme.
     /// </summary>
     Unknown,

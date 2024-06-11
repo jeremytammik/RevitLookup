@@ -62,6 +62,7 @@ public sealed class ApplicationThemeConverter : MarkupExtension, IValueConverter
         var applicationTheme = (ApplicationTheme) value!;
         return applicationTheme switch
         {
+            ApplicationTheme.Auto => "Auto",
             ApplicationTheme.Light => "Light",
             ApplicationTheme.Dark => "Dark",
             ApplicationTheme.HighContrast => "High contrast",

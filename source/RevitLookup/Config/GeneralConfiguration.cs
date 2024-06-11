@@ -31,14 +31,14 @@ namespace RevitLookup.Config;
 public sealed class GeneralConfiguration
 {
     public int DefaultTransitionDuration => 200;
-    
-    [JsonPropertyName("Theme")] public ApplicationTheme Theme { get; set; } = ApplicationTheme.Light;
+
+    [JsonPropertyName("Theme")] public ApplicationTheme Theme { get; set; } = ApplicationTheme.Auto;
     [JsonPropertyName("Background")] public WindowBackdropType Background { get; set; } = WindowBackdropType.None;
     [JsonPropertyName("TransitionDuration")] public int TransitionDuration { get; set; } //= SettingsService.DefaultTransitionDuration;
 
     [JsonPropertyName("WindowWidth")] public double WindowWidth { get; set; }
     [JsonPropertyName("WindowHeight")] public double WindowHeight { get; set; }
-    
+
     [JsonPropertyName("IsUnsupportedAllowed")] public bool IncludeUnsupported { get; set; }
     [JsonPropertyName("IsPrivateAllowed")] public bool IncludePrivate { get; set; }
     [JsonPropertyName("IsStaticAllowed")] public bool IncludeStatic { get; set; }
@@ -46,7 +46,7 @@ public sealed class GeneralConfiguration
     [JsonPropertyName("IsEventsAllowed")] public bool IncludeEvents { get; set; }
     [JsonPropertyName("IsExtensionsAllowed")] public bool IncludeExtensions { get; set; }
     [JsonPropertyName("IsRootHierarchyAllowed")] public bool IncludeRootHierarchy { get; set; }
-    
+
     [JsonPropertyName("IsHardwareRenderingAllowed")] public bool UseHardwareRendering { get; set; } = true;
     [JsonPropertyName("IsTimeColumnAllowed")] public bool ShowTimeColumn { get; set; }
     [JsonPropertyName("ShowMemoryColumn")] public bool ShowMemoryColumn { get; set; }

@@ -18,10 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Wpf.Ui.Controls;
+
 namespace Wpf.Ui;
 
 public static class Application
 {
-    public static Window MainWindow { get; set; }
-    public static List<Window> Windows { get; set; } = new(8);
+    public static FluentWindow MainWindow { get; set; }
+    public static List<FluentWindow> Windows { get; set; } = new(8);
 }
