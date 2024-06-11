@@ -30,24 +30,25 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
     private Mesh _mesh;
     private bool _hasEffectsUpdates = true;
     private bool _hasGeometryUpdates = true;
-    
+
     private readonly Guid _guid = Guid.NewGuid();
-    
+    private readonly object _renderLock = new();
+
     private RenderingBufferStorage[] _normalBuffers;
     private readonly RenderingBufferStorage _surfaceBuffer = new();
     private readonly RenderingBufferStorage _meshGridBuffer = new();
-    
+
     private double _extrusion;
     private double _transparency;
-    
+
     private bool _drawMeshGrid;
     private bool _drawNormalVector;
     private bool _drawSurface;
-    
+
     private Color _meshColor;
     private Color _normalColor;
     private Color _surfaceColor;
-    
+
     public Guid GetServerId() => _guid;
     public string GetVendorId() => "RevitLookup";
     public string GetName() => "Mesh visualization server";
@@ -59,229 +60,253 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
     public bool CanExecute(View view) => true;
     public bool UseInTransparentPass(View view) => _drawSurface && _transparency > 0;
     public Outline GetBoundingBox(View view) => null;
-    
+
     public void RenderScene(View view, DisplayStyle displayStyle)
     {
-        try
+        lock (_renderLock)
         {
-            if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_meshGridBuffer.IsValid() || _normalBuffers.Any(storage => !storage.IsValid()))
+            try
             {
-                MapGeometryBuffer();
-                _hasGeometryUpdates = false;
-            }
-            
-            if (_hasEffectsUpdates)
-            {
-                UpdateEffects();
-                _hasEffectsUpdates = false;
-            }
-            
-            if (_drawSurface)
-            {
-                var isTransparentPass = DrawContext.IsTransparentPass();
-                if (isTransparentPass && _transparency > 0 || !isTransparentPass && _transparency == 0)
+                if (_hasGeometryUpdates || !_surfaceBuffer.IsValid() || !_meshGridBuffer.IsValid() || _normalBuffers.Any(storage => !storage.IsValid()))
                 {
-                    DrawContext.FlushBuffer(_surfaceBuffer.VertexBuffer,
-                        _surfaceBuffer.VertexBufferCount,
-                        _surfaceBuffer.IndexBuffer,
-                        _surfaceBuffer.IndexBufferCount,
-                        _surfaceBuffer.VertexFormat,
-                        _surfaceBuffer.EffectInstance, PrimitiveType.TriangleList, 0,
-                        _surfaceBuffer.PrimitiveCount);
+                    MapGeometryBuffer();
+                    _hasGeometryUpdates = false;
+                }
+
+                if (_hasEffectsUpdates)
+                {
+                    UpdateEffects();
+                    _hasEffectsUpdates = false;
+                }
+
+                if (_drawSurface)
+                {
+                    var isTransparentPass = DrawContext.IsTransparentPass();
+                    if (isTransparentPass && _transparency > 0 || !isTransparentPass && _transparency == 0)
+                    {
+                        DrawContext.FlushBuffer(_surfaceBuffer.VertexBuffer,
+                            _surfaceBuffer.VertexBufferCount,
+                            _surfaceBuffer.IndexBuffer,
+                            _surfaceBuffer.IndexBufferCount,
+                            _surfaceBuffer.VertexFormat,
+                            _surfaceBuffer.EffectInstance, PrimitiveType.TriangleList, 0,
+                            _surfaceBuffer.PrimitiveCount);
+                    }
+                }
+
+                if (_drawMeshGrid)
+                {
+                    DrawContext.FlushBuffer(_meshGridBuffer.VertexBuffer,
+                        _meshGridBuffer.VertexBufferCount,
+                        _meshGridBuffer.IndexBuffer,
+                        _meshGridBuffer.IndexBufferCount,
+                        _meshGridBuffer.VertexFormat,
+                        _meshGridBuffer.EffectInstance, PrimitiveType.LineList, 0,
+                        _meshGridBuffer.PrimitiveCount);
+                }
+
+                if (_drawNormalVector)
+                {
+                    foreach (var buffer in _normalBuffers)
+                    {
+                        DrawContext.FlushBuffer(buffer.VertexBuffer,
+                            buffer.VertexBufferCount,
+                            buffer.IndexBuffer,
+                            buffer.IndexBufferCount,
+                            buffer.VertexFormat,
+                            buffer.EffectInstance, PrimitiveType.LineList, 0,
+                            buffer.PrimitiveCount);
+                    }
                 }
             }
-            
-            if (_drawMeshGrid)
+            catch (Exception exception)
             {
-                DrawContext.FlushBuffer(_meshGridBuffer.VertexBuffer,
-                    _meshGridBuffer.VertexBufferCount,
-                    _meshGridBuffer.IndexBuffer,
-                    _meshGridBuffer.IndexBufferCount,
-                    _meshGridBuffer.VertexFormat,
-                    _meshGridBuffer.EffectInstance, PrimitiveType.LineList, 0,
-                    _meshGridBuffer.PrimitiveCount);
-            }
-            
-            if (_drawNormalVector)
-            {
-                foreach (var buffer in _normalBuffers)
+                RenderFailed?.Invoke(this, new RenderFailedEventArgs
                 {
-                    DrawContext.FlushBuffer(buffer.VertexBuffer,
-                        buffer.VertexBufferCount,
-                        buffer.IndexBuffer,
-                        buffer.IndexBufferCount,
-                        buffer.VertexFormat,
-                        buffer.EffectInstance, PrimitiveType.LineList, 0,
-                        buffer.PrimitiveCount);
-                }
+                    Exception = exception
+                });
             }
-        }
-        catch (Exception exception)
-        {
-            RenderFailed?.Invoke(this, new RenderFailedEventArgs
-            {
-                Exception = exception
-            });
         }
     }
-    
+
     private void MapGeometryBuffer()
     {
         RenderHelper.MapSurfaceBuffer(_surfaceBuffer, _mesh, _extrusion);
         RenderHelper.MapMeshGridBuffer(_meshGridBuffer, _mesh, _extrusion);
         MapNormalsBuffer();
     }
-    
+
     private void MapNormalsBuffer()
     {
         var area = RenderGeometryHelper.ComputeMeshSurfaceArea(_mesh);
         var offset = RenderGeometryHelper.InterpolateOffsetByArea(area);
         var normalLength = RenderGeometryHelper.InterpolateAxisLengthByArea(area);
-        
+
         for (var i = 0; i < _mesh.Vertices.Count; i++)
         {
             var vertex = _mesh.Vertices[i];
             var buffer = _normalBuffers[i];
             var normal = RenderGeometryHelper.GetMeshVertexNormal(_mesh, i, _mesh.DistributionOfNormals);
-            
+
             RenderHelper.MapNormalVectorBuffer(buffer, vertex + normal * (offset + _extrusion), normal, normalLength);
         }
     }
-    
+
     private void UpdateEffects()
     {
         _surfaceBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
         _meshGridBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
-        
+
         _surfaceBuffer.EffectInstance.SetColor(_surfaceColor);
         _meshGridBuffer.EffectInstance.SetColor(_meshColor);
         _surfaceBuffer.EffectInstance.SetTransparency(_transparency);
-        
+
         foreach (var normalBuffer in _normalBuffers)
         {
             normalBuffer.EffectInstance ??= new EffectInstance(_surfaceBuffer.FormatBits);
             normalBuffer.EffectInstance.SetColor(_normalColor);
         }
     }
-    
+
     public void UpdateSurfaceColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _surfaceColor = value;
-        _hasEffectsUpdates = true;
-        
-        uiDocument.UpdateAllOpenViews();
+
+        lock (_renderLock)
+        {
+            _surfaceColor = value;
+            _hasEffectsUpdates = true;
+
+            uiDocument.UpdateAllOpenViews();
+        }
     }
-    
+
     public void UpdateMeshGridColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _meshColor = value;
-        _hasEffectsUpdates = true;
-        
-        uiDocument.UpdateAllOpenViews();
+
+        lock (_renderLock)
+        {
+            _meshColor = value;
+            _hasEffectsUpdates = true;
+
+            uiDocument.UpdateAllOpenViews();
+        }
     }
-    
+
     public void UpdateNormalVectorColor(Color value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _normalColor = value;
-        _hasEffectsUpdates = true;
-        
-        uiDocument.UpdateAllOpenViews();
+
+        lock (_renderLock)
+        {
+            _normalColor = value;
+            _hasEffectsUpdates = true;
+
+            uiDocument.UpdateAllOpenViews();
+        }
     }
-    
+
     public void UpdateExtrusion(double value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _extrusion = value;
-        _hasGeometryUpdates = true;
-        
-        uiDocument.UpdateAllOpenViews();
+
+        lock (_renderLock)
+        {
+            _extrusion = value;
+            _hasGeometryUpdates = true;
+
+            uiDocument.UpdateAllOpenViews();
+        }
     }
-    
+
     public void UpdateTransparency(double value)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _transparency = value;
-        _hasEffectsUpdates = true;
-        
-        uiDocument.UpdateAllOpenViews();
+
+        lock (_renderLock)
+        {
+            _transparency = value;
+            _hasEffectsUpdates = true;
+
+            uiDocument.UpdateAllOpenViews();
+        }
     }
-    
-    
+
+
     public void UpdateSurfaceVisibility(bool visible)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _drawSurface = visible;
-        
-        uiDocument.UpdateAllOpenViews();
+
+        lock (_renderLock)
+        {
+            _drawSurface = visible;
+            uiDocument.UpdateAllOpenViews();
+        }
     }
-    
+
     public void UpdateMeshGridVisibility(bool visible)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _drawMeshGrid = visible;
-        
-        uiDocument.UpdateAllOpenViews();
+
+        lock (_renderLock)
+        {
+            _drawMeshGrid = visible;
+            uiDocument.UpdateAllOpenViews();
+        }
     }
-    
+
     public void UpdateNormalVectorVisibility(bool visible)
     {
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
-        
-        _drawNormalVector = visible;
-        
-        uiDocument.UpdateAllOpenViews();
+
+        lock (_renderLock)
+        {
+            _drawNormalVector = visible;
+            uiDocument.UpdateAllOpenViews();
+        }
     }
-    
+
     public void Register(Mesh mesh)
     {
         _mesh = mesh;
         _normalBuffers = Enumerable.Range(0, _mesh.Vertices.Count)
             .Select(_ => new RenderingBufferStorage())
             .ToArray();
-        
+
         Application.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
-            
+
             var directContextService = (MultiServerService) ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
             var serverIds = directContextService.GetActiveServerIds();
-            
+
             directContextService.AddServer(this);
             serverIds.Add(GetServerId());
             directContextService.SetActiveServers(serverIds);
-            
+
             application.ActiveUIDocument.UpdateAllOpenViews();
         });
     }
-    
+
     public void Unregister()
     {
         Application.ActionEventHandler.Raise(application =>
         {
             var directContextService = (MultiServerService) ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
             directContextService.RemoveServer(GetServerId());
-            
+
             application.ActiveUIDocument?.UpdateAllOpenViews();
         });
     }
-    
+
     public event EventHandler<RenderFailedEventArgs> RenderFailed;
 }

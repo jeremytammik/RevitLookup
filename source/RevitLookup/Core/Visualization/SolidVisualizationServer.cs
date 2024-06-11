@@ -32,6 +32,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
     private bool _hasGeometryUpdates = true;
 
     private readonly Guid _guid = Guid.NewGuid();
+    private readonly object _renderLock = new();
     private readonly List<RenderingBufferStorage> _faceBuffers = new(4);
     private readonly List<RenderingBufferStorage> _edgeBuffers = new(8);
 
@@ -66,58 +67,61 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     public void RenderScene(View view, DisplayStyle displayStyle)
     {
-        try
+        lock (_renderLock)
         {
-            if (_hasGeometryUpdates || _faceBuffers.Any(storage => !storage.IsValid()) || _edgeBuffers.Any(storage => !storage.IsValid()))
+            try
             {
-                MapGeometryBuffer();
-                _hasGeometryUpdates = false;
-            }
-
-            if (_hasEffectsUpdates)
-            {
-                UpdateEffects();
-                _hasEffectsUpdates = false;
-            }
-
-            if (_drawFace)
-            {
-                var isTransparentPass = DrawContext.IsTransparentPass();
-                if (isTransparentPass && _transparency > 0 || !isTransparentPass && _transparency == 0)
+                if (_hasGeometryUpdates)
                 {
-                    foreach (var buffer in _faceBuffers)
+                    MapGeometryBuffer();
+                    _hasGeometryUpdates = false;
+                }
+
+                if (_hasEffectsUpdates)
+                {
+                    UpdateEffects();
+                    _hasEffectsUpdates = false;
+                }
+
+                if (_drawFace)
+                {
+                    var isTransparentPass = DrawContext.IsTransparentPass();
+                    if (isTransparentPass && _transparency > 0 || !isTransparentPass && _transparency == 0)
+                    {
+                        foreach (var buffer in _faceBuffers)
+                        {
+                            DrawContext.FlushBuffer(buffer.VertexBuffer,
+                                buffer.VertexBufferCount,
+                                buffer.IndexBuffer,
+                                buffer.IndexBufferCount,
+                                buffer.VertexFormat,
+                                buffer.EffectInstance, PrimitiveType.TriangleList, 0,
+                                buffer.PrimitiveCount);
+                        }
+                    }
+                }
+
+                if (_drawEdge)
+                {
+                    foreach (var buffer in _edgeBuffers)
                     {
                         DrawContext.FlushBuffer(buffer.VertexBuffer,
                             buffer.VertexBufferCount,
                             buffer.IndexBuffer,
                             buffer.IndexBufferCount,
                             buffer.VertexFormat,
-                            buffer.EffectInstance, PrimitiveType.TriangleList, 0,
+                            buffer.EffectInstance, PrimitiveType.LineList, 0,
                             buffer.PrimitiveCount);
                     }
                 }
             }
-
-            if (_drawEdge)
+            catch (Exception exception)
             {
-                foreach (var buffer in _edgeBuffers)
+                RenderFailed?.Invoke(this, new RenderFailedEventArgs
                 {
-                    DrawContext.FlushBuffer(buffer.VertexBuffer,
-                        buffer.VertexBufferCount,
-                        buffer.IndexBuffer,
-                        buffer.IndexBufferCount,
-                        buffer.VertexFormat,
-                        buffer.EffectInstance, PrimitiveType.LineList, 0,
-                        buffer.PrimitiveCount);
-                }
+                    Exception = exception
+                });
             }
-        }
-        catch (Exception exception)
-        {
-            RenderFailed?.Invoke(this, new RenderFailedEventArgs
-            {
-                Exception = exception
-            });
         }
     }
 
@@ -189,10 +193,13 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
 
-        _faceColor = value;
-        _hasEffectsUpdates = true;
+        lock (_renderLock)
+        {
+            _faceColor = value;
+            _hasEffectsUpdates = true;
 
-        uiDocument.UpdateAllOpenViews();
+            uiDocument.UpdateAllOpenViews();
+        }
     }
 
     public void UpdateEdgeColor(Color value)
@@ -200,10 +207,13 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
 
-        _edgeColor = value;
-        _hasEffectsUpdates = true;
+        lock (_renderLock)
+        {
+            _edgeColor = value;
+            _hasEffectsUpdates = true;
 
-        uiDocument.UpdateAllOpenViews();
+            uiDocument.UpdateAllOpenViews();
+        }
     }
 
     public void UpdateTransparency(double value)
@@ -211,10 +221,13 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
 
-        _transparency = value;
-        _hasEffectsUpdates = true;
+        lock (_renderLock)
+        {
+            _transparency = value;
+            _hasEffectsUpdates = true;
 
-        uiDocument.UpdateAllOpenViews();
+            uiDocument.UpdateAllOpenViews();
+        }
     }
 
     public void UpdateScale(double value)
@@ -224,12 +237,15 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
         _scale = value;
 
-        _hasGeometryUpdates = true;
-        _hasEffectsUpdates = true;
-        _faceBuffers.Clear();
-        _edgeBuffers.Clear();
+        lock (_renderLock)
+        {
+            _hasGeometryUpdates = true;
+            _hasEffectsUpdates = true;
+            _faceBuffers.Clear();
+            _edgeBuffers.Clear();
 
-        uiDocument.UpdateAllOpenViews();
+            uiDocument.UpdateAllOpenViews();
+        }
     }
 
     public void UpdateFaceVisibility(bool value)
@@ -237,9 +253,12 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
 
-        _drawFace = value;
+        lock (_renderLock)
+        {
+            _drawFace = value;
 
-        uiDocument.UpdateAllOpenViews();
+            uiDocument.UpdateAllOpenViews();
+        }
     }
 
     public void UpdateEdgeVisibility(bool value)
@@ -247,9 +266,12 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
         var uiDocument = Context.UiDocument;
         if (uiDocument is null) return;
 
-        _drawEdge = value;
+        lock (_renderLock)
+        {
+            _drawEdge = value;
 
-        uiDocument.UpdateAllOpenViews();
+            uiDocument.UpdateAllOpenViews();
+        }
     }
 
     public void Register(Solid solid)
