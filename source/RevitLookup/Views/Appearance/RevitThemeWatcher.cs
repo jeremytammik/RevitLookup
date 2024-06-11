@@ -21,6 +21,7 @@
 
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
+using RevitLookup.Services.Contracts;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -30,7 +31,7 @@ public static class RevitThemeWatcher
 {
     private static bool _isWatching;
 
-    public static void Watch(FluentWindow target)
+    public static void Watch(WindowBackdropType background)
     {
         if (!_isWatching)
         {
@@ -39,7 +40,7 @@ public static class RevitThemeWatcher
         }
 
         var theme = GetCurrentTheme();
-        ApplicationThemeManager.Apply(theme, target.WindowBackdropType);
+        ApplicationThemeManager.Apply(theme, background);
     }
 
     public static void Unwatch()
@@ -55,12 +56,13 @@ public static class RevitThemeWatcher
         if (args.ThemeChangedType != ThemeType.UITheme) return;
 
         var theme = GetCurrentTheme();
+        var settings = Host.GetService<ISettingsService>().GeneralSettings;
         foreach (var observedWindow in Wpf.Ui.Application.Windows)
         {
             observedWindow.Dispatcher.Invoke(() =>
             {
                 Wpf.Ui.Application.MainWindow = observedWindow;
-                ApplicationThemeManager.Apply(theme, observedWindow.WindowBackdropType);
+                ApplicationThemeManager.Apply(theme, settings.Background);
             });
         }
     }

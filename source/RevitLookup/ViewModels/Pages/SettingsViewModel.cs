@@ -97,7 +97,7 @@ public sealed partial class SettingsViewModel(
             if (value == ApplicationTheme.Auto)
             {
 #if REVIT2024_OR_GREATER
-                RevitThemeWatcher.Watch(target);
+                RevitThemeWatcher.Watch(settingsService.GeneralSettings.Background);
 #else
                 throw new NotSupportedException("Auto theme is not supported for current Revit version");
 #endif
@@ -124,7 +124,19 @@ public sealed partial class SettingsViewModel(
     partial void OnBackgroundChanged(WindowBackdropType value)
     {
         settingsService.GeneralSettings.Background = value;
-        ApplicationThemeManager.Apply(settingsService.GeneralSettings.Theme, settingsService.GeneralSettings.Background);
+
+        if (settingsService.GeneralSettings.Theme == ApplicationTheme.Auto)
+        {
+#if REVIT2024_OR_GREATER
+            RevitThemeWatcher.Watch(settingsService.GeneralSettings.Background);
+#else
+            throw new NotSupportedException("Auto theme is not supported for current Revit version");
+#endif
+        }
+        else
+        {
+            ApplicationThemeManager.Apply(settingsService.GeneralSettings.Theme, settingsService.GeneralSettings.Background);
+        }
     }
 
     partial void OnUseTransitionChanged(bool value)

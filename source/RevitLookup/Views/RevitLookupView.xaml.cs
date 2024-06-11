@@ -74,7 +74,7 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
         if (_settings.Theme == ApplicationTheme.Auto)
         {
 #if REVIT2024_OR_GREATER
-            RevitThemeWatcher.Watch(this);
+            RevitThemeWatcher.Watch(_settings.Background);
 #else
             throw new NotSupportedException("Auto theme is not supported for current Revit version");
 #endif
