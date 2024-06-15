@@ -95,5 +95,12 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
                 return FamilySizeTableManager.GetFamilySizeTableManager(context, familyTableId);
             });
         }
+        
+        // Disabled: slow performance.
+        // manager.Register(nameof(WorksharingUtils.GetUserWorksetInfo), context =>
+        // {
+        //     var modelPath = context.IsModelInCloud ? context.GetCloudModelPath() : context.GetWorksharingCentralModelPath();
+        //     return WorksharingUtils.GetUserWorksetInfo(modelPath);
+        // });
     }
 }
