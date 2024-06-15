@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -27,6 +26,6 @@ public class PartMakerDescriptor(PartMaker partMaker) : ElementDescriptor(partMa
 {
     public override void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(nameof(PartUtils.GetPartMakerMethodToDivideVolumeFW), _ => Variants.Single(PartUtils.GetPartMakerMethodToDivideVolumeFW(partMaker)));
+        manager.Register(nameof(PartUtils.GetPartMakerMethodToDivideVolumeFW), _ => PartUtils.GetPartMakerMethodToDivideVolumeFW(partMaker));
     }
 }

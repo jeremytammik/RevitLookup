@@ -286,7 +286,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
         manager.Register(nameof(SolidSolidCutUtils.GetSolidsBeingCut), _ => SolidSolidCutUtils.GetSolidsBeingCut(_element));
         manager.Register(nameof(SolidSolidCutUtils.IsAllowedForSolidCut), _ => SolidSolidCutUtils.IsAllowedForSolidCut(_element));
         manager.Register(nameof(SolidSolidCutUtils.IsElementFromAppropriateContext), _ => SolidSolidCutUtils.IsElementFromAppropriateContext(_element));
-        manager.Register(nameof(PartUtils.AreElementsValidForCreateParts), context => Variants.Single(PartUtils.AreElementsValidForCreateParts(context, [_element.Id])));
+        manager.Register(nameof(PartUtils.AreElementsValidForCreateParts), context => PartUtils.AreElementsValidForCreateParts(context, [_element.Id]));
 
     }
 

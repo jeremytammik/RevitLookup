@@ -18,9 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows.Controls;
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -28,22 +26,17 @@ public class PartDescriptor(Part part) : ElementDescriptor(part)
 {
     public override void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(nameof(PartUtils.IsMergedPart), _ => Variants.Single(PartUtils.IsMergedPart(part)));
-        manager.Register(nameof(PartUtils.IsPartDerivedFromLink), _ => Variants.Single(PartUtils.IsPartDerivedFromLink(part)));
-        manager.Register(nameof(PartUtils.GetChainLengthToOriginal), _ => Variants.Single(PartUtils.GetChainLengthToOriginal(part)));
-        manager.Register(nameof(PartUtils.GetMergedParts), context =>
-        {
-            if (PartUtils.IsMergedPart(part))
-                return Variants.Single(PartUtils.GetMergedParts(part));
-            return Variants.Empty<ElementId>();
-        });
+        manager.Register(nameof(PartUtils.IsMergedPart), _ => PartUtils.IsMergedPart(part));
+        manager.Register(nameof(PartUtils.IsPartDerivedFromLink), _ => PartUtils.IsPartDerivedFromLink(part));
+        manager.Register(nameof(PartUtils.GetChainLengthToOriginal), _ =>PartUtils.GetChainLengthToOriginal(part));
+        manager.Register(nameof(PartUtils.GetMergedParts), _ => PartUtils.GetMergedParts(part));
         
-        manager.Register(nameof(PartUtils.ArePartsValidForDivide), context => Variants.Single(PartUtils.ArePartsValidForDivide(context, [part.Id])));
-        manager.Register(nameof(PartUtils.FindMergeableClusters), context => Variants.Single(PartUtils.FindMergeableClusters(context, [part.Id])));
-        manager.Register(nameof(PartUtils.ArePartsValidForMerge), context => Variants.Single(PartUtils.ArePartsValidForMerge(context, [part.Id])));
-        manager.Register(nameof(PartUtils.GetAssociatedPartMaker), context => Variants.Single(PartUtils.GetAssociatedPartMaker(context, part.Id)));
-        manager.Register(nameof(PartUtils.GetSplittingCurves), context => Variants.Single(PartUtils.GetSplittingCurves(context, part.Id)));
-        manager.Register(nameof(PartUtils.GetSplittingElements), context => Variants.Single(PartUtils.GetSplittingElements(context, part.Id)));
-        manager.Register(nameof(PartUtils.HasAssociatedParts), context => Variants.Single(PartUtils.HasAssociatedParts(context, part.Id)));
+        manager.Register(nameof(PartUtils.ArePartsValidForDivide), context => PartUtils.ArePartsValidForDivide(context, [part.Id]));
+        manager.Register(nameof(PartUtils.FindMergeableClusters), context => PartUtils.FindMergeableClusters(context, [part.Id]));
+        manager.Register(nameof(PartUtils.ArePartsValidForMerge), context => PartUtils.ArePartsValidForMerge(context, [part.Id]));
+        manager.Register(nameof(PartUtils.GetAssociatedPartMaker), context => PartUtils.GetAssociatedPartMaker(context, part.Id));
+        manager.Register(nameof(PartUtils.GetSplittingCurves), context => PartUtils.GetSplittingCurves(context, part.Id));
+        manager.Register(nameof(PartUtils.GetSplittingElements), context => PartUtils.GetSplittingElements(context, part.Id));
+        manager.Register(nameof(PartUtils.HasAssociatedParts), context => PartUtils.HasAssociatedParts(context, part.Id));
     }
 }

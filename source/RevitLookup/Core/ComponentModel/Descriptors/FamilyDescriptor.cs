@@ -20,7 +20,6 @@
 
 using System.Reflection;
 using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -33,10 +32,6 @@ public sealed class FamilyDescriptor(Family family) : ElementDescriptor(family)
     
     public override void RegisterExtensions(IExtensionManager manager)
     {
-        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context =>
-        {
-            var result = FamilySizeTableManager.GetFamilySizeTableManager(context, family.Id);
-            return Variants.Single(result);
-        });
+        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context => FamilySizeTableManager.GetFamilySizeTableManager(context, family.Id));
     }
 }
