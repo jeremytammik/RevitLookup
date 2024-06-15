@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
@@ -27,5 +28,10 @@ public class PartMakerDescriptor(PartMaker partMaker) : ElementDescriptor(partMa
     public override void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(nameof(PartUtils.GetPartMakerMethodToDivideVolumeFW), _ => PartUtils.GetPartMakerMethodToDivideVolumeFW(partMaker));
+    }
+    
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    {
+        return null;
     }
 }
