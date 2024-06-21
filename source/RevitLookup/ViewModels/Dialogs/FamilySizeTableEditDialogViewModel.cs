@@ -28,14 +28,20 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
 {
     private readonly FamilySizeTableManager _manager;
     private readonly string _tableName;
+    
     public FamilySizeTableEditDialogViewModel(FamilySizeTableManager manager, string tableName)
     {
         _manager = manager;
+        DeleteRowCommand = new RelayCommand<DataRow>(DeleteRow);
+        DuplicateRowCommand = new RelayCommand<DataRow>(DuplicateRow);
         _tableName = tableName;
         var table = manager.GetSizeTable(tableName);
         CreateColumns(table);
         WriteRows(table);
     }
+    
+    public RelayCommand<DataRow> DeleteRowCommand { get; }
+    public RelayCommand<DataRow> DuplicateRowCommand { get; }
     
     public FamilySizeTableEditDialogViewModel(FamilySizeTable table)
     {
@@ -66,15 +72,17 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
             var typeId = table.GetColumnHeader(i).GetUnitTypeId();
             var headerName = table.GetColumnHeader(i).Name;
             
-            var columnName = headerName;;
+            var columnName = headerName;
             if (!specId.Empty())
             {
                 columnName = $"{columnName}##{specId.ToSpecLabel().ToLowerInvariant()}";
             }
+            
             if (!typeId.Empty())
             {
                 columnName = $"{columnName}##{typeId.ToUnitLabel().ToLowerInvariant()}";
             }
+            
             Columns.Add(new DataColumn(columnName, typeof(string)));
         }
     }
@@ -105,6 +113,7 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
                 {
                     recordValue = $"[{recordValue}]";
                 }
+                
                 result.Append(recordValue);
                 result.Append(",");
             }
@@ -120,7 +129,20 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
             transaction.Start();
             _manager.ImportSizeTable(Context.Document, path, new FamilySizeTableErrorInfo());
             transaction.Commit();
+            File.Delete(path);
         });
-        File.Delete(path);
+    }
+    
+    private void DeleteRow(DataRow row)
+    {
+        Rows.Remove(row);
+    }
+    
+    private void DuplicateRow(DataRow row)
+    {
+        var index = Rows.IndexOf(row);
+        var newRow = NewRow();
+        newRow.ItemArray = (object[]) row.ItemArray.Clone();
+        Rows.InsertAt(newRow, index + 1);
     }
 }

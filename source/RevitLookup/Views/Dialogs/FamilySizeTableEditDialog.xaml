@@ -5,6 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:data="clr-namespace:System.Data;assembly=System.Data"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance dialogs:FamilySizeTableEditDialogViewModel}">
     <DataGrid
@@ -12,5 +14,38 @@
         CanUserAddRows="False"
         HeadersVisibility="Column"
         CanUserReorderColumns="False"
-        ItemsSource="{Binding}" />
+        ItemsSource="{Binding}">
+        <DataGrid.Columns>
+            <DataGridTemplateColumn IsReadOnly="True" Header="Actions">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <rl:Button 
+                                Padding="2"
+                                Margin="4 2"
+                                ToolTip="Delete row"
+                                CommandParameter="{Binding Path=DataContext.(data:DataRowView.Row), RelativeSource = {RelativeSource Self}}"
+                                Command="{Binding DataContext.DeleteRowCommand, 
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
+                                <rl:Button.Content>
+                                    <rl:SymbolIcon Symbol="Delete24" />
+                                </rl:Button.Content>
+                            </rl:Button>
+                            <rl:Button 
+                                Padding="2"
+                                Margin="4 2"
+                                ToolTip="Duplicate row"
+                                CommandParameter="{Binding Path=DataContext.(data:DataRowView.Row), RelativeSource = {RelativeSource Self}}"
+                                Command="{Binding DataContext.DuplicateRowCommand, 
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}">
+                                <rl:Button.Content>
+                                    <rl:SymbolIcon Symbol="Copy24" />
+                                </rl:Button.Content>
+                            </rl:Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
 </Grid>

@@ -57,7 +57,7 @@ public sealed partial class FamilySizeTableEditDialog
             HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
-        if (_isEditable)
+        if (_isEditable && Context.Document.IsFamilyDocument)
         {
             dialogOptions.PrimaryButtonText = "Save and close";
         }
