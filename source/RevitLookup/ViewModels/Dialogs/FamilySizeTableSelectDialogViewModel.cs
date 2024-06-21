@@ -19,16 +19,19 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 
+using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using RevitLookup.Core.ComponentModel.Descriptors;
+using RevitLookup.Views.Dialogs;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public sealed partial class FamilySizeTableExportDialogViewModel : ObservableObject
+public sealed partial class FamilySizeTableSelectDialogViewModel : ObservableObject
 {
     private readonly FamilySizeTableManager _manager;
     [ObservableProperty] private string _selectedTable;
     public List<string> Tables { get; }
-    public FamilySizeTableExportDialogViewModel(FamilySizeTableManager manager)
+    public FamilySizeTableSelectDialogViewModel(FamilySizeTableManager manager)
     {
         _manager = manager;
         Tables = manager.GetAllSizeTableNames().ToList();
@@ -47,5 +50,19 @@ public sealed partial class FamilySizeTableExportDialogViewModel : ObservableObj
         if (saveFileDialog.ShowDialog() == false) return;
         
         _manager.ExportSizeTable(SelectedTable, saveFileDialog.FileName);
+    }
+    
+    public async Task ShowEditDialogAsync(IServiceProvider serviceProvider)
+    {
+        try
+        {
+            var dialog = new FamilySizeTableShowDialog(serviceProvider, _manager, SelectedTable);
+            await dialog.ShowAsync();
+        }
+        catch (Exception exception)
+        {
+            var logger = serviceProvider.GetService<ILogger<FamilySizeTableManagerDescriptor>>();
+            logger.LogError(exception, "FamilySizeTableDialog error");
+        }
     }
 }

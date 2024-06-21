@@ -84,13 +84,31 @@ public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager mana
                 var context = (ISnoopViewModel) contextMenu.DataContext;
                 try
                 {
-                    var dialog = new FamilySizeTableExportDialog(context.ServiceProvider, manager);
-                    await dialog.ShowAsync();
+                    var dialog = new FamilySizeTableSelectDialog(context.ServiceProvider, manager);
+                    await dialog.ShowExportDialogAsync();
                 }
                 catch (Exception exception)
                 {
                     var logger = context.ServiceProvider.GetService<ILogger<ParameterDescriptor>>();
-                    logger.LogError(exception, "Initialize EditParameterDialog error");
+                    logger.LogError(exception, "Initialize FamilySizeTableExportDialog error");
+                }
+            });
+        
+        contextMenu.AddMenuItem("ShowMenuItem")
+            .SetHeader("Edit table")
+            .SetAvailability(manager.GetAllSizeTableNames().Count > 0)
+            .SetCommand(manager, async sizeTable =>
+            {
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                try
+                {
+                    var dialog = new FamilySizeTableSelectDialog(context.ServiceProvider, manager);
+                    await dialog.ShowEditDialogAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetService<ILogger<FamilySizeTableDescriptor>>();
+                    logger.LogError(exception, "FamilySizeTableDialog error");
                 }
             });
     }

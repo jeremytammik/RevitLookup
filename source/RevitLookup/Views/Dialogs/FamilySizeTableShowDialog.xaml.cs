@@ -27,6 +27,15 @@ namespace RevitLookup.Views.Dialogs;
 public sealed partial class FamilySizeTableShowDialog
 {
     private readonly IServiceProvider _serviceProvider;
+    private bool _isEditable;
+    
+    public FamilySizeTableShowDialog(IServiceProvider serviceProvider, FamilySizeTableManager manager, string tableName)
+    {
+        _isEditable = true;
+        DataContext = new FamilySizeTableShowDialogViewModel(manager, tableName);
+        _serviceProvider = serviceProvider;
+        InitializeComponent();
+    }
     
     public FamilySizeTableShowDialog(IServiceProvider serviceProvider, FamilySizeTable table)
     {
@@ -45,6 +54,10 @@ public sealed partial class FamilySizeTableShowDialog
             HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
+        if (_isEditable)
+        {
+            dialogOptions.PrimaryButtonText = "Save and close";
+        }
         
         await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
     }

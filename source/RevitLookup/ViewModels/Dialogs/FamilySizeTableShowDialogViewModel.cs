@@ -24,6 +24,13 @@ namespace RevitLookup.ViewModels.Dialogs;
 
 public sealed class FamilySizeTableShowDialogViewModel : DataTable
 {
+    public FamilySizeTableShowDialogViewModel(FamilySizeTableManager manager, string tableName)
+    {
+        var table = manager.GetSizeTable(tableName);
+        CreateColumns(table);
+        WriteRows(table);
+    }
+    
     public FamilySizeTableShowDialogViewModel(FamilySizeTable table)
     {
         CreateColumns(table);
@@ -48,10 +55,20 @@ public sealed class FamilySizeTableShowDialogViewModel : DataTable
     {
         for (var i = 0; i < table.NumberOfColumns; i++)
         {
+            var header = table.GetColumnHeader(i);
+            var specId = header.GetSpecTypeId();
             var typeId = table.GetColumnHeader(i).GetUnitTypeId();
             var headerName = table.GetColumnHeader(i).Name;
             
-            var columnName = typeId.Empty() ? headerName : $"{headerName}##{typeId.ToUnitLabel()}";
+            var columnName = headerName;;
+            if (!specId.Empty())
+            {
+                columnName = $"{columnName}##{specId.ToSpecLabel()}";
+            }
+            if (!typeId.Empty())
+            {
+                columnName = $"{columnName}##{typeId.ToUnitLabel()}";
+            }
             Columns.Add(new DataColumn(columnName, typeof(string)));
         }
     }

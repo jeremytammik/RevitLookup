@@ -25,20 +25,20 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;
 
-public sealed partial class FamilySizeTableExportDialog
+public sealed partial class FamilySizeTableSelectDialog
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly FamilySizeTableExportDialogViewModel _viewModel;
+    private readonly FamilySizeTableSelectDialogViewModel _viewModel;
 
-    public FamilySizeTableExportDialog(IServiceProvider serviceProvider, FamilySizeTableManager manager)
+    public FamilySizeTableSelectDialog(IServiceProvider serviceProvider, FamilySizeTableManager manager)
     {
-        _viewModel = new FamilySizeTableExportDialogViewModel(manager);
+        _viewModel = new FamilySizeTableSelectDialogViewModel(manager);
         DataContext = _viewModel;
         _serviceProvider = serviceProvider;
         InitializeComponent();
     }
     
-    public async Task ShowAsync()
+    public async Task ShowExportDialogAsync()
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
         {
@@ -56,6 +56,32 @@ public sealed partial class FamilySizeTableExportDialog
         try
         {
             _viewModel.Export();
+        }
+        catch (Exception exception)
+        {
+            var notificationService = _serviceProvider.GetService<NotificationService>();
+            notificationService.ShowWarning("Export error", exception.Message);
+        }
+    }
+    
+    public async Task ShowEditDialogAsync()
+    {
+        var dialogOptions = new SimpleContentDialogCreateOptions
+        {
+            Title = "Select family size table",
+            Content = this,
+            PrimaryButtonText = "Edit",
+            CloseButtonText = "Close",
+            DialogMaxHeight = 230,
+            DialogMaxWidth = 500
+        };
+        
+        var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        if (dialogResult != ContentDialogResult.Primary) return;
+        
+        try
+        {
+             await _viewModel.ShowEditDialogAsync(_serviceProvider);
         }
         catch (Exception exception)
         {
