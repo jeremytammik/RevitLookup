@@ -1,14 +1,15 @@
 ﻿<Grid
-    x:Class="RevitLookup.Views.Dialogs.FamilySizeTableShowDialog"
+    x:Class="RevitLookup.Views.Dialogs.FamilySizeTableEditDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance dialogs:FamilySizeTableShowDialogViewModel}">
+    d:DataContext="{d:DesignInstance dialogs:FamilySizeTableEditDialogViewModel}">
     <DataGrid
-        IsReadOnly="True"
+        IsReadOnly="False"
+        CanUserAddRows="False"
         HeadersVisibility="Column"
         CanUserReorderColumns="False"
         ItemsSource="{Binding}" />

@@ -21,25 +21,28 @@
 using System.Windows.Controls;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;
 
-public sealed partial class FamilySizeTableShowDialog
+public sealed partial class FamilySizeTableEditDialog
 {
     private readonly IServiceProvider _serviceProvider;
-    private bool _isEditable;
+    private readonly bool _isEditable;
+    private readonly FamilySizeTableEditDialogViewModel _viewModel;
     
-    public FamilySizeTableShowDialog(IServiceProvider serviceProvider, FamilySizeTableManager manager, string tableName)
+    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, FamilySizeTableManager manager, string tableName)
     {
         _isEditable = true;
-        DataContext = new FamilySizeTableShowDialogViewModel(manager, tableName);
+        _viewModel = new FamilySizeTableEditDialogViewModel(manager, tableName);
+        DataContext = _viewModel;
         _serviceProvider = serviceProvider;
         InitializeComponent();
     }
     
-    public FamilySizeTableShowDialog(IServiceProvider serviceProvider, FamilySizeTable table)
+    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, FamilySizeTable table)
     {
-        DataContext = new FamilySizeTableShowDialogViewModel(table);
+        DataContext = new FamilySizeTableEditDialogViewModel(table);
         _serviceProvider = serviceProvider;
         InitializeComponent();
     }
@@ -59,6 +62,10 @@ public sealed partial class FamilySizeTableShowDialog
             dialogOptions.PrimaryButtonText = "Save and close";
         }
         
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        if (dialogResult == ContentDialogResult.Primary)
+        {
+            _viewModel.SaveData();
+        }
     }
 }

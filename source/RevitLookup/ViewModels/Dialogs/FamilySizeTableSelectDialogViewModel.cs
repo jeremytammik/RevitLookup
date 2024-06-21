@@ -56,7 +56,7 @@ public sealed partial class FamilySizeTableSelectDialogViewModel : ObservableObj
     {
         try
         {
-            var dialog = new FamilySizeTableShowDialog(serviceProvider, _manager, SelectedTable);
+            var dialog = new FamilySizeTableEditDialog(serviceProvider, _manager, SelectedTable);
             await dialog.ShowAsync();
         }
         catch (Exception exception)

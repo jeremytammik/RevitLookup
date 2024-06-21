@@ -19,19 +19,25 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Data;
+using System.IO;
+using System.Text;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public sealed class FamilySizeTableShowDialogViewModel : DataTable
+public sealed class FamilySizeTableEditDialogViewModel : DataTable
 {
-    public FamilySizeTableShowDialogViewModel(FamilySizeTableManager manager, string tableName)
+    private readonly FamilySizeTableManager _manager;
+    private readonly string _tableName;
+    public FamilySizeTableEditDialogViewModel(FamilySizeTableManager manager, string tableName)
     {
+        _manager = manager;
+        _tableName = tableName;
         var table = manager.GetSizeTable(tableName);
         CreateColumns(table);
         WriteRows(table);
     }
     
-    public FamilySizeTableShowDialogViewModel(FamilySizeTable table)
+    public FamilySizeTableEditDialogViewModel(FamilySizeTable table)
     {
         CreateColumns(table);
         WriteRows(table);
@@ -63,13 +69,58 @@ public sealed class FamilySizeTableShowDialogViewModel : DataTable
             var columnName = headerName;;
             if (!specId.Empty())
             {
-                columnName = $"{columnName}##{specId.ToSpecLabel()}";
+                columnName = $"{columnName}##{specId.ToSpecLabel().ToLowerInvariant()}";
             }
             if (!typeId.Empty())
             {
-                columnName = $"{columnName}##{typeId.ToUnitLabel()}";
+                columnName = $"{columnName}##{typeId.ToUnitLabel().ToLowerInvariant()}";
             }
             Columns.Add(new DataColumn(columnName, typeof(string)));
         }
+    }
+    
+    public void SaveData()
+    {
+        var dirPath = Path.Combine(Path.GetTempPath(), "Size Tables");
+        Directory.CreateDirectory(dirPath);
+        var path = Path.Combine(dirPath, $"{_tableName}.csv");
+        var writer = new StreamWriter(path);
+        var header = new StringBuilder();
+        for (var i = 1; i < Columns.Count; i++)
+        {
+            var column = Columns[i];
+            var name = column.ColumnName.Replace(' ', '_');
+            header.Append(",");
+            header.Append(name);
+        }
+        
+        writer.WriteLine(header);
+        foreach (DataRow row in Rows)
+        {
+            var result = new StringBuilder();
+            foreach (var value in row.ItemArray)
+            {
+                var recordValue = value.ToString();
+                if (recordValue.Contains(','))
+                {
+                    recordValue = $"[{recordValue}]";
+                }
+                result.Append(recordValue);
+                result.Append(",");
+            }
+            
+            result.Remove(result.Length - 1, 1);
+            writer.WriteLine(result);
+        }
+        
+        writer.Close();
+        Application.ActionEventHandler.Raise(_ =>
+        {
+            using var transaction = new Transaction(Context.Document, "Change size table");
+            transaction.Start();
+            _manager.ImportSizeTable(Context.Document, path, new FamilySizeTableErrorInfo());
+            transaction.Commit();
+        });
+        File.Delete(path);
     }
 }
