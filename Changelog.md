@@ -1,5 +1,50 @@
 # Changelog
 
+# 2025-06-23 **2025.0.8**
+
+## Addins dependencies isolation. End of DLL hell
+
+In this release, RevitLookup now runs in an isolated container for addin dependencies.
+This new capability prevents conflicts and compatibility issues arising from different library versions between plugins, ensuring a more stable and reliable environment for plugin execution.
+
+This enhancement uses the `Nice3point.Revit.Toolkit` to manage the isolation process, effectively eliminating DLL conflicts.
+By integrating this package, RevitLookup ensures a consistent and predictable user experience.
+
+Detailed description how it works: https://github.com/Nice3point/RevitToolkit/releases/tag/2025.0.1
+
+Dependency isolation is available starting with Revit 2025.
+Note that the isolation mechanism is implemented by an additional library that must be loaded into Revit at first startup for it to work.
+Therefore, if your other plugins use `Nice3point.Revit.Toolkit`, it must be updated to version `2025.0.1`, which introduces this feature
+
+## Improvements
+
+- Added new extensions in https://github.com/jeremytammik/RevitLookup/pull/255, https://github.com/jeremytammik/RevitLookup/pull/257:
+
+| Type      | Extension                          | Description                                                                                                                                    |
+|:----------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| Part      | IsMergedPart                       | Is the Part the result of a merge.                                                                                                             |
+| Part      | IsPartDerivedFromLink              | Is the Part derived from link geometry                                                                                                         |
+| Part      | GetChainLengthToOriginal           | Calculates the length of the longest chain of divisions/ merges to reach to an original non-Part element that is the source of the tested part |
+| Part      | GetMergedParts                     | Retrieves the element ids of the source elements of a merged part                                                                              |
+| Part      | ArePartsValidForDivide             | Identifies if provided members are valid for dividing parts                                                                                    |
+| Part      | FindMergeableClusters              | Segregates a set of elements into subsets which are valid for merge                                                                            |
+| Part      | ArePartsValidForMerge              | Identifies whether Part elements may be merged                                                                                                 |
+| Part      | GetAssociatedPartMaker             | Gets associated PartMaker for an element                                                                                                       |
+| Part      | GetSplittingCurves                 | Identifies the curves that were used to create the part                                                                                        |
+| Part      | GetSplittingElements               | Identifies the elements ( reference planes, levels, grids ) that were used to create the part                                                  |
+| Part      | HasAssociatedParts                 | Checks if an element has associated parts                                                                                                      |
+| PartMaker | GetPartMakerMethodToDivideVolumeFW | Obtains the object allowing access to the divided volume properties of the PartMaker                                                           |
+| Element   | GetCheckoutStatus                  | Gets the ownership status of an element                                                                                                        |
+| Element   | GetWorksharingTooltipInfo          | Gets worksharing information about an element to display in an in-canvas tooltip                                                               |
+| Element   | GetModelUpdatesStatus              | Gets the status of a single element in the central model                                                                                       |
+| Element   | AreElementsValidForCreateParts     | Identifies if the given elements can be used to create parts                                                                                   |
+
+## Solved issues
+
+- Dependencies conflict https://github.com/jeremytammik/RevitLookup/issues/210, https://github.com/jeremytammik/RevitLookup/issues/252
+- Request for adding WorksharingTooltipInfo Properties https://github.com/jeremytammik/RevitLookup/issues/254
+- AssemblyLoadContext discussion https://github.com/jeremytammik/RevitLookup/issues/246
+
 # 2025-06-11 **2025.0.7**
 
 ## General
@@ -757,7 +802,7 @@ In this release, the entire code base has been completely rewritten from scratch
 * Generic names support
 
   | Before                                                                                                          | Now                                                                                                             |
-                            |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+                              |-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
   | ![image](https://user-images.githubusercontent.com/20504884/225105646-37f2b052-f3fc-4771-967b-0578a94f9b07.png) | ![image](https://user-images.githubusercontent.com/20504884/225852403-4023c704-1932-471e-9f9f-84f8433013d7.png) |
 
 * Multiple results for methods with overloads
