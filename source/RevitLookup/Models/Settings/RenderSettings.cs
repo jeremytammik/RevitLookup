@@ -26,7 +26,7 @@ using RevitLookup.Services.Contracts;
 
 namespace RevitLookup.Models.Settings;
 
-public class RenderSettings(string savingPath, IOptions<JsonSerializerOptions> jsonOptions) : ISettings
+public sealed class RenderSettings(string savingPath, IOptions<JsonSerializerOptions> jsonOptions) : ISettings
 {
     private RenderConfiguration _settings;
     

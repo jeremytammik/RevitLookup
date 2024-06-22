@@ -28,7 +28,7 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.Models.Settings;
 
-public class GeneralSettings(string path, IOptions<JsonSerializerOptions> jsonOptions) : ISettings
+public sealed class GeneralSettings(string path, IOptions<JsonSerializerOptions> jsonOptions) : ISettings
 {
     private GeneralConfiguration _settings;
     

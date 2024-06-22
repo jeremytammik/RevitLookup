@@ -100,7 +100,7 @@ public class PolylineVisualizationSettings
     [JsonPropertyName("ShowDirection")] public bool ShowDirection { get; set; } = true;
 }
 
-public class SolidVisualizationSettings
+public sealed class SolidVisualizationSettings
 {
     [JsonPropertyName("Transparency")] public double Transparency { get; set; } = 20;
     [JsonPropertyName("Scale")] public double Scale { get; set; } = 1;

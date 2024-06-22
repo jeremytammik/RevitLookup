@@ -23,7 +23,7 @@ using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class PartMakerDescriptor(PartMaker partMaker) : ElementDescriptor(partMaker)
+public sealed class PartMakerDescriptor(PartMaker partMaker) : ElementDescriptor(partMaker)
 {
     public override void RegisterExtensions(IExtensionManager manager)
     {

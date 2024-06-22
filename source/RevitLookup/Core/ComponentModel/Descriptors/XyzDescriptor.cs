@@ -29,7 +29,7 @@ using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class XyzDescriptor : Descriptor, IDescriptorConnector
+public sealed class XyzDescriptor : Descriptor, IDescriptorConnector
 {
     private readonly XYZ _point;
     

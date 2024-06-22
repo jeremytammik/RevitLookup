@@ -20,7 +20,7 @@
 
 namespace RevitLookup.Models.Render;
 
-public class RenderFailedEventArgs
+public sealed class RenderFailedEventArgs
 {
     public required Exception Exception { get; set; }
 }

@@ -23,7 +23,7 @@ using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class PartDescriptor(Part part) : ElementDescriptor(part)
+public sealed class PartDescriptor(Part part) : ElementDescriptor(part)
 {
     public override void RegisterExtensions(IExtensionManager manager)
     {
@@ -31,7 +31,6 @@ public class PartDescriptor(Part part) : ElementDescriptor(part)
         manager.Register(nameof(PartUtils.IsPartDerivedFromLink), _ => PartUtils.IsPartDerivedFromLink(part));
         manager.Register(nameof(PartUtils.GetChainLengthToOriginal), _ =>PartUtils.GetChainLengthToOriginal(part));
         manager.Register(nameof(PartUtils.GetMergedParts), _ => PartUtils.GetMergedParts(part));
-        
         manager.Register(nameof(PartUtils.ArePartsValidForDivide), context => PartUtils.ArePartsValidForDivide(context, [part.Id]));
         manager.Register(nameof(PartUtils.FindMergeableClusters), context => PartUtils.FindMergeableClusters(context, [part.Id]));
         manager.Register(nameof(PartUtils.ArePartsValidForMerge), context => PartUtils.ArePartsValidForMerge(context, [part.Id]));

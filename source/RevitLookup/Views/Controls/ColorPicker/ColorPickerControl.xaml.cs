@@ -16,7 +16,7 @@ using TextBox = System.Windows.Controls.TextBox;
 
 namespace RevitLookup.Views.Controls.ColorPicker;
 
-public partial class ColorPickerControl
+public sealed partial class ColorPickerControl
 {
     private double _currH = 360;
     private double _currS = 1;
