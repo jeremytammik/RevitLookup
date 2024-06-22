@@ -111,6 +111,8 @@ public static class DescriptorMap
             InternalOrigin value when type is null || type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
             CurveElement value when type is null || type == typeof(CurveElement) => new CurveElementDescriptor(value),
             DatumPlane value when type is null || type == typeof(DatumPlane) => new DatumPlaneDescriptor(value),
+            Part value when type is null || type == typeof(Part) => new PartDescriptor(value),
+            PartMaker value when type is null || type == typeof(PartMaker) => new PartMakerDescriptor(value),
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             
             //IDisposables

@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -23,15 +23,15 @@ using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FamilyDescriptor(Family family) : ElementDescriptor(family)
+public class PartMakerDescriptor(PartMaker partMaker) : ElementDescriptor(partMaker)
 {
+    public override void RegisterExtensions(IExtensionManager manager)
+    {
+        manager.Register(nameof(PartUtils.GetPartMakerMethodToDivideVolumeFW), _ => PartUtils.GetPartMakerMethodToDivideVolumeFW(partMaker));
+    }
+    
     public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return null;
-    }
-    
-    public override void RegisterExtensions(IExtensionManager manager)
-    {
-        manager.Register(nameof(FamilySizeTableManager.GetFamilySizeTableManager), context => FamilySizeTableManager.GetFamilySizeTableManager(context, family.Id));
     }
 }
