@@ -22,7 +22,7 @@ public static class Host
     
     public static void Start()
     {
-        var builder = new HostApplicationBuilder(new HostApplicationBuilderSettings
+        var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder(new HostApplicationBuilderSettings
         {
             ContentRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location),
             DisableDefaults = true
@@ -35,7 +35,7 @@ public static class Host
         //Configuration
         builder.Services.AddOptions(builder.Configuration);
         
-        //App services
+        //Application services
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
         builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
         

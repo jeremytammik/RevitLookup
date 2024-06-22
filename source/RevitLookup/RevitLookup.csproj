@@ -44,7 +44,7 @@
 
     <ItemGroup>
         <!--Revit references-->
-        <PackageReference Include="Nice3point.Revit.Build.Tasks" Version="2.0.0"/>
+        <PackageReference Include="Nice3point.Revit.Build.Tasks" Version="2.*"/>
         <PackageReference Include="Nice3point.Revit.Toolkit" Version="$(RevitVersion).*"/>
         <PackageReference Include="Nice3point.Revit.Extensions" Version="$(RevitVersion).*"/>
         <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
@@ -57,16 +57,14 @@
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*"/>
 
         <!--IOC-->
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.*" Condition="$(RevitVersion) == '2025'"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.*" Condition="$(RevitVersion) != '' And $(RevitVersion) &lt; '2025'"/>
-        
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.*"/>
+
         <!--Logging-->
-        <PackageReference Include="Serilog.Sinks.Debug" Version="2.*"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="5.*"/>
+        <PackageReference Include="Serilog.Sinks.Debug" Version="3.*"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.*"/>
         <PackageReference Include="Serilog.Sinks.Autodesk.Revit" Version="2.0.1"/>
-        <PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" Condition="$(RevitVersion) == '2025'"/>
-        <PackageReference Include="Serilog.Extensions.Hosting" Version="8.*" Condition="$(RevitVersion) != '' And $(RevitVersion) &lt; '2025'"/>
-        
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="8.*"/>
+
         <!--Compability-->
         <PackageReference Include="PolySharp" Version="*" PrivateAssets="All" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
     </ItemGroup>
