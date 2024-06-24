@@ -44,7 +44,7 @@ This will build install the project into your local Revit addins directory for
 the indicated year.
 
 [rl-proj]: source/RevitLookup/RevitLookup.csproj
-[contrib]: Contributing.md#prerequisites-for-compiling-revitlookup
+[contrib]: Contributing.md
 
 ## Contributing
 
