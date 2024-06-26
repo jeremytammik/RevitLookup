@@ -87,7 +87,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
             nameof(Document.PlanTopologies) => ResolvePlanTopologies,
             _ => null
         };
-
+        
         IVariants ResolvePlanTopologies()
         {
             return Variants.Single(_document.PlanTopologies);
@@ -111,14 +111,14 @@ public sealed class PlanViewRangeDescriptor : Descriptor, IDescriptorResolver
             nameof(PlanViewRange.GetLevelId) => ResolveGetLevelId,
             _ => null
         };
-
+        
         IVariants ResolveGetOffset()
         {
             return new Variants<double>(2)
                 .Add(viewRange.GetOffset(PlanViewPlane.TopClipPlane), "Top clip plane")
                 .Add(viewRange.GetOffset(PlanViewPlane.CutPlane), "Cut plane")
         }
-
+        
         IVariants ResolveGetLevelId()
         {
             return new Variants<ElementId>(2)
@@ -143,7 +143,7 @@ public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
             nameof(UIElement.GetLocalValueEnumerator) => ResolveGetLocalValueEnumerator,
             _ => null
         };
-
+        
         IVariants ResolveGetLocalValueEnumerator()
         {
             return Variants.Empty<LocalValueEnumerator>();
@@ -164,11 +164,11 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver
             nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies,
             _ => null
         };
-
+        
         IVariants ResolvePlanTopologies()
         {
             if (_document.IsReadOnly) return Variants.Empty<PlanTopologySet>();
-
+            
             return Variants.Single(_document.PlanTopologies);
         }
     }
