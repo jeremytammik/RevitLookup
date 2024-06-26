@@ -24,33 +24,15 @@ Whether you are a seasoned professional or just starting out, the RevitLookup is
 
 ## Installation
 
-### From release
-
 - [Download](https://github.com/jeremytammik/RevitLookup/releases/latest) and run the MSI file.
 - Single-user installation is for one user only and does not require administrator rights.
 - Multi-user installation requires administrator rights and is installed for all users.
-
-### From source
-
-- Clone this repository
-  - Or, fork and clone your fork if you plan to contribute
-- Ensure your development environment meets the [prerequisites from the
-  contributing guidelines][contrib]
-- Run `dotnet build -c '{configuration}'`
-  - Where `{configuration}` is a string defined in [`RevitLookup.csproj`][rl-proj] at the XPath `/Project/PropertyGroup/Configurations`
-  - E.g. `dotnet build -c 'Release R23'`
-
-This will build install the project into your local Revit addins directory for
-the indicated year.
-
-[rl-proj]: source/RevitLookup/RevitLookup.csproj
-[contrib]: Contributing.md
 
 ## Contributing
 
 To ensure a proper code review, all code contributions must go through a pull request and be approved by a core developer before being merged.
 
-We truly love pull requests! If you wish to help, you can learn more about how to contribute to this project in the [contribution guide][contrib].
+We truly love pull requests! If you wish to help, you can learn more about how to contribute to this project in the [contribution guide](Contributing.md).
 
 |    Date     | Maintainer                                                                                                                                                                                                    |
 |:-----------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
