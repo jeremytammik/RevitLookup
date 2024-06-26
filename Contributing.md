@@ -11,6 +11,20 @@ Please avoid:
 - Lots of unrelated changes in one commit
 - Modifying files that are not directly related to the feature you implement
 
+## Rules
+
+- Follow the pattern of what you already see in the code
+- When adding new classes/methods/changing existing code: run the debugger and make sure everything works
+
+## Naming of features and functionality
+
+The naming should be descriptive and direct, giving a clear idea of the functionality and usefulness in the future
+
+## Prerequisites for Compiling RevitLookup
+
+- .Net 8 SDK or newer
+- Visual Studio 2022 / JetBrains Rider 2023.3 or newer
+
 ## Install addin from source
 
 - Clone this repository
@@ -26,20 +40,6 @@ This will build install the project into your local Revit addins directory for
 the indicated year.
 
 [rl-proj]: source/RevitLookup/RevitLookup.csproj
-
-## Rules
-
-- Follow the pattern of what you already see in the code
-- When adding new classes/methods/changing existing code: run the debugger and make sure everything works
-
-## Naming of features and functionality
-
-The naming should be descriptive and direct, giving a clear idea of the functionality and usefulness in the future
-
-## Prerequisites for Compiling RevitLookup
-
-- .Net 8 SDK or newer
-- Visual Studio 2022 / JetBrains Rider 2023.3 or newer
 
 ## Architecture
 
