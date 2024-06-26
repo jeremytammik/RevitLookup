@@ -11,6 +11,22 @@ Please avoid:
 - Lots of unrelated changes in one commit
 - Modifying files that are not directly related to the feature you implement
 
+## Install addin from source
+
+- Clone this repository
+  - Or, fork and clone your fork if you plan to contribute
+- Ensure your development environment meets the
+  [prerequisites](#prerequisites-for-compiling-revitlookup) from the
+  contributing guidelines
+- Run `dotnet build -c '{configuration}'`
+  - Where `{configuration}` is a string defined in [`RevitLookup.csproj`][rl-proj] at the XPath `/Project/PropertyGroup/Configurations`
+  - E.g. `dotnet build -c 'Release R23'`
+
+This will build install the project into your local Revit addins directory for
+the indicated year.
+
+[rl-proj]: source/RevitLookup/RevitLookup.csproj
+
 ## Rules
 
 - Follow the pattern of what you already see in the code
