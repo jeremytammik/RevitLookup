@@ -94,10 +94,10 @@ public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager mana
                 }
             });
         
-        contextMenu.AddMenuItem("ShowMenuItem")
+        contextMenu.AddMenuItem("EditMenuItem")
             .SetHeader("Edit table")
             .SetAvailability(manager.GetAllSizeTableNames().Count > 0)
-            .SetCommand(manager, async sizeTable =>
+            .SetCommand(manager, async _ =>
             {
                 var context = (ISnoopViewModel) contextMenu.DataContext;
                 try

@@ -18,8 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Data;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using RevitLookup.ViewModels.Dialogs;
+using RevitLookup.Views.Extensions;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
@@ -67,5 +71,39 @@ public sealed partial class FamilySizeTableEditDialog
         {
             _viewModel.SaveData();
         }
+    }
+    
+    private void CreateGridRowContextMenu(DataRow dataRow, FrameworkElement dataGridRow)
+    {
+        var contextMenu = new ContextMenu
+        {
+            Resources = Resources,
+            PlacementTarget = dataGridRow,
+            DataContext = _viewModel
+        };
+        
+        dataGridRow.ContextMenu = contextMenu;
+        contextMenu.AddMenuItem("CopyMenuItem")
+            .SetHeader("Duplicate row")
+            .SetCommand(dataRow, _ => _viewModel.DuplicateRow(dataRow))
+            .SetShortcut(ModifierKeys.Control, Key.C);
+        
+        contextMenu.AddMenuItem("DeleteMenuItem")
+            .SetHeader("Delete row")
+            .SetCommand(dataRow, _ => _viewModel.DeleteRow(dataRow))
+            .SetShortcut(ModifierKeys.Control, Key.Delete);
+    }
+    
+    private void OnGridRowLoading(object sender, DataGridRowEventArgs args)
+    {
+        var row = args.Row;
+        row.Loaded += OnGridRowLoaded;
+    }
+    
+    private void OnGridRowLoaded(object sender, RoutedEventArgs args)
+    {
+        var element = (FrameworkElement) sender;
+        var context = (DataRowView) element.DataContext;
+        CreateGridRowContextMenu(context.Row, element);
     }
 }

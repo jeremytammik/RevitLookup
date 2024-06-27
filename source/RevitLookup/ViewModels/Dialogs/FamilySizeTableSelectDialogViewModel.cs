@@ -45,7 +45,7 @@ public sealed partial class FamilySizeTableSelectDialogViewModel : ObservableObj
             Filter = "CSV files (*.csv)|*.csv",
             FileName = SelectedTable,
             RestoreDirectory = true,
-            Title = "Save family size table",
+            Title = "Save family size table"
         };
         if (saveFileDialog.ShowDialog() == false) return;
         

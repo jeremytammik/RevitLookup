@@ -32,16 +32,11 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
     public FamilySizeTableEditDialogViewModel(FamilySizeTableManager manager, string tableName)
     {
         _manager = manager;
-        DeleteRowCommand = new RelayCommand<DataRow>(DeleteRow);
-        DuplicateRowCommand = new RelayCommand<DataRow>(DuplicateRow);
         _tableName = tableName;
         var table = manager.GetSizeTable(tableName);
         CreateColumns(table);
         WriteRows(table);
     }
-    
-    public RelayCommand<DataRow> DeleteRowCommand { get; }
-    public RelayCommand<DataRow> DuplicateRowCommand { get; }
     
     public FamilySizeTableEditDialogViewModel(FamilySizeTable table)
     {
@@ -68,19 +63,25 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
         for (var i = 0; i < table.NumberOfColumns; i++)
         {
             var header = table.GetColumnHeader(i);
-            var specId = header.GetSpecTypeId();
-            var typeId = table.GetColumnHeader(i).GetUnitTypeId();
             var headerName = table.GetColumnHeader(i).Name;
-            
             var columnName = headerName;
-            if (!specId.Empty())
-            {
-                columnName = $"{columnName}##{specId.ToSpecLabel().ToLowerInvariant()}";
-            }
             
-            if (!typeId.Empty())
+            if (i == 0)
             {
-                columnName = $"{columnName}##{typeId.ToUnitLabel().ToLowerInvariant()}";
+                columnName = "Column 1";
+            }
+            else
+            {
+                var specId = header.GetSpecTypeId();
+                var typeId = table.GetColumnHeader(i).GetUnitTypeId();
+                
+                if (!specId.Empty())
+                {
+                    columnName = $"{columnName}##{specId.ToSpecLabel().ToLowerInvariant()}";
+                }
+                
+                columnName = !typeId.Empty() ? $"{columnName}##{typeId.ToUnitLabel().ToLowerInvariant()}" : $"{columnName}##other##";
+               
             }
             
             Columns.Add(new DataColumn(columnName, typeof(string)));
@@ -133,12 +134,12 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
         });
     }
     
-    private void DeleteRow(DataRow row)
+    public void DeleteRow(DataRow row)
     {
         Rows.Remove(row);
     }
     
-    private void DuplicateRow(DataRow row)
+    public void DuplicateRow(DataRow row)
     {
         var index = Rows.IndexOf(row);
         var newRow = NewRow();
