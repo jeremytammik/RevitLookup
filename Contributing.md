@@ -25,6 +25,22 @@ The naming should be descriptive and direct, giving a clear idea of the function
 - .Net 8 SDK or newer
 - Visual Studio 2022 / JetBrains Rider 2023.3 or newer
 
+## Install addin from source
+
+- Clone this repository
+  - Or, fork and clone your fork if you plan to contribute
+- Ensure your development environment meets the
+  [prerequisites](#prerequisites-for-compiling-revitlookup) from the
+  contributing guidelines
+- Run `dotnet build -c '{configuration}'`
+  - Where `{configuration}` is a string defined in [`RevitLookup.csproj`][rl-proj] at the XPath `/Project/PropertyGroup/Configurations`
+  - E.g. `dotnet build -c 'Release R23'`
+
+This will build install the project into your local Revit addins directory for
+the indicated year.
+
+[rl-proj]: source/RevitLookup/RevitLookup.csproj
+
 ## Architecture
 
 Descriptors and interfaces are used to extend functionality in the project. They are located in the `RevitLookup/Core/ComponentModel` path.
