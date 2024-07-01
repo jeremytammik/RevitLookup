@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB.Plumbing;
 using RevitLookup.Core.Contracts;
 
@@ -28,5 +29,11 @@ public class PipeDescriptor(Pipe pipe) : ElementDescriptor(pipe)
     public override void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(nameof(PlumbingUtils.HasOpenConnector), _ => PlumbingUtils.HasOpenConnector(pipe.Document, pipe.Id));
+    }
+    
+    
+    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    {
+        return null;
     }
 }
