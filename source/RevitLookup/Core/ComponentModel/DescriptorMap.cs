@@ -26,6 +26,7 @@ using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.DB.Mechanical;
+using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Visual;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
@@ -101,6 +102,7 @@ public static class DescriptorMap
             TableView value when type is null || type == typeof(TableView) => new TableViewDescriptor(value),
             View value when type is null || type == typeof(View) => new ViewDescriptor(value),
             Wire value when type is null || type == typeof(Wire) => new WireDescriptor(value),
+            Pipe value when type is null || type == typeof(Pipe) => new PipeDescriptor(value),
             HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
             ElevationMarker value when type is null || type == typeof(ElevationMarker) => new ElevationMarkerDescriptor(value),
             RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
