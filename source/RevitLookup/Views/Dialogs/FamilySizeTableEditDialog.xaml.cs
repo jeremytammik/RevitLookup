@@ -32,22 +32,26 @@ namespace RevitLookup.Views.Dialogs;
 public sealed partial class FamilySizeTableEditDialog
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly bool _isEditable;
     private readonly FamilySizeTableEditDialogViewModel _viewModel;
+    private readonly bool _isEditable;
     
-    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, FamilySizeTableManager manager, string tableName)
+    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document,FamilySizeTableManager manager, string tableName)
     {
         _isEditable = true;
-        _viewModel = new FamilySizeTableEditDialogViewModel(manager, tableName);
-        DataContext = _viewModel;
         _serviceProvider = serviceProvider;
+        _viewModel = new FamilySizeTableEditDialogViewModel(document, manager, tableName);
+        
+        DataContext = _viewModel;
         InitializeComponent();
+        
+        SizeTable.LoadingRow += OnGridRowLoading;
     }
     
-    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, FamilySizeTable table)
+    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document, FamilySizeTable table)
     {
-        DataContext = new FamilySizeTableEditDialogViewModel(table);
         _serviceProvider = serviceProvider;
+        
+        DataContext = new FamilySizeTableEditDialogViewModel(document, table);
         InitializeComponent();
     }
     
@@ -61,18 +65,32 @@ public sealed partial class FamilySizeTableEditDialog
             HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
-        if (_isEditable && Context.Document.IsFamilyDocument)
+        
+        if (_isEditable)
         {
-            dialogOptions.PrimaryButtonText = "Save and close";
+            dialogOptions.PrimaryButtonText = "Save";
         }
         
         var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
-        if (dialogResult == ContentDialogResult.Primary)
+        if (dialogResult == ContentDialogResult.Primary && _isEditable)
         {
             _viewModel.SaveData();
         }
     }
-    
+
+    private void OnGridRowLoading(object sender, DataGridRowEventArgs args)
+    {
+        var row = args.Row;
+        row.Loaded += OnGridRowLoaded;
+    }
+
+    private void OnGridRowLoaded(object sender, RoutedEventArgs args)
+    {
+        var element = (FrameworkElement) sender;
+        var context = (DataRowView) element.DataContext;
+        CreateGridRowContextMenu(context.Row, element);
+    }
+
     private void CreateGridRowContextMenu(DataRow dataRow, FrameworkElement dataGridRow)
     {
         var contextMenu = new ContextMenu
@@ -83,27 +101,15 @@ public sealed partial class FamilySizeTableEditDialog
         };
         
         dataGridRow.ContextMenu = contextMenu;
+        
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Duplicate row")
-            .SetCommand(dataRow, _ => _viewModel.DuplicateRow(dataRow))
-            .SetShortcut(ModifierKeys.Control, Key.C);
+            .SetCommand(dataRow, row => _viewModel.DuplicateRow(row))
+            .SetShortcut(ModifierKeys.Control, Key.D);
         
         contextMenu.AddMenuItem("DeleteMenuItem")
             .SetHeader("Delete row")
-            .SetCommand(dataRow, _ => _viewModel.DeleteRow(dataRow))
-            .SetShortcut(ModifierKeys.Control, Key.Delete);
-    }
-    
-    private void OnGridRowLoading(object sender, DataGridRowEventArgs args)
-    {
-        var row = args.Row;
-        row.Loaded += OnGridRowLoaded;
-    }
-    
-    private void OnGridRowLoaded(object sender, RoutedEventArgs args)
-    {
-        var element = (FrameworkElement) sender;
-        var context = (DataRowView) element.DataContext;
-        CreateGridRowContextMenu(context.Row, element);
+            .SetCommand(dataRow, row => _viewModel.DeleteRow(row))
+            .SetShortcut(Key.Delete);
     }
 }

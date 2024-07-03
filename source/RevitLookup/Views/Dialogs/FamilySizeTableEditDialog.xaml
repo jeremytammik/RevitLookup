@@ -16,10 +16,10 @@
         </ResourceDictionary>
     </Grid.Resources>
     <DataGrid
+        x:Name="SizeTable"
         IsReadOnly="False"
         CanUserAddRows="False"
         HeadersVisibility="Column"
         CanUserReorderColumns="False"
-        LoadingRow="OnGridRowLoading"
         ItemsSource="{Binding}" />
 </Grid>

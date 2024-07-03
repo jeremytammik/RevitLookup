@@ -27,19 +27,23 @@ namespace RevitLookup.ViewModels.Dialogs;
 public sealed class FamilySizeTableEditDialogViewModel : DataTable
 {
     private readonly FamilySizeTableManager _manager;
+    private readonly Document _document;
     private readonly string _tableName;
     
-    public FamilySizeTableEditDialogViewModel(FamilySizeTableManager manager, string tableName)
+    public FamilySizeTableEditDialogViewModel(Document document, FamilySizeTableManager manager, string tableName)
     {
         _manager = manager;
         _tableName = tableName;
+        _document = document;
+
         var table = manager.GetSizeTable(tableName);
         CreateColumns(table);
         WriteRows(table);
     }
     
-    public FamilySizeTableEditDialogViewModel(FamilySizeTable table)
+    public FamilySizeTableEditDialogViewModel(Document document, FamilySizeTable table)
     {
+        _document = document;
         CreateColumns(table);
         WriteRows(table);
     }
@@ -68,7 +72,7 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
             
             if (i == 0)
             {
-                columnName = "Column 1";
+                columnName = "Description";
             }
             else
             {
@@ -81,7 +85,6 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
                 }
                 
                 columnName = !typeId.Empty() ? $"{columnName}##{typeId.ToUnitLabel().ToLowerInvariant()}" : $"{columnName}##other##";
-               
             }
             
             Columns.Add(new DataColumn(columnName, typeof(string)));
@@ -90,33 +93,35 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
     
     public void SaveData()
     {
-        var dirPath = Path.Combine(Path.GetTempPath(), "Size Tables");
-        Directory.CreateDirectory(dirPath);
-        var path = Path.Combine(dirPath, $"{_tableName}.csv");
-        var writer = new StreamWriter(path);
-        var header = new StringBuilder();
+        var tableFolder = Path.GetTempPath();
+        var tablePath = Path.Combine(tableFolder, $"{_tableName}.csv");
+
+        var headerBuilder = new StringBuilder();
+        using var writer = new StreamWriter(tablePath);
         for (var i = 1; i < Columns.Count; i++)
         {
             var column = Columns[i];
             var name = column.ColumnName.Replace(' ', '_');
-            header.Append(",");
-            header.Append(name);
+            headerBuilder.Append(',');
+            headerBuilder.Append(name);
         }
         
-        writer.WriteLine(header);
+        writer.WriteLine(headerBuilder);
         foreach (DataRow row in Rows)
         {
             var result = new StringBuilder();
             foreach (var value in row.ItemArray)
             {
+                if (value is null) continue;
+                
                 var recordValue = value.ToString();
-                if (recordValue.Contains(','))
+                if (recordValue!.Contains(','))
                 {
                     recordValue = $"[{recordValue}]";
                 }
                 
                 result.Append(recordValue);
-                result.Append(",");
+                result.Append(',');
             }
             
             result.Remove(result.Length - 1, 1);
@@ -124,13 +129,15 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
         }
         
         writer.Close();
+        
         Application.ActionEventHandler.Raise(_ =>
         {
-            using var transaction = new Transaction(Context.Document, "Change size table");
+            using var transaction = new Transaction(_document, "Import size table");
             transaction.Start();
-            _manager.ImportSizeTable(Context.Document, path, new FamilySizeTableErrorInfo());
+            _manager.ImportSizeTable(_document, tablePath, new FamilySizeTableErrorInfo());
             transaction.Commit();
-            File.Delete(path);
+            
+            File.Delete(tablePath);
         });
     }
     

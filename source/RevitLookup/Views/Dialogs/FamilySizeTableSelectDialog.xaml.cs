@@ -28,16 +28,21 @@ namespace RevitLookup.Views.Dialogs;
 public sealed partial class FamilySizeTableSelectDialog
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly FamilySizeTableManager _manager;
     private readonly FamilySizeTableSelectDialogViewModel _viewModel;
+    private readonly Document _document;
 
-    public FamilySizeTableSelectDialog(IServiceProvider serviceProvider, FamilySizeTableManager manager)
+    public FamilySizeTableSelectDialog(IServiceProvider serviceProvider, Document document, FamilySizeTableManager manager)
     {
-        _viewModel = new FamilySizeTableSelectDialogViewModel(manager);
-        DataContext = _viewModel;
         _serviceProvider = serviceProvider;
+        _document = document;
+        _manager = manager;
+        _viewModel = new FamilySizeTableSelectDialogViewModel(manager);
+
+        DataContext = _viewModel;
         InitializeComponent();
     }
-    
+
     public async Task ShowExportDialogAsync()
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
@@ -49,10 +54,10 @@ public sealed partial class FamilySizeTableSelectDialog
             DialogMaxHeight = 230,
             DialogMaxWidth = 500
         };
-        
+
         var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
         if (dialogResult != ContentDialogResult.Primary) return;
-        
+
         try
         {
             _viewModel.Export();
@@ -63,7 +68,7 @@ public sealed partial class FamilySizeTableSelectDialog
             notificationService.ShowWarning("Export error", exception.Message);
         }
     }
-    
+
     public async Task ShowEditDialogAsync()
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
@@ -75,13 +80,14 @@ public sealed partial class FamilySizeTableSelectDialog
             DialogMaxHeight = 230,
             DialogMaxWidth = 500
         };
-        
+
         var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
         if (dialogResult != ContentDialogResult.Primary) return;
-        
+
         try
         {
-             await _viewModel.ShowEditDialogAsync(_serviceProvider);
+            var dialog = new FamilySizeTableEditDialog(_serviceProvider, _document, _manager, _viewModel.SelectedTable);
+            await dialog.ShowAsync();
         }
         catch (Exception exception)
         {

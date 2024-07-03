@@ -70,15 +70,17 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
     
     public void RegisterMenu(ContextMenu contextMenu)
     {
+        var context = (ISnoopViewModel) contextMenu.DataContext;
+        var document = context.SnoopableObjects[0].Context;
+        
         contextMenu.AddMenuItem("ShowMenuItem")
             .SetHeader("Show table")
             .SetAvailability(table.IsValidObject)
             .SetCommand(table, async sizeTable =>
             {
-                var context = (ISnoopViewModel) contextMenu.DataContext;
                 try
                 {
-                    var dialog = new FamilySizeTableEditDialog(context.ServiceProvider, sizeTable);
+                    var dialog = new FamilySizeTableEditDialog(context.ServiceProvider, document, sizeTable);
                     await dialog.ShowAsync();
                 }
                 catch (Exception exception)

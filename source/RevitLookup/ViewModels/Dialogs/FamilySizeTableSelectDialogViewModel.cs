@@ -19,10 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 
-using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
-using RevitLookup.Core.ComponentModel.Descriptors;
-using RevitLookup.Views.Dialogs;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
@@ -30,14 +27,16 @@ public sealed partial class FamilySizeTableSelectDialogViewModel : ObservableObj
 {
     private readonly FamilySizeTableManager _manager;
     [ObservableProperty] private string _selectedTable;
-    public List<string> Tables { get; }
+
     public FamilySizeTableSelectDialogViewModel(FamilySizeTableManager manager)
     {
         _manager = manager;
         Tables = manager.GetAllSizeTableNames().ToList();
-        SelectedTable = Tables.First(); // User can not run this command if manager has no tables
+        SelectedTable = Tables[0];
     }
-    
+
+    public List<string> Tables { get; }
+
     public void Export()
     {
         var saveFileDialog = new SaveFileDialog
@@ -47,22 +46,9 @@ public sealed partial class FamilySizeTableSelectDialogViewModel : ObservableObj
             RestoreDirectory = true,
             Title = "Save family size table"
         };
-        if (saveFileDialog.ShowDialog() == false) return;
         
+        if (saveFileDialog.ShowDialog() != true) return;
+
         _manager.ExportSizeTable(SelectedTable, saveFileDialog.FileName);
-    }
-    
-    public async Task ShowEditDialogAsync(IServiceProvider serviceProvider)
-    {
-        try
-        {
-            var dialog = new FamilySizeTableEditDialog(serviceProvider, _manager, SelectedTable);
-            await dialog.ShowAsync();
-        }
-        catch (Exception exception)
-        {
-            var logger = serviceProvider.GetService<ILogger<FamilySizeTableManagerDescriptor>>();
-            logger.LogError(exception, "FamilySizeTableDialog error");
-        }
     }
 }
