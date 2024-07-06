@@ -92,7 +92,7 @@ public sealed partial class FamilySizeTableSelectDialog
         catch (Exception exception)
         {
             var notificationService = _serviceProvider.GetService<NotificationService>();
-            notificationService.ShowWarning("Export error", exception.Message);
+            notificationService.ShowWarning("Edit error", exception.Message);
         }
     }
 }

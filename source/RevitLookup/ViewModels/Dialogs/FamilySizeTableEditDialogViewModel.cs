@@ -35,7 +35,7 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
         _manager = manager;
         _tableName = tableName;
         _document = document;
-
+        
         var table = manager.GetSizeTable(tableName);
         CreateColumns(table);
         WriteRows(table);
@@ -95,9 +95,9 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
     {
         var tableFolder = Path.GetTempPath();
         var tablePath = Path.Combine(tableFolder, $"{_tableName}.csv");
-
+        
         var headerBuilder = new StringBuilder();
-        using var writer = new StreamWriter(tablePath);
+        using var writer = new StreamWriter(tablePath, false, Encoding.Unicode);
         for (var i = 1; i < Columns.Count; i++)
         {
             var column = Columns[i];
@@ -117,7 +117,7 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
                 var recordValue = value.ToString();
                 if (recordValue!.Contains(','))
                 {
-                    recordValue = $"[{recordValue}]";
+                    recordValue = $"\"{recordValue}\"";
                 }
                 
                 result.Append(recordValue);
@@ -132,12 +132,23 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
         
         Application.ActionEventHandler.Raise(_ =>
         {
-            using var transaction = new Transaction(_document, "Import size table");
-            transaction.Start();
-            _manager.ImportSizeTable(_document, tablePath, new FamilySizeTableErrorInfo());
-            transaction.Commit();
+            try
+            {
+                using var transaction = new Transaction(_document, "Import size table");
+                transaction.Start();
+                var errorInfo = new FamilySizeTableErrorInfo();
+                _manager.ImportSizeTable(_document, tablePath, errorInfo);
+                transaction.Commit();
+            }
             
-            File.Delete(tablePath);
+            catch
+            {
+                // ignored
+            }
+            finally
+            {
+                File.Delete(tablePath);
+            }
         });
     }
     
