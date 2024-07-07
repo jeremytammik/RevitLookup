@@ -35,7 +35,7 @@ public sealed partial class FamilySizeTableEditDialog
     private readonly FamilySizeTableEditDialogViewModel _viewModel;
     private readonly bool _isEditable;
     
-    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document,FamilySizeTableManager manager, string tableName)
+    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document, FamilySizeTableManager manager, string tableName)
     {
         _isEditable = true;
         _serviceProvider = serviceProvider;
@@ -43,8 +43,6 @@ public sealed partial class FamilySizeTableEditDialog
         
         DataContext = _viewModel;
         InitializeComponent();
-        
-        SizeTable.LoadingRow += OnGridRowLoading;
     }
     
     public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document, FamilySizeTable table)
@@ -77,20 +75,14 @@ public sealed partial class FamilySizeTableEditDialog
             _viewModel.SaveData();
         }
     }
-
-    private void OnGridRowLoading(object sender, DataGridRowEventArgs args)
-    {
-        var row = args.Row;
-        row.Loaded += OnGridRowLoaded;
-    }
-
-    private void OnGridRowLoaded(object sender, RoutedEventArgs args)
+    
+    private void OnRightClick(object sender, RoutedEventArgs routedEventArgs)
     {
         var element = (FrameworkElement) sender;
         var context = (DataRowView) element.DataContext;
         CreateGridRowContextMenu(context.Row, element);
     }
-
+    
     private void CreateGridRowContextMenu(DataRow dataRow, FrameworkElement dataGridRow)
     {
         var contextMenu = new ContextMenu
