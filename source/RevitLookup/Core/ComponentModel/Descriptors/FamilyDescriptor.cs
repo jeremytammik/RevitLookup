@@ -41,13 +41,13 @@ public sealed class FamilyDescriptor(Family family) : ElementDescriptor(family)
     private static object ResolveProfileSymbols(Document context)
     {
         var values = Enum.GetValues(typeof(ProfileFamilyUsage));
-        var capacity = values.Length;
+        var capacity = values.Length*2;
         var variants = new Variants<ICollection<ElementId>>(capacity);
         
         foreach (ProfileFamilyUsage value in values)
         {
-            variants.Add(FamilyUtils.GetProfileSymbols(context, value, false), value.ToString());
-            variants.Add(FamilyUtils.GetProfileSymbols(context, value, true), $"{value.ToString()}, One curve loop only");
+            variants.Add(FamilyUtils.GetProfileSymbols(context, value, false), $"{value}, with multiple curve loops");
+            variants.Add(FamilyUtils.GetProfileSymbols(context, value, true), $"{value}, with single curve loop");
         }
         
         return variants;
