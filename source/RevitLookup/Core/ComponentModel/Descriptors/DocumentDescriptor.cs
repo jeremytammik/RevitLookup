@@ -25,6 +25,10 @@ using RevitLookup.Core.Objects;
 #if REVIT2023_OR_GREATER
 using Autodesk.Revit.DB.Structure;
 #endif
+#if REVIT2025_OR_GREATER
+#else
+using Autodesk.Revit.DB.Macros;
+#endif
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
