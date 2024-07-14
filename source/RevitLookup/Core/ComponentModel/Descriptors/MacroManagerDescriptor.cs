@@ -32,8 +32,11 @@ public class MacroManagerDescriptor(MacroManager macroManager) : Descriptor, IDe
     {
         return target switch
         {
-            nameof(MacroManager.GetApplicationMacroSecurityOptions) => ResolveApplicationMacroSecurityOptions,
+#if REVIT2025_OR_GREATER
+#else
             nameof(MacroManager.GetDocumentMacroSecurityOptions) => ResolveDocumentMacroSecurityOptions,
+#endif
+            nameof(MacroManager.GetApplicationMacroSecurityOptions) => ResolveApplicationMacroSecurityOptions,
             nameof(IEnumerable.GetEnumerator) => ResolveGetEnumerator,
     
             _ => null
@@ -43,11 +46,13 @@ public class MacroManagerDescriptor(MacroManager macroManager) : Descriptor, IDe
         {
             return Variants.Single(MacroManager.GetApplicationMacroSecurityOptions(Context.Application));
         }
-        
+#if REVIT2025_OR_GREATER
+#else       
         IVariants ResolveDocumentMacroSecurityOptions()
         {
-            return Variants.Single(MacroManager.GetApplicationMacroSecurityOptions(Context.Application));
+            return Variants.Single(MacroManager.GetDocumentMacroSecurityOptions(Context.Application));
         }
+#endif
         IVariants ResolveGetEnumerator()
         {
             using var enumerator = macroManager.GetEnumerator();
