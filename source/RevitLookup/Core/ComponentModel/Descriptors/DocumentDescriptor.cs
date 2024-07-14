@@ -20,11 +20,12 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB.Lighting;
+using Autodesk.Revit.DB.Macros;
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 #if REVIT2023_OR_GREATER
 using Autodesk.Revit.DB.Structure;
 #endif
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -80,6 +81,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
     {
         manager.Register(nameof(GlobalParametersManager.GetAllGlobalParameters), GlobalParametersManager.GetAllGlobalParameters);
         manager.Register(nameof(LightGroupManager.GetLightGroupManager), LightGroupManager.GetLightGroupManager);
+        manager.Register(nameof(MacroManager.GetMacroManager), MacroManager.GetMacroManager);
 #if REVIT2022_OR_GREATER
         manager.Register(nameof(TemporaryGraphicsManager.GetTemporaryGraphicsManager), TemporaryGraphicsManager.GetTemporaryGraphicsManager);
 #endif

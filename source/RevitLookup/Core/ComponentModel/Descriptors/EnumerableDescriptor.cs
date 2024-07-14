@@ -21,6 +21,7 @@
 using System.Collections;
 using System.Reflection;
 using Autodesk.Revit.DB.Electrical;
+using Autodesk.Revit.DB.Macros;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 
@@ -38,6 +39,7 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
         IsEmpty = value switch
         {
             string => true,
+            MacroManager enumerable => enumerable.Count == 0,
             IVariants enumerable => enumerable.Count == 0,
             ICollection enumerable => enumerable.Count == 0,
             ParameterSet enumerable => enumerable.IsEmpty,
