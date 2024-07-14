@@ -42,8 +42,8 @@ public class LightFamilyDescriptor (LightFamily lightFamily) : Descriptor, IDesc
             var variants = new Variants<string>(capacity);
             for (var i = 0; i < capacity; i++)
             {
-                var names = lightFamily.GetLightTypeName(i);
-                variants.Add(names, $"Index {i}");
+                var name = lightFamily.GetLightTypeName(i);
+                variants.Add(name);
             }
             
             return variants;
@@ -54,8 +54,8 @@ public class LightFamilyDescriptor (LightFamily lightFamily) : Descriptor, IDesc
             var variants = new Variants<LightType>(capacity);
             for (var i = 0; i < capacity; i++)
             {
-                var names = lightFamily.GetLightType(i);
-                variants.Add(names, $"Index {i}");
+                var type = lightFamily.GetLightType(i);
+                variants.Add(type, $"Index {i}");
             }
             
             return variants;
