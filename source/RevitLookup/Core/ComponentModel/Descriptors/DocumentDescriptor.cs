@@ -26,6 +26,8 @@ using RevitLookup.Core.Objects;
 #if REVIT2023_OR_GREATER
 using Autodesk.Revit.DB.Structure;
 #endif
+using RevitLookup.Core.Contracts;
+using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -96,6 +98,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
                 var familyTableId = new ElementId(BuiltInParameter.RBS_LOOKUP_TABLE_NAME);
                 return FamilySizeTableManager.GetFamilySizeTableManager(context, familyTableId);
             });
+            manager.Register(nameof(LightFamily.GetLightFamily), LightFamily.GetLightFamily);
         }
         
         // Disabled: slow performance.
