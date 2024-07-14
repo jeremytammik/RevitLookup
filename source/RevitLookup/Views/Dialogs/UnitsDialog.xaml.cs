@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core;
 using RevitLookup.Core.Objects;
 using RevitLookup.Models;
@@ -61,7 +62,7 @@ public sealed partial class UnitsDialog
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
+        await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
     
@@ -78,7 +79,7 @@ public sealed partial class UnitsDialog
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
+        await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
     
@@ -96,7 +97,7 @@ public sealed partial class UnitsDialog
         };
         
         ClassColumn.Visibility = Visibility.Visible;
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
+        await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
         _tokenSource.Dispose();
     }
     
@@ -146,8 +147,8 @@ public sealed partial class UnitsDialog
                 };
                 
                 _tokenSource.Cancel();
-                _serviceProvider.GetService<ISnoopVisualService>().Snoop(new SnoopableObject(obj));
-                _serviceProvider.GetService<INavigationService>().Navigate(typeof(SnoopView));
+                _serviceProvider.GetRequiredService<ISnoopVisualService>().Snoop(new SnoopableObject(obj));
+                _serviceProvider.GetRequiredService<INavigationService>().Navigate(typeof(SnoopView));
             });
         
         

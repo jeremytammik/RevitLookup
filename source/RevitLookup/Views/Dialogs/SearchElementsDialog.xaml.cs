@@ -20,6 +20,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
@@ -57,18 +58,18 @@ public sealed partial class SearchElementsDialog
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
-        var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
         if (dialogResult != ContentDialogResult.Primary) return;
         
         var elements = _viewModel.SearchElements();
         if (elements.Count == 0)
         {
-            var notificationService = _serviceProvider.GetService<NotificationService>();
+            var notificationService = _serviceProvider.GetRequiredService<NotificationService>();
             notificationService.ShowWarning("Search elements", "There are no elements found for your request");
             return;
         }
         
-        _serviceProvider.GetService<ISnoopVisualService>().Snoop(new SnoopableObject(elements));
-        _serviceProvider.GetService<INavigationService>().Navigate(typeof(SnoopView));
+        _serviceProvider.GetRequiredService<ISnoopVisualService>().Snoop(new SnoopableObject(elements));
+        _serviceProvider.GetRequiredService<INavigationService>().Navigate(typeof(SnoopView));
     }
 }

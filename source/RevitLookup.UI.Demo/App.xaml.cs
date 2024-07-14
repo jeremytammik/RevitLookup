@@ -35,7 +35,7 @@ public sealed partial class App
         AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
         var host = HostProvider.CreateHost();
 
-        Host.Start(host);
+        Host.StartProxy(host);
         Host.GetService<ILookupService>().Show<DashboardView>();
     }
 

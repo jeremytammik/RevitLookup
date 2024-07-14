@@ -21,6 +21,7 @@
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -82,7 +83,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<ParameterDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<ParameterDescriptor>>();
                     logger.LogError(exception, "Initialize EditParameterDialog error");
                 }
             })

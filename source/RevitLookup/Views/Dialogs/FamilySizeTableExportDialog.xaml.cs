@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
@@ -50,7 +51,7 @@ public sealed partial class FamilySizeTableExportDialog
             DialogMaxWidth = 500
         };
         
-        var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
         if (dialogResult != ContentDialogResult.Primary) return;
         
         try
@@ -59,7 +60,7 @@ public sealed partial class FamilySizeTableExportDialog
         }
         catch (Exception exception)
         {
-            var notificationService = _serviceProvider.GetService<NotificationService>();
+            var notificationService = _serviceProvider.GetRequiredService<NotificationService>();
             notificationService.ShowWarning("Export error", exception.Message);
         }
     }

@@ -20,6 +20,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
@@ -55,7 +56,7 @@ public sealed partial class EditParameterDialog
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
-        var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
         if (dialogResult != ContentDialogResult.Primary) return false;
         
         try
@@ -65,7 +66,7 @@ public sealed partial class EditParameterDialog
         }
         catch (Exception exception)
         {
-            var notificationService = _serviceProvider.GetService<NotificationService>();
+            var notificationService = _serviceProvider.GetRequiredService<NotificationService>();
             notificationService.ShowWarning("Invalid data", exception.Message);
         }
         

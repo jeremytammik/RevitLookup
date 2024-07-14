@@ -21,6 +21,7 @@
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -79,12 +80,12 @@ public class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConne
                 
                 try
                 {
-                    var dialog = context.ServiceProvider.GetService<FaceVisualizationDialog>();
+                    var dialog = context.ServiceProvider.GetRequiredService<FaceVisualizationDialog>();
                     await dialog.ShowAsync(face);
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<FaceDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<FaceDescriptor>>();
                     logger.LogError(exception, "VisualizationDialog error");
                 }
             })

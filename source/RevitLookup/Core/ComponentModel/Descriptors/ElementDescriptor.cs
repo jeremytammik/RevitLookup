@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Autodesk.Revit.DB.ExtensibleStorage;
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
@@ -353,12 +354,12 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 }
                 catch (OperationCanceledException exception)
                 {
-                    var notificationService = context.ServiceProvider.GetService<NotificationService>();
+                    var notificationService = context.ServiceProvider.GetRequiredService<NotificationService>();
                     notificationService.ShowWarning("Warning", exception.Message);
                 }
                 catch (Exception exception)
                 {
-                    var notificationService = context.ServiceProvider.GetService<NotificationService>();
+                    var notificationService = context.ServiceProvider.GetRequiredService<NotificationService>();
                     notificationService.ShowError("Element deletion error", exception.Message);
                 }
             })

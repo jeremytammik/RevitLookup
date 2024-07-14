@@ -21,6 +21,7 @@
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -79,12 +80,12 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
                 
                 try
                 {
-                    var dialog = context.ServiceProvider.GetService<PolylineVisualizationDialog>();
+                    var dialog = context.ServiceProvider.GetRequiredService<PolylineVisualizationDialog>();
                     await dialog.ShowAsync(edge);
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<EdgeDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<EdgeDescriptor>>();
                     logger.LogError(exception, "VisualizationDialog error");
                 }
             })

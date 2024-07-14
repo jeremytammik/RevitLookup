@@ -21,6 +21,7 @@
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -140,12 +141,12 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
                 
                 try
                 {
-                    var dialog = context.ServiceProvider.GetService<BoundingBoxVisualizationDialog>();
+                    var dialog = context.ServiceProvider.GetRequiredService<BoundingBoxVisualizationDialog>();
                     await dialog.ShowAsync(boxArg);
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<EdgeDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<EdgeDescriptor>>();
                     logger.LogError(exception, "VisualizationDialog error");
                 }
             })

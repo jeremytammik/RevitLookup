@@ -20,6 +20,7 @@
 
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -51,12 +52,12 @@ public sealed class XyzDescriptor : Descriptor, IDescriptorConnector
                 
                 try
                 {
-                    var dialog = context.ServiceProvider.GetService<XyzVisualizationDialog>();
+                    var dialog = context.ServiceProvider.GetRequiredService<XyzVisualizationDialog>();
                     await dialog.ShowAsync(point);
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<XyzDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<XyzDescriptor>>();
                     logger.LogError(exception, "VisualizationDialog error");
                 }
             })

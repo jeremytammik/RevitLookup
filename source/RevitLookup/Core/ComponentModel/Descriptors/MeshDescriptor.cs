@@ -20,6 +20,7 @@
 
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Contracts;
 using RevitLookup.Core.Objects;
@@ -43,12 +44,12 @@ public sealed class MeshDescriptor(Mesh mesh) : Descriptor, IDescriptorCollector
                 
                 try
                 {
-                    var dialog = context.ServiceProvider.GetService<MeshVisualizationDialog>();
+                    var dialog = context.ServiceProvider.GetRequiredService<MeshVisualizationDialog>();
                     await dialog.ShowAsync(meshArg);
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<MeshDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<MeshDescriptor>>();
                     logger.LogError(exception, "VisualizationDialog error");
                 }
             })
