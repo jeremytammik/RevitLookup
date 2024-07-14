@@ -23,8 +23,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;

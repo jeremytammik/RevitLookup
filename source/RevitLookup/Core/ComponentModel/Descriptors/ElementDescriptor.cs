@@ -24,8 +24,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Microsoft.Extensions.DependencyInjection;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Extensions;

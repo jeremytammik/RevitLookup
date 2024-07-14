@@ -20,8 +20,6 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB.Lighting;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 

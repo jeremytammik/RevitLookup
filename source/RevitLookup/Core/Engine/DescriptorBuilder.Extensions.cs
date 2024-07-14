@@ -18,8 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Contracts;
-
 namespace RevitLookup.Core.Engine;
 
 public sealed partial class DescriptorBuilder : IExtensionManager

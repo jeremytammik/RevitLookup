@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows.Controls;
-using RevitLookup.Core.Objects;
 using RevitLookup.Services.Enums;
 
 namespace RevitLookup.Services.Contracts;

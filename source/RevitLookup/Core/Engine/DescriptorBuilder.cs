@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Core.Diagnostic;
-using RevitLookup.Core.Objects;
 using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
 

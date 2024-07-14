@@ -20,8 +20,6 @@
 
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.Contracts;
 

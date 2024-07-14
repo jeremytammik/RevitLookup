@@ -20,8 +20,6 @@
 
 using System.Reflection;
 using System.Windows;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 

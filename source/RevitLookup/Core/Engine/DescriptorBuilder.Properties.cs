@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.Engine;
 

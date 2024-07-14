@@ -20,8 +20,6 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB.Mechanical;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using ArgumentException = Autodesk.Revit.Exceptions.ArgumentException;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;

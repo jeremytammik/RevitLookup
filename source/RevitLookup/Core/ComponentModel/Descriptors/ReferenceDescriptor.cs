@@ -21,8 +21,6 @@
 using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Input;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;

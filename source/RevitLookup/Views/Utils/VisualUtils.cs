@@ -22,7 +22,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using RevitLookup.Core.Objects;
 using Panel = System.Windows.Controls.Panel;
 
 namespace RevitLookup.Views.Utils;

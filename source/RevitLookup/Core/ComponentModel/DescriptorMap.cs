@@ -32,8 +32,6 @@ using Autodesk.Revit.DB.Visual;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
 using RibbonItem = Autodesk.Revit.UI.RibbonItem;
 using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;

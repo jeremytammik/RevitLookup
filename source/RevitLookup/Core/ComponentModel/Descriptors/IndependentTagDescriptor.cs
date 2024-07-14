@@ -22,8 +22,6 @@ using System.Reflection;
 #if REVIT2025_OR_GREATER
 using Autodesk.Revit.DB.Structure;
 #endif
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
