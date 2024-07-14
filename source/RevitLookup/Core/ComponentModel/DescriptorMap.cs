@@ -25,6 +25,7 @@ using System.Windows.Threading;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
+using Autodesk.Revit.DB.Lighting;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Visual;
@@ -127,6 +128,7 @@ public static class DescriptorMap
             FailureMessage value when type is null || type == typeof(FailureMessage) => new FailureMessageDescriptor(value),
             UpdaterInfo value when type is null || type == typeof(UpdaterInfo) => new UpdaterInfoDescriptor(value),
             ExternalService value when type is null || type == typeof(ExternalService) => new ExternalServiceDescriptor(value),
+            LightFamily value when type is null || type == typeof(LightFamily) => new LightFamilyDescriptor(value),
             RevitApplication value when type is null || type == typeof(RevitApplication) => new ApplicationDescriptor(value),
             UIApplication when type is null || type == typeof(UIApplication) => new UiApplicationDescriptor(),
             PerformanceAdviser value when type is null || type == typeof(PerformanceAdviser) => new PerformanceAdviserDescriptor(value),
