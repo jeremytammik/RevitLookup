@@ -84,6 +84,7 @@ public static class DescriptorMap
             Edge value when type is null || type == typeof(Edge) => new EdgeDescriptor(value),
             Solid value when type is null || type == typeof(Solid) => new SolidDescriptor(value),
             Mesh value when type is null || type == typeof(Mesh) => new MeshDescriptor(value),
+            CylindricalFace value when type is null || type == typeof(CylindricalFace) => new CylindricalFaceDescriptor(value),
             Face value when type is null || type == typeof(Face) => new FaceDescriptor(value),
             City value when type is null || type == typeof(City) => new CityDescriptor(value),
             PaperSize value when type is null || type == typeof(PaperSize) => new PaperSizeDescriptor(value),

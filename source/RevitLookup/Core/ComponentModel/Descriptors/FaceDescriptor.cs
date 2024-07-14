@@ -30,7 +30,7 @@ using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
+public class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
     private readonly Face _face;
     
@@ -40,7 +40,7 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
     
-    public void RegisterMenu(ContextMenu contextMenu)
+    public virtual void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
         contextMenu.AddMenuItem("SelectMenuItem")
