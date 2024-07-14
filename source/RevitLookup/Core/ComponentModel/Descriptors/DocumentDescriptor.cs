@@ -80,7 +80,6 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
     {
         manager.Register(nameof(GlobalParametersManager.GetAllGlobalParameters), GlobalParametersManager.GetAllGlobalParameters);
         manager.Register(nameof(LightGroupManager.GetLightGroupManager), LightGroupManager.GetLightGroupManager);
-        manager.Register(nameof(LightFamily.GetLightFamily), LightFamily.GetLightFamily);
 #if REVIT2022_OR_GREATER
         manager.Register(nameof(TemporaryGraphicsManager.GetTemporaryGraphicsManager), TemporaryGraphicsManager.GetTemporaryGraphicsManager);
 #endif
@@ -95,6 +94,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
                 var familyTableId = new ElementId(BuiltInParameter.RBS_LOOKUP_TABLE_NAME);
                 return FamilySizeTableManager.GetFamilySizeTableManager(context, familyTableId);
             });
+            manager.Register(nameof(LightFamily.GetLightFamily), LightFamily.GetLightFamily);
         }
         
         // Disabled: slow performance.
