@@ -22,7 +22,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Microsoft.Extensions.DependencyInjection;
-using RevitLookup.Core.Objects;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using Wpf.Ui;
@@ -167,9 +166,9 @@ public sealed class LookupService : ILookupService
         {
             _scope = scopeFactory.CreateScope();
             
-            _window = (Window) _scope.ServiceProvider.GetService<IWindow>();
-            _visualService = _scope.ServiceProvider.GetService<ISnoopVisualService>();
-            _navigationService = _scope.ServiceProvider.GetService<INavigationService>();
+            _window = (Window) _scope.ServiceProvider.GetRequiredService<IWindow>();
+            _visualService = _scope.ServiceProvider.GetRequiredService<ISnoopVisualService>();
+            _navigationService = _scope.ServiceProvider.GetRequiredService<INavigationService>();
             
             _window.Closed += (_, _) => _scope.Dispose();
         }
@@ -227,7 +226,7 @@ public sealed class LookupService : ILookupService
         
         private void InvokeHandler<T>(Action<T> handler) where T : class
         {
-            var service = _scope.ServiceProvider.GetService<T>();
+            var service = _scope.ServiceProvider.GetRequiredService<T>();
             handler.Invoke(service);
         }
         

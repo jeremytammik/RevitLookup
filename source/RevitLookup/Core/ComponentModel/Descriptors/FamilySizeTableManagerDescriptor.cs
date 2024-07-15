@@ -20,9 +20,8 @@
 
 using System.Reflection;
 using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Extensions;
@@ -89,7 +88,7 @@ public sealed class FamilySizeTableManagerDescriptor(FamilySizeTableManager mana
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<ParameterDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<ParameterDescriptor>>();
                     logger.LogError(exception, "Initialize EditParameterDialog error");
                 }
             });

@@ -75,6 +75,11 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Using Include="RevitLookup.Core.Objects"/>
+        <Using Include="RevitLookup.Core.Contracts"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <Content Include="Resources\Images\RibbonIcon16.png"/>
         <Resource Include="Resources\Images\RibbonIcon32.png"/>
         <Resource Include="Resources\Images\AboutLogo200.png"/>

@@ -80,7 +80,7 @@ public static class Host
         _host.Start();
     }
     
-    public static void Start(IHost host)
+    public static void StartProxy(IHost host)
     {
         _host = host;
         host.Start();
@@ -93,11 +93,6 @@ public static class Host
     
     public static T GetService<T>() where T : class
     {
-        return _host.Services.GetService(typeof(T)) as T;
-    }
-    
-    public static T GetService<T>(this IServiceProvider serviceProvider) where T : class
-    {
-        return serviceProvider.GetService(typeof(T)) as T;
+        return _host.Services.GetRequiredService<T>();
     }
 }

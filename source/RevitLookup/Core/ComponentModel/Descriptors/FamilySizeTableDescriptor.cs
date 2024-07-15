@@ -20,9 +20,8 @@
 
 using System.Reflection;
 using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Extensions;
@@ -83,7 +82,7 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<FamilySizeTableDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<FamilySizeTableDescriptor>>();
                     logger.LogError(exception, "FamilySizeTableDialog error");
                 }
             });

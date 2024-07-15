@@ -23,7 +23,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using Nice3point.Revit.Toolkit.External;
 using Nice3point.Revit.Toolkit.External.Handlers;
-using RevitLookup.Core.Objects;
 using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;

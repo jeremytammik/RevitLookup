@@ -18,9 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
-
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class ElementIdDescriptor : Descriptor, IDescriptorRedirection

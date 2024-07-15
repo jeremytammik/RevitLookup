@@ -21,9 +21,8 @@
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs.Visualization;
 using RevitLookup.Views.Extensions;
@@ -96,12 +95,12 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
                 
                 try
                 {
-                    var dialog = context.ServiceProvider.GetService<SolidVisualizationDialog>();
+                    var dialog = context.ServiceProvider.GetRequiredService<SolidVisualizationDialog>();
                     await dialog.ShowAsync(solid);
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<SolidDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<SolidDescriptor>>();
                     logger.LogError(exception, "VisualizationDialog error");
                 }
             })

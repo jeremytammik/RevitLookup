@@ -20,7 +20,6 @@
 
 using System.Reflection;
 using Autodesk.Revit.DB.Plumbing;
-using RevitLookup.Core.Contracts;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 

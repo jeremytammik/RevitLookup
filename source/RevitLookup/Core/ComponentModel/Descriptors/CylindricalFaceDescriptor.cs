@@ -1,4 +1,4 @@
-// Copyright 2003-2024 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,35 +19,26 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Reflection;
-using Autodesk.Revit.DB.Electrical;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class WireDescriptor(Wire wire) : ElementDescriptor(wire)
+public sealed class CylindricalFaceDescriptor(CylindricalFace face) : FaceDescriptor(face), IDescriptorResolver
 {
-    public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
         {
-            nameof(Wire.GetVertex) => ResolveVertex,
+            "Radius" => ResolveRadius,
             _ => null
         };
-        
-        IVariants ResolveVertex()
+
+        IVariants ResolveRadius()
         {
-            var capacity = wire.NumberOfVertices;
-            var variants = new Variants<XYZ>(capacity);
-            
-            for (var i = 0; i < capacity; i++)
+            return new Variants<XYZ>(2)
             {
-                variants.Add(wire.GetVertex(i));
-            }
-            
-            return variants;
+                {face.get_Radius(0), "Radius 0"},
+                {face.get_Radius(1), "Radius 1"}
+            };
         }
-    }
-    
-    public override void RegisterExtensions(IExtensionManager manager)
-    {
     }
 }

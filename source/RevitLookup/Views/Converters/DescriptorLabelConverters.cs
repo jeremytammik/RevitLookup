@@ -21,7 +21,6 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Views.Converters;
 

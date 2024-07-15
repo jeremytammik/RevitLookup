@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
 
@@ -46,6 +47,6 @@ public sealed partial class FamilySizeTableShowDialog
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
         
-        await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
     }
 }

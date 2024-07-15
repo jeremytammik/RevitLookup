@@ -33,8 +33,6 @@ using Autodesk.Revit.DB.Visual;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using RevitLookup.Core.ComponentModel.Descriptors;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitApplication = Autodesk.Revit.ApplicationServices.Application;
 using RibbonItem = Autodesk.Revit.UI.RibbonItem;
 using RibbonPanel = Autodesk.Revit.UI.RibbonPanel;
@@ -86,6 +84,7 @@ public static class DescriptorMap
             Edge value when type is null || type == typeof(Edge) => new EdgeDescriptor(value),
             Solid value when type is null || type == typeof(Solid) => new SolidDescriptor(value),
             Mesh value when type is null || type == typeof(Mesh) => new MeshDescriptor(value),
+            CylindricalFace value when type is null || type == typeof(CylindricalFace) => new CylindricalFaceDescriptor(value),
             Face value when type is null || type == typeof(Face) => new FaceDescriptor(value),
             City value when type is null || type == typeof(City) => new CityDescriptor(value),
             PaperSize value when type is null || type == typeof(PaperSize) => new PaperSizeDescriptor(value),

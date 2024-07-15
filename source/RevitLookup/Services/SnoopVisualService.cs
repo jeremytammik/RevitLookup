@@ -20,8 +20,6 @@
 
 using System.Collections.ObjectModel;
 using RevitLookup.Core;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.Core.Utils;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;

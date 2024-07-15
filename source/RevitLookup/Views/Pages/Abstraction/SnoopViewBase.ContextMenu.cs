@@ -21,9 +21,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Views.Extensions;
 using RevitLookup.Views.Utils;
@@ -62,8 +61,8 @@ public partial class SnoopViewBase
         }
         catch (Exception exception)
         {
-            var logger = ViewModel.ServiceProvider.GetService<ILogger<SnoopViewBase>>();
-            var notificationService = ViewModel.ServiceProvider.GetService<NotificationService>();
+            var logger = ViewModel.ServiceProvider.GetRequiredService<ILogger<SnoopViewBase>>();
+            var notificationService = ViewModel.ServiceProvider.GetRequiredService<NotificationService>();
             
             logger.LogError(exception, "RegisterMenu error");
             notificationService.ShowError("RegisterMenu error", exception);
@@ -207,8 +206,8 @@ public partial class SnoopViewBase
         }
         catch (Exception exception)
         {
-            var logger = ViewModel.ServiceProvider.GetService<ILogger<SnoopViewBase>>();
-            var notificationService = ViewModel.ServiceProvider.GetService<NotificationService>();
+            var logger = ViewModel.ServiceProvider.GetRequiredService<ILogger<SnoopViewBase>>();
+            var notificationService = ViewModel.ServiceProvider.GetRequiredService<NotificationService>();
             
             logger.LogError(exception, "RegisterMenu error");
             notificationService.ShowError("RegisterMenu error", exception);

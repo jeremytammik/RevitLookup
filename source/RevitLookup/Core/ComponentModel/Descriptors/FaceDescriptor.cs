@@ -21,16 +21,15 @@
 using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs.Visualization;
 using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
+public class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
     private readonly Face _face;
     
@@ -40,7 +39,7 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
         Name = $"{face.Area.ToString(CultureInfo.InvariantCulture)} ft²";
     }
     
-    public void RegisterMenu(ContextMenu contextMenu)
+    public virtual void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
         contextMenu.AddMenuItem("SelectMenuItem")
@@ -79,12 +78,12 @@ public sealed class FaceDescriptor : Descriptor, IDescriptorCollector, IDescript
                 
                 try
                 {
-                    var dialog = context.ServiceProvider.GetService<FaceVisualizationDialog>();
+                    var dialog = context.ServiceProvider.GetRequiredService<FaceVisualizationDialog>();
                     await dialog.ShowAsync(face);
                 }
                 catch (Exception exception)
                 {
-                    var logger = context.ServiceProvider.GetService<ILogger<FaceDescriptor>>();
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<FaceDescriptor>>();
                     logger.LogError(exception, "VisualizationDialog error");
                 }
             })
