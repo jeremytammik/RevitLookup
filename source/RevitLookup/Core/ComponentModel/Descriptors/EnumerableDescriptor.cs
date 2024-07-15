@@ -22,8 +22,6 @@ using System.Collections;
 using System.Reflection;
 using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.Macros;
-using RevitLookup.Core.Contracts;
-using RevitLookup.Core.Objects;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
