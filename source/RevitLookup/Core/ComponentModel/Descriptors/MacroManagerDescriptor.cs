@@ -32,8 +32,7 @@ public class MacroManagerDescriptor(MacroManager macroManager) : Descriptor, IDe
     {
         return target switch
         {
-#if REVIT2025_OR_GREATER
-#else
+#if !REVIT2025_OR_GREATER
             nameof(MacroManager.GetDocumentMacroSecurityOptions) => ResolveDocumentMacroSecurityOptions,
 #endif
             nameof(MacroManager.GetApplicationMacroSecurityOptions) => ResolveApplicationMacroSecurityOptions,
@@ -46,8 +45,7 @@ public class MacroManagerDescriptor(MacroManager macroManager) : Descriptor, IDe
         {
             return Variants.Single(MacroManager.GetApplicationMacroSecurityOptions(Context.Application));
         }
-#if REVIT2025_OR_GREATER
-#else       
+#if !REVIT2025_OR_GREATER
         IVariants ResolveDocumentMacroSecurityOptions()
         {
             return Variants.Single(MacroManager.GetDocumentMacroSecurityOptions(Context.Application));
