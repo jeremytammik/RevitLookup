@@ -18,78 +18,44 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.IO;
 using System.Windows.Interop;
 using System.Windows.Media;
 using Nice3point.Revit.Toolkit.External;
-using Nice3point.Revit.Toolkit.External.Handlers;
-using RevitLookup.Models.Settings;
+using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
-using RevitLookup.Utils;
 
 namespace RevitLookup;
 
 [UsedImplicitly]
 public class Application : ExternalApplication
 {
-    public static ActionEventHandler ActionEventHandler { get; private set; }
-    public static AsyncEventHandler AsyncEventHandler { get; private set; }
-    public static AsyncEventHandler<IList<SnoopableObject>> ExternalElementHandler { get; private set; }
-    public static AsyncEventHandler<IList<Descriptor>> ExternalDescriptorHandler { get; private set; }
-    
     public override void OnStartup()
     {
-        RegisterHandlers();
+        RevitShell.RegisterHandlers();
         Host.Start();
         
-        var settingsService = Host.GetService<ISettingsService>();
-        var updateService = Host.GetService<ISoftwareUpdateService>();
-        
-        EnableHardwareRendering(settingsService.GeneralSettings);
-        RibbonController.CreatePanel(Application, settingsService.GeneralSettings);
-        
-        updateService.CheckUpdates();
+        RibbonController.CreatePanel(Application);
     }
     
     public override void OnShutdown()
     {
-        SaveSettings();
-        UpdateSoftware();
         Host.Stop();
     }
     
-    private static void UpdateSoftware()
-    {
-        var updateService = Host.GetService<ISoftwareUpdateService>();
-        if (File.Exists(updateService.LocalFilePath)) ProcessTasks.StartShell(updateService.LocalFilePath);
-    }
-    
-    private static void SaveSettings()
+    public static void EnableHardwareRendering()
     {
         var settingsService = Host.GetService<ISettingsService>();
-        settingsService.SaveSettings();
-    }
-    
-    public static void EnableHardwareRendering(GeneralSettings settings)
-    {
-        if (!settings.UseHardwareRendering) return;
+        if (!settingsService.GeneralSettings.UseHardwareRendering) return;
         
         //Revit overrides render mode during initialization
         //EventHandler is called after initialization
-        ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
+        RevitShell.ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
     }
     
-    public static void DisableHardwareRendering(GeneralSettings settings)
+    public static void DisableHardwareRendering()
     {
-        if (settings.UseHardwareRendering) return;
+        var settingsService = Host.GetService<ISettingsService>();
+        if (settingsService.GeneralSettings.UseHardwareRendering) return;
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-    }
-    
-    private static void RegisterHandlers()
-    {
-        ActionEventHandler = new ActionEventHandler();
-        AsyncEventHandler = new AsyncEventHandler();
-        ExternalElementHandler = new AsyncEventHandler<IList<SnoopableObject>>();
-        ExternalDescriptorHandler = new AsyncEventHandler<IList<Descriptor>>();
     }
 }

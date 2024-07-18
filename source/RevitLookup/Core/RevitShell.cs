@@ -22,12 +22,26 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using Autodesk.Revit.UI;
+using Nice3point.Revit.Toolkit.External.Handlers;
 using RevitLookup.Models;
 
 namespace RevitLookup.Core;
 
 public static class RevitShell
 {
+    public static ActionEventHandler ActionEventHandler { get; private set; }
+    public static AsyncEventHandler AsyncEventHandler { get; private set; }
+    public static AsyncEventHandler<IList<SnoopableObject>> ExternalElementHandler { get; private set; }
+    public static AsyncEventHandler<IList<Descriptor>> ExternalDescriptorHandler { get; private set; }
+    
+    public static void RegisterHandlers()
+    {
+        ActionEventHandler = new ActionEventHandler();
+        AsyncEventHandler = new AsyncEventHandler();
+        ExternalElementHandler = new AsyncEventHandler<IList<SnoopableObject>>();
+        ExternalDescriptorHandler = new AsyncEventHandler<IList<Descriptor>>();
+    }
+    
     public static UIControlledApplication CreateUiControlledApplication()
     {
         return (UIControlledApplication) Activator.CreateInstance(
@@ -118,7 +132,7 @@ public static class RevitShell
 #endif
         return dataTypes.Select(info =>
             {
-                var typeId = (ForgeTypeId) info.GetValue(null);
+                var typeId = (ForgeTypeId) info.GetValue(null)!;
                 var label = GetLabel(typeId, info);
                 var className = GetClassName(info);
                 return new UnitInfo(typeId, typeId.TypeId, label, className);
@@ -183,14 +197,14 @@ public static class RevitShell
         
         var documentType = typeof(Document);
         var parameterType = typeof(Parameter);
-        var assembly = Assembly.GetAssembly(parameterType);
-        var aDocumentType = assembly.GetType("ADocument");
-        var elementIdType = assembly.GetType("ElementId");
+        var assembly = Assembly.GetAssembly(parameterType)!;
+        var aDocumentType = assembly.GetType("ADocument")!;
+        var elementIdType = assembly.GetType("ElementId")!;
         var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
         var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
         var parameterCtorType = parameterType.GetConstructor(bindingFlags, null, [aDocumentType.MakePointerType(), elementIdType.MakePointerType()], null)!;
         
-        var elementId = Activator.CreateInstance(elementIdType);
+        var elementId = Activator.CreateInstance(elementIdType)!;
         elementIdIdType.SetValue(elementId, builtInParameter);
         
         var handle = GCHandle.Alloc(elementId);
@@ -209,14 +223,14 @@ public static class RevitShell
         
         var documentType = typeof(Document);
         var categoryType = typeof(Category);
-        var assembly = Assembly.GetAssembly(categoryType);
-        var aDocumentType = assembly.GetType("ADocument");
-        var elementIdType = assembly.GetType("ElementId");
+        var assembly = Assembly.GetAssembly(categoryType)!;
+        var aDocumentType = assembly.GetType("ADocument")!;
+        var elementIdType = assembly.GetType("ElementId")!;
         var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
         var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
         var categoryCtorType = categoryType.GetConstructor(bindingFlags, null, [aDocumentType.MakePointerType(), elementIdType.MakePointerType()], null)!;
         
-        var elementId = Activator.CreateInstance(elementIdType);
+        var elementId = Activator.CreateInstance(elementIdType)!;
         elementIdIdType.SetValue(elementId, builtInCategory);
         
         var handle = GCHandle.Alloc(elementId);

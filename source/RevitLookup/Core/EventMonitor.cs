@@ -56,12 +56,12 @@ public sealed class EventMonitor
 
     public void Subscribe()
     {
-        Application.ActionEventHandler.Raise(Subscribe);
+        RevitShell.ActionEventHandler.Raise(Subscribe);
     }
 
     public void Unsubscribe()
     {
-        Application.ActionEventHandler.Raise(Unsubscribe);
+        RevitShell.ActionEventHandler.Raise(Unsubscribe);
     }
 
     private void Subscribe(UIApplication uiApplication)
@@ -83,7 +83,7 @@ public sealed class EventMonitor
             }
 
             var methodInfo = GetType().GetMethod(nameof(OnHandlingEvent), BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)!;
-            var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType, this, methodInfo);
+            var eventHandler = Delegate.CreateDelegate(eventInfo.EventHandlerType!, this, methodInfo);
 
             foreach (var target in targets) eventInfo.AddEventHandler(target, eventHandler);
             _eventInfos.Add(eventInfo, eventHandler);

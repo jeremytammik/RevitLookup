@@ -32,6 +32,6 @@ public interface ISoftwareUpdateService
     public string ErrorMessage { get; }
     public string LocalFilePath { get; }
 
-    Task CheckUpdates();
+    Task CheckUpdatesAsync();
     Task DownloadUpdate();
 }

@@ -148,8 +148,8 @@ public sealed partial class SettingsViewModel(
     partial void OnUseHardwareRenderingChanged(bool value)
     {
         settingsService.GeneralSettings.UseHardwareRendering = value;
-        if (value) Application.EnableHardwareRendering(settingsService.GeneralSettings);
-        else Application.DisableHardwareRendering(settingsService.GeneralSettings);
+        if (value) Application.EnableHardwareRendering();
+        else Application.DisableHardwareRendering();
     }
 
     partial void OnUseSizeRestoringChanged(bool value)
@@ -162,6 +162,6 @@ public sealed partial class SettingsViewModel(
     partial void OnUseModifyTabChanged(bool value)
     {
         settingsService.GeneralSettings.UseModifyTab = value;
-        RibbonController.ReloadPanels(settingsService.GeneralSettings);
+        RibbonController.ReloadPanels();
     }
 }

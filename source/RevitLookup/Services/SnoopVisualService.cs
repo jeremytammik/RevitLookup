@@ -67,7 +67,7 @@ public sealed class SnoopVisualService(NotificationService notificationService, 
                     break;
             }
 
-            var snoopableObjects = await Application.ExternalElementHandler.RaiseAsync(_ => Selector.Snoop(snoopableType));
+            var snoopableObjects = await RevitShell.ExternalElementHandler.RaiseAsync(_ => Selector.Snoop(snoopableType));
             Snoop(snoopableObjects);
         }
         catch (OperationCanceledException)

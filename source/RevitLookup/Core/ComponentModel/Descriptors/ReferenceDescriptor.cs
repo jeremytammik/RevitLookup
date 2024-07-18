@@ -57,7 +57,7 @@ public sealed class ReferenceDescriptor : Descriptor, IDescriptorResolver, IDesc
             {
                 if (Context.UiDocument is null) return;
                 
-                Application.ActionEventHandler.Raise(_ => Context.UiDocument.Selection.SetReferences([reference]));
+                RevitShell.ActionEventHandler.Raise(_ => Context.UiDocument.Selection.SetReferences([reference]));
             })
             .SetShortcut(Key.F6);
 #endif

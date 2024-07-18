@@ -22,7 +22,7 @@ using Autodesk.Revit.UI;
 using Autodesk.Windows;
 using RevitLookup.Commands;
 using RevitLookup.Core;
-using RevitLookup.Models.Settings;
+using RevitLookup.Services.Contracts;
 using RevitLookup.Utils;
 
 namespace RevitLookup;
@@ -31,7 +31,7 @@ public static class RibbonController
 {
     private const string PanelName = "Revit Lookup";
     
-    public static void CreatePanel(UIControlledApplication application, GeneralSettings settingsService)
+    public static void CreatePanel(UIControlledApplication application)
     {
         var addinPanel = application.CreatePanel("Revit Lookup");
         var pullButton = addinPanel.AddPullDownButton("RevitLookupButton", "RevitLookup");
@@ -39,7 +39,7 @@ public static class RibbonController
         pullButton.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
         
         pullButton.AddPushButton<DashboardCommand>("Dashboard");
-        ResolveSelectionButton(settingsService, pullButton);
+        ResolveSelectionButton(pullButton);
         pullButton.AddPushButton<SnoopViewCommand>("Snoop Active view");
         pullButton.AddPushButton<SnoopDocumentCommand>("Snoop Document");
         pullButton.AddPushButton<SnoopDatabaseCommand>("Snoop Database");
@@ -51,9 +51,10 @@ public static class RibbonController
         pullButton.AddPushButton<EventMonitorCommand>("Event monitor");
     }
     
-    private static void ResolveSelectionButton(GeneralSettings settings, PulldownButton parentButton)
+    private static void ResolveSelectionButton(PulldownButton parentButton)
     {
-        if (!settings.UseModifyTab)
+        var settingsService = Host.GetService<ISettingsService>();
+        if (!settingsService.GeneralSettings.UseModifyTab)
         {
             parentButton.AddPushButton<SnoopSelectionCommand>("Snoop Selection");
             return;
@@ -67,15 +68,15 @@ public static class RibbonController
         button.SetLargeImage("/RevitLookup;component/Resources/Images/RibbonIcon32.png");
     }
     
-    public static void ReloadPanels(GeneralSettings settings)
+    public static void ReloadPanels()
     {
-        Application.ActionEventHandler.Raise(_ =>
+        RevitShell.ActionEventHandler.Raise(_ =>
         {
             RibbonUtils.RemovePanel("CustomCtrl_%CustomCtrl_%Add-Ins%Revit Lookup%RevitLookupButton", PanelName);
             RibbonUtils.RemovePanel("CustomCtrl_%Revit Lookup%RevitLookup.Commands.SnoopSelectionCommand", PanelName);
             
             var controlledApplication = RevitShell.CreateUiControlledApplication();
-            CreatePanel(controlledApplication, settings);
+            CreatePanel(controlledApplication);
             
             RibbonUtils.ReloadShortcuts();
         });

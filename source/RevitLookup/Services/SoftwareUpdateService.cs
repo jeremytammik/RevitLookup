@@ -50,7 +50,7 @@ public sealed class SoftwareUpdateService(
     public string ErrorMessage { get; private set; }
     public string LocalFilePath { get; private set; }
     
-    public async Task CheckUpdates()
+    public async Task CheckUpdatesAsync()
     {
         try
         {
@@ -145,14 +145,13 @@ public sealed class SoftwareUpdateService(
         }
         catch (HttpRequestException exception)
         {
-            // GitHub request limit exceeded
             State = SoftwareUpdateState.UpToDate;
-            logger.LogError(exception, "Checking updates fail");
+            logger.LogError(exception, "Checking updates fail. Possible GitHub request limit exceeded");
         }
         catch (Exception exception)
         {
             State = SoftwareUpdateState.ErrorChecking;
-            ErrorMessage = "An error occurred while checking for updates";
+            ErrorMessage = "An unknown error occurred while checking for updates";
             logger.LogError(exception, "Checking updates fail");
         }
         finally

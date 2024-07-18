@@ -18,6 +18,8 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using RevitLookup.Core;
+
 namespace RevitLookup.ViewModels.Dialogs;
 
 public sealed partial class EditParameterViewModel : ObservableObject
@@ -48,7 +50,7 @@ public sealed partial class EditParameterViewModel : ObservableObject
     
     public async Task SaveValueAsync()
     {
-        await Application.AsyncEventHandler.RaiseAsync(_ =>
+        await RevitShell.AsyncEventHandler.RaiseAsync(_ =>
         {
             var transaction = new Transaction(_parameter.Element.Document);
             transaction.Start("Set parameter value");

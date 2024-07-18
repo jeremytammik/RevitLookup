@@ -299,7 +299,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 if (Context.UiDocument is null) return;
                 if (!element.IsValidObject) return;
 
-                Application.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetElementIds([element.Id]); });
+                RevitShell.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetElementIds([element.Id]); });
             })
             .SetShortcut(Key.F6);
 
@@ -311,7 +311,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                     if (Context.UiDocument is null) return;
                     if (!element.IsValidObject) return;
 
-                    Application.ActionEventHandler.Raise(_ =>
+                    RevitShell.ActionEventHandler.Raise(_ =>
                     {
                         Context.UiDocument.ShowElements(element);
                         Context.UiDocument.Selection.SetElementIds([element.Id]);
@@ -328,7 +328,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
 
                 try
                 {
-                    await Application.AsyncEventHandler.RaiseAsync(_ =>
+                    await RevitShell.AsyncEventHandler.RaiseAsync(_ =>
                     {
                         var transaction = new Transaction(element.Document);
                         transaction.Start($"Delete {element.Name}");

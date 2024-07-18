@@ -59,7 +59,7 @@ public sealed class SnoopableObject
 
     public async Task<IList<Descriptor>> GetMembersAsync()
     {
-        return _members = await Application.ExternalDescriptorHandler.RaiseAsync(_ => DescriptorBuilder.Build(Object, Context));
+        return _members = await RevitShell.ExternalDescriptorHandler.RaiseAsync(_ => DescriptorBuilder.Build(Object, Context));
     }
 
     public async Task<IList<Descriptor>> GetCachedMembersAsync()

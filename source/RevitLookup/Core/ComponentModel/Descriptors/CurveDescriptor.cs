@@ -49,7 +49,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                 if (Context.UiDocument is null) return;
                 if (curve.Reference is null) return;
                 
-                Application.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetReferences([curve.Reference]); });
+                RevitShell.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetReferences([curve.Reference]); });
             })
             .SetShortcut(Key.F6);
         
@@ -59,7 +59,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                 if (Context.UiDocument is null) return;
                 if (curve.Reference is null) return;
                 
-                Application.ActionEventHandler.Raise(_ =>
+                RevitShell.ActionEventHandler.Raise(_ =>
                 {
                     var element = curve.Reference.ElementId.ToElement(Context.Document);
                     if (element is not null) Context.UiDocument.ShowElements(element);

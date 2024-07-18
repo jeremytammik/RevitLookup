@@ -47,7 +47,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
             {
                 if (Context.UiDocument is null) return;
                 
-                Application.ActionEventHandler.Raise(_ =>
+                RevitShell.ActionEventHandler.Raise(_ =>
                 {
                     var references = solid.Faces
                         .Cast<Face>()
@@ -67,7 +67,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
             {
                 if (Context.UiDocument is null) return;
                 
-                Application.ActionEventHandler.Raise(_ =>
+                RevitShell.ActionEventHandler.Raise(_ =>
                 {
                     var references = solid.Faces
                         .Cast<Face>()

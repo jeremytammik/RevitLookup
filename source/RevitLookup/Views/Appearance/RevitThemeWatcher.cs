@@ -21,6 +21,7 @@
 
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Events;
+using RevitLookup.Core;
 using RevitLookup.Services.Contracts;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -35,7 +36,7 @@ public static class RevitThemeWatcher
     {
         if (!_isWatching)
         {
-            Application.ActionEventHandler.Raise(_ => Context.UiApplication.ThemeChanged += ObserveThemeChanged);
+            RevitShell.ActionEventHandler.Raise(_ => Context.UiApplication.ThemeChanged += ObserveThemeChanged);
             _isWatching = true;
         }
 
@@ -47,7 +48,7 @@ public static class RevitThemeWatcher
     {
         if (!_isWatching) return;
 
-        Application.ActionEventHandler.Raise(_ => Context.UiApplication.ThemeChanged -= ObserveThemeChanged);
+        RevitShell.ActionEventHandler.Raise(_ => Context.UiApplication.ThemeChanged -= ObserveThemeChanged);
         _isWatching = false;
     }
 

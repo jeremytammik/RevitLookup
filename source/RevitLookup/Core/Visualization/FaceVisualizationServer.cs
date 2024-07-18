@@ -274,7 +274,7 @@ public sealed class FaceVisualizationServer : IDirectContext3DServer
     {
         _face = face;
 
-        Application.ActionEventHandler.Raise(application =>
+        RevitShell.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
 
@@ -291,7 +291,7 @@ public sealed class FaceVisualizationServer : IDirectContext3DServer
 
     public void Unregister()
     {
-        Application.ActionEventHandler.Raise(application =>
+        RevitShell.ActionEventHandler.Raise(application =>
         {
             var directContextService = (MultiServerService) ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
             directContextService.RemoveServer(GetServerId());

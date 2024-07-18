@@ -48,7 +48,7 @@ public class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConne
                 if (Context.UiDocument is null) return;
                 if (face.Reference is null) return;
                 
-                Application.ActionEventHandler.Raise(_ => Context.UiDocument.Selection.SetReferences([face.Reference]));
+                RevitShell.ActionEventHandler.Raise(_ => Context.UiDocument.Selection.SetReferences([face.Reference]));
             })
             .SetShortcut(Key.F6);
         
@@ -58,7 +58,7 @@ public class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConne
                 if (Context.UiDocument is null) return;
                 if (face.Reference is null) return;
                 
-                Application.ActionEventHandler.Raise(_ =>
+                RevitShell.ActionEventHandler.Raise(_ =>
                 {
                     var element = face.Reference.ElementId.ToElement(Context.Document);
                     if (element is not null) Context.UiDocument.ShowElements(element);

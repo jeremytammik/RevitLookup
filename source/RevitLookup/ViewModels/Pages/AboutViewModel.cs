@@ -49,7 +49,7 @@ public sealed partial class AboutViewModel(
     [RelayCommand]
     private async Task CheckUpdatesAsync()
     {
-        await updateService.CheckUpdates();
+        await updateService.CheckUpdatesAsync();
         IsUpdateChecked = true;
         OnPropertyChanged(nameof(State));
         OnPropertyChanged(nameof(NewVersion));

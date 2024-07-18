@@ -278,7 +278,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
     {
         _solid = solid;
 
-        Application.ActionEventHandler.Raise(application =>
+        RevitShell.ActionEventHandler.Raise(application =>
         {
             if (application.ActiveUIDocument is null) return;
 
@@ -295,7 +295,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     public void Unregister()
     {
-        Application.ActionEventHandler.Raise(application =>
+        RevitShell.ActionEventHandler.Raise(application =>
         {
             var directContextService = (MultiServerService) ExternalServiceRegistry.GetService(ExternalServices.BuiltInExternalServices.DirectContext3DService);
             directContextService.RemoveServer(GetServerId());
