@@ -37,7 +37,6 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
         IsEmpty = value switch
         {
             string => true,
-            MacroManager enumerable => enumerable.Count == 0,
             IVariants enumerable => enumerable.Count == 0,
             ICollection enumerable => enumerable.Count == 0,
             ParameterSet enumerable => enumerable.IsEmpty,
@@ -59,6 +58,7 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
             VoltageTypeSet enumerable => enumerable.IsEmpty,
             InsulationTypeSet enumerable => enumerable.IsEmpty,
             TemperatureRatingTypeSet enumerable => enumerable.IsEmpty,
+            MacroManager enumerable => enumerable.Count == 0,
             _ => !Enumerator.MoveNext()
         };
     }

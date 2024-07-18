@@ -18,13 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Collections;
 using System.Reflection;
 using Autodesk.Revit.DB.Macros;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class MacroManagerDescriptor(MacroManager macroManager) : Descriptor, IDescriptorResolver
+public class MacroManagerDescriptor: Descriptor, IDescriptorResolver
 {
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
@@ -34,8 +33,6 @@ public class MacroManagerDescriptor(MacroManager macroManager) : Descriptor, IDe
             nameof(MacroManager.GetDocumentMacroSecurityOptions) => ResolveDocumentMacroSecurityOptions,
 #endif
             nameof(MacroManager.GetApplicationMacroSecurityOptions) => ResolveApplicationMacroSecurityOptions,
-            nameof(IEnumerable.GetEnumerator) => ResolveGetEnumerator,
-    
             _ => null
         };
         
@@ -49,10 +46,5 @@ public class MacroManagerDescriptor(MacroManager macroManager) : Descriptor, IDe
             return Variants.Single(MacroManager.GetDocumentMacroSecurityOptions(Context.Application));
         }
 #endif
-        IVariants ResolveGetEnumerator()
-        {
-            using var enumerator = macroManager.GetEnumerator();
-            return Variants.Single<IEnumerator>(enumerator);
-        }
     }
 }
