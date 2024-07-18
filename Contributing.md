@@ -1,4 +1,30 @@
-﻿## Fork, Clone, Branch and Create your PR
+﻿## Table of contents
+
+<!-- TOC -->
+  * [Fork, Clone, Branch and Create your PR](#fork-clone-branch-and-create-your-pr)
+  * [Rules](#rules)
+  * [Compiling RevitLookup](#compiling-revitlookup)
+    * [Prerequisites for Compiling RevitLookup](#prerequisites-for-compiling-revitlookup)
+    * [Install .Net versions](#install-net-versions)
+    * [Compiling Source Code](#compiling-source-code)
+    * [Creating MSI installer on a local machine](#creating-msi-installer-on-a-local-machine)
+    * [Creating a new release on GitHub](#creating-a-new-release-on-github)
+  * [Solution structure](#solution-structure)
+  * [Project structure](#project-structure)
+  * [Architecture](#architecture)
+    * [IDescriptorCollector](#idescriptorcollector)
+    * [IDescriptorResolver](#idescriptorresolver)
+      * [Resolution with only one variant](#resolution-with-only-one-variant)
+      * [Resolution with multiple values](#resolution-with-multiple-values)
+      * [Resolution without variants](#resolution-without-variants)
+      * [Disabling methods](#disabling-methods)
+    * [IDescriptorExtension](#idescriptorextension)
+    * [IDescriptorRedirection](#idescriptorredirection)
+    * [IDescriptorConnector](#idescriptorconnector)
+    * [Styles](#styles)
+<!-- TOC -->
+
+## Fork, Clone, Branch and Create your PR
 
 1. Fork the repo if you haven't already
 2. Clone your fork locally
@@ -6,40 +32,110 @@
 4. Create a [Draft Pull Request (PR)](https://github.blog/2019-02-14-introducing-draft-pull-requests/)
 5. Work on your changes
 
-Please avoid:
-
-- Lots of unrelated changes in one commit
-- Modifying files that are not directly related to the feature you implement
-
 ## Rules
 
-- Follow the pattern of what you already see in the code
+- **Follow the pattern of what you already see in the code**
 - When adding new classes/methods/changing existing code: run the debugger and make sure everything works
+- The naming should be descriptive and direct, giving a clear idea of the functionality and usefulness in the future
 
-## Naming of features and functionality
+## Compiling RevitLookup
 
-The naming should be descriptive and direct, giving a clear idea of the functionality and usefulness in the future
+### Prerequisites for Compiling RevitLookup
 
-## Prerequisites for Compiling RevitLookup
-
-- .Net 8 SDK or newer
+- Windows 10 April 2018 Update (version 1803) or newer
 - Visual Studio 2022 / JetBrains Rider 2023.3 or newer
+- A local clone of the RevitLookup repository
 
-## Install addin from source
+### Install .Net versions
 
-- Clone this repository
-  - Or, fork and clone your fork if you plan to contribute
-- Ensure your development environment meets the
-  [prerequisites](#prerequisites-for-compiling-revitlookup) from the
-  contributing guidelines
-- Run `dotnet build -c '{configuration}'`
-  - Where `{configuration}` is a string defined in [`RevitLookup.csproj`][rl-proj] at the XPath `/Project/PropertyGroup/Configurations`
-  - E.g. `dotnet build -c 'Release R23'`
+Before you can build this project, you will need to install .NET, depending upon the solution file you are building. 
+If you haven't already installed these frameworks, you can do so by visiting the following:
 
-This will build install the project into your local Revit addins directory for
-the indicated year.
+* [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
+* [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet)
 
-[rl-proj]: source/RevitLookup/RevitLookup.csproj
+### Compiling Source Code
+
+We recommend JetBrains Rider as preferred IDE, since it has outstanding .NET support. If you don't have Rider installed, you can download it
+from [here](https://www.jetbrains.com/rider/).
+
+1. Open JetBrains Rider
+2. Click on `File -> Open` and choose the RevitLookup.sln file to open.
+3. In the `Solutions Configuration` drop-down menu, select `Release R25` or `Debug R25`. Suffix `R25` means compiling for the Revit 2025.
+4. After the solution loads, you can build it by clicking on `Build -> Build Solution`.
+
+Also, you can use Visual Studio. If you don't have Visual Studio installed, download it from [here](https://visualstudio.microsoft.com/downloads/).
+
+1. Open Visual Studio
+2. Click on `File -> Open -> Project/Solution` and locate your solution file to open.
+3. In the `Solutions Configuration` drop-down menu, select `Release R25` or `Debug R25`. Suffix `R25` means compiling for the Revit 2025.
+4. After the solution loads, you can build it by clicking on `Build -> Build Solution`.
+
+### Creating MSI installer on a local machine
+
+To build the RevitLookup for all versions and create the installer, use [NUKE](https://github.com/nuke-build/nuke)
+
+To execute your NUKE build locally, you can follow these steps:
+
+1. **Install NUKE as a global tool**. First, make sure you have NUKE installed as a global tool. You can install it using dotnet CLI:
+
+    ```powershell
+    dotnet tool install Nuke.GlobalTool --global
+    ```
+
+   You only need to do this once on your machine.
+
+2. **Navigate to the project directory**. Open a terminal / command prompt and navigate to RevitLookup root directory.
+3. **Run the build**. Once you have navigated to your solution directory, you can run the NUKE build by calling:
+
+   Compile:
+   ```powershell
+   nuke
+   ```
+
+   Create installer:
+   ```powershell
+   nuke createinstaller
+   ```
+   
+   This command will execute the NUKE build, defined in the RevitLookup project.
+
+### Creating a new release on GitHub
+
+Publishing the release, generating the installer, is performed automatically on GitHub.
+
+To execute NUKE build on GitHub, you can follow these steps:
+
+1. Merge all your commits into the `main` / `master` branch.
+2. Navigate to the `Build/Build.Configuration.cs` file.
+3. Increase the `Version` value.
+4. Make a commit.
+5. Push your changes to GitHub, everything will happen automatically, and you can follow the progress in the Actions section of the repository page.
+
+## Solution structure
+
+| Folder   | Description                                                                |
+|----------|----------------------------------------------------------------------------|
+| build    | Nuke build system. Used to automate project builds                         |
+| install  | Add-in installer, called implicitly by the Nuke build                      |
+| source   | Project source code folder. Contains all solution projects                 |
+| output   | Folder of generated files by the build system, such as bundles, installers |
+| branding | Source files for logo, banner, installer background                        |
+| doc      | Museum, storage of original RevitLookup documentation                      |
+
+## Project structure
+
+| Folder     | Description                                                                                                                                                                                          |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Commands   | External commands invoked from the Revit ribbon                                                                                                                                                      |
+| Config     | Application settings, configurations files                                                                                                                                                           |
+| Core       | Contains a main application logic                                                                                                                                                                    |
+| Services   | Services and components providing the application functionality                                                                                                                                      |
+| Models     | Classes that encapsulate the app's data, include data transfer objects (DTOs). More [details](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm).                                      |
+| ViewModels | Classes that implement properties and commands to which the view can bind data. More [details](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm).                                     |
+| Views      | Classes that are responsible for defining the structure, layout and appearance of what the user sees on the screen. More [details](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm). |
+| Resources  | Images, localisation files, etc.                                                                                                                                                                     |
+| Utils      | Utilities, extensions, helpers used across the application                                                                                                                                           |
 
 ## Architecture
 
@@ -253,7 +349,7 @@ public sealed class ElementDescriptor : Descriptor, IDescriptorConnector
 }
 ```
 
-## Styles
+### Styles
 
 The application UI is divided into templates, where each template can be customized for different types of data.
 There are several different rules for customizing TreeView, DataGrid row, DataGrid cell and they are all located in the
