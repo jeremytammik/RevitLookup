@@ -26,6 +26,7 @@ using Autodesk.Revit.DB.Electrical;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Autodesk.Revit.DB.ExternalService;
 using Autodesk.Revit.DB.Lighting;
+using Autodesk.Revit.DB.Macros;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Plumbing;
 using Autodesk.Revit.DB.Visual;
@@ -58,6 +59,7 @@ public static class DescriptorMap
             //System
             string value when type is null || type == typeof(string) => new StringDescriptor(value),
             bool value when type is null || type == typeof(bool) => new BoolDescriptor(value),
+            MacroManager when type is null || type == typeof(MacroManager) => new MacroManagerDescriptor(),
             IEnumerable value => new EnumerableDescriptor(value),
             Exception value when type is null || type == typeof(Exception) => new ExceptionDescriptor(value),
             

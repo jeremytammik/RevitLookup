@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,23 +18,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Reflection;
 using Autodesk.Revit.DB.Macros;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public sealed class ApplicationDescriptor : Descriptor, IDescriptorExtension
+public class MacroManagerDescriptor: Descriptor, IDescriptorResolver
 {
-    private readonly Autodesk.Revit.ApplicationServices.Application _application;
-    public ApplicationDescriptor(Autodesk.Revit.ApplicationServices.Application application)
+    public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
-        Name = application.VersionName;
-        _application = application;
-    }
-    
-    public void RegisterExtensions(IExtensionManager manager)
-    {
-        manager.Register("GetFormulaFunctions", _ => FormulaManager.GetFunctions());
-        manager.Register("GetFormulaOperators", _ => FormulaManager.GetOperators());
-        manager.Register(nameof(MacroManager.GetMacroManager), _ => MacroManager.GetMacroManager(_application));
+        return target switch
+        {
+#if !REVIT2025_OR_GREATER
+            nameof(MacroManager.GetDocumentMacroSecurityOptions) => ResolveDocumentMacroSecurityOptions,
+#endif
+            nameof(MacroManager.GetApplicationMacroSecurityOptions) => ResolveApplicationMacroSecurityOptions,
+            _ => null
+        };
+        
+        IVariants ResolveApplicationMacroSecurityOptions()
+        {
+            return Variants.Single(MacroManager.GetApplicationMacroSecurityOptions(Context.Application));
+        }
+#if !REVIT2025_OR_GREATER
+        IVariants ResolveDocumentMacroSecurityOptions()
+        {
+            return Variants.Single(MacroManager.GetDocumentMacroSecurityOptions(Context.Application));
+        }
+#endif
     }
 }

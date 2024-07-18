@@ -21,6 +21,7 @@
 using System.Collections;
 using System.Reflection;
 using Autodesk.Revit.DB.Electrical;
+using Autodesk.Revit.DB.Macros;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -57,6 +58,7 @@ public class EnumerableDescriptor : Descriptor, IDescriptorEnumerator, IDescript
             VoltageTypeSet enumerable => enumerable.IsEmpty,
             InsulationTypeSet enumerable => enumerable.IsEmpty,
             TemperatureRatingTypeSet enumerable => enumerable.IsEmpty,
+            MacroManager enumerable => enumerable.Count == 0,
             _ => !Enumerator.MoveNext()
         };
     }
