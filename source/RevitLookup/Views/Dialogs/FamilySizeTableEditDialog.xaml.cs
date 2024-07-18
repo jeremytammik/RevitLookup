@@ -34,25 +34,26 @@ public sealed partial class FamilySizeTableEditDialog
     private readonly IServiceProvider _serviceProvider;
     private readonly FamilySizeTableEditDialogViewModel _viewModel;
     private readonly bool _isEditable;
-    
+
     public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document, FamilySizeTableManager manager, string tableName)
     {
         _isEditable = true;
         _serviceProvider = serviceProvider;
         _viewModel = new FamilySizeTableEditDialogViewModel(document, manager, tableName);
-        
+
         DataContext = _viewModel;
         InitializeComponent();
     }
-    
+
     public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document, FamilySizeTable table)
     {
         _serviceProvider = serviceProvider;
-        
+
         DataContext = new FamilySizeTableEditDialogViewModel(document, table);
         InitializeComponent();
+        SizeTable.IsReadOnly = true;
     }
-    
+
     public async Task ShowAsync()
     {
         var dialogOptions = new SimpleContentDialogCreateOptions
@@ -63,26 +64,28 @@ public sealed partial class FamilySizeTableEditDialog
             HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
             VerticalScrollVisibility = ScrollBarVisibility.Disabled
         };
-        
+
         if (_isEditable)
         {
             dialogOptions.PrimaryButtonText = "Save";
         }
-        
+
         var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
         if (dialogResult == ContentDialogResult.Primary && _isEditable)
         {
             _viewModel.SaveData();
         }
     }
-    
+
     private void OnRightClick(object sender, RoutedEventArgs routedEventArgs)
     {
+        if (!_isEditable) return;
+
         var element = (FrameworkElement) sender;
         var context = (DataRowView) element.DataContext;
         CreateGridRowContextMenu(context.Row, element);
     }
-    
+
     private void CreateGridRowContextMenu(DataRow dataRow, FrameworkElement dataGridRow)
     {
         var contextMenu = new ContextMenu
@@ -91,14 +94,14 @@ public sealed partial class FamilySizeTableEditDialog
             PlacementTarget = dataGridRow,
             DataContext = _viewModel
         };
-        
+
         dataGridRow.ContextMenu = contextMenu;
-        
+
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Duplicate row")
             .SetCommand(dataRow, row => _viewModel.DuplicateRow(row))
             .SetShortcut(ModifierKeys.Control, Key.D);
-        
+
         contextMenu.AddMenuItem("DeleteMenuItem")
             .SetHeader("Delete row")
             .SetCommand(dataRow, row => _viewModel.DeleteRow(row))
