@@ -18,41 +18,37 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Data;
+
+using Microsoft.Win32;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
-public sealed class FamilySizeTableShowDialogViewModel : DataTable
+public sealed partial class FamilySizeTableSelectDialogViewModel : ObservableObject
 {
-    public FamilySizeTableShowDialogViewModel(FamilySizeTable table)
+    private readonly FamilySizeTableManager _manager;
+    [ObservableProperty] private string _selectedTable;
+
+    public FamilySizeTableSelectDialogViewModel(FamilySizeTableManager manager)
     {
-        CreateColumns(table);
-        WriteRows(table);
+        _manager = manager;
+        Tables = manager.GetAllSizeTableNames().ToList();
+        SelectedTable = Tables[0];
     }
-    
-    private void WriteRows(FamilySizeTable table)
+
+    public List<string> Tables { get; }
+
+    public void Export()
     {
-        for (var i = 0; i < table.NumberOfRows; i++)
+        var saveFileDialog = new SaveFileDialog
         {
-            var rowArray = new object[table.NumberOfColumns];
-            for (var j = 0; j < table.NumberOfColumns; j++)
-            {
-                rowArray[j] = table.AsValueString(i, j);
-            }
-            
-            Rows.Add(rowArray);
-        }
-    }
-    
-    private void CreateColumns(FamilySizeTable table)
-    {
-        for (var i = 0; i < table.NumberOfColumns; i++)
-        {
-            var typeId = table.GetColumnHeader(i).GetUnitTypeId();
-            var headerName = table.GetColumnHeader(i).Name;
-            
-            var columnName = typeId.Empty() ? headerName : $"{headerName}##{typeId.ToUnitLabel()}";
-            Columns.Add(new DataColumn(columnName, typeof(string)));
-        }
+            Filter = "CSV files (*.csv)|*.csv",
+            FileName = SelectedTable,
+            RestoreDirectory = true,
+            Title = "Save family size table"
+        };
+        
+        if (saveFileDialog.ShowDialog() != true) return;
+
+        _manager.ExportSizeTable(SelectedTable, saveFileDialog.FileName);
     }
 }
