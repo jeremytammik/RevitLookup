@@ -85,7 +85,7 @@ To execute your NUKE build locally, you can follow these steps:
 
    You only need to do this once on your machine.
 
-2. **Navigate to the project directory**. Open a terminal / command prompt and navigate to RevitLookup root directory.
+2. **Navigate to the solution directory**. Open a terminal / command prompt and navigate to RevitLookup root directory.
 3. **Run the build**. Once you have navigated to your solution directory, you can run the NUKE build by calling:
 
    Compile:
@@ -93,7 +93,7 @@ To execute your NUKE build locally, you can follow these steps:
    nuke
    ```
 
-   Create installer:
+   Create an installer:
    ```powershell
    nuke createinstaller
    ```
@@ -355,7 +355,7 @@ The application UI is divided into templates, where each template can be customi
 There are several different rules for customizing TreeView, DataGrid row, DataGrid cell and they are all located in the
 file `RevitLookup/Views/Pages/Abstraction/SnoopViewBase.Styles.cs`.
 
-Suggested methods search for a style/template by `x:Key`:
+Use the DataTemplate `x:Key` property to search for `templateName` inside the switch block:
 
 ```C#
 public override DataTemplate SelectTemplate(object item, DependencyObject container)
