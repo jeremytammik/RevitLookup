@@ -36,19 +36,19 @@ public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILook
 
     public ILookupServiceDependsStage Snoop(SnoopableType snoopableType)
     {
-        _activeTask = _scope.ServiceProvider.GetService<ISnoopVisualService>()!.SnoopAsync(snoopableType);
+        _activeTask = _scope.ServiceProvider.GetRequiredService<ISnoopVisualService>()!.SnoopAsync(snoopableType);
         return this;
     }
 
     public ILookupServiceDependsStage Snoop(SnoopableObject snoopableObject)
     {
-        _scope.ServiceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObject);
+        _scope.ServiceProvider.GetRequiredService<ISnoopVisualService>()!.Snoop(snoopableObject);
         return this;
     }
 
     public ILookupServiceDependsStage Snoop(IList<SnoopableObject> snoopableObjects)
     {
-        _scope.ServiceProvider.GetService<ISnoopVisualService>()!.Snoop(snoopableObjects);
+        _scope.ServiceProvider.GetRequiredService<ISnoopVisualService>()!.Snoop(snoopableObjects);
         return this;
     }
 
@@ -86,7 +86,7 @@ public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILook
 
     private void ShowPage<T>() where T : Page
     {
-        var window = (Window)_scope.ServiceProvider.GetService<IWindow>();
+        var window = (Window)_scope.ServiceProvider.GetRequiredService<IWindow>();
         window.Closed += OnWindowClosed;
 
         if (_owner is null)
@@ -100,12 +100,12 @@ public sealed class MockLookupService(IServiceScopeFactory scopeFactory) : ILook
         }
 
         window.Show();
-        _scope.ServiceProvider.GetService<INavigationService>().Navigate(typeof(T));
+        _scope.ServiceProvider.GetRequiredService<INavigationService>().Navigate(typeof(T));
     }
 
     private void InvokeHandler<T>(Action<T> handler) where T : class
     {
-        var service = _scope.ServiceProvider.GetService<T>();
+        var service = _scope.ServiceProvider.GetRequiredService<T>();
         handler.Invoke(service);
     }
 

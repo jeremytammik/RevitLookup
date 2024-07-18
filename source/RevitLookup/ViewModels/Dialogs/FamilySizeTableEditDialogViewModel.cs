@@ -21,6 +21,7 @@
 using System.Data;
 using System.IO;
 using System.Text;
+using RevitLookup.Core;
 
 namespace RevitLookup.ViewModels.Dialogs;
 
@@ -130,7 +131,7 @@ public sealed class FamilySizeTableEditDialogViewModel : DataTable
         
         writer.Close();
         
-        Application.ActionEventHandler.Raise(_ =>
+        RevitShell.ActionEventHandler.Raise(_ =>
         {
             try
             {

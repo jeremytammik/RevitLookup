@@ -22,6 +22,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.ViewModels.Dialogs;
 using RevitLookup.Views.Extensions;
 using Wpf.Ui;
@@ -70,7 +71,7 @@ public sealed partial class FamilySizeTableEditDialog
             dialogOptions.PrimaryButtonText = "Save";
         }
 
-        var dialogResult = await _serviceProvider.GetService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
         if (dialogResult == ContentDialogResult.Primary && _isEditable)
         {
             _viewModel.SaveData();
