@@ -113,6 +113,9 @@ public sealed partial class DashboardViewModel(
             case "events":
                 navigationService.Navigate(typeof(EventsView));
                 break;
+            case "revitConfig":
+                navigationService.NavigateWithHierarchy(typeof(RevitConfigView));
+                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);
         }

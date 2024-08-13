@@ -1,0 +1,135 @@
+﻿<Page
+    x:Class="RevitLookup.Views.Pages.RevitConfigView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
+    xmlns:fallbackValues="clr-namespace:RevitLookup.Views.FallbackValues"
+    xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="1100"
+    d:DesignWidth="600"
+    d:DataContext="{d:DesignInstance pages:RevitConfigView}"
+    rl:NavigationView.HeaderContent="Revit configuration">
+
+    <DockPanel
+        Margin="12">
+        <DockPanel
+            DockPanel.Dock="Top"
+            VerticalAlignment="Top"
+            LastChildFill="False">
+            <rl:Button
+                DockPanel.Dock="Left"
+                Icon="{rl:SymbolIcon Add20}"
+                Content="New entry" />
+            <rl:Button
+                DockPanel.Dock="Right"
+                Appearance="Transparent"
+                FontSize="18"
+                Icon="{rl:SymbolIcon Settings24}" />
+            <rl:Button
+                DockPanel.Dock="Right"
+                Margin="0 0 4 0"
+                Appearance="Transparent"
+                FontSize="18"
+                Icon="{rl:SymbolIcon Open24}"/>
+            <rl:Button
+                DockPanel.Dock="Right"
+                Margin="0 0 4 0"
+                Appearance="Transparent"
+                FontSize="18">
+                <rl:Button.Content>
+                    <Grid>
+                        <rl:SymbolIcon
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            Symbol="Filter24" />
+                        <rl:InfoBadge
+                            Severity="Attention"
+                            Margin="0,3,2,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Style="{DynamicResource DotInfoBadgeStyle}"
+                            Visibility="{Binding ViewModel.Filtered, Mode=OneWay, Converter={converters:BoolVisibilityConverter}, FallbackValue=Visible}" />
+                        <rl:Flyout>
+                            <StackPanel
+                                Width="320"
+                                HorizontalAlignment="Stretch">
+                                <rl:TextBox
+                                    Icon="{rl:SymbolIcon Search24}"
+                                    Text="{Binding ViewModel.AddressFilter, Mode=TwoWay}">
+                                </rl:TextBox>
+                                <rl:TextBox
+                                    Icon="{rl:SymbolIcon Search24}"
+                                    Text="{Binding ViewModel.HostsFilter, Mode=TwoWay}">
+                                </rl:TextBox>
+                                <rl:Button
+                                    x:Uid="ClearFiltersBtn"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding ViewModel.ClearFiltersCommand}"/>
+                            </StackPanel>
+                        </rl:Flyout>
+                    </Grid>
+                </rl:Button.Content>
+            </rl:Button>
+        </DockPanel>
+        <rl:Card
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Margin="0 8 0 0"
+            Padding="4">
+            <ListView
+                ItemsSource="{Binding ViewModel.Entries, FallbackValue={x:Static fallbackValues:RevitSettingsFallbacks.Entries}}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid
+                            Margin="8 0 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="*" />
+                                <ColumnDefinition
+                                    Width="2*" />
+                                <ColumnDefinition
+                                    Width="3*" />
+                                <ColumnDefinition
+                                    Width="Auto" />
+                                <ColumnDefinition
+                                    Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                TextWrapping="WrapWithOverflow"
+                                Text="{Binding Category}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                TextWrapping="WrapWithOverflow"
+                                Text="{Binding Property}" />
+                            <TextBlock
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                TextWrapping="WrapWithOverflow"
+                                Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                Text="{Binding Value}" />
+                            <rl:ToggleSwitch
+                                Grid.Column="3"
+                                VerticalAlignment="Center"
+                                IsChecked="{Binding IsActive}" />
+                            <rl:Button
+                                Grid.Column="4"
+                                VerticalAlignment="Center"
+                                Appearance="Transparent"
+                                FontSize="18"
+                                Icon="{rl:SymbolIcon Delete20}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </rl:Card>
+    </DockPanel>
+
+</Page>
