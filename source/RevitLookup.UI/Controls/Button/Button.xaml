@@ -243,6 +243,7 @@
             <!--  TRANSPARENT  -->
             <Trigger Property="Appearance" Value="Transparent">
                 <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
             </Trigger>
 
             <!--  PRIMARY  -->
