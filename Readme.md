@@ -27,6 +27,13 @@ Whether you are a seasoned professional or just starting out, the RevitLookup is
 - [Download](https://github.com/jeremytammik/RevitLookup/releases/latest) and run the MSI file.
 - Single-user installation is for one user only and does not require administrator rights.
 - Multi-user installation requires administrator rights and is installed for all users.
+- Run it! Open Revit, and go to the Add-Ins tab:
+
+<div align="center">
+    <picture>        
+            <img alt="RevitLookup" src="https://github.com/user-attachments/assets/3dfc8070-6e68-4d23-9c9a-9e2f6d8eb6b6">
+    </picture>
+</div>
 
 ## Contributing
 
