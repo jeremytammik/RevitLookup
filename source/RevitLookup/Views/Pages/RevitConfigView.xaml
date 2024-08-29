@@ -88,11 +88,11 @@
                             Margin="8 0 0 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition
-                                    Width="*" />
+                                    Width="200" />
                                 <ColumnDefinition
-                                    Width="2*" />
+                                    Width="200" />
                                 <ColumnDefinition
-                                    Width="3*" />
+                                    Width="Auto" />
                                 <ColumnDefinition
                                     Width="Auto" />
                                 <ColumnDefinition
@@ -118,9 +118,11 @@
                             <rl:ToggleSwitch
                                 Grid.Column="3"
                                 VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
                                 IsChecked="{Binding IsActive}" />
                             <rl:Button
                                 Grid.Column="4"
+                                HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Appearance="Transparent"
                                 FontSize="18"
