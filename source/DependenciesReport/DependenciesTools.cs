@@ -1,81 +1,66 @@
-﻿namespace DependenciesReport;
+﻿using System.Reflection;
+using DependenciesReport.Models;
+
+namespace DependenciesReport;
 
 public static class DependenciesTools
 {
-    public static Dictionary<string, Dictionary<string, string>> CreateDependenciesMap(string[] directories)
+    public static List<DirectoryDescriptor> CreateDependenciesMap(string[] directories)
     {
-        var dependenciesMap = new Dictionary<string, Dictionary<string, string>>();
+        var dependenciesMap = new List<DirectoryDescriptor>();
+
         foreach (var directory in directories)
         {
+            var directoryDescriptor = new DirectoryDescriptor(Path.GetFileName(directory), directory);
             var assemblies = Directory.GetFiles(directory, "*.dll");
 
             foreach (var assembly in assemblies)
             {
                 var assemblyName = Path.GetFileName(assembly);
-                var assemblyVersion = AssemblyUtils.GetAssemblyVersion(assembly);
+                var assemblyVersion = AssemblyName.GetAssemblyName(assembly).Version ?? new Version();
 
-                if (!dependenciesMap.TryGetValue(assemblyName, out var value))
-                {
-                    value = new Dictionary<string, string>();
-                    dependenciesMap[assemblyName] = value;
-                }
-
-                if (assemblyVersion != null)
-                {
-                    value[Path.GetFileName(directory)] = assemblyVersion;
-                }
+                var assemblyDescriptor = new AssemblyDescriptor(assemblyName, assembly, assemblyVersion);
+                directoryDescriptor.Assemblies.Add(assemblyDescriptor);
             }
+
+            dependenciesMap.Add(directoryDescriptor);
         }
 
         return dependenciesMap;
     }
 
-    public static void UpgradeDependencies(Dictionary<string, Dictionary<string, Dictionary<string, string>>> dependenciesMaps)
+    public static void UpgradeDependencies(Dictionary<string, List<DirectoryDescriptor>> dependenciesMaps)
     {
-        foreach (var (yearDirectory, dependenciesMap) in dependenciesMaps)
+        foreach (var (yearDirectory, directories) in dependenciesMaps)
         {
-            foreach (var assemblyName in dependenciesMap.Keys)
+            var assemblyGroups = directories
+                .SelectMany(dir => dir.Assemblies, (dir, assembly) => new { Directory = dir, Assembly = assembly })
+                .GroupBy(x => x.Assembly.Name);
+
+            foreach (var assemblyGroup in assemblyGroups)
             {
-                string? maxVersion = null;
-                string? maxVersionDirectory = null;
+                var maxAssembly = assemblyGroup.MaxBy(x => x.Assembly.Version);
+                if (maxAssembly is null) continue;
 
-                foreach (var directory in dependenciesMap[assemblyName].Keys)
-                {
-                    var version = dependenciesMap[assemblyName][directory];
-                    if (maxVersion == null || CompareVersions(version, maxVersion) > 0)
-                    {
-                        maxVersion = version;
-                        maxVersionDirectory = directory;
-                    }
-                }
-                
-                if (maxVersionDirectory is not null && maxVersion is not null)
-                {
-                    var maxVersionFilePath = Path.Combine(yearDirectory, maxVersionDirectory, assemblyName);
+                var maxVersion = maxAssembly.Assembly.Version;
+                var maxVersionFilePath = maxAssembly.Assembly.Path;
 
-                    foreach (var directory in dependenciesMap[assemblyName].Keys)
+                foreach (var entry in assemblyGroup)
+                {
+                    if (entry.Assembly.Version.CompareTo(maxVersion) < 0)
                     {
-                        if (directory != maxVersionDirectory)
+                        try
                         {
-                            var targetFilePath = Path.Combine(yearDirectory, directory, assemblyName);
-                            var targetVersion = dependenciesMap[assemblyName][directory];
-
-                            if (CompareVersions(targetVersion, maxVersion) < 0)
-                            {
-                                File.Copy(maxVersionFilePath, targetFilePath, true);
-                                Console.WriteLine($"Assembly {targetFilePath} was upgraded from version {targetVersion} to version {maxVersion}.");
-                            }
+                            File.Copy(maxVersionFilePath, entry.Assembly.Path, true);
+                            Console.WriteLine($"Assembly {entry.Assembly.Path} was upgraded from version {entry.Assembly.Version.ToString(3)} to {maxVersion.ToString(3)}.");
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            Console.WriteLine($"No access to upgrade {entry.Assembly.Path}");
                         }
                     }
                 }
             }
         }
-    }
-
-    private static int CompareVersions(string version1, string version2)
-    {
-        var originVersion = new Version(version1);
-        var targetVersion = new Version(version2);
-        return originVersion.CompareTo(targetVersion);
     }
 }

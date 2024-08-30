@@ -4,7 +4,7 @@
         <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
         <LangVersion>latest</LangVersion>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net8.0-windows</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <SelfContained>false</SelfContained>
         <PublishSingleFile>true</PublishSingleFile>
