@@ -17,7 +17,7 @@ var reportName = $"DependenciesReport-{DateTime.Now.ToString("yyyy-MM-dd", DateT
 var reportPath = Path.Combine(Path.GetTempPath(), reportName);
 var summaryWriter = new SummaryWriter(reportPath);
 
-var dependenciesMaps = new Dictionary<string, List<DirectoryDescriptor>>();
+var dependenciesMaps = new List<List<DirectoryDescriptor>>();
 foreach (var yearsGroup in yearsGroups)
 {
     if (yearsGroup.Key is null) continue;
@@ -35,7 +35,7 @@ foreach (var yearsGroup in yearsGroups)
     }
     else
     {
-        dependenciesMaps.Add(yearsGroup.Key, dependenciesMap);
+        dependenciesMaps.Add(dependenciesMap);
         summaryWriter.Write(dependenciesTable.ToMinimalString());
     }
 

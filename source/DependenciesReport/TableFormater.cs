@@ -10,20 +10,22 @@ public static class TableFormater
         var conflictMap = GetConflictMap(dependenciesMap);
 
         var assemblyNames = conflictMap
-            .SelectMany(dir => dir.Assemblies)
+            .SelectMany(directory => directory.Assemblies)
             .Select(assembly => assembly.Name)
             .Distinct()
             .OrderBy(name => name)
             .ToList();
 
-        var table = new ConsoleTable(new[] { "Dependency" }.Concat(conflictMap.Select(dir => dir.Name)).ToArray());
+        var table = new ConsoleTable(new[] { "Dependency" }
+            .Concat(conflictMap.Select(directory => directory.Name))
+            .ToArray());
 
         foreach (var assemblyName in assemblyNames)
         {
             var row = new List<object> { assemblyName };
-            foreach (var dir in conflictMap)
+            foreach (var directory in conflictMap)
             {
-                var assembly = dir.Assemblies.FirstOrDefault(assembly => assembly.Name == assemblyName);
+                var assembly = directory.Assemblies.FirstOrDefault(assembly => assembly.Name == assemblyName);
                 row.Add(assembly?.Version.ToString(3) ?? "-");
             }
 
@@ -39,7 +41,7 @@ public static class TableFormater
             .SelectMany(directory => directory.Assemblies)
             .GroupBy(assembly => assembly.Name)
             .ToDictionary(
-                group => group.Key, 
+                group => group.Key,
                 group => group.Select(assembly => assembly.Version).Distinct().ToList());
 
         var uniqueAssemblies = new HashSet<AssemblyDescriptor>(
@@ -60,7 +62,7 @@ public static class TableFormater
             {
                 Assemblies = conflictAssemblies
             };
-            
+
             if (conflictDirectory.Assemblies.Count > 0) conflictDirectories.Add(conflictDirectory);
         }
 

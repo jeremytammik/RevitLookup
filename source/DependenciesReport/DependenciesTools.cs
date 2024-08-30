@@ -29,12 +29,12 @@ public static class DependenciesTools
         return dependenciesMap;
     }
 
-    public static void UpgradeDependencies(Dictionary<string, List<DirectoryDescriptor>> dependenciesMaps)
+    public static void UpgradeDependencies(List<List<DirectoryDescriptor>> dependenciesMaps)
     {
-        foreach (var (yearDirectory, directories) in dependenciesMaps)
+        foreach (var directories in dependenciesMaps)
         {
             var assemblyGroups = directories
-                .SelectMany(dir => dir.Assemblies, (dir, assembly) => new { Directory = dir, Assembly = assembly })
+                .SelectMany(directory => directory.Assemblies, (dir, assembly) => new { Directory = dir, Assembly = assembly })
                 .GroupBy(x => x.Assembly.Name);
 
             foreach (var assemblyGroup in assemblyGroups)
