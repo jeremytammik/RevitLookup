@@ -29,6 +29,7 @@ using Autodesk.Revit.DB.Lighting;
 using Autodesk.Revit.DB.Macros;
 using Autodesk.Revit.DB.Mechanical;
 using Autodesk.Revit.DB.Plumbing;
+using Autodesk.Revit.DB.Structure;
 using Autodesk.Revit.DB.Visual;
 using Autodesk.Revit.UI;
 using Autodesk.Windows;
@@ -113,6 +114,7 @@ public static class DescriptorMap
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
             BasePoint value when type is null || type == typeof(BasePoint) => new BasePointDescriptor(value),
             InternalOrigin value when type is null || type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
+            StructuralSettings value when type is null || type == typeof(StructuralSettings) => new StructuralSettingsDescriptor(value),
             CurveElement value when type is null || type == typeof(CurveElement) => new CurveElementDescriptor(value),
             DatumPlane value when type is null || type == typeof(DatumPlane) => new DatumPlaneDescriptor(value),
             Part value when type is null || type == typeof(Part) => new PartDescriptor(value),
