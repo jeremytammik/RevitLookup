@@ -9,7 +9,6 @@ using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.ViewModels.Dialogs.Visualization;
 using RevitLookup.ViewModels.Pages;
-using RevitLookup.ViewModels.Pages.RevitSettings;
 using RevitLookup.Views;
 using RevitLookup.Views.Dialogs.Visualization;
 using RevitLookup.Views.Pages;
@@ -65,8 +64,8 @@ public static class Host
         builder.Services.AddScoped<IEventsViewModel, EventsViewModel>();
         builder.Services.AddScoped<SnoopView>();
         builder.Services.AddScoped<ISnoopViewModel, SnoopViewModel>();
-        builder.Services.AddTransient<RevitConfigView>();
-        builder.Services.AddScoped<RevitConfigViewModel>();
+        builder.Services.AddTransient<RevitSettingsView>();
+        builder.Services.AddScoped<RevitSettingsViewModel>();
         builder.Services.AddScoped<IWindow, RevitLookupView>();
         
         //Dialogs

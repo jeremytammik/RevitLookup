@@ -19,24 +19,34 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
-using RevitLookup.ViewModels.Pages.RevitSettings;
+using System.Windows.Data;
+using RevitLookup.ViewModels.ObservableObjects;
+using RevitLookup.ViewModels.Pages;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages;
 
-public sealed partial class RevitConfigView : INavigableView<RevitConfigViewModel>
+public sealed partial class RevitSettingsView : INavigableView<RevitSettingsViewModel>
 {
-    public RevitConfigView(RevitConfigViewModel viewModel, IContentDialogService dialogService, INavigationService navigationService)
+    public RevitSettingsView(RevitSettingsViewModel viewModel, IContentDialogService dialogService, INavigationService navigationService)
     {
         ViewModel = viewModel;
         InitializeComponent();
         DataContext = this;
 
         ShowWarningDialog(dialogService, navigationService);
+
+        EnableGrouping();
     }
 
-    public RevitConfigViewModel ViewModel { get; }
+    private void EnableGrouping()
+    {
+        EntriesList.Items.GroupDescriptions!.Clear();
+        EntriesList.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(ObservableRevitSettingsEntry.Category)));
+    }
+
+    public RevitSettingsViewModel ViewModel { get; }
 
     private static async void ShowWarningDialog(IContentDialogService dialogService, INavigationService navigationService)
     {

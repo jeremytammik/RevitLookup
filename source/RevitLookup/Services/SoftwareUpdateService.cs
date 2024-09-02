@@ -72,7 +72,7 @@ public sealed class SoftwareUpdateService(
                 releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
             }
             
-            var releases = JsonSerializer.Deserialize<List<GutHubResponse>>(releasesJson);
+            var releases = JsonSerializer.Deserialize<List<GitHubResponse>>(releasesJson);
             if (releases is not null)
             {
                 var latestRelease = releases

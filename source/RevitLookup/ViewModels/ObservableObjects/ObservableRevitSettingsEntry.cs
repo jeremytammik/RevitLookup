@@ -18,24 +18,12 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Text.Json.Serialization;
+namespace RevitLookup.ViewModels.ObservableObjects;
 
-namespace RevitLookup.Models;
-
-[Serializable]
-public sealed class GutHubResponse
+public sealed partial class ObservableRevitSettingsEntry : ObservableObject
 {
-    [JsonPropertyName("html_url")] public string Url { get; set; }
-    [JsonPropertyName("tag_name")] public string TagName { get; set; }
-    [JsonPropertyName("draft")] public bool Draft { get; set; }
-    [JsonPropertyName("prerelease")] public bool PreRelease { get; set; }
-    [JsonPropertyName("published_at")] public DateTimeOffset PublishedDate { get; set; }
-    [JsonPropertyName("assets")] public List<GutHubResponseAsset> Assets { get; set; }
-}
-
-[Serializable]
-public sealed class GutHubResponseAsset
-{
-    [JsonPropertyName("name")] public string Name { get; set; }
-    [JsonPropertyName("browser_download_url")] public string DownloadUrl { get; set; }
+    [ObservableProperty] private bool _isActive;
+    public required string Category { get; init; }
+    public required string Property { get; init; }
+    public required string Value { get; init; }
 }

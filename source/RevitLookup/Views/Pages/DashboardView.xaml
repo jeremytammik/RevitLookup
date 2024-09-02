@@ -430,12 +430,12 @@
                     Grid.Column="2"
                     Margin="4,8,4,0"
                     Icon="{rl:SymbolIcon LauncherSettings24}"
-                    CommandParameter="revitConfig"
+                    CommandParameter="revitSettings"
                     Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
                     <StackPanel>
                         <TextBlock
                             FontWeight="Medium"
-                            Text="Revit config" />
+                            Text="Revit settings" />
                     </StackPanel>
                 </rl:CardAction>
                 <rl:CardAction

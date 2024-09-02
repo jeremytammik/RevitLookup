@@ -113,8 +113,8 @@ public sealed partial class DashboardViewModel(
             case "events":
                 navigationService.Navigate(typeof(EventsView));
                 break;
-            case "revitConfig":
-                navigationService.NavigateWithHierarchy(typeof(RevitConfigView));
+            case "revitSettings":
+                navigationService.NavigateWithHierarchy(typeof(RevitSettingsView));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);
@@ -160,7 +160,6 @@ public sealed partial class DashboardViewModel(
 
     private bool Validate()
     {
-        if (Context.UiApplication is null) return true;
         if (Context.UiDocument is not null) return true;
 
         notificationService.ShowWarning("Request denied", "There are no open documents");

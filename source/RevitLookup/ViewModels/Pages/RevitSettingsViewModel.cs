@@ -20,16 +20,20 @@
 
 using System.IO;
 using System.Text;
+using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
+using RevitLookup.ViewModels.ObservableObjects;
 
-namespace RevitLookup.ViewModels.Pages.RevitSettings;
+namespace RevitLookup.ViewModels.Pages;
 
-public sealed partial class RevitConfigViewModel : ObservableObject
+public sealed partial class RevitSettingsViewModel : ObservableObject
 {
-    private readonly ILogger<RevitConfigViewModel> _logger;
-    public List<ObservableRevitConfigEntry> Entries { get; private set; }
+    private const string SessionOptionsCategory = "[Jrn.SessionOptions]";
+    
+    private readonly ILogger<RevitSettingsViewModel> _logger;
+    public List<ObservableRevitSettingsEntry> Entries { get; private set; }
 
-    public RevitConfigViewModel(ILogger<RevitConfigViewModel> logger)
+    public RevitSettingsViewModel(ILogger<RevitSettingsViewModel> logger)
     {
         _logger = logger;
         InitializeAsync();
@@ -37,28 +41,32 @@ public sealed partial class RevitConfigViewModel : ObservableObject
 
     private async void InitializeAsync()
     {
+#if NETCOREAPP
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+#endif
+
         Entries = await Task.Run(() =>
         {
-            var encoding = Encoding.GetEncoding("windows-1251");
+            var encoding = Encoding.GetEncoding(1251);
             var journalsPath = Directory.GetParent(Context.Application.RecordingJournalFilename)!;
             
-            foreach (var journal in Directory.EnumerateFiles(journalsPath.FullName).Reverse().Skip(1)) //We can skip a log already in use
+            foreach (var journal in Directory.EnumerateFiles(journalsPath.FullName).Reverse().Skip(2)) //We can skip a log already in use
             {
                 try
                 {
                     var lines = File.ReadLines(journal, encoding);
-                    foreach (var sessionOptions in lines)
+                    foreach (var sessionOptions in lines.Reverse())
                     {
-                        if (sessionOptions.Contains("[Jrn.SessionOptions]"))
+                        if (sessionOptions.Contains(SessionOptionsCategory))
                         {
-                            var startIndex = sessionOptions.IndexOf("[Jrn.SessionOptions]", StringComparison.Ordinal) + "[Jrn.SessionOptions]".Length;
+                            var startIndex = sessionOptions.IndexOf(SessionOptionsCategory, StringComparison.Ordinal) + SessionOptionsCategory.Length;
                             var optionsPart = sessionOptions[startIndex..];
 
                             var parts = optionsPart.Split([" Rvt.Attr."], StringSplitOptions.RemoveEmptyEntries)
                                 .Select(line => line.Trim())
                                 .ToArray();
 
-                            var sections = new List<ObservableRevitConfigEntry>();
+                            var sections = new List<ObservableRevitSettingsEntry>();
                             foreach (var part in parts)
                             {
                                 var keyValue = part.Split([':'], 2);
@@ -68,7 +76,7 @@ public sealed partial class RevitConfigViewModel : ObservableObject
                                 var entry = keyParts[1];
                                 var value = keyValue[1].Trim();
 
-                                sections.Add(new ObservableRevitConfigEntry
+                                sections.Add(new ObservableRevitSettingsEntry
                                 {
                                     Category = section,
                                     Property = entry,
@@ -91,7 +99,7 @@ public sealed partial class RevitConfigViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void DeleteEntry(ObservableRevitConfigEntry entry)
+    private void DeleteEntry(ObservableRevitSettingsEntry entry)
     {
         Entries.Remove(entry);
     }

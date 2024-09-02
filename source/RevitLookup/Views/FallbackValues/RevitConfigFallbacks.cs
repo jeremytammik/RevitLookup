@@ -18,21 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.ViewModels.Pages.RevitSettings;
+using RevitLookup.ViewModels.ObservableObjects;
 
 namespace RevitLookup.Views.FallbackValues;
 
 public static class RevitSettingsFallbacks
 {
-    public static List<ObservableRevitConfigEntry> Entries { get; } =
+    public static List<ObservableRevitSettingsEntry> Entries { get; } =
     [
-        new ObservableRevitConfigEntry
+        new ObservableRevitSettingsEntry
         {
             Category = "ACMSettings",
             Property = "ACMNetworkAddress",
             Value = "127.0.0.1"
         },
-        new ObservableRevitConfigEntry
+        new ObservableRevitSettingsEntry
         {
             Category = "Graphics",
             Property = "AccelerateViewDisplayViaMultiCore",
