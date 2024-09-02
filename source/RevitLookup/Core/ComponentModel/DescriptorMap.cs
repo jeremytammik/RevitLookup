@@ -109,6 +109,7 @@ public static class DescriptorMap
             ElevationMarker value when type is null || type == typeof(ElevationMarker) => new ElevationMarkerDescriptor(value),
             RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
+            SunAndShadowSettings value when type is null || type == typeof(SunAndShadowSettings) => new SunAndShadowSettingsDescriptor(value),
             IndependentTag value when type is null || type == typeof(IndependentTag) => new IndependentTagDescriptor(value),
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
             BasePoint value when type is null || type == typeof(BasePoint) => new BasePointDescriptor(value),
