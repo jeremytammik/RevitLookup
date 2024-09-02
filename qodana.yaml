@@ -9,6 +9,9 @@ failThreshold: 0
 profile:
   name: qodana.recommended
 
+dotnet:
+  solution: RevitLookup.sln
+
 exclude:
   - name: All
     paths:
