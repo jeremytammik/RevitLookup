@@ -8,11 +8,74 @@
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:fallbackValues="clr-namespace:RevitLookup.Views.FallbackValues"
     xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
+    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
     mc:Ignorable="d"
     d:DesignHeight="1100"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:RevitSettingsView}"
     rl:NavigationView.HeaderContent="Revit settings">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <markup:StylesDictionary />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
+            <Style
+                x:Key="ListContainerStyle"
+                BasedOn="{StaticResource DefaultListViewItemStyle}"
+                TargetType="{x:Type ListViewItem}">
+                <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
+                <Setter
+                    Property="Padding"
+                    Value="0" />
+                <Setter
+                    Property="Margin"
+                    Value="0" />
+            </Style>
+
+            <GroupStyle
+                x:Key="ListGroupStyle">
+                <GroupStyle.Panel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel
+                            IsVirtualizing="True"
+                            VirtualizationMode="Recycling" />
+                    </ItemsPanelTemplate>
+                </GroupStyle.Panel>
+                <GroupStyle.ContainerStyle>
+                    <Style
+                        TargetType="{x:Type GroupItem}">
+                        <Setter
+                            Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate
+                                    TargetType="{x:Type GroupItem}">
+                                    <DockPanel>
+                                        <Border
+                                            DockPanel.Dock="Top"
+                                            BorderThickness="0 0 0 1"
+                                            Background="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"
+                                            BorderBrush="{DynamicResource ControlElevationBorderBrush}">
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Margin="12,2,0,2"
+                                                FontWeight="Bold"
+                                                FontSize="12"
+                                                Text="{Binding Name, Mode=OneTime}" />
+                                        </Border>
+                                        <ItemsPresenter />
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </GroupStyle.ContainerStyle>
+            </GroupStyle>
+
+        </ResourceDictionary>
+    </Page.Resources>
 
     <DockPanel
         Margin="12">
@@ -28,33 +91,38 @@
                 DockPanel.Dock="Right"
                 Appearance="Transparent"
                 FontSize="20"
+                Padding="6"
                 Icon="{rl:SymbolIcon Settings20}" />
             <rl:Button
                 DockPanel.Dock="Right"
                 Margin="0 0 4 0"
                 Appearance="Transparent"
                 FontSize="20"
+                Padding="6"
                 Icon="{rl:SymbolIcon QuestionCircle20}" />
             <rl:Button
                 DockPanel.Dock="Right"
                 Margin="0 0 4 0"
                 Appearance="Transparent"
                 FontSize="20"
+                Padding="6"
                 Icon="{rl:SymbolIcon Open20}" />
             <rl:Button
                 DockPanel.Dock="Right"
                 Margin="0 0 4 0"
                 Appearance="Transparent"
-                FontSize="20">
+                FontSize="20"
+                Padding="6">
                 <rl:Button.Content>
                     <Grid>
-                        <rl:SymbolIcon
+                        <rl:FontIcon
                             VerticalAlignment="Center"
-                            FontSize="18"
-                            Symbol="Filter20" />
+                            FontSize="16"
+                            FontFamily="Segoe MDL2 Assets"
+                            Glyph="&#xe71c;" />
                         <rl:InfoBadge
                             Severity="Attention"
-                            Margin="0,2,1,0"
+                            Margin="0,0,-1,0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Style="{DynamicResource DotInfoBadgeStyle}"
@@ -89,22 +157,11 @@
             Padding="0">
             <ListView
                 x:Name="EntriesList"
-                FontSize="12"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                FontSize="12"
+                ItemContainerStyle="{StaticResource ListContainerStyle}"
                 ItemsSource="{Binding ViewModel.Entries, FallbackValue={x:Static fallbackValues:RevitSettingsFallbacks.Entries}}">
-                <ListView.ItemContainerStyle>
-                    <Style
-                        BasedOn="{StaticResource {x:Type ListViewItem}}"
-                        TargetType="ListViewItem">
-                        <Setter
-                            Property="Padding"
-                            Value="0" />
-                        <Setter
-                            Property="Margin"
-                            Value="0" />
-                    </Style>
-                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <DockPanel
@@ -143,43 +200,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.Panel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel
-                                    IsVirtualizing="True"
-                                    VirtualizationMode="Recycling" />
-                            </ItemsPanelTemplate>
-                        </GroupStyle.Panel>
-                        <GroupStyle.ContainerStyle>
-                            <Style
-                                TargetType="{x:Type GroupItem}">
-                                <Setter
-                                    Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate
-                                            TargetType="{x:Type GroupItem}">
-                                            <DockPanel>
-                                                <Border
-                                                    DockPanel.Dock="Top"
-                                                    BorderThickness="0 0 0 1"
-                                                    Background="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"
-                                                    BorderBrush="{DynamicResource ControlElevationBorderBrush}">
-                                                    <TextBlock
-                                                        VerticalAlignment="Center"
-                                                        Margin="12,2,0,2"
-                                                        FontWeight="Bold"
-                                                        FontSize="12"
-                                                        Text="{Binding Name, Mode=OneTime}" />
-                                                </Border>
-                                                <ItemsPresenter />
-                                            </DockPanel>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </GroupStyle.ContainerStyle>
-                    </GroupStyle>
+                    <StaticResource
+                        ResourceKey="ListGroupStyle" />
                 </ListView.GroupStyle>
             </ListView>
         </rl:Card>

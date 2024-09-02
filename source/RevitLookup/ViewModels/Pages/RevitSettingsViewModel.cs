@@ -22,80 +22,42 @@ using System.IO;
 using System.Text;
 using Autodesk.Revit.DB.ExternalService;
 using Microsoft.Extensions.Logging;
+using RevitLookup.Core.Modules.RevitSettings;
+using RevitLookup.Services;
 using RevitLookup.ViewModels.ObservableObjects;
 
 namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class RevitSettingsViewModel : ObservableObject
 {
-    private const string SessionOptionsCategory = "[Jrn.SessionOptions]";
-    
     private readonly ILogger<RevitSettingsViewModel> _logger;
-    public List<ObservableRevitSettingsEntry> Entries { get; private set; }
+    private readonly NotificationService _notificationService;
+    [ObservableProperty] private List<ObservableRevitSettingsEntry> _entries;
 
-    public RevitSettingsViewModel(ILogger<RevitSettingsViewModel> logger)
+    public RevitSettingsViewModel(ILogger<RevitSettingsViewModel> logger, NotificationService notificationService)
     {
         _logger = logger;
+        _notificationService = notificationService;
         InitializeAsync();
     }
 
     private async void InitializeAsync()
     {
-#if NETCOREAPP
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-#endif
-
-        Entries = await Task.Run(() =>
+        try
         {
-            var encoding = Encoding.GetEncoding(1251);
-            var journalsPath = Directory.GetParent(Context.Application.RecordingJournalFilename)!;
-            
-            foreach (var journal in Directory.EnumerateFiles(journalsPath.FullName).Reverse().Skip(2)) //We can skip a log already in use
+            Entries = await Task.Run(() =>
             {
-                try
-                {
-                    var lines = File.ReadLines(journal, encoding);
-                    foreach (var sessionOptions in lines.Reverse())
-                    {
-                        if (sessionOptions.Contains(SessionOptionsCategory))
-                        {
-                            var startIndex = sessionOptions.IndexOf(SessionOptionsCategory, StringComparison.Ordinal) + SessionOptionsCategory.Length;
-                            var optionsPart = sessionOptions[startIndex..];
-
-                            var parts = optionsPart.Split([" Rvt.Attr."], StringSplitOptions.RemoveEmptyEntries)
-                                .Select(line => line.Trim())
-                                .ToArray();
-
-                            var sections = new List<ObservableRevitSettingsEntry>();
-                            foreach (var part in parts)
-                            {
-                                var keyValue = part.Split([':'], 2);
-                                var keyParts = keyValue[0].Split('.');
-
-                                var section = keyParts[0];
-                                var entry = keyParts[1];
-                                var value = keyValue[1].Trim();
-
-                                sections.Add(new ObservableRevitSettingsEntry
-                                {
-                                    Category = section,
-                                    Property = entry,
-                                    Value = value
-                                });
-                            }
-
-                            return sections;
-                        }
-                    }
-                }
-                catch (Exception exception)
-                {
-                    _logger.LogError(exception, "Unavailable to read log file");
-                }
-            }
-
-            return [];
-        });
+                var configurator = new RevitConfigurator();
+                return configurator.GetRevitConfiguration();
+            });
+        }
+        catch (Exception exception)
+        {
+            const string message = "Unavailable to parse Revit configuration";
+            
+            _logger.LogError(exception, message);
+            _notificationService.ShowError(message, exception);
+        }
     }
 
     [RelayCommand]
