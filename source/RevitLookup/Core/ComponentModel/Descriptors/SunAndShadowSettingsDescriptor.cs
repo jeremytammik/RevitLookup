@@ -29,12 +29,51 @@ public class SunAndShadowSettingsDescriptor(SunAndShadowSettings settings) : Ele
         return target switch
         {
             nameof(SunAndShadowSettings.GetActiveSunAndShadowSettings) => ResolveGet,
+            nameof(SunAndShadowSettings.GetSunrise) => ResolveGetSunrise,
+            nameof(SunAndShadowSettings.GetSunset) => ResolveGetSunset,
+            nameof(SunAndShadowSettings.IsTimeIntervalValid) => ResolveTimeInterval,
+            nameof(SunAndShadowSettings.IsAfterStartDateAndTime) => ResolveAfterStart,
+            nameof(SunAndShadowSettings.IsBeforeEndDateAndTime) => ResolveBeforeStart,
             _ => null
         };
         
         IVariants ResolveGet()
         {
             return Variants.Single(SunAndShadowSettings.GetActiveSunAndShadowSettings(settings.Document));
+        }
+        
+        IVariants ResolveGetSunrise()
+        {
+            return Variants.Single(settings.GetSunrise(DateTime.Today));
+        }
+        
+        IVariants ResolveGetSunset()
+        {
+            return Variants.Single(settings.GetSunset(DateTime.Today));
+        }
+        
+        IVariants ResolveAfterStart()
+        {
+            return Variants.Single(settings.IsAfterStartDateAndTime(DateTime.Today));
+        }
+        
+        IVariants ResolveBeforeStart()
+        {
+            return Variants.Single(settings.IsBeforeEndDateAndTime(DateTime.Today));
+        }
+        
+        IVariants ResolveTimeInterval()
+        {
+            var conditions = Enum.GetValues(typeof(SunStudyTimeInterval));
+            var variants = new Variants<bool>(conditions.Length);
+            
+            foreach (SunStudyTimeInterval condition in conditions)
+            {
+                var result = settings.IsTimeIntervalValid(condition);
+                variants.Add(result, $"{condition}: {result}");
+            }
+            
+            return variants;
         }
     }
     
