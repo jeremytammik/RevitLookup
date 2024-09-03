@@ -16,11 +16,18 @@ public static class DependenciesTools
 
             foreach (var assembly in assemblies)
             {
-                var assemblyName = Path.GetFileName(assembly);
-                var assemblyVersion = AssemblyName.GetAssemblyName(assembly).Version ?? new Version();
+                try
+                {
+                    var assemblyName = Path.GetFileName(assembly);
+                    var assemblyVersion = AssemblyName.GetAssemblyName(assembly).Version ?? new Version();
 
-                var assemblyDescriptor = new AssemblyDescriptor(assemblyName, assembly, assemblyVersion);
-                directoryDescriptor.Assemblies.Add(assemblyDescriptor);
+                    var assemblyDescriptor = new AssemblyDescriptor(assemblyName, assembly, assemblyVersion);
+                    directoryDescriptor.Assemblies.Add(assemblyDescriptor);
+                }
+                catch
+                {
+                    // ignored
+                }
             }
 
             dependenciesMap.Add(directoryDescriptor);
