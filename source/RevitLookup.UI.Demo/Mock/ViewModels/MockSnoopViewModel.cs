@@ -21,11 +21,11 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using RevitLookup.Core.Enums;
 using RevitLookup.Core.Objects;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
-using RevitLookup.ViewModels.Enums;
 using RevitLookup.ViewModels.Utils;
 using RevitLookup.Views.Pages;
 

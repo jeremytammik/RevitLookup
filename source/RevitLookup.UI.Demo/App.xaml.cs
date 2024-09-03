@@ -50,12 +50,12 @@ public sealed partial class App
     private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
     {
         var assemblyName = new AssemblyName(args.Name);
-        var path = _revitPath ?? $@"C:\Program Files\Autodesk\Revit 20{assemblyName.Version!.Major}";
-        if (!Directory.Exists(path)) return null;
-        _revitPath = path;
+        _revitPath ??= $@"C:\Program Files\Autodesk\Revit 20{assemblyName.Version!.Major}";
+        if (!Directory.Exists(_revitPath)) return null;
 
-        return Directory.EnumerateFiles(_revitPath, $"{assemblyName.Name}.dll")
-            .Select(Assembly.LoadFrom)
-            .First();
+        var assemblyPath = Path.Combine(_revitPath, $"{assemblyName.Name}.dll");
+        if (!File.Exists(assemblyPath)) return null;
+
+        return Assembly.LoadFrom(assemblyPath);
     }
 }

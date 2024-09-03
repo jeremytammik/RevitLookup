@@ -43,12 +43,12 @@ public sealed class GeneralConfiguration
     [JsonPropertyName("WindowWidth")] public double WindowWidth { get; set; }
     [JsonPropertyName("WindowHeight")] public double WindowHeight { get; set; }
 
-    [JsonPropertyName("IsUnsupportedAllowed")] public bool IncludeUnsupported { get; set; }
     [JsonPropertyName("IsPrivateAllowed")] public bool IncludePrivate { get; set; }
-    [JsonPropertyName("IsStaticAllowed")] public bool IncludeStatic { get; set; }
     [JsonPropertyName("IsFieldsAllowed")] public bool IncludeFields { get; set; }
-    [JsonPropertyName("IsEventsAllowed")] public bool IncludeEvents { get; set; }
-    [JsonPropertyName("IsExtensionsAllowed")] public bool IncludeExtensions { get; set; }
+    [JsonPropertyName("IsStaticAllowed")] public bool IncludeStatic { get; set; } = true;
+    [JsonPropertyName("IsEventsAllowed")] public bool IncludeEvents { get; set; } = true;
+    [JsonPropertyName("IsExtensionsAllowed")] public bool IncludeExtensions { get; set; } = true;
+    [JsonPropertyName("IsUnsupportedAllowed")] public bool IncludeUnsupported { get; set; }
     [JsonPropertyName("IsRootHierarchyAllowed")] public bool IncludeRootHierarchy { get; set; }
 
     [JsonPropertyName("IsHardwareRenderingAllowed")] public bool UseHardwareRendering { get; set; } = true;

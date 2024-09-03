@@ -18,7 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-namespace RevitLookup.ViewModels.Enums;
+namespace RevitLookup.Core.Enums;
 
 [Flags]
 public enum SearchOption

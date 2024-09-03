@@ -219,7 +219,7 @@
                 <rl:HyperlinkButton
                     Content="Contact Us"
                     Icon="{rl:SymbolIcon Link48}"
-                    NavigateUri="https://github.com/jeremytammik/RevitLookup/issues/new" />
+                    NavigateUri="https://github.com/jeremytammik/RevitLookup/issues" />
             </StackPanel>
         </DockPanel>
     </rl:DynamicScrollViewer>
