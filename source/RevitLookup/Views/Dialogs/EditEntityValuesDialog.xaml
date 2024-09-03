@@ -1,0 +1,36 @@
+<Grid
+    x:Class="RevitLookup.Views.Dialogs.EditEntityValuesDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs.ExtensibleStorage"
+    xmlns:rl="http://revitlookup.com/xaml"
+    mc:Ignorable="d"
+    MinWidth="416"
+    d:DataContext="{d:DesignInstance dialogs:EditEntityViewModel}">
+    <DataGrid
+        IsReadOnly="False"
+        CanUserAddRows="False"
+        HeadersVisibility="Column"
+        CanUserReorderColumns="False"
+        AutoGenerateColumns="False"
+        ItemsSource="{Binding Descriptors}">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Field name" Binding="{Binding Name}" />
+            <DataGridTemplateColumn  Width="*" Header="Value">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <rl:TextBlock Text="{Binding Value}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                <DataGridTemplateColumn.CellEditingTemplate>
+                    <DataTemplate>
+                        <rl:TextBox
+                            Text="{Binding Value}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellEditingTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+</Grid>
