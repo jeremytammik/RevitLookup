@@ -5,14 +5,14 @@ namespace DependenciesReport;
 
 public static class DependenciesTools
 {
-    public static List<DirectoryDescriptor> CreateDependenciesMap(string[] directories)
+    public static List<DirectoryDescriptor> CreateDependenciesMap(Dictionary<string, string> addinDirectories)
     {
         var dependenciesMap = new List<DirectoryDescriptor>();
 
-        foreach (var directory in directories)
+        foreach (var directoryMetadata in addinDirectories)
         {
-            var directoryDescriptor = new DirectoryDescriptor(Path.GetFileName(directory), directory);
-            var assemblies = Directory.GetFiles(directory, "*.dll");
+            var directoryDescriptor = new DirectoryDescriptor(directoryMetadata.Key, directoryMetadata.Value);
+            var assemblies = Directory.GetFiles(directoryMetadata.Value, "*.dll");
 
             foreach (var assembly in assemblies)
             {
@@ -26,7 +26,7 @@ public static class DependenciesTools
                 }
                 catch
                 {
-                    // ignored
+                    Console.WriteLine($"Bad assembly: {assembly}");
                 }
             }
 

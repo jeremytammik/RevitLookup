@@ -4,29 +4,19 @@ using System.Security.Principal;
 using DependenciesReport;
 using DependenciesReport.Models;
 
-var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-var machineFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-var userAddinsPath = Path.Combine(userFolder, "Autodesk", "Revit", "Addins");
-var machineAddinsPath = Path.Combine(machineFolder, "Autodesk", "Revit", "Addins");
-var yearsGroups = Directory.GetDirectories(userAddinsPath)
-    .Union(Directory.GetDirectories(machineAddinsPath))
-    .GroupBy(Path.GetFileName)
-    .ToArray();
-
+var addinLocations = AddinUtilities.GetAddinLocations();
 var reportName = $"DependenciesReport-{DateTime.Now.ToString("yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo)}.txt";
 var reportPath = Path.Combine(Path.GetTempPath(), reportName);
 var summaryWriter = new SummaryWriter(reportPath);
 
 var dependenciesMaps = new List<List<DirectoryDescriptor>>();
-foreach (var yearsGroup in yearsGroups)
+foreach (var addinLocation in addinLocations)
 {
-    if (yearsGroup.Key is null) continue;
-    
-    summaryWriter.Write($"Revit version: {Path.GetFileName(yearsGroup.Key)}");
+    summaryWriter.Write($"Revit version: {Path.GetFileName(addinLocation.Key)}");
     summaryWriter.WriteLine();
 
-    var directories = yearsGroup.SelectMany(Directory.GetDirectories).ToArray();
-    var dependenciesMap = DependenciesTools.CreateDependenciesMap(directories);
+    var addinDirectories = AddinUtilities.GetAddinDirectories(addinLocation);
+    var dependenciesMap = DependenciesTools.CreateDependenciesMap(addinDirectories);
     var dependenciesTable = TableFormater.CreateReportTable(dependenciesMap);
 
     if (dependenciesTable.Rows.Count == 0)
