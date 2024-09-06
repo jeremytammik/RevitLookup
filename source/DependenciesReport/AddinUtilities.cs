@@ -13,9 +13,13 @@ public static class AddinUtilities
         var machineAddinsPath = Path.Combine(machineFolder, "Autodesk", "Revit", "Addins");
         var storeAddinsPath = Path.Combine(machineFolder, "Autodesk", "ApplicationPlugins");
 
-        return Directory.EnumerateFiles(userAddinsPath, "*.addin", SearchOption.AllDirectories)
-            .Union(Directory.EnumerateFiles(machineAddinsPath, "*.addin", SearchOption.AllDirectories))
-            .Union(Directory.EnumerateFiles(storeAddinsPath, "*.addin", SearchOption.AllDirectories))
+        var addinFiles = Enumerable.Empty<string>();
+
+        if (Directory.Exists(userAddinsPath)) addinFiles = addinFiles.Union(EnumerateAddins(userAddinsPath));
+        if (Directory.Exists(machineAddinsPath)) addinFiles = addinFiles.Union(EnumerateAddins(machineAddinsPath));
+        if (Directory.Exists(storeAddinsPath)) addinFiles = addinFiles.Union(EnumerateAddins(storeAddinsPath));
+
+        return addinFiles
             .GroupBy(file => Path.GetFileName(Path.GetDirectoryName(file))!)
             .ToArray();
     }
@@ -53,10 +57,15 @@ public static class AddinUtilities
             }
             catch
             {
-                Console.WriteLine($"Bad file: {manifest}");
+                Console.WriteLine($"Unsupported manifest: {manifest}. Skipped...");
             }
         }
 
         return addinDirectories;
+    }
+
+    private static IEnumerable<string> EnumerateAddins(string folder)
+    {
+        return Directory.EnumerateFiles(folder, "*.addin", SearchOption.AllDirectories);
     }
 }

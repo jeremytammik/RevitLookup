@@ -26,7 +26,7 @@ public static class DependenciesTools
                 }
                 catch
                 {
-                    Console.WriteLine($"Bad assembly: {assembly}");
+                    Console.WriteLine($"Assembly without metadata: {assembly}. Skipped...");
                 }
             }
 
