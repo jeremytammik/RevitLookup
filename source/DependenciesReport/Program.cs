@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Security.Principal;
+using ConsoleTables;
 using DependenciesReport;
 using DependenciesReport.Models;
 
@@ -12,7 +13,7 @@ var summaryWriter = new SummaryWriter(reportPath);
 var dependenciesMaps = new List<List<DirectoryDescriptor>>();
 foreach (var addinLocation in addinLocations)
 {
-    summaryWriter.Write($"Revit version: {Path.GetFileName(addinLocation.Key)}");
+    summaryWriter.Write($"### Revit version: {Path.GetFileName(addinLocation.Key)} ###");
     summaryWriter.WriteLine();
 
     var addinDirectories = AddinUtilities.GetAddinDirectories(addinLocation);
@@ -22,20 +23,32 @@ foreach (var addinLocation in addinLocations)
     if (dependenciesTable.Rows.Count == 0)
     {
         summaryWriter.Write("No conflicts detected.");
+        summaryWriter.WriteLine();
     }
     else
     {
-        dependenciesMaps.Add(dependenciesMap);
         summaryWriter.Write(dependenciesTable.ToMinimalString());
     }
 
-    summaryWriter.WriteLine();
+    dependenciesMaps.Add(dependenciesMap);
+}
+
+summaryWriter.Write("### Detailed user assemblies summary ###");
+summaryWriter.WriteLine();
+
+foreach (var dependenciesMap in dependenciesMaps)
+{
+    var assembliesTable = TableFormater.CreateAssembliesTable(dependenciesMap);
+    if (assembliesTable.Rows.Count > 0)
+    {
+        summaryWriter.Write(assembliesTable.ToMinimalString());
+    }
 }
 
 summaryWriter.Save();
 
 Console.WriteLine($"Dependencies report saved: {reportPath}");
-Console.WriteLine(@"Open the report? Y\N");
+Console.WriteLine("Open the report? Y/N");
 var response = Console.ReadLine();
 
 if (string.Compare(response, "Y", StringComparison.OrdinalIgnoreCase) == 0)
@@ -49,7 +62,7 @@ if (string.Compare(response, "Y", StringComparison.OrdinalIgnoreCase) == 0)
     });
 }
 
-Console.WriteLine(@"Try to fix dependencies and upgrade to the latest version? Y\N");
+Console.WriteLine("Try to fix dependencies and upgrade to the latest version? Y/N");
 response = Console.ReadLine();
 
 if (string.Compare(response, "Y", StringComparison.OrdinalIgnoreCase) == 0)

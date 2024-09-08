@@ -13,8 +13,7 @@ public static class TableFormater
             .SelectMany(directory => directory.Assemblies)
             .Select(assembly => assembly.Name)
             .Distinct()
-            .OrderBy(name => name)
-            .ToList();
+            .OrderBy(name => name);
 
         var table = new ConsoleTable(new[] { "Dependency" }
             .Concat(conflictMap.Select(directory => directory.Name))
@@ -67,5 +66,25 @@ public static class TableFormater
         }
 
         return conflictDirectories;
+    }
+
+    public static ConsoleTable CreateAssembliesTable(List<DirectoryDescriptor> dependenciesMap)
+    {
+        var assembliesGroups = dependenciesMap
+            .SelectMany(descriptor => descriptor.Assemblies)
+            .GroupBy(descriptor => descriptor.Name)
+            .OrderBy(grouping => grouping.Key);
+
+        var table = new ConsoleTable("Assembly", "Path", "Version");
+        
+        foreach (var assemblyGroup in assembliesGroups)
+        {
+            foreach (var (name, path, version) in assemblyGroup)
+            {
+                table.AddRow(name, path, version);
+            }
+        }
+
+        return table;
     }
 }
