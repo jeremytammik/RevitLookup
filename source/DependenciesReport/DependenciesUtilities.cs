@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
 using DependenciesReport.Models;
 
 namespace DependenciesReport;
@@ -19,7 +19,8 @@ public static class DependenciesTools
                 try
                 {
                     var assemblyName = Path.GetFileName(assembly);
-                    var assemblyVersion = AssemblyName.GetAssemblyName(assembly).Version ?? new Version();
+                    var fileInfo = FileVersionInfo.GetVersionInfo(assembly);
+                    var assemblyVersion = new Version(fileInfo.FileMajorPart, fileInfo.FileMinorPart, fileInfo.FileBuildPart, fileInfo.FilePrivatePart);
 
                     var assemblyDescriptor = new AssemblyDescriptor(assemblyName, assembly, assemblyVersion);
                     directoryDescriptor.Assemblies.Add(assemblyDescriptor);
