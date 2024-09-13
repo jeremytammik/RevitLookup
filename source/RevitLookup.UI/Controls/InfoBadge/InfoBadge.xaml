@@ -25,8 +25,8 @@
                     <Grid x:Name="InfoBadgeRoot">
                         <Border
                             x:Name="ContentBorder"
-                            Width="6"
-                            Height="6"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Background="{TemplateBinding Background}"
