@@ -35,11 +35,14 @@ public sealed partial class RevitSettingsPage : INavigableView<RevitSettingsView
     {
         ViewModel = viewModel;
         DataContext = this;
-        
+
         InitializeComponent();
         EnableGrouping();
 
-        ShowWarningDialog(dialogService, navigationService);
+        if (viewModel.Entries.Count == 0)
+        {
+            ShowWarningDialog(dialogService, navigationService);
+        }
     }
 
     private void EnableGrouping()
