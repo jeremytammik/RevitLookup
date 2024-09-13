@@ -18,45 +18,41 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.IO;
-using System.Text;
-using Autodesk.Revit.DB.ExternalService;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RevitLookup.Core.Modules.RevitSettings;
+using RevitLookup.Core.Modules.Configuration;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.ObservableObjects;
+using RevitLookup.Views.Dialogs;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
-public sealed partial class RevitSettingsViewModel : ObservableObject
+public sealed partial class RevitSettingsViewModel(
+    ILogger<RevitSettingsViewModel> logger,
+    NotificationService notificationService,
+    IServiceProvider serviceProvider)
+    : ObservableObject
 {
-    private readonly ILogger<RevitSettingsViewModel> _logger;
-    private readonly NotificationService _notificationService;
+    [ObservableProperty] private ObservableRevitSettingsEntry _selectedEntry;
     [ObservableProperty] private List<ObservableRevitSettingsEntry> _entries;
 
-    public RevitSettingsViewModel(ILogger<RevitSettingsViewModel> logger, NotificationService notificationService)
-    {
-        _logger = logger;
-        _notificationService = notificationService;
-        InitializeAsync();
-    }
-
-    private async void InitializeAsync()
+    public async Task InitializeAsync()
     {
         try
         {
             Entries = await Task.Run(() =>
             {
                 var configurator = new RevitConfigurator();
-                return configurator.GetRevitConfiguration();
+                return configurator.ParseSources();
             });
         }
         catch (Exception exception)
         {
             const string message = "Unavailable to parse Revit configuration";
-            
-            _logger.LogError(exception, message);
-            _notificationService.ShowError(message, exception);
+
+            logger.LogError(exception, message);
+            notificationService.ShowError(message, exception);
         }
     }
 
@@ -64,5 +60,31 @@ public sealed partial class RevitSettingsViewModel : ObservableObject
     private void DeleteEntry(ObservableRevitSettingsEntry entry)
     {
         Entries.Remove(entry);
+    }
+
+    async partial void OnSelectedEntryChanged(ObservableRevitSettingsEntry value)
+    {
+        var editingValue = value.Clone();
+        var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
+
+        try
+        {
+            var result = await dialog.ShowDialogAsync(editingValue);
+            if (result == ContentDialogResult.Primary) UpdateEntry(editingValue);
+        }
+        catch (Exception exception)
+        {
+            const string message = "Unavailable to update Revit configuration";
+
+            logger.LogError(exception, message);
+            notificationService.ShowError(message, exception);
+        }
+    }
+
+    private void UpdateEntry(ObservableRevitSettingsEntry entry)
+    {
+        SelectedEntry.Category = entry.Category;
+        SelectedEntry.Property = entry.Property;
+        SelectedEntry.Value = entry.Value;
     }
 }

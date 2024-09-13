@@ -23,7 +23,18 @@ namespace RevitLookup.ViewModels.ObservableObjects;
 public sealed partial class ObservableRevitSettingsEntry : ObservableObject
 {
     [ObservableProperty] private bool _isActive;
-    public required string Category { get; init; }
-    public required string Property { get; init; }
-    public required string Value { get; init; }
+    [ObservableProperty] private string _category;
+    [ObservableProperty] private string _property;
+    [ObservableProperty] private string _value;
+    public string DefaultValue { get; set; }
+
+    public ObservableRevitSettingsEntry Clone()
+    {
+        return new ObservableRevitSettingsEntry
+        {
+            Category = Category,
+            Property = Property,
+            Value = Value
+        };
+    }
 }

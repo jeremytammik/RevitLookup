@@ -19,30 +19,21 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.ViewModels.ObservableObjects;
+using Wpf.Ui;
+using Wpf.Ui.Controls;
 
-namespace RevitLookup.Views.FallbackValues;
+namespace RevitLookup.Views.Dialogs;
 
-public static class RevitSettingsFallbacks
+public sealed partial class EditSettingsEntryDialog
 {
-    public static List<ObservableRevitSettingsEntry> Entries { get; } =
-    [
-        new()
-        {
-            Category = "ACMSettings",
-            Property = "ACMNetworkAddress",
-            Value = "127.0.0.1"
-        },
-        new()
-        {
-            Category = "Graphics",
-            Property = "AccelerateViewDisplayViaMultiCore",
-            Value = "1"
-        },
-        new()
-        {
-            Category = "Graphics",
-            Property = "AccelerateRibbonDisplayViaMultiCore",
-            Value = "1"
-        }
-    ];
+    public EditSettingsEntryDialog(IContentDialogService dialogService) : base(dialogService.GetDialogHost())
+    {
+        InitializeComponent();
+    }
+    
+    public async Task<ContentDialogResult> ShowDialogAsync(ObservableRevitSettingsEntry entry)
+    {
+        DataContext = entry;
+        return await ShowAsync();
+    }
 }

@@ -1,0 +1,55 @@
+﻿<rl:ContentDialog
+    x:Class="RevitLookup.Views.Dialogs.EditSettingsEntryDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:objects="clr-namespace:RevitLookup.ViewModels.ObservableObjects"
+    xmlns:local="clr-namespace:RevitLookup.Views.Dialogs"
+    Title="Update the entry"
+    PrimaryButtonText="Update"
+    CloseButtonText="Cancel"
+    HorizontalContentAlignment="Center"
+    VerticalContentAlignment="Center"
+    mc:Ignorable="d"
+    d:DesignHeight="540"
+    d:DesignWidth="1000"
+    d:DataContext="{d:DesignInstance objects:ObservableRevitSettingsEntry}">
+
+    <rl:ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <rl:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+            <Style
+                BasedOn="{StaticResource DefaultContentDialogStyle}"
+                TargetType="{x:Type local:EditSettingsEntryDialog}" />
+        </ResourceDictionary>
+    </rl:ContentDialog.Resources>
+
+    <StackPanel
+        MinWidth="350">
+        <Label
+            Content="Category" />
+        <rl:TextBox
+            TextWrapping="Wrap"
+            PlaceholderText="{Binding Category, Mode=OneTime}"
+            Text="{Binding Category, Mode=TwoWay}" />
+        <Label
+            Margin="0 8 0 0"
+            Content="Property" />
+        <rl:TextBox
+            TextWrapping="Wrap"
+            PlaceholderText="{Binding Property, Mode=OneTime}"
+            Text="{Binding Property, Mode=TwoWay}" />
+        <Label
+            Margin="0 8 0 0"
+            Content="Value" />
+        <rl:TextBox
+            TextWrapping="Wrap"
+            PlaceholderText="{Binding Value, Mode=OneTime}"
+            Text="{Binding Value, Mode=TwoWay}" />
+    </StackPanel>
+
+</rl:ContentDialog>

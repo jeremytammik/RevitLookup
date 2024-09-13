@@ -2,60 +2,72 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:rl="http://revitlookup.com/xaml">
+    
     <MenuItem
         x:Key="Label"
         x:Shared="False"
         FontWeight="DemiBold"
         Focusable="False"
         IsHitTestVisible="False" />
+    
     <rl:MenuItem
         x:Key="CopyMenuItem"
         x:Shared="False"
         Header="Copy"
         Command="ApplicationCommands.Copy"
         Icon="{rl:SymbolIcon Copy16}" />
+    
     <rl:MenuItem
         x:Key="HelpMenuItem"
         x:Shared="False"
         Header="Help"
         Icon="{rl:SymbolIcon QuestionCircle16}" />
+    
     <rl:MenuItem
         x:Key="RefreshMenuItem"
         x:Shared="False"
         Header="Refresh"
         Icon="{rl:SymbolIcon ArrowCounterclockwise12}" />
+    
     <rl:MenuItem
         x:Key="DeleteMenuItem"
         x:Shared="False"
         Header="Delete"
         Icon="{rl:SymbolIcon Delete16}" />
+    
     <rl:MenuItem
         x:Key="ShowMenuItem"
         x:Shared="False"
         Header="Show in model"
         Icon="{rl:SymbolIcon Eye16}" />
+    
     <rl:MenuItem
         x:Key="SelectMenuItem"
         x:Shared="False"
         Header="Select"
         Icon="{rl:SymbolIcon SquareHint16}" />
+    
     <rl:MenuItem
         x:Key="VisualizeMenuItem"
         x:Shared="False"
         Header="Visualize"
         Icon="{rl:SymbolIcon Sparkle16}" />
+    
     <rl:MenuItem
         x:Key="SnoopMenuItem"
         x:Shared="False"
         Header="Snoop"
         Icon="{rl:SymbolIcon SlideText16}" />
+    
     <rl:MenuItem
         x:Key="EditMenuItem"
         x:Shared="False"
         Header="Edit"
         Icon="{rl:SymbolIcon NotepadEdit16}" />
+    
     <rl:MenuItem
         x:Key="ExportMenuItem"
         x:Shared="False"
         Icon="{rl:SymbolIcon Save16}" />
+    
 </ResourceDictionary>
