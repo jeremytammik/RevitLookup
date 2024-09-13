@@ -9,99 +9,71 @@ using Wpf.Ui.Controls;
 namespace Wpf.Ui;
 
 /// <summary>
-/// Represents a contract with the service that provides global <see cref="IContentDialogService"/>.
+/// Represents a contract with the service that creates <see cref="ContentDialog"/>.
 /// </summary>
 /// <example>
 /// <code lang="xml">
 /// &lt;ContentPresenter x:Name="RootContentDialogPresenter" Grid.Row="0" /&gt;
 /// </code>
 /// <code lang="csharp">
-/// var contentDialogService = new ContentDialogService();
+/// IContentDialogService contentDialogService = new ContentDialogService();
 /// contentDialogService.SetContentPresenter(RootContentDialogPresenter);
 ///
-/// await _contentDialogService.ShowSimpleDialogAsync(
-///     new SimpleContentDialogCreateOptions()
-///         {
-///             Title = "The cake?",
-///             Content = "IS A LIE!",
-///             PrimaryButtonText = "Save",
-///             SecondaryButtonText = "Don't Save",
-///             CloseButtonText = "Cancel"
-///         }
-///     );
+/// await _contentDialogService.ShowAsync(
+///     new ContentDialog(){
+///         Title = "The cake?",
+///         Content = "IS A LIE!",
+///         PrimaryButtonText = "Save",
+///         SecondaryButtonText = "Don't Save",
+///         CloseButtonText = "Cancel"
+///     }
+/// );
 /// </code>
 /// </example>
 public class ContentDialogService : IContentDialogService
 {
-    private ContentPresenter? _contentPresenter;
+    private ContentPresenter? _dialogHost;
 
-    private ContentDialog? _dialog;
-
-    /// <inheritdoc/>
+    [Obsolete("Use SetDialogHost instead.")]
     public void SetContentPresenter(ContentPresenter contentPresenter)
     {
-        _contentPresenter = contentPresenter;
+        SetDialogHost(contentPresenter);
+    }
+
+    [Obsolete("Use GetDialogHost instead.")]
+    public ContentPresenter? GetContentPresenter()
+    {
+        return GetDialogHost();
     }
 
     /// <inheritdoc/>
-    public ContentPresenter GetContentPresenter()
+    public void SetDialogHost(ContentPresenter contentPresenter)
     {
-        if (_contentPresenter is null)
-        {
-            throw new ArgumentNullException($"The ContentPresenter didn't set previously.");
-        }
-
-        return _contentPresenter;
+        _dialogHost = contentPresenter;
     }
 
     /// <inheritdoc/>
-    public Task<ContentDialogResult> ShowAlertAsync(
-        string title,
-        string message,
-        string closeButtonText,
-        CancellationToken cancellationToken = default
-    )
+    public ContentPresenter? GetDialogHost()
     {
-        if (_contentPresenter is null)
-        {
-            throw new ArgumentNullException($"The ContentPresenter didn't set previously.");
-        }
-
-        _dialog ??= new ContentDialog(_contentPresenter);
-
-        _dialog.SetCurrentValue(ContentDialog.TitleProperty, title);
-        _dialog.SetCurrentValue(ContentControl.ContentProperty, message);
-        _dialog.SetCurrentValue(ContentDialog.CloseButtonTextProperty, closeButtonText);
-
-        return _dialog.ShowAsync(cancellationToken);
+        return _dialogHost;
     }
 
     /// <inheritdoc/>
-    public Task<ContentDialogResult> ShowSimpleDialogAsync(
-        SimpleContentDialogCreateOptions options,
-        CancellationToken cancellationToken = default
-    )
+    public Task<ContentDialogResult> ShowAsync(ContentDialog dialog, CancellationToken cancellationToken)
     {
-        if (_contentPresenter is null)
+        if (_dialogHost == null)
         {
-            throw new ArgumentNullException($"The ContentPresenter didn't set previously.");
+            throw new InvalidOperationException("The DialogHost was never set.");
         }
 
-        var dialog = new ContentDialog(_contentPresenter)
+        if (dialog.DialogHost != null && _dialogHost != dialog.DialogHost)
         {
-            Title = options.Title,
-            Content = options.Content,
-            CloseButtonText = options.CloseButtonText,
-            PrimaryButtonText = options.PrimaryButtonText,
-            SecondaryButtonText = options.SecondaryButtonText,
-            DialogMaxWidth = options.DialogMaxWidth,
-            DialogMaxHeight = options.DialogMaxHeight,
-            HorizontalContentAlignment = options.DialogHorizontalAlignment,
-            VerticalContentAlignment = options.DialogVerticalAlignment
-        };
+            throw new InvalidOperationException(
+                "The DialogHost is not the same as the one that was previously set."
+            );
+        }
 
-        ScrollViewer.SetHorizontalScrollBarVisibility(dialog, options.HorizontalScrollVisibility);
-        ScrollViewer.SetVerticalScrollBarVisibility(dialog, options.VerticalScrollVisibility);
+        dialog.DialogHost = _dialogHost;
 
         return dialog.ShowAsync(cancellationToken);
     }
