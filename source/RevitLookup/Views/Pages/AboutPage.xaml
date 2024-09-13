@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="RevitLookup.Views.Pages.AboutView"
+    x:Class="RevitLookup.Views.Pages.AboutPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,7 +8,7 @@
     xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance pages:AboutView}">
+    d:DataContext="{d:DesignInstance pages:AboutPage}">
 
     <rl:DynamicScrollViewer>
         <DockPanel

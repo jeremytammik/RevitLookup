@@ -23,9 +23,9 @@ using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages;
 
-public sealed partial class AboutView : INavigableView<AboutViewModel>
+public sealed partial class AboutPage : INavigableView<AboutViewModel>
 {
-    public AboutView(AboutViewModel viewModel)
+    public AboutPage(AboutViewModel viewModel)
     {
         ViewModel = viewModel;
         InitializeComponent();

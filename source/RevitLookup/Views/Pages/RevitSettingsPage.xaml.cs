@@ -22,22 +22,24 @@ using System.Windows;
 using System.Windows.Data;
 using RevitLookup.ViewModels.ObservableObjects;
 using RevitLookup.ViewModels.Pages;
+using RevitLookup.Views.Dialogs;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Extensions;
 
 namespace RevitLookup.Views.Pages;
 
-public sealed partial class RevitSettingsView : INavigableView<RevitSettingsViewModel>
+public sealed partial class RevitSettingsPage : INavigableView<RevitSettingsViewModel>
 {
-    public RevitSettingsView(RevitSettingsViewModel viewModel, IContentDialogService dialogService, INavigationService navigationService)
+    public RevitSettingsPage(RevitSettingsViewModel viewModel, IContentDialogService dialogService, INavigationService navigationService)
     {
         ViewModel = viewModel;
-        InitializeComponent();
         DataContext = this;
+        
+        InitializeComponent();
+        EnableGrouping();
 
         ShowWarningDialog(dialogService, navigationService);
-
-        EnableGrouping();
     }
 
     private void EnableGrouping()
@@ -48,22 +50,24 @@ public sealed partial class RevitSettingsView : INavigableView<RevitSettingsView
 
     public RevitSettingsViewModel ViewModel { get; }
 
-    private static async void ShowWarningDialog(IContentDialogService dialogService, INavigationService navigationService)
+    private async void ShowWarningDialog(IContentDialogService dialogService, INavigationService navigationService)
     {
         var options = new SimpleContentDialogCreateOptions
         {
             Title = "Proceed with caution",
             Content = "Changing advanced configuration preferences can impact Revit performance or security",
             PrimaryButtonText = "Accept the Risk and Continue",
-            CloseButtonText = "Quit",
-            DialogHorizontalAlignment = HorizontalAlignment.Center,
-            DialogVerticalAlignment = VerticalAlignment.Center
+            CloseButtonText = "Quit"
         };
 
         var result = await dialogService.ShowSimpleDialogAsync(options);
         if (result != ContentDialogResult.Primary)
         {
             navigationService.GoBack();
+        }
+        else
+        {
+            await ViewModel.InitializeAsync();
         }
     }
 }

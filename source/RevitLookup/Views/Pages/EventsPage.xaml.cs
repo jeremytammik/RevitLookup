@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -23,9 +23,9 @@ using RevitLookup.ViewModels.Contracts;
 
 namespace RevitLookup.Views.Pages;
 
-public sealed partial class SnoopView
+public sealed partial class EventsPage
 {
-    public SnoopView(ISettingsService settingsService, ISnoopViewModel viewModel) : base(settingsService)
+    public EventsPage(IEventsViewModel viewModel,  ISettingsService settingsService) : base(settingsService)
     {
         InitializeComponent();
         ViewModel = viewModel;
@@ -34,7 +34,6 @@ public sealed partial class SnoopView
         TreeViewControl = TreeView;
         SearchBoxControl = SearchBox;
         TreeView.SelectedItemChanged += OnTreeItemSelected;
-        TreeView.ItemsSourceChanged += OnTreeSourceChanged;
 
         DataContext = this;
     }

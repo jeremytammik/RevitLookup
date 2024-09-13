@@ -18,19 +18,19 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Pages;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages;
 
-public sealed partial class DashboardView : INavigableView<IDashboardViewModel>
+public sealed partial class SettingsPage : INavigableView<SettingsViewModel>
 {
-    public DashboardView(IDashboardViewModel viewModel)
+    public SettingsPage(SettingsViewModel viewModel)
     {
         ViewModel = viewModel;
         InitializeComponent();
         DataContext = this;
     }
 
-    public IDashboardViewModel ViewModel { get; }
+    public SettingsViewModel ViewModel { get; }
 }

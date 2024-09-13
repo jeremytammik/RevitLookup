@@ -1,5 +1,5 @@
 <abstraction:SnoopViewBase
-    x:Class="RevitLookup.Views.Pages.EventsView"
+    x:Class="RevitLookup.Views.Pages.EventsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +13,7 @@
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"
-    d:DataContext="{d:DesignInstance pages:EventsView}">
+    d:DataContext="{d:DesignInstance pages:EventsPage}">
 
     <abstraction:SnoopViewBase.Resources>
         <ResourceDictionary>
