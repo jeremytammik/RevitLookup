@@ -34,6 +34,6 @@ public class SnoopEdgeCommand : ExternalCommand
     {
         Host.GetService<ILookupService>()
             .Snoop(SnoopableType.Edge)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
 }

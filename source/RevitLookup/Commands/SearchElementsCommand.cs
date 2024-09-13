@@ -33,7 +33,7 @@ public class SearchElementsCommand : ExternalCommand
     public override void Execute()
     {
         Host.GetService<ILookupService>()
-            .Show<DashboardView>()
+            .Show<DashboardPage>()
             .Execute<IDashboardViewModel>(dashboard => dashboard.OpenDialogCommand.Execute("search"));
     }
 }

@@ -34,6 +34,6 @@ public class SnoopDocumentCommand : ExternalCommand
     {
         Host.GetService<ILookupService>()
             .Snoop(SnoopableType.Document)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
 }

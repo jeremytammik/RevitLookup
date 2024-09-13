@@ -31,6 +31,6 @@ public class DashboardCommand : ExternalCommand
 {
     public override void Execute()
     {
-        Host.GetService<ILookupService>().Show<DashboardView>();
+        Host.GetService<ILookupService>().Show<DashboardPage>();
     }
 }
