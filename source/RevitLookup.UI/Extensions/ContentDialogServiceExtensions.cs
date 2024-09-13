@@ -27,6 +27,8 @@ public static class ContentDialogServiceExtensions
         dialog.SetCurrentValue(ContentDialog.TitleProperty, title);
         dialog.SetCurrentValue(ContentControl.ContentProperty, message);
         dialog.SetCurrentValue(ContentDialog.CloseButtonTextProperty, closeButtonText);
+        dialog.SetCurrentValue(Control.VerticalContentAlignmentProperty, VerticalAlignment.Center);
+        dialog.SetCurrentValue(Control.HorizontalContentAlignmentProperty, HorizontalAlignment.Center);
 
         return dialogService.ShowAsync(dialog, cancellationToken);
     }
@@ -50,7 +52,9 @@ public static class ContentDialogServiceExtensions
             Content = options.Content,
             CloseButtonText = options.CloseButtonText,
             PrimaryButtonText = options.PrimaryButtonText,
-            SecondaryButtonText = options.SecondaryButtonText
+            SecondaryButtonText = options.SecondaryButtonText,
+            VerticalContentAlignment = VerticalAlignment.Center,
+            HorizontalContentAlignment = HorizontalAlignment.Center
         };
 
         return dialogService.ShowAsync(dialog, cancellationToken);
