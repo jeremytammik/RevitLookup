@@ -48,7 +48,7 @@ public abstract partial class SnoopViewModelBase(NotificationService notificatio
         Host.GetService<ILookupService>()
             .Snoop(selectedItem)
             .DependsOn(ServiceProvider)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
     
     public void Navigate(IList<SnoopableObject> selectedItems)
@@ -56,7 +56,7 @@ public abstract partial class SnoopViewModelBase(NotificationService notificatio
         Host.GetService<ILookupService>()
             .Snoop(selectedItems)
             .DependsOn(ServiceProvider)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
     
     async partial void OnSearchTextChanged(string value)

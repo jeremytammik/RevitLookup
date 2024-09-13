@@ -1,4 +1,4 @@
-﻿<Grid
+﻿<rl:ContentDialog
     x:Class="RevitLookup.Views.Dialogs.Visualization.MeshVisualizationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,10 +7,26 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:colorPicker="clr-namespace:RevitLookup.Views.Controls.ColorPicker"
     xmlns:visualization="clr-namespace:RevitLookup.ViewModels.Dialogs.Visualization"
+    xmlns:local="clr-namespace:RevitLookup.Views.Dialogs.Visualization"
+    Title="Visualization settings"
+    DialogMaxWidth="470"
+    VerticalContentAlignment="Center"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance visualization:MeshVisualizationViewModel}"
-    d:DesignWidth="450"
-    d:DesignHeight="400">
+    d:DesignHeight="540"
+    d:DesignWidth="1000"
+    d:DataContext="{d:DesignInstance visualization:MeshVisualizationViewModel}">
+    
+    <rl:ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <rl:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+            <Style
+                BasedOn="{StaticResource DefaultContentDialogStyle}"
+                TargetType="{x:Type local:MeshVisualizationDialog}" />
+        </ResourceDictionary>
+    </rl:ContentDialog.Resources>
+    
     <StackPanel>
         <DockPanel>
             <rl:SymbolIcon
@@ -93,4 +109,5 @@
                 Content="Normal vector" />
         </DockPanel>
     </StackPanel>
-</Grid>
+    
+</rl:ContentDialog>

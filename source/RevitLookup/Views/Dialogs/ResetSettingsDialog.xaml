@@ -1,14 +1,38 @@
-﻿<StackPanel
+﻿<rl:ContentDialog
     x:Class="RevitLookup.Views.Dialogs.ResetSettingsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    mc:Ignorable="d">
-    <CheckBox
-        x:Name="GeneralBox"
-        Content="General settings" />
-    <CheckBox
-        x:Name="RenderBox"
-        Content="Visualisation settings" />
-</StackPanel>
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:local="clr-namespace:RevitLookup.Views.Dialogs"
+    Title="Reset user settings"
+    PrimaryButtonText="Reset"
+    CloseButtonText="Cancel"
+    DialogMaxWidth="400"
+    DialogMaxHeight="300"
+    mc:Ignorable="d"
+    d:DesignHeight="540"
+    d:DesignWidth="1000">
+    
+    <rl:ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <rl:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+            <Style
+                BasedOn="{StaticResource DefaultContentDialogStyle}"
+                TargetType="{x:Type local:ResetSettingsDialog}" />
+        </ResourceDictionary>
+    </rl:ContentDialog.Resources>
+    
+    <StackPanel>
+        <CheckBox
+            x:Name="GeneralBox"
+            Content="General settings" />
+        <CheckBox
+            x:Name="RenderBox"
+            Content="Visualisation settings" />
+    </StackPanel>
+    
+</rl:ContentDialog>

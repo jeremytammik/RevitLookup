@@ -26,19 +26,20 @@ using Microsoft.Extensions.Logging;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Extensions;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
 public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDescriptorExtension, IDescriptorConnector
 {
     private readonly Parameter _parameter;
-    
+
     public ParameterDescriptor(Parameter parameter)
     {
         _parameter = parameter;
         Name = parameter.Definition.Name;
     }
-    
+
     public void RegisterExtensions(IExtensionManager manager)
     {
         if (_parameter.StorageType == StorageType.Integer)
@@ -46,13 +47,13 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             manager.Register(nameof(ParameterExtensions.AsBool), _ => _parameter.AsBool());
             manager.Register(nameof(ParameterExtensions.AsColor), _ => _parameter.AsColor());
         }
-        
+
         if (manager.Context.IsFamilyDocument)
         {
             manager.Register(nameof(FamilyManager.GetAssociatedFamilyParameter), context => context.FamilyManager.GetAssociatedFamilyParameter(_parameter));
         }
     }
-    
+
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -61,30 +62,34 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             _ => null
         };
     }
-    
+
     public void RegisterMenu(ContextMenu contextMenu)
     {
         contextMenu.AddMenuItem("EditMenuItem")
             .SetHeader("Edit value")
             .SetAvailability(!_parameter.IsReadOnly && _parameter.StorageType != StorageType.None)
-            .SetCommand(_parameter, async parameter =>
-            {
-                var context = (ISnoopViewModel) contextMenu.DataContext;
-                try
-                {
-                    var modulesDialog = new EditParameterDialog(context.ServiceProvider, parameter);
-                    var result = await modulesDialog.ShowAsync();
-                    if (result)
-                    {
-                        context.RefreshMembersCommand.Execute(null);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    var logger = context.ServiceProvider.GetRequiredService<ILogger<ParameterDescriptor>>();
-                    logger.LogError(exception, "Initialize EditParameterDialog error");
-                }
-            })
+            .SetCommand(_parameter, EditParameterHandler)
             .SetShortcut(Key.F2);
+        
+        return;
+
+        async Task EditParameterHandler(Parameter parameter)
+        {
+            var context = (ISnoopViewModel) contextMenu.DataContext;
+            try
+            {
+                var dialog = context.ServiceProvider.GetRequiredService<EditParameterDialog>();
+                var result = await dialog.ShowDialogAsync(parameter);
+                if (result)
+                {
+                    context.RefreshMembersCommand.Execute(null);
+                }
+            }
+            catch (Exception exception)
+            {
+                var logger = context.ServiceProvider.GetRequiredService<ILogger<ParameterDescriptor>>();
+                logger.LogError(exception, "Initialize EditParameterDialog error");
+            }
+        }
     }
 }

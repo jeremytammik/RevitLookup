@@ -140,7 +140,7 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<BoundingBoxVisualizationDialog>();
-                    await dialog.ShowAsync(boxArg);
+                    await dialog.ShowDialogAsync(boxArg);
                 }
                 catch (Exception exception)
                 {

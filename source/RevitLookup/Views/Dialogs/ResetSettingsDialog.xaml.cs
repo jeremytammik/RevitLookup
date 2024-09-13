@@ -26,16 +26,17 @@ namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class ResetSettingsDialog
 {
-    private readonly IContentDialogService _dialogService;
     private readonly ISettingsService _settingsService;
-    
-    public ResetSettingsDialog(IContentDialogService dialogService, ISettingsService settingsService)
+
+    public ResetSettingsDialog(
+        IContentDialogService dialogService,
+        ISettingsService settingsService)
+        : base(dialogService.GetDialogHost())
     {
-        _dialogService = dialogService;
         _settingsService = settingsService;
         InitializeComponent();
     }
-    
+
     public List<ISettings> SelectedSettings
     {
         get
@@ -43,26 +44,8 @@ public sealed partial class ResetSettingsDialog
             var checkedSettings = new List<ISettings>();
             if (GeneralBox.IsChecked == true) checkedSettings.Add(_settingsService.GeneralSettings);
             if (RenderBox.IsChecked == true) checkedSettings.Add(_settingsService.RenderSettings);
-            
+
             return checkedSettings;
         }
-    }
-    
-    public async Task<bool> ShowAsync()
-    {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Reset user settings",
-            Content = this,
-            PrimaryButtonText = "Reset",
-            CloseButtonText = "Close",
-            DialogMaxHeight = 300,
-            DialogMaxWidth = 400
-        };
-        
-        var dialogResult = await _dialogService.ShowSimpleDialogAsync(dialogOptions);
-        if (dialogResult != ContentDialogResult.Primary) return false;
-        
-        return true;
     }
 }

@@ -1,4 +1,4 @@
-﻿<Grid
+﻿<rl:ContentDialog
     x:Class="RevitLookup.Views.Dialogs.SearchElementsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,11 +6,31 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
+    xmlns:local="clr-namespace:RevitLookup.Views.Dialogs"
+    Title="Search elements"
+    PrimaryButtonText="Search"
+    VerticalContentAlignment="Center"
+    HorizontalContentAlignment="Center"
+    ScrollViewer.VerticalScrollBarVisibility="Disabled"
     mc:Ignorable="d"
-    MinWidth="416"
-    MinHeight="147"
+    d:DesignHeight="540"
+    d:DesignWidth="1000"
     d:DataContext="{d:DesignInstance dialogs:SearchElementsViewModel}">
+
+    <rl:ContentDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <rl:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+            <Style
+                BasedOn="{StaticResource DefaultContentDialogStyle}"
+                TargetType="{x:Type local:SearchElementsDialog}" />
+        </ResourceDictionary>
+    </rl:ContentDialog.Resources>
+
     <rl:TextBox
+        MinWidth="420"
+        MinHeight="150"
         Icon="{rl:SymbolIcon Search24}"
         IconPlacement="Right"
         PlaceholderText="Search by Name, Id, UniqueId or IfcGUID...&#xA;Separators: tab, semicolon, comma or space&#xA;&#xA;Example:&#xA;136976, 136977, 136978&#xA;Living Room, Exterior Wall, Swing door&#xA;17836a3c-e764-47fa-a2e0-08216444f621-0007882c"
@@ -18,4 +38,5 @@
         AcceptsReturn="True"
         VerticalContentAlignment="Top"
         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
-</Grid>
+
+</rl:ContentDialog>

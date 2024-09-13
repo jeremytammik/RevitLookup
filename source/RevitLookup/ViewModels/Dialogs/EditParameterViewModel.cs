@@ -24,51 +24,33 @@ namespace RevitLookup.ViewModels.Dialogs;
 
 public sealed partial class EditParameterViewModel : ObservableObject
 {
-    private readonly Parameter _parameter;
+    [ObservableProperty] private Parameter _parameter;
     
     [ObservableProperty] private string _value;
-    
-    public EditParameterViewModel(Parameter parameter)
-    {
-        _parameter = parameter;
-        _value = parameter.StorageType switch
-        {
-            StorageType.Integer => parameter.AsInteger().ToString(),
-            StorageType.Double => parameter.AsValueString(),
-            StorageType.String => parameter.AsString(),
-            StorageType.ElementId => parameter.AsElementId().ToString(),
-            StorageType.None => parameter.AsValueString(),
-            _ => parameter.AsValueString()
-        };
-        
-        DefaultValue = _value;
-        ParameterName = parameter.Definition.Name;
-    }
-    
-    public string ParameterName { get; }
-    public string DefaultValue { get; }
-    
+    [ObservableProperty] private string _parameterName;
+    [ObservableProperty] private string _defaultValue;
+
     public async Task SaveValueAsync()
     {
         await RevitShell.AsyncEventHandler.RaiseAsync(_ =>
         {
-            var transaction = new Transaction(_parameter.Element.Document);
+            var transaction = new Transaction(Parameter.Element.Document);
             transaction.Start("Set parameter value");
-            
+
             bool result;
-            switch (_parameter.StorageType)
+            switch (Parameter.StorageType)
             {
                 case StorageType.Integer:
                     result = int.TryParse(Value, out var intValue);
                     if (!result) break;
-                    
-                    result = _parameter.Set(intValue);
+
+                    result = Parameter.Set(intValue);
                     break;
                 case StorageType.Double:
-                    result = _parameter.SetValueString(Value);
+                    result = Parameter.SetValueString(Value);
                     break;
                 case StorageType.String:
-                    result = _parameter.Set(Value);
+                    result = Parameter.Set(Value);
                     break;
                 case StorageType.ElementId:
 #if REVIT2024_OR_GREATER
@@ -77,15 +59,15 @@ public sealed partial class EditParameterViewModel : ObservableObject
                     result = int.TryParse(Value, out var idValue);
 #endif
                     if (!result) break;
-                    
-                    result = _parameter.Set(new ElementId(idValue));
+
+                    result = Parameter.Set(new ElementId(idValue));
                     break;
                 case StorageType.None:
                 default:
-                    result = _parameter.SetValueString(Value);
+                    result = Parameter.SetValueString(Value);
                     break;
             }
-            
+
             if (result)
             {
                 transaction.Commit();
@@ -96,5 +78,21 @@ public sealed partial class EditParameterViewModel : ObservableObject
                 throw new ArgumentException("Invalid parameter value");
             }
         });
+    }
+
+    partial void OnParameterChanged(Parameter value)
+    {
+        Value = value.StorageType switch
+        {
+            StorageType.Integer => value.AsInteger().ToString(),
+            StorageType.Double => value.AsValueString(),
+            StorageType.String => value.AsString(),
+            StorageType.ElementId => value.AsElementId().ToString(),
+            StorageType.None => value.AsValueString(),
+            _ => value.AsValueString()
+        };
+
+        DefaultValue = Value;
+        ParameterName = value.Definition.Name;
     }
 }

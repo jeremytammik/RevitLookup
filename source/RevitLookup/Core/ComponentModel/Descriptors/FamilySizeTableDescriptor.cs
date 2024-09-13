@@ -79,7 +79,7 @@ public sealed class FamilySizeTableDescriptor(FamilySizeTable table) : Descripto
             {
                 try
                 {
-                    var dialog = new FamilySizeTableEditDialog(context.ServiceProvider, document, sizeTable);
+                    var dialog = new FamilySizeTableEditDialog(document, sizeTable);
                     await dialog.ShowAsync();
                 }
                 catch (Exception exception)

@@ -32,46 +32,33 @@ namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class FamilySizeTableEditDialog
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly FamilySizeTableEditDialogViewModel _viewModel;
     private readonly bool _isEditable;
 
-    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document, FamilySizeTableManager manager, string tableName)
+    public FamilySizeTableEditDialog(Document document, FamilySizeTable table)
+    {
+        DataContext = new FamilySizeTableEditDialogViewModel(document, table);
+        InitializeComponent();
+        SizeTable.IsReadOnly = true;
+    }
+
+    public FamilySizeTableEditDialog(Document document, FamilySizeTableManager manager, string tableName)
     {
         _isEditable = true;
-        _serviceProvider = serviceProvider;
         _viewModel = new FamilySizeTableEditDialogViewModel(document, manager, tableName);
 
         DataContext = _viewModel;
         InitializeComponent();
     }
 
-    public FamilySizeTableEditDialog(IServiceProvider serviceProvider, Document document, FamilySizeTable table)
+    public async Task ShowDialogAsync()
     {
-        _serviceProvider = serviceProvider;
-
-        DataContext = new FamilySizeTableEditDialogViewModel(document, table);
-        InitializeComponent();
-        SizeTable.IsReadOnly = true;
-    }
-
-    public async Task ShowAsync()
-    {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Family size table",
-            Content = this,
-            CloseButtonText = "Close",
-            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollVisibility = ScrollBarVisibility.Disabled
-        };
-
         if (_isEditable)
         {
-            dialogOptions.PrimaryButtonText = "Save";
+            PrimaryButtonText = "Save";
         }
 
-        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        var dialogResult = await ShowAsync();
         if (dialogResult == ContentDialogResult.Primary && _isEditable)
         {
             _viewModel.SaveData();

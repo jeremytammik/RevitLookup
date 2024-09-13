@@ -7,9 +7,11 @@ using RevitLookup.Config;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Dialogs;
 using RevitLookup.ViewModels.Dialogs.Visualization;
 using RevitLookup.ViewModels.Pages;
 using RevitLookup.Views;
+using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Dialogs.Visualization;
 using RevitLookup.Views.Pages;
 using Wpf.Ui;
@@ -54,17 +56,17 @@ public static class Host
         builder.Services.AddScoped<ISnoopVisualService, SnoopVisualService>();
         
         //Views
-        builder.Services.AddScoped<AboutView>();
+        builder.Services.AddScoped<AboutPage>();
         builder.Services.AddScoped<AboutViewModel>();
-        builder.Services.AddScoped<DashboardView>();
+        builder.Services.AddScoped<DashboardPage>();
         builder.Services.AddScoped<IDashboardViewModel, DashboardViewModel>();
-        builder.Services.AddScoped<SettingsView>();
+        builder.Services.AddScoped<SettingsPage>();
         builder.Services.AddScoped<SettingsViewModel>();
-        builder.Services.AddScoped<EventsView>();
+        builder.Services.AddScoped<EventsPage>();
         builder.Services.AddScoped<IEventsViewModel, EventsViewModel>();
-        builder.Services.AddScoped<SnoopView>();
+        builder.Services.AddScoped<SnoopPage>();
         builder.Services.AddScoped<ISnoopViewModel, SnoopViewModel>();
-        builder.Services.AddTransient<RevitSettingsView>();
+        builder.Services.AddTransient<RevitSettingsPage>();
         builder.Services.AddScoped<RevitSettingsViewModel>();
         builder.Services.AddScoped<IWindow, RevitLookupView>();
         
@@ -81,6 +83,22 @@ public static class Host
         builder.Services.AddTransient<SolidVisualizationViewModel>();
         builder.Services.AddTransient<XyzVisualizationDialog>();
         builder.Services.AddTransient<XyzVisualizationViewModel>();
+        builder.Services.AddTransient<EditParameterDialog>();
+        builder.Services.AddTransient<EditParameterViewModel>();
+        builder.Services.AddTransient<EditSettingsEntryDialog>();
+        builder.Services.AddTransient<FamilySizeTableEditDialog>();
+        builder.Services.AddTransient<FamilySizeTableEditDialogViewModel>();
+        builder.Services.AddTransient<FamilySizeTableSelectDialog>();
+        builder.Services.AddTransient<FamilySizeTableSelectDialogViewModel>();
+        builder.Services.AddTransient<ModulesDialog>();
+        builder.Services.AddTransient<ModulesViewModel>();
+        builder.Services.AddTransient<OpenSourceDialog>();
+        builder.Services.AddTransient<OpenSourceViewModel>();
+        builder.Services.AddTransient<ResetSettingsDialog>();
+        builder.Services.AddTransient<SearchElementsDialog>();
+        builder.Services.AddTransient<SearchElementsViewModel>();
+        builder.Services.AddTransient<UnitsDialog>();
+        builder.Services.AddTransient<UnitsViewModel>();
         
         //Startup view
         builder.Services.AddTransient<ILookupService, LookupService>();
