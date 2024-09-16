@@ -18,6 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+#if NETCOREAPP
+using System.Runtime.Loader;
+#endif
 using RevitLookup.Models;
 
 namespace RevitLookup.ViewModels.Dialogs;
@@ -35,7 +38,6 @@ public sealed partial class ModulesViewModel : ObservableObject
 
     private void Initialize()
     {
-        var domain = AppDomain.CurrentDomain;
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();
         Modules = new List<ModuleInfo>(assemblies.Length);
 
@@ -49,7 +51,11 @@ public sealed partial class ModulesViewModel : ObservableObject
                 Path = assembly.IsDynamic ? string.Empty : assembly.Location,
                 Order = i + 1,
                 Version = assemblyName.Version is null ? string.Empty : assemblyName.Version.ToString(),
-                Domain = domain.FriendlyName
+#if NETCOREAPP
+                Container = AssemblyLoadContext.GetLoadContext(assembly)?.Name
+#else
+                Container = AppDomain.CurrentDomain.FriendlyName
+#endif
             };
 
             Modules.Add(module);

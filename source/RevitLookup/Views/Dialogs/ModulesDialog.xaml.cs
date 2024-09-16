@@ -34,6 +34,12 @@ public sealed partial class ModulesDialog
         _serviceProvider = serviceProvider;
         DataContext = new ModulesViewModel();
         InitializeComponent();
+
+#if NETCOREAPP
+        ContainerColumn.Header = "Load context";
+#else
+        ContainerColumn.Header = "Domain";
+#endif
     }
     
     public async Task ShowAsync()

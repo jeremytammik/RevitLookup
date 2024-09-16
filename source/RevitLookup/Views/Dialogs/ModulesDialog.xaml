@@ -76,13 +76,13 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn
-                Width="2*"
-                Header="Domain">
+                x:Name="ContainerColumn"
+                Width="2*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock
-                            Text="{Binding Domain}"
-                            ToolTip="{Binding Domain}">
+                            Text="{Binding Container}"
+                            ToolTip="{Binding Container}">
                         </TextBlock>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>

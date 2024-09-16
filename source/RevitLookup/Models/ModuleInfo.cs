@@ -22,9 +22,9 @@ namespace RevitLookup.Models;
 
 public sealed class ModuleInfo
 {
-    public required string Name { get; set; }
-    public required string Path { get; set; }
-    public required int Order { get; set; }
-    public required string Version { get; set; }
-    public required string Domain { get; set; }
+    public required string Name { get; init; }
+    public required string Path { get; init; }
+    public required int Order { get; init; }
+    public required string Version { get; init; }
+    public required string Container { get; init; }
 }
