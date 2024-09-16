@@ -40,8 +40,7 @@ public class AnalyticalLinkTypeDescriptor(AnalyticalLinkType analyticalLinkType)
             foreach (AnalyticalFixityState state in values)
             {
                 var result = AnalyticalLinkType.IsValidAnalyticalFixityState(state);
-                var description = $"{state}: {result}";
-                variants.Add(result, description);
+                variants.Add(result,  $"{state}: {result}");
             }
             return variants;
         }
