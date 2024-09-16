@@ -18,11 +18,10 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 using RevitLookup.ViewModels.ObservableObjects;
 using RevitLookup.ViewModels.Pages;
-using RevitLookup.Views.Dialogs;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Extensions;
@@ -72,5 +71,10 @@ public sealed partial class RevitSettingsPage : INavigableView<RevitSettingsView
         {
             await ViewModel.InitializeAsync();
         }
+    }
+
+    private async void OnEntryClicked(object sender, MouseButtonEventArgs args)
+    {
+        await ViewModel.UpdateEntryAsync();
     }
 }

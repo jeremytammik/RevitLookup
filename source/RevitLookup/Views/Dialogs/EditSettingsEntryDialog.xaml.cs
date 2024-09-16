@@ -30,9 +30,25 @@ public sealed partial class EditSettingsEntryDialog
     {
         InitializeComponent();
     }
+
+    public ObservableRevitSettingsEntry Entry { get; private set; }
     
-    public async Task<ContentDialogResult> ShowDialogAsync(ObservableRevitSettingsEntry entry)
+    public async Task<ContentDialogResult> ShowCreateDialogAsync()
     {
+        Title = "Create the entry";
+        PrimaryButtonText = "Create";
+        
+        Entry = new ObservableRevitSettingsEntry();
+        DataContext = Entry;
+        return await ShowAsync();
+    }
+    
+    public async Task<ContentDialogResult> ShowUpdateDialogAsync(ObservableRevitSettingsEntry entry)
+    {
+        Title = "Update the entry";
+        PrimaryButtonText = "Update";
+
+        Entry = entry;
         DataContext = entry;
         return await ShowAsync();
     }

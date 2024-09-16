@@ -18,26 +18,33 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
+using Visibility = System.Windows.Visibility;
 
-namespace RevitLookup.ViewModels.ObservableObjects;
+namespace RevitLookup.Views.Converters;
 
-public sealed partial class ObservableRevitSettingsEntry : ObservableValidator
+public sealed class CollectionEmptyAfterInitializationConverter : MarkupExtension, IMultiValueConverter
 {
-    [ObservableProperty] private bool _isActive;
-    [ObservableProperty] [Required] [NotifyDataErrorInfo] private string _category;
-    [ObservableProperty] [Required] [NotifyDataErrorInfo] private string _property;
-    [ObservableProperty] private string _value;
-    
-    public string DefaultValue { get; set; }
-
-    public ObservableRevitSettingsEntry Clone()
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        return new ObservableRevitSettingsEntry
-        {
-            Category = Category,
-            Property = Property,
-            Value = Value
-        };
+        if (values[0]! is not int collectionSize) return Visibility.Collapsed;
+        if (values[1]! is not bool isInitialized) return Visibility.Collapsed;
+
+        if (!isInitialized) return Visibility.Collapsed;
+        if (collectionSize > 0) return Visibility.Collapsed;
+
+        return Visibility.Visible;
+    }
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
     }
 }

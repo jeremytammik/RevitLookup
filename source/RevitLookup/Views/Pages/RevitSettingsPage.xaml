@@ -7,10 +7,12 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     xmlns:fallbackValues="clr-namespace:RevitLookup.Views.FallbackValues"
-    xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
+    xmlns:vmConverters="clr-namespace:RevitLookup.ViewModels.Converters"
     xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
+    xmlns:controls="clr-namespace:RevitLookup.Views.Controls"
+    xmlns:vConverters="clr-namespace:RevitLookup.Views.Converters"
     mc:Ignorable="d"
-    d:DesignHeight="1100"
+    d:DesignHeight="600"
     d:DesignWidth="500"
     d:DataContext="{d:DesignInstance pages:RevitSettingsPage}"
     rl:NavigationView.HeaderContent="Revit settings">
@@ -33,6 +35,9 @@
                 <Setter
                     Property="Margin"
                     Value="0" />
+                <EventSetter
+                    Event="PreviewMouseLeftButtonUp"
+                    Handler="OnEntryClicked" />
             </Style>
 
             <GroupStyle
@@ -64,7 +69,7 @@
                                                 Margin="12,2,0,2"
                                                 FontWeight="Bold"
                                                 FontSize="12"
-                                                Text="{Binding Name, Mode=OneTime}" />
+                                                Text="{Binding Name}" />
                                         </Border>
                                         <ItemsPresenter />
                                     </DockPanel>
@@ -87,20 +92,23 @@
             <rl:Button
                 DockPanel.Dock="Left"
                 Icon="{rl:SymbolIcon Add20}"
-                Content="New entry" />
+                Content="New entry"
+                Command="{Binding ViewModel.CreateEntryCommand}" />
             <rl:Button
                 DockPanel.Dock="Right"
                 Appearance="Transparent"
                 FontSize="20"
                 Padding="10 4"
-                Icon="{rl:SymbolIcon QuestionCircle20}" />
+                Icon="{rl:SymbolIcon QuestionCircle20}"
+                Command="{Binding ViewModel.ShowHelpCommand}" />
             <rl:Button
                 DockPanel.Dock="Right"
                 Margin="0 0 4 0"
                 Appearance="Transparent"
                 FontSize="20"
                 Padding="10 4"
-                Icon="{rl:SymbolIcon Open20}" />
+                Icon="{rl:SymbolIcon Open20}"
+                Command="{Binding ViewModel.OpenSettingsCommand}" />
             <rl:Button
                 DockPanel.Dock="Right"
                 Margin="0 0 4 0"
@@ -121,7 +129,7 @@
                             Height="8"
                             Width="8"
                             Style="{DynamicResource DotInfoBadgeStyle}"
-                            Visibility="{Binding ViewModel.Filtered, Mode=OneWay, Converter={converters:BoolVisibilityConverter}, FallbackValue=Visible}" />
+                            Visibility="{Binding ViewModel.Filtered, Mode=OneWay, Converter={vmConverters:BoolVisibilityConverter}, FallbackValue=Visible}" />
                         <rl:Flyout
                             Placement="Bottom">
                             <StackPanel
@@ -150,63 +158,94 @@
             VerticalContentAlignment="Stretch"
             Margin="0 8 0 0"
             Padding="0">
-            <ListView
-                x:Name="EntriesList"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ScrollViewer.VerticalScrollBarVisibility="Visible"
-                FontSize="12"
-                SelectedItem="{Binding ViewModel.SelectedEntry}"
-                ItemContainerStyle="{StaticResource ListContainerStyle}"
-                ItemsSource="{Binding ViewModel.Entries, FallbackValue={x:Static fallbackValues:RevitSettingsFallbacks.Entries}}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel
-                            Margin="8 0">
-                            <rl:Button
-                                DockPanel.Dock="Right"
-                                VerticalAlignment="Center"
-                                Appearance="Transparent"
-                                FontSize="18"
-                                Icon="{rl:SymbolIcon Delete20}" />
-                            <rl:ToggleSwitch
-                                DockPanel.Dock="Right"
-                                VerticalAlignment="Center"
-                                Margin="0 0 8 0"
-                                IsChecked="{Binding IsActive}" />
-                            <rl:Button
-                                DockPanel.Dock="Right"
-                                VerticalAlignment="Center"
-                                Appearance="Transparent"
-                                FontSize="18"
-                                Icon="{rl:SymbolIcon ArrowClockwise24}" />
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition
-                                        Width="2*" />
-                                    <ColumnDefinition
-                                        Width="3*" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    FontSize="12"
+            <Grid>
+                <controls:ContentPlaceholder
+                    Text="Nothing to show"
+                    MaxHeight="300">
+                    <controls:ContentPlaceholder.Visibility>
+                        <MultiBinding
+                            Converter="{vConverters:CollectionEmptyAfterInitializationConverter}">
+                            <Binding
+                                Path="ViewModel.Entries.Count" />
+                            <Binding
+                                Path="ViewModel.InitializationTask.IsCompleted"
+                                FallbackValue="false" />
+                        </MultiBinding>
+                    </controls:ContentPlaceholder.Visibility>
+                </controls:ContentPlaceholder>
+                <StackPanel
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Visibility="{Binding ViewModel.InitializationTask.IsCompleted, 
+                        Converter={vmConverters:InverseBoolVisibilityConverter},
+                        FallbackValue=Collapsed}">
+                    <TextBlock
+                        FontSize="24"
+                        FontWeight="Medium"
+                        Text="Scanning..." />
+                    <rl:ProgressRing
+                        Margin="0 12 0 0"
+                        IsIndeterminate="True"
+                        VerticalAlignment="Center" />
+                </StackPanel>
+                <ListView
+                    x:Name="EntriesList"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    FontSize="12"
+                    SelectedItem="{Binding ViewModel.SelectedEntry}"
+                    ItemContainerStyle="{StaticResource ListContainerStyle}"
+                    ItemsSource="{Binding ViewModel.FilteredEntries, FallbackValue={x:Static fallbackValues:RevitSettingsFallbacks.Entries}}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel
+                                Margin="8 0">
+                                <rl:Button
+                                    DockPanel.Dock="Right"
                                     VerticalAlignment="Center"
-                                    TextTrimming="CharacterEllipsis"
-                                    Text="{Binding Property}" />
-                                <TextBlock
-                                    Grid.Column="1"
+                                    Appearance="Transparent"
+                                    FontSize="18"
+                                    Icon="{rl:SymbolIcon Delete20}" />
+                                <rl:ToggleSwitch
+                                    DockPanel.Dock="Right"
                                     VerticalAlignment="Center"
-                                    TextWrapping="Wrap"
-                                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                    Text="{Binding Value}" />
-                            </Grid>
-                        </DockPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.GroupStyle>
-                    <StaticResource
-                        ResourceKey="ListGroupStyle" />
-                </ListView.GroupStyle>
-            </ListView>
+                                    Margin="0 0 8 0"
+                                    IsChecked="{Binding IsActive}" />
+                                <rl:Button
+                                    DockPanel.Dock="Right"
+                                    VerticalAlignment="Center"
+                                    Appearance="Transparent"
+                                    FontSize="18"
+                                    Icon="{rl:SymbolIcon ArrowClockwise24}" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
+                                            Width="2*" />
+                                        <ColumnDefinition
+                                            Width="3*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        FontSize="12"
+                                        VerticalAlignment="Center"
+                                        TextTrimming="CharacterEllipsis"
+                                        Text="{Binding Property}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        TextWrapping="Wrap"
+                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Text="{Binding Value}" />
+                                </Grid>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.GroupStyle>
+                        <StaticResource
+                            ResourceKey="ListGroupStyle" />
+                    </ListView.GroupStyle>
+                </ListView>
+            </Grid>
         </rl:Card>
     </DockPanel>
 

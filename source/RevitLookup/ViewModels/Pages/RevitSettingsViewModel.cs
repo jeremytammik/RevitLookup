@@ -18,34 +18,54 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections.ObjectModel;
+using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Modules.Configuration;
 using RevitLookup.Services;
+using RevitLookup.Utils;
 using RevitLookup.ViewModels.ObservableObjects;
 using RevitLookup.Views.Dialogs;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.ViewModels.Pages;
 
+#nullable enable
 public sealed partial class RevitSettingsViewModel(
     ILogger<RevitSettingsViewModel> logger,
     NotificationService notificationService,
     IServiceProvider serviceProvider)
     : ObservableObject
 {
-    [ObservableProperty] private ObservableRevitSettingsEntry _selectedEntry;
-    [ObservableProperty] private List<ObservableRevitSettingsEntry> _entries;
+    private TaskNotifier<List<ObservableRevitSettingsEntry>>? _initializationTask;
+
+    [ObservableProperty] private ObservableRevitSettingsEntry? _selectedEntry;
+    
+    [ObservableProperty] private List<ObservableRevitSettingsEntry> _entries = [];
+    [ObservableProperty] private ObservableCollection<ObservableRevitSettingsEntry> _filteredEntries = [];
+
+    public Task<List<ObservableRevitSettingsEntry>>? InitializationTask
+    {
+        get => _initializationTask!;
+        private set => SetPropertyAndNotifyOnCompletion(ref _initializationTask, value);
+    }
 
     public async Task InitializeAsync()
     {
         try
         {
-            Entries = await Task.Run(() =>
+            InitializationTask = Task.Run(async () =>
             {
+                // Smooth loading.
+                // But we can decide to add Async binding to avoid grouping lags.
+                await Task.Delay(500).ConfigureAwait(false);
+                
                 var configurator = new RevitConfigurator();
                 return configurator.ParseSources();
             });
+
+            Entries = await InitializationTask;
         }
         catch (Exception exception)
         {
@@ -57,19 +77,59 @@ public sealed partial class RevitSettingsViewModel(
     }
 
     [RelayCommand]
+    private async Task CreateEntry()
+    {
+        var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
+        var result = await dialog.ShowCreateDialogAsync();
+        if (result == ContentDialogResult.Primary)
+        {
+            //TODO add to ini
+            Entries.Add(dialog.Entry);
+        }
+    }
+
+    [RelayCommand]
     private void DeleteEntry(ObservableRevitSettingsEntry entry)
     {
+        //TODO remove from ini
         Entries.Remove(entry);
     }
 
-    async partial void OnSelectedEntryChanged(ObservableRevitSettingsEntry value)
+    [RelayCommand]
+    private void ShowHelp()
     {
-        var editingValue = value.Clone();
-        var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
+        var version = Context.Application.VersionNumber;
+        ProcessTasks.StartShell($"https://help.autodesk.com/view/RVT/{version}/ENU/?guid=GUID-9ECD669E-81D3-43E5-9970-9FA1C38E8507");
+    }
+
+    [RelayCommand]
+    private void OpenSettings()
+    {
+        var iniFile = Context.Application.CurrentUsersDataFolderPath.AppendPath("Revit.ini");
+        if (!File.Exists(iniFile))
+        {
+            notificationService.ShowWarning("Missing settings", "Revit.ini file does not exists");
+        }
+
+        ProcessTasks.StartShell(iniFile);
+    }
+
+
+    partial void OnEntriesChanged(List<ObservableRevitSettingsEntry>? value)
+    {
+        if (value is null) return;
+        FilteredEntries = new ObservableCollection<ObservableRevitSettingsEntry>(value);
+    }
+
+    public async Task UpdateEntryAsync()
+    {
+        if (SelectedEntry is null) return;
 
         try
         {
-            var result = await dialog.ShowDialogAsync(editingValue);
+            var editingValue = SelectedEntry.Clone();
+            var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
+            var result = await dialog.ShowUpdateDialogAsync(editingValue);
             if (result == ContentDialogResult.Primary) UpdateEntry(editingValue);
         }
         catch (Exception exception)
@@ -83,6 +143,8 @@ public sealed partial class RevitSettingsViewModel(
 
     private void UpdateEntry(ObservableRevitSettingsEntry entry)
     {
+        if (SelectedEntry is null) return;
+
         SelectedEntry.Category = entry.Category;
         SelectedEntry.Property = entry.Property;
         SelectedEntry.Value = entry.Value;

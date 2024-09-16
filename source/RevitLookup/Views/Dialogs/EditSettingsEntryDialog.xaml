@@ -7,11 +7,11 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:objects="clr-namespace:RevitLookup.ViewModels.ObservableObjects"
     xmlns:local="clr-namespace:RevitLookup.Views.Dialogs"
-    Title="Update the entry"
-    PrimaryButtonText="Update"
+    xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
     CloseButtonText="Cancel"
     HorizontalContentAlignment="Center"
     VerticalContentAlignment="Center"
+    IsPrimaryButtonEnabled="{Binding HasErrors, Converter={converters:InverseBooleanConverter}}"
     mc:Ignorable="d"
     d:DesignHeight="540"
     d:DesignWidth="1000"
@@ -35,21 +35,21 @@
         <rl:TextBox
             TextWrapping="Wrap"
             PlaceholderText="{Binding Category, Mode=OneTime}"
-            Text="{Binding Category, Mode=TwoWay}" />
+            Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Margin="0 8 0 0"
             Content="Property" />
         <rl:TextBox
             TextWrapping="Wrap"
             PlaceholderText="{Binding Property, Mode=OneTime}"
-            Text="{Binding Property, Mode=TwoWay}" />
+            Text="{Binding Property, UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Margin="0 8 0 0"
             Content="Value" />
         <rl:TextBox
             TextWrapping="Wrap"
             PlaceholderText="{Binding Value, Mode=OneTime}"
-            Text="{Binding Value, Mode=TwoWay}" />
+            Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
     </StackPanel>
 
 </rl:ContentDialog>

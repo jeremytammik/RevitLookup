@@ -29,8 +29,8 @@ public sealed class BoolVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is not bool b) return Visibility.Collapsed;
-        return b ? Visibility.Visible : Visibility.Collapsed;
+        if (value is not bool condition) return Visibility.Collapsed;
+        return condition ? Visibility.Visible : Visibility.Collapsed;
     }
     
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
