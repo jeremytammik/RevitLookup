@@ -116,6 +116,7 @@ public static class DescriptorMap
             BasePoint value when type is null || type == typeof(BasePoint) => new BasePointDescriptor(value),
             InternalOrigin value when type is null || type == typeof(InternalOrigin) => new InternalOriginDescriptor(value),
             StructuralSettings value when type is null || type == typeof(StructuralSettings) => new StructuralSettingsDescriptor(value),
+            AreaVolumeSettings value when type is null || type == typeof(AreaVolumeSettings) => new AreaVolumeSettingsDescriptor(value),
             CurveElement value when type is null || type == typeof(CurveElement) => new CurveElementDescriptor(value),
             DatumPlane value when type is null || type == typeof(DatumPlane) => new DatumPlaneDescriptor(value),
             Part value when type is null || type == typeof(Part) => new PartDescriptor(value),
