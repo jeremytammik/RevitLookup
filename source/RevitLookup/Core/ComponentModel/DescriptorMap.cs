@@ -109,6 +109,7 @@ public static class DescriptorMap
             HostObject value when type is null || type == typeof(HostObject) => new HostObjectDescriptor(value),
             ElevationMarker value when type is null || type == typeof(ElevationMarker) => new ElevationMarkerDescriptor(value),
             RevitLinkType value when type is null || type == typeof(RevitLinkType) => new RevitLinkTypeDescriptor(value),
+            AnalyticalLinkType value when type is null || type == typeof(AnalyticalLinkType) => new AnalyticalLinkTypeDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
             SunAndShadowSettings value when type is null || type == typeof(SunAndShadowSettings) => new SunAndShadowSettingsDescriptor(value),
             RevisionNumberingSequence value when type is null || type == typeof(RevisionNumberingSequence) => new RevisionNumberingSequenceDescriptor(value),
