@@ -32,5 +32,11 @@ public sealed partial class ModulesDialog
     {
         DataContext = new ModulesViewModel();
         InitializeComponent();
+
+#if NETCOREAPP
+        ContainerColumn.Header = "Load context";
+#else
+        ContainerColumn.Header = "Domain";
+#endif
     }
 }
