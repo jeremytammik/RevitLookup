@@ -19,4 +19,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Revit-tools
-          path: output
+          path: tools/output
