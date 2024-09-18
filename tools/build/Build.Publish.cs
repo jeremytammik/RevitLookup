@@ -9,19 +9,30 @@ sealed partial class Build
         {
             DotNetPublish(settings => settings
                 .SetProject(Solution.DependenciesReport.Path)
-                .SetOutput("output")
-                .SetRuntime("win-x64")
+                .SetOutput("output/native")
+                .SetCommonPublishProperties()
                 .SetProperty("PublishAot", true)
-                .SetProperty("AssemblyName", "DependenciesReport-native")
-                .SetVerbosity(DotNetVerbosity.minimal));
-            
+                .SetProperty("AssemblyName", "DependenciesReport-native"));
+
             DotNetPublish(settings => settings
                 .SetProject(Solution.DependenciesReport.Path)
-                .SetOutput("output")
-                .SetRuntime("win-x64")
+                .SetOutput("output/dotnet")
+                .SetCommonPublishProperties()
                 .SetSelfContained(false)
                 .SetPublishSingleFile(true)
-                .SetProperty("AssemblyName", "DependenciesReport-dotnet8")
-                .SetVerbosity(DotNetVerbosity.minimal));
+                .SetProperty("AssemblyName", "DependenciesReport-dotnet"));
         });
+}
+
+static class PublishExtensions
+{
+    public static DotNetPublishSettings SetCommonPublishProperties(this DotNetPublishSettings settings)
+    {
+        return settings
+            .SetRuntime("win-x64")
+            .SetConfiguration("Release")
+            .SetProperty("DebugType", "None")
+            .SetProperty("DebugSymbols", "False")
+            .SetVerbosity(DotNetVerbosity.minimal);
+    }
 }

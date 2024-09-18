@@ -14,9 +14,9 @@ jobs:
           fetch-depth: 0
       - name: Run Nuke Build
         working-directory: ./tools
-        run: ./.nuke/build.cmd CreateInstaller Publish --GitHubToken ${{ secrets.GITHUB_TOKEN }}
+        run: ./.nuke/build.cmd CreateInstaller Publish
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Revit-tools
-          path: tools/output
+          path: tools/output/**/*
