@@ -12,12 +12,15 @@ public static partial class AddinUtilities
     {
         var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         var machineFolder = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        var builtinFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
 
         var userAddinsPath = Path.Combine(userFolder, "Autodesk", "Revit", "Addins");
         var userStoreAddinsPath = Path.Combine(userFolder, "Autodesk", "ApplicationPlugins");
         
         var machineAddinsPath = Path.Combine(machineFolder, "Autodesk", "Revit", "Addins");
         var machineStoreAddinsPath = Path.Combine(machineFolder, "Autodesk", "ApplicationPlugins");
+        
+        var builtinAddinsPath = Path.Combine(builtinFolder, "Autodesk");
 
         var addinFiles = Enumerable.Empty<string>();
 
@@ -25,6 +28,7 @@ public static partial class AddinUtilities
         if (Directory.Exists(userStoreAddinsPath)) addinFiles = addinFiles.Union(EnumerateAddins(userStoreAddinsPath));
         if (Directory.Exists(machineAddinsPath)) addinFiles = addinFiles.Union(EnumerateAddins(machineAddinsPath));
         if (Directory.Exists(machineStoreAddinsPath)) addinFiles = addinFiles.Union(EnumerateAddins(machineStoreAddinsPath));
+        if (Directory.Exists(builtinAddinsPath)) addinFiles = addinFiles.Union(EnumerateAddins(builtinAddinsPath));
 
         return addinFiles
             .GroupBy(GroupByRevitVersion)
