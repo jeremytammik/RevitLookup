@@ -112,7 +112,6 @@ public static class DescriptorMap
             AnalyticalLinkType value when type is null || type == typeof(AnalyticalLinkType) => new AnalyticalLinkTypeDescriptor(value),
             SpatialElement value when type is null || type == typeof(SpatialElement) => new SpatialElementDescriptor(value),
             SunAndShadowSettings value when type is null || type == typeof(SunAndShadowSettings) => new SunAndShadowSettingsDescriptor(value),
-            RevisionNumberingSequence value when type is null || type == typeof(RevisionNumberingSequence) => new RevisionNumberingSequenceDescriptor(value),
             IndependentTag value when type is null || type == typeof(IndependentTag) => new IndependentTagDescriptor(value),
             MEPSystem value when type is null || type == typeof(MEPSystem) => new MepSystemDescriptor(value),
             BasePoint value when type is null || type == typeof(BasePoint) => new BasePointDescriptor(value),
@@ -123,6 +122,9 @@ public static class DescriptorMap
             DatumPlane value when type is null || type == typeof(DatumPlane) => new DatumPlaneDescriptor(value),
             Part value when type is null || type == typeof(Part) => new PartDescriptor(value),
             PartMaker value when type is null || type == typeof(PartMaker) => new PartMakerDescriptor(value),
+#if REVIT2022_OR_GREATER
+            RevisionNumberingSequence value when type is null || type == typeof(RevisionNumberingSequence) => new RevisionNumberingSequenceDescriptor(value),
+#endif
             Element value when type is null || type == typeof(Element) => new ElementDescriptor(value),
             
             //IDisposables
