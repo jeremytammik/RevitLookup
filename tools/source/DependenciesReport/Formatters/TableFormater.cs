@@ -1,7 +1,7 @@
 ﻿using ConsoleTables;
 using DependenciesReport.Models;
 
-namespace DependenciesReport;
+namespace DependenciesReport.Formatters;
 
 public static class TableFormater
 {

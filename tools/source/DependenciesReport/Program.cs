@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Security.Principal;
-using ConsoleTables;
-using DependenciesReport;
+using DependenciesReport.Formatters;
 using DependenciesReport.Models;
+using DependenciesReport.Utilities;
 
 var addinLocations = AddinUtilities.GetAddinLocations();
 var reportName = $"DependenciesReport-{DateTime.Now.ToString("yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo)}.txt";

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using DependenciesReport.Models;
 
-namespace DependenciesReport;
+namespace DependenciesReport.Utilities;
 
 public static class DependenciesTools
 {

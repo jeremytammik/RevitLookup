@@ -1,0 +1,22 @@
+name: Tools
+
+on:
+  workflow_dispatch:
+
+jobs:
+  windows:
+    name: windows-2022
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run Nuke Build
+        working-directory: ./tools
+        run: ./.nuke/build.cmd CreateInstaller Publish --GitHubToken ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Revit-tools
+          path: output
