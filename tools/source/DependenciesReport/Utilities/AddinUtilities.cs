@@ -77,7 +77,8 @@ public static partial class AddinUtilities
 
     private static IEnumerable<string> EnumerateAddins(string folder)
     {
-        return Directory.EnumerateFiles(folder, "*.addin", SearchOption.AllDirectories);
+        return Directory.EnumerateFiles(folder, "*.addin", SearchOption.AllDirectories)
+            .Where(path => path.Contains("revit", StringComparison.OrdinalIgnoreCase));
     }
 
     private static string GroupByRevitVersion(string file)
