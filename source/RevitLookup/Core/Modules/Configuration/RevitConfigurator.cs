@@ -45,27 +45,27 @@ public sealed class RevitConfigurator
     public List<ObservableRevitSettingsEntry> ParseSources()
     {
         var userIniPath = Context.Application.CurrentUsersDataFolderPath.AppendPath("Revit.ini");
-        var localConfigurations = ParseLocalSource(userIniPath);
+        var defaultIniPath = Environment
+            .GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
+            .AppendPath("Autodesk", $"RVT {Context.Application.VersionNumber}", "UserDataCache", "Revit.ini");
 
-        if (localConfigurations.Count == 0)
-        {
-            var defaultIniPath = Environment
-                .GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
-                .AppendPath("Autodesk", $"RVT {Context.Application.VersionNumber}", "UserDataCache", "Revit.ini");
+        var journalConfigurations = ParseJournalSource();
+        var userConfigurations = ParseIniFile(userIniPath, false);
+        var defaultConfigurations = ParseIniFile(defaultIniPath, true);
 
-            localConfigurations = ParseLocalSource(defaultIniPath);
-        }
-
-        var validConfigurations = ParseJournalSource();
-        return MergeSources(validConfigurations, localConfigurations);
+        return MergeSources(journalConfigurations, userConfigurations, defaultConfigurations);
     }
 
     private List<ObservableRevitSettingsEntry> ParseJournalSource()
     {
-        var journalsPath = Directory.GetParent(Context.Application.RecordingJournalFilename)!;
-
-        foreach (var journal in Directory.EnumerateFiles(journalsPath.FullName).Reverse().Skip(2)) //We can skip a log already in use
+        var currentJournal = Context.Application.RecordingJournalFilename;
+        var journalsPath = Directory.GetParent(currentJournal)!;
+        var journals = Directory.EnumerateFiles(journalsPath.FullName, "journal*txt").Reverse();
+        
+        foreach (var journal in journals)
         {
+            if (journal == currentJournal) continue;
+            
             var lines = File.ReadLines(journal, _encoding);
             foreach (var sessionOptions in lines.Reverse())
             {
@@ -78,7 +78,7 @@ public sealed class RevitConfigurator
                         .Select(line => line.Trim())
                         .ToArray();
 
-                    var sections = new List<ObservableRevitSettingsEntry>();
+                    var entries = new List<ObservableRevitSettingsEntry>();
                     foreach (var part in parts)
                     {
                         var keyValue = part.Split([':'], 2);
@@ -88,7 +88,7 @@ public sealed class RevitConfigurator
                         var entry = keyParts[1];
                         var value = keyValue[1].Trim();
 
-                        sections.Add(new ObservableRevitSettingsEntry
+                        entries.Add(new ObservableRevitSettingsEntry
                         {
                             Category = section,
                             Property = entry,
@@ -96,7 +96,7 @@ public sealed class RevitConfigurator
                         });
                     }
 
-                    return sections;
+                    return entries;
                 }
             }
         }
@@ -104,11 +104,11 @@ public sealed class RevitConfigurator
         return [];
     }
 
-    private List<ObservableRevitSettingsEntry> ParseLocalSource(string path)
+    private List<ObservableRevitSettingsEntry> ParseIniFile(string path, bool isDefault)
     {
+        if (!File.Exists(path)) return [];
+        
         var entries = new List<ObservableRevitSettingsEntry>();
-        if (!File.Exists(path)) return entries;
-
         var lines = File.ReadLines(path, _encoding);
         var currentCategory = string.Empty;
 
@@ -135,46 +135,59 @@ public sealed class RevitConfigurator
             var property = keyValue[0].Trim();
             var value = keyValue[1].Trim();
 
-            entries.Add(new ObservableRevitSettingsEntry
+            var entry = new ObservableRevitSettingsEntry
             {
                 Category = currentCategory,
                 Property = property,
-                Value = value,
-                DefaultValue = value,
-                IsActive = isActive
-            });
+                Value = value
+            };
+
+            if (isDefault)
+            {
+                entry.DefaultValue = value;
+            }
+            else
+            {
+                entry.IsActive = isActive;
+            }
+
+            entries.Add(entry);
         }
 
         return entries;
     }
 
-    private List<ObservableRevitSettingsEntry> MergeSources(List<ObservableRevitSettingsEntry> source, List<ObservableRevitSettingsEntry> extraSource)
+    private List<ObservableRevitSettingsEntry> MergeSources(
+        List<ObservableRevitSettingsEntry> journalEntries, 
+        List<ObservableRevitSettingsEntry> userEntries, 
+        List<ObservableRevitSettingsEntry> defaultEntries)
     {
-        if (source.Count == 0 && extraSource.Count == 0) return [];
-
-        foreach (var extraEntry in extraSource)
+        foreach (var userEntry in userEntries)
         {
-            ObservableRevitSettingsEntry existingEntry = null;
-            foreach (var entry in source)
-            {
-                if (entry.Category == extraEntry.Category && entry.Property == extraEntry.Property)
-                {
-                    existingEntry = entry;
-                    break;
-                }
-            }
-
+            var existingEntry = journalEntries.FirstOrDefault(entry => entry.Category == userEntry.Category && entry.Property == userEntry.Property);
             if (existingEntry != null)
             {
-                existingEntry.DefaultValue = extraEntry.Value;
-                existingEntry.IsActive = extraEntry.IsActive;
+                existingEntry.IsActive = userEntry.IsActive;
             }
             else
             {
-                source.Add(extraEntry);
+                journalEntries.Add(userEntry);
             }
         }
 
-        return source;
+        foreach (var defaultEntry in defaultEntries)
+        {
+            var existingEntry = journalEntries.FirstOrDefault(e => e.Category == defaultEntry.Category && e.Property == defaultEntry.Property);
+            if (existingEntry != null)
+            {
+                existingEntry.DefaultValue = defaultEntry.DefaultValue;
+            }
+            else
+            {
+                journalEntries.Add(defaultEntry);
+            }
+        }
+
+        return journalEntries;
     }
 }
