@@ -18,6 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using RevitLookup.ViewModels.ObservableObjects;
@@ -48,6 +51,8 @@ public sealed partial class RevitSettingsPage : INavigableView<RevitSettingsView
     {
         EntriesList.Items.GroupDescriptions!.Clear();
         EntriesList.Items.GroupDescriptions.Add(new PropertyGroupDescription(nameof(ObservableRevitSettingsEntry.Category)));
+        EntriesList.Items.SortDescriptions.Add(new SortDescription(nameof(ObservableRevitSettingsEntry.Category), ListSortDirection.Ascending));
+        EntriesList.Items.SortDescriptions.Add(new SortDescription(nameof(ObservableRevitSettingsEntry.Property), ListSortDirection.Ascending));
     }
 
     public RevitSettingsViewModel ViewModel { get; }
@@ -75,6 +80,13 @@ public sealed partial class RevitSettingsPage : INavigableView<RevitSettingsView
 
     private async void OnEntryClicked(object sender, MouseButtonEventArgs args)
     {
+        if (args.OriginalSource is ButtonBase) return;
+        
         await ViewModel.UpdateEntryAsync();
+    }
+
+    private void OnFilterClicked(object sender, RoutedEventArgs args)
+    {
+        FilterFlyout.IsOpen = !FilterFlyout.IsOpen;
     }
 }

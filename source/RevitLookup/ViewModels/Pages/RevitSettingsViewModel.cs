@@ -20,6 +20,7 @@
 
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq.Expressions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RevitLookup.Core.Modules.Configuration;
@@ -40,8 +41,13 @@ public sealed partial class RevitSettingsViewModel(
 {
     private TaskNotifier<List<ObservableRevitSettingsEntry>>? _initializationTask;
 
+    [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ClearFiltersCommand))] private bool _filtered;
+    [ObservableProperty] private string _categoryFilter = string.Empty;
+    [ObservableProperty] private string _propertyFilter = string.Empty;
+    [ObservableProperty] private string _valueFilter = string.Empty;
+    [ObservableProperty] private bool _showUserSettingsFilter;
     [ObservableProperty] private ObservableRevitSettingsEntry? _selectedEntry;
-    
+
     [ObservableProperty] private List<ObservableRevitSettingsEntry> _entries = [];
     [ObservableProperty] private ObservableCollection<ObservableRevitSettingsEntry> _filteredEntries = [];
 
@@ -60,7 +66,7 @@ public sealed partial class RevitSettingsViewModel(
                 // Smooth loading.
                 // But we can decide to add Async binding to avoid grouping lags.
                 await Task.Delay(500).ConfigureAwait(false);
-                
+
                 var configurator = new RevitConfigurator();
                 return configurator.ParseSources();
             });
@@ -85,6 +91,7 @@ public sealed partial class RevitSettingsViewModel(
         {
             //TODO add to ini
             Entries.Add(dialog.Entry);
+            ApplyFilters();
         }
     }
 
@@ -93,6 +100,7 @@ public sealed partial class RevitSettingsViewModel(
     {
         //TODO remove from ini
         Entries.Remove(entry);
+        ApplyFilters();
     }
 
     [RelayCommand]
@@ -114,11 +122,42 @@ public sealed partial class RevitSettingsViewModel(
         ProcessTasks.StartShell(iniFile);
     }
 
+    [RelayCommand(CanExecute = nameof(CanClearFiltersExecute))]
+    private void ClearFilters()
+    {
+        CategoryFilter = string.Empty;
+        PropertyFilter = string.Empty;
+        ValueFilter = string.Empty;
+        ShowUserSettingsFilter = false;
+
+        ApplyFilters();
+    }
 
     partial void OnEntriesChanged(List<ObservableRevitSettingsEntry>? value)
     {
         if (value is null) return;
-        FilteredEntries = new ObservableCollection<ObservableRevitSettingsEntry>(value);
+
+        ApplyFilters();
+    }
+
+    partial void OnCategoryFilterChanged(string value)
+    {
+        ApplyFilters();
+    }
+    
+    partial void OnPropertyFilterChanged(string value)
+    {
+        ApplyFilters();
+    }
+    
+    partial void OnValueFilterChanged(string value)
+    {
+        ApplyFilters();
+    }
+    
+    partial void OnShowUserSettingsFilterChanged(bool value)
+    {
+        ApplyFilters();
     }
 
     public async Task UpdateEntryAsync()
@@ -145,8 +184,63 @@ public sealed partial class RevitSettingsViewModel(
     {
         if (SelectedEntry is null) return;
 
+        var forceRefresh = SelectedEntry.Category != entry.Category || SelectedEntry.Property != entry.Property;
+
         SelectedEntry.Category = entry.Category;
         SelectedEntry.Property = entry.Property;
         SelectedEntry.Value = entry.Value;
+
+        if (forceRefresh)
+        {
+            ApplyFilters();
+        }
+    }
+
+    private void ApplyFilters()
+    {
+        var expressions = new List<Expression<Func<ObservableRevitSettingsEntry, bool>>>(4);
+        
+        if (!string.IsNullOrWhiteSpace(CategoryFilter))
+        {
+            expressions.Add(entry => entry.Category.Contains(CategoryFilter, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(PropertyFilter))
+        {
+            expressions.Add(entry => entry.Property.Contains(PropertyFilter, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(ValueFilter))
+        {
+            expressions.Add(entry => entry.Value.Contains(ValueFilter, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        if (ShowUserSettingsFilter)
+        {
+            expressions.Add(entry => entry.IsActive);
+        }
+        
+        if (expressions.Count == 0)
+        {
+            FilteredEntries = new ObservableCollection<ObservableRevitSettingsEntry>(Entries);
+            Filtered = false;
+        }
+        else
+        {
+            IEnumerable<ObservableRevitSettingsEntry> filtered = Entries;
+        
+            foreach (var expression in expressions)
+            {
+                filtered = filtered.Where(expression.Compile());
+            }
+        
+            FilteredEntries = new ObservableCollection<ObservableRevitSettingsEntry>(filtered.ToList());
+            Filtered = true;
+        }
+    }
+
+    private bool CanClearFiltersExecute()
+    {
+        return Filtered;
     }
 }

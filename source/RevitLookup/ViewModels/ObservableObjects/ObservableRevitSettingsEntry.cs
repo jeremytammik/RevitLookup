@@ -22,15 +22,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RevitLookup.ViewModels.ObservableObjects;
 
+#nullable enable
 public sealed partial class ObservableRevitSettingsEntry : ObservableValidator
 {
     [ObservableProperty] private bool _isActive;
-    [ObservableProperty] [Required] [NotifyDataErrorInfo] private string _category;
-    [ObservableProperty] [Required] [NotifyDataErrorInfo] private string _property;
-    [ObservableProperty] private string _value;
-    
-    public string DefaultValue { get; set; }
+    [ObservableProperty] [Required] [NotifyDataErrorInfo] private string _category = string.Empty;
+    [ObservableProperty] [Required] [NotifyDataErrorInfo] private string _property = string.Empty;
+    [ObservableProperty] private string _value = string.Empty;
+    [ObservableProperty] private string? _defaultValue;
+    [ObservableProperty] private bool _isModified;
 
+    [RelayCommand]
+    private void RestoreDefault()
+    {
+        Value = DefaultValue ?? string.Empty;
+    }
+    
     public ObservableRevitSettingsEntry Clone()
     {
         return new ObservableRevitSettingsEntry
@@ -39,5 +46,15 @@ public sealed partial class ObservableRevitSettingsEntry : ObservableValidator
             Property = Property,
             Value = Value
         };
+    }
+
+    partial void OnValueChanged(string value)
+    {
+        IsModified = DefaultValue is not null && value != DefaultValue;
+    }
+
+    partial void OnDefaultValueChanged(string? value)
+    {
+        IsModified = value != Value;
     }
 }

@@ -45,7 +45,7 @@
                 <GroupStyle.Panel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel
-                            IsVirtualizing="True"
+                            IsVirtualizingWhenGrouping="True"
                             VirtualizationMode="Recycling" />
                     </ItemsPanelTemplate>
                 </GroupStyle.Panel>
@@ -113,8 +113,8 @@
                 DockPanel.Dock="Right"
                 Margin="0 0 4 0"
                 Appearance="Transparent"
-                FontSize="20"
-                Padding="10 4">
+                Padding="10 4"
+                Click="OnFilterClicked">
                 <rl:Button.Content>
                     <Grid>
                         <rl:FontIcon
@@ -129,23 +129,45 @@
                             Height="8"
                             Width="8"
                             Style="{DynamicResource DotInfoBadgeStyle}"
-                            Visibility="{Binding ViewModel.Filtered, Mode=OneWay, Converter={vmConverters:BoolVisibilityConverter}, FallbackValue=Visible}" />
+                            Visibility="{Binding ViewModel.Filtered, Mode=OneWay, Converter={vmConverters:BooleanVisibilityConverter}, FallbackValue=Visible}" />
                         <rl:Flyout
-                            Placement="Bottom">
+                            x:Name="FilterFlyout"
+                            Placement="Left">
                             <StackPanel
                                 Width="320"
                                 HorizontalAlignment="Stretch">
+                                <Label
+                                    Content="Category" />
                                 <rl:TextBox
+                                    IconPlacement="Right"
                                     Icon="{rl:SymbolIcon Search24}"
-                                    Text="{Binding ViewModel.CategoryFilter, Mode=TwoWay}">
+                                    Text="{Binding ViewModel.CategoryFilter, UpdateSourceTrigger=PropertyChanged}">
                                 </rl:TextBox>
+                                <Label
+                                    Margin="0 8 0 0"
+                                    Content="Property" />
                                 <rl:TextBox
+                                    IconPlacement="Right"
                                     Icon="{rl:SymbolIcon Search24}"
-                                    Text="{Binding ViewModel.ValueFilter, Mode=TwoWay}">
+                                    Text="{Binding ViewModel.PropertyFilter, UpdateSourceTrigger=PropertyChanged}">
                                 </rl:TextBox>
+                                <Label
+                                    Margin="0 8 0 0"
+                                    Content="Value" />
+                                <rl:TextBox
+                                    IconPlacement="Right"
+                                    Icon="{rl:SymbolIcon Search24}"
+                                    Text="{Binding ViewModel.ValueFilter, UpdateSourceTrigger=PropertyChanged}">
+                                </rl:TextBox>
+                                <rl:ToggleSwitch
+                                    Margin="0 12 0 0"
+                                    Content="Show only user settings"
+                                    IsChecked="{Binding ViewModel.ShowUserSettingsFilter}" />
                                 <rl:Button
-                                    x:Uid="ClearFiltersBtn"
+                                    Margin="0 12 0 0"
+                                    Appearance="Primary"
                                     HorizontalAlignment="Right"
+                                    Content="ClearFilters"
                                     Command="{Binding ViewModel.ClearFiltersCommand}" />
                             </StackPanel>
                         </rl:Flyout>
@@ -177,7 +199,7 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Visibility="{Binding ViewModel.InitializationTask.IsCompleted, 
-                        Converter={vmConverters:InverseBoolVisibilityConverter},
+                        Converter={vmConverters:InverseBooleanVisibilityConverter},
                         FallbackValue=Collapsed}">
                     <TextBlock
                         FontSize="24"
@@ -190,12 +212,13 @@
                 </StackPanel>
                 <ListView
                     x:Name="EntriesList"
+                    VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    ScrollViewer.VerticalScrollBarVisibility="Visible"
                     FontSize="12"
                     SelectedItem="{Binding ViewModel.SelectedEntry}"
                     ItemContainerStyle="{StaticResource ListContainerStyle}"
-                    ItemsSource="{Binding ViewModel.FilteredEntries, FallbackValue={x:Static fallbackValues:RevitSettingsFallbacks.Entries}}">
+                    ItemsSource="{Binding ViewModel.FilteredEntries, 
+                        FallbackValue={x:Static fallbackValues:RevitSettingsFallbacks.Entries}}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <DockPanel
@@ -216,7 +239,11 @@
                                     VerticalAlignment="Center"
                                     Appearance="Transparent"
                                     FontSize="18"
-                                    Icon="{rl:SymbolIcon ArrowClockwise24}" />
+                                    Visibility="{Binding IsModified, 
+                                        Converter={vmConverters:BooleanVisibilityConverter},
+                                        ConverterParameter={x:Static Visibility.Hidden}}"
+                                    Icon="{rl:SymbolIcon ArrowClockwise24}"
+                                    Command="{Binding RestoreDefaultCommand}"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition
@@ -244,6 +271,12 @@
                         <StaticResource
                             ResourceKey="ListGroupStyle" />
                     </ListView.GroupStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel
+                                VirtualizationMode="Recycling" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
                 </ListView>
             </Grid>
         </rl:Card>

@@ -45,12 +45,12 @@
                             Height="20"
                             IsIndeterminate="True"
                             VerticalAlignment="Center"
-                            Visibility="{Binding ViewModel.CheckUpdatesCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
+                            Visibility="{Binding ViewModel.CheckUpdatesCommand.IsRunning, Converter={converters:BooleanVisibilityConverter}}" />
                         <rl:Button
                             Margin="9 0 0 0"
                             Appearance="Secondary"
                             Content="Check for updates"
-                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:InverseBoolVisibilityConverter}}"
+                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:InverseBooleanVisibilityConverter}}"
                             Command="{Binding ViewModel.CheckUpdatesCommand}" />
                     </StackPanel>
                     <rl:CardControl.Header>
@@ -81,7 +81,7 @@
                             Height="20"
                             IsIndeterminate="True"
                             VerticalAlignment="Center"
-                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
+                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BooleanVisibilityConverter}}" />
                         <rl:Button
                             Margin="9,0,0,0"
                             Appearance="Secondary"
