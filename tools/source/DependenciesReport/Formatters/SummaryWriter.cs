@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace DependenciesReport;
+namespace DependenciesReport.Formatters;
 
 public sealed class SummaryWriter(string reportPath)
 {

@@ -1,7 +1,7 @@
 ﻿using ConsoleTables;
 using DependenciesReport.Models;
 
-namespace DependenciesReport;
+namespace DependenciesReport.Formatters;
 
 public static class TableFormater
 {
@@ -72,6 +72,8 @@ public static class TableFormater
     {
         var assembliesGroups = dependenciesMap
             .SelectMany(descriptor => descriptor.Assemblies)
+            .GroupBy(descriptor => descriptor.Path)
+            .Select(group => group.First())
             .GroupBy(descriptor => descriptor.Name)
             .OrderBy(grouping => grouping.Key);
 

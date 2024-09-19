@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <UseWPF>true</UseWPF>
+        <LangVersion>latest</LangVersion>
+        <PlatformTarget>x64</PlatformTarget>
+        <ImplicitUsings>true</ImplicitUsings>
+        <PublishAddinFiles>true</PublishAddinFiles>
+        <Configurations>Debug R20;Debug R21;Debug R22;Debug R23;Debug R24;Debug R25</Configurations>
+        <Configurations>$(Configurations);Release R20;Release R21;Release R22;Release R23;Release R24;Release R25</Configurations>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(Configuration.Contains('R20'))">
+        <RevitVersion>2020</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Configuration.Contains('R21'))">
+        <RevitVersion>2021</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Configuration.Contains('R22'))">
+        <RevitVersion>2022</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Configuration.Contains('R23'))">
+        <RevitVersion>2023</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Configuration.Contains('R24'))">
+        <RevitVersion>2024</RevitVersion>
+        <TargetFramework>net48</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(Configuration.Contains('R25'))">
+        <RevitVersion>2025</RevitVersion>
+        <TargetFramework>net8.0-windows</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <StartAction>Program</StartAction>
+        <StartProgram>C:\Program Files\Autodesk\Revit $(RevitVersion)\Revit.exe</StartProgram>
+        <StartArguments>/language ENG</StartArguments>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ConsoleTableExt" Version="3.3.0" />
+        <PackageReference Include="Nice3point.Revit.Build.Tasks" Version="2.*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitVersion).*"/>
+        <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitVersion).*"/>
+    </ItemGroup>
+
+</Project>

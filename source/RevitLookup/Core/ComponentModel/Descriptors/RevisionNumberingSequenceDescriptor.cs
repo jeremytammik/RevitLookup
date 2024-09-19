@@ -1,3 +1,4 @@
+#if REVIT2022_OR_GREATER
 // Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
@@ -22,7 +23,7 @@ using System.Reflection;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
-public class RevisionNumberingSequenceDescriptor(RevisionNumberingSequence sequence) : ElementDescriptor(sequence)
+public sealed class RevisionNumberingSequenceDescriptor(RevisionNumberingSequence sequence) : ElementDescriptor(sequence)
 {
     public override Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
@@ -48,3 +49,4 @@ public class RevisionNumberingSequenceDescriptor(RevisionNumberingSequence seque
     {
     }
 }
+#endif

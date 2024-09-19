@@ -1,0 +1,11 @@
+﻿<RevitAddIns>
+    <AddIn Type="Command">
+        <Name>AssembliesReport</Name>
+        <Assembly>AssembliesReport/AssembliesReport.dll</Assembly>
+        <AddInId>9D1C29B0-DA2A-47C4-9D37-CBC18CA27368</AddInId>
+        <FullClassName>AssembliesReport.Commands.StartupCommand</FullClassName>
+        <Text>AssembliesReport</Text>
+        <VendorId>Open-source</VendorId>
+        <VendorDescription>Open-source</VendorDescription>
+    </AddIn>
+</RevitAddIns>
