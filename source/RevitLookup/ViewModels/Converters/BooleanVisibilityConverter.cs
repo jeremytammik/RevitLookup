@@ -25,12 +25,14 @@ using Visibility = System.Windows.Visibility;
 
 namespace RevitLookup.ViewModels.Converters;
 
-public sealed class InverseBoolVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class BooleanVisibilityConverter : MarkupExtension, IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is not bool condition) return Visibility.Collapsed;
-        return condition ? Visibility.Collapsed : Visibility.Visible;
+        var visibility = parameter is Visibility visible ? visible : Visibility.Collapsed;
+        
+        if (value is not bool condition) return visibility;
+        return condition ? Visibility.Visible : visibility;
     }
     
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
