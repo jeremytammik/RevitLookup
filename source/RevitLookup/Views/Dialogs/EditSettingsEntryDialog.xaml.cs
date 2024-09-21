@@ -32,17 +32,26 @@ public sealed partial class EditSettingsEntryDialog
     }
 
     public ObservableRevitSettingsEntry Entry { get; private set; }
-    
-    public async Task<ContentDialogResult> ShowCreateDialogAsync()
+
+    public async Task<ContentDialogResult> ShowCreateDialogAsync(ObservableRevitSettingsEntry selectedEntry)
     {
         Title = "Create the entry";
         PrimaryButtonText = "Create";
-        
-        Entry = new ObservableRevitSettingsEntry();
+
+        Entry = new ObservableRevitSettingsEntry
+        {
+            IsActive = true
+        };
+
+        if (selectedEntry is not null)
+        {
+            Entry.Category = selectedEntry.Category;
+        }
+
         DataContext = Entry;
         return await ShowAsync();
     }
-    
+
     public async Task<ContentDialogResult> ShowUpdateDialogAsync(ObservableRevitSettingsEntry entry)
     {
         Title = "Update the entry";
@@ -51,5 +60,19 @@ public sealed partial class EditSettingsEntryDialog
         Entry = entry;
         DataContext = entry;
         return await ShowAsync();
+    }
+
+    protected override void OnButtonClick(ContentDialogButton button)
+    {
+        if (button == ContentDialogButton.Primary)
+        {
+            Entry.Validate();
+            if (Entry.HasErrors)
+            {
+                return;
+            }
+        }
+        
+        base.OnButtonClick(button);
     }
 }

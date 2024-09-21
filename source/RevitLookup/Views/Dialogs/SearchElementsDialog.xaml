@@ -22,9 +22,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
+            <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
             <Style
                 BasedOn="{StaticResource DefaultContentDialogStyle}"
                 TargetType="{x:Type local:SearchElementsDialog}" />
+            <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
         </ResourceDictionary>
     </rl:ContentDialog.Resources>
 

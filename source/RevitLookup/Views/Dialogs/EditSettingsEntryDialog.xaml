@@ -11,7 +11,7 @@
     CloseButtonText="Cancel"
     HorizontalContentAlignment="Center"
     VerticalContentAlignment="Center"
-    IsPrimaryButtonEnabled="{Binding HasErrors, Converter={converters:InverseBooleanConverter}}"
+    IsPrimaryButtonAvailable="{Binding HasErrors, Converter={converters:InverseBooleanConverter}}"
     mc:Ignorable="d"
     d:DesignHeight="540"
     d:DesignWidth="1000"
@@ -22,9 +22,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <rl:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
+            <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
             <Style
                 BasedOn="{StaticResource DefaultContentDialogStyle}"
                 TargetType="{x:Type local:EditSettingsEntryDialog}" />
+            <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
         </ResourceDictionary>
     </rl:ContentDialog.Resources>
 
@@ -35,14 +37,18 @@
         <rl:TextBox
             TextWrapping="Wrap"
             PlaceholderText="{Binding Category, Mode=OneTime}"
-            Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding Category,
+                Mode=TwoWay,
+                UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Margin="0 8 0 0"
             Content="Property" />
         <rl:TextBox
             TextWrapping="Wrap"
             PlaceholderText="{Binding Property, Mode=OneTime}"
-            Text="{Binding Property, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding Property,
+                Mode=TwoWay,
+                UpdateSourceTrigger=PropertyChanged}" />
         <Label
             Margin="0 8 0 0"
             Content="Value" />
