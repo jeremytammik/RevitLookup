@@ -26,7 +26,7 @@
     <Grid
         Margin="12">
         <controls:ContentPlaceholder
-            Text="Waiting for events"
+            Content="Waiting for events"
             MaxHeight="300">
             <controls:ContentPlaceholder.Visibility>
                 <MultiBinding

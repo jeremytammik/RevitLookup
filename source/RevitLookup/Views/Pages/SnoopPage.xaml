@@ -26,7 +26,7 @@
     <Grid
         Margin="12">
         <controls:ContentPlaceholder
-            Text="Nothing to show"
+            Content="Nothing to show"
             MaxHeight="300">
             <controls:ContentPlaceholder.Visibility>
                 <MultiBinding
