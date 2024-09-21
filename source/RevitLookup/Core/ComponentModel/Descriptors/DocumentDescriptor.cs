@@ -45,6 +45,7 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
         {
             nameof(Document.Close) when parameters.Length == 0 => Variants.Disabled,
             nameof(Document.PlanTopologies) when parameters.Length == 0 => ResolvePlanTopologies,
+            nameof(Document.GetDefaultElementTypeId) => ResolveDefaultElementTypeId,
 #if REVIT2024_OR_GREATER
             nameof(Document.GetUnusedElements) => ResolveGetUnusedElements,
             nameof(Document.GetAllUnusedElements) => ResolveGetAllUnusedElements,
@@ -63,6 +64,26 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
             
             return Variants.Single(topologies);
         }
+        IVariants ResolveDefaultElementTypeId()
+        {
+            var values = Enum.GetValues(typeof(ElementTypeGroup));
+            var variants = new Variants<ElementId>(values.Length);
+            
+            foreach (ElementTypeGroup value in values)
+            {
+                var result = _document.GetDefaultElementTypeId(value);
+                if (result is not null && result != ElementId.InvalidElementId)
+                {
+                    variants.Add(result, $"{value.ToString()}: {result.ToElement(_document)!.Name}");
+                }
+                else
+                {
+                    variants.Add(result, $"{value.ToString()}: {result}");
+                }
+            }
+            
+            return variants;
+        }
 #if REVIT2024_OR_GREATER
         
         IVariants ResolveGetUnusedElements()
@@ -76,7 +97,6 @@ public sealed class DocumentDescriptor : Descriptor, IDescriptorResolver, IDescr
         }
 #endif
     }
-    
     public void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(nameof(GlobalParametersManager.GetAllGlobalParameters), GlobalParametersManager.GetAllGlobalParameters);
