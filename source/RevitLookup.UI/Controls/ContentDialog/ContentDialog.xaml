@@ -87,7 +87,7 @@
                                         </ContentPresenter.Resources>
                                     </ContentPresenter>
 
-                                    <controls:PassiveScrollViewer
+                                    <controls:DynamicScrollViewer
                                         x:Name="PART_ContentScroll"
                                         Grid.Row="1"
                                         Margin="0,20"
@@ -97,6 +97,8 @@
                                         IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
                                         VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                                         <ContentPresenter
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                             Content="{TemplateBinding Content}"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
                                             ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}">
@@ -108,7 +110,7 @@
                                                 </Style>
                                             </ContentPresenter.Resources>
                                         </ContentPresenter>
-                                    </controls:PassiveScrollViewer>
+                                    </controls:DynamicScrollViewer>
                                 </Grid>
 
                                 <Border
@@ -140,6 +142,7 @@
                                             CommandParameter="{x:Static controls:ContentDialogButton.Primary}"
                                             Content="{TemplateBinding PrimaryButtonText}"
                                             Icon="{TemplateBinding PrimaryButtonIcon}"
+                                            IsEnabled="{TemplateBinding IsPrimaryButtonAvailable}"
                                             IsDefault="{TemplateBinding DefaultButton,
                                                                         Converter={StaticResource EnumToBoolConverter},
                                                                         ConverterParameter={x:Static controls:ContentDialogButton.Primary}}" />

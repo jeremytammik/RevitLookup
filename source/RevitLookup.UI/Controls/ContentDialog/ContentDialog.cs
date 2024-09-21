@@ -153,6 +153,14 @@ public class ContentDialog : ContentControl
         typeof(ContentDialog),
         new PropertyMetadata(true)
     );
+    
+    /// <summary>Identifies the <see cref="IsPrimaryButtonAvailable"/> dependency property.</summary>
+    public static readonly DependencyProperty IsPrimaryButtonAvailableProperty = DependencyProperty.Register(
+        nameof(IsPrimaryButtonAvailable),
+        typeof(bool),
+        typeof(ContentDialog),
+        new PropertyMetadata(true)
+    );
 
     /// <summary>Identifies the <see cref="IsSecondaryButtonEnabled"/> dependency property.</summary>
     public static readonly DependencyProperty IsSecondaryButtonEnabledProperty = DependencyProperty.Register(
@@ -366,6 +374,15 @@ public class ContentDialog : ContentControl
     {
         get => (bool)GetValue(IsPrimaryButtonEnabledProperty);
         set => SetValue(IsPrimaryButtonEnabledProperty, value);
+    }
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether the <see cref="ContentDialog"/> primary button is available.
+    /// </summary>
+    public bool IsPrimaryButtonAvailable
+    {
+        get => (bool)GetValue(IsPrimaryButtonAvailableProperty);
+        set => SetValue(IsPrimaryButtonAvailableProperty, value);
     }
 
     /// <summary>
