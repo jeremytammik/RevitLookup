@@ -19,6 +19,7 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using RevitLookup.ViewModels.ObservableObjects;
@@ -28,11 +29,22 @@ namespace RevitLookup.Core.Modules.Configuration;
 [SuppressMessage("ReSharper", "ForeachCanBeConvertedToQueryUsingAnotherGetEnumerator")]
 public sealed class RevitConfigurator
 {
+    private const string BackupSuffix = "_RevitLookupBackup_";
+    private const int DefaultBufferSize = 4096; // From System.IO.File source code
+
     private const char CommentChar = ';';
     private const string SessionOptionsCategory = "[Jrn.SessionOptions]";
     private const string RevitAttributeRecord = " Rvt.Attr.";
 
     private readonly Encoding _encoding;
+    private readonly SemaphoreSlim _asyncLock = new(1, 1);
+    private readonly string _userIniPath = Context.Application.CurrentUsersDataFolderPath.AppendPath("Revit.ini");
+
+    private readonly string _defaultIniPath = Environment
+        .GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
+        .AppendPath("Autodesk", $"RVT {Context.Application.VersionNumber}", "UserDataCache", "Revit.ini");
+
+    private bool _backupDone;
 
     public RevitConfigurator()
     {
@@ -42,18 +54,16 @@ public sealed class RevitConfigurator
         _encoding = Encoding.GetEncoding(1251);
     }
 
-    public List<ObservableRevitSettingsEntry> ParseSources()
+    public async Task<List<ObservableRevitSettingsEntry>> ReadAsync()
     {
-        var userIniPath = Context.Application.CurrentUsersDataFolderPath.AppendPath("Revit.ini");
-        var defaultIniPath = Environment
-            .GetFolderPath(Environment.SpecialFolder.CommonApplicationData)
-            .AppendPath("Autodesk", $"RVT {Context.Application.VersionNumber}", "UserDataCache", "Revit.ini");
+        return await Task.Run(() =>
+        {
+            var journalConfigurations = ParseJournalSource();
+            var userConfigurations = ParseIniFile(false);
+            var defaultConfigurations = ParseIniFile(true);
 
-        var journalConfigurations = ParseJournalSource();
-        var userConfigurations = ParseIniFile(userIniPath, false);
-        var defaultConfigurations = ParseIniFile(defaultIniPath, true);
-
-        return MergeSources(journalConfigurations, userConfigurations, defaultConfigurations);
+            return MergeSources(journalConfigurations, userConfigurations, defaultConfigurations);
+        });
     }
 
     private List<ObservableRevitSettingsEntry> ParseJournalSource()
@@ -61,11 +71,11 @@ public sealed class RevitConfigurator
         var currentJournal = Context.Application.RecordingJournalFilename;
         var journalsPath = Directory.GetParent(currentJournal)!;
         var journals = Directory.EnumerateFiles(journalsPath.FullName, "journal*txt").Reverse();
-        
+
         foreach (var journal in journals)
         {
             if (journal == currentJournal) continue;
-            
+
             var lines = File.ReadLines(journal, _encoding);
             foreach (var sessionOptions in lines.Reverse())
             {
@@ -104,12 +114,13 @@ public sealed class RevitConfigurator
         return [];
     }
 
-    private List<ObservableRevitSettingsEntry> ParseIniFile(string path, bool isDefault)
+    private List<ObservableRevitSettingsEntry> ParseIniFile(bool useDefault)
     {
+        var path = useDefault ? _defaultIniPath : _userIniPath;
         if (!File.Exists(path)) return [];
-        
+
         var entries = new List<ObservableRevitSettingsEntry>();
-        var lines = File.ReadLines(path, _encoding);
+        var lines = File.ReadLines(path, Encoding.Unicode);
         var currentCategory = string.Empty;
 
         foreach (var line in lines)
@@ -142,13 +153,14 @@ public sealed class RevitConfigurator
                 Value = value
             };
 
-            if (isDefault)
+            if (useDefault)
             {
                 entry.DefaultValue = value;
             }
             else
             {
                 entry.IsActive = isActive;
+                entry.UserDefined = true;
             }
 
             entries.Add(entry);
@@ -158,8 +170,8 @@ public sealed class RevitConfigurator
     }
 
     private List<ObservableRevitSettingsEntry> MergeSources(
-        List<ObservableRevitSettingsEntry> journalEntries, 
-        List<ObservableRevitSettingsEntry> userEntries, 
+        List<ObservableRevitSettingsEntry> journalEntries,
+        List<ObservableRevitSettingsEntry> userEntries,
         List<ObservableRevitSettingsEntry> defaultEntries)
     {
         foreach (var userEntry in userEntries)
@@ -167,7 +179,9 @@ public sealed class RevitConfigurator
             var existingEntry = journalEntries.FirstOrDefault(entry => entry.Category == userEntry.Category && entry.Property == userEntry.Property);
             if (existingEntry != null)
             {
+                existingEntry.Value = userEntry.Value;
                 existingEntry.IsActive = userEntry.IsActive;
+                existingEntry.UserDefined = userEntry.UserDefined;
             }
             else
             {
@@ -189,5 +203,62 @@ public sealed class RevitConfigurator
         }
 
         return journalEntries;
+    }
+
+
+    public async Task WriteAsync(List<ObservableRevitSettingsEntry> entries)
+    {
+        var lines = new List<string>();
+
+        var sortedEntries = entries
+            .Where(entry => entry.UserDefined)
+            .OrderBy(entry => entry.Category)
+            .ThenBy(entry => entry.Property)
+            .GroupBy(entry => entry.Category)
+            .ToArray();
+
+        foreach (var entryGroup in sortedEntries)
+        {
+            lines.Add($"[{entryGroup.Key}]");
+            foreach (var entry in entryGroup)
+            {
+                var lineBuilder = new StringBuilder();
+                
+                if (!entry.IsActive) lineBuilder.Append(CommentChar);
+                lineBuilder.Append(entry.Property);
+                lineBuilder.Append("=");
+                lineBuilder.Append(entry.Value);
+                
+                lines.Add(lineBuilder.ToString());
+            }
+        }
+
+        try
+        {
+            await _asyncLock.WaitAsync();
+
+            var filePath = Path.GetDirectoryName(_userIniPath)!;
+            var fileName = Path.GetFileNameWithoutExtension(_userIniPath);
+            if (!_backupDone && File.Exists(_userIniPath))
+            {
+                var backupFileName = $"{fileName}{BackupSuffix}{DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture)}.ini";
+                File.Copy(_userIniPath!, Path.Combine(filePath, backupFileName));
+                _backupDone = true;
+            }
+
+            using var stream = new FileStream(_userIniPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read, DefaultBufferSize, FileOptions.Asynchronous);
+            using var writer = new StreamWriter(stream, Encoding.Unicode);
+            foreach (var line in lines)
+            {
+                await writer.WriteLineAsync(line);
+            }
+
+            stream.SetLength(stream.Position);
+            await writer.FlushAsync();
+        }
+        finally
+        {
+            _asyncLock.Release();
+        }
     }
 }

@@ -25,19 +25,15 @@ namespace RevitLookup.ViewModels.ObservableObjects;
 #nullable enable
 public sealed partial class ObservableRevitSettingsEntry : ObservableValidator
 {
-    [ObservableProperty] private bool _isActive;
     [ObservableProperty] [Required] [NotifyDataErrorInfo] private string _category = string.Empty;
     [ObservableProperty] [Required] [NotifyDataErrorInfo] private string _property = string.Empty;
     [ObservableProperty] private string _value = string.Empty;
     [ObservableProperty] private string? _defaultValue;
+    [ObservableProperty] private bool _isActive;
     [ObservableProperty] private bool _isModified;
 
-    [RelayCommand]
-    private void RestoreDefault()
-    {
-        Value = DefaultValue ?? string.Empty;
-    }
-    
+    public bool UserDefined { get; set; }
+
     public ObservableRevitSettingsEntry Clone()
     {
         return new ObservableRevitSettingsEntry
@@ -46,6 +42,16 @@ public sealed partial class ObservableRevitSettingsEntry : ObservableValidator
             Property = Property,
             Value = Value
         };
+    }
+
+    public void Validate()
+    {
+        ValidateAllProperties();
+    }
+
+    partial void OnIsActiveChanged(bool value)
+    {
+        UserDefined = true;
     }
 
     partial void OnValueChanged(string value)

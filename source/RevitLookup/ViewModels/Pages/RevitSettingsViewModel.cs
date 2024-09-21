@@ -39,6 +39,7 @@ public sealed partial class RevitSettingsViewModel(
     IServiceProvider serviceProvider)
     : ObservableObject
 {
+    private readonly RevitConfigurator _configurator = new();
     private TaskNotifier<List<ObservableRevitSettingsEntry>>? _initializationTask;
 
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(ClearFiltersCommand))] private bool _filtered;
@@ -61,16 +62,7 @@ public sealed partial class RevitSettingsViewModel(
     {
         try
         {
-            InitializationTask = Task.Run(async () =>
-            {
-                // Smooth loading.
-                // But we can decide to add Async binding to avoid grouping lags.
-                await Task.Delay(500).ConfigureAwait(false);
-
-                var configurator = new RevitConfigurator();
-                return configurator.ParseSources();
-            });
-
+            InitializationTask = _configurator.ReadAsync();
             Entries = await InitializationTask;
         }
         catch (Exception exception)
@@ -85,22 +77,48 @@ public sealed partial class RevitSettingsViewModel(
     [RelayCommand]
     private async Task CreateEntry()
     {
-        var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
-        var result = await dialog.ShowCreateDialogAsync();
-        if (result == ContentDialogResult.Primary)
+        try
         {
-            //TODO add to ini
-            Entries.Add(dialog.Entry);
-            ApplyFilters();
+            var dialog = serviceProvider.GetRequiredService<EditSettingsEntryDialog>();
+            var result = await dialog.ShowCreateDialogAsync(SelectedEntry);
+            if (result == ContentDialogResult.Primary)
+            {
+                if (dialog.Entry.Category.IsNullOrWhiteSpace()) return;
+                if (dialog.Entry.Property.IsNullOrWhiteSpace()) return;
+
+                Entries.Add(dialog.Entry);
+                FilteredEntries.Add(dialog.Entry);
+                _ = Task.Run(SaveAsync);
+            }
         }
+        catch (Exception exception)
+        {
+            const string message = "Failed to create a new entry";
+
+            logger.LogError(exception, message);
+            notificationService.ShowError(message, exception);
+        }
+    }
+
+    [RelayCommand]
+    private void ActivateEntry(ObservableRevitSettingsEntry entry)
+    {
+        Task.Run(SaveAsync);
     }
 
     [RelayCommand]
     private void DeleteEntry(ObservableRevitSettingsEntry entry)
     {
-        //TODO remove from ini
         Entries.Remove(entry);
-        ApplyFilters();
+        FilteredEntries.Remove(entry);
+        Task.Run(SaveAsync);
+    }
+
+    [RelayCommand]
+    private void RestoreDefault(ObservableRevitSettingsEntry entry)
+    {
+        entry.Value = entry.DefaultValue ?? string.Empty;
+        Task.Run(SaveAsync);
     }
 
     [RelayCommand]
@@ -117,6 +135,7 @@ public sealed partial class RevitSettingsViewModel(
         if (!File.Exists(iniFile))
         {
             notificationService.ShowWarning("Missing settings", "Revit.ini file does not exists");
+            return;
         }
 
         ProcessTasks.StartShell(iniFile);
@@ -144,17 +163,17 @@ public sealed partial class RevitSettingsViewModel(
     {
         ApplyFilters();
     }
-    
+
     partial void OnPropertyFilterChanged(string value)
     {
         ApplyFilters();
     }
-    
+
     partial void OnValueFilterChanged(string value)
     {
         ApplyFilters();
     }
-    
+
     partial void OnShowUserSettingsFilterChanged(bool value)
     {
         ApplyFilters();
@@ -189,37 +208,40 @@ public sealed partial class RevitSettingsViewModel(
         SelectedEntry.Category = entry.Category;
         SelectedEntry.Property = entry.Property;
         SelectedEntry.Value = entry.Value;
+        SelectedEntry.IsActive = true;
 
         if (forceRefresh)
         {
             ApplyFilters();
         }
+
+        Task.Run(SaveAsync);
     }
 
     private void ApplyFilters()
     {
         var expressions = new List<Expression<Func<ObservableRevitSettingsEntry, bool>>>(4);
-        
+
         if (!string.IsNullOrWhiteSpace(CategoryFilter))
         {
             expressions.Add(entry => entry.Category.Contains(CategoryFilter, StringComparison.OrdinalIgnoreCase));
         }
-        
+
         if (!string.IsNullOrWhiteSpace(PropertyFilter))
         {
             expressions.Add(entry => entry.Property.Contains(PropertyFilter, StringComparison.OrdinalIgnoreCase));
         }
-        
+
         if (!string.IsNullOrWhiteSpace(ValueFilter))
         {
             expressions.Add(entry => entry.Value.Contains(ValueFilter, StringComparison.OrdinalIgnoreCase));
         }
-        
+
         if (ShowUserSettingsFilter)
         {
             expressions.Add(entry => entry.IsActive);
         }
-        
+
         if (expressions.Count == 0)
         {
             FilteredEntries = new ObservableCollection<ObservableRevitSettingsEntry>(Entries);
@@ -228,12 +250,12 @@ public sealed partial class RevitSettingsViewModel(
         else
         {
             IEnumerable<ObservableRevitSettingsEntry> filtered = Entries;
-        
+
             foreach (var expression in expressions)
             {
                 filtered = filtered.Where(expression.Compile());
             }
-        
+
             FilteredEntries = new ObservableCollection<ObservableRevitSettingsEntry>(filtered.ToList());
             Filtered = true;
         }
@@ -242,5 +264,20 @@ public sealed partial class RevitSettingsViewModel(
     private bool CanClearFiltersExecute()
     {
         return Filtered;
+    }
+
+    private async Task SaveAsync()
+    {
+        try
+        {
+            await _configurator.WriteAsync(Entries);
+        }
+        catch (Exception exception)
+        {
+            const string message = "Failed to save configuration file";
+
+            logger.LogError(exception, message);
+            notificationService.ShowError(message, exception);
+        }
     }
 }

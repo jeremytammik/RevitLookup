@@ -181,35 +181,6 @@
             Margin="0 8 0 0"
             Padding="0">
             <Grid>
-                <controls:ContentPlaceholder
-                    Text="Nothing to show"
-                    MaxHeight="300">
-                    <controls:ContentPlaceholder.Visibility>
-                        <MultiBinding
-                            Converter="{vConverters:CollectionEmptyAfterInitializationConverter}">
-                            <Binding
-                                Path="ViewModel.Entries.Count" />
-                            <Binding
-                                Path="ViewModel.InitializationTask.IsCompleted"
-                                FallbackValue="false" />
-                        </MultiBinding>
-                    </controls:ContentPlaceholder.Visibility>
-                </controls:ContentPlaceholder>
-                <StackPanel
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Visibility="{Binding ViewModel.InitializationTask.IsCompleted, 
-                        Converter={vmConverters:InverseBooleanVisibilityConverter},
-                        FallbackValue=Collapsed}">
-                    <TextBlock
-                        FontSize="24"
-                        FontWeight="Medium"
-                        Text="Scanning..." />
-                    <rl:ProgressRing
-                        Margin="0 12 0 0"
-                        IsIndeterminate="True"
-                        VerticalAlignment="Center" />
-                </StackPanel>
                 <ListView
                     x:Name="EntriesList"
                     VirtualizingPanel.IsVirtualizingWhenGrouping="True"
@@ -228,12 +199,16 @@
                                     VerticalAlignment="Center"
                                     Appearance="Transparent"
                                     FontSize="18"
-                                    Icon="{rl:SymbolIcon Delete20}" />
+                                    Icon="{rl:SymbolIcon Delete20}"
+                                    Command="{Binding DataContext.ViewModel.DeleteEntryCommand, ElementName=EntriesList}"
+                                    CommandParameter="{Binding}"/>
                                 <rl:ToggleSwitch
                                     DockPanel.Dock="Right"
                                     VerticalAlignment="Center"
                                     Margin="0 0 8 0"
-                                    IsChecked="{Binding IsActive}" />
+                                    IsChecked="{Binding IsActive}"
+                                    Command="{Binding DataContext.ViewModel.ActivateEntryCommand, ElementName=EntriesList}"
+                                    CommandParameter="{Binding}" />
                                 <rl:Button
                                     DockPanel.Dock="Right"
                                     VerticalAlignment="Center"
@@ -243,7 +218,8 @@
                                         Converter={vmConverters:BooleanVisibilityConverter},
                                         ConverterParameter={x:Static Visibility.Hidden}}"
                                     Icon="{rl:SymbolIcon ArrowClockwise24}"
-                                    Command="{Binding RestoreDefaultCommand}"/>
+                                    Command="{Binding DataContext.ViewModel.RestoreDefaultCommand, ElementName=EntriesList}"
+                                    CommandParameter="{Binding}"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition
@@ -278,6 +254,61 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                 </ListView>
+                <controls:ContentPlaceholder
+                    Content="Nothing to show"
+                    MaxHeight="300">
+                    <controls:ContentPlaceholder.Visibility>
+                        <MultiBinding
+                            Converter="{vConverters:CollectionEmptyAfterInitializationConverter}">
+                            <Binding
+                                Path="ViewModel.Entries.Count" />
+                            <Binding
+                                Path="ViewModel.InitializationTask.IsCompleted"
+                                FallbackValue="true" />
+                        </MultiBinding>
+                    </controls:ContentPlaceholder.Visibility>
+                </controls:ContentPlaceholder>
+                <controls:ContentPlaceholder
+                    MaxHeight="300">
+                    <controls:ContentPlaceholder.Visibility>
+                        <MultiBinding
+                            Converter="{vConverters:EmptySearchResultsVisibilityConverter}">
+                            <Binding
+                                Path="ViewModel.FilteredEntries" />
+                            <Binding
+                                Path="ViewModel.Filtered"/>
+                        </MultiBinding>
+                    </controls:ContentPlaceholder.Visibility>
+                    <controls:ContentPlaceholder.Content>
+                        <StackPanel>
+                            <TextBlock
+                                Text="Not found"
+                                FontSize="24"
+                                FontWeight="Medium"
+                                HorizontalAlignment="Center" />
+                            <rl:HyperlinkButton
+                                Margin="0 12 0 0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding ViewModel.ClearFiltersCommand}"
+                                Content="Clear filters" />
+                        </StackPanel>
+                    </controls:ContentPlaceholder.Content>
+                </controls:ContentPlaceholder>
+                <StackPanel
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Visibility="{Binding ViewModel.InitializationTask.IsCompleted, 
+                        Converter={vmConverters:InverseBooleanVisibilityConverter},
+                        FallbackValue=Collapsed}">
+                    <TextBlock
+                        FontSize="24"
+                        FontWeight="Medium"
+                        Text="Scanning..." />
+                    <rl:ProgressRing
+                        Margin="0 12 0 0"
+                        IsIndeterminate="True"
+                        VerticalAlignment="Center" />
+                </StackPanel>
             </Grid>
         </rl:Card>
     </DockPanel>
