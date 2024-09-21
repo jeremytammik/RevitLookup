@@ -29,28 +29,10 @@ namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class OpenSourceDialog
 {
-    private readonly IContentDialogService _dialogService;
-    
-    public OpenSourceDialog(IContentDialogService dialogService)
+    public OpenSourceDialog(IContentDialogService dialogService) : base(dialogService.GetDialogHost())
     {
-        _dialogService = dialogService;
         InitializeComponent();
         DataContext = new OpenSourceViewModel();
-    }
-    
-    public async Task ShowAsync()
-    {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Third-Party Software",
-            Content = this,
-            CloseButtonText = "Close",
-            DialogMaxWidth = 600,
-            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollVisibility = ScrollBarVisibility.Disabled
-        };
-        
-        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
     }
     
     private void OpenLink(object sender, RoutedEventArgs args)

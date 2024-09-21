@@ -31,6 +31,6 @@ public class EventMonitorCommand : ExternalCommand
 {
     public override void Execute()
     {
-        Host.GetService<ILookupService>().Show<EventsView>();
+        Host.GetService<ILookupService>().Show<EventsPage>();
     }
 }

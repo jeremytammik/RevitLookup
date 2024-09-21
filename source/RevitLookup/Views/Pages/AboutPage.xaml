@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="RevitLookup.Views.Pages.AboutView"
+    x:Class="RevitLookup.Views.Pages.AboutPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,7 +8,7 @@
     xmlns:converters="clr-namespace:RevitLookup.ViewModels.Converters"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance pages:AboutView}">
+    d:DataContext="{d:DesignInstance pages:AboutPage}">
 
     <rl:DynamicScrollViewer>
         <DockPanel
@@ -45,12 +45,12 @@
                             Height="20"
                             IsIndeterminate="True"
                             VerticalAlignment="Center"
-                            Visibility="{Binding ViewModel.CheckUpdatesCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
+                            Visibility="{Binding ViewModel.CheckUpdatesCommand.IsRunning, Converter={converters:BooleanVisibilityConverter}}" />
                         <rl:Button
                             Margin="9 0 0 0"
                             Appearance="Secondary"
                             Content="Check for updates"
-                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:InverseBoolVisibilityConverter}}"
+                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:InverseBooleanVisibilityConverter}}"
                             Command="{Binding ViewModel.CheckUpdatesCommand}" />
                     </StackPanel>
                     <rl:CardControl.Header>
@@ -81,7 +81,7 @@
                             Height="20"
                             IsIndeterminate="True"
                             VerticalAlignment="Center"
-                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BoolVisibilityConverter}}" />
+                            Visibility="{Binding ViewModel.DownloadUpdateCommand.IsRunning, Converter={converters:BooleanVisibilityConverter}}" />
                         <rl:Button
                             Margin="9,0,0,0"
                             Appearance="Secondary"

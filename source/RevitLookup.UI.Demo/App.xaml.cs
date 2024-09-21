@@ -36,7 +36,7 @@ public sealed partial class App
         var host = HostProvider.CreateHost();
 
         Host.StartProxy(host);
-        Host.GetService<ILookupService>().Show<DashboardView>();
+        Host.GetService<ILookupService>().Show<DashboardPage>();
     }
 
     private void OnExit(object sender, ExitEventArgs e)

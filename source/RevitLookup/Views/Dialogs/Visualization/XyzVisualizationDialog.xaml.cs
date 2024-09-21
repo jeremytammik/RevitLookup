@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
 using RevitLookup.ViewModels.Dialogs.Visualization;
 using Wpf.Ui;
 
@@ -26,35 +25,27 @@ namespace RevitLookup.Views.Dialogs.Visualization;
 
 public sealed partial class XyzVisualizationDialog
 {
-    private readonly IContentDialogService _dialogService;
     private readonly XyzVisualizationViewModel _viewModel;
-    
-    public XyzVisualizationDialog(XyzVisualizationViewModel viewModel, IContentDialogService dialogService)
+
+    public XyzVisualizationDialog(
+        IContentDialogService dialogService,
+        XyzVisualizationViewModel viewModel)
+        : base(dialogService.GetDialogHost())
     {
         _viewModel = viewModel;
-        _dialogService = dialogService;
-        
+
         DataContext = _viewModel;
         InitializeComponent();
     }
-    
-    public async Task ShowAsync(XYZ point)
+
+    public async Task ShowDialogAsync(XYZ point)
     {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Visualization settings",
-            Content = this,
-            CloseButtonText = "Close",
-            DialogHorizontalAlignment = HorizontalAlignment.Center,
-            DialogVerticalAlignment = VerticalAlignment.Center
-        };
-        
         _viewModel.RegisterServer(point);
         MonitorServerConnection();
-        
-        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
+
+        await ShowAsync();
     }
-    
+
     private void MonitorServerConnection()
     {
         Unloaded += (_, _) => _viewModel.UnregisterServer();

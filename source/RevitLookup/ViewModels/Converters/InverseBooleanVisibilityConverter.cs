@@ -18,19 +18,30 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.ViewModels.Contracts;
-using Wpf.Ui.Controls;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
+using Visibility = System.Windows.Visibility;
 
-namespace RevitLookup.Views.Pages;
+namespace RevitLookup.ViewModels.Converters;
 
-public sealed partial class DashboardView : INavigableView<IDashboardViewModel>
+public sealed class InverseBooleanVisibilityConverter : MarkupExtension, IValueConverter
 {
-    public DashboardView(IDashboardViewModel viewModel)
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        ViewModel = viewModel;
-        InitializeComponent();
-        DataContext = this;
+        var visibility = parameter is Visibility visible ? visible : Visibility.Collapsed;
+        
+        if (value is not bool condition) return visibility;
+        return condition ? visibility : Visibility.Visible;
     }
-
-    public IDashboardViewModel ViewModel { get; }
+    
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Convert(value, targetType, parameter, culture);
+    }
+    
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
 }

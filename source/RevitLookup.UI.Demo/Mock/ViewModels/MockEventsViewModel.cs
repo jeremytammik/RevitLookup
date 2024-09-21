@@ -34,7 +34,7 @@ public sealed partial class MockEventsViewModel(
         Host.GetService<ILookupService>()
             .Snoop(selectedItem)
             .DependsOn(ServiceProvider)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
 
     public void Navigate(IList<SnoopableObject> selectedItems)
@@ -42,7 +42,7 @@ public sealed partial class MockEventsViewModel(
         Host.GetService<ILookupService>()
             .Snoop(selectedItems)
             .DependsOn(ServiceProvider)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
 
     public void RemoveObject(object obj)

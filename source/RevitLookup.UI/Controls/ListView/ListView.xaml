@@ -19,7 +19,7 @@
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
-        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Standard" />
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="ItemsPanel">
@@ -33,13 +33,13 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListView}">
                     <Grid>
-                        <controls:PassiveScrollViewer
+                        <controls:DynamicScrollViewer
                             x:Name="PART_ContentHost"
                             CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
                             HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
                             VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                             <ItemsPresenter />
-                        </controls:PassiveScrollViewer>
+                        </controls:DynamicScrollViewer>
                         <Rectangle
                             x:Name="PART_DisabledVisual"
                             Opacity="0"

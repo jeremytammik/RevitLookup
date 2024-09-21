@@ -79,7 +79,7 @@ public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescript
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<PolylineVisualizationDialog>();
-                    await dialog.ShowAsync(edge);
+                    await dialog.ShowDialogAsync(edge);
                 }
                 catch (Exception exception)
                 {

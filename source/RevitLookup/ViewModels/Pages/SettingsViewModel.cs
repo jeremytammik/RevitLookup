@@ -18,6 +18,7 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Views.Dialogs;
@@ -33,7 +34,7 @@ namespace RevitLookup.ViewModels.Pages;
 public sealed partial class SettingsViewModel(
     ISettingsService settingsService,
     INavigationService navigationService,
-    IContentDialogService dialogService,
+    IServiceProvider serviceProvider,
     NotificationService notificationService,
     IWindow window)
     : ObservableObject
@@ -67,9 +68,9 @@ public sealed partial class SettingsViewModel(
     [RelayCommand]
     private async Task ResetSettings()
     {
-        var dialog = new ResetSettingsDialog(dialogService, settingsService);
+        var dialog = serviceProvider.GetRequiredService<ResetSettingsDialog>();
         var result = await dialog.ShowAsync();
-        if (!result) return;
+        if (result != ContentDialogResult.Primary) return;
 
         foreach (var settings in dialog.SelectedSettings)
         {

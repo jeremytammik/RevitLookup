@@ -42,74 +42,74 @@ public partial class MockDashboardViewModel(
         {
             case "view":
                 await snoopVisualService.SnoopAsync(SnoopableType.View);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "document":
                 await snoopVisualService.SnoopAsync(SnoopableType.Document);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "application":
                 await snoopVisualService.SnoopAsync(SnoopableType.Application);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "uiApplication":
                 await snoopVisualService.SnoopAsync(SnoopableType.UiApplication);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "database":
                 await snoopVisualService.SnoopAsync(SnoopableType.Database);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "dependents":
                 await snoopVisualService.SnoopAsync(SnoopableType.DependentElements);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "selection":
                 await snoopVisualService.SnoopAsync(SnoopableType.Selection);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "linked":
                 await snoopVisualService.SnoopAsync(SnoopableType.LinkedElement);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "face":
                 await snoopVisualService.SnoopAsync(SnoopableType.Face);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "edge":
                 await snoopVisualService.SnoopAsync(SnoopableType.Edge);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "point":
                 await snoopVisualService.SnoopAsync(SnoopableType.Point);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "subElement":
                 await snoopVisualService.SnoopAsync(SnoopableType.SubElement);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "components":
                 await snoopVisualService.SnoopAsync(SnoopableType.ComponentManager);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "performance":
                 await snoopVisualService.SnoopAsync(SnoopableType.PerformanceAdviser);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "updaters":
                 await snoopVisualService.SnoopAsync(SnoopableType.UpdaterRegistry);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "services":
                 await snoopVisualService.SnoopAsync(SnoopableType.Services);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "schemas":
                 await snoopVisualService.SnoopAsync(SnoopableType.Schemas);
-                navigationService.Navigate(typeof(SnoopView));
+                navigationService.Navigate(typeof(SnoopPage));
                 break;
             case "events":
-                navigationService.Navigate(typeof(EventsView));
+                navigationService.Navigate(typeof(EventsPage));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(parameter), parameter);

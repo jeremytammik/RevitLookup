@@ -47,15 +47,15 @@ public static class HostProvider
 
         //Views
         builder.Services.AddScoped<ISnoopVisualService, MockSnoopVisualService>();
-        builder.Services.AddScoped<AboutView>();
+        builder.Services.AddScoped<AboutPage>();
         builder.Services.AddScoped<AboutViewModel>();
-        builder.Services.AddScoped<DashboardView>();
+        builder.Services.AddScoped<DashboardPage>();
         builder.Services.AddScoped<IDashboardViewModel, MockDashboardViewModel>();
-        builder.Services.AddScoped<SettingsView>();
+        builder.Services.AddScoped<SettingsPage>();
         builder.Services.AddScoped<SettingsViewModel>();
-        builder.Services.AddScoped<EventsView>();
+        builder.Services.AddScoped<EventsPage>();
         builder.Services.AddScoped<IEventsViewModel, MockEventsViewModel>();
-        builder.Services.AddScoped<SnoopView>();
+        builder.Services.AddScoped<SnoopPage>();
         builder.Services.AddScoped<ISnoopViewModel, MockSnoopViewModel>();
         builder.Services.AddScoped<IWindow, RevitLookupView>();
 

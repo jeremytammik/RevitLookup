@@ -18,8 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
-using System.Windows.Controls;
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services;
 using RevitLookup.Services.Contracts;
@@ -34,32 +32,23 @@ public sealed partial class SearchElementsDialog
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly SearchElementsViewModel _viewModel;
-    
-    public SearchElementsDialog(IServiceProvider serviceProvider)
+
+    public SearchElementsDialog(
+        IContentDialogService dialogService,
+        IServiceProvider serviceProvider)
+        : base(dialogService.GetDialogHost())
     {
         _serviceProvider = serviceProvider;
         _viewModel = new SearchElementsViewModel();
         DataContext = _viewModel;
         InitializeComponent();
     }
-    
-    public async Task ShowAsync()
+
+    public async Task ShowDialogAsync()
     {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Search elements",
-            Content = this,
-            CloseButtonText = "Close",
-            PrimaryButtonText = "Search",
-            DialogVerticalAlignment = VerticalAlignment.Center,
-            DialogHorizontalAlignment = HorizontalAlignment.Center,
-            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollVisibility = ScrollBarVisibility.Disabled
-        };
-        
-        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
-        if (dialogResult != ContentDialogResult.Primary) return;
-        
+        var result = await ShowAsync();
+        if (result != ContentDialogResult.Primary) return;
+
         var elements = _viewModel.SearchElements();
         if (elements.Count == 0)
         {
@@ -67,8 +56,8 @@ public sealed partial class SearchElementsDialog
             notificationService.ShowWarning("Search elements", "There are no elements found for your request");
             return;
         }
-        
+
         _serviceProvider.GetRequiredService<ISnoopVisualService>().Snoop(new SnoopableObject(elements));
-        _serviceProvider.GetRequiredService<INavigationService>().Navigate(typeof(SnoopView));
+        _serviceProvider.GetRequiredService<INavigationService>().Navigate(typeof(SnoopPage));
     }
 }

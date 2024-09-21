@@ -34,6 +34,6 @@ public class SnoopPointCommand : ExternalCommand
     {
         Host.GetService<ILookupService>()
             .Snoop(SnoopableType.Point)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
 }

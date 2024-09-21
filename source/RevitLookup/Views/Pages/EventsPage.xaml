@@ -1,5 +1,5 @@
 <abstraction:SnoopViewBase
-    x:Class="RevitLookup.Views.Pages.SnoopView"
+    x:Class="RevitLookup.Views.Pages.EventsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +13,7 @@
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="700"
-    d:DataContext="{d:DesignInstance pages:SnoopView}">
+    d:DataContext="{d:DesignInstance pages:EventsPage}">
 
     <abstraction:SnoopViewBase.Resources>
         <ResourceDictionary>
@@ -26,7 +26,7 @@
     <Grid
         Margin="12">
         <controls:ContentPlaceholder
-            Text="Nothing to show"
+            Content="Waiting for events"
             MaxHeight="300">
             <controls:ContentPlaceholder.Visibility>
                 <MultiBinding
@@ -67,12 +67,10 @@
                 <rl:TreeView
                     x:Name="TreeView"
                     Margin="0 8 0 0"
-                    MouseMove="OnPresenterCursorInteracted"
                     VirtualizingStackPanel.IsVirtualizing="True"
-                    ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}"
-                    ItemsSource="{Binding
-                        ViewModel.FilteredSnoopableObjects,
-                        Converter={converters:TreeViewGroupConverter}}" />
+                    ItemsSource="{Binding ViewModel.FilteredSnoopableObjects}"
+                    MouseMove="OnPresenterCursorInteracted"
+                    ItemTemplateSelector="{StaticResource TreeViewItemTemplateSelector}" />
                 <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
             </DockPanel>
             <rl:DataGrid

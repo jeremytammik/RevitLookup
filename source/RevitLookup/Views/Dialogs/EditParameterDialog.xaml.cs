@@ -18,9 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
-using System.Windows.Controls;
-using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.Dialogs;
 using Wpf.Ui;
@@ -30,35 +27,28 @@ namespace RevitLookup.Views.Dialogs;
 
 public sealed partial class EditParameterDialog
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly EditParameterViewModel _viewModel;
-    
-    public EditParameterDialog(IServiceProvider serviceProvider, Parameter parameter)
+    private readonly NotificationService _notificationService;
+
+    public EditParameterDialog(
+        IContentDialogService dialogService, 
+        NotificationService notificationService) 
+        : base(dialogService.GetDialogHost())
     {
-        _serviceProvider = serviceProvider;
-        _viewModel = new EditParameterViewModel(parameter);
-        
+        _notificationService = notificationService;
+        _viewModel = new EditParameterViewModel();
+
         DataContext = _viewModel;
         InitializeComponent();
     }
-    
-    public async Task<bool> ShowAsync()
+
+    public async Task<bool> ShowDialogAsync(Parameter parameter)
     {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Edit parameter value",
-            Content = this,
-            PrimaryButtonText = "Save",
-            CloseButtonText = "Close",
-            DialogVerticalAlignment = VerticalAlignment.Center,
-            DialogHorizontalAlignment = HorizontalAlignment.Center,
-            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollVisibility = ScrollBarVisibility.Disabled
-        };
-        
-        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
-        if (dialogResult != ContentDialogResult.Primary) return false;
-        
+        _viewModel.Parameter = parameter;
+
+        var result = await ShowAsync();
+        if (result != ContentDialogResult.Primary) return false;
+
         try
         {
             await _viewModel.SaveValueAsync();
@@ -66,10 +56,9 @@ public sealed partial class EditParameterDialog
         }
         catch (Exception exception)
         {
-            var notificationService = _serviceProvider.GetRequiredService<NotificationService>();
-            notificationService.ShowWarning("Invalid data", exception.Message);
+            _notificationService.ShowWarning("Invalid data", exception.Message);
         }
-        
+
         return false;
     }
 }

@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="RevitLookup.Views.Pages.DashboardView"
+    x:Class="RevitLookup.Views.Pages.DashboardPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,7 +7,7 @@
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance pages:DashboardView}">
+    d:DataContext="{d:DesignInstance pages:DashboardPage}">
 
     <rl:DynamicScrollViewer>
         <VirtualizingStackPanel
@@ -428,6 +428,19 @@
                 <rl:CardAction
                     Grid.Row="0"
                     Grid.Column="2"
+                    Margin="4,8,4,0"
+                    Icon="{rl:SymbolIcon LauncherSettings24}"
+                    CommandParameter="revitSettings"
+                    Command="{Binding  ViewModel.NavigateSnoopPageCommand}">
+                    <StackPanel>
+                        <TextBlock
+                            FontWeight="Medium"
+                            Text="Revit settings" />
+                    </StackPanel>
+                </rl:CardAction>
+                <rl:CardAction
+                    Grid.Row="0"
+                    Grid.Column="3"
                     Margin="4,8,4,0"
                     Icon="{rl:SymbolIcon BroadActivityFeed24}"
                     CommandParameter="modules"

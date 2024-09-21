@@ -80,7 +80,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<PolylineVisualizationDialog>();
-                    await dialog.ShowAsync(curve);
+                    await dialog.ShowDialogAsync(curve);
                 }
                 catch (Exception exception)
                 {

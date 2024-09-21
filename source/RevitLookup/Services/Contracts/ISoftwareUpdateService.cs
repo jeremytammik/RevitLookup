@@ -25,7 +25,6 @@ namespace RevitLookup.Services.Contracts;
 public interface ISoftwareUpdateService
 {
     public SoftwareUpdateState State { get; }
-    public Version CurrentVersion { get; }
     public string NewVersion { get; }
     public string LatestCheckDate { get; }
     public string ReleaseNotesUrl { get; }

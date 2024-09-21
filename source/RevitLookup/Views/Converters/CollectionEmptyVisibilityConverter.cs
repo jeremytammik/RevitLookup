@@ -29,11 +29,23 @@ public sealed class CollectionEmptyVisibilityConverter : MarkupExtension, IMulti
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        var collection = (IReadOnlyCollection<SnoopableObject>) values[0]!;
-        var count = (int) values[1]!;
-        
-        if (collection.Count > 0) return Visibility.Collapsed;
-        if (count > 0) return Visibility.Collapsed;
+        if (values.Length == 1)
+        {
+            var count = (int) values[0]!;
+            if (count > 0) return Visibility.Collapsed;
+        }
+        else if (values.Length == 2)
+        {
+            var collection = (IReadOnlyCollection<SnoopableObject>) values[0]!;
+            var count = (int) values[1]!;
+            
+            if (collection.Count > 0) return Visibility.Collapsed;
+            if (count > 0) return Visibility.Collapsed;
+        }
+        else
+        {
+            throw new ArgumentException("Invalid parameter");
+        }
         
         return Visibility.Visible;
     }

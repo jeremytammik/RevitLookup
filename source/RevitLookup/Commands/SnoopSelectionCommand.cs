@@ -34,6 +34,6 @@ public class SnoopSelectionCommand : ExternalCommand
     {
         Host.GetService<ILookupService>()
             .Snoop(SnoopableType.Selection)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
 }

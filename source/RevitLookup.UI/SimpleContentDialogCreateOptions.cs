@@ -3,8 +3,6 @@
 // Copyright (C) Leszek Pomianowski and WPF UI Contributors.
 // All Rights Reserved.
 
-using System.Windows.Controls;
-
 namespace Wpf.Ui;
 
 /// <summary>
@@ -29,47 +27,13 @@ public class SimpleContentDialogCreateOptions
 
     /// <summary>
     /// Gets or sets the default text of the primary button at the bottom of the content dialog.
-    /// <para>If not added, or <see cref="String.Empty"/>, it will not be displayed.</para>
+    /// <para>If not added, or <see cref="string.Empty"/>, it will not be displayed.</para>
     /// </summary>
-    public string PrimaryButtonText { get; set; } = String.Empty;
+    public string PrimaryButtonText { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the default text of the secondary button at the bottom of the content dialog.
-    /// <para>If not added, or <see cref="String.Empty"/>, it will not be displayed.</para>
+    /// <para>If not added, or <see cref="string.Empty"/>, it will not be displayed.</para>
     /// </summary>
-    public string SecondaryButtonText { get; set; } = String.Empty;
-
-    /// <summary>
-    /// Gets or sets a max content dialog width.
-    /// </summary>
-    public double DialogMaxWidth { get; set; } = double.MaxValue;
-
-    /// <summary>
-    /// Gets or sets a max content dialog height.
-    /// </summary>
-    public double DialogMaxHeight { get; set; } = double.MaxValue;
-
-    /// <summary>
-    /// Gets or sets a dialog Horizontal Alignment.
-    /// </summary>
-    /// <returns>HorizontalAlignment.Stretch by default</returns>
-    public HorizontalAlignment DialogHorizontalAlignment { get; set; } = HorizontalAlignment.Stretch;
-
-    /// <summary>
-    /// Gets or sets a dialog Vertical Alignment.
-    /// </summary>
-    /// <returns>VerticalAlignment.Stretch by default</returns>
-    public VerticalAlignment DialogVerticalAlignment { get; set; } = VerticalAlignment.Stretch;
-
-    /// <summary>
-    /// Gets or sets a dialog Horizontal Scroll Visibility.
-    /// </summary>
-    /// <returns>ScrollBarVisibility.Hidden by default</returns>
-    public ScrollBarVisibility HorizontalScrollVisibility { get; set; } = ScrollBarVisibility.Hidden;
-
-    /// <summary>
-    /// Gets or sets a dialog Vertical Scroll Visibility.
-    /// </summary>
-    /// <returns>ScrollBarVisibility.Hidden by default</returns>
-    public ScrollBarVisibility VerticalScrollVisibility { get; set; } = ScrollBarVisibility.Hidden;
+    public string SecondaryButtonText { get; set; } = string.Empty;
 }

@@ -1,0 +1,316 @@
+﻿<Page
+    x:Class="RevitLookup.Views.Pages.RevitSettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:rl="http://revitlookup.com/xaml"
+    xmlns:pages="clr-namespace:RevitLookup.Views.Pages"
+    xmlns:fallbackValues="clr-namespace:RevitLookup.Views.FallbackValues"
+    xmlns:vmConverters="clr-namespace:RevitLookup.ViewModels.Converters"
+    xmlns:markup="clr-namespace:RevitLookup.Views.Markup"
+    xmlns:controls="clr-namespace:RevitLookup.Views.Controls"
+    xmlns:vConverters="clr-namespace:RevitLookup.Views.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="500"
+    d:DataContext="{d:DesignInstance pages:RevitSettingsPage}"
+    rl:NavigationView.HeaderContent="Revit settings">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <markup:StylesDictionary />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- ReSharper disable Xaml.StaticResourceNotResolved -->
+            <Style
+                x:Key="ListContainerStyle"
+                BasedOn="{StaticResource DefaultListViewItemStyle}"
+                TargetType="{x:Type ListViewItem}">
+                <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
+                <Setter
+                    Property="Padding"
+                    Value="0" />
+                <Setter
+                    Property="Margin"
+                    Value="0" />
+                <EventSetter
+                    Event="PreviewMouseLeftButtonUp"
+                    Handler="OnEntryClicked" />
+            </Style>
+
+            <GroupStyle
+                x:Key="ListGroupStyle">
+                <GroupStyle.Panel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel
+                            IsVirtualizingWhenGrouping="True"
+                            VirtualizationMode="Recycling" />
+                    </ItemsPanelTemplate>
+                </GroupStyle.Panel>
+                <GroupStyle.ContainerStyle>
+                    <Style
+                        TargetType="{x:Type GroupItem}">
+                        <Setter
+                            Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate
+                                    TargetType="{x:Type GroupItem}">
+                                    <DockPanel>
+                                        <Border
+                                            DockPanel.Dock="Top"
+                                            Height="32"
+                                            BorderThickness="0 0 0 1"
+                                            Background="{DynamicResource LayerOnMicaBaseAltFillColorSecondaryBrush}"
+                                            BorderBrush="{DynamicResource ControlElevationBorderBrush}">
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                Margin="12,2,0,2"
+                                                FontWeight="Bold"
+                                                FontSize="12"
+                                                Text="{Binding Name}" />
+                                        </Border>
+                                        <ItemsPresenter />
+                                    </DockPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </GroupStyle.ContainerStyle>
+            </GroupStyle>
+
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <DockPanel
+        Margin="12">
+        <DockPanel
+            DockPanel.Dock="Top"
+            VerticalAlignment="Top"
+            LastChildFill="False">
+            <rl:Button
+                DockPanel.Dock="Left"
+                Icon="{rl:SymbolIcon Add20}"
+                Content="New entry"
+                Command="{Binding ViewModel.CreateEntryCommand}" />
+            <rl:Button
+                DockPanel.Dock="Right"
+                Appearance="Transparent"
+                FontSize="20"
+                Padding="10 4"
+                Icon="{rl:SymbolIcon QuestionCircle20}"
+                Command="{Binding ViewModel.ShowHelpCommand}" />
+            <rl:Button
+                DockPanel.Dock="Right"
+                Margin="0 0 4 0"
+                Appearance="Transparent"
+                FontSize="20"
+                Padding="10 4"
+                Icon="{rl:SymbolIcon Open20}"
+                Command="{Binding ViewModel.OpenSettingsCommand}" />
+            <rl:Button
+                DockPanel.Dock="Right"
+                Margin="0 0 4 0"
+                Appearance="Transparent"
+                Padding="10 4"
+                Click="OnFilterClicked">
+                <rl:Button.Content>
+                    <Grid>
+                        <rl:FontIcon
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            FontFamily="Segoe MDL2 Assets"
+                            Glyph="&#xe71c;" />
+                        <rl:InfoBadge
+                            Severity="Attention"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Height="8"
+                            Width="8"
+                            Style="{DynamicResource DotInfoBadgeStyle}"
+                            Visibility="{Binding ViewModel.Filtered, Mode=OneWay, Converter={vmConverters:BooleanVisibilityConverter}, FallbackValue=Visible}" />
+                        <rl:Flyout
+                            x:Name="FilterFlyout"
+                            Placement="Left">
+                            <StackPanel
+                                Width="320"
+                                HorizontalAlignment="Stretch">
+                                <Label
+                                    Content="Category" />
+                                <rl:TextBox
+                                    IconPlacement="Right"
+                                    Icon="{rl:SymbolIcon Search24}"
+                                    Text="{Binding ViewModel.CategoryFilter, UpdateSourceTrigger=PropertyChanged}">
+                                </rl:TextBox>
+                                <Label
+                                    Margin="0 8 0 0"
+                                    Content="Property" />
+                                <rl:TextBox
+                                    IconPlacement="Right"
+                                    Icon="{rl:SymbolIcon Search24}"
+                                    Text="{Binding ViewModel.PropertyFilter, UpdateSourceTrigger=PropertyChanged}">
+                                </rl:TextBox>
+                                <Label
+                                    Margin="0 8 0 0"
+                                    Content="Value" />
+                                <rl:TextBox
+                                    IconPlacement="Right"
+                                    Icon="{rl:SymbolIcon Search24}"
+                                    Text="{Binding ViewModel.ValueFilter, UpdateSourceTrigger=PropertyChanged}">
+                                </rl:TextBox>
+                                <rl:ToggleSwitch
+                                    Margin="0 12 0 0"
+                                    Content="Show only user settings"
+                                    IsChecked="{Binding ViewModel.ShowUserSettingsFilter}" />
+                                <rl:Button
+                                    Margin="0 12 0 0"
+                                    Appearance="Primary"
+                                    HorizontalAlignment="Right"
+                                    Content="ClearFilters"
+                                    Command="{Binding ViewModel.ClearFiltersCommand}" />
+                            </StackPanel>
+                        </rl:Flyout>
+                    </Grid>
+                </rl:Button.Content>
+            </rl:Button>
+        </DockPanel>
+        <rl:Card
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Margin="0 8 0 0"
+            Padding="0">
+            <Grid>
+                <ListView
+                    x:Name="EntriesList"
+                    VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    FontSize="12"
+                    SelectedItem="{Binding ViewModel.SelectedEntry}"
+                    ItemContainerStyle="{StaticResource ListContainerStyle}"
+                    ItemsSource="{Binding ViewModel.FilteredEntries, 
+                        FallbackValue={x:Static fallbackValues:RevitSettingsFallbacks.Entries}}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel
+                                Margin="8 0">
+                                <rl:Button
+                                    DockPanel.Dock="Right"
+                                    VerticalAlignment="Center"
+                                    Appearance="Transparent"
+                                    FontSize="18"
+                                    Icon="{rl:SymbolIcon Delete20}"
+                                    Command="{Binding DataContext.ViewModel.DeleteEntryCommand, ElementName=EntriesList}"
+                                    CommandParameter="{Binding}"/>
+                                <rl:ToggleSwitch
+                                    DockPanel.Dock="Right"
+                                    VerticalAlignment="Center"
+                                    Margin="0 0 8 0"
+                                    IsChecked="{Binding IsActive}"
+                                    Command="{Binding DataContext.ViewModel.ActivateEntryCommand, ElementName=EntriesList}"
+                                    CommandParameter="{Binding}" />
+                                <rl:Button
+                                    DockPanel.Dock="Right"
+                                    VerticalAlignment="Center"
+                                    Appearance="Transparent"
+                                    FontSize="18"
+                                    Visibility="{Binding IsModified, 
+                                        Converter={vmConverters:BooleanVisibilityConverter},
+                                        ConverterParameter={x:Static Visibility.Hidden}}"
+                                    Icon="{rl:SymbolIcon ArrowClockwise24}"
+                                    Command="{Binding DataContext.ViewModel.RestoreDefaultCommand, ElementName=EntriesList}"
+                                    CommandParameter="{Binding}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
+                                            Width="2*" />
+                                        <ColumnDefinition
+                                            Width="3*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        FontSize="12"
+                                        VerticalAlignment="Center"
+                                        TextTrimming="CharacterEllipsis"
+                                        Text="{Binding Property}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        TextWrapping="Wrap"
+                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                        Text="{Binding Value}" />
+                                </Grid>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.GroupStyle>
+                        <StaticResource
+                            ResourceKey="ListGroupStyle" />
+                    </ListView.GroupStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel
+                                VirtualizationMode="Recycling" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+                <controls:ContentPlaceholder
+                    Content="Nothing to show"
+                    MaxHeight="300">
+                    <controls:ContentPlaceholder.Visibility>
+                        <MultiBinding
+                            Converter="{vConverters:CollectionEmptyAfterInitializationConverter}">
+                            <Binding
+                                Path="ViewModel.Entries.Count" />
+                            <Binding
+                                Path="ViewModel.InitializationTask.IsCompleted"
+                                FallbackValue="true" />
+                        </MultiBinding>
+                    </controls:ContentPlaceholder.Visibility>
+                </controls:ContentPlaceholder>
+                <controls:ContentPlaceholder
+                    MaxHeight="300">
+                    <controls:ContentPlaceholder.Visibility>
+                        <MultiBinding
+                            Converter="{vConverters:EmptySearchResultsVisibilityConverter}">
+                            <Binding
+                                Path="ViewModel.FilteredEntries" />
+                            <Binding
+                                Path="ViewModel.Filtered"/>
+                        </MultiBinding>
+                    </controls:ContentPlaceholder.Visibility>
+                    <controls:ContentPlaceholder.Content>
+                        <StackPanel>
+                            <TextBlock
+                                Text="Not found"
+                                FontSize="24"
+                                FontWeight="Medium"
+                                HorizontalAlignment="Center" />
+                            <rl:HyperlinkButton
+                                Margin="0 12 0 0"
+                                HorizontalAlignment="Center"
+                                Command="{Binding ViewModel.ClearFiltersCommand}"
+                                Content="Clear filters" />
+                        </StackPanel>
+                    </controls:ContentPlaceholder.Content>
+                </controls:ContentPlaceholder>
+                <StackPanel
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Visibility="{Binding ViewModel.InitializationTask.IsCompleted, 
+                        Converter={vmConverters:InverseBooleanVisibilityConverter},
+                        FallbackValue=Collapsed}">
+                    <TextBlock
+                        FontSize="24"
+                        FontWeight="Medium"
+                        Text="Scanning..." />
+                    <rl:ProgressRing
+                        Margin="0 12 0 0"
+                        IsIndeterminate="True"
+                        VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
+        </rl:Card>
+    </DockPanel>
+
+</Page>

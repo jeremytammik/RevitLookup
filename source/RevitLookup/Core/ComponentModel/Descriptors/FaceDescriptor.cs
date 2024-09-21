@@ -79,7 +79,7 @@ public class FaceDescriptor : Descriptor, IDescriptorCollector, IDescriptorConne
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<FaceVisualizationDialog>();
-                    await dialog.ShowAsync(face);
+                    await dialog.ShowDialogAsync(face);
                 }
                 catch (Exception exception)
                 {

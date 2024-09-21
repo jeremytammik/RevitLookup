@@ -59,7 +59,7 @@ public sealed partial class RevitLookupView : FluentWindow, IWindow
         WindowBackdropType = _settings.Background;
 
         navigationService.SetNavigationControl(RootNavigation);
-        dialogService.SetContentPresenter(RootContentDialog);
+        dialogService.SetDialogHost(RootContentDialog);
 
         snackbarService.SetSnackbarPresenter(RootSnackbar);
         snackbarService.DefaultTimeOut = TimeSpan.FromSeconds(3);

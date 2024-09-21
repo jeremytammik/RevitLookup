@@ -41,38 +41,21 @@ public sealed class SoftwareUpdateService(
     private readonly AssemblyInfo _assemblyInfo = assemblyOptions.Value;
     private readonly FolderLocations _folderLocations = foldersOptions.Value;
     private readonly Regex _versionRegex = new(@"(\d+\.)+\d+", RegexOptions.Compiled);
-    
+
     public SoftwareUpdateState State { get; private set; }
-    public Version CurrentVersion => _assemblyInfo.AddinVersion;
     public string NewVersion { get; private set; }
     public string LatestCheckDate { get; private set; }
     public string ReleaseNotesUrl { get; private set; }
     public string ErrorMessage { get; private set; }
     public string LocalFilePath { get; private set; }
-    
+
     public async Task CheckUpdatesAsync()
     {
         try
         {
-            if (!string.IsNullOrEmpty(LocalFilePath))
-                if (File.Exists(LocalFilePath))
-                {
-                    var fileName = Path.GetFileName(LocalFilePath);
-                    if (fileName.Contains(NewVersion))
-                    {
-                        State = SoftwareUpdateState.ReadyToInstall;
-                        return;
-                    }
-                }
-            
-            string releasesJson;
-            using (var gitHubClient = new HttpClient())
-            {
-                gitHubClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "RevitLookup");
-                releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
-            }
-            
-            var releases = JsonSerializer.Deserialize<List<GutHubResponse>>(releasesJson);
+            if (CheckExistingInstaller()) return;
+
+            var releases = await FetchGithubRepositoryAsync();
             if (releases is not null)
             {
                 var latestRelease = releases
@@ -84,41 +67,41 @@ public sealed class SoftwareUpdateService(
                     .OrderByDescending(release => release.PublishedDate)
                     .FirstOrDefault();
 #endif
-                
+
                 if (latestRelease is null)
                 {
                     State = SoftwareUpdateState.UpToDate;
                     return;
                 }
-                
+
                 // Finding a new version
                 Version newVersionTag = null;
                 foreach (var asset in latestRelease.Assets)
                 {
                     var match = _versionRegex.Match(asset.Name);
                     if (!match.Success) continue;
-                    if (!match.Value.StartsWith(CurrentVersion.Major.ToString())) continue;
+                    if (!match.Value.StartsWith(_assemblyInfo.AddinVersion.Major.ToString())) continue;
                     if (!_assemblyInfo.IsAdminInstallation && asset.Name.Contains("MultiUser")) continue;
-                    
+
                     newVersionTag = new Version(match.Value);
                     _downloadUrl = asset.DownloadUrl;
                     break;
                 }
-                
+
                 // Checking available releases
                 if (newVersionTag is null)
                 {
                     State = SoftwareUpdateState.UpToDate;
                     return;
                 }
-                
+
                 // Checking for a new release version
-                if (newVersionTag <= CurrentVersion)
+                if (newVersionTag <= _assemblyInfo.AddinVersion)
                 {
                     State = SoftwareUpdateState.UpToDate;
                     return;
                 }
-                
+
                 // Checking downloaded releases
                 NewVersion = newVersionTag.ToString(3);
                 if (Directory.Exists(_folderLocations.DownloadFolder))
@@ -133,7 +116,7 @@ public sealed class SoftwareUpdateService(
                         }
                     }
                 }
-                
+
                 State = SoftwareUpdateState.ReadyToDownload;
                 ReleaseNotesUrl = latestRelease.Url;
             }
@@ -159,24 +142,24 @@ public sealed class SoftwareUpdateService(
             LatestCheckDate = DateTime.Now.ToString("yyyy.MM.dd HH:mm:ss");
         }
     }
-    
+
     public async Task DownloadUpdate()
     {
         try
         {
             Directory.CreateDirectory(_folderLocations.DownloadFolder);
             var fileName = Path.Combine(_folderLocations.DownloadFolder, Path.GetFileName(_downloadUrl)!);
-            
+
             using var httpClient = new HttpClient();
             var response = await httpClient.GetStreamAsync(_downloadUrl);
-            
+
 #if NETCOREAPP
             await using var fileStream = new FileStream(fileName, FileMode.Create);
 #else
             using var fileStream = new FileStream(fileName, FileMode.Create);
 #endif
             await response.CopyToAsync(fileStream);
-            
+
             LocalFilePath = fileName;
             State = SoftwareUpdateState.ReadyToInstall;
         }
@@ -186,5 +169,29 @@ public sealed class SoftwareUpdateService(
             ErrorMessage = "An error occurred while downloading the update";
             logger.LogError(exception, "Downloading updates fail");
         }
+    }
+
+    private bool CheckExistingInstaller()
+    {
+        if (string.IsNullOrEmpty(LocalFilePath)) return false;
+        if (!File.Exists(LocalFilePath)) return false;
+
+        var fileName = Path.GetFileName(LocalFilePath);
+        if (!fileName.Contains(NewVersion)) return false;
+
+        State = SoftwareUpdateState.ReadyToInstall;
+        return true;
+    }
+
+    private static async Task<List<GitHubResponse>> FetchGithubRepositoryAsync()
+    {
+        string releasesJson;
+        using (var gitHubClient = new HttpClient())
+        {
+            gitHubClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "RevitLookup");
+            releasesJson = await gitHubClient.GetStringAsync("https://api.github.com/repos/jeremytammik/RevitLookup/releases");
+        }
+
+        return JsonSerializer.Deserialize<List<GitHubResponse>>(releasesJson);
     }
 }

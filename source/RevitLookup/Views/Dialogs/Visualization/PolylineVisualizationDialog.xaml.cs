@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
 using RevitLookup.ViewModels.Dialogs.Visualization;
 using Wpf.Ui;
 
@@ -26,48 +25,35 @@ namespace RevitLookup.Views.Dialogs.Visualization;
 
 public sealed partial class PolylineVisualizationDialog
 {
-    private readonly IContentDialogService _dialogService;
     private readonly PolylineVisualizationViewModel _viewModel;
-    
-    public PolylineVisualizationDialog(PolylineVisualizationViewModel viewModel, IContentDialogService dialogService)
+
+    public PolylineVisualizationDialog(
+        IContentDialogService dialogService,
+        PolylineVisualizationViewModel viewModel)
+        : base(dialogService.GetDialogHost())
     {
         _viewModel = viewModel;
-        _dialogService = dialogService;
-        
+
         DataContext = _viewModel;
         InitializeComponent();
     }
-    
-    public async Task ShowAsync(Curve curve)
+
+    public async Task ShowDialogAsync(Curve curve)
     {
         _viewModel.RegisterServer(curve);
         MonitorServerConnection();
-        
-        await ShowDialogAsync();
+
+        await ShowAsync();
     }
-    
-    public async Task ShowAsync(Edge edge)
+
+    public async Task ShowDialogAsync(Edge edge)
     {
         _viewModel.RegisterServer(edge);
         MonitorServerConnection();
-        
-        await ShowDialogAsync();
+
+        await ShowAsync();
     }
-    
-    private async Task ShowDialogAsync()
-    {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Visualization settings",
-            Content = this,
-            CloseButtonText = "Close",
-            DialogHorizontalAlignment = HorizontalAlignment.Center,
-            DialogVerticalAlignment = VerticalAlignment.Center
-        };
-        
-        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
-    }
-    
+
     private void MonitorServerConnection()
     {
         Unloaded += (_, _) => _viewModel.UnregisterServer();

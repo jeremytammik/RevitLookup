@@ -34,6 +34,6 @@ public class SnoopLinkedElementCommand : ExternalCommand
     {
         Host.GetService<ILookupService>()
             .Snoop(SnoopableType.LinkedElement)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
 }

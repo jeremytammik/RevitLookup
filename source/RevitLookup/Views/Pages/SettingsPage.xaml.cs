@@ -1,4 +1,4 @@
-// Copyright 2003-2024 by Autodesk, Inc.
+﻿// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -18,23 +18,19 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Services.Contracts;
-using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.Pages;
+using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Pages;
 
-public sealed partial class EventsView
+public sealed partial class SettingsPage : INavigableView<SettingsViewModel>
 {
-    public EventsView(IEventsViewModel viewModel,  ISettingsService settingsService) : base(settingsService)
+    public SettingsPage(SettingsViewModel viewModel)
     {
-        InitializeComponent();
         ViewModel = viewModel;
-
-        DataGridControl = DataGrid;
-        TreeViewControl = TreeView;
-        SearchBoxControl = SearchBox;
-        TreeView.SelectedItemChanged += OnTreeItemSelected;
-
+        InitializeComponent();
         DataContext = this;
     }
+
+    public SettingsViewModel ViewModel { get; }
 }

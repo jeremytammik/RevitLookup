@@ -20,6 +20,7 @@
 
 using System.Runtime;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RevitLookup.Models.Options;
 using RevitLookup.Services.Contracts;
@@ -31,11 +32,17 @@ namespace RevitLookup.ViewModels.Pages;
 
 public sealed partial class AboutViewModel(
     ISoftwareUpdateService updateService,
-    IContentDialogService dialogService,
+    IServiceProvider serviceProvider,
     IOptions<AssemblyInfo> assemblyOptions)
     : ObservableObject
 {
     [ObservableProperty] private bool _isUpdateChecked;
+    [ObservableProperty] private SoftwareUpdateState _state;
+    [ObservableProperty] private Version _currentVersion = assemblyOptions.Value.AddinVersion;
+    [ObservableProperty] private string _newVersion;
+    [ObservableProperty] private string _errorMessage;
+    [ObservableProperty] private string _releaseNotesUrl;
+    [ObservableProperty] private string _latestCheckDate;
 
     [ObservableProperty] private string _runtime = new StringBuilder()
         .Append(assemblyOptions.Value.Framework)
@@ -51,36 +58,27 @@ public sealed partial class AboutViewModel(
     {
         await updateService.CheckUpdatesAsync();
         IsUpdateChecked = true;
-        OnPropertyChanged(nameof(State));
-        OnPropertyChanged(nameof(NewVersion));
-        OnPropertyChanged(nameof(ErrorMessage));
-        OnPropertyChanged(nameof(LatestCheckDate));
-        OnPropertyChanged(nameof(ReleaseNotesUrl));
+
+        State = updateService.State;
+        NewVersion = updateService.NewVersion;
+        ErrorMessage = updateService.ErrorMessage;
+        ReleaseNotesUrl = updateService.ReleaseNotesUrl;
+        LatestCheckDate = updateService.LatestCheckDate;
     }
-    
+
     [RelayCommand]
     private async Task DownloadUpdateAsync()
     {
         await updateService.DownloadUpdate();
-        OnPropertyChanged(nameof(State));
-        OnPropertyChanged(nameof(ErrorMessage));
+
+        State = updateService.State;
+        ErrorMessage = updateService.ErrorMessage;
     }
-    
+
     [RelayCommand]
     private Task ShowSoftwareDialogAsync()
     {
-        var openSourceDialog = new OpenSourceDialog(dialogService);
-        return openSourceDialog.ShowAsync();
+        var dialog = serviceProvider.GetRequiredService<OpenSourceDialog>();
+        return dialog.ShowAsync();
     }
-    
-    #region Updater Wrapping
-    
-    public SoftwareUpdateState State => updateService.State;
-    public Version CurrentVersion => updateService.CurrentVersion;
-    public string NewVersion => updateService.NewVersion;
-    public string ErrorMessage => updateService.ErrorMessage;
-    public string ReleaseNotesUrl => updateService.ReleaseNotesUrl;
-    public string LatestCheckDate => updateService.LatestCheckDate;
-    
-    #endregion
 }

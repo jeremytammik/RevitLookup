@@ -18,24 +18,19 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Text.Json.Serialization;
+using RevitLookup.ViewModels.Pages;
+using Wpf.Ui.Controls;
 
-namespace RevitLookup.Models;
+namespace RevitLookup.Views.Pages;
 
-[Serializable]
-public sealed class GutHubResponse
+public sealed partial class AboutPage : INavigableView<AboutViewModel>
 {
-    [JsonPropertyName("html_url")] public string Url { get; set; }
-    [JsonPropertyName("tag_name")] public string TagName { get; set; }
-    [JsonPropertyName("draft")] public bool Draft { get; set; }
-    [JsonPropertyName("prerelease")] public bool PreRelease { get; set; }
-    [JsonPropertyName("published_at")] public DateTimeOffset PublishedDate { get; set; }
-    [JsonPropertyName("assets")] public List<GutHubResponseAsset> Assets { get; set; }
-}
+    public AboutPage(AboutViewModel viewModel)
+    {
+        ViewModel = viewModel;
+        InitializeComponent();
+        DataContext = this;
+    }
 
-[Serializable]
-public sealed class GutHubResponseAsset
-{
-    [JsonPropertyName("name")] public string Name { get; set; }
-    [JsonPropertyName("browser_download_url")] public string DownloadUrl { get; set; }
+    public AboutViewModel ViewModel { get; }
 }

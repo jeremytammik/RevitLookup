@@ -18,24 +18,31 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using RevitLookup.Services.Contracts;
-using RevitLookup.ViewModels.Contracts;
+using RevitLookup.ViewModels.ObservableObjects;
 
-namespace RevitLookup.Views.Pages;
+namespace RevitLookup.Views.FallbackValues;
 
-public sealed partial class SnoopView
+public static class RevitSettingsFallbacks
 {
-    public SnoopView(ISettingsService settingsService, ISnoopViewModel viewModel) : base(settingsService)
-    {
-        InitializeComponent();
-        ViewModel = viewModel;
-
-        DataGridControl = DataGrid;
-        TreeViewControl = TreeView;
-        SearchBoxControl = SearchBox;
-        TreeView.SelectedItemChanged += OnTreeItemSelected;
-        TreeView.ItemsSourceChanged += OnTreeSourceChanged;
-
-        DataContext = this;
-    }
+    public static List<ObservableRevitSettingsEntry> Entries { get; } =
+    [
+        new()
+        {
+            Category = "ACMSettings",
+            Property = "ACMNetworkAddress",
+            Value = "127.0.0.1"
+        },
+        new()
+        {
+            Category = "Graphics",
+            Property = "AccelerateViewDisplayViaMultiCore",
+            Value = "1"
+        },
+        new()
+        {
+            Category = "Graphics",
+            Property = "AccelerateRibbonDisplayViaMultiCore",
+            Value = "1"
+        }
+    ];
 }

@@ -18,26 +18,34 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
+using System.Collections;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 using Visibility = System.Windows.Visibility;
 
-namespace RevitLookup.ViewModels.Converters;
+namespace RevitLookup.Views.Converters;
 
-public sealed class BoolVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class EmptySearchResultsVisibilityConverter : MarkupExtension, IMultiValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is not bool b) return Visibility.Collapsed;
-        return b ? Visibility.Visible : Visibility.Collapsed;
+        if (values.Length != 2) throw new ArgumentException("Invalid parameters");
+
+        var items = (ICollection) values[0]!;
+        if (items.Count > 0) return Visibility.Collapsed;
+
+        if (values[1]! is string {Length: 0}) return Visibility.Collapsed;
+        if (values[1]! is false) return Visibility.Collapsed;
+
+        return Visibility.Visible;
     }
-    
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
-        return Convert(value, targetType, parameter, culture);
+        throw new NotSupportedException();
     }
-    
+
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;

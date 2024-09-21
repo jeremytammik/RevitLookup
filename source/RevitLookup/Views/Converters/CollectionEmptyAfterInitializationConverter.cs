@@ -23,21 +23,26 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using Visibility = System.Windows.Visibility;
 
-namespace RevitLookup.ViewModels.Converters;
+namespace RevitLookup.Views.Converters;
 
-public sealed class InverseBoolVisibilityConverter : MarkupExtension, IValueConverter
+public sealed class CollectionEmptyAfterInitializationConverter : MarkupExtension, IMultiValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is not bool b) return Visibility.Collapsed;
-        return b ? Visibility.Collapsed : Visibility.Visible;
+        if (values[0]! is not int collectionSize) return Visibility.Collapsed;
+        if (values[1]! is not bool isInitialized) return Visibility.Collapsed;
+
+        if (!isInitialized) return Visibility.Collapsed;
+        if (collectionSize > 0) return Visibility.Collapsed;
+
+        return Visibility.Visible;
     }
-    
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
-        return Convert(value, targetType, parameter, culture);
+        throw new NotSupportedException();
     }
-    
+
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;

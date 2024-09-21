@@ -18,7 +18,6 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
 using RevitLookup.ViewModels.Dialogs.Visualization;
 using Wpf.Ui;
 
@@ -27,34 +26,26 @@ namespace RevitLookup.Views.Dialogs.Visualization;
 public sealed partial class BoundingBoxVisualizationDialog
 {
     private readonly BoundingBoxVisualizationViewModel _viewModel;
-    private readonly IContentDialogService _dialogService;
-    
-    public BoundingBoxVisualizationDialog(BoundingBoxVisualizationViewModel viewModel, IContentDialogService dialogService)
+
+    public BoundingBoxVisualizationDialog(
+        IContentDialogService dialogService,
+        BoundingBoxVisualizationViewModel viewModel)
+        : base(dialogService.GetDialogHost())
     {
         _viewModel = viewModel;
-        _dialogService = dialogService;
-        
+
         DataContext = _viewModel;
         InitializeComponent();
     }
-    
-    public async Task ShowAsync(BoundingBoxXYZ box)
+
+    public async Task ShowDialogAsync(BoundingBoxXYZ box)
     {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Visualization settings",
-            Content = this,
-            CloseButtonText = "Close",
-            DialogHorizontalAlignment = HorizontalAlignment.Center,
-            DialogVerticalAlignment = VerticalAlignment.Center
-        };
-        
         _viewModel.RegisterServer(box);
         MonitorServerConnection();
-        
-        await _dialogService.ShowSimpleDialogAsync(dialogOptions);
+
+        await ShowAsync();
     }
-    
+
     private void MonitorServerConnection()
     {
         Unloaded += (_, _) => _viewModel.UnregisterServer();

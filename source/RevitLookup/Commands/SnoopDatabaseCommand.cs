@@ -34,6 +34,6 @@ public class SnoopDatabaseCommand : ExternalCommand
     {
         Host.GetService<ILookupService>()
             .Snoop(SnoopableType.Database)
-            .Show<SnoopView>();
+            .Show<SnoopPage>();
     }
 }

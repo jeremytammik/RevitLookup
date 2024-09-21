@@ -46,17 +46,9 @@ public sealed partial class FamilySizeTableSelectDialog
 
     public async Task ShowExportDialogAsync()
     {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Select family size table",
-            Content = this,
-            PrimaryButtonText = "Export",
-            CloseButtonText = "Close",
-            DialogMaxHeight = 230,
-            DialogMaxWidth = 500
-        };
-
-        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        PrimaryButtonText = "Export";
+        
+        var dialogResult = await ShowAsync();
         if (dialogResult != ContentDialogResult.Primary) return;
         
         try
@@ -72,23 +64,15 @@ public sealed partial class FamilySizeTableSelectDialog
 
     public async Task ShowEditDialogAsync()
     {
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Select family size table",
-            Content = this,
-            PrimaryButtonText = "Edit",
-            CloseButtonText = "Close",
-            DialogMaxHeight = 230,
-            DialogMaxWidth = 500
-        };
+        PrimaryButtonText = "Edit";
 
-        var dialogResult = await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions);
+        var dialogResult = await ShowAsync();
         if (dialogResult != ContentDialogResult.Primary) return;
 
         try
         {
-            var dialog = new FamilySizeTableEditDialog(_serviceProvider, _document, _manager, _viewModel.SelectedTable);
-            await dialog.ShowAsync();
+            var dialog = new FamilySizeTableEditDialog(_document, _manager, _viewModel.SelectedTable);
+            await dialog.ShowDialogAsync();
         }
         catch (Exception exception)
         {

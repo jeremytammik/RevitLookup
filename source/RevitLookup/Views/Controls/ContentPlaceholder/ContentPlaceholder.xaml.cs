@@ -18,24 +18,9 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using System.Windows;
+using System.Windows.Controls;
 
 // ReSharper disable once CheckNamespace
 namespace RevitLookup.Views.Controls;
 
-public sealed partial class ContentPlaceholder
-{
-    public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register(nameof(Text), typeof(string), typeof(ContentPlaceholder), new PropertyMetadata(default(string)));
-
-    public string Text
-    {
-        get => (string) GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
-
-    public ContentPlaceholder()
-    {
-        InitializeComponent();
-    }
-}
+public sealed class ContentPlaceholder : ContentControl;

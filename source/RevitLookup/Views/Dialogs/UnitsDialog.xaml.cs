@@ -38,75 +38,56 @@ public sealed partial class UnitsDialog
 {
     private readonly UnitsViewModel _viewModel;
     private readonly IServiceProvider _serviceProvider;
-    private readonly CancellationTokenSource _tokenSource = new();
-    
-    public UnitsDialog(IServiceProvider serviceProvider)
+
+    public UnitsDialog(
+        IContentDialogService dialogService,
+        IServiceProvider serviceProvider)
+        : base(dialogService.GetDialogHost())
     {
         _serviceProvider = serviceProvider;
         _viewModel = new UnitsViewModel();
         DataContext = _viewModel;
         InitializeComponent();
     }
-    
-    public async Task ShowParametersAsync()
+
+    public async Task ShowParametersDialogAsync()
     {
         _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<BuiltInParameter>);
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "BuiltIn Parameters",
-            Content = this,
-            CloseButtonText = "Close",
-            DialogMaxWidth = 1000,
-            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollVisibility = ScrollBarVisibility.Disabled
-        };
-        
-        await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
-        _tokenSource.Dispose();
+
+        Title = "BuiltIn Parameters";
+        DialogMaxWidth = 1000;
+
+        await ShowAsync();
     }
-    
-    public async Task ShowCategoriesAsync()
+
+    public async Task ShowCategoriesDialogAsync()
     {
         _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<BuiltInCategory>);
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "BuiltIn Categories",
-            Content = this,
-            CloseButtonText = "Close",
-            DialogMaxWidth = 600,
-            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollVisibility = ScrollBarVisibility.Disabled
-        };
+
+        Title = "BuiltIn Categories";
+        DialogMaxWidth = 600;
         
-        await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
-        _tokenSource.Dispose();
+        await ShowAsync();
     }
-    
-    public async Task ShowForgeSchemaAsync()
+
+    public async Task ShowForgeSchemaDialogAsync()
     {
         _viewModel.Units = await Task.Run(RevitShell.GetUnitInfos<ForgeTypeId>);
-        var dialogOptions = new SimpleContentDialogCreateOptions
-        {
-            Title = "Forge Schema",
-            Content = this,
-            CloseButtonText = "Close",
-            DialogMaxWidth = 1100,
-            HorizontalScrollVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollVisibility = ScrollBarVisibility.Disabled
-        };
         
         ClassColumn.Visibility = Visibility.Visible;
-        await _serviceProvider.GetRequiredService<IContentDialogService>().ShowSimpleDialogAsync(dialogOptions, _tokenSource.Token);
-        _tokenSource.Dispose();
+        Title = "Forge Schema";
+        DialogMaxWidth = 1100;
+
+        await ShowAsync();
     }
-    
+
     private void OnMouseEnter(object sender, RoutedEventArgs routedEventArgs)
     {
         var element = (FrameworkElement) sender;
         var unitInfo = (UnitInfo) element.DataContext;
         CreateTreeContextMenu(unitInfo, element);
     }
-    
+
     private void CreateTreeContextMenu(UnitInfo info, FrameworkElement row)
     {
         Debug.WriteLine(info.Label);
@@ -115,17 +96,17 @@ public sealed partial class UnitsDialog
             Resources = Wpf.Ui.Application.MainWindow.Resources,
             PlacementTarget = row
         };
-        
+
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy unit")
             .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Unit))
             .SetShortcut(ModifierKeys.Control, Key.C);
-        
+
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy label")
             .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Label))
             .SetShortcut(ModifierKeys.Control | ModifierKeys.Alt, Key.C);
-        
+
         if (info.Class is not null)
         {
             contextMenu.AddMenuItem("CopyMenuItem")
@@ -133,7 +114,7 @@ public sealed partial class UnitsDialog
                 .SetCommand(info, unitInfo => Clipboard.SetDataObject(unitInfo.Class))
                 .SetShortcut(ModifierKeys.Control | ModifierKeys.Shift, Key.C);
         }
-        
+
         contextMenu.AddMenuItem("SnoopMenuItem")
             .SetHeader("Snoop")
             .SetCommand(info, unitInfo =>
@@ -144,13 +125,13 @@ public sealed partial class UnitsDialog
                     BuiltInCategory category => RevitShell.GetBuiltinCategory(category),
                     _ => unitInfo.UnitObject
                 };
-                
-                _tokenSource.Cancel();
+
+                Hide();
                 _serviceProvider.GetRequiredService<ISnoopVisualService>().Snoop(new SnoopableObject(obj));
-                _serviceProvider.GetRequiredService<INavigationService>().Navigate(typeof(SnoopView));
+                _serviceProvider.GetRequiredService<INavigationService>().Navigate(typeof(SnoopPage));
             });
-        
-        
+
+
         row.ContextMenu = contextMenu;
     }
 }
