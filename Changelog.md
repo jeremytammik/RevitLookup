@@ -1,5 +1,84 @@
 # Changelog
 
+# 2025-06-23 **2025.0.9**
+
+## Revit.ini File Editor Utility
+
+Revit includes a Revit.ini file that stores various configuration settings affecting the behavior of the software.
+This file is used to define user preferences, system behavior, and default configurations.
+The Revit.ini File Editor offers a convenient interface for modifying this file, allowing you to manage various settings without manually editing the file.
+
+This tool is particularly useful for managing multiple versions of Revit or customizing settings for different projects and users.
+
+![image](https://github.com/user-attachments/assets/701a0a97-1906-419d-950b-b70f9b852966)
+
+## Static dependency conflict analyzer
+
+Some users encounter issues launching RevitLookup, primarily due to conflicts with third-party plugins https://github.com/jeremytammik/RevitLookup/issues/269.
+
+New tools are now available to you to analyze and find the plugins causing these crashes.
+
+![image](https://github.com/user-attachments/assets/a5f94bd8-7eca-4998-91c7-99d7b079fa47)
+
+Download: https://github.com/jeremytammik/RevitLookup/issues/269#issuecomment-2323309590
+
+Many thanks to @RichardPinka for testing tools in the discussion: https://github.com/jeremytammik/RevitLookup/issues/281
+
+## Public RevitLookup roadmap
+
+What's Next in updates? Learn and provide feedback on what's in development for RevitLookup.
+
+See what’s new in the pipeline on the Public Roadmap: https://github.com/users/jeremytammik/projects/1
+
+![image](https://github.com/user-attachments/assets/14c3479d-871a-4f32-a933-a4b365e566bc)
+
+## Improvements
+
+New extensions:
+
+| Type        | Extension                       | Description                                                       | Author                                                                  |
+|:------------|---------------------------------|-------------------------------------------------------------------|:------------------------------------------------------------------------|
+| Pipe        | HasOpenConnector                | Checks if there is open piping connector for the pipe.            | https://github.com/jeremytammik/RevitLookup/pull/261 by @SergeyNefyodov |
+| Family      | FamilyCanConvertToFaceHostBased | Indicates whether the family can be converted to face host based. | https://github.com/jeremytammik/RevitLookup/pull/263 by @SergeyNefyodov |
+| Family      | GetProfileSymbols               | Gets the profile Family Symbols.                                  | https://github.com/jeremytammik/RevitLookup/pull/263 by @SergeyFyodorov |
+| Document    | GetLightFamily                  | Creates a light family object from the family document.           | https://github.com/jeremytammik/RevitLookup/pull/266 by @SergeyNefyodov |
+| LightFamily | GetLightTypeName                | Return the name for the light type.                               | https://github.com/jeremytammik/RevitLookup/pull/266 by @SergeyNefyodov |
+| LightFamily | GetLightType                    | Return a LightType object for the light type.                     | https://github.com/jeremytammik/RevitLookup/pull/266 by @SergeyNefyodov |
+| Application | GetMacroManager                 | Gets the Macro manager from the application.                      | https://github.com/jeremytammik/RevitLookup/pull/268 by @SergeyNefyodov |
+| Document    | GetMacroManager                 | Gets the Macro manager from the document.                         | https://github.com/jeremytammik/RevitLookup/pull/268 by @SergeyNefyodov |
+
+- **CylindricalFace** class support https://github.com/jeremytammik/RevitLookup/issues/264:
+    - Radius property support
+- **StructuralSettings** class support https://github.com/jeremytammik/RevitLookup/pull/282 by @SergeyNefyodov:
+    - GetStructuralSettings method support
+- **StructuralSettings** class support https://github.com/jeremytammik/RevitLookup/pull/283 by @SergeyNefyodov:
+    - GetActiveSunAndShadowSettings method support
+    - GetSunrise method support
+    - GetSunset method support
+    - GetSunset method support
+    - IsTimeIntervalValid method support
+    - IsAfterStartDateAndTime method support
+    - IsBeforeEndDateAndTime method support
+- **RevisionNumberingSequence** class support https://github.com/jeremytammik/RevitLookup/pull/289 by @SergeyNefyodov:
+    - GetAllRevisionNumberingSequences method support
+- **AnalyticalLinkType** class support https://github.com/jeremytammik/RevitLookup/pull/288 by @SergeyNefyodov:
+    - IsValidAnalyticalFixityState method support
+- **AreaVolumeSettings** class support https://github.com/jeremytammik/RevitLookup/pull/287 by @SergeyNefyodov:
+    - GetAreaVolumeSettings method support
+    - GetSpatialElementBoundaryLocation method support
+- Updated Contributing guide
+- Added a new issues templates
+
+## Bugs
+
+- Fixed missing quick access icon https://github.com/jeremytammik/RevitLookup/issues/267
+
+## Mics
+
+- Static members enabled by default
+- Events enabled by default
+- Extensions enabled by default
+
 # 2025-06-23 **2025.0.8**
 
 ## Addins dependencies isolation. End of DLL hell
@@ -53,13 +132,13 @@ Therefore, if your other plugins use `Nice3point.Revit.Toolkit`, it must be upda
 
   Visualisation now supports scaling a solid, relative to its centre. Exploring small objects is now even easier https://github.com/jeremytammik/RevitLookup/issues/251
 
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/dbe36b89-3065-469a-8768-fbd151bbe442)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/dbe36b89-3065-469a-8768-fbd151bbe442)
 
 - **Theme synchronisation with Revit**
 
   Starting with Revit version 2024, you can choose to automatically change the RevitLookup theme. Fans of darker colours will no longer have to dig through the settings every time
 
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/40844c42-ff8b-4bc6-949b-5a1b3660adf2)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/40844c42-ff8b-4bc6-949b-5a1b3660adf2)
 
 ## Improvements
 
@@ -107,15 +186,15 @@ understanding of the BIM.
 
 To illustrate the power of these visualization capabilities, here's a glimpse of the geometric objects you can now explore directly within RevitLookup:
 
-| Geometry    | Illustration                                                                                                     |
-|-------------|------------------------------------------------------------------------------------------------------------------|
-| Mesh        | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/84cd42fe-5248-4c13-8f30-0869396ad3b8) |
-| Face        | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/15ba15da-325e-499f-935e-fa5cc9b71390) |
-| Solid       | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/feacdb95-e5ea-43d0-9aef-b6a1f5116b37) |
-| Curve       | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/d08b0bf3-0622-4f49-b999-4365a0955129) |
-| Edge        | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/30291e03-8eb8-4de2-a54f-0c288ee4dcb2) |
-| BoundingBox | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/f800a552-86df-4554-8d5b-c53561720f0d) |
-| XYZ         | ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/72b3f7cb-279c-4465-9cff-7918e0aaf37c) |
+| Geometry    | Illustration                                                                                               |
+|-------------|------------------------------------------------------------------------------------------------------------|
+| Mesh        | ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/84cd42fe-5248-4c13-8f30-0869396ad3b8) |
+| Face        | ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/15ba15da-325e-499f-935e-fa5cc9b71390) |
+| Solid       | ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/feacdb95-e5ea-43d0-9aef-b6a1f5116b37) |
+| Curve       | ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/d08b0bf3-0622-4f49-b999-4365a0955129) |
+| Edge        | ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/30291e03-8eb8-4de2-a54f-0c288ee4dcb2) |
+| BoundingBox | ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/f800a552-86df-4554-8d5b-c53561720f0d) |
+| XYZ         | ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/72b3f7cb-279c-4465-9cff-7918e0aaf37c) |
 
 For detailed documentation, visit: https://github.com/jeremytammik/RevitLookup/wiki/Visualization
 
@@ -164,7 +243,7 @@ A new Release focused on improving core functionalities and robustness of the pr
 
 - Introducing a preview feature for **Family Size Table**, making it easier to manage and visualize family sizes by @SergeyNefyodov
   in https://github.com/jeremytammik/RevitLookup/pull/236
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/57001fab-cc5b-4973-a42a-70ffe3420b69)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/57001fab-cc5b-4973-a42a-70ffe3420b69)
   To access it:
     - Enable **Show Extensions** in the view menu
     - Select any **FamilyInstance**
@@ -192,7 +271,7 @@ A new Release focused on improving core functionalities and robustness of the pr
 ## General
 
 - **Memory diagnoser**
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/dfa0fc23-5a63-452d-8a73-25009424c99c)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/dfa0fc23-5a63-452d-8a73-25009424c99c)
 
   Memory column contains the size of allocated **managed memory**.
   Native ETW and allocations in C++ code are not included to avoid severe performance degradation.
@@ -200,7 +279,7 @@ A new Release focused on improving core functionalities and robustness of the pr
 ## Improvements
 
 - The different method overloading variations, are now displayed in the `Variants` collection
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/22d8c84b-097c-4da3-9dfa-f091a6de9b7f)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/22d8c84b-097c-4da3-9dfa-f091a6de9b7f)
   Previous: **GeometryElement**
 
   Now: **Variants\<GeometryElement\>**
@@ -432,34 +511,34 @@ In this release RevitLookup welcomes you with improved visuals, support for temp
 
 - **Navigation**. Updated navigation allows `Ctrl + Click` in the tree or grid to open any selected item or group of items in a new tab.
   This also allows you to analyze items that RevitLookup doesn't support, how about looking at StackTrace for exceptions
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/0c13c6da-772f-453b-9d34-bff609c04d95)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/0c13c6da-772f-453b-9d34-bff609c04d95)
 
 - **Color Preview**. Changes to the user interface give us the ability to customize the display of any type of data.
   And now you will be able to visually see how materials or ribbon looks like.
   `Autodesk.Revit.DB.Color` and `System.Windows.Media.Color` are supported
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/3b736961-26fa-4a24-b916-bb7c4fddfda9)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/3b736961-26fa-4a24-b916-bb7c4fddfda9)
 
 ## Improvements
 
 - **Update available notification**. Updates are now checked automatically and an icon is now displayed in the navigation area if a new version is available
 
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/b7ab5fd0-b927-4b9a-805c-91e45fbd9f14)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/b7ab5fd0-b927-4b9a-805c-91e45fbd9f14)
 
 - **Background effects** Available on windows 11 only.
 
   Acrylic:
 
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/259012f7-f19d-4779-8b17-4be96a404023)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/259012f7-f19d-4779-8b17-4be96a404023)
 
   Blur:
 
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/e8046bf0-ae48-446e-94e3-e3fdc59898e4)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/e8046bf0-ae48-446e-94e3-e3fdc59898e4)
 
   The visual representation of the background depends on your desktop image and current theme
 
 - **Color extensions** Convert color to other formats HEX, CMYK, etc. Color name identification, `en` and `ru` localizations available.
   `Autodesk.Revit.DB.Color` and `System.Windows.Media.Color` are supported
-  ![изображение](https://github.com/jeremytammik/RevitLookup/assets/20504884/668a9c5c-3239-4100-8829-63fc71c880fb)
+  ![image](https://github.com/jeremytammik/RevitLookup/assets/20504884/668a9c5c-3239-4100-8829-63fc71c880fb)
 
 ## Bugs
 
