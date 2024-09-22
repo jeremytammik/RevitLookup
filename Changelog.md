@@ -1,6 +1,6 @@
 # Changelog
 
-# 2025-06-23 **2025.0.9**
+# 2025-09-22 **2025.0.9**
 
 ## Revit.ini File Editor
 
@@ -19,9 +19,9 @@ Documentation: https://github.com/jeremytammik/RevitLookup/wiki/Revit.ini-File-E
 
 ## Static dependency conflict analyzer
 
-Some users encounter issues launching RevitLookup, primarily due to conflicts with third-party plugins https://github.com/jeremytammik/RevitLookup/issues/269.
+Some users experience issues launching RevitLookup, often caused by conflicts with third-party plugins (see issue https://github.com/jeremytammik/RevitLookup/issues/269).
 
-New tools are now available to you to analyze and find the plugins causing these crashes.
+To help resolve these issues, we've introduced new tools that allow you to analyze, identify and upgrade problematic plugins causing crashes.
 
 ![image](https://github.com/user-attachments/assets/a5f94bd8-7eca-4998-91c7-99d7b079fa47)
 
@@ -31,15 +31,15 @@ Many thanks to @RichardPinka for testing tools in the discussion: https://github
 
 ## Public RevitLookup roadmap
 
-What's Next in updates? Learn and provide feedback on what's in development for RevitLookup.
+Curious about what’s next? Stay updated on the latest developments for RevitLookup and share your feedback.
 
-See what’s new in the pipeline on the Public Roadmap: https://github.com/users/jeremytammik/projects/1
+Check out our Public Roadmap to see what’s coming up in future releases.: https://github.com/users/jeremytammik/projects/1
 
 ![image](https://github.com/user-attachments/assets/14c3479d-871a-4f32-a933-a4b365e566bc)
 
 ## Improvements
 
-New extensions:
+**New extensions**:
 
 | Type        | Extension                       | Description                                                       | Author                                                                  |
 |:------------|---------------------------------|-------------------------------------------------------------------|:------------------------------------------------------------------------|
@@ -52,7 +52,7 @@ New extensions:
 | Application | GetMacroManager                 | Gets the Macro manager from the application.                      | https://github.com/jeremytammik/RevitLookup/pull/268 by @SergeyNefyodov |
 | Document    | GetMacroManager                 | Gets the Macro manager from the document.                         | https://github.com/jeremytammik/RevitLookup/pull/268 by @SergeyNefyodov |
 
-New api support:
+**New API support**:
 
 - **CylindricalFace** class support https://github.com/jeremytammik/RevitLookup/issues/264:
     - Radius property support
@@ -73,9 +73,12 @@ New api support:
 - **AreaVolumeSettings** class support https://github.com/jeremytammik/RevitLookup/pull/287 by @SergeyNefyodov:
     - GetAreaVolumeSettings method support
     - GetSpatialElementBoundaryLocation method support
-- Modules now displays `Load context` for .Net 8 and higher
-- Updated Contributing guide
-- Added a new Github issues templates
+
+**New default settings:**
+
+- `Show Static` members enabled by default
+- `Show Events` enabled by default
+- `Show Extensions` enabled by default
 
 ## Bugs
 
@@ -84,9 +87,8 @@ New api support:
 
 ## Mics
 
-- `Show Static` members enabled by default
-- `Show Events` enabled by default
-- `Show Extensions` enabled by default
+- Updated **Contributing** guide.
+- Added a new GitHub **issue templates**.
 
 # 2025-06-23 **2025.0.8**
 
