@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <UseWPF>true</UseWPF>
+        <NoWarn>CS8826</NoWarn>
         <Nullable>disable</Nullable>
         <LangVersion>latest</LangVersion>
         <PlatformTarget>x64</PlatformTarget>
