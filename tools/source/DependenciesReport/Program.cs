@@ -17,7 +17,7 @@ foreach (var addinLocation in addinLocations)
     summaryWriter.WriteLine();
 
     var addinDirectories = AddinUtilities.GetAddinDirectories(addinLocation);
-    var dependenciesMap = DependenciesTools.CreateDependenciesMap(addinDirectories);
+    var dependenciesMap = DependenciesTools.CreateDependenciesMap(addinLocation.Key, addinDirectories);
     var dependenciesTable = TableFormater.CreateReportTable(dependenciesMap);
 
     if (dependenciesTable.Rows.Count == 0)

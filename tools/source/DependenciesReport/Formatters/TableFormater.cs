@@ -57,7 +57,7 @@ public static class TableFormater
                 if (uniqueAssemblies.Contains(assembly)) conflictAssemblies.Add(assembly);
             }
 
-            var conflictDirectory = new DirectoryDescriptor(directory.Name, directory.Path)
+            var conflictDirectory = new DirectoryDescriptor(directory.Name, directory.Path, directory.Version)
             {
                 Assemblies = conflictAssemblies
             };

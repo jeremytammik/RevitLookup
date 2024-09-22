@@ -5,13 +5,13 @@ namespace DependenciesReport.Utilities;
 
 public static class DependenciesTools
 {
-    public static List<DirectoryDescriptor> CreateDependenciesMap(Dictionary<string, string> addinDirectories)
+    public static List<DirectoryDescriptor> CreateDependenciesMap(string version, Dictionary<string, string> addinDirectories)
     {
         var dependenciesMap = new List<DirectoryDescriptor>();
 
         foreach (var directoryMetadata in addinDirectories)
         {
-            var directoryDescriptor = new DirectoryDescriptor(directoryMetadata.Key, directoryMetadata.Value);
+            var directoryDescriptor = new DirectoryDescriptor(directoryMetadata.Key, directoryMetadata.Value, version);
             var assemblies = Directory.GetFiles(directoryMetadata.Value, "*.dll");
 
             foreach (var assembly in assemblies)
@@ -57,6 +57,8 @@ public static class DependenciesTools
                 {
                     if (entry.Assembly.Version.CompareTo(maxVersion) < 0)
                     {
+                        if (!ValidateIsolationContext(entry.Directory, entry.Assembly)) continue;
+
                         try
                         {
                             File.Copy(maxVersionFilePath, entry.Assembly.Path, true);
@@ -70,5 +72,20 @@ public static class DependenciesTools
                 }
             }
         }
+    }
+
+    private static bool ValidateIsolationContext(DirectoryDescriptor directory, AssemblyDescriptor assembly)
+    {
+        if (!int.TryParse(directory.Version, out var domainVersion)) return true;
+        if (domainVersion < 2025) return true;
+
+        const string isolationProvider = "Nice3point.Revit.Toolkit.dll";
+        if (directory.Assemblies.Any(descriptor => descriptor.Name == isolationProvider))
+        {
+            if (assembly.Name == isolationProvider) return true;
+            return false;
+        }
+
+        return true;
     }
 }

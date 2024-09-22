@@ -85,7 +85,7 @@ public static partial class AddinUtilities
     {
         var versionRegex = RevitVersionRegex();
         var matches = versionRegex.Matches(file);
-        if (matches.Count == 0) return "Unknown Revit version";
+        if (matches.Count == 0) return "Unknown";
 
         return matches[^1].Value;
     }
