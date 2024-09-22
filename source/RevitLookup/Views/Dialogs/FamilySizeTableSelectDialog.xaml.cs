@@ -21,7 +21,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.Dialogs;
-using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;
@@ -47,10 +46,10 @@ public sealed partial class FamilySizeTableSelectDialog
     public async Task ShowExportDialogAsync()
     {
         PrimaryButtonText = "Export";
-        
+
         var dialogResult = await ShowAsync();
         if (dialogResult != ContentDialogResult.Primary) return;
-        
+
         try
         {
             _viewModel.Export();

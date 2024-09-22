@@ -205,7 +205,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdateXColor(Color value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -219,7 +219,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdateYColor(Color value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -233,7 +233,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdateZColor(Color value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -247,7 +247,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdateAxisLength(double value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -261,7 +261,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdateTransparency(double value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -275,7 +275,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdatePlaneVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -287,7 +287,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdateXAxisVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -299,7 +299,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdateYAxisVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -311,7 +311,7 @@ public sealed class XyzVisualizationServer : IDirectContext3DServer
 
     public void UpdateZAxisVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)

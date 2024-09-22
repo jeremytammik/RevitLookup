@@ -190,7 +190,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     public void UpdateFaceColor(Color value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -204,7 +204,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     public void UpdateEdgeColor(Color value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -218,7 +218,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     public void UpdateTransparency(double value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -232,7 +232,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     public void UpdateScale(double value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         _scale = value;
@@ -250,7 +250,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     public void UpdateFaceVisibility(bool value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -263,7 +263,7 @@ public sealed class SolidVisualizationServer : IDirectContext3DServer
 
     public void UpdateEdgeVisibility(bool value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)

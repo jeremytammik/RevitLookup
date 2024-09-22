@@ -33,7 +33,7 @@ public static class RevitShell
     public static AsyncEventHandler AsyncEventHandler { get; private set; }
     public static AsyncEventHandler<IList<SnoopableObject>> ExternalElementHandler { get; private set; }
     public static AsyncEventHandler<IList<Descriptor>> ExternalDescriptorHandler { get; private set; }
-    
+
     public static void RegisterHandlers()
     {
         ActionEventHandler = new ActionEventHandler();
@@ -41,7 +41,7 @@ public static class RevitShell
         ExternalElementHandler = new AsyncEventHandler<IList<SnoopableObject>>();
         ExternalDescriptorHandler = new AsyncEventHandler<IList<Descriptor>>();
     }
-    
+
     public static UIControlledApplication CreateUiControlledApplication()
     {
         return (UIControlledApplication) Activator.CreateInstance(
@@ -51,7 +51,7 @@ public static class RevitShell
             [Context.UiApplication],
             null);
     }
-    
+
     public static List<UnitInfo> GetUnitInfos<T>()
     {
         var unitType = typeof(T);
@@ -59,20 +59,20 @@ public static class RevitShell
         {
             return GetBuiltinParametersInfo();
         }
-        
+
         if (unitType == typeof(BuiltInCategory))
         {
             return GetBuiltinCategoriesInfo();
         }
-        
+
         if (unitType == typeof(ForgeTypeId))
         {
             return GetForgeInfo();
         }
-        
+
         throw new NotSupportedException();
     }
-    
+
     private static List<UnitInfo> GetBuiltinParametersInfo()
     {
         var parameters = Enum.GetValues(typeof(BuiltInParameter)).Cast<BuiltInParameter>();
@@ -87,10 +87,10 @@ public static class RevitShell
                 // ignored
                 // Some parameters don't have a label
             }
-        
+
         return list;
     }
-    
+
     private static List<UnitInfo> GetBuiltinCategoriesInfo()
     {
         var categories = Enum.GetValues(typeof(BuiltInCategory)).Cast<BuiltInCategory>();
@@ -105,14 +105,14 @@ public static class RevitShell
                 // ignored
                 // Some categories don't have a label
             }
-        
+
         return list;
     }
-    
+
     private static List<UnitInfo> GetForgeInfo()
     {
         const BindingFlags searchFlags = BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;
-        
+
         var dataTypes = new List<PropertyInfo>();
 #if REVIT2022_OR_GREATER
         dataTypes.AddRange(typeof(UnitTypeId).GetProperties(searchFlags));
@@ -139,7 +139,7 @@ public static class RevitShell
             })
             .ToList();
     }
-    
+
     private static string GetClassName(PropertyInfo property)
     {
         var type = property.DeclaringType!;
@@ -147,28 +147,28 @@ public static class RevitShell
         stringBuilder.Append(type.Name);
         stringBuilder.Append('.');
         stringBuilder.Append(property.Name);
-        
+
         while (type.IsNested)
         {
             type = type.DeclaringType!;
             stringBuilder.Insert(0, '.');
             stringBuilder.Insert(0, type.Name);
         }
-        
+
         return stringBuilder.ToString();
     }
-    
+
     private static string GetLabel(ForgeTypeId typeId, PropertyInfo property)
     {
         if (typeId.Empty()) return string.Empty;
         if (property.Name == nameof(SpecTypeId.Custom)) return string.Empty;
-        
+
         var type = property.DeclaringType;
         while (type!.IsNested)
         {
             type = type.DeclaringType;
         }
-        
+
         try
         {
             return type.Name switch
@@ -190,11 +190,11 @@ public static class RevitShell
             return string.Empty;
         }
     }
-    
+
     public static Parameter GetBuiltinParameter(BuiltInParameter builtInParameter)
     {
         const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-        
+
         var documentType = typeof(Document);
         var parameterType = typeof(Parameter);
         var assembly = Assembly.GetAssembly(parameterType)!;
@@ -203,24 +203,24 @@ public static class RevitShell
         var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
         var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
         var parameterCtorType = parameterType.GetConstructor(bindingFlags, null, [aDocumentType.MakePointerType(), elementIdType.MakePointerType()], null)!;
-        
+
         var elementId = Activator.CreateInstance(elementIdType)!;
         elementIdIdType.SetValue(elementId, builtInParameter);
-        
+
         var handle = GCHandle.Alloc(elementId);
         var elementIdPointer = GCHandle.ToIntPtr(handle);
         Marshal.StructureToPtr(elementId, elementIdPointer, true);
-        
-        var parameter = (Parameter) parameterCtorType.Invoke([getADocumentType.Invoke(Context.Document, null), elementIdPointer]);
+
+        var parameter = (Parameter) parameterCtorType.Invoke([getADocumentType.Invoke(Context.ActiveDocument, null), elementIdPointer]);
         handle.Free();
-        
+
         return parameter;
     }
-    
+
     public static Category GetBuiltinCategory(BuiltInCategory builtInCategory)
     {
         const BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly;
-        
+
         var documentType = typeof(Document);
         var categoryType = typeof(Category);
         var assembly = Assembly.GetAssembly(categoryType)!;
@@ -229,17 +229,17 @@ public static class RevitShell
         var elementIdIdType = elementIdType.GetField("<alignment member>", bindingFlags)!;
         var getADocumentType = documentType.GetMethod("getADocument", bindingFlags)!;
         var categoryCtorType = categoryType.GetConstructor(bindingFlags, null, [aDocumentType.MakePointerType(), elementIdType.MakePointerType()], null)!;
-        
+
         var elementId = Activator.CreateInstance(elementIdType)!;
         elementIdIdType.SetValue(elementId, builtInCategory);
-        
+
         var handle = GCHandle.Alloc(elementId);
         var elementIdPointer = GCHandle.ToIntPtr(handle);
         Marshal.StructureToPtr(elementId, elementIdPointer, true);
-        
-        var category = (Category) categoryCtorType.Invoke([getADocumentType.Invoke(Context.Document, null), elementIdPointer]);
+
+        var category = (Category) categoryCtorType.Invoke([getADocumentType.Invoke(Context.ActiveDocument, null), elementIdPointer]);
         handle.Free();
-        
+
         return category;
     }
 }

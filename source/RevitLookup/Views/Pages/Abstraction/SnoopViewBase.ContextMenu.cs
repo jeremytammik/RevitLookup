@@ -43,18 +43,18 @@ public partial class SnoopViewBase
             PlacementTarget = row,
             DataContext = ViewModel
         };
-        
+
         row.ContextMenu = contextMenu;
-        
+
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetCommand(descriptor, parameter => Clipboard.SetDataObject(parameter.Name))
             .SetShortcut(ModifierKeys.Control, Key.C);
         contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName))
             .SetShortcut(Key.F1);
-        
+
         if (descriptor is not IDescriptorConnector connector) return;
-        
+
         try
         {
             connector.RegisterMenu(contextMenu);
@@ -63,12 +63,12 @@ public partial class SnoopViewBase
         {
             var logger = ViewModel.ServiceProvider.GetRequiredService<ILogger<SnoopViewBase>>();
             var notificationService = ViewModel.ServiceProvider.GetRequiredService<NotificationService>();
-            
+
             logger.LogError(exception, "RegisterMenu error");
             notificationService.ShowError("RegisterMenu error", exception);
         }
     }
-    
+
     /// <summary>
     ///     Data grid context menu
     /// </summary>
@@ -80,16 +80,16 @@ public partial class SnoopViewBase
             PlacementTarget = dataGrid,
             DataContext = ViewModel
         };
-        
+
         dataGrid.ContextMenu = contextMenu;
-        
+
         contextMenu.AddMenuItem("RefreshMenuItem")
             .SetCommand(ViewModel.RefreshMembersCommand)
             .SetGestureText(Key.F5);
-        
+
         contextMenu.AddSeparator();
         contextMenu.AddLabel("Columns");
-        
+
         contextMenu.AddMenuItem()
             .SetHeader("Time")
             .SetChecked(dataGrid.Columns[2].Visibility == Visibility.Visible)
@@ -98,7 +98,7 @@ public partial class SnoopViewBase
                 _settings.ShowTimeColumn = parameter.Visibility != Visibility.Visible;
                 parameter.Visibility = _settings.ShowTimeColumn ? Visibility.Visible : Visibility.Collapsed;
             });
-        
+
         contextMenu.AddMenuItem()
             .SetHeader("Memory")
             .SetChecked(dataGrid.Columns[3].Visibility == Visibility.Visible)
@@ -107,10 +107,10 @@ public partial class SnoopViewBase
                 _settings.ShowMemoryColumn = parameter.Visibility != Visibility.Visible;
                 parameter.Visibility = _settings.ShowMemoryColumn ? Visibility.Visible : Visibility.Collapsed;
             });
-        
+
         contextMenu.AddSeparator();
         contextMenu.AddLabel("Show");
-        
+
         contextMenu.AddMenuItem()
             .SetHeader("Events")
             .SetChecked(_settings.IncludeEvents)
@@ -144,7 +144,7 @@ public partial class SnoopViewBase
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
         contextMenu.AddMenuItem()
-            .SetHeader("Root hierarchy")
+            .SetHeader("Root")
             .SetChecked(_settings.IncludeRootHierarchy)
             .SetCommand(_settings, parameter =>
             {
@@ -168,7 +168,7 @@ public partial class SnoopViewBase
                 return ViewModel.RefreshMembersCommand.ExecuteAsync(null);
             });
     }
-    
+
     /// <summary>
     ///     Data grid row context menu
     /// </summary>
@@ -180,26 +180,26 @@ public partial class SnoopViewBase
             PlacementTarget = row,
             DataContext = ViewModel
         };
-        
+
         row.ContextMenu = contextMenu;
-        
+
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetCommand(descriptor, parameter => Clipboard.SetDataObject($"{parameter.Name}: {parameter.Value.Descriptor.Name}"))
             .SetShortcut(ModifierKeys.Control, Key.C)
             .SetAvailability(descriptor.Value.Descriptor.Name is not null);
-        
+
         contextMenu.AddMenuItem("CopyMenuItem")
             .SetHeader("Copy value")
             .SetCommand(descriptor, parameter => Clipboard.SetDataObject(parameter.Value.Descriptor.Name))
             .SetShortcut(ModifierKeys.Control | ModifierKeys.Shift, Key.C)
             .SetAvailability(descriptor.Value.Descriptor.Name is not null);
-        
+
         contextMenu.AddMenuItem("HelpMenuItem")
             .SetCommand(descriptor, parameter => HelpUtils.ShowHelp(parameter.TypeFullName, parameter.Name))
             .SetShortcut(Key.F1);
-        
+
         if (descriptor.Value.Descriptor is not IDescriptorConnector connector) return;
-        
+
         try
         {
             connector.RegisterMenu(contextMenu);
@@ -208,7 +208,7 @@ public partial class SnoopViewBase
         {
             var logger = ViewModel.ServiceProvider.GetRequiredService<ILogger<SnoopViewBase>>();
             var notificationService = ViewModel.ServiceProvider.GetRequiredService<NotificationService>();
-            
+
             logger.LogError(exception, "RegisterMenu error");
             notificationService.ShowError("RegisterMenu error", exception);
         }

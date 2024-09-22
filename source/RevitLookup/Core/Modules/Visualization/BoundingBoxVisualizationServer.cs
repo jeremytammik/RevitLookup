@@ -184,7 +184,7 @@ public sealed class BoundingBoxVisualizationServer : IDirectContext3DServer
 
     public void UpdateSurfaceColor(Color color)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -198,7 +198,7 @@ public sealed class BoundingBoxVisualizationServer : IDirectContext3DServer
 
     public void UpdateEdgeColor(Color color)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -212,7 +212,7 @@ public sealed class BoundingBoxVisualizationServer : IDirectContext3DServer
 
     public void UpdateAxisColor(Color color)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -226,7 +226,7 @@ public sealed class BoundingBoxVisualizationServer : IDirectContext3DServer
 
     public void UpdateTransparency(double value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -241,7 +241,7 @@ public sealed class BoundingBoxVisualizationServer : IDirectContext3DServer
 
     public void UpdateSurfaceVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -254,7 +254,7 @@ public sealed class BoundingBoxVisualizationServer : IDirectContext3DServer
 
     public void UpdateEdgeVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -267,7 +267,7 @@ public sealed class BoundingBoxVisualizationServer : IDirectContext3DServer
 
     public void UpdateAxisVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)

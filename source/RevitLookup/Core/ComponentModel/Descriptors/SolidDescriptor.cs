@@ -32,21 +32,21 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescriptorConnector
 {
     private readonly Solid _solid;
-    
+
     public SolidDescriptor(Solid solid)
     {
         _solid = solid;
         Name = $"{solid.Volume.ToString(CultureInfo.InvariantCulture)} ft³";
     }
-    
+
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
         contextMenu.AddMenuItem("SelectMenuItem")
             .SetCommand(_solid, solid =>
             {
-                if (Context.UiDocument is null) return;
-                
+                if (Context.ActiveUiDocument is null) return;
+
                 RevitShell.ActionEventHandler.Raise(_ =>
                 {
                     var references = solid.Faces
@@ -54,19 +54,19 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
                         .Select(face => face.Reference)
                         .Where(reference => reference is not null)
                         .ToList();
-                    
+
                     if (references.Count == 0) return;
-                    
-                    Context.UiDocument.Selection.SetReferences(references);
+
+                    Context.ActiveUiDocument.Selection.SetReferences(references);
                 });
             })
             .SetShortcut(Key.F6);
-        
+
         contextMenu.AddMenuItem("ShowMenuItem")
             .SetCommand(_solid, solid =>
             {
-                if (Context.UiDocument is null) return;
-                
+                if (Context.ActiveUiDocument is null) return;
+
                 RevitShell.ActionEventHandler.Raise(_ =>
                 {
                     var references = solid.Faces
@@ -74,25 +74,25 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
                         .Select(face => face.Reference)
                         .Where(reference => reference is not null)
                         .ToList();
-                    
+
                     if (references.Count == 0) return;
-                    
-                    var element = references[0].ElementId.ToElement(Context.Document);
-                    if (element is not null) Context.UiDocument.ShowElements(element);
-                    Context.UiDocument.Selection.SetReferences(references);
+
+                    var element = references[0].ElementId.ToElement(Context.ActiveDocument);
+                    if (element is not null) Context.ActiveUiDocument.ShowElements(element);
+                    Context.ActiveUiDocument.Selection.SetReferences(references);
                 });
             })
             .SetShortcut(Key.F7);
 #endif
-        
+
         contextMenu.AddMenuItem("VisualizeMenuItem")
             .SetAvailability(_solid.IsValidForTessellation())
             .SetCommand(_solid, async solid =>
             {
-                if (Context.UiDocument is null) return;
-                
+                if (Context.ActiveUiDocument is null) return;
+
                 var context = (ISnoopViewModel) contextMenu.DataContext;
-                
+
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<SolidVisualizationDialog>();
@@ -106,7 +106,7 @@ public sealed class SolidDescriptor : Descriptor, IDescriptorExtension, IDescrip
             })
             .SetShortcut(Key.F8);
     }
-    
+
     public void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register(nameof(SolidUtils.SplitVolumes), _ => SolidUtils.SplitVolumes(_solid));

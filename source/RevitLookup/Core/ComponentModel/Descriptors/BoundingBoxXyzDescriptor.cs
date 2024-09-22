@@ -41,38 +41,38 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
             "BoundEnabled" => ResolveBoundEnabled,
             _ => null
         };
-        
+
         IVariants ResolveBounds()
         {
             return new Variants<XYZ>(2)
                 .Add(box.get_Bounds(0), "Bound 0")
                 .Add(box.get_Bounds(1), "Bound 1");
         }
-        
+
         IVariants ResolveMinEnabled()
         {
             var minEnabled0 = box.get_MinEnabled(0);
             var minEnabled1 = box.get_MinEnabled(1);
             var minEnabled2 = box.get_MinEnabled(2);
-            
+
             return new Variants<bool>(3)
                 .Add(minEnabled0, $"Dimension 0: {minEnabled0}")
                 .Add(minEnabled1, $"Dimension 1: {minEnabled1}")
                 .Add(minEnabled2, $"Dimension 2: {minEnabled2}");
         }
-        
+
         IVariants ResolveMaxEnabled()
         {
             var maxEnabled0 = box.get_MaxEnabled(0);
             var maxEnabled1 = box.get_MaxEnabled(1);
             var maxEnabled2 = box.get_MaxEnabled(2);
-            
+
             return new Variants<bool>(3)
                 .Add(maxEnabled0, $"Dimension 0: {maxEnabled0}")
                 .Add(maxEnabled1, $"Dimension 1: {maxEnabled1}")
                 .Add(maxEnabled2, $"Dimension 2: {maxEnabled2}");
         }
-        
+
         IVariants ResolveBoundEnabled()
         {
             var boundEnabled00 = box.get_BoundEnabled(0, 0);
@@ -81,7 +81,7 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
             var boundEnabled10 = box.get_BoundEnabled(1, 0);
             var boundEnabled11 = box.get_BoundEnabled(1, 1);
             var boundEnabled12 = box.get_BoundEnabled(1, 2);
-            
+
             return new Variants<bool>(6)
                 .Add(boundEnabled00, $"Bound 0, dimension 0: {boundEnabled00}")
                 .Add(boundEnabled01, $"Bound 0, dimension 1: {boundEnabled01}")
@@ -91,7 +91,7 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
                 .Add(boundEnabled12, $"Bound 1, dimension 2: {boundEnabled12}");
         }
     }
-    
+
     public void RegisterExtensions(IExtensionManager manager)
     {
         manager.Register("Centroid", _ => (box.Min + box.Max) / 2);
@@ -104,39 +104,39 @@ public sealed class BoundingBoxXyzDescriptor(BoundingBoxXYZ box) : Descriptor, I
             .Add(new XYZ(box.Max.X, box.Min.Y, box.Max.Z))
             .Add(new XYZ(box.Max.X, box.Max.Y, box.Min.Z))
             .Add(new XYZ(box.Max.X, box.Max.Y, box.Max.Z)));
-        
+
         manager.Register("Volume", _ =>
         {
             var length = box.Max.X - box.Min.X;
             var width = box.Max.Y - box.Min.Y;
             var height = box.Max.Z - box.Min.Z;
-            
+
             return length * width * height;
         });
-        
+
         manager.Register("SurfaceArea", _ =>
         {
             var length = box.Max.X - box.Min.X;
             var width = box.Max.Y - box.Min.Y;
             var height = box.Max.Z - box.Min.Z;
-            
+
             var area1 = length * width;
             var area2 = length * height;
             var area3 = width * height;
-            
+
             return 2 * (area1 + area2 + area3);
         });
     }
-    
+
     public void RegisterMenu(ContextMenu contextMenu)
     {
         contextMenu.AddMenuItem("VisualizeMenuItem")
             .SetCommand(box, async boxArg =>
             {
-                if (Context.UiDocument is null) return;
-                
+                if (Context.ActiveUiDocument is null) return;
+
                 var context = (ISnoopViewModel) contextMenu.DataContext;
-                
+
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<BoundingBoxVisualizationDialog>();

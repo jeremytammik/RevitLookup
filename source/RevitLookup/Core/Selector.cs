@@ -60,7 +60,7 @@ public static class Selector
 
     private static IList<SnoopableObject> SnoopDocument()
     {
-        return [new SnoopableObject(Context.Document)];
+        return [new SnoopableObject(Context.ActiveDocument)];
     }
 
     private static IList<SnoopableObject> SnoopApplication()
@@ -102,22 +102,22 @@ public static class Selector
     {
         var selectedIds = Context.UiApplication.ActiveUIDocument.Selection.GetElementIds();
         if (selectedIds.Count > 0)
-            return Context.Document
+            return Context.ActiveDocument
                 .GetElements(selectedIds)
                 .WherePasses(new ElementIdSetFilter(selectedIds))
                 .Select(element => new SnoopableObject(element))
                 .ToArray();
 
-        return Context.Document
-            .GetElements(Context.ActiveView.Id)
+        return Context.ActiveDocument
+            .GetElements(Context.ActiveView!.Id)
             .Select(element => new SnoopableObject(element))
             .ToArray();
     }
 
     private static IList<SnoopableObject> SnoopDatabase()
     {
-        var elementTypes = Context.Document.GetElements().WhereElementIsElementType();
-        var elementInstances = Context.Document.GetElements().WhereElementIsNotElementType();
+        var elementTypes = Context.ActiveDocument.GetElements().WhereElementIsElementType();
+        var elementInstances = Context.ActiveDocument.GetElements().WhereElementIsNotElementType();
         return elementTypes
             .UnionWith(elementInstances)
             .Select(element => new SnoopableObject(element))
@@ -126,11 +126,11 @@ public static class Selector
 
     private static IList<SnoopableObject> SnoopDependentElements()
     {
-        var selectedIds = Context.UiDocument!.Selection.GetElementIds();
+        var selectedIds = Context.ActiveUiDocument!.Selection.GetElementIds();
         if (selectedIds.Count == 0) return Array.Empty<SnoopableObject>();
 
         var elements = new List<ElementId>();
-        var selectedElements = Context.Document.GetElements(selectedIds).WhereElementIsNotElementType();
+        var selectedElements = Context.ActiveDocument.GetElements(selectedIds).WhereElementIsNotElementType();
 
         foreach (var selectedElement in selectedElements)
         {
@@ -138,7 +138,7 @@ public static class Selector
             foreach (var dependentElement in dependentElements) elements.Add(dependentElement);
         }
 
-        return Context.Document.GetElements()
+        return Context.ActiveDocument.GetElements()
             .WherePasses(new ElementIdSetFilter(elements))
             .Select(element => new SnoopableObject(element))
             .ToArray();
@@ -171,24 +171,24 @@ public static class Selector
 
     private static SnoopableObject SelectObject(ObjectType objectType)
     {
-        var reference = Context.UiDocument!.Selection.PickObject(objectType);
+        var reference = Context.ActiveUiDocument!.Selection.PickObject(objectType);
 
         object element;
         switch (objectType)
         {
             case ObjectType.Edge:
             case ObjectType.Face:
-                element = Context.Document.GetElement(reference).GetGeometryObjectFromReference(reference);
+                element = Context.ActiveDocument.GetElement(reference).GetGeometryObjectFromReference(reference);
                 break;
             case ObjectType.Element:
             case ObjectType.Subelement:
-                element = Context.Document.GetElement(reference);
+                element = Context.ActiveDocument.GetElement(reference);
                 break;
             case ObjectType.PointOnElement:
                 element = reference.GlobalPoint;
                 break;
             case ObjectType.LinkedElement:
-                var revitLinkInstance = reference.ElementId.ToElement<RevitLinkInstance>(Context.Document);
+                var revitLinkInstance = reference.ElementId.ToElement<RevitLinkInstance>(Context.ActiveDocument);
                 element = revitLinkInstance.GetLinkDocument().GetElement(reference.LinkedElementId);
                 break;
             case ObjectType.Nothing:

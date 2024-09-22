@@ -170,7 +170,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
 
     public void UpdateSurfaceColor(Color value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -184,7 +184,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
 
     public void UpdateMeshGridColor(Color value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -198,7 +198,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
 
     public void UpdateNormalVectorColor(Color value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -212,7 +212,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
 
     public void UpdateExtrusion(double value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -226,7 +226,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
 
     public void UpdateTransparency(double value)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -241,7 +241,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
 
     public void UpdateSurfaceVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -253,7 +253,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
 
     public void UpdateMeshGridVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)
@@ -265,7 +265,7 @@ public sealed class MeshVisualizationServer : IDirectContext3DServer
 
     public void UpdateNormalVectorVisibility(bool visible)
     {
-        var uiDocument = Context.UiDocument;
+        var uiDocument = Context.ActiveUiDocument;
         if (uiDocument is null) return;
 
         lock (_renderLock)

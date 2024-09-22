@@ -20,7 +20,6 @@
 
 using RevitLookup.Services.Contracts;
 using Wpf.Ui;
-using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;
 

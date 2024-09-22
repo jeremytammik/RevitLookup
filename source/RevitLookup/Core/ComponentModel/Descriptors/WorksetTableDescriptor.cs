@@ -31,12 +31,12 @@ public sealed class WorksetTableDescriptor : Descriptor, IDescriptorResolver
             nameof(WorksetTable.GetWorkset) when parameters.Length == 1 && parameters[0].ParameterType == typeof(WorksetId) => ResolveGetWorkset,
             _ => null
         };
-        
+
         IVariants ResolveGetWorkset()
         {
-            var worksets = new FilteredWorksetCollector(Context.Document).ToWorksets();
+            var worksets = new FilteredWorksetCollector(Context.ActiveDocument).ToWorksets();
             var resolveSet = new Variants<Workset>(worksets.Count);
-            
+
             foreach (var workset in worksets)
             {
                 resolveSet.Add(workset);

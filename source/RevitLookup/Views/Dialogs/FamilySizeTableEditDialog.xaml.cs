@@ -22,10 +22,8 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Microsoft.Extensions.DependencyInjection;
 using RevitLookup.ViewModels.Dialogs;
 using RevitLookup.Views.Extensions;
-using Wpf.Ui;
 using Wpf.Ui.Controls;
 
 namespace RevitLookup.Views.Dialogs;

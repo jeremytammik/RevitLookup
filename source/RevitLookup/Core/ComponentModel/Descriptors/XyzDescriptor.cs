@@ -31,23 +31,23 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class XyzDescriptor : Descriptor, IDescriptorConnector
 {
     private readonly XYZ _point;
-    
+
     public XyzDescriptor(XYZ point)
     {
         _point = point;
         Name = point.ToString();
     }
-    
+
     public void RegisterMenu(ContextMenu contextMenu)
     {
         contextMenu.AddMenuItem("VisualizeMenuItem")
             .SetAvailability(!_point.IsUnitLength())
             .SetCommand(_point, async point =>
             {
-                if (Context.UiDocument is null) return;
-                
+                if (Context.ActiveUiDocument is null) return;
+
                 var context = (ISnoopViewModel) contextMenu.DataContext;
-                
+
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<XyzVisualizationDialog>();

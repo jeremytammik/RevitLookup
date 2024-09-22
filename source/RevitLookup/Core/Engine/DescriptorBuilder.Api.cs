@@ -27,7 +27,7 @@ public sealed partial class DescriptorBuilder
         var builder = new DescriptorBuilder
         {
             _obj = null,
-            Context = Nice3point.Revit.Toolkit.Context.Document
+            Context = Nice3point.Revit.Toolkit.Context.ActiveDocument
         };
 
         return builder.BuildStaticObject(type);

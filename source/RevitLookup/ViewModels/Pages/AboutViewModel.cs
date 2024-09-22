@@ -26,7 +26,6 @@ using RevitLookup.Models.Options;
 using RevitLookup.Services.Contracts;
 using RevitLookup.Services.Enums;
 using RevitLookup.Views.Dialogs;
-using Wpf.Ui;
 
 namespace RevitLookup.ViewModels.Pages;
 

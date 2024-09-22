@@ -33,50 +33,50 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
     private readonly Curve _curve;
-    
+
     public CurveDescriptor(Curve curve)
     {
         _curve = curve;
         if (curve.IsBound || curve.IsCyclic) Name = $"{curve.Length.ToString(CultureInfo.InvariantCulture)} ft";
     }
-    
+
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
         contextMenu.AddMenuItem("SelectMenuItem")
             .SetCommand(_curve, curve =>
             {
-                if (Context.UiDocument is null) return;
+                if (Context.ActiveUiDocument is null) return;
                 if (curve.Reference is null) return;
-                
-                RevitShell.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetReferences([curve.Reference]); });
+
+                RevitShell.ActionEventHandler.Raise(_ => { Context.ActiveUiDocument.Selection.SetReferences([curve.Reference]); });
             })
             .SetShortcut(Key.F6);
-        
+
         contextMenu.AddMenuItem("ShowMenuItem")
             .SetCommand(_curve, curve =>
             {
-                if (Context.UiDocument is null) return;
+                if (Context.ActiveUiDocument is null) return;
                 if (curve.Reference is null) return;
-                
+
                 RevitShell.ActionEventHandler.Raise(_ =>
                 {
-                    var element = curve.Reference.ElementId.ToElement(Context.Document);
-                    if (element is not null) Context.UiDocument.ShowElements(element);
-                    Context.UiDocument.Selection.SetReferences([curve.Reference]);
+                    var element = curve.Reference.ElementId.ToElement(Context.ActiveDocument);
+                    if (element is not null) Context.ActiveUiDocument.ShowElements(element);
+                    Context.ActiveUiDocument.Selection.SetReferences([curve.Reference]);
                 });
             })
             .SetShortcut(Key.F7);
 #endif
-        
+
         contextMenu.AddMenuItem("VisualizeMenuItem")
             .SetAvailability((_curve.IsBound || _curve.IsCyclic) && _curve.ApproximateLength > 1e-6)
             .SetCommand(_curve, async curve =>
             {
-                if (Context.UiDocument is null) return;
-                
+                if (Context.ActiveUiDocument is null) return;
+
                 var context = (ISnoopViewModel) contextMenu.DataContext;
-                
+
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<PolylineVisualizationDialog>();
@@ -90,7 +90,7 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
             })
             .SetShortcut(Key.F8);
     }
-    
+
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -101,35 +101,35 @@ public sealed class CurveDescriptor : Descriptor, IDescriptorResolver, IDescript
             nameof(Curve.Evaluate) => ResolveEvaluate,
             _ => null
         };
-        
+
         IVariants ResolveEvaluate()
         {
             var variants = new Variants<XYZ>(3);
             var endParameter0 = _curve.GetEndParameter(0);
             var endParameter1 = _curve.GetEndParameter(1);
             var endParameterMid = (endParameter0 + endParameter1) / 2;
-            
+
             variants.Add(_curve.Evaluate(endParameter0, false), $"Parameter {endParameter0.Round(3)}");
             variants.Add(_curve.Evaluate(endParameterMid, false), $"Parameter {endParameterMid.Round(3)}");
             variants.Add(_curve.Evaluate(endParameter1, false), $"Parameter {endParameter1.Round(3)}");
-            
+
             return variants;
         }
-        
+
         IVariants ResolveGetEndPoint()
         {
             return new Variants<XYZ>(2)
                 .Add(_curve.GetEndPoint(0), "Point 0")
                 .Add(_curve.GetEndPoint(1), "Point 1");
         }
-        
+
         IVariants ResolveGetEndParameter()
         {
             return new Variants<double>(2)
                 .Add(_curve.GetEndParameter(0), "Parameter 0")
                 .Add(_curve.GetEndParameter(1), "Parameter 1");
         }
-        
+
         IVariants ResolveGetEndPointReference()
         {
             return new Variants<Reference>(2)

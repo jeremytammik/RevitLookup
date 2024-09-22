@@ -36,12 +36,12 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
 
         IVariants ResolveGetAssociatedFamilyParameter()
         {
-            var elementTypes = Context.Document.GetElements().WhereElementIsElementType();
-            var elementInstances = Context.Document.GetElements().WhereElementIsNotElementType();
+            var elementTypes = Context.ActiveDocument.GetElements().WhereElementIsElementType();
+            var elementInstances = Context.ActiveDocument.GetElements().WhereElementIsNotElementType();
             var elements = elementTypes
                 .UnionWith(elementInstances)
                 .ToElements();
-            
+
             var resolveSet = new Variants<KeyValuePair<Parameter, FamilyParameter>>(elements.Count);
             foreach (var element in elements)
             {
@@ -54,10 +54,10 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
                     }
                 }
             }
-            
+
             return resolveSet;
         }
-        
+
         IVariants ResolveIsParameterLockable()
         {
             var familyParameters = familyManager.Parameters;
@@ -67,10 +67,10 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
                 var result = familyManager.IsParameterLockable(parameter);
                 resolveSet.Add(result, $"{parameter.Definition.Name}: {result}");
             }
-            
+
             return resolveSet;
         }
-        
+
         IVariants ResolveIsParameterLocked()
         {
             var familyParameters = familyManager.Parameters;
@@ -80,7 +80,7 @@ public sealed class FamilyManagerDescriptor(FamilyManager familyManager) : Descr
                 var result = familyManager.IsParameterLocked(parameter);
                 resolveSet.Add(result, $"{parameter.Definition.Name}: {result}");
             }
-            
+
             return resolveSet;
         }
     }

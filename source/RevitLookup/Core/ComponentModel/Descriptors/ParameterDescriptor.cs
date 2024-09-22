@@ -26,7 +26,6 @@ using Microsoft.Extensions.Logging;
 using RevitLookup.ViewModels.Contracts;
 using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Extensions;
-using Wpf.Ui.Controls;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
 
@@ -70,7 +69,7 @@ public sealed class ParameterDescriptor : Descriptor, IDescriptorResolver, IDesc
             .SetAvailability(!_parameter.IsReadOnly && _parameter.StorageType != StorageType.None)
             .SetCommand(_parameter, EditParameterHandler)
             .SetShortcut(Key.F2);
-        
+
         return;
 
         async Task EditParameterHandler(Parameter parameter)

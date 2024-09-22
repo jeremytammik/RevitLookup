@@ -2,15 +2,20 @@
 
 # 2025-06-23 **2025.0.9**
 
-## Revit.ini File Editor Utility
+## Revit.ini File Editor
 
-Revit includes a Revit.ini file that stores various configuration settings affecting the behavior of the software.
-This file is used to define user preferences, system behavior, and default configurations.
-The Revit.ini File Editor offers a convenient interface for modifying this file, allowing you to manage various settings without manually editing the file.
+The **Revit.ini** file is a key configuration file in Revit that stores settings related to user preferences, system behavior, and project defaults.
 
-This tool is particularly useful for managing multiple versions of Revit or customizing settings for different projects and users.
+The **Revit.ini File Editor** provides a simple and efficient way to manage these settings without the need for manual editing.
+With this tool, users can quickly adjust Revit’s configurations to match project needs or personal preferences, making it an essential utility for both professionals and teams
+working with Revit.
 
 ![image](https://github.com/user-attachments/assets/701a0a97-1906-419d-950b-b70f9b852966)
+
+This is our first public version, and we are excited for you to try it out for yourself!
+Make sure to file issues you encounter on our GitHub so we can continue to improve it.
+
+Documentation: https://github.com/jeremytammik/RevitLookup/wiki/Revit.ini-File-Editor
 
 ## Static dependency conflict analyzer
 
@@ -47,6 +52,8 @@ New extensions:
 | Application | GetMacroManager                 | Gets the Macro manager from the application.                      | https://github.com/jeremytammik/RevitLookup/pull/268 by @SergeyNefyodov |
 | Document    | GetMacroManager                 | Gets the Macro manager from the document.                         | https://github.com/jeremytammik/RevitLookup/pull/268 by @SergeyNefyodov |
 
+New api support:
+
 - **CylindricalFace** class support https://github.com/jeremytammik/RevitLookup/issues/264:
     - Radius property support
 - **StructuralSettings** class support https://github.com/jeremytammik/RevitLookup/pull/282 by @SergeyNefyodov:
@@ -66,18 +73,20 @@ New extensions:
 - **AreaVolumeSettings** class support https://github.com/jeremytammik/RevitLookup/pull/287 by @SergeyNefyodov:
     - GetAreaVolumeSettings method support
     - GetSpatialElementBoundaryLocation method support
+- Modules now displays `Load context` for .Net 8 and higher
 - Updated Contributing guide
-- Added a new issues templates
+- Added a new Github issues templates
 
 ## Bugs
 
 - Fixed missing quick access icon https://github.com/jeremytammik/RevitLookup/issues/267
+- Fixed DataGrid accent color https://github.com/jeremytammik/RevitLookup/issues/273
 
 ## Mics
 
-- Static members enabled by default
-- Events enabled by default
-- Extensions enabled by default
+- `Show Static` members enabled by default
+- `Show Events` enabled by default
+- `Show Extensions` enabled by default
 
 # 2025-06-23 **2025.0.8**
 

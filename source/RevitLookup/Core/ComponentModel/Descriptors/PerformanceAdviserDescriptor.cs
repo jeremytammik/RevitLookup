@@ -44,15 +44,15 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
                                                                      parameters[0].ParameterType == typeof(int) => ResolveGetElementFilterFromRule,
             _ => null
         };
-        
+
         IVariants ResolveGetElementFilterFromRule()
         {
             var rules = adviser.GetNumberOfRules();
             var variants = new Variants<KeyValuePair<int, ElementFilter>>(rules);
-            for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, Context.Document)));
+            for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, ElementFilter>(i, adviser.GetElementFilterFromRule(i, Context.ActiveDocument)));
             return variants;
         }
-        
+
         IVariants ResolveWillRuleCheckElements()
         {
             var rules = adviser.GetNumberOfRules();
@@ -60,7 +60,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
             for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, bool>(i, adviser.WillRuleCheckElements(i)));
             return variants;
         }
-        
+
         IVariants ResolveIsRuleEnabled()
         {
             var rules = adviser.GetNumberOfRules();
@@ -68,7 +68,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
             for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, bool>(i, adviser.IsRuleEnabled(i)));
             return variants;
         }
-        
+
         IVariants ResolveGetRuleName()
         {
             var rules = adviser.GetNumberOfRules();
@@ -76,7 +76,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
             for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, string>(i, adviser.GetRuleName(i)));
             return variants;
         }
-        
+
         IVariants ResolveGetRuleId()
         {
             var rules = adviser.GetNumberOfRules();
@@ -84,7 +84,7 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
             for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, PerformanceAdviserRuleId>(i, adviser.GetRuleId(i)));
             return variants;
         }
-        
+
         IVariants ResolveGetRuleDescription()
         {
             var rules = adviser.GetNumberOfRules();
@@ -92,10 +92,10 @@ public sealed class PerformanceAdviserDescriptor(PerformanceAdviser adviser) : D
             for (var i = 0; i < rules; i++) variants.Add(new KeyValuePair<int, string>(i, adviser.GetRuleDescription(i)));
             return variants;
         }
-        
+
         IVariants ResolveExecuteAllRules()
         {
-            return Variants.Single(adviser.ExecuteAllRules(Context.Document));
+            return Variants.Single(adviser.ExecuteAllRules(Context.ActiveDocument));
         }
     }
 }

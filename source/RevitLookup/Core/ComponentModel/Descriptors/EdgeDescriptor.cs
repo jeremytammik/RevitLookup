@@ -32,50 +32,50 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class EdgeDescriptor : Descriptor, IDescriptorCollector, IDescriptorConnector
 {
     private readonly Edge _edge;
-    
+
     public EdgeDescriptor(Edge edge)
     {
         _edge = edge;
         Name = $"{edge.ApproximateLength.ToString(CultureInfo.InvariantCulture)} ft";
     }
-    
+
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
         contextMenu.AddMenuItem("SelectMenuItem")
             .SetCommand(_edge, edge =>
             {
-                if (Context.UiDocument is null) return;
+                if (Context.ActiveUiDocument is null) return;
                 if (edge.Reference is null) return;
-                
-                RevitShell.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetReferences([edge.Reference]); });
+
+                RevitShell.ActionEventHandler.Raise(_ => { Context.ActiveUiDocument.Selection.SetReferences([edge.Reference]); });
             })
             .SetShortcut(Key.F6);
-        
+
         contextMenu.AddMenuItem("ShowMenuItem")
             .SetCommand(_edge, edge =>
             {
-                if (Context.UiDocument is null) return;
+                if (Context.ActiveUiDocument is null) return;
                 if (edge.Reference is null) return;
-                
+
                 RevitShell.ActionEventHandler.Raise(_ =>
                 {
-                    var element = edge.Reference.ElementId.ToElement(Context.Document);
-                    if (element is not null) Context.UiDocument.ShowElements(element);
-                    Context.UiDocument.Selection.SetReferences([edge.Reference]);
+                    var element = edge.Reference.ElementId.ToElement(Context.ActiveDocument);
+                    if (element is not null) Context.ActiveUiDocument.ShowElements(element);
+                    Context.ActiveUiDocument.Selection.SetReferences([edge.Reference]);
                 });
             })
             .SetShortcut(Key.F7);
 #endif
-        
+
         contextMenu.AddMenuItem("VisualizeMenuItem")
             .SetAvailability(_edge.ApproximateLength > 1e-6)
             .SetCommand(_edge, async edge =>
             {
-                if (Context.UiDocument is null) return;
-                
+                if (Context.ActiveUiDocument is null) return;
+
                 var context = (ISnoopViewModel) contextMenu.DataContext;
-                
+
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<PolylineVisualizationDialog>();

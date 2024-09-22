@@ -36,17 +36,17 @@ public sealed partial class SearchElementsViewModel : ObservableObject
 #if REVIT2024_OR_GREATER
             if (long.TryParse(rawId, out var id))
             {
-                var element = Context.Document.GetElement(new ElementId(id));
+                var element = Context.ActiveDocument.GetElement(new ElementId(id));
 #else
             if (int.TryParse(rawId, out var id))
             {
-                var element = Context.Document.GetElement(new ElementId(id));
+                var element = Context.ActiveDocument.GetElement(new ElementId(id));
 #endif
                 if (element is not null) results.Add(element);
             }
             else if (rawId.Length == 45 && rawId.Count(c => c == '-') == 5)
             {
-                var element = Context.Document.GetElement(rawId);
+                var element = Context.ActiveDocument.GetElement(rawId);
                 if (element is not null) results.Add(element);
             }
             else if (rawId.Length == 22 && rawId.Count(c => c == ' ') == 0)
@@ -66,8 +66,8 @@ public sealed partial class SearchElementsViewModel : ObservableObject
 
     private static IEnumerable<Element> SearchByName(string rawId)
     {
-        var elementTypes = Context.Document.GetElements().WhereElementIsElementType();
-        var elementInstances = Context.Document.GetElements().WhereElementIsNotElementType();
+        var elementTypes = Context.ActiveDocument.GetElements().WhereElementIsElementType();
+        var elementInstances = Context.ActiveDocument.GetElements().WhereElementIsNotElementType();
         return elementTypes
             .UnionWith(elementInstances)
             .Where(element => element.Name.Contains(rawId, StringComparison.OrdinalIgnoreCase));
@@ -87,11 +87,11 @@ public sealed partial class SearchElementsViewModel : ObservableObject
         var elementFilter = new ElementParameterFilter(filterRule);
         var typeElementFilter = new ElementParameterFilter(typeFilterRule);
 
-        var typeGuidsCollector = Context.Document
+        var typeGuidsCollector = Context.ActiveDocument
             .GetElements()
             .WherePasses(typeElementFilter);
 
-        return Context.Document
+        return Context.ActiveDocument
             .GetElements()
             .WherePasses(elementFilter)
             .UnionWith(typeGuidsCollector)
@@ -107,7 +107,7 @@ public sealed partial class SearchElementsViewModel : ObservableObject
             for (var i = 0; i < delimiters.Length; i++)
             {
                 var delimiter = delimiters[i];
-                var split = row.Split(new[]{delimiter}, StringSplitOptions.RemoveEmptyEntries);
+                var split = row.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length > 1 || i == delimiters.Length - 1 || split.Length == 1 && split[0] != row)
                 {
                     items.AddRange(split);

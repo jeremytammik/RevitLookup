@@ -36,10 +36,10 @@ public sealed class MeshDescriptor(Mesh mesh) : Descriptor, IDescriptorCollector
             .SetAvailability(mesh.Vertices.Count > 0)
             .SetCommand(mesh, async meshArg =>
             {
-                if (Context.UiDocument is null) return;
-                
+                if (Context.ActiveUiDocument is null) return;
+
                 var context = (ISnoopViewModel) contextMenu.DataContext;
-                
+
                 try
                 {
                     var dialog = context.ServiceProvider.GetRequiredService<MeshVisualizationDialog>();

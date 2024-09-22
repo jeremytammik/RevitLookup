@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using RevitLookup.Utils;
 using RevitLookup.ViewModels.Dialogs;
@@ -34,7 +33,7 @@ public sealed partial class OpenSourceDialog
         InitializeComponent();
         DataContext = new OpenSourceViewModel();
     }
-    
+
     private void OpenLink(object sender, RoutedEventArgs args)
     {
         var link = (Hyperlink) args.OriginalSource;

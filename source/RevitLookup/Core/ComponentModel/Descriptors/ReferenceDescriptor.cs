@@ -28,13 +28,13 @@ namespace RevitLookup.Core.ComponentModel.Descriptors;
 public sealed class ReferenceDescriptor : Descriptor, IDescriptorResolver, IDescriptorConnector
 {
     private readonly Reference _reference;
-    
+
     public ReferenceDescriptor(Reference reference)
     {
         _reference = reference;
         Name = reference.ElementReferenceType.ToString();
     }
-    
+
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -42,22 +42,22 @@ public sealed class ReferenceDescriptor : Descriptor, IDescriptorResolver, IDesc
             nameof(Reference.ConvertToStableRepresentation) => ResolveConvertToStableRepresentation,
             _ => null
         };
-        
+
         IVariants ResolveConvertToStableRepresentation()
         {
             return Variants.Single(_reference.ConvertToStableRepresentation(context));
         }
     }
-    
+
     public void RegisterMenu(ContextMenu contextMenu)
     {
 #if REVIT2023_OR_GREATER
         contextMenu.AddMenuItem("SelectMenuItem")
             .SetCommand(_reference, reference =>
             {
-                if (Context.UiDocument is null) return;
-                
-                RevitShell.ActionEventHandler.Raise(_ => Context.UiDocument.Selection.SetReferences([reference]));
+                if (Context.ActiveUiDocument is null) return;
+
+                RevitShell.ActionEventHandler.Raise(_ => Context.ActiveUiDocument.Selection.SetReferences([reference]));
             })
             .SetShortcut(Key.F6);
 #endif

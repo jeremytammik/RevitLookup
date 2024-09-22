@@ -26,9 +26,9 @@ public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
 {
     public SchedulableFieldDescriptor(SchedulableField field)
     {
-        Name = field.GetName(Context.Document);
+        Name = field.GetName(Context.ActiveDocument);
     }
-    
+
     public Func<IVariants> Resolve(Document context, string target, ParameterInfo[] parameters)
     {
         return target switch
@@ -36,7 +36,7 @@ public sealed class SchedulableFieldDescriptor : Descriptor, IDescriptorResolver
             nameof(SchedulableField.GetName) => ResolveGetName,
             _ => null
         };
-        
+
         IVariants ResolveGetName()
         {
             return Variants.Single(Name);

@@ -296,10 +296,10 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
         contextMenu.AddMenuItem("SelectMenuItem")
             .SetCommand(_element, element =>
             {
-                if (Context.UiDocument is null) return;
+                if (Context.ActiveUiDocument is null) return;
                 if (!element.IsValidObject) return;
 
-                RevitShell.ActionEventHandler.Raise(_ => { Context.UiDocument.Selection.SetElementIds([element.Id]); });
+                RevitShell.ActionEventHandler.Raise(_ => { Context.ActiveUiDocument.Selection.SetElementIds([element.Id]); });
             })
             .SetShortcut(Key.F6);
 
@@ -308,13 +308,13 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
             contextMenu.AddMenuItem("ShowMenuItem")
                 .SetCommand(_element, element =>
                 {
-                    if (Context.UiDocument is null) return;
+                    if (Context.ActiveUiDocument is null) return;
                     if (!element.IsValidObject) return;
 
                     RevitShell.ActionEventHandler.Raise(_ =>
                     {
-                        Context.UiDocument.ShowElements(element);
-                        Context.UiDocument.Selection.SetElementIds([element.Id]);
+                        Context.ActiveUiDocument.ShowElements(element);
+                        Context.ActiveUiDocument.Selection.SetElementIds([element.Id]);
                     });
                 })
                 .SetShortcut(Key.F7);
@@ -323,7 +323,7 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
         contextMenu.AddMenuItem("DeleteMenuItem")
             .SetCommand(_element, async element =>
             {
-                if (Context.UiDocument is null) return;
+                if (Context.ActiveUiDocument is null) return;
                 var context = (ISnoopViewModel) contextMenu.DataContext;
 
                 try
