@@ -31,24 +31,32 @@ public sealed class OpenSourceViewModel : ObservableObject
             .AddLicense("MIT License", "https://github.com/CommunityToolkit/dotnet/blob/main/License.md"),
 
         new OpenSourceSoftware()
-            .AddSoftware("Nice3point.Revit.Extensions", "https://github.com/Nice3point/RevitExtensions")
-            .AddLicense("MIT License", "https://github.com/Nice3point/RevitExtensions/blob/main/License.md"),
-
-        new OpenSourceSoftware()
-            .AddSoftware("Nice3point.Revit.Toolkit", "https://github.com/Nice3point/RevitToolkit")
-            .AddLicense("MIT License", "https://github.com/Nice3point/RevitToolkit/blob/main/License.md"),
-
-        new OpenSourceSoftware()
-            .AddSoftware("Nice3point.Revit.Templates", "https://github.com/Nice3point/RevitTemplates")
-            .AddLicense("MIT License", "https://github.com/Nice3point/RevitTemplates/blob/main/License.md"),
+            .AddSoftware("Microsoft.Extensions.Hosting", "https://github.com/dotnet/runtime")
+            .AddLicense("MIT License", "https://github.com/dotnet/runtime/blob/main/LICENSE.TXT"),
 
         new OpenSourceSoftware()
             .AddSoftware("Nice3point.Revit.Api", "https://github.com/Nice3point/RevitApi")
             .AddLicense("MIT License", "https://github.com/Nice3point/RevitApi/blob/main/License.md"),
 
         new OpenSourceSoftware()
-            .AddSoftware("Microsoft.Extensions.Hosting", "https://github.com/dotnet/runtime")
-            .AddLicense("MIT License", "https://github.com/dotnet/runtime/blob/main/LICENSE.TXT"),
+            .AddSoftware("Nice3point.Revit.Extensions", "https://github.com/Nice3point/RevitExtensions")
+            .AddLicense("MIT License", "https://github.com/Nice3point/RevitExtensions/blob/main/License.md"),
+
+        new OpenSourceSoftware()
+            .AddSoftware("Nice3point.Revit.Templates", "https://github.com/Nice3point/RevitTemplates")
+            .AddLicense("MIT License", "https://github.com/Nice3point/RevitTemplates/blob/main/License.md"),
+
+        new OpenSourceSoftware()
+            .AddSoftware("Nice3point.Revit.Toolkit", "https://github.com/Nice3point/RevitToolkit")
+            .AddLicense("MIT License", "https://github.com/Nice3point/RevitToolkit/blob/main/License.md"),
+
+        new OpenSourceSoftware()
+            .AddSoftware("PolySharp", "https://github.com/Sergio0694/PolySharp")
+            .AddLicense("MIT License", "https://github.com/Sergio0694/PolySharp/blob/main/LICENSE"),
+
+        new OpenSourceSoftware()
+            .AddSoftware("Serilog", "https://github.com/serilog/serilog")
+            .AddLicense("Apache License 2.0", "https://github.com/serilog/serilog/blob/dev/LICENSE"),
 
         new OpenSourceSoftware()
             .AddSoftware("WPF-UI", "https://github.com/lepoco/wpfui")

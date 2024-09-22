@@ -7,14 +7,14 @@
     xmlns:dialogs="clr-namespace:RevitLookup.ViewModels.Dialogs"
     xmlns:rl="http://revitlookup.com/xaml"
     xmlns:local="clr-namespace:RevitLookup.Views.Dialogs"
-    Title = "Third-Party Software"
+    Title="Third-Party Software"
     DialogMaxWidth="600"
     ScrollViewer.VerticalScrollBarVisibility="Disabled"
     mc:Ignorable="d"
     d:DesignHeight="540"
     d:DesignWidth="1000"
     d:DataContext="{d:DesignInstance dialogs:OpenSourceViewModel}">
-    
+
     <rl:ContentDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,7 +27,7 @@
             <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
         </ResourceDictionary>
     </rl:ContentDialog.Resources>
-    
+
     <DataGrid
         AutoGenerateColumns="False"
         GridLinesVisibility="None"
@@ -77,7 +77,7 @@
                 <!-- ReSharper restore Xaml.StaticResourceNotResolved -->
                 <Setter
                     Property="Height"
-                    Value="35" />
+                    Value="34" />
             </Style>
         </DataGrid.CellStyle>
     </DataGrid>
