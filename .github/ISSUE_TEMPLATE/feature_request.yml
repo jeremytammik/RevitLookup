@@ -2,6 +2,7 @@ name: 💡 Feature or enhancement request
 description: Propose something new
 labels:
   - feature request 📬
+  - improvements ✨
   - unverified ⌛
 body:
   - type: textarea
