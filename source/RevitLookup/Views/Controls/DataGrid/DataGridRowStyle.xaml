@@ -35,7 +35,7 @@
             Property="Foreground">
             <Setter.Value>
                 <SolidColorBrush
-                    Color="{DynamicResource SystemAccentColor}" />
+                    Color="{DynamicResource SystemAccentColorPrimary}" />
             </Setter.Value>
         </Setter>
         <Setter
