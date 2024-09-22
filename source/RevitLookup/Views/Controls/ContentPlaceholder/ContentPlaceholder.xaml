@@ -39,7 +39,8 @@
                             Content="{TemplateBinding Content}">
                             <ContentPresenter.Resources>
                                 <Style
-                                    TargetType="{x:Type TextBlock}">
+                                    TargetType="{x:Type TextBlock}"
+                                    BasedOn="{StaticResource {x:Type TextBlock}}">
                                     <Setter
                                         Property="FontSize"
                                         Value="24" />
