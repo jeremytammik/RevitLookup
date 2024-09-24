@@ -24,7 +24,7 @@
                                             Geometry="M159.1 110.6C94.1 204.3 -147.8 214.7 -203.8 126.1C-259.8 37.5 -129.9 -150 -8.9 -155.2C112 -160.3 224 16.8 159.1 110.6">
                                             <GeometryDrawing.Pen>
                                                 <Pen
-                                                    Brush="{DynamicResource ControlStrokeColorTertiaryBrush}"
+                                                    Brush="{DynamicResource TextFillColorPrimaryBrush}"
                                                     Thickness="1" />
                                             </GeometryDrawing.Pen>
                                         </GeometryDrawing>
@@ -36,19 +36,10 @@
                             Margin="0 40 0 0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            TextElement.FontSize="24"
+                            TextElement.FontWeight="Medium"
+                            TextElement.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                             Content="{TemplateBinding Content}">
-                            <ContentPresenter.Resources>
-                                <Style
-                                    TargetType="{x:Type TextBlock}"
-                                    BasedOn="{StaticResource {x:Type TextBlock}}">
-                                    <Setter
-                                        Property="FontSize"
-                                        Value="24" />
-                                    <Setter
-                                        Property="FontWeight"
-                                        Value="Medium" />
-                                </Style>
-                            </ContentPresenter.Resources>
                         </ContentPresenter>
                     </Grid>
                 </ControlTemplate>

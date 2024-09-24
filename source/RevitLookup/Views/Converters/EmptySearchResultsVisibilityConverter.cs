@@ -36,7 +36,6 @@ public sealed class EmptySearchResultsVisibilityConverter : MarkupExtension, IMu
         if (items.Count > 0) return Visibility.Collapsed;
 
         if (values[1]! is > 0) return Visibility.Collapsed;
-        if (values[1]! is string {Length: 0}) return Visibility.Collapsed;
         if (values[2]! is false) return Visibility.Collapsed;
 
         return Visibility.Visible;
