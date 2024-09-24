@@ -276,6 +276,8 @@
                             <Binding
                                 Path="ViewModel.FilteredEntries" />
                             <Binding
+                                Path="ViewModel.FilteredEntries.Count" />
+                            <Binding
                                 Path="ViewModel.Filtered" />
                         </MultiBinding>
                     </controls:ContentPlaceholder.Visibility>

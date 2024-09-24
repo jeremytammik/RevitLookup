@@ -30,13 +30,14 @@ public sealed class EmptySearchResultsVisibilityConverter : MarkupExtension, IMu
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length != 2) throw new ArgumentException("Invalid parameters");
+        if (values.Length != 3) throw new ArgumentException("Invalid parameters");
 
         var items = (ICollection) values[0]!;
         if (items.Count > 0) return Visibility.Collapsed;
 
+        if (values[1]! is > 0) return Visibility.Collapsed;
         if (values[1]! is string {Length: 0}) return Visibility.Collapsed;
-        if (values[1]! is false) return Visibility.Collapsed;
+        if (values[2]! is false) return Visibility.Collapsed;
 
         return Visibility.Visible;
     }
