@@ -167,7 +167,7 @@
                                     Margin="0 12 0 0"
                                     Appearance="Primary"
                                     HorizontalAlignment="Right"
-                                    Content="ClearFilters"
+                                    Content="Clear filters"
                                     Command="{Binding ViewModel.ClearFiltersCommand}" />
                             </StackPanel>
                         </rl:Flyout>
@@ -201,7 +201,7 @@
                                     FontSize="18"
                                     Icon="{rl:SymbolIcon Delete20}"
                                     Command="{Binding DataContext.ViewModel.DeleteEntryCommand, ElementName=EntriesList}"
-                                    CommandParameter="{Binding}"/>
+                                    CommandParameter="{Binding}" />
                                 <rl:ToggleSwitch
                                     DockPanel.Dock="Right"
                                     VerticalAlignment="Center"
@@ -219,7 +219,7 @@
                                         ConverterParameter={x:Static Visibility.Hidden}}"
                                     Icon="{rl:SymbolIcon ArrowClockwise24}"
                                     Command="{Binding DataContext.ViewModel.RestoreDefaultCommand, ElementName=EntriesList}"
-                                    CommandParameter="{Binding}"/>
+                                    CommandParameter="{Binding}" />
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition
@@ -276,7 +276,7 @@
                             <Binding
                                 Path="ViewModel.FilteredEntries" />
                             <Binding
-                                Path="ViewModel.Filtered"/>
+                                Path="ViewModel.Filtered" />
                         </MultiBinding>
                     </controls:ContentPlaceholder.Visibility>
                     <controls:ContentPlaceholder.Content>
