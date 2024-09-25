@@ -42,6 +42,7 @@ public static class Host
         
         //Configuration
         builder.Services.AddOptions(builder.Configuration);
+        builder.Services.Configure<ConsoleLifetimeOptions>(opt => opt.SuppressStatusMessages = true);
         
         //Application services
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
