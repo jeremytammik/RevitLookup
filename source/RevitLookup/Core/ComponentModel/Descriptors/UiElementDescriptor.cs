@@ -33,9 +33,10 @@ public sealed class UiElementDescriptor : Descriptor, IDescriptorResolver
             nameof(UIElement.CaptureMouse) => Variants.Disabled,
             nameof(UIElement.CaptureStylus) => Variants.Disabled,
             nameof(UIElement.Focus) => Variants.Disabled,
+            "Enter" => Variants.Disabled,
             _ => null
         };
-        
+
         IVariants ResolveGetLocalValueEnumerator()
         {
             return Variants.Empty<LocalValueEnumerator>();
