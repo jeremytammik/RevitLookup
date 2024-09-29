@@ -1,5 +1,13 @@
 # Changelog
 
+# 2025-09-29 **2025.0.10**
+
+- Fixed placeholder for the Dark theme https://github.com/jeremytammik/RevitLookup/issues/291
+- Fixed the Revit.ini editor filter button name
+- Fixed the Revit.ini editor filter placeholder
+- Disabled the Visual.Enter() method https://github.com/jeremytammik/RevitLookup/issues/292
+- Suppressed GenericHost startup messages by @Nefarion in https://github.com/jeremytammik/RevitLookup/pull/294
+
 # 2025-09-22 **2025.0.9**
 
 ## Revit.ini File Editor
