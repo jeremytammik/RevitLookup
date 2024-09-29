@@ -24,8 +24,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Autodesk.Revit.DB.ExtensibleStorage;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RevitLookup.Services;
 using RevitLookup.ViewModels.Contracts;
+using RevitLookup.Views.Dialogs;
 using RevitLookup.Views.Extensions;
 
 namespace RevitLookup.Core.ComponentModel.Descriptors;
@@ -362,5 +364,24 @@ public class ElementDescriptor : Descriptor, IDescriptorResolver, IDescriptorCon
                 }
             })
             .SetShortcut(Key.Delete);
+        
+        contextMenu.AddMenuItem("EditMenuItem")
+            .SetHeader("Edit values")
+            .SetAvailability(_element.IsValidObject)
+            .SetCommand(_element, async _ =>
+            {
+                var context = (ISnoopViewModel) contextMenu.DataContext;
+                try
+                {
+                    var dialog = new SelectEntityDialog(context.ServiceProvider, _element);
+                    await dialog.ShowAsync();
+                }
+                catch (Exception exception)
+                {
+                    var logger = context.ServiceProvider.GetRequiredService<ILogger<ParameterDescriptor>>();
+                    logger.LogError(exception, "Initialize EditParameterDialog error");
+                }
+            })
+            .SetShortcut(Key.F2);
     }
 }
