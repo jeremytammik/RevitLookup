@@ -24,7 +24,7 @@ namespace RevitLookup;
 public static class Host
 {
     private static IHost _host;
-    
+
     /// <summary>
     ///     Starts the host and configures the application's services
     /// </summary>
@@ -35,27 +35,26 @@ public static class Host
             ContentRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location),
             DisableDefaults = true
         });
-        
+
         //Logging
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilogConfiguration();
-        
+
         //Configuration
         builder.Services.AddOptions(builder.Configuration);
-        builder.Services.Configure<ConsoleLifetimeOptions>(opt => opt.SuppressStatusMessages = true);
-        
+
         //Application services
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
         builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
         builder.Services.AddHostedService<HostedLifecycleService>();
-        
+
         //UI services
         builder.Services.AddScoped<INavigationService, NavigationService>();
         builder.Services.AddScoped<ISnackbarService, SnackbarService>();
         builder.Services.AddScoped<IContentDialogService, ContentDialogService>();
         builder.Services.AddScoped<NotificationService>();
         builder.Services.AddScoped<ISnoopVisualService, SnoopVisualService>();
-        
+
         //Views
         builder.Services.AddScoped<AboutPage>();
         builder.Services.AddScoped<AboutViewModel>();
@@ -70,7 +69,7 @@ public static class Host
         builder.Services.AddTransient<RevitSettingsPage>();
         builder.Services.AddScoped<RevitSettingsViewModel>();
         builder.Services.AddScoped<IWindow, RevitLookupView>();
-        
+
         //Dialogs
         builder.Services.AddTransient<BoundingBoxVisualizationDialog>();
         builder.Services.AddTransient<BoundingBoxVisualizationViewModel>();
@@ -100,14 +99,14 @@ public static class Host
         builder.Services.AddTransient<SearchElementsViewModel>();
         builder.Services.AddTransient<UnitsDialog>();
         builder.Services.AddTransient<UnitsViewModel>();
-        
+
         //Startup view
         builder.Services.AddTransient<ILookupService, LookupService>();
-        
+
         _host = builder.Build();
         _host.Start();
     }
-    
+
     /// <summary>
     ///     Starts the host proxy and configures the application's services
     /// </summary>
@@ -116,7 +115,7 @@ public static class Host
         _host = host;
         host.Start();
     }
-    
+
     /// <summary>
     ///     Stops the host and handle <see cref="IHostedService"/> services
     /// </summary>
@@ -124,7 +123,7 @@ public static class Host
     {
         _host.StopAsync().GetAwaiter().GetResult();
     }
-    
+
     /// <summary>
     ///     Get service of type <typeparamref name="T"/>
     /// </summary>

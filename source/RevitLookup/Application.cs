@@ -33,29 +33,30 @@ public class Application : ExternalApplication
     {
         RevitShell.RegisterHandlers();
         Host.Start();
-        
+
         RibbonController.CreatePanel(Application);
     }
-    
+
     public override void OnShutdown()
     {
         Host.Stop();
     }
-    
+
     public static void EnableHardwareRendering()
     {
         var settingsService = Host.GetService<ISettingsService>();
         if (!settingsService.GeneralSettings.UseHardwareRendering) return;
-        
+
         //Revit overrides render mode during initialization
         //EventHandler is called after initialization
         RevitShell.ActionEventHandler.Raise(_ => RenderOptions.ProcessRenderMode = RenderMode.Default);
     }
-    
+
     public static void DisableHardwareRendering()
     {
         var settingsService = Host.GetService<ISettingsService>();
         if (settingsService.GeneralSettings.UseHardwareRendering) return;
+
         RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
     }
 }
