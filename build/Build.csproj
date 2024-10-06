@@ -9,12 +9,11 @@
         <NukeRootDirectory>..</NukeRootDirectory>
         <NukeScriptDirectory>..</NukeScriptDirectory>
         <NukeTelemetryVersion>1</NukeTelemetryVersion>
-        <Configurations>Release;Debug</Configurations>
         <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Nuke.Common" Version="8.0.0"/>
+        <PackageReference Include="Nuke.Common" Version="8.1.1"/>
     </ItemGroup>
 
     <ItemGroup>

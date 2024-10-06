@@ -18,42 +18,21 @@
 // Software - Restricted Rights) and DFAR 252.227-7013(c)(1)(ii)
 // (Rights in Technical Data and Computer Software), as applicable.
 
-using BenchmarkDotNet.Attributes;
+using System.Windows;
 
-namespace Benchmarks;
+namespace RevitLookup.UI.Playground;
 
-[MediumRunJob]
-[MemoryDiagnoser]
-public class ResolveTypeBench
+public sealed partial class App
 {
-    public object Obj { get; set; }
-    
-    public ResolveTypeBench()
+    private void OnStartup(object sender, StartupEventArgs args)
     {
-        Obj = "Text";
-    }
-
-    [Benchmark]
-    public bool TypeIsEquals()
-    {
-        return Obj is IDisposable;
-    }
-    
-    [Benchmark]
-    public bool NamespaceEquals()
-    {
-        return Obj.GetType().Namespace == "System";
-    }
-
-    [Benchmark]
-    public bool NamespaceStartsWith()
-    {
-        return Obj.GetType().Namespace!.StartsWith("System");
-    }
-
-    [Benchmark]
-    public bool AssemblyStartsWith()
-    {
-        return Obj.GetType().Assembly.FullName.StartsWith("Revit");
+        // var scopeFactory = Host.GetService<IServiceScopeFactory>();
+        // using var serviceScope = scopeFactory.CreateScope();
+        //
+        // var view = serviceScope.ServiceProvider.GetRequiredService<DemoView>();
+        // var navigationService = serviceScope.ServiceProvider.GetRequiredService<INavigationService>();
+        //
+        // view.Loaded += (_, _) => navigationService.Navigate(typeof(WindowsPage));
+        // view.ShowDialog();
     }
 }

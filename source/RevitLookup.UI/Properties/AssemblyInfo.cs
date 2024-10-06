@@ -4,14 +4,13 @@
 // All Rights Reserved.
 
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Markup;
 
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 [assembly: Guid("072fb71f-784e-4113-9da0-a506ff1a0cd5")]
 
-[assembly: XmlnsPrefix("http://revitlookup.com/xaml", "rl")]
+[assembly: XmlnsPrefix("http://revitlookup.com/xaml", "ui")]
 [assembly: XmlnsDefinition("http://revitlookup.com/xaml", "Wpf.Ui")]
 [assembly: XmlnsDefinition("http://revitlookup.com/xaml", "Wpf.Ui.Controls")]
 [assembly: XmlnsDefinition("http://revitlookup.com/xaml", "Wpf.Ui.Markup")]

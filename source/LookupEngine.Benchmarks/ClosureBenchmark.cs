@@ -20,18 +20,18 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Benchmarks;
+namespace LookupEngine.Benchmarks;
 
 [ShortRunJob]
 [MemoryDiagnoser]
-public class ClosureBenchmark
+public sealed class ClosureBenchmark
 {
     [GlobalSetup]
     public void Setup()
     {
         Manager = new ExtensionManager("context");
     }
-    
+
     [Params("Text", 12d)] public object Parameter { get; set; }
     public ExtensionManager Manager { get; set; }
 
@@ -44,10 +44,7 @@ public class ClosureBenchmark
     [Benchmark]
     public void NonClosureMethod()
     {
-        Manager.Register("Extension", Parameter, extension =>
-        {
-            extension.Result = extension.Value.ToString();
-        });
+        Manager.Register("Extension", Parameter, extension => { extension.Result = extension.Value.ToString(); });
     }
 }
 
