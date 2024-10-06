@@ -20,14 +20,14 @@
 
 using BenchmarkDotNet.Attributes;
 
-namespace Benchmarks;
+namespace LookupEngine.Benchmarks;
 
 [MediumRunJob]
 [MemoryDiagnoser]
-public class TypeEqualBench
+public sealed class TypeEqualBench
 {
     public object Object { get; set; } = new RoundButton();
-    
+
     [Params(null, typeof(ButtonBase))]
     public Type Type { get; set; }
 
@@ -85,15 +85,12 @@ public class TypeEqualBench
 
 public class ButtonBase
 {
-    
 }
 
 public class Button : ButtonBase
 {
-    
-}
-public class RoundButton : Button
-{
-    
 }
 
+public sealed class RoundButton : Button
+{
+}

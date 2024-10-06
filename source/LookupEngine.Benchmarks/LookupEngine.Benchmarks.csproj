@@ -1,11 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
+        <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
         <LangVersion>latest</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
-        <TargetFramework>net48</TargetFramework>
+        <TargetFramework>net8.0-windows</TargetFramework>
     </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="BenchmarkDotNet" Version="0.13.*" />
     </ItemGroup>
+
 </Project>

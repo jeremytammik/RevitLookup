@@ -1,7 +1,11 @@
 name: Nuke
+
 on:
-  pull_request:
   push:
+    branches:
+      - 'master'
+      - 'dev'
+  pull_request:
 
 jobs:
   windows:

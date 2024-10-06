@@ -116,12 +116,13 @@ To execute NUKE build on GitHub, you can follow these steps:
 
 | Folder   | Description                                                                |
 |----------|----------------------------------------------------------------------------|
+| branding | Source files for logo, banner, installer background                        |
+| history  | Museum, storage of original RevitLookup documentation                      |
 | build    | Nuke build system. Used to automate project builds                         |
 | install  | Add-in installer, called implicitly by the Nuke build                      |
 | source   | Project source code folder. Contains all solution projects                 |
+| tools    | Extra tools for RevitLookup development                                    |
 | output   | Folder of generated files by the build system, such as bundles, installers |
-| branding | Source files for logo, banner, installer background                        |
-| doc      | Museum, storage of original RevitLookup documentation                      |
 
 ## Project structure
 

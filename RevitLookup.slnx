@@ -1,0 +1,198 @@
+﻿<Solution>
+    <Configurations>
+        <BuildType Name="Debug Frontend"/>
+        <BuildType Name="Debug R21"/>
+        <BuildType Name="Debug R22"/>
+        <BuildType Name="Debug R23"/>
+        <BuildType Name="Debug R24"/>
+        <BuildType Name="Debug R25"/>
+        <BuildType Name="Release Build"/>
+        <BuildType Name="Release Coverage"/>
+        <BuildType Name="Release R21"/>
+        <BuildType Name="Release R22"/>
+        <BuildType Name="Release R23"/>
+        <BuildType Name="Release R24"/>
+        <BuildType Name="Release R25"/>
+    </Configurations>
+    <Folder Name="/Benchmarks/">
+        <Project Path="source\LookupEngine.Benchmarks\LookupEngine.Benchmarks.csproj" Type="Classic C#">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Release|Any CPU|NoBuild"/>
+        </Project>
+    </Folder>
+    <Folder Name="/Build/">
+        <Project Path="build\Build.csproj">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Release|Any CPU|NoBuild"/>
+        </Project>
+        <Project Path="install\Installer.csproj">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Release|Any CPU|NoBuild"/>
+        </Project>
+    </Folder>
+    <Folder Name="/Engine/">
+        <Project Path="source\LookupEngine.Abstractions\LookupEngine.Abstractions.csproj" Type="Classic C#">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        </Project>
+        <Project Path="source\LookupEngine\LookupEngine.csproj" Type="Classic C#">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        </Project>
+    </Folder>
+    <Folder Name="/Frontend/">
+        <Project Path="source\RevitLookup.UI.Framework\RevitLookup.UI.Framework.csproj" Type="Classic C#">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        </Project>
+        <Project Path="source\RevitLookup.UI.Playground\RevitLookup.UI.Playground.csproj" Type="Classic C#">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Release|Any CPU|NoBuild"/>
+        </Project>
+        <Project Path="source\RevitLookup.UI\RevitLookup.UI.csproj" Type="Classic C#">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Release|Any CPU|NoBuild"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Release|Any CPU|NoBuild"/>
+        </Project>
+    </Folder>
+    <Folder Name="/Solution Items/">
+        <File Path="Readme.md"/>
+        <File Path="Changelog.md"/>
+        <File Path="Contributing.md"/>
+        <File Path="Build\Build.Configuration.cs"/>
+    </Folder>
+    <Folder Name="/Tests/">
+        <Project Path="tests\LookupEngine.Tests\LookupEngine.Tests.csproj" Type="Classic C#">
+            <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Release Build|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Release Coverage|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Release R21|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Release R22|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Release R23|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Release R24|Any CPU" Project="Debug|Any CPU"/>
+            <Configuration Solution="Release R25|Any CPU" Project="Debug|Any CPU"/>
+        </Project>
+    </Folder>
+    <Project Path="source\RevitLookup.Abstractions\RevitLookup.Abstractions.csproj" Type="Classic C#">
+        <Configuration Solution="Debug Frontend|Any CPU" Project="Debug|Any CPU"/>
+        <Configuration Solution="Debug R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Release Build|Any CPU" Project="Release|Any CPU|NoBuild"/>
+        <Configuration Solution="Release Coverage|Any CPU" Project="Release|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R21|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R22|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R23|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R24|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R25|Any CPU" Project="Debug|Any CPU|NoBuild"/>
+    </Project>
+    <Project Path="source\RevitLookup\RevitLookup.csproj">
+        <Configuration Solution="Debug Frontend|Any CPU" Project="Debug R25|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R21|Any CPU" Project="Debug R21|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R22|Any CPU" Project="Debug R22|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R23|Any CPU" Project="Debug R23|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R24|Any CPU" Project="Debug R24|Any CPU|NoBuild"/>
+        <Configuration Solution="Debug R25|Any CPU" Project="Debug R25|Any CPU|NoBuild"/>
+        <Configuration Solution="Release Build|Any CPU" Project="Release R25|Any CPU|NoBuild"/>
+        <Configuration Solution="Release Coverage|Any CPU" Project="Release R24|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R21|Any CPU" Project="Release R21|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R22|Any CPU" Project="Release R22|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R23|Any CPU" Project="Release R23|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R24|Any CPU" Project="Release R24|Any CPU|NoBuild"/>
+        <Configuration Solution="Release R25|Any CPU" Project="Release R25|Any CPU|NoBuild"/>
+    </Project>
+</Solution>

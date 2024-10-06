@@ -1,4 +1,3 @@
-using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.ProjectModel;
 

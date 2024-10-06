@@ -21,11 +21,11 @@
 using System.Reflection;
 using BenchmarkDotNet.Attributes;
 
-namespace Benchmarks;
+namespace LookupEngine.Benchmarks;
 
 [MediumRunJob]
 [MemoryDiagnoser(false)]
-public class SortBench
+public sealed class SortBench
 {
     private MethodInfo[] _methodInfos;
 
@@ -55,7 +55,7 @@ public class SortBench
             var parameterInfos = methodInfo.GetParameters();
         }
     }
-    
+
     [Benchmark]
     public void SortComparison()
     {
@@ -65,14 +65,14 @@ public class SortBench
             var parameterInfos = methodInfo.GetParameters();
         }
     }
-    
+
     private int Comparison(MethodInfo x, MethodInfo y)
     {
         return x.Name == y.Name ? 0 : string.Compare(x.Name, y.Name, StringComparison.OrdinalIgnoreCase);
     }
 }
 
-public class MethodInfoComparer : IComparer<MethodInfo>
+public sealed class MethodInfoComparer : IComparer<MethodInfo>
 {
     public int Compare(MethodInfo x, MethodInfo y)
     {
