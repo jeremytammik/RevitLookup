@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -30,10 +30,12 @@ namespace RevitLookup.Services;
 public sealed class SettingsService : ISettingsService
 {
     private readonly ILogger<SettingsService> _logger;
-    
-    public SettingsService(IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
+    private readonly ILoggingLevelService _loggingLevelService;
+
+    public SettingsService(ILoggingLevelService loggingLevelService, IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
     {
         _logger = logger;
+        _loggingLevelService = loggingLevelService;
         GeneralSettings = new GeneralSettings(foldersOptions.Value.GeneralSettingsPath, jsonOptions);
         RenderSettings = new RenderSettings(foldersOptions.Value.RenderSettingsPath, jsonOptions);
         
@@ -69,6 +71,7 @@ public sealed class SettingsService : ISettingsService
         try
         {
             GeneralSettings.Load();
+            _loggingLevelService.SetLogLevel(GeneralSettings.LogLevel);
         }
         catch (Exception exception)
         {

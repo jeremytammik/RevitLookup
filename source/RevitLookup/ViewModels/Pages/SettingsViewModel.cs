@@ -25,6 +25,7 @@ using RevitLookup.Views.Dialogs;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using RevitLookup.Config;
 #if REVIT2024_OR_GREATER
 using RevitLookup.Views.Appearance;
 #endif
@@ -36,6 +37,7 @@ public sealed partial class SettingsViewModel(
     INavigationService navigationService,
     IServiceProvider serviceProvider,
     NotificationService notificationService,
+    ILoggingLevelService loggingLevelService,
     IWindow window)
     : ObservableObject
 {
@@ -47,6 +49,7 @@ public sealed partial class SettingsViewModel(
     [ObservableProperty] private bool _useSizeRestoring = settingsService.GeneralSettings.UseSizeRestoring;
     [ObservableProperty] private bool _useModifyTab = settingsService.GeneralSettings.UseModifyTab;
 
+    [ObservableProperty] private LogLevel _logLevel = settingsService.GeneralSettings.LogLevel;
     public List<ApplicationTheme> Themes { get; } =
     [
 #if REVIT2024_OR_GREATER
@@ -63,6 +66,16 @@ public sealed partial class SettingsViewModel(
         WindowBackdropType.Acrylic,
         WindowBackdropType.Tabbed,
         WindowBackdropType.Mica
+    ];
+
+    public List<LogLevel> LogLevels { get; } =
+    [
+        LogLevel.Verbose,
+        LogLevel.Debug,
+        LogLevel.Information,
+        LogLevel.Warning,
+        LogLevel.Error,
+        LogLevel.Fatal
     ];
 
     [RelayCommand]
@@ -164,5 +177,11 @@ public sealed partial class SettingsViewModel(
     {
         settingsService.GeneralSettings.UseModifyTab = value;
         RibbonController.ReloadPanels();
+    }
+
+    partial void OnLogLevelChanged(LogLevel value)
+    {
+        settingsService.GeneralSettings.LogLevel = value;
+        loggingLevelService.SetLogLevel(value);
     }
 }

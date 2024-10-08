@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -56,4 +56,5 @@ public sealed class GeneralConfiguration
     [JsonPropertyName("ShowMemoryColumn")] public bool ShowMemoryColumn { get; set; }
     [JsonPropertyName("UseSizeRestoring")] public bool UseSizeRestoring { get; set; }
     [JsonPropertyName("IsModifyTabAllowed")] public bool UseModifyTab { get; set; }
+    [JsonPropertyName("LogLevel")] public LogLevel LogLevel { get; set; } = LogLevel.Information;
 }
