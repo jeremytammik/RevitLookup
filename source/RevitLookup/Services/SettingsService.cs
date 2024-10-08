@@ -30,9 +30,9 @@ namespace RevitLookup.Services;
 public sealed class SettingsService : ISettingsService
 {
     private readonly ILogger<SettingsService> _logger;
-    private readonly LoggingLevelService _loggingLevelService;
+    private readonly ILoggingLevelService _loggingLevelService;
 
-    public SettingsService(LoggingLevelService loggingLevelService, IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
+    public SettingsService(ILoggingLevelService loggingLevelService, IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
     {
         _logger = logger;
         _loggingLevelService = loggingLevelService;

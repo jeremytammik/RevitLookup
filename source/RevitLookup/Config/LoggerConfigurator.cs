@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using RevitLookup.Services;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -9,14 +10,15 @@ public static class LoggerConfigurator
 {
     private const string LogTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}";
 
-    public static LoggingLevelSwitch AddSerilogConfiguration(this ILoggingBuilder builder, LoggingLevelSwitch loggingLevelSwitch = null)
+    public static LoggingLevelService AddSerilogConfiguration(this ILoggingBuilder builder)
     {
-        loggingLevelSwitch ??= new LoggingLevelSwitch();
+        var loggingLevelSwitch = new LoggingLevelSwitch();
+        var loggingLevelService = new LoggingLevelService(loggingLevelSwitch);
         var logger = CreateDefaultLogger(loggingLevelSwitch);
         builder.AddSerilog(logger);
 
         AppDomain.CurrentDomain.UnhandledException += OnOnUnhandledException;
-        return loggingLevelSwitch;
+        return loggingLevelService;
     }
 
     private static Logger CreateDefaultLogger(LoggingLevelSwitch loggingLevelSwitch)

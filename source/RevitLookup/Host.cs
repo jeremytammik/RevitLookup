@@ -38,14 +38,13 @@ public static class Host
 
         //Logging
         builder.Logging.ClearProviders();
-        var loggingLevelSwitch = builder.Logging.AddSerilogConfiguration();
+        var loggingLevelService = builder.Logging.AddSerilogConfiguration();
 
         //Configuration
         builder.Services.AddOptions(builder.Configuration);
 
         //Application services
-        builder.Services.AddSingleton(loggingLevelSwitch);
-        builder.Services.AddSingleton<LoggingLevelService>();
+        builder.Services.AddSingleton<ILoggingLevelService>(loggingLevelService);
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
         builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
         builder.Services.AddHostedService<HostedLifecycleService>();

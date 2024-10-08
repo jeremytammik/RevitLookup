@@ -19,27 +19,11 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using RevitLookup.Config;
-using RevitLookup.Services.Contracts;
-using Serilog.Core;
-using Serilog.Events;
 
-namespace RevitLookup.Services;
+namespace RevitLookup.Services.Contracts;
 
-public sealed class LoggingLevelService : ILoggingLevelService
+public interface ILoggingLevelService
 {
-    private readonly LoggingLevelSwitch _loggingLevelSwitch;
-    public LoggingLevelService(LoggingLevelSwitch loggingLevelSwitch)
-    {
-        _loggingLevelSwitch = loggingLevelSwitch;
-    }
-
-    public void SetLogLevel(LogLevel logLevel)
-    {
-        _loggingLevelSwitch.MinimumLevel = (LogEventLevel) logLevel;
-    }
-
-    public LogLevel GetLogLevel()
-    {
-        return (LogLevel) _loggingLevelSwitch.MinimumLevel;
-    }
+    void SetLogLevel(LogLevel logLevel);
+    LogLevel GetLogLevel();
 }

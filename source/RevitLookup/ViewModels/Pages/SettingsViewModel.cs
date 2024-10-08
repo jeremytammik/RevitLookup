@@ -37,7 +37,7 @@ public sealed partial class SettingsViewModel(
     INavigationService navigationService,
     IServiceProvider serviceProvider,
     NotificationService notificationService,
-    LoggingLevelService loggingLevelService,
+    ILoggingLevelService loggingLevelService,
     IWindow window)
     : ObservableObject
 {
