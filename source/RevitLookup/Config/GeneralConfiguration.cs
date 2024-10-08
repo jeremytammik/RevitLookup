@@ -19,7 +19,6 @@
 // (Rights in Technical Data and Computer Software), as applicable.
 
 using System.Text.Json.Serialization;
-using Serilog.Events;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
