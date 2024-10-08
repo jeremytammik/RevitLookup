@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -21,6 +21,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
+using Serilog.Events;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -67,6 +68,35 @@ public sealed class ApplicationThemeConverter : MarkupExtension, IValueConverter
             ApplicationTheme.Dark => "Dark",
             ApplicationTheme.HighContrast => "High contrast",
             ApplicationTheme.Unknown => throw new NotSupportedException(),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
+    {
+        return this;
+    }
+}
+
+[ValueConversion(typeof(LogEventLevel), typeof(string))]
+public sealed class LogEventLevelConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var applicationTheme = (LogEventLevel) value!;
+        return applicationTheme switch
+        {
+            LogEventLevel.Verbose => "Verbose",
+            LogEventLevel.Debug => "Debug",
+            LogEventLevel.Information => "Information",
+            LogEventLevel.Warning => "Warning",
+            LogEventLevel.Error => "Error",
+            LogEventLevel.Fatal => "Fatal",
             _ => throw new ArgumentOutOfRangeException()
         };
     }

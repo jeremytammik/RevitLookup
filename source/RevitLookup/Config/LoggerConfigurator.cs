@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -8,25 +8,27 @@ namespace RevitLookup.Config;
 public static class LoggerConfigurator
 {
     private const string LogTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}";
-    
-    public static void AddSerilogConfiguration(this ILoggingBuilder builder)
+
+    public static LoggingLevelSwitch AddSerilogConfiguration(this ILoggingBuilder builder, LoggingLevelSwitch loggingLevelSwitch = null)
     {
-        var logger = CreateDefaultLogger();
+        loggingLevelSwitch ??= new LoggingLevelSwitch();
+        var logger = CreateDefaultLogger(loggingLevelSwitch);
         builder.AddSerilog(logger);
-        
+
         AppDomain.CurrentDomain.UnhandledException += OnOnUnhandledException;
+        return loggingLevelSwitch;
     }
-    
-    private static Logger CreateDefaultLogger()
+
+    private static Logger CreateDefaultLogger(LoggingLevelSwitch loggingLevelSwitch)
     {
         return new LoggerConfiguration()
             .WriteTo.Console(LogEventLevel.Information, LogTemplate)
             .WriteTo.Debug(LogEventLevel.Debug, LogTemplate)
             .WriteTo.RevitJournal(Context.UiApplication, restrictedToMinimumLevel: LogEventLevel.Error, outputTemplate: LogTemplate)
-            .MinimumLevel.Debug()
+            .MinimumLevel.ControlledBy(loggingLevelSwitch)
             .CreateLogger();
     }
-    
+
     private static void OnOnUnhandledException(object sender, UnhandledExceptionEventArgs args)
     {
         var exception = (Exception) args.ExceptionObject;

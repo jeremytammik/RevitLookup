@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -24,16 +24,19 @@ using Microsoft.Extensions.Options;
 using RevitLookup.Models.Options;
 using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
+using Serilog.Core;
 
 namespace RevitLookup.Services;
 
 public sealed class SettingsService : ISettingsService
 {
     private readonly ILogger<SettingsService> _logger;
-    
-    public SettingsService(IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
+    private readonly LoggingLevelSwitch _loggingLevelSwitch;
+
+    public SettingsService(LoggingLevelSwitch loggingLevelSwitch, IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
     {
         _logger = logger;
+        _loggingLevelSwitch = loggingLevelSwitch;
         GeneralSettings = new GeneralSettings(foldersOptions.Value.GeneralSettingsPath, jsonOptions);
         RenderSettings = new RenderSettings(foldersOptions.Value.RenderSettingsPath, jsonOptions);
         
@@ -69,6 +72,7 @@ public sealed class SettingsService : ISettingsService
         try
         {
             GeneralSettings.Load();
+            _loggingLevelSwitch.MinimumLevel = GeneralSettings.LogEventLevel;
         }
         catch (Exception exception)
         {

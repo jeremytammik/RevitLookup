@@ -1,4 +1,4 @@
-﻿// Copyright 2003-2024 by Autodesk, Inc.
+// Copyright 2003-2024 by Autodesk, Inc.
 // 
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -23,6 +23,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Options;
 using RevitLookup.Config;
 using RevitLookup.Services.Contracts;
+using Serilog.Events;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -133,7 +134,13 @@ public sealed class GeneralSettings(string path, IOptions<JsonSerializerOptions>
         get => _settings.IncludeRootHierarchy;
         set => _settings.IncludeRootHierarchy = value;
     }
-    
+
+    public LogEventLevel LogEventLevel
+    {
+        get => _settings.LogEventLevel;
+        set => _settings.LogEventLevel = value;
+    }
+
     public int ApplyTransition(bool value)
     {
         return TransitionDuration = value ? _settings.DefaultTransitionDuration : 0;

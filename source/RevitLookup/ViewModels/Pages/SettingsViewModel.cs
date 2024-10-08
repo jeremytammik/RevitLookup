@@ -25,6 +25,9 @@ using RevitLookup.Views.Dialogs;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+using Serilog.Events;
+using Serilog.Core;
+
 #if REVIT2024_OR_GREATER
 using RevitLookup.Views.Appearance;
 #endif
@@ -36,6 +39,7 @@ public sealed partial class SettingsViewModel(
     INavigationService navigationService,
     IServiceProvider serviceProvider,
     NotificationService notificationService,
+    LoggingLevelSwitch loggingLevelSwitch,
     IWindow window)
     : ObservableObject
 {
@@ -47,6 +51,7 @@ public sealed partial class SettingsViewModel(
     [ObservableProperty] private bool _useSizeRestoring = settingsService.GeneralSettings.UseSizeRestoring;
     [ObservableProperty] private bool _useModifyTab = settingsService.GeneralSettings.UseModifyTab;
 
+    [ObservableProperty] private LogEventLevel _logEventLevel = settingsService.GeneralSettings.LogEventLevel;
     public List<ApplicationTheme> Themes { get; } =
     [
 #if REVIT2024_OR_GREATER
@@ -63,6 +68,16 @@ public sealed partial class SettingsViewModel(
         WindowBackdropType.Acrylic,
         WindowBackdropType.Tabbed,
         WindowBackdropType.Mica
+    ];
+
+    public List<LogEventLevel> LogEventLevels { get; } =
+    [
+        LogEventLevel.Verbose,
+        LogEventLevel.Debug,
+        LogEventLevel.Information,
+        LogEventLevel.Warning,
+        LogEventLevel.Error,
+        LogEventLevel.Fatal
     ];
 
     [RelayCommand]
@@ -164,5 +179,11 @@ public sealed partial class SettingsViewModel(
     {
         settingsService.GeneralSettings.UseModifyTab = value;
         RibbonController.ReloadPanels();
+    }
+
+    partial void OnLogEventLevelChanged(LogEventLevel value)
+    {
+        settingsService.GeneralSettings.LogEventLevel = value;
+        loggingLevelSwitch.MinimumLevel = value;
     }
 }
