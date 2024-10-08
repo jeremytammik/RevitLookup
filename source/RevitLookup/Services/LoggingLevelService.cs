@@ -25,21 +25,15 @@ using Serilog.Events;
 
 namespace RevitLookup.Services;
 
-public sealed class LoggingLevelService : ILoggingLevelService
+public sealed class LoggingLevelService(LoggingLevelSwitch loggingLevelSwitch) : ILoggingLevelService
 {
-    private readonly LoggingLevelSwitch _loggingLevelSwitch;
-    public LoggingLevelService(LoggingLevelSwitch loggingLevelSwitch)
-    {
-        _loggingLevelSwitch = loggingLevelSwitch;
-    }
-
     public void SetLogLevel(LogLevel logLevel)
     {
-        _loggingLevelSwitch.MinimumLevel = (LogEventLevel) logLevel;
+        loggingLevelSwitch.MinimumLevel = (LogEventLevel) logLevel;
     }
 
     public LogLevel GetLogLevel()
     {
-        return (LogLevel) _loggingLevelSwitch.MinimumLevel;
+        return (LogLevel) loggingLevelSwitch.MinimumLevel;
     }
 }
