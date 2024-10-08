@@ -57,5 +57,5 @@ public sealed class GeneralConfiguration
     [JsonPropertyName("ShowMemoryColumn")] public bool ShowMemoryColumn { get; set; }
     [JsonPropertyName("UseSizeRestoring")] public bool UseSizeRestoring { get; set; }
     [JsonPropertyName("IsModifyTabAllowed")] public bool UseModifyTab { get; set; }
-    [JsonPropertyName("LogEventLevel")] public LogEventLevel LogEventLevel { get; set; } = LogEventLevel.Information;
+    [JsonPropertyName("LogLevel")] public LogLevel LogLevel { get; set; } = LogLevel.Information;
 }

@@ -24,19 +24,18 @@ using Microsoft.Extensions.Options;
 using RevitLookup.Models.Options;
 using RevitLookup.Models.Settings;
 using RevitLookup.Services.Contracts;
-using Serilog.Core;
 
 namespace RevitLookup.Services;
 
 public sealed class SettingsService : ISettingsService
 {
     private readonly ILogger<SettingsService> _logger;
-    private readonly LoggingLevelSwitch _loggingLevelSwitch;
+    private readonly LoggingLevelService _loggingLevelService;
 
-    public SettingsService(LoggingLevelSwitch loggingLevelSwitch, IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
+    public SettingsService(LoggingLevelService loggingLevelService, IOptions<FolderLocations> foldersOptions, IOptions<JsonSerializerOptions> jsonOptions, ILogger<SettingsService> logger)
     {
         _logger = logger;
-        _loggingLevelSwitch = loggingLevelSwitch;
+        _loggingLevelService = loggingLevelService;
         GeneralSettings = new GeneralSettings(foldersOptions.Value.GeneralSettingsPath, jsonOptions);
         RenderSettings = new RenderSettings(foldersOptions.Value.RenderSettingsPath, jsonOptions);
         
@@ -72,7 +71,7 @@ public sealed class SettingsService : ISettingsService
         try
         {
             GeneralSettings.Load();
-            _loggingLevelSwitch.MinimumLevel = GeneralSettings.LogEventLevel;
+            _loggingLevelService.SetLogLevel(GeneralSettings.LogLevel);
         }
         catch (Exception exception)
         {

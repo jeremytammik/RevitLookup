@@ -23,7 +23,6 @@ using System.Text.Json;
 using Microsoft.Extensions.Options;
 using RevitLookup.Config;
 using RevitLookup.Services.Contracts;
-using Serilog.Events;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -135,10 +134,10 @@ public sealed class GeneralSettings(string path, IOptions<JsonSerializerOptions>
         set => _settings.IncludeRootHierarchy = value;
     }
 
-    public LogEventLevel LogEventLevel
+    public LogLevel LogLevel
     {
-        get => _settings.LogEventLevel;
-        set => _settings.LogEventLevel = value;
+        get => _settings.LogLevel;
+        set => _settings.LogLevel = value;
     }
 
     public int ApplyTransition(bool value)

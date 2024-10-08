@@ -25,9 +25,7 @@ using RevitLookup.Views.Dialogs;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
-using Serilog.Events;
-using Serilog.Core;
-
+using RevitLookup.Config;
 #if REVIT2024_OR_GREATER
 using RevitLookup.Views.Appearance;
 #endif
@@ -39,7 +37,7 @@ public sealed partial class SettingsViewModel(
     INavigationService navigationService,
     IServiceProvider serviceProvider,
     NotificationService notificationService,
-    LoggingLevelSwitch loggingLevelSwitch,
+    LoggingLevelService loggingLevelService,
     IWindow window)
     : ObservableObject
 {
@@ -51,7 +49,7 @@ public sealed partial class SettingsViewModel(
     [ObservableProperty] private bool _useSizeRestoring = settingsService.GeneralSettings.UseSizeRestoring;
     [ObservableProperty] private bool _useModifyTab = settingsService.GeneralSettings.UseModifyTab;
 
-    [ObservableProperty] private LogEventLevel _logEventLevel = settingsService.GeneralSettings.LogEventLevel;
+    [ObservableProperty] private LogLevel _logLevel = settingsService.GeneralSettings.LogLevel;
     public List<ApplicationTheme> Themes { get; } =
     [
 #if REVIT2024_OR_GREATER
@@ -70,14 +68,14 @@ public sealed partial class SettingsViewModel(
         WindowBackdropType.Mica
     ];
 
-    public List<LogEventLevel> LogEventLevels { get; } =
+    public List<LogLevel> LogLevels { get; } =
     [
-        LogEventLevel.Verbose,
-        LogEventLevel.Debug,
-        LogEventLevel.Information,
-        LogEventLevel.Warning,
-        LogEventLevel.Error,
-        LogEventLevel.Fatal
+        LogLevel.Verbose,
+        LogLevel.Debug,
+        LogLevel.Information,
+        LogLevel.Warning,
+        LogLevel.Error,
+        LogLevel.Fatal
     ];
 
     [RelayCommand]
@@ -181,9 +179,9 @@ public sealed partial class SettingsViewModel(
         RibbonController.ReloadPanels();
     }
 
-    partial void OnLogEventLevelChanged(LogEventLevel value)
+    partial void OnLogLevelChanged(LogLevel value)
     {
-        settingsService.GeneralSettings.LogEventLevel = value;
-        loggingLevelSwitch.MinimumLevel = value;
+        settingsService.GeneralSettings.LogLevel = value;
+        loggingLevelService.SetLogLevel(value);
     }
 }

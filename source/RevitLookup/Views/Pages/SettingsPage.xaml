@@ -100,18 +100,18 @@
             <StackPanel
                 Margin="0,8,0,0">
                 <rl:CardControl
-                    Header="Minimal Log Event Level"
+                    Header="Minimal Log Level"
                     Icon="{rl:SymbolIcon Info24}"
                     Margin="0,8,0,0">
                     <ComboBox
                         MinWidth="150"
                         IsEnabled="True"
-                        SelectedItem="{Binding ViewModel.LogEventLevel}"
-                        ItemsSource="{Binding ViewModel.LogEventLevels}">
+                        SelectedItem="{Binding ViewModel.LogLevel}"
+                        ItemsSource="{Binding ViewModel.LogLevels}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
-                                Text="{Binding ., Converter={converters:LogEventLevelConverter}}" />
+                                Text="{Binding ., Converter={converters:LogLevelConverter}}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>

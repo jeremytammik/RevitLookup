@@ -45,6 +45,7 @@ public static class Host
 
         //Application services
         builder.Services.AddSingleton(loggingLevelSwitch);
+        builder.Services.AddSingleton<LoggingLevelService>();
         builder.Services.AddSingleton<ISettingsService, SettingsService>();
         builder.Services.AddSingleton<ISoftwareUpdateService, SoftwareUpdateService>();
         builder.Services.AddHostedService<HostedLifecycleService>();
