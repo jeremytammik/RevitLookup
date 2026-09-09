@@ -53,13 +53,13 @@
     <ItemGroup>
         <!-- Application hosting -->
         <PackageVersion Include="Scrutor" Version="7.0.0"/>
-        <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="10.0.11"/>
-        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.11"/>
-        <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.11"/>
-        <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.11"/>
+        <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="10.0.12"/>
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.12"/>
+        <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.12"/>
+        <PackageVersion Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.12"/>
 
         <!-- Logging -->
-        <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.11"/>
+        <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.12"/>
 
         <!-- MVVM -->
         <PackageVersion Include="Riok.Mapperly" Version="4.3.1"/>
